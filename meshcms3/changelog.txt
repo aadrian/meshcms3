@@ -1,0 +1,202 @@
+________________________________
+--------------------------------
+2006-03-18: 2.4 released
+--------------------------------
+
+- Added French translation (contributed by Pierre Métras)
+- Added Chinese translation (contributed by 简玮侠)
+- Added a dummy theme to workaround a bug in SiteMesh and allow Chinese translation to work
+- Added an option to convert page titles in "Manage Pages" and use HTML entities
+- Added a new mailform field descriptor: "messagebody"
+- Language codes with countries re-added to the language list in the user profile
+- The language list in the user profile is now shown in English to be compatible with most charsets
+- Updated TinyMCE to 2.0.4
+- Fixed synchronization bug within frames in the file manager
+- Added translation for JavaScript messages
+- Added support for SMTP authentication (contributed by Steve Meyfroidt)
+- Added an option to choose a charset
+- Fixed the AdminMenu when used through a proxy
+- Fixed some security issues reported by Hue Holleran
+- Re-added the cache engine since now it is compatible with page charsets
+
+________________________________
+--------------------------------
+2005-12-10: 2.3 released
+--------------------------------
+
+- The mail form no longer sends a copy to the sender (to avoid spam - reported by Matthijs Dekker)
+- New engine for thumbnails
+- Cache engine removed. Il will be replaced with OSCache in a future release
+- Added Dutch translation (contributed by Matthijs Dekker)
+- Some HTML fixes (contributed by Ahmed Mohombe)
+- Added two new mailform field descriptors: "sendername" and "subject"
+- Updated TinyMCE to 2.0.1
+
+________________________________
+--------------------------------
+2005-10-12: 2.2 released
+--------------------------------
+
+- Restored the correct format of file lengths
+- Added 4 minor custom tags
+- HTML capability removed from mail forms to avoid formatting issues
+- Removed some unused code
+- Default charset changed to UTF-8
+- Language list limited to language codes without countries
+- Help is now included in the release and supports multiple languages
+- Some other changes and bug fixes
+
+________________________________
+--------------------------------
+2005-08-04: 2.1 released
+--------------------------------
+
+- Added support for Localization
+- Added Italian translation
+- Some other changes and bug fixes
+
+________________________________
+--------------------------------
+2005-07-25: 2.0.4 released
+--------------------------------
+
+- Cache restored since the issue with mail forms has been fixed
+- Fixed bug that prevented using mail forms without cookies
+- Some cosmetic improvements
+- Added a method to prevent pages from being cached (useful in some module templates)
+- Configuration is no longer saved in XML format to avoid an issue with some Tomcat versions
+
+________________________________
+--------------------------------
+2005-07-16: 2.0.3 released
+--------------------------------
+
+- Cache removed due to an issue with mail forms
+
+________________________________
+--------------------------------
+2005-06-27: 2.0.2 released
+--------------------------------
+
+- Hotlinking improved so when one visits a page there's no check for that session
+- Caching improved to ignore suspicious small files
+
+________________________________
+--------------------------------
+2005-05-25: 2.0.1 released
+--------------------------------
+
+- Added a feature to prevent hotlinking
+- Configuration saved in XML format instead of serialized
+- Help icon is now fetched from the local installation
+- XMenu and XTree have been moved to their own directories
+- Created a new module template to include plain text files
+- Added a class by Brian M. Clapper to format text mail messages
+- Added more buttons to TinyMCE
+
+________________________________
+--------------------------------
+2005-05-22: 2.0 released
+--------------------------------
+
+Too many changes to be listed. Main ones are:
+
+- New site map engine
+- New file manager (compatible with Firefox)
+- New page to edit the site map
+- New method to manage modules
+
+________________________________
+--------------------------------
+2005-02-21: 1.1 beta 3 released
+--------------------------------
+
+- Images are loaded using java.awt.Toolkit to create thumbnails faster
+- Fixed Servlet-Mappings in web.xml
+
+________________________________
+--------------------------------
+2005-01-25: 1.1 beta 2 released
+--------------------------------
+
+- Added an option to SimpleMenu to expand intermediate levels
+- Module locations colored differently in the editor
+- Changed the configuration of TinyMCE in the editor
+- Synchronization of thumbnail creation has been removed
+
+________________________________
+--------------------------------
+2005-01-03: 1.1 beta 1 released
+--------------------------------
+
+- Custom directory index removed
+- Thumbnail creation has been synchronized
+- Modules can be inserted in 3 different locations of the page
+- Added a static export feature (experimental)
+
+________________________________
+--------------------------------
+2004-12-12: 1.0 RC3 released
+--------------------------------
+
+- Added a simple grammar to create more complex mail forms
+- Added a page to customize site menu entries
+- Improved support for hidden pages
+- Changed the way servlets are called (path info is now used)
+- Thumbnail quality improved
+- Removed the "home" and "last" attributes from the "Breadcrumbs" tag
+- Added the "current" attribute to the "Breadcrumbs" tag
+- behavior of com.cromoteca.meshcms.WebApp.getBreadcrumbs(...) changed
+- Welcome pages are no longer listed in the SimpleMenu
+
+________________________________
+--------------------------------
+2004-11-24: 1.0 RC2 released
+--------------------------------
+
+- Added a warning for the session expiration in the editor
+- Filemanager greatly improved
+- Added a home page for the CMS with icons
+- "Last Modified" tag improved
+- Added a new module: parse.jsp
+- Created a new thumbnail for the gallery module (looks like the WinXP thumbnail)
+
+________________________________
+--------------------------------
+2004-11-16: 1.0 RC1 released
+--------------------------------
+
+- Added a style for the includes
+- Directories can be renamed
+- The directory tree in the file manager is now sorted alphabetically
+- Added a "Last Modified" custom tag
+- Fixed the behavior of the "home breadcrumb" in Breadcrumbs.java
+- Added a the option for the sender of a message to receive a carbon copy
+- Better browser cache prevention
+- Added "pre" and "post" text in the Breadcrubms and Links custom tags
+- Modules are now sorted alphabetically in the editor
+- Some interface improvements to integrate the interface in the site
+- Added a configuration page (properties moved to a separate config file)
+
+________________________________
+--------------------------------
+2004-10-16: 0.2.1 released
+--------------------------------
+
+- Re-added sources
+- The web application is now included as a WAR file
+- The download template now shows file sizes
+
+________________________________
+--------------------------------
+2004-10-13: 0.2 released
+--------------------------------
+
+Too many changes to list
+
+________________________________
+--------------------------------
+2004-08-11: 0.1 released
+--------------------------------
+
+First public release of MeshCMS

@@ -1,0 +1,6 @@
+#Properties for admin
+P_HPT=
+P_PRM=ffffff
+P_USN=admin
+P_PWS=LVA06FzpZFs7s
+P_LNG=en
