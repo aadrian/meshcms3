@@ -1,0 +1,10 @@
+<!-- The version in this file MUST match the version in the main build script -->
+<!-- This ensures that the source is always built with the correct build script -->
+<meshcms>
+  <build>
+    <script>
+      <version>0.1</version>
+    </script>
+  </build>
+</meshcms>
+
