@@ -33,14 +33,14 @@ import com.cromoteca.util.*;
  * @see SiteMap
  */
 public final class PageInfoComparator implements Comparator {
-  private WebApp webApp;
+  private WebSite webSite;
   private SiteInfo siteInfo;
   private SiteMap siteMap;
 
-  public PageInfoComparator(WebApp webApp) {
-    this.webApp = webApp;
-    siteInfo = webApp.getSiteInfo();
-    siteMap = webApp.getSiteMap();
+  public PageInfoComparator(WebSite webSite) {
+    this.webSite = webSite;
+    siteInfo = webSite.getSiteInfo();
+    siteMap = webSite.getSiteMap();
   }
 
   /**

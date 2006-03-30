@@ -46,13 +46,13 @@ public class SiteInfo implements Finals {
   public static final String THEME = "theme";
 
   private Properties data;
-  private WebApp webApp;
+  private WebSite webSite;
 
   /**
-   * Creates an instance of this class for the given WebApp.
+   * Creates an instance of this class for the given WebSite.
    */
-  public SiteInfo(WebApp webApp) {
-    this.webApp = webApp;
+  public SiteInfo(WebSite webSite) {
+    this.webSite = webSite;
     
 
     if (!load()) {
@@ -66,7 +66,7 @@ public class SiteInfo implements Finals {
    * @return true if the configuration has been loaded, false otherwise
    */
   public boolean load() {
-    File propsFile = webApp.getFile(PROPS_PATH);
+    File propsFile = webSite.getFile(PROPS_PATH);
 
     if (propsFile.exists()) {
       InputStream is = null;
@@ -77,13 +77,13 @@ public class SiteInfo implements Finals {
         data.load(is);
         return true;
       } catch (IOException ex) {
-        webApp.log("Can't load menu properties file", ex);
+        webSite.log("Can't load menu properties file", ex);
       } finally {
         if (is != null) {
           try {
             is.close();
           } catch (IOException ex) {
-            webApp.log("Can't close menu properties file", ex);
+            webSite.log("Can't close menu properties file", ex);
           }
         }
       }
@@ -98,7 +98,7 @@ public class SiteInfo implements Finals {
    * @return true if the configuration has been saved, false otherwise
    */
   public boolean save() {
-    File propsFile = webApp.getFile(PROPS_PATH);
+    File propsFile = webSite.getFile(PROPS_PATH);
     OutputStream os = null;
 
     try {
@@ -106,13 +106,13 @@ public class SiteInfo implements Finals {
       data.store(os, "Custom Menu Values");
       return true;
     } catch (IOException ex) {
-      webApp.log("Can't save menu properties file", ex);
+      webSite.log("Can't save menu properties file", ex);
     } finally {
       if (os != null) {
         try {
           os.close();
         } catch (IOException ex) {
-          webApp.log("Can't close menu properties file", ex);
+          webSite.log("Can't close menu properties file", ex);
         }
       }
     }
@@ -284,11 +284,11 @@ public class SiteInfo implements Finals {
   public Path getThemePath(Path pagePath) {
     Path themePath = findThemePath(pagePath);
     
-    if (pagePath.isContainedIn(webApp.getAdminPath())) {
-      if (webApp.getConfiguration().isUseAdminTheme() ||
+    if (pagePath.isContainedIn(webSite.getAdminPath())) {
+      if (webSite.getConfiguration().isUseAdminTheme() ||
           themePath == null ||
-          !webApp.getFile(themePath.add(THEME_DECORATOR)).exists()) {
-        themePath = webApp.getAdminPath().add(WebApp.ADMIN_THEME);
+          !webSite.getFile(themePath.add(THEME_DECORATOR)).exists()) {
+        themePath = webSite.getAdminPath().add(WebSite.ADMIN_THEME);
       }
     }
     
@@ -300,7 +300,7 @@ public class SiteInfo implements Finals {
       String theme = getPageTheme(pagePath);
       
       if (!Utils.isNullOrEmpty(theme)) {
-        return new Path(webApp.getConfiguration().getThemesDir(), theme);
+        return new Path(webSite.getConfiguration().getCmsPath().add(WebSite.THEMES_DIR), theme);
       }
       
       pagePath = pagePath.getParent();

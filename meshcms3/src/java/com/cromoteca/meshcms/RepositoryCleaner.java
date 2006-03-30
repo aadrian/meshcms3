@@ -36,15 +36,15 @@ import com.cromoteca.util.*;
  * </ul>
  */
 public class RepositoryCleaner extends DirectoryParser implements Finals {
-  private WebApp webApp;
+  private WebSite webSite;
   private long currentTime;
 
   /**
    * Creates a repository cleaner for the given web application.
    */
-  public RepositoryCleaner(WebApp webApp) {
-    this.webApp = webApp;
-    setInitialDir(webApp.getFile(REPOSITORY_PATH));
+  public RepositoryCleaner(WebSite webSite) {
+    this.webSite = webSite;
+    setInitialDir(webSite.getFile(REPOSITORY_PATH));
     setRecursive(true);
     // the folder is processed after contents so we can delete empty folders
     setProcessDirBeforeContent(false);
@@ -80,11 +80,11 @@ public class RepositoryCleaner extends DirectoryParser implements Finals {
       } catch (Exception ex) {}
 
       if (currentTime - bakDate >
-          webApp.getConfiguration().getBackupLifeMillis()) { // file too old
+          webSite.getConfiguration().getBackupLifeMillis()) { // file too old
         file.delete();
       }
     } else if (currentTime - file.lastModified() >
-        webApp.getConfiguration().getBackupLifeMillis()) {
+        webSite.getConfiguration().getBackupLifeMillis()) {
       // other files are deleted when too old.
       file.delete();
     }

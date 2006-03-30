@@ -34,18 +34,18 @@ public final class PageInfo {
   private int[] stats;
   private int statSum;
   private int lastStatsIndex;
-  private WebApp webApp;
+  private WebSite webSite;
   private long lastModified;
   private String charset;
 
   /**
-   * Creates a page info in the specified {@link WebApp} to describe the page
+   * Creates a page info in the specified {@link WebSite} to describe the page
    * available at the specified path.
    */
-  public PageInfo(WebApp webApp, Path path) {
-    this.webApp = webApp;
+  public PageInfo(WebSite webSite, Path path) {
+    this.webSite = webSite;
     this.path = path;
-    stats = new int[webApp.getStatsLength()];
+    stats = new int[webSite.getStatsLength()];
   }
 
   /**
@@ -123,7 +123,7 @@ public final class PageInfo {
   }
 
   private synchronized int getIndex() {
-    int index = webApp.getStatsIndex();
+    int index = webSite.getStatsIndex();
 
     if (index != lastStatsIndex) {
       lastStatsIndex = index;
@@ -170,7 +170,7 @@ public final class PageInfo {
    * @see com.cromoteca.util.Path#getAsLink
    */
   public String getLink() {
-    return webApp.getFile(path).isDirectory() ? path.getAsLink() + '/' :
+    return webSite.getFile(path).isDirectory() ? path.getAsLink() + '/' :
         path.getAsLink();
   }
 
