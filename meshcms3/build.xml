@@ -8,6 +8,9 @@
   <!--  all properties are in build.properties --> 
   <property file="build.properties" /> 
 
+  <!-- import the svnant task -->
+  <import file="${svnant.xml}" />
+
   <target name="all" description="Do everything">
     <antcall target="clean" />
     <antcall target="init" />
@@ -31,6 +34,12 @@
     <mkdir dir="${classes}" />
     <mkdir dir="${jars}" />
     <mkdir dir="${dist}" />
+  </target>
+
+  <target name="checkout" depends="init">
+    <svn username="${meshcms.svn.username}" password="${meshcms.svn.password}">
+      <checkout destPath="${basedir}" revision="HEAD" url="${meshcms.svnroot.url}/${meshcms.version}" />
+    </svn>
   </target>
 
   <target name="compile" depends="init">
