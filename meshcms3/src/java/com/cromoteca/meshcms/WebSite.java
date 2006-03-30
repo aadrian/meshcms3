@@ -271,7 +271,8 @@ public class WebSite implements Finals {
   }
   
   public String getDummyMetaThemeTag() {
-    return "<meta name=\"decorator\" content=\"/admin/theme/dummy.jsp\">";
+    Path themePath = getSiteInfo().getThemePath(getAdminPath());
+    return "<meta name=\"decorator\" content=\"/" + themePath + "/dummy.jsp\">";
   }
 
   public WebApp getWebApp() {
