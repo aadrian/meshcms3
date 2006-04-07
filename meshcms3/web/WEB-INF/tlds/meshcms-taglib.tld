@@ -326,7 +326,12 @@
       <rtexprvalue>true</rtexprvalue>
     </attribute>
     <attribute>
-      <name>expand</name>
+      <name>items</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>current</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>

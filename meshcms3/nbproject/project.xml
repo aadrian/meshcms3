@@ -8,14 +8,14 @@
             <properties/>
             <folders>
                 <source-folder>
-                    <label>java</label>
-                    <type>java</type>
-                    <location>src/java</location>
-                </source-folder>
-                <source-folder>
                     <label>web</label>
                     <type>doc_root</type>
                     <location>web</location>
+                </source-folder>
+                <source-folder>
+                    <label>java</label>
+                    <type>java</type>
+                    <location>src/java</location>
                 </source-folder>
             </folders>
             <ide-actions>
@@ -35,13 +35,13 @@
             </ide-actions>
             <view>
                 <items>
-                    <source-folder style="packages">
-                        <label>java</label>
-                        <location>src/java</location>
-                    </source-folder>
                     <source-folder style="tree">
                         <label>Web Pages</label>
                         <location>web</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>java</label>
+                        <location>src/java</location>
                     </source-folder>
                     <source-file>
                         <location>build.xml</location>
@@ -54,11 +54,12 @@
                     <ide-action name="rebuild"/>
                 </context-menu>
             </view>
+            <subprojects/>
         </general-data>
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/1">
             <compilation-unit>
                 <package-root>src/java</package-root>
-                <classpath mode="compile">web/WEB-INF/lib/activation.jar;web/WEB-INF/lib/commons-fileupload-1.0.jar;web/WEB-INF/lib/jstl.jar;web/WEB-INF/lib/mail.jar;web/WEB-INF/lib/sitemesh-2.2.1.jar;web/WEB-INF/lib/standard.jar;web/WEB-INF/lib/xstream-1.1.3.jar</classpath>
+                <classpath mode="compile">web/WEB-INF/lib/activation.jar;web/WEB-INF/lib/commons-fileupload-1.0.jar;web/WEB-INF/lib/jstl.jar;web/WEB-INF/lib/mail.jar;web/WEB-INF/lib/sitemesh-2.2.1.jar;web/WEB-INF/lib/standard.jar;web/WEB-INF/lib/xstream-1.1.3.jar;build-essential/libServlet2.3/servlet.jar</classpath>
                 <source-level>1.4</source-level>
             </compilation-unit>
         </java-data>

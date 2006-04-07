@@ -63,33 +63,42 @@ public final class DownloadServlet extends HttpServlet {
       throws ServletException, IOException {
     UserInfo userInfo = (UserInfo)
         request.getSession(true).getAttribute("userInfo");
-    
-    if (userInfo == null || userInfo.isGuest()) {
+
+    // Do not restrict usage to registered users.
+    /* if (userInfo == null || userInfo.isGuest()) {
       response.sendError(HttpServletResponse.SC_FORBIDDEN,
           "You don't have enough privileges");
       return;
-    }
+    } */
     
     WebApp webApp = (WebApp) getServletContext().getAttribute("webApp");
     Path path = new Path(request.getPathInfo());
 
-    /* since this servlet is now accessible to authenticated users only, we
-       allow to download system files too.
     if (webApp.isSystem(path)) {
       response.sendError(HttpServletResponse.SC_FORBIDDEN,
           "You are not allowed to download this file");
       return;
     }
-    */
     
     File file = webApp.getFile(path);
+    
+    if (!file.exists()) {
+      response.sendError(HttpServletResponse.SC_NOT_FOUND,
+          "File not found on server");
+      return;
+    }
 
     try {
       InputStream is = new FileInputStream(file);
+      String fileName = request.getParameter("filename");
+      
+      if (Utils.isNullOrEmpty(fileName)) {
+        fileName = path.getLastElement();
+      }
 
       response.setContentType("application/x-download");
       response.setHeader("Content-Disposition", "attachment; filename=\"" + 
-          path.getLastElement() + "\"");
+          fileName + "\"");
       response.setHeader("Content-Length", Long.toString(file.length()));
 
       Utils.copyStream(is, response.getOutputStream(), false);

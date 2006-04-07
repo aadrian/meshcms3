@@ -39,9 +39,8 @@ public final class TigraMenu extends AbstractTag {
   private String placeholder;
 
   public void writeTag() throws IOException {
-    Path rootPath = (path == null) ? 
-        webApp.getDirectory(pagePath) : new Path(path);
-
+    Path rootPath = (path == null) ?
+        webApp.getSiteInfo().getThemeRoot(pagePath) : new Path(path);
     String script = WebUtils.getFullThemeFolder(request);
     Writer outWriter = getOut();
 

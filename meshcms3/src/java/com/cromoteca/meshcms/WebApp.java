@@ -40,9 +40,15 @@ public class WebApp implements Finals {
   protected String[] welcomeFiles;
 
   private String userAgent = "MeshCMS";
+  private Path adminPath;
   private File contextRoot;
   private ServletContext sc;
+  private long statsZero;
+  private int statsLength;
   private FileTypes fileTypes;
+  private Configuration configuration;
+  private SiteInfo siteInfo;
+  private SiteMap siteMap;
   
   public String versionId;
   public String systemCharset;
@@ -57,8 +63,102 @@ public class WebApp implements Finals {
     welcomeFiles = WebUtils.getWelcomeFiles(sc);
     fileTypes = new FileTypes(this);
     new AdminDirectoryFinder(this).process();
+    configuration = new Configuration();
+    configuration.setPreferredCharset(systemCharset);
+    configuration.load(this);
+    statsLength = configuration.getStatsLength();
+    siteInfo = new SiteInfo(this);
+    updateSiteMap(true);
   }
 
+  /**
+   * Creates another instance of <code>SiteMap</code>. If <code>force</code>
+   * is true, a new site map is always created and the method
+   * returns after the new site map is completed. If it is false, a new site map
+   * is created only if the current one is too old. In this case, the site map
+   * is created asynchronously and the method returns immediately. The
+   * repository will be cleaned too.
+   */
+  public void updateSiteMap(boolean force) {
+    if (force) {
+      new SiteMap(this).process();
+    } else if (System.currentTimeMillis() - siteMap.getLastModified() >
+               configuration.getUpdateIntervalMillis()) {
+      new SiteMap(this).start();
+      new RepositoryCleaner(this).start();
+      new ThumbnailsCleaner(this).start();
+    }
+  }
+
+  void setSiteMap(SiteMap siteMap) {
+    this.siteMap = siteMap;
+  }
+  
+  /**
+   * Returns the instance of the <code>SiteMap</code> that is currently manage
+   * the site map. Since this object can be replaced with a new one at any
+   * moment, a class that wants to use it should store it in a local variable
+   * and use it for all the operation/method.
+   */
+  public SiteMap getSiteMap() {
+    return siteMap;
+  }
+  
+  /**
+   * Returns an instance of the class used to manage file types.
+   */
+  public FileTypes getFileTypes() {
+    return fileTypes;
+  }
+  
+  /**
+   * Returns the context root directory.
+   */
+  public File getContextRoot() {
+    return contextRoot;
+  }
+
+  /**
+   * Returns the current configuration of the web application.
+   */
+  public Configuration getConfiguration() {
+    return configuration;
+  }
+
+  /**
+   * Returns the instance of the <code>SiteInfo</code> class that is managing
+   * the site information.
+   *
+   * @see SiteInfo
+   */
+  public SiteInfo getSiteInfo() {
+    return siteInfo;
+  }
+
+  /**
+   * Returns the index of the current day in the array of stats included in any
+   * PageInfo instance.
+   */
+  public int getStatsIndex() {
+    long now = System.currentTimeMillis();
+    long days = (now - statsZero) / LENGTH_OF_DAY;
+
+    if (days >= statsLength) {
+      statsZero = now;
+      return 0;
+    } else {
+      return (int) days;
+    }
+  }
+
+/* TODO: rimuovere questi 4 metodi */
+  /**
+   * Returns the length of stats (hit counts) measured in days.
+   */
+  public int getStatsLength() {
+    return statsLength;
+  }
+  
   /**
    * Returns the File object of the user profiles directory.
    */
@@ -491,6 +591,60 @@ public class WebApp implements Finals {
   }
 
   /**
+   * Returns an array of links to the given pages. The strings are in the form
+   * <pre>&lt;a href="(page link)" [target] [style]&gt;(page title)&lt;/a&gt;</pre>
+   *
+   * @param pages the array of pages
+   * @param contextPath the context path of the web application (used to build
+   * the links)
+   * @param target the target frame for the links. If a value is given, the
+   * <code>target</code> attribute is added to the <code>a</code> tag
+   * @param style the CSS style for the links. If a value is given, the
+   * <code>class</code> attribute is added to the <code>a</code> tag
+   *
+   * @return an array of strings that contain the <code>a</code> tags
+   */
+  public String[] getLinkList(PageInfo[] pages, String contextPath,
+                              String target, String style) {
+    if (pages == null) {
+      return null;
+    }
+
+    String[] links = new String[pages.length];
+    target = Utils.isNullOrEmpty(target) ? "" : " target=\"" + target + "\"";
+    style = Utils.isNullOrEmpty(style) ? "" : " class=\"" + style + "\"";
+
+    for (int i = 0; i < pages.length; i++) {
+      if (pages[i] == null) {
+        links[i] = "...";
+      } else {
+        links[i] = "<a href=\"" + contextPath + pages[i].getLink() +
+          "\"" + target + style + ">" + siteInfo.getPageTitle(pages[i]) + "</a>";
+      }
+    }
+
+    return links;
+  }
+
+  /**
+   * Returns an array of menu titles for the given pages.
+   * {@link SiteInfo} is used to get the titles.
+   */
+  public String[] getTitles(PageInfo[] pages) {
+    if (pages == null) {
+      return null;
+    }
+
+    String[] titles = new String[pages.length];
+
+    for (int i = 0; i < pages.length; i++) {
+      titles[i] = siteInfo.getPageTitle(pages[i]);
+    }
+
+    return titles;
+  }
+
+  /**
    * Logs a string by calling <code>ServletContext.log(s)</code>
    */
   public void log(String s) {
@@ -506,12 +660,91 @@ public class WebApp implements Finals {
   }
 
   /**
+   * Determines if the given path is a system directory, or is contained in a
+   * system directory. System directories are:
+   *
+   * <ul>
+   *  <li>the WEB-INF directory (/WEB-INF)</li>
+   *  <li>the META-INF directory (/META-INF)</li>
+   *  <li>the MeshCMS directory (/admin)</li>
+   *  <li>the standard CGI-BIN directory (/cgi-bin)</li>
+   * </ul>
+   */
+  public boolean isSystem(Path path) {
+    if (path == null || path.isRoot()) {
+      return false;
+    }
+    
+    if (path.isContainedIn(getAdminPath()) || path.isRelative()) {
+      return true;
+    }
+    
+    String level1 = path.getElementAt(0).toLowerCase();
+    
+    return level1.equals("web-inf") || level1.equals("meta-inf") ||
+        level1.equals("cgi-bin");
+  }
+
+  /**
    * Returns true if the extension of the path is known to denote a type of
    * file that can be edited using the wysiwyg editor.
    */
   public boolean isVisuallyEditable(Path path) {
     return Utils.searchString(configuration.getVisualExtensions(),
         Utils.getExtension(path, false), true) != -1;
+  }
+  
+  /**
+   * Returns the path of the module template file with the given name. The file
+   * is first searched in the custom module templates folder, then (if not
+   * found there) it is searched in the default module templates folder.
+   */
+  public Path getModuleTemplatePath(String moduleTemplateName) {
+    if (!moduleTemplateName.endsWith(".jsp")) {
+      moduleTemplateName += ".jsp";
+    }
+
+    if (configuration.getModuleTemplatesDir() != null) {
+      Path tPath = new Path(configuration.getModuleTemplatesDir(),
+          moduleTemplateName);
+
+      if (getFile(tPath).exists()) {
+        return tPath;
+      }
+    }
+
+    Path tPath = getAdminPath().add(MODULE_TEMPLATES_DIR, moduleTemplateName);
+    return getFile(tPath).exists() ? tPath : null;
+  }
+
+  /**
+   * Returns the path of the admin directory.
+   */
+  public Path getAdminPath() {
+    return adminPath;
+  }
+  
+  /**
+   * Sets the path of the admin directory.
+   */
+  public void setAdminPath(Path adminPath) {
+    this.adminPath = adminPath;
+  }
+  
+  /**
+   * Returns the complete tag used by pages in the admin folder. This way those
+   * pages can set to be themed according to the site preferences (i.e. using
+   * a custom theme or the default admin theme).
+   */
+  public String getAdminMetaThemeTag() {
+    Path themePath = getSiteInfo().getThemePath(getAdminPath());
+    return "<meta name=\"decorator\" content=\"/" + themePath + "/" + 
+           THEME_DECORATOR + "\">";
+  }
+  
+  public String getDummyMetaThemeTag() {
+    Path themePath = getSiteInfo().getThemePath(getAdminPath());
+    return "<meta name=\"decorator\" content=\"/" + themePath + "/dummy.jsp\">";
   }
   
   /**

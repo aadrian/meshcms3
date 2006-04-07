@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2005 Luciano Vernaschi
+ * Copyright (C) 2004-2006 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,8 +18,6 @@
  *
  * You can contact the author at http://www.cromoteca.com
  * and at info@cromoteca.com
- *
- * This tag has been created by Matthijs Dekker.
  */
 
 package com.cromoteca.meshcms.taglib;
@@ -33,157 +31,159 @@ import com.cromoteca.util.*;
  * Creates a navigation menu, using a unnumbered list.
  */
 public final class ListMenu extends AbstractTag {
+  public static final String ITEMS_ALL = "all";
+  public static final String ITEMS_ON_PATH = "onpath";
+  public static final String ITEMS_FIRST_LEVEL = "firstlevel";
+  public static final String ITEMS_LAST_LEVEL = "lastlevel";
+  public static final String ITEMS_CHILDREN = "children";
+  public static final String ITEMS_INTERMEDIATE_LEVELS = "intermediatelevels";
+  
   private int baseLevel;
+  private String indentation = "  ";
+  private String indentBuffer = "";
+
   private String path;
-  private String expand;
+  private String items;
   private String style;
+  private String current;
+
+  boolean itemsAll;
+  boolean itemsOnPath;
+  boolean itemsFirstLevel;
+  boolean itemsLastLevel;
+  boolean itemsChildren;
+  boolean itemsIntermediateLevels;
+
+  public void writeTag() throws IOException {
+    if (items == null) {
+      itemsAll = itemsIntermediateLevels = false;
+      itemsOnPath = itemsFirstLevel = itemsLastLevel = itemsChildren = true;
+    } else {
+      StringTokenizer st = new StringTokenizer(items.toLowerCase(), ",;: ");
+      
+      while (st.hasMoreTokens()) {
+        String token = st.nextToken();
+        
+        if (token.equals(ITEMS_ALL)) {
+          itemsAll = true;
+        } else if (token.equals(ITEMS_CHILDREN)) {
+          itemsChildren = true;
+        } else if (token.equals(ITEMS_FIRST_LEVEL)) {
+          itemsFirstLevel = true;
+        } else if (token.equals(ITEMS_INTERMEDIATE_LEVELS)) {
+          itemsIntermediateLevels = true;
+        } else if (token.equals(ITEMS_LAST_LEVEL)) {
+          itemsLastLevel = true;
+        } else if (token.equals(ITEMS_ON_PATH)) {
+          itemsOnPath = true;
+        }
+      }
+    }
+    
+    boolean linkCurrent = current != null && current.equalsIgnoreCase("link");
+    
+    SiteMap siteMap = webApp.getSiteMap();
+    SiteInfo siteInfo = webApp.getSiteInfo();
+    Path rootPath = (path == null) ? siteInfo.getThemeRoot(pagePath) : new Path(path);
+    Path pathInMenu = webApp.getSiteMap().getPathInMenu(pagePath);
+    baseLevel = rootPath.getElementCount() + 1;
+    Writer outWriter = getOut();
+    int lastLevel = rootPath.getElementCount();
+    Iterator iter = siteMap.getPagesList(rootPath).iterator();
+    boolean liUsed = false;
+    
+    while (iter.hasNext()) {
+      PageInfo current = (PageInfo) iter.next();
+      Path currentPath = current.getPath();
+      int level = Math.max(baseLevel, current.getLevel());
+      
+      boolean add = false;
+      
+      if (itemsAll) {
+        add = true;
+      } else {
+        Path parentPath = currentPath.getParent();
+        
+        if (parentPath.isRelative() || pathInMenu.isContainedIn(parentPath)) {
+          if (itemsOnPath && pathInMenu.isContainedIn(currentPath)) {
+            add = true;
+          } else if (level <= baseLevel) {
+            add = itemsFirstLevel;
+          } else if (currentPath.getElementCount() == pathInMenu.getElementCount()) {
+            add = itemsLastLevel;
+          } else if (currentPath.getElementCount() > pathInMenu.getElementCount()) {
+            add = itemsChildren;
+          } else {
+            add = itemsIntermediateLevels;
+          }
+        }
+      }
+
+      if (add) {
+        for (int i = lastLevel; i < level; i++) {
+          writeIndented(outWriter, "<ul>", i);
+          writeIndented(outWriter, "<li>", i + 1);
+          liUsed = false;
+        }
+
+        for (int i = lastLevel - 1; i >= level; i--) {
+          if (liUsed) {
+            outWriter.write("</li>");
+            liUsed = false;
+          } else {
+            writeIndented(outWriter, "</li>", i + 1);
+          }
+
+          writeIndented(outWriter, "</ul>", i);
+        }
+        
+        if (liUsed) {
+          outWriter.write("</li>");
+          writeIndented(outWriter, "<li>", level);
+        }
+
+        if (!isEdit && !linkCurrent && current.getPath().equals(pathInMenu)) {
+          outWriter.write(siteInfo.getPageTitle(current));
+        } else {
+          outWriter.write("<a href=\"" + cp + current.getLink() +"\">" +
+            siteInfo.getPageTitle(current) + "</a>");
+        }
+
+        liUsed = true;
+        lastLevel = level;
+      }
+    }
+
+    for (int i = lastLevel - 1; i >= rootPath.getElementCount(); i--) {
+      writeIndented(outWriter, "</li>", i + 1);
+      writeIndented(outWriter, "</ul>", i);
+    }
+  }
+  
+  private void writeIndented(Writer w, String s, int level) throws IOException {
+    while (indentBuffer.length() < indentation.length() * level) {
+      indentBuffer += indentation;
+    }
+    
+    w.write('\n');
+    w.write(indentBuffer, 0, indentation.length() * level);
+    w.write(s);
+  }
+  
+  public String getPath() {
+    return path;
+  }
 
   public void setPath(String path) {
     this.path = path;
   }
 
-  public void writeTag() throws IOException {
-    Writer outWriter = getOut();
-    SiteMap siteMap = webApp.getSiteMap();
-    Path rootPath = new Path(path);
-    baseLevel = rootPath.getElementCount() + 1;
-    List items = siteMap.getPagesList(rootPath);
-    StringBuffer sb = new StringBuffer();
-    printLevel(items, 0, -1, sb);
-    outWriter.write(sb.toString());
+  public String getItems() {
+    return items;
   }
 
-  /**
-   * Print the current menu level. This method uses recursion to print the sub
-   * levels also.
-   * 
-   * @param items
-   * @param curItem
-   * @param currentLevel
-   * @param sbReturn
-   * @return
-   * @throws IOException
-   */
-  private int printLevel(List items, int curItem, int currentLevel,
-      StringBuffer sbReturn) throws IOException {
-    StringBuffer sb = new StringBuffer();
-    int liCount = 0;
-
-    while (curItem < items.size()) {
-      PageInfo current = (PageInfo) items.get(curItem);
-
-      if (current.getLevel() > currentLevel) {
-        // submenu
-        StringBuffer sbRes = new StringBuffer();
-        curItem = printLevel(items, curItem, current.getLevel(), sbRes);
-        // Only process if submenu has content
-        if (sbRes.length() > 0) {
-          // encapsulate in ul element
-          if (currentLevel == -1 && !Utils.isNullOrEmpty(style)) {
-            sb.append("<ul class=\"");
-            sb.append(style);
-            sb.append("\">\n");
-          } else {
-            sb.append("<ul>\n");
-          }
-          sb.append(sbRes.toString());
-          addIdentation(sb, currentLevel + 1);
-          sb.append("</ul>");
-        }
-      } else if (current.getLevel() < currentLevel) {
-        // Nothing more for this level
-        break;
-      } else {
-        // Normal list item
-        if (liCount > 0) {
-          // Close the previous list item
-          sb.append("</li>\n");
-        }
-        // Get the list items
-        String li = liItem(current);
-        if (li.length() > 0) {
-          liCount++;
-          sb.append(li);
-        }
-        curItem++;
-      }
-    }
-    // Done with this level, finish everything
-    if (sb.length() > 0) {
-      if (currentLevel > -1) {
-        // Close the list item containing the UL submenu
-        sb.append("</li>\n");
-      }
-      sbReturn.append(sb.toString());
-    }
-    return curItem;
-  }
-
-  /**
-   * Create a list item
-   * 
-   * @param current
-   * @return
-   */
-  private String liItem(PageInfo current) {
-    Path pathInMenu = webApp.getSiteMap().getPathInMenu(pagePath);
-    StringBuffer sb = new StringBuffer();
-    Path currentPath = current.getPath();
-    Path parentPath = currentPath.getParent();
-
-    if (parentPath.isRelative() || pathInMenu.isContainedIn(parentPath)
-        || Utils.isTrue(expand)) {
-      if (pathInMenu.isContainedIn(currentPath)
-          || currentPath.getElementCount() == baseLevel
-          || currentPath.getElementCount() >= pathInMenu
-              .getElementCount() || Utils.isTrue(expand)) {
-        addIdentation(sb, current.getLevel() + 1);
-        sb.append("<li>");
-        if ((!isEdit && current.getPath().equals(pathInMenu))
-            && !Utils.isTrue(expand)) {
-          // Just the title, no anchor
-          sb.append("<span>");
-          sb.append(webApp.getSiteInfo().getPageTitle(current));
-          sb.append("</span>");
-        } else {
-          sb.append("<a href=\"");
-          sb.append(cp);
-          sb.append(current.getLink());
-          sb.append("\" ");
-          sb.append("title=\"");
-          sb.append(webApp.getSiteInfo().getPageTitle(current));
-          sb.append("\" >");
-          sb.append(webApp.getSiteInfo().getPageTitle(current));
-          sb.append("</a>");
-        }
-      }
-    }
-    return sb.toString();
-  }
-
-  /**
-   * Add 'tab' characters to the StringBuffer, to ident menu levels (looks
-   * nicer in HTML source and has no impact on the rendering)
-   * 
-   * @param sb
-   * @param level
-   */
-  private void addIdentation(StringBuffer sb, int level) {
-    for (int x = 0; x < level; x++) {
-      sb.append("\t");
-    }
-  }
-
-  public String getPath() {
-    return path;
-  }
-
-  public String getExpand() {
-    return expand;
-  }
-
-  public void setExpand(String expand) {
-    this.expand = expand;
+  public void setItems(String items) {
+    this.items = items;
   }
 
   public String getStyle() {
@@ -192,5 +192,13 @@ public final class ListMenu extends AbstractTag {
 
   public void setStyle(String style) {
     this.style = style;
+  }
+
+  public String getCurrent() {
+    return current;
+  }
+
+  public void setCurrent(String current) {
+    this.current = current;
   }
 }

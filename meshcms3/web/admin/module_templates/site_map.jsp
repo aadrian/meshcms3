@@ -20,20 +20,46 @@
  and at info@cromoteca.com
 --%>
 
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
 <%@ page import="com.cromoteca.meshcms.*" %>
 <%@ page import="com.cromoteca.util.*" %>
 <jsp:useBean id="webApp" scope="application" type="com.cromoteca.meshcms.WebApp" />
 
-
 <%
+  String cp = request.getContextPath();
   Path argPath = WebUtils.getModuleArgumentDirectoryPath(webApp, request, true);
-  
+
   if (argPath != null) {
-%>
-    <%@ taglib uri="meshcms-taglib" prefix="cms"%>
-    <cms:listmenu expand="true" path="<%= argPath.toString() %>" style="" />
-<%
+    SiteInfo siteInfo = webApp.getSiteInfo();
+    int lastLevel = argPath.getElementCount() - 1;
+    List pagesList = webApp.getSiteMap().getPagesList(argPath);
+    
+    if (pagesList != null) {
+      Iterator iter = pagesList.iterator();
+
+      while (iter.hasNext()) {
+        PageInfo pageInfo = (PageInfo) iter.next();
+        int level = pageInfo.getLevel();
+
+        for (int i = lastLevel; i < level; i++) {
+          %><ul><%
+        }
+
+        for (int i = level; i < lastLevel; i++) {
+          %></ul><%
+        }
+  %>
+    <li><a href="<%= cp + pageInfo.getLink() %>"><%=
+      siteInfo.getPageTitle(pageInfo) %></a></li>
+  <%
+        lastLevel = level;
+      }
+
+      for (int i = argPath.getElementCount() - 1; i < lastLevel; i++) {
+        %></ul><%
+      }
+    }
   }
 %>
-

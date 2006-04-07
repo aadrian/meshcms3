@@ -55,7 +55,8 @@ public final class SimpleMenu extends AbstractTag {
 
   public void writeTag() throws IOException {
     SiteMap siteMap = webApp.getSiteMap();
-    Path rootPath = new Path(path);
+    SiteInfo siteInfo = webApp.getSiteInfo();
+    Path rootPath = (path == null) ? siteInfo.getThemeRoot(pagePath) : new Path(path);
     Path pathInMenu = webApp.getSiteMap().getPathInMenu(pagePath);
     baseLevel = rootPath.getElementCount() + 1;
     int spc = Utils.parseInt(space, 8);
@@ -83,10 +84,10 @@ public final class SimpleMenu extends AbstractTag {
           outWriter.write(bullet + "&nbsp;");
 
           if (!isEdit && current.getPath().equals(pathInMenu)) {
-            outWriter.write(webApp.getSiteInfo().getPageTitle(current));
+            outWriter.write(siteInfo.getPageTitle(current));
           } else {
             outWriter.write("<a href=\"" + cp + current.getLink() +
-              "\">" + webApp.getSiteInfo().getPageTitle(current) + "</a>");
+              "\">" + siteInfo.getPageTitle(current) + "</a>");
           }
 
           if (style != null) {

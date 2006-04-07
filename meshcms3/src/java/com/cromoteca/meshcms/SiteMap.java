@@ -32,7 +32,7 @@ import com.opensymphony.module.sitemesh.parser.*;
  * Contains the site map.
  */
 public class SiteMap extends DirectoryParser implements Finals {
-  private WebSite webSite;
+  private WebApp webApp;
   private SortedMap pagesMap;
   private SiteMap oldSiteMap;
   private long lastModified;
@@ -46,24 +46,24 @@ public class SiteMap extends DirectoryParser implements Finals {
   /**
    * Creates a new instance of SiteMap
    */
-  public SiteMap(WebSite webSite) {
-    this.webSite = webSite;
+  public SiteMap(WebApp webApp) {
+    this.webApp = webApp;
     setRecursive(true);
     setSorted(true);
     setProcessStartDir(true);
-    setInitialDir(webSite.getContextRoot());
+    setInitialDir(webApp.getContextRoot());
     pageCache = new HashMap();
   }
   
   protected boolean preProcess() {
-    oldSiteMap = webSite.getSiteMap();
+    oldSiteMap = webApp.getSiteMap();
     pagesMap = new TreeMap();
     currentWelcomes = new TreeMap();
     return true;
   }
   
   protected boolean processDirectory(File file, Path path) {
-    if (!webSite.isSystem(path)) {
+    if (!webApp.isSystem(path)) {
       Path welcome = findCurrentWelcome(path);
       
       if (welcome != null) {
@@ -76,7 +76,7 @@ public class SiteMap extends DirectoryParser implements Finals {
   }
 
   protected void processFile(File file, Path path) {
-    if (!webSite.getFileTypes().isPage(path)) {
+    if (!webApp.getFileTypes().isPage(path)) {
       return;
     }
 
@@ -101,7 +101,7 @@ public class SiteMap extends DirectoryParser implements Finals {
     }
 
     if (pageInfo == null) {
-      pageInfo = new PageInfo(webSite, path);
+      pageInfo = new PageInfo(webApp, path);
     }
 
     if (pageInfo.getLastModified() != file.lastModified()) {
@@ -109,7 +109,7 @@ public class SiteMap extends DirectoryParser implements Finals {
       String charset = pageInfo.getCharset();
       
       if (charset == null) {
-        charset = webSite.getConfiguration().getPreferredCharset();
+        charset = webApp.getConfiguration().getPreferredCharset();
       }
       
       Reader reader = null;
@@ -145,7 +145,7 @@ public class SiteMap extends DirectoryParser implements Finals {
           try {
             reader.close();
           } catch (IOException ex) {
-            webSite.log("Can't close file " + file, ex);
+            webApp.log("Can't close file " + file, ex);
           }
         }
       }
@@ -158,10 +158,10 @@ public class SiteMap extends DirectoryParser implements Finals {
     pagesMap = Collections.unmodifiableSortedMap(pagesMap);
     oldSiteMap = null;
     setLastModified();
-    webSite.setSiteMap(this);
+    webApp.setSiteMap(this);
     
     pagesList = new ArrayList(pagesMap.values());
-    Collections.sort(pagesList, new PageInfoComparator(webSite));
+    Collections.sort(pagesList, new PageInfoComparator(webApp));
     pagesList = Collections.unmodifiableList(pagesList);
   }
   
@@ -210,13 +210,13 @@ public class SiteMap extends DirectoryParser implements Finals {
    * welcome file in that folder, this method returns null.
    */
   public Path findCurrentWelcome(Path dirPath) {
-    File dirFile = webSite.getFile(dirPath);
+    File dirFile = webApp.getFile(dirPath);
 
     if (dirFile.isDirectory()) {
-      for (int i = 0; i < webSite.getWebApp().welcomeFiles.length; i++) {
-        Path wPath = dirPath.add(webSite.getWebApp().welcomeFiles[i]);
+      for (int i = 0; i < webApp.welcomeFiles.length; i++) {
+        Path wPath = dirPath.add(webApp.welcomeFiles[i]);
 
-        if (webSite.getFile(wPath).exists()) {
+        if (webApp.getFile(wPath).exists()) {
           return wPath;
         }
       }
@@ -262,7 +262,7 @@ public class SiteMap extends DirectoryParser implements Finals {
     sb.append("var ").append(tree ? "TREE" : "MENU").append("_ITEMS = [");
 
     int baseLevel = path.getElementCount() + 1;
-    SiteInfo siteInfo = webSite.getSiteInfo();
+    SiteInfo siteInfo = webApp.getSiteInfo();
     Iterator iter = getPagesList(path).iterator();
     PageInfo current;
     PageInfo previous = null;
@@ -350,7 +350,7 @@ public class SiteMap extends DirectoryParser implements Finals {
    * given one.
    */
   public boolean hasChildrenPages(Path path) {
-    if (!webSite.isDirectory(path)) {
+    if (!webApp.isDirectory(path)) {
       return false;
     }
     
@@ -379,7 +379,7 @@ public class SiteMap extends DirectoryParser implements Finals {
    * @param includeDir if true, the directory itself is included in the list
    */
   public List getPagesInDirectory(Path path, boolean includeDir) {
-    PageInfo rootPage = getPageInfo(webSite.getDirectory(path));
+    PageInfo rootPage = getPageInfo(webApp.getDirectory(path));
     int idx = pagesList.indexOf(rootPage);
     
     if (idx < 0) {
@@ -421,7 +421,7 @@ public class SiteMap extends DirectoryParser implements Finals {
    * Pages are sorted using a {@link PageInfoComparator}.
    */
   public List getPagesList(Path root) {
-    root = webSite.getDirectory(root);
+    root = webApp.getDirectory(root);
 
     if (root.isRoot()) {
       return pagesList;
@@ -459,8 +459,8 @@ public class SiteMap extends DirectoryParser implements Finals {
 
       if (pi != null) {
         list.add(pi);
-      } else if (partial.equals(webSite.getAdminPath())) {
-        PageInfo api = new PageInfo(webSite, webSite.getAdminPath());
+      } else if (partial.equals(webApp.getAdminPath())) {
+        PageInfo api = new PageInfo(webApp, webApp.getAdminPath());
         api.setTitle("MeshCMS");
         list.add(api);
       }
@@ -478,8 +478,8 @@ public class SiteMap extends DirectoryParser implements Finals {
    */
   public String[] getThemeNames() {
     if (themeNames == null) {
-      themeNames = webSite.getFile
-          (webSite.getConfiguration().getCmsPath().add(WebSite.MODULES_DIR)).list();
+      themeNames = webApp.getFile
+          (new Path(webApp.getConfiguration().getThemesDir())).list();
       
       if (themeNames == null) {
         themeNames = new String[0];
@@ -497,8 +497,8 @@ public class SiteMap extends DirectoryParser implements Finals {
   public String[] getModuleTemplateNames() {
     if (moduleTemplateNames == null) {
       Set paths = new HashSet();
-      String[] systemFiles = webSite.getFile
-          (webSite.getAdminPath().add(MODULE_TEMPLATES_DIR)).list();
+      String[] systemFiles = webApp.getFile
+          (webApp.getAdminPath().add(MODULE_TEMPLATES_DIR)).list();
 
       for (int i = 0; i < systemFiles.length; i++) {
         if (systemFiles[i].endsWith(".jsp")) {
@@ -506,8 +506,8 @@ public class SiteMap extends DirectoryParser implements Finals {
         }
       }
 
-      String[] customFiles = webSite.getFile
-          (webSite.getConfiguration().getCmsPath().add(WebSite.MODULES_DIR)).list();
+      String[] customFiles = webApp.getFile
+          (new Path(webApp.getConfiguration().getModuleTemplatesDir())).list();
 
       if (customFiles != null) {
         for (int i = 0; i < customFiles.length; i++) {

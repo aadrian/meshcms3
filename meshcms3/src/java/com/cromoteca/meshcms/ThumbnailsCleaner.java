@@ -29,18 +29,17 @@ import com.cromoteca.util.*;
  * Cleans old and unneeded thumbnails.
  */
 public class ThumbnailsCleaner extends DirectoryParser implements Finals {
-  private WebSite webSite;
+  private WebApp webApp;
   private long currentTime;
   private Configuration configuration;
 
   /**
    * Creates a thumbnail cleaner for the given web application.
    */
-  public ThumbnailsCleaner(WebSite webSite) {
-    this.webSite = webSite;
-    configuration = webSite.getConfiguration();
-    setInitialDir(webSite.getFile
-        (new Path(configuration.getCmsPath().add(WebSite.THUMBNAILS_DIR))));
+  public ThumbnailsCleaner(WebApp webApp) {
+    this.webApp = webApp;
+    configuration = webApp.getConfiguration();
+    setInitialDir(webApp.getFile(new Path(configuration.getThumbnailsDir())));
     setRecursive(true);
     // the folder is processed after contents so we can delete empty folders
     setProcessDirBeforeContent(false);
@@ -62,7 +61,7 @@ public class ThumbnailsCleaner extends DirectoryParser implements Finals {
     Path parentPath = path.getParent();
 
     // searching for a valid file corresponding to part of the path
-    while (!webSite.getFile(parentPath).isFile()) {
+    while (!webApp.getFile(parentPath).isFile()) {
       parentPath = parentPath.getParent();
 
       if (parentPath.isRoot()) {
