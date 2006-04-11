@@ -1,10 +1,20 @@
 ________________________________
 --------------------------------
+2006-xx-xx: x.x released
+--------------------------------
+
+- Added Spanish translation (contributed by Ra�l Herranz)
+- Added German translation (contributed by Dirk Deeken)
+- SimpleMenu and TigraMenu now default to the folder where the theme is applied
+- Added the new ListMenu tag to create menus as HTML unordered lists
+
+________________________________
+--------------------------------
 2006-03-18: 2.4 released
 --------------------------------
 
-- Added French translation (contributed by Pierre Métras)
-- Added Chinese translation (contributed by 简玮侠)
+- Added French translation (contributed by Pierre M�tras)
+- Added Chinese translation
 - Added a dummy theme to workaround a bug in SiteMesh and allow Chinese translation to work
 - Added an option to convert page titles in "Manage Pages" and use HTML entities
 - Added a new mailform field descriptor: "messagebody"

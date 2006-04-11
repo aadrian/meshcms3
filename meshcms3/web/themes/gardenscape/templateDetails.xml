@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<mosinstall type="template">
+	<name>GardenScape</name>
+	<creationDate>31.12.2004</creationDate>
+	<author>PixelBunyiP</author>
+	<copyright>Copyright©2004 PixelBunyiP.com - This template is released under the GNU/GPL License</copyright>
+	<authorEmail>webmaster@pixelbunyip.com</authorEmail>
+	<authorUrl>http://www.PixelBunyiP.com</authorUrl>
+	<version>1.00</version>
+	<description>Garden Scape is a shimmering, dark green and black, fixed-width template. It supports MOS 4.5.1</description>
+	<files>
+		<filename>index.php</filename>
+	</files>
+	<images>
+		<filename>template_thumbnail.png</filename>
+		<filename>images/menubar.png</filename>
+		<filename>images/header.png</filename>
+		<filename>images/bkgr.png</filename>
+		<filename>images/bullet.gif</filename>
+		<filename>images/title.gif</filename>
+		<filename>images/title2.gif</filename>
+		<filename>images/pixel.png</filename>
+		</images>
+	<css>
+		<filename>css/template_css.css</filename>
+	</css>
+</mosinstall>
+
