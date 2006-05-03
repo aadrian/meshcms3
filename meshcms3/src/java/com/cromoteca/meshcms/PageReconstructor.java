@@ -35,13 +35,14 @@ public final class PageReconstructor implements Finals {
   private String email;
   // private StringBuffer htmlTag = new StringBuffer();
   private StringBuffer bodyTag = new StringBuffer();
-  private Properties mod_templates, mod_args;
+  private Properties mod_templates, mod_args, mod_params;
   private boolean contentType;
   private String charset;
 
   public PageReconstructor() {
     mod_templates = new Properties();
     mod_args = new Properties();
+    mod_params = new Properties();
     contentType = false;
   }
 
@@ -59,23 +60,25 @@ public final class PageReconstructor implements Finals {
       body = value;
     } else if (name.equals(EMAIL_PARAM)) {
       email = value;
-    } else if (name.startsWith(MODULES_SELECT)) {
+    } else if (name.startsWith(ModuleDescriptor.TEMPLATE_ID)) {
       if (!value.equals(EMPTY)) { // EMPTY is the value when "no module" is selected
         // name is something like sel_location: we need to set location->value
         // value is the name of the module template
-        mod_templates.setProperty(name.substring(MODULES_SELECT.length()), value);
+        mod_templates.setProperty(name.substring(ModuleDescriptor.TEMPLATE_ID.length()), value);
       }
-    } else if (name.startsWith(MODULES_ARG)) {
+    } else if (name.startsWith(ModuleDescriptor.ARGUMENT_ID)) {
       if (!Utils.isNullOrEmpty(value)) {
         // name is something like arg_location: we need to set location->value
         // value is the name of the module argument (i.e. the selected file/folder)
-        mod_args.setProperty(name.substring(MODULES_ARG.length()), value);
+        mod_args.setProperty(name.substring(ModuleDescriptor.ARGUMENT_ID.length()), value);
       }
+    } else if (name.startsWith(ModuleDescriptor.PARAMETERS_ID)) {
+        mod_params.setProperty(name.substring(ModuleDescriptor.PARAMETERS_ID.length()), value);
     } else if (name.startsWith("body.")) {
       bodyTag.append(' ').append(name.substring(5)).append("=\"").append(value).append('\"');
     } else if (name.startsWith("meta.")) {
       if (name.toLowerCase().indexOf("content-type") != -1) {
-        charset = WebUtils.parseContentType(value)[1];
+        charset = WebUtils.parseCharset(value);
         
         if (charset != null) {
           contentType = true;
@@ -114,17 +117,23 @@ public final class PageReconstructor implements Finals {
           argument = EMPTY;
         }
         
-        modules.add(loc + ":" + template + ":" + argument);
+        String params = mod_params.getProperty(loc);
+        modules.add(
+            ModuleDescriptor.LOCATION_ID + '=' + loc + ',' +
+            ModuleDescriptor.TEMPLATE_ID + '=' + template + ',' +
+            ModuleDescriptor.ARGUMENT_ID + '=' + argument +
+            (Utils.isNullOrEmpty(params) ? "" : ',' + params)
+        );
       }
     }
 
     if (modules.size() > 0) { // we have modules, so create the html attribute
       sb.append(' ').append(MODULES_PARAM).append("=\"").append
-        (Utils.generateList(modules, ";")).append('\"');
+        (Utils.generateList(modules, ";")).append('"');
     }
 
     if (Utils.checkAddress(email)) { // we have an e-mail address
-      sb.append(' ').append(EMAIL_PARAM).append("=\"").append(email).append('\"');
+      sb.append(' ').append(EMAIL_PARAM).append("=\"").append(email).append('"');
     }
 
     sb.append(">\n<head>\n<title>");

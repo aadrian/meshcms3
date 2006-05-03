@@ -22,15 +22,22 @@
 
 package com.cromoteca.meshcms;
 
+import java.util.*;
 import com.cromoteca.util.*;
 
 /**
  * Stores the description of a module when read from the page.
  */
-public class ModuleDescriptor implements Finals {
+public class ModuleDescriptor {
+  public static final String LOCATION_ID = "m_loc";
+  public static final String ARGUMENT_ID = "m_arg";
+  public static final String TEMPLATE_ID = "m_tpl";
+  public static final String PARAMETERS_ID = "m_apm";
+  
   private String location;
   private String template;
   private Path argumentPath;
+  private Properties advancedParams;
   
   /**
    * Creates a new empty instance.
@@ -50,31 +57,61 @@ public class ModuleDescriptor implements Finals {
    * Parses the given String to get location, template and argument.
    */
   public void init(String data) {
-    String[] values = Utils.tokenize(data, ":");
+    if (data.indexOf(LOCATION_ID) < 0) { // old module definition
+      String[] values = Utils.tokenize(data, ":");
 
-    if (values != null) {
-      switch (values.length) {
-        case 1: // path only
-          setLocation("");
-          setTemplate("include.jsp");
-          setArgumentPath(values[0]);
-          break;
-        case 2: // template and path
-          setLocation("");
-          setTemplate(values[0]);
-          setArgumentPath(values[1]);
-          break;
-        case 3: // location, template and path
-          setLocation(values[0]);
-          setTemplate(values[1]);
-          setArgumentPath(values[2]);
+      if (values != null) {
+        switch (values.length) {
+          case 1: // path only
+            setLocation("");
+            setTemplate("include.jsp");
+            setArgumentPath(values[0]);
+            break;
+          case 2: // template and path
+            setLocation("");
+            setTemplate(values[0]);
+            setArgumentPath(values[1]);
+            break;
+          case 3: // location, template and path
+            setLocation(values[0]);
+            setTemplate(values[1]);
+            setArgumentPath(values[2]);
+        }
+      }
+    } else { // new module definition
+      parseParameters(data);
+    }
+  }
+
+  public void parseParameters(String data) {
+    advancedParams = new Properties();
+    StringTokenizer st = new StringTokenizer(data, ",");
+    String value, param;
+
+    while (st.hasMoreTokens()) {
+      value = st.nextToken().trim();
+      int eqIdx = value.indexOf('=');
+
+      if (eqIdx != -1) {
+        param = value.substring(0, eqIdx).trim();
+        value = value.substring(eqIdx + 1).trim();
+
+        if (param.equals(LOCATION_ID)) {
+          setLocation(value);
+        } else if (param.equals(TEMPLATE_ID)) {
+          setTemplate(value);
+        } else if (param.equals(ARGUMENT_ID)) {
+          setArgumentPath(value);
+        } else {
+          advancedParams.setProperty(param, value);
+        }
       }
     }
   }
-  
+
   /**
    * Checks if this module descriptor has been initialized correctly. This is
-   * true if both location adn template are not null.
+   * true if both location and template are not null.
    */
   public boolean isValid() {
     return location != null && template != null;
@@ -108,11 +145,9 @@ public class ModuleDescriptor implements Finals {
    * Sets the name of the module template.
    */
   public void setTemplate(String template) {
-    if (!template.endsWith(".jsp")) {
-      template += ".jsp";
-    }
-    
-    this.template = template;
+    this.template = template.endsWith(".jsp") ?
+        // old modules were in the form module_name.jsp
+        template.substring(0, template.length() - 4) : template;
   }
 
   /**
@@ -141,6 +176,14 @@ public class ModuleDescriptor implements Finals {
    * the String.
    */
   public void setArgumentPath(String s) {
-    argumentPath = EMPTY.equals(s) ? null : new Path(s);
+    argumentPath = Finals.EMPTY.equals(s) ? null : new Path(s);
+  }
+  
+  public Properties getAdvancedParams() {
+    return advancedParams;
+  }
+
+  public void setAdvancedParams(Properties advancedParams) {
+    this.advancedParams = advancedParams;
   }
 }

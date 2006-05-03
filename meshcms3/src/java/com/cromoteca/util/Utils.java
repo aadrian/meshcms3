@@ -607,6 +607,27 @@ public final class Utils {
 
     return sb.toString();
   }
+  
+  public static String listProperties(Properties p, String sep) {
+    if (p == null) {
+      return null;
+    }
+    
+    Enumeration names = p.propertyNames();
+    StringBuffer sb = new StringBuffer();
+    
+    if (names.hasMoreElements()) {
+      String name = (String) names.nextElement();
+      sb.append(name).append('=').append(p.getProperty(name));
+    }
+    
+    while (names.hasMoreElements()) {
+      String name = (String) names.nextElement();
+      sb.append(sep).append(name).append('=').append(p.getProperty(name));
+    }
+    
+    return sb.toString();
+  }
 
   /**
    * Creates a <code>String</code> containing the string representations of the
@@ -1403,9 +1424,8 @@ public final class Utils {
   
   /**
    * Returns the java.util.Locale object for a given locale name (e.g. en_US).
-   * If an installed locale is not found, the default system locale is returned.
    */
-  public static Locale getLocale(String localeName, Locale defaultLocale) {
+  public static Locale getLocale(String localeName) {
     if (!isNullOrEmpty(localeName)) {
       Locale[] locales = Locale.getAvailableLocales();
 
@@ -1416,11 +1436,7 @@ public final class Utils {
       }
     }
     
-    if (defaultLocale != null) {
-      return defaultLocale;
-    }
-    
-    return Locale.getDefault();
+    return null;
   }
   
   /**

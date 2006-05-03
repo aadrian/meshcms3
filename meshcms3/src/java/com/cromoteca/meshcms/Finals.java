@@ -67,13 +67,13 @@ public interface Finals {
    * Path of the file that contains site preferences.
    */
   public static final Path CONFIG_PATH =
-      new Path("WEB-INF/meshcms/configuration.txt");
+      new Path("WEB-INF/meshcms/configuration.xml");
 
   /**
    * Path for the menu configuration file.
    */
   public static final Path PROPS_PATH =
-      new Path("WEB-INF/meshcms/siteprops.txt");
+      new Path("WEB-INF/meshcms/siteprops.xml");
 
   /**
    * Path for the menu configuration file.
@@ -93,16 +93,8 @@ public interface Finals {
    */
   public static final Path MESSAGES_PATH =
       new Path("WEB-INF/meshcms/messages");
-
-  /**
-   * Prefix of the fields used to select the module template.
-   */
-  public static final String MODULES_SELECT = "sel_";
-
-  /**
-   * Prefix of the fields used to select the module argument.
-   */
-  public static final String MODULES_ARG = "arg_";
+  
+  public static final String MODULE_INCLUDE_FILE = "include.jsp";
 
   /**
    * The name of the properties for the modules to include in the page.
@@ -114,16 +106,13 @@ public interface Finals {
    */
   public static final String EMAIL_PARAM = "meshcmsmail";
 
-  /**
-   * Name of the folder that contains module templates. This name is also used
-   * as default for the folder that contains custom module templates.
-   */
-  public static final String MODULE_TEMPLATES_DIR = "module_templates";
+  public static final String MODULES_SUBDIRECTORY = "modules";
 
-  /**
-   * Name of the folder that contains thumbnails.
-   */
-  public static final String THUMBNAILS_DIR = "thumbnails";
+  public static final String GENERATED_FILES_SUBDIRECTORY = "generated";
+  
+  public static final String THEMES_SUBDIRECTORY = "themes";
+  
+  public static final String ADMIN_SUBDIRECTORY = "admin";
 
   /**
    * Name of the page context attribute that stores the descriptions of the
@@ -187,6 +176,10 @@ public interface Finals {
    * folder.
    */
   public static final String THEME_PATH_ATTRIBUTE = "meshcmsthemepath";
+  
+  public static final String LOCALE_ATTRIBUTE = "meshcmslocale";
+  
+  public static final String LAST_MODIFIED_ATTRIBUTE = "meshcmslastmodified";
 
   /**
    * Generic string used to indicate an empty value.

@@ -23,9 +23,17 @@
     <servlet-name>download</servlet-name>
     <servlet-class>com.cromoteca.meshcms.DownloadServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>downloadzip</servlet-name>
+    <servlet-class>com.cromoteca.meshcms.DownloadZipServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>download</servlet-name>
     <url-pattern>/servlet/com.cromoteca.meshcms.DownloadServlet/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>downloadzip</servlet-name>
+    <url-pattern>/servlet/com.cromoteca.meshcms.DownloadZipServlet/*</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>60</session-timeout>

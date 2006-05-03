@@ -27,6 +27,8 @@ import java.util.*;
 import javax.servlet.*;
 import org.apache.commons.fileupload.*;
 import com.cromoteca.util.*;
+import com.thoughtworks.xstream.*;
+import com.thoughtworks.xstream.io.xml.*;
 
 /**
  * Stores info about the web application and provides methods used widely in
@@ -41,6 +43,10 @@ public class WebApp implements Finals {
 
   private String userAgent = "MeshCMS";
   private Path adminPath;
+  private Path cmsPath;
+  private Path themesPath;
+  private Path modulesPath;
+  private Path generatedFilesPath;
   private File contextRoot;
   private ServletContext sc;
   private long statsZero;
@@ -49,10 +55,11 @@ public class WebApp implements Finals {
   private Configuration configuration;
   private SiteInfo siteInfo;
   private SiteMap siteMap;
-  
-  public String versionId;
-  public String systemCharset;
 
+  public static final String VERSION_ID = "2.5 beta";
+  public static final String SYSTEM_CHARSET =
+      System.getProperty("file.encoding", "UTF-8");
+  
   /**
    * Creates an instance to be used for the servlet context specified.
    */
@@ -62,12 +69,9 @@ public class WebApp implements Finals {
     contextRoot = new File(sc.getRealPath("/"));
     welcomeFiles = WebUtils.getWelcomeFiles(sc);
     fileTypes = new FileTypes(this);
-    new AdminDirectoryFinder(this).process();
-    configuration = new Configuration();
-    configuration.setPreferredCharset(systemCharset);
-    configuration.load(this);
+    configuration = Configuration.load(this);
     statsLength = configuration.getStatsLength();
-    siteInfo = new SiteInfo(this);
+    siteInfo = SiteInfo.load(this);
     updateSiteMap(true);
   }
 
@@ -85,8 +89,8 @@ public class WebApp implements Finals {
     } else if (System.currentTimeMillis() - siteMap.getLastModified() >
                configuration.getUpdateIntervalMillis()) {
       new SiteMap(this).start();
-      new RepositoryCleaner(this).start();
-      new ThumbnailsCleaner(this).start();
+      new DirectoryCleaner(getFile(REPOSITORY_PATH), configuration.getBackupLifeMillis()).start();
+      new DirectoryCleaner(getFile(generatedFilesPath), configuration.getBackupLifeMillis()).start();
     }
   }
 
@@ -666,16 +670,16 @@ public class WebApp implements Finals {
    * <ul>
    *  <li>the WEB-INF directory (/WEB-INF)</li>
    *  <li>the META-INF directory (/META-INF)</li>
-   *  <li>the MeshCMS directory (/admin)</li>
    *  <li>the standard CGI-BIN directory (/cgi-bin)</li>
+   *  <li>the MeshCMS admin directory (if <code>checkAdmin</code> is true</li>
    * </ul>
    */
-  public boolean isSystem(Path path) {
+  public boolean isSystem(Path path, boolean checkAdmin) {
     if (path == null || path.isRoot()) {
       return false;
     }
     
-    if (path.isContainedIn(getAdminPath()) || path.isRelative()) {
+    if (path.isRelative() || (checkAdmin && path.isContainedIn(getAdminPath()))) {
       return true;
     }
     
@@ -695,26 +699,24 @@ public class WebApp implements Finals {
   }
   
   /**
-   * Returns the path of the module template file with the given name. The file
-   * is first searched in the custom module templates folder, then (if not
-   * found there) it is searched in the default module templates folder.
+   * Returns the path of the module file with the given name.
    */
-  public Path getModuleTemplatePath(String moduleTemplateName) {
-    if (!moduleTemplateName.endsWith(".jsp")) {
-      moduleTemplateName += ".jsp";
+  public Path getModulePath(String moduleName) {
+    if (moduleName.endsWith(".jsp")) {
+      // old module names were in the form module_name.jsp
+      moduleName.substring(0, moduleName.length() - 4);
     }
+    
+    if (modulesPath != null) {
+      Path tPath = modulesPath.add(moduleName);
 
-    if (configuration.getModuleTemplatesDir() != null) {
-      Path tPath = new Path(configuration.getModuleTemplatesDir(),
-          moduleTemplateName);
-
-      if (getFile(tPath).exists()) {
+      if (getFile(tPath).exists() &&
+          getFile(tPath.add(MODULE_INCLUDE_FILE)).exists()) {
         return tPath;
       }
     }
 
-    Path tPath = getAdminPath().add(MODULE_TEMPLATES_DIR, moduleTemplateName);
-    return getFile(tPath).exists() ? tPath : null;
+    return null;
   }
 
   /**
@@ -724,11 +726,16 @@ public class WebApp implements Finals {
     return adminPath;
   }
   
-  /**
-   * Sets the path of the admin directory.
-   */
-  public void setAdminPath(Path adminPath) {
-    this.adminPath = adminPath;
+  public void setCMSPath(Path cmsPath) {
+    this.cmsPath = cmsPath;
+    adminPath = cmsPath.add(ADMIN_SUBDIRECTORY);
+    themesPath = cmsPath.add(THEMES_SUBDIRECTORY);
+    modulesPath = cmsPath.add(MODULES_SUBDIRECTORY);
+    generatedFilesPath = cmsPath.add(GENERATED_FILES_SUBDIRECTORY);
+  }
+  
+  public Path getCMSPath() {
+    return cmsPath;
   }
   
   /**
@@ -739,12 +746,12 @@ public class WebApp implements Finals {
   public String getAdminMetaThemeTag() {
     Path themePath = getSiteInfo().getThemePath(getAdminPath());
     return "<meta name=\"decorator\" content=\"/" + themePath + "/" + 
-           THEME_DECORATOR + "\">";
+        THEME_DECORATOR + "\" />";
   }
   
   public String getDummyMetaThemeTag() {
     Path themePath = getSiteInfo().getThemePath(getAdminPath());
-    return "<meta name=\"decorator\" content=\"/" + themePath + "/dummy.jsp\">";
+    return "<meta name=\"decorator\" content=\"/" + themePath + "/dummy.jsp\" />";
   }
   
   /**
@@ -766,7 +773,7 @@ public class WebApp implements Finals {
         "/tiny_mce/themes/advanced/images/help.gif' title='Help: " + anchor +
         "' alt='Help Icon' onclick=\"javascript:window.open('" + 
         contextPath + '/' + helpPath + '/' + lang + "/userguide.html#" + anchor +
-        "', 'meshcmshelp', 'width=740,height=560,menubar=no,status=yes,toolbar=no,resizable=yes,scrollbars=yes').focus();\">";
+        "', 'meshcmshelp', 'width=740,height=560,menubar=no,status=yes,toolbar=no,resizable=yes,scrollbars=yes').focus();\" \\>";
   }
   
   /**
@@ -795,5 +802,73 @@ public class WebApp implements Finals {
     }
 
     return text;
+  }
+
+  public Path getThemesPath() {
+    return themesPath;
+  }
+
+  public Path getModulesPath() {
+    return modulesPath;
+  }
+
+  public Path getGeneratedFilesPath() {
+    return generatedFilesPath;
+  }
+
+  protected Object loadFromXML(Path path) {
+    File file = getFile(path);
+    
+    if (file.exists()) {
+      InputStream is = null;
+      
+      try {
+        is = new BufferedInputStream(new FileInputStream(file));
+        XStream xStream = new XStream(new DomDriver());
+        XStreamPathConverter pConv = new XStreamPathConverter();
+        pConv.setPrependSlash(true);
+        xStream.registerConverter(pConv);
+        return xStream.fromXML(is);
+      } catch (IOException ex) {
+        ex.printStackTrace();
+      } finally {
+        if (is != null) {
+          try {
+            is.close();
+          } catch (IOException ex) {
+            ex.printStackTrace();
+          }
+        }
+      }
+    }
+    
+    return null;
+  }
+
+  protected boolean storeToXML(Object o, Path path) {
+    File file = getFile(path);
+    OutputStream os = null;
+
+    try {
+      os = new BufferedOutputStream(new FileOutputStream(file));
+      XStream xStream = new XStream(new DomDriver());
+      XStreamPathConverter pConv = new XStreamPathConverter();
+      pConv.setPrependSlash(true);
+      xStream.registerConverter(pConv);
+      xStream.toXML(o, os);
+      return true;
+    } catch (IOException ex) {
+      ex.printStackTrace();
+    } finally {
+      if (os != null) {
+        try {
+          os.close();
+        } catch (IOException ex) {
+          ex.printStackTrace();
+        }
+      }
+    }
+    
+    return false;
   }
 }

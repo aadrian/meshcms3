@@ -68,8 +68,7 @@ public class PageTitle extends AbstractTag {
   public void writeEditTag() throws IOException {
     UserInfo userInfo = (UserInfo) pageContext.getAttribute("userInfo",
       PageContext.SESSION_SCOPE);
-    Locale locale = Utils.getLocale(userInfo == null ? null :
-      userInfo.getPreferredLocaleCode(), request.getLocale());
+    Locale locale = WebUtils.getPageLocale(pageContext);
     ResourceBundle bundle = ResourceBundle.getBundle("com/cromoteca/meshcms/Locales", locale);
     MessageFormat formatter = new MessageFormat("", locale);
 

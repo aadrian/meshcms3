@@ -35,9 +35,6 @@ public class FolderXTree extends DirectoryParser implements Finals {
   Writer writer;
   String thumbsParam;
   String rootName;
-  Path moduleTemplatesPath;
-  Path themesPath;
-  Path thumbnailsPath;
   
   /**
    * Creates a new instance.
@@ -54,9 +51,8 @@ public class FolderXTree extends DirectoryParser implements Finals {
     setRecursive(true);
     setSorted(true);
     setInitialDir(webApp.getContextRoot());
-    moduleTemplatesPath = new Path(webApp.getConfiguration().getModuleTemplatesDir());
-    themesPath = new Path(webApp.getConfiguration().getThemesDir());
-    thumbnailsPath = new Path(webApp.getConfiguration().getThumbnailsDir());
+    setDaemon(true);
+    setName("XTree builder");
   }
 
   protected boolean preProcess() {
@@ -88,14 +84,13 @@ public class FolderXTree extends DirectoryParser implements Finals {
     try {
       String imgType = null;
 
-      if (webApp.isSystem(path)) {
+      if (webApp.isSystem(path, true)) {
         imgType = "system";
         include = userInfo.canDo(UserInfo.CAN_DO_ADMINTASKS);
-      } else if (path.isContainedIn(thumbnailsPath)) {
+      } else if (path.isContainedIn(webApp.getGeneratedFilesPath())) {
         imgType = "themes";
         include = userInfo.canDo(UserInfo.CAN_DO_ADMINTASKS);
-      } else if (path.isContainedIn(themesPath) ||
-                 path.isContainedIn(moduleTemplatesPath)) {
+      } else if (path.isContainedIn(webApp.getCMSPath())) {
         imgType = "themes";
       }
 

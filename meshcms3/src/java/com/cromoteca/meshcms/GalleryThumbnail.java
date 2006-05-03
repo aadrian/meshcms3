@@ -37,9 +37,11 @@ public class GalleryThumbnail extends AbstractThumbnail {
    * Width and height of the image in the thumbnail.
    */
   public static int THUMB_IMAGE_SIZE = 94;
+  
+  private boolean highQuality;
 
   public String getSuggestedFileName() {
-    return "gallery.jpg";
+    return highQuality ? "meshcms_hq_gallery.jpg" : "meshcms_gallery.jpg";
   }
 
   protected boolean createThumbnail(File imageFile, File thumbnailFile) {
@@ -81,7 +83,14 @@ public class GalleryThumbnail extends AbstractThumbnail {
       ix += (THUMB_IMAGE_SIZE - w0) / 2;
     }
 
-    g.drawImage(image, ix, iy, w0, h0, null);
+    if (highQuality) {
+      BufferedImage resized = AbstractThumbnail.resize(image, w0, h0);
+      g.drawImage(resized, ix, iy, null);
+      resized.flush();
+    } else {
+      g.drawImage(image, ix, iy, w0, h0, null);
+    }
+
     image.flush();
     g.setColor(DEFAULT_BORDER_COLOR);
     g.drawRect(0, 0, THUMB_SIZE - 1, THUMB_SIZE - 1);
@@ -106,5 +115,13 @@ public class GalleryThumbnail extends AbstractThumbnail {
     }
     
     return true;
+  }
+
+  public boolean isHighQuality() {
+    return highQuality;
+  }
+
+  public void setHighQuality(boolean highQuality) {
+    this.highQuality = highQuality;
   }
 }

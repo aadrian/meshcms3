@@ -72,13 +72,15 @@ public final class HitFilter implements Filter, Finals {
 
       // Deal with all pages
       if (webApp.getFileTypes().isPage(pagePath)) {
-        // Block direct requests of module templates from non authenticated users
-        if (isGuest && (pagePath.isContainedIn(webApp.getAdminPath().add(MODULE_TEMPLATES_DIR)) ||
-            pagePath.isContainedIn(new Path(webApp.getConfiguration().getModuleTemplatesDir())))) {
+        // Block direct requests of modules from non authenticated users
+        if (isGuest && pagePath.isContainedIn(webApp.getModulesPath()) &&
+            pagePath.getLastElement().equalsIgnoreCase(MODULE_INCLUDE_FILE)) {
           httpRes.sendError(HttpServletResponse.SC_FORBIDDEN,
             "You are not allowed to request this file");
           return;
         }
+        
+        WebUtils.updateLastModifiedTime(httpReq, webApp.getFile(pagePath));
         
         // HTTP 1.1
         httpRes.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
@@ -92,8 +94,7 @@ public final class HitFilter implements Filter, Finals {
         String themeParameter = request.getParameter(THEME_FILE_ATTRIBUTE);
 
         if (!Utils.isNullOrEmpty(themeParameter)) {
-          themePath = new Path(webApp.getConfiguration().getThemesDir(),
-              themeParameter);
+          themePath = webApp.getThemesPath().add(themeParameter);
         }
         
         if (themePath == null || !webApp.getFile(themePath).exists()) {
@@ -105,7 +106,7 @@ public final class HitFilter implements Filter, Finals {
           
           // pages in /admin do not need a decorator to be specified:
           if (!pagePath.isContainedIn(webApp.getAdminPath())) {
-            request.setAttribute(THEME_FILE_ATTRIBUTE,  "/" +
+            request.setAttribute(THEME_FILE_ATTRIBUTE, "/" +
                 themePath + "/" + THEME_DECORATOR);
           }
         }
@@ -234,8 +235,7 @@ public final class HitFilter implements Filter, Finals {
         if (pagePath.isContainedIn(webApp.getAdminPath()) && 
             pagePath.getLastElement().endsWith(".js")) {
           if (userInfo != null && userInfo.canDo(UserInfo.CAN_EDIT_PAGES)) {
-            Locale locale = Utils.getLocale
-                (userInfo.getPreferredLocaleCode(), request.getLocale());
+            Locale locale = Utils.getLocale(userInfo.getPreferredLocaleCode());
             ResourceBundle bundle =
                 ResourceBundle.getBundle("com/cromoteca/meshcms/Locales", locale);
             String s = bundle.getString("TinyMCELangCode");

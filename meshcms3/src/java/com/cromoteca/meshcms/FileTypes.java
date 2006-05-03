@@ -49,8 +49,6 @@ public final class FileTypes implements Finals {
   TypeInfo unknown;
   TypeInfo directory;
   SortedMap extMap;
-  WebApp webApp;
-  Table table;
   int htmlId;
   int serverSideId;
 
@@ -58,8 +56,6 @@ public final class FileTypes implements Finals {
    * Creates a new instance for the given WebApp.
    */
   public FileTypes(WebApp webApp) {
-    this.webApp = webApp;
-    
     unknown = new TypeInfo();
     unknown.id = -1;
     unknown.description = "Unknown";
@@ -76,7 +72,7 @@ public final class FileTypes implements Finals {
     
     try {
       extMap = new TreeMap();
-      table = new Table(webApp.getFile(FILETYPES_PATH));
+      Table table = new Table(webApp.getFile(FILETYPES_PATH));
       TableCursor cursor = table.getCursor();
       
       while (cursor.next()) {

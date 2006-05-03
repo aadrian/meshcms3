@@ -3,17 +3,23 @@ ________________________________
 2006-xx-xx: x.x released
 --------------------------------
 
-- Added Spanish translation (contributed by Raúl Herranz)
+- Added Spanish translation (contributed by Raul Herranz)
 - Added German translation (contributed by Dirk Deeken)
 - SimpleMenu and TigraMenu now default to the folder where the theme is applied
 - Added the new ListMenu tag to create menus as HTML unordered lists
+- Fixed a bug in the file manager when the admin directory has been renamed
+- Now each module has its own directory so one can ship other files within it
+- Added the option to define advanced parameters for modules
+- Added chat module (contributed by Pierre Metras)
+- TinyMCE reverted to 1.45 since the 2.x series has too many bugs
+- TinyMCE configuration moved to admin/tinymce_init.js so one can edit it
 
 ________________________________
 --------------------------------
 2006-03-18: 2.4 released
 --------------------------------
 
-- Added French translation (contributed by Pierre Métras)
+- Added French translation (contributed by Pierre Metras)
 - Added Chinese translation
 - Added a dummy theme to workaround a bug in SiteMesh and allow Chinese translation to work
 - Added an option to convert page titles in "Manage Pages" and use HTML entities

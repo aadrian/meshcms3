@@ -27,6 +27,7 @@ import java.nio.charset.*;
 import java.net.*;
 import java.text.*;
 import java.util.*;
+import javax.activation.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.jsp.*;
@@ -216,7 +217,7 @@ public final class WebUtils implements Finals {
   
   /**
    * Returns the folder path to be used as argument for the module. This method
-   * must be called from module templates JSP files only. It makes no sense in
+   * must be called from module JSP files only. It makes no sense in
    * other cases.
    *
    * @param allowCurrentPath if true and the argument parameter is null, the
@@ -233,7 +234,7 @@ public final class WebUtils implements Finals {
       argPath = new Path(request.getParameter("pagepath"));
     }
     
-    if (argPath != null && !webApp.isSystem(argPath)) {
+    if (argPath != null && !webApp.isSystem(argPath, true)) {
       return webApp.getDirectory(argPath);
     }
     
@@ -241,8 +242,8 @@ public final class WebUtils implements Finals {
   }
   
   /**
-   * Returns the files to be passed to the module template. This method
-   * must be called from module templates JSP files only. It makes no sense in
+   * Returns the files to be passed to the module. This method
+   * must be called from module JSP files only. It makes no sense in
    * other cases.
    *
    * @param allowCurrentDir if true and the argument parameter is null, the
@@ -259,7 +260,7 @@ public final class WebUtils implements Finals {
       argPath = webApp.getDirectory(new Path(request.getParameter("pagepath")));
     }
     
-    if (argPath != null && !webApp.isSystem(argPath)) {
+    if (argPath != null && !webApp.isSystem(argPath, true)) {
       File moduleFile = webApp.getFile(argPath);
       File[] files = null;
 
@@ -275,10 +276,10 @@ public final class WebUtils implements Finals {
     
     return null;
   }
-
+  
   /**
    * Returns format to be used to display the date (can be null). This method
-   * must be called from module templates JSP files only. It makes no sense in
+   * must be called from module JSP files only. It makes no sense in
    * other cases.
    */
   public static DateFormat getModuleDateFormat(PageContext pageContext) {
@@ -330,7 +331,7 @@ public final class WebUtils implements Finals {
   
   /**
    * This method must be called to avoid the current page to be cached. For
-   * example, some module templates will call this method to be sure that they
+   * example, some modules will call this method to be sure that they
    * are parsed again when the page is called another time.
    */
   public static void setBlockCache(HttpServletRequest request) {
@@ -351,28 +352,47 @@ public final class WebUtils implements Finals {
    * system default Locale.
    */
   public static Locale getPageLocale(PageContext pageContext) {
+    Locale locale = null;
+
+    UserInfo userInfo = (UserInfo) pageContext.getAttribute("userInfo",
+      PageContext.SESSION_SCOPE);
+    
+    if (userInfo != null) {
+      locale = Utils.getLocale(userInfo.getPreferredLocaleCode());
+    }
+    
+    if (locale == null) {
+      locale = (Locale) pageContext.getAttribute(LOCALE_ATTRIBUTE, PageContext.PAGE_SCOPE);
+    }
+
     Enumeration en = pageContext.getAttributeNamesInScope(PageContext.PAGE_SCOPE);
 
-    while (en.hasMoreElements()) {
+    while (locale == null && en.hasMoreElements()) {
       Object obj = pageContext.getAttribute((String) en.nextElement());
 
       if (obj instanceof Locale) {
-        return (Locale) obj;
+        locale = (Locale) obj;
       }
     }
     
+    if (locale == null) {
+      locale = (Locale) pageContext.getAttribute(LOCALE_ATTRIBUTE, PageContext.REQUEST_SCOPE);
+    }
+
     en = pageContext.getAttributeNamesInScope(PageContext.REQUEST_SCOPE);
 
-    while (en.hasMoreElements()) {
+    while (locale == null && en.hasMoreElements()) {
       Object obj = pageContext.getAttribute((String) en.nextElement(),
           PageContext.REQUEST_SCOPE);
 
       if (obj instanceof Locale) {
-        return (Locale) obj;
+        locale = (Locale) obj;
       }
     }
     
-    Locale locale = pageContext.getRequest().getLocale();
+    if (locale == null) {
+      locale = pageContext.getRequest().getLocale();
+    }
     
     if (locale == null) {
       locale = Locale.getDefault();
@@ -493,60 +513,31 @@ public final class WebUtils implements Finals {
     return charsetName;
   }
   
-  /**
-   * Method adapted from com.opensymphony.module.sitemesh.filter.HttpContentType,
-   * taken from the SiteMesh CVS.
-   */
-  public static String[] parseContentType(String fullValue) {
-    // this is the content type + charset. eg: text/html;charset=UTF-8
-    int offset = fullValue.lastIndexOf("charset=");
-    String[] result = new String[2];
-    result[0] = extractContentTypeValue(fullValue, 0);
-    result[1] = offset != -1 ? extractContentTypeValue(fullValue, offset + 8) : null;
-    return result;
+  public static String parseCharset(String fullValue) {
+    try {
+      return new MimeType(fullValue).getParameter("charset");
+    } catch (MimeTypeParseException ex) {
+      return null;
+    }
   }
-
-  /**
-   * Method adapted from com.opensymphony.module.sitemesh.filter.HttpContentType,
-   * taken from the SiteMesh CVS.
-   */
-  private static String extractContentTypeValue(String type, int startIndex) {
-    if (startIndex < 0) {
-      return null;
+  
+  public static void updateLastModifiedTime(HttpServletRequest request, File file) {
+    updateLastModifiedTime(request, file.lastModified());
+  }
+  
+  public static void updateLastModifiedTime(HttpServletRequest request, long time) {
+    if (time > getLastModifiedTime(request)) {
+      request.setAttribute(LAST_MODIFIED_ATTRIBUTE, new Long(time));
     }
-
-    // Skip over any leading spaces
-    while (startIndex < type.length() && type.charAt(startIndex) == ' ') {
-      startIndex++;
-    }
-
-    if (startIndex >= type.length()) {
-      return null;
-    }
-
-    int endIndex = startIndex;
-
-    if (type.charAt(startIndex) == '"') {
-      startIndex++;
-      endIndex = type.indexOf('"', startIndex);
-      
-      if (endIndex == -1) {
-        endIndex = type.length();
-      }
-    } else {
-      // Scan through until we hit either  the end of the string or a
-      // special character (as defined in RFC-2045). Note that we ignore '/'
-      // since we want to capture it as part of the value.
-      char ch;
-
-      while (endIndex < type.length() && (ch = type.charAt(endIndex)) != ' ' &&
-          ch != ';' && ch != '(' && ch != ')' && ch != '[' && ch != ']' &&
-          ch != '<' && ch != '>' && ch != ':' && ch != ',' && ch != '=' &&
-          ch != '?' && ch != '@' && ch != '"' && ch != '\\') {
-        endIndex++;
-      }
-    }
-
-    return type.substring(startIndex, endIndex);
+  }
+  
+  public static long getLastModifiedTime(HttpServletRequest request) {
+    long time = 0L;
+    
+    try {
+      time = ((Long) request.getAttribute(LAST_MODIFIED_ATTRIBUTE)).longValue();
+    } catch (Exception ex) {}
+    
+    return time;
   }
 }

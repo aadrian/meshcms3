@@ -76,7 +76,7 @@ public final class LastModified extends AbstractTag {
        w.write(pre);
       }
 
-      w.write(df.format(new Date(webApp.getFile(pagePath).lastModified())));
+      w.write(df.format(new Date(WebUtils.getLastModifiedTime(request))));
 
       if (post != null) {
         w.write(post);

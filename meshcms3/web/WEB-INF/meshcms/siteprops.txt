@@ -1,3 +1,0 @@
-#Set a theme to the home page, so the first launch of the web application
-#will show something useful
-theme0=flowers

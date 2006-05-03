@@ -67,8 +67,7 @@ public final class AdminMenu extends AbstractTag {
   public void writeTag() throws IOException {
     UserInfo userInfo = (UserInfo) pageContext.getAttribute("userInfo",
       PageContext.SESSION_SCOPE);
-    Locale locale = Utils.getLocale(userInfo == null ? null :
-      userInfo.getPreferredLocaleCode(), request.getLocale());
+    Locale locale = WebUtils.getPageLocale(pageContext);
     ResourceBundle bundle = ResourceBundle.getBundle("com/cromoteca/meshcms/Locales", locale);
 
     String a1 = "<a" +

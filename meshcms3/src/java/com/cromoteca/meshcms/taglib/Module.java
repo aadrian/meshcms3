@@ -45,6 +45,7 @@ public final class Module extends AbstractTag {
   private String style;
   private String location = "";
   private String alt = "&nbsp;";
+  private String parameters;
 
   public void setName(String name) {
     this.name = name;
@@ -72,16 +73,44 @@ public final class Module extends AbstractTag {
     }
     
     ModuleDescriptor md = getModuleDescriptor(location, name);
-
+    
     if (md != null) {
-      Path moduleTemplatePath = webApp.getModuleTemplatePath(md.getTemplate());
+      if (parameters != null) {
+        md.parseParameters(parameters);
+      }
+      
+      Path modulePath = webApp.getModulePath(md.getTemplate());
       Path argumentPath = md.getArgumentPath();
       
-      if (moduleTemplatePath != null) {
+      if (modulePath != null) {
+        StringBuffer sb = new StringBuffer();
+        sb.append('/').append(modulePath).append('/').append(MODULE_INCLUDE_FILE);
+        sb.append("?pagepath=").append(pagePath);
+        sb.append("&modulepath=").append(modulePath.getAsLink());
+        
+        if (argumentPath != null) {
+          sb.append("&argument=").append(argumentPath);
+        }
+        
+        sb.append("&dateformat=").append(date);
+        
+        if (style != null) {
+          sb.append("&style=").append(style);
+        }
+        
+        Properties p = md.getAdvancedParams();
+
+        if (p != null) {
+          Enumeration names = p.propertyNames();
+
+          while (names.hasMoreElements()) {
+            String name = (String) names.nextElement();
+            sb.append('&').append(name).append('=').append(p.getProperty(name));
+          }
+        }
+        
         try {
-          pageContext.include("/" + moduleTemplatePath + "?pagepath=" + pagePath +
-              (argumentPath == null ? "" : "&argument=" + argumentPath) +
-              "&dateformat=" + date + (style == null ? "" : "&style=" + style));
+          pageContext.include(sb.toString());
         } catch (ServletException ex) {
           throw new JspException(ex);
         }
@@ -94,19 +123,17 @@ public final class Module extends AbstractTag {
   public void writeEditTag() throws IOException, JspException {
     UserInfo userInfo = (UserInfo) pageContext.getAttribute("userInfo",
       PageContext.SESSION_SCOPE);
-    Locale locale = Utils.getLocale(userInfo == null ? null :
-      userInfo.getPreferredLocaleCode(), request.getLocale());
+    Locale locale = WebUtils.getPageLocale(pageContext);
     ResourceBundle bundle = ResourceBundle.getBundle("com/cromoteca/meshcms/Locales", locale);
     MessageFormat formatter = new MessageFormat("", locale);
 
     ModuleDescriptor md = getModuleDescriptor(location, name);
     Writer w = getOut();
 
-    w.write("<table cellspacing='0' class='meshcmseditor'>\n");
+    w.write("<div class='meshcmseditor'>\n");
     Object[] args = { location };
     formatter.applyPattern(bundle.getString("editorModuleLoc"));
-    w.write("<tr><th>" + formatter.format(args) + "</th></tr>\n");
-    w.write("<tr><td>\n");
+    w.write(" <div class='meshcmstitle'>" + formatter.format(args) + "</div>\n");
 
     if (name != null) {
       w.write(bundle.getString("editorFixedModule"));
@@ -123,16 +150,17 @@ public final class Module extends AbstractTag {
           "', '_blank').focus();\" align='middle' />\n");
       }
     } else {
-      w.write(" <div style='display: inline; white-space: nowrap;'>\n  " +
-        bundle.getString("editorModuleTemplate") + " <select name='" +
-        MODULES_SELECT + location + "'>\n");
-      w.write("  <option value='" + EMPTY + "'>" +
+      w.write(" <div class='meshcmsfieldname'>" +
+        bundle.getString("editorModuleTemplate") + "</div>\n");
+      w.write(" <div class='meshcmsfield'>\n  <select name='" +
+        ModuleDescriptor.TEMPLATE_ID + location + "'>\n");
+      w.write("   <option value='" + EMPTY + "'>" +
         bundle.getString("editorNoTemplate") + "</option>\n");
 
-      String[] mtNames = webApp.getSiteMap().getModuleTemplateNames();
+      String[] mtNames = webApp.getSiteMap().getModuleNames();
 
       for (int i = 0; i < mtNames.length; i++) {
-        w.write(" <option value='" + mtNames[i] + "'");
+        w.write("   <option value='" + mtNames[i] + "'");
 
         if (md != null && mtNames[i].equals(md.getTemplate())) {
           w.write(" selected='selected'");
@@ -141,22 +169,34 @@ public final class Module extends AbstractTag {
         w.write(">" + Utils.beautify(Utils.removeExtension(mtNames[i]), true) + "</option>\n");
       }
 
-      w.write(" </select>\n </div>\n");
-      w.write(" <div style='display: inline; white-space: nowrap;'>\n  " +
-        bundle.getString("editorModuleArgument") + " <img src='" +
-        afp + "/images/clear_field.gif' onclick=\"javascript:editor_clr('" +
-        MODULES_ARG + location + "');\" align='middle' /><input type='text' id='" +
-        MODULES_ARG + location + "' name='" + MODULES_ARG + location + "' value=\"" +
+      w.write("  </select>\n </div>\n");
+      w.write(" <div class='meshcmsfieldname'>" +
+        bundle.getString("editorModuleArgument") + "</div>\n");
+      w.write(" <div class='meshcmsfield'><img src='" + afp +
+        "/images/clear_field.gif' onclick=\"javascript:editor_clr('" +
+        ModuleDescriptor.ARGUMENT_ID + location + "');\" align='middle' /><input type='text' id='" +
+        ModuleDescriptor.ARGUMENT_ID + location + "' name='" +
+        ModuleDescriptor.ARGUMENT_ID + location + "' value=\"" +
         (md == null || md.getArgumentPath() == null ? "" : "/" + md.getArgumentPath()) +
-        "\" style='width: 12em;' /> <img src='" + afp +
+        "\" style='width: 12em;' /><img src='" + afp +
         "/tiny_mce/themes/advanced/images/browse.gif' title='" +
         bundle.getString("genericBrowse") +
         "' onclick=\"javascript:editor_openFileManager('" +
-        MODULES_ARG + location + "');\" align='middle' />\n </div>\n");
+        ModuleDescriptor.ARGUMENT_ID + location + "');\" align='middle' /></div>\n");
+
+      w.write(" <div class='meshcmsfieldname'>" +
+        bundle.getString("editorModuleParameters") + "</div>\n");
+      w.write(" <div class='meshcmsfield'><img src='" + afp +
+        "/images/clear_field.gif' onclick=\"javascript:editor_clr('" +
+        ModuleDescriptor.PARAMETERS_ID + location + "');\" align='middle' /><input type='text' id='" +
+        ModuleDescriptor.PARAMETERS_ID + location + "' name='" +
+        ModuleDescriptor.PARAMETERS_ID + location + "' value=\"" +
+        (md == null || md.getAdvancedParams() == null ? "" :
+        Utils.listProperties(md.getAdvancedParams(), ", ")) +
+        "\" style='width: 12em;' /></div>\n");
     }
 
-    w.write("</td></tr>\n");
-    w.write("</table>");
+    w.write("</div>");
   }
 
   public String getName() {
@@ -177,5 +217,13 @@ public final class Module extends AbstractTag {
 
   public String getAlt() {
     return alt;
+  }
+
+  public String getParameters() {
+    return parameters;
+  }
+
+  public void setParameters(String parameters) {
+    this.parameters = parameters;
   }
 }

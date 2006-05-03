@@ -43,6 +43,13 @@ public class PageHead extends AbstractTag {
 
     Path linkListPath = new Path(ap, "tinymce_linklist.jsp");
     linkListPath = linkListPath.getRelativeTo(webApp.getDirectory(pagePath));
+    Locale locale = WebUtils.getPageLocale(pageContext);
+    ResourceBundle bundle = ResourceBundle.getBundle("com/cromoteca/meshcms/Locales", locale);
+    String langCode = bundle.getString("TinyMCELangCode");
+      
+    if (Utils.isNullOrEmpty(langCode)) {
+      langCode = locale.getLanguage();
+    }
 
     Writer w = getOut();
     w.write("\n<script language='javascript' type='text/javascript' src='" +
@@ -50,45 +57,16 @@ public class PageHead extends AbstractTag {
     w.write("<script language='javascript' type='text/javascript'>\n");
     w.write(" var contextPath = \"" + cp + "\";\n");
     w.write(" var adminPath = \"" + webApp.getAdminPath() + "\";\n");
-    w.write(" var moduleArg = \"" + MODULES_ARG + "\";\n");
+    w.write(" var languageCode = \"" + langCode + "\";\n");
     w.write(" var linkListPath = \"" + linkListPath + "\";\n");
     w.write(" var cssPath = \"" + WebUtils.getFullThemeCSS(request) + "\";\n");
     w.write("</script>\n");
     w.write("<script language='javascript' type='text/javascript' src='" +
       afp + "/editor.js'></script>\n");
-    /*w.write("<script language='javascript' type='text/javascript' src='" +
-      afp + "/tinymce.js'></script>");*/
-    w.write("<script language='javascript' type='text/javascript'>\n");
-    w.write("  tinyMCE.init({\n");
-    w.write("    theme : 'advanced',\n");
     
-    Locale userLocale = Utils.getLocale(userInfo == null ? null :
-      userInfo.getPreferredLocaleCode(), request.getLocale());
-    ResourceBundle bundle = ResourceBundle.getBundle("com/cromoteca/meshcms/Locales", userLocale);
-    String s = bundle.getString("TinyMCELangCode");
-      
-    if (Utils.isNullOrEmpty(s)) {
-      s = userLocale.getLanguage();
-    }
-
-    w.write("    language : '" + s + "',\n");
-    w.write("    mode : 'exact',\n");
-    w.write("    elements : 'meshcmsbody',\n");
-    w.write("    external_link_list_url : linkListPath,\n");
-    w.write("    auto_cleanup_word : true,\n");
-    w.write("    plugins : 'table,searchreplace,contextmenu,iespell',\n");
-    w.write("    theme_advanced_buttons1_add : 'separator,search,replace',\n");
-    w.write("    theme_advanced_buttons2_add_before : 'cut,copy,paste,separator',\n");
-    w.write("    theme_advanced_buttons2_add : 'iespell',\n");
-    w.write("    theme_advanced_buttons3_add_before : 'tablecontrols,separator',\n");
-    w.write("    theme_advanced_toolbar_location : 'top',\n");
-    w.write("    theme_advanced_toolbar_align : 'left',\n");
-    w.write("    theme_advanced_path_location : 'bottom',\n");
-    w.write("    relative_urls : true,\n");
-    w.write("    content_css : cssPath,\n");
-    w.write("    file_browser_callback : 'editor_fileBrowserCallBack',\n");
-    w.write("    debug : false\n");
-    w.write("  });\n");
-    w.write("</script>");
+    Path themePath = (Path) request.getAttribute(THEME_PATH_ATTRIBUTE);
+    w.write("<script language='javascript' type='text/javascript' src='" +
+      (webApp.getFile(themePath.add("tinymce_init.js")).exists() ?
+      WebUtils.getFullThemeFolder(request) : afp) + "/tinymce_init.js'></script>");
   }
 }
