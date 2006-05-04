@@ -52,11 +52,21 @@
 
 <script language='javascript' type='text/javascript' src='tiny_mce/tiny_mce.js'></script>
 <script language="javascript" type="text/javascript">
+<%-- Good for TinyMCE 1.45
   tinyMCE.init({entity_encoding:'numeric',debug:false});
   
   function fixHTMLEntities() {
     document.forms["createpage"].encTitle.value =
       tinyMCE.convertStringToXML(document.forms["createpage"].title.value);
+  }
+--%>
+  tinyMCE.init({debug:false});
+  
+  function fixHTMLEntities() {
+    var tc = new TinyMCE_Cleanup();
+    tc.settings.entity_encoding = "numeric";
+    document.forms["createpage"].encTitle.value =
+      tc.xmlEncode(document.forms["createpage"].title.value);
   }
 </script>
 </head>

@@ -48,6 +48,7 @@
 <title><fmt:message key="mapTitle" /></title>
 <script language='javascript' type='text/javascript' src='tiny_mce/tiny_mce_src.js'></script>
 <script language="javascript" type="text/javascript">
+<%-- Good for TinyMCE 1.45
   tinyMCE.init({entity_encoding:'numeric',debug:false});
   
   function fixHTMLEntities() {
@@ -57,6 +58,20 @@
       for (var i = 0; i < elms.length; i++) {
         if (elms[i].type == "text") {
           elms[i].value = tinyMCE.convertStringToXML(elms[i].value);
+        }
+      }
+    }
+  }
+--%>
+  function fixHTMLEntities() {
+    if (document.forms["sitemapform"].useEntities.checked) {
+      var elms = document.forms["sitemapform"].elements;
+
+      for (var i = 0; i < elms.length; i++) {
+        if (elms[i].type == "text") {
+          var tc = new TinyMCE_Cleanup();
+          tc.settings.entity_encoding = "numeric";
+          elms[i].value = tc.xmlEncode(elms[i].value);
         }
       }
     }

@@ -11,8 +11,8 @@ ________________________________
 - Now each module has its own directory so one can ship other files within it
 - Added the option to define advanced parameters for modules
 - Added chat module (contributed by Pierre Metras)
-- TinyMCE reverted to 1.45 since the 2.x series has too many bugs
-- TinyMCE configuration moved to admin/tinymce_init.js so one can edit it
+- TinyMCE updated to 2.0.6
+- TinyMCE configuration moved to admin/tinymce_init.js so one can customize it
 
 ________________________________
 --------------------------------
