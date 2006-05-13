@@ -1,0 +1,52 @@
+/* Applied to mail forms */
+.mailform {
+ width: 400px;
+}
+
+/* Field name in mail forms */
+.fieldname {
+ padding: 12px 5px 5px 5px;
+}
+
+/* Required field name in mail forms */
+.requiredfieldname {
+ padding: 12px 5px 5px 5px;
+ font-weight: bold;
+}
+
+/* Applied to the DIV that contains buttons in mail form */
+.fieldbuttons {
+ padding-top: 12px;
+ text-align: center;
+}
+
+/* Editing table */
+table.meshcmseditor {
+ border-top: 1px dashed #999999;
+ border-left: 1px dashed #999999;
+ /*width: 95%;*/
+}
+
+table.meshcmseditor th, table.meshcmseditor td {
+ padding: 2px;
+ border-right: 1px dashed #999999;
+ border-bottom: 1px dashed #999999;
+}
+
+div.meshcmseditor {
+ border: 1px solid;
+ padding: 1em;
+}
+
+div.meshcmseditor div.meshcmstitle {
+ font-weight: bold;
+ border-bottom: 1px dotted;
+}
+
+div.meshcmseditor div.meshcmsfieldname {
+ border-bottom: 1px dotted;
+}
+
+div.meshcmseditor div.meshcmsfield {
+ white-space: nowrap;
+}
