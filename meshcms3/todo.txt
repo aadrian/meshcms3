@@ -1,11 +1,11 @@
-MeshCMS 3.0 Release
--------------------
+MeshCMS 3.0 Release (~ 10-Jul-2006)
+-----------------------------------
 
 #1 - tool to edit file dates in the file manager
 #2 - tag to load the ALIB script (for menus)
 #3 - new default admin theme
 #4 - documentation (at least for the new multi-site support)
-#5 - www.meshcms.org (site + theme + hosting + required applications)
+#5 - www.meshcms.org (site + theme + hosting + required applications to install)
 #6 - update translations
 #7 - new module: headlines
 #8 - new module: search
@@ -16,7 +16,7 @@ MeshCMS 3.0 Release
 #12 - build process improvements (support for versions: alpha, beta, RC; new distribution packaging)
 #13 - add UnitTests for the core functions (No WebUnit Tests)
 #14 - automatic web tests with Selenium (http://www.openqa.org/selenium/)  or Sahi (http://sahi.sourceforge.net/)
-#15 - Improve the logging
+#15 - add better logging with Log4J
 #16 - some loading and performance tests of the multi-site feature with JMeter(http://jakarta.apache.org/jmeter/index.html)
 
 #17 - a better decision and planninig of the so wanted "static export" feature.
@@ -24,10 +24,13 @@ MeshCMS 3.0 Release
 #18 - add Checkstyle (http://checkstyle.sourceforge.net/), to automaticaly help cleanup the code.
 #19 - add Sandbox area for all developers into Subversion to have a better place for experimenting.
 #20 - MOST IMPORTANT: find out how normal webapplications (that worked in their virtual host/doamin) will work now with this multi-site support.
-#21 - update the JavaDocs for the entire code base. 
+#21 - update the JavaDocs for the entire code base.
+#22 - architecture diagram and documentation of the CMS
+#23 - code refactorings, to make it easier to understand for newbies
+#24 - new and better and table-less theme for the default site (something that is more reusable than the "flowers" theme).
 
-MeshCMS 3.1 Release
--------------------
+MeshCMS 3.1 Release (~ Oct-2006)
+--------------------------------
 # - performance comparison between Tomcat and Jetty for the multi-site feature (for "massive multi site")
 # - finally a solution to "static export"
 # - an article about "How to easily integrate other webapplications as MeshCMS modules" (e.g. for JForum, Pebble, RSS, etc.)
@@ -40,4 +43,4 @@ MeshCMS 3.1 Release
 NOTE:
 -----
 The above list is just a simple replacement till we get a decent Issue Tracking System, and most
-of them are subject to further discussions.
+of them are subject to further discussions. Their order is also not relevant.
