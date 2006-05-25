@@ -1,6 +1,6 @@
 ________________________________
 --------------------------------
-2006-xx-xx: x.x released
+2006-xx-xx: 3.0 Alpha released
 --------------------------------
 
 - Jetty is now supported out-of-the-box, without further configuration
