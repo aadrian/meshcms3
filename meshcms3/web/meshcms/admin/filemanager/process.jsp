@@ -23,15 +23,16 @@
 <%@ page import="java.io.*" %>
 <%@ page import="java.text.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
-<jsp:useBean id="userInfo" scope="session" class="com.cromoteca.meshcms.UserInfo" />
-<jsp:useBean id="fileClipboard" scope="session" class="com.cromoteca.meshcms.FileClipboard" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.taglib.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+<jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
+<jsp:useBean id="fileClipboard" scope="session" class="org.meshcms.webui.FileClipboard" />
 
 <%@ taglib prefix="fmt" uri="standard-fmt-rt" %>
 <fmt:setLocale value="<%= userInfo.getPreferredLocaleCode() %>" scope="request" />
-<fmt:setBundle basename="com.cromoteca.meshcms.Locales" scope="page" />
+<fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
 
 <%
   if (!userInfo.canDo(UserInfo.CAN_BROWSE_FILES)) {
@@ -193,11 +194,8 @@
 
       if (!webSite.getFile(pp).isDirectory()) {
         if (webSite.isVisuallyEditable(pp)) {
-          redirect = cp + "/" + pp + "?" + WebSite.ACTION_NAME + "=" +
-              WebSite.ACTION_EDIT;
-          /* out.println("<script type='text/javascript'>fm_viewPage(\"" + cp + "/" +
-                      pp + "?" + WebSite.ACTION_NAME + "=" +
-                      WebSite.ACTION_EDIT + "\");</script>"); */
+          redirect = cp + "/" + pp + "?" + AbstractTag.ACTION_NAME + "=" +
+              AbstractTag.ACTION_EDIT;
         } else {
           Object[] args = { fileNames[0] };
           formatter.applyPattern(bundle.getString("fmErrorNoHTML"));

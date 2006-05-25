@@ -20,9 +20,10 @@
  and at info@cromoteca.com
 --%>
 
-<%@ page import="com.cromoteca.meshcms.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
-<jsp:useBean id="userInfo" scope="session" class="com.cromoteca.meshcms.UserInfo" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+<jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
 <%@ taglib uri="sitemesh-decorator" prefix="decorator" %>
 
@@ -36,8 +37,7 @@
 //-->
 
 <%
-  String themePath = request.getContextPath() + "/" +
-      webSite.getAdminPath() + "/" + Finals.ADMIN_THEME;
+  String themePath = request.getContextPath() + "/" + webSite.getAdminThemePath();
 %>
 
 <html>
@@ -61,16 +61,17 @@
 
  <tr>
   <td bgcolor="#CCDC56" align="center">
-   <a href="<%= request.getContextPath() + '/' + webSite.getAdminPath() %>/">MeshCMS</a>: <decorator:title default="" />
+   <a href="<%= request.getContextPath() + '/' + webSite.getAdminPath() + "/index.jsp" %>">MeshCMS</a>:
+   <decorator:title default="" />
   </td>
  </tr>
 
  <tr>
-  <td align="center" valign="top" height="100%" background="<%= themePath %>/lbg.gif">
+  <td align="center" valign="top" height="100%" background="<%= themePath %>/l2bg.gif">
    <table border="0" cellspacing="10" cellpadding="0" width="97%">
     <tr>
      <td align="center">
-       <decorator:body />
+       <table border="0"><tr><td><decorator:body /></td></tr></table>
      </td>
     </tr>
    </table>
@@ -92,9 +93,9 @@
 <%
   }
 %>
-    Powered by <a href="http://www.cromoteca.com/meshcms/" target="blank">MeshCMS</a>
-    <%= webSite.VERSION_ID %> | Copyright &copy; 2004-2006 Luciano Vernaschi
-    (<a href="http://www.cromoteca.com/" target="blank">Cromoteca</a>)
+    Powered by <a href="http://www.meshcms.org/" target="blank">MeshCMS</a>
+    <%= webSite.VERSION_ID %> | Copyright &copy; 2004-2006
+    <a href="http://www.cromoteca.com/" target="blank">Luciano Vernaschi</a>
   </td>
  </tr>
 </table>

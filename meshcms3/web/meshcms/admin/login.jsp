@@ -20,9 +20,9 @@
  and at info@cromoteca.com
 --%>
 
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
-<jsp:useBean id="userInfo" scope="session" class="com.cromoteca.meshcms.UserInfo" />
+<%@ page import="org.meshcms.util.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+<jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
 <%
   response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
@@ -30,7 +30,7 @@
 
 <%@ taglib prefix="fmt" uri="standard-fmt-rt" %>
 <fmt:setLocale value="<%= userInfo.getPreferredLocaleCode() %>" scope="request" />
-<fmt:setBundle basename="com.cromoteca.meshcms.Locales" scope="page" />
+<fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
 
 <html>
 <head>

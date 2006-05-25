@@ -22,14 +22,14 @@
 
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
-<jsp:useBean id="userInfo" scope="session" class="com.cromoteca.meshcms.UserInfo" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+<jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
 <%@ taglib prefix="fmt" uri="standard-fmt-rt" %>
 <fmt:setLocale value="<%= userInfo.getPreferredLocaleCode() %>" scope="request" />
-<fmt:setBundle basename="com.cromoteca.meshcms.Locales" scope="page" />
+<fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
 
 <%
   ResourceBundle bundle = WebUtils.getPageResourceBundle(pageContext);
@@ -118,7 +118,7 @@
   }
 
   if (errMsgs.size() == 0) {
-    if (!edit.save(webSite)) {
+    if (!edit.store(webSite)) {
       errMsgs.add(bundle.getString("userFileError"));
     }
   }

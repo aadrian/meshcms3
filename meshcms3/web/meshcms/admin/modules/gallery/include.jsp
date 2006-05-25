@@ -22,32 +22,35 @@
 
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+
+<%--
+  Advanced parameters for this module:
+  - captions = "true" (default) | false
+  - columns = n (default 3)
+  - css = (name of a css class)
+  - quality = "high" | "low" (default)
+--%>
 
 <%
+  ModuleDescriptor md = (ModuleDescriptor)
+      request.getAttribute(request.getParameter("modulecode"));
   String cp = request.getContextPath();
-  String style = request.getParameter("style");
-
-  if (Utils.isNullOrEmpty(style)) {
-    style = "";
-  } else {
-    style = " class=\"" + style + "\"";
-  }
-  
-  File[] files = WebUtils.getModuleFiles(webSite, request, true);
+  File[] files = md.getModuleFiles(webSite, true);
 
   if (files != null) {
     Arrays.sort(files, new FileNameComparator());
     int col = 0;
-    int cols = Utils.parseInt(request.getParameter("columns"), Math.min(3, files.length));
+    int cols = Utils.parseInt(md.getAdvancedParam("columns", null), Math.min(3, files.length));
+    boolean captions = Utils.isTrue(md.getAdvancedParam("captions", "true"));
 %>
 
-<table<%= style %> width="100" align="center" border="0" cellspacing="20" cellpadding="0">
+<table<%= md.getFullCSSAttribute("css") %> width="100" align="center" border="0" cellspacing="20" cellpadding="0">
 <%
     GalleryThumbnail thumbMaker = new GalleryThumbnail();
-    thumbMaker.setHighQuality("high".equals(request.getParameter("quality")));
+    thumbMaker.setHighQuality("high".equals(md.getAdvancedParam("quality", "low")));
     String thumbName = thumbMaker.getSuggestedFileName();
     
     for (int i = 0; i < files.length; i++) {
@@ -64,13 +67,16 @@
 
           %><td align="center" valign="top">
            <a href="<%= cp + '/' + path %>" target="meshcms_image"><img
-            src="<%= cp + '/' + thumbPath %>" /><br /><%= Utils.beautify(Utils.removeExtension(path), true) %></a>
+            src="<%= cp + '/' + thumbPath %>" /><% if (captions) { 
+              %><br /><%= Utils.beautify(Utils.removeExtension(path), true) %><%
+            } %></a>
           </td><%
           
           out.flush();
 
           if (col == cols - 1) {
             %></tr><%
+            out.flush();
           }
 
           col = (col + 1) % cols;

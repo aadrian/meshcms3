@@ -3,16 +3,22 @@ ________________________________
 2006-xx-xx: x.x released
 --------------------------------
 
+- Jetty is now supported out-of-the-box, without further configuration
+- Added support for multiple sites in a single installation (experimental)
+- Modules now are contained in separate directories
+- Modules can accept advanced parameters
+- The file manager can copy/duplicate/delete entire directories
+- The file manager allows to download directories and files as a single ZIP file
 - Added Spanish translation (contributed by Raul Herranz)
 - Added German translation (contributed by Dirk Deeken)
-- SimpleMenu and TigraMenu now default to the folder where the theme is applied
 - Added the new ListMenu tag to create menus as HTML unordered lists
+- SimpleMenu and TigraMenu now default to the folder where the theme is applied
 - Fixed a bug in the file manager when the admin directory has been renamed
-- Now each module has its own directory so one can ship other files within it
 - Added the option to define advanced parameters for modules
 - Added chat module (contributed by Pierre Metras)
 - TinyMCE updated to 2.0.6
 - TinyMCE configuration moved to admin/tinymce_init.js so one can customize it
+- Now if a bad theme prevents loading the control panel, a reload fixes it
 
 ________________________________
 --------------------------------

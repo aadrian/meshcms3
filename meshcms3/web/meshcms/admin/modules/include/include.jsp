@@ -23,28 +23,28 @@
 <%@ page import="java.io.*" %>
 <%@ page import="java.text.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
 <%@ page import="com.opensymphony.module.sitemesh.parser.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+
+<%--
+  Advanced parameters for this module:
+  - css = (name of a css class)
+  - date = none (default) | normal | full
+--%>
 
 <%
-  String style = request.getParameter("style");
-
-  if (Utils.isNullOrEmpty(style)) {
-    style = "";
-  } else {
-    style = " class=\"" + style + "\"";
-  }
-  
-  File[] files = WebUtils.getModuleFiles(webSite, request, false);
+  ModuleDescriptor md = (ModuleDescriptor)
+      request.getAttribute(request.getParameter("modulecode"));
+  File[] files = md.getModuleFiles(webSite, false);
 
   if (files != null && files.length > 0) {
     Arrays.sort(files, new FileDateComparator());
-    DateFormat df = WebUtils.getModuleDateFormat(pageContext);
+    DateFormat df = md.getDateFormat(WebUtils.getPageLocale(pageContext), "date");
 %>
 
-<table<%= style %> align="center" border="0" cellspacing="2" cellpadding="0">
+<table<%= md.getFullCSSAttribute("css") %> align="center" border="0" cellspacing="2" cellpadding="0">
 <%
     for (int i = 0; i < files.length; i++) {
       if (FileTypes.isPage(files[i])) {

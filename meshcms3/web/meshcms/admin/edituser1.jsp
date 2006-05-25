@@ -21,14 +21,14 @@
 --%>
 
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
-<jsp:useBean id="userInfo" scope="session" class="com.cromoteca.meshcms.UserInfo" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+<jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
 <%@ taglib prefix="fmt" uri="standard-fmt-rt" %>
 <fmt:setLocale value="<%= userInfo.getPreferredLocaleCode() %>" scope="request" />
-<fmt:setBundle basename="com.cromoteca.meshcms.Locales" scope="page" />
+<fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
 
 <%
   String edituser = Utils.noNull(request.getParameter("username"));
@@ -62,7 +62,6 @@
   }
 
   response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
-  Locale locale = WebUtils.getPageLocale(pageContext);
   String imagesPath = request.getContextPath() + '/' + webSite.getAdminPath() + "/images";
 %>
 
@@ -70,20 +69,20 @@
 <head>
   <%= webSite.getAdminMetaThemeTag() %>
   <title><fmt:message key="<%= newUser ? "userNew" : "userEdit" %>" /></title>
-  
+
   <script type="text/javascript">
     function toggleDetails() {
       var mini = document.getElementById('toggledetails');
-      
+
       if (mini.src.indexOf("tree_plus") < 0) {
         mini.src = "<%= imagesPath %>/tree_plus.gif";
-        
+
         for (var i = 0; i < <%= UserInfo.DETAILS.length %>; i++) {
           document.getElementById("userdetail" + i).style.display = "none";
         }
       } else {
         mini.src = "<%= imagesPath %>/tree_minus.gif";
-        
+
         for (var i = 0; i < <%= UserInfo.DETAILS.length %>; i++) {
           document.getElementById("userdetail" + i).style.display = "";
         }
@@ -94,7 +93,7 @@
 
 <body>
 <div align="right"><%= webSite.helpIcon(request.getContextPath(),
-    newUser ? Finals.HELP_ANCHOR_NEW_USER : Finals.HELP_ANCHOR_EDIT_PROFILE, userInfo) %></div>
+    newUser ? WebSite.HELP_ANCHOR_NEW_USER : WebSite.HELP_ANCHOR_EDIT_PROFILE, userInfo) %></div>
 
 <form action="edituser2.jsp" method="POST">
  <table class='meshcmseditor' cellspacing='0'>
@@ -156,12 +155,12 @@
    <td><input type="text" name="email" size="30"
         value="<%= edit.getEmail() %>" /></td>
   </tr>
-  
+
   <tr>
    <td align="right"><fmt:message key="userLanguage" /></td>
    <td><select name="language"><% Locale[] locales = Locale.getAvailableLocales();
      Arrays.sort(locales, new LocaleComparator(Locale.ENGLISH));
-     
+
      for (int i = 0; i < locales.length; i++) { %>
        <option value="<%= locales[i] %>"<%= locales[i].toString().equals(edit.getPreferredLocaleCode()) ?
          " selected='selected'" : "" %>><%= locales[i].getDisplayName(Locale.ENGLISH) %></option><%

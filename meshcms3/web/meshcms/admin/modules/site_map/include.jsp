@@ -23,13 +23,19 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+
+<%--
+  Advanced parameters for this module: none
+--%>
 
 <%
+  ModuleDescriptor md = (ModuleDescriptor)
+      request.getAttribute(request.getParameter("modulecode"));
   String cp = request.getContextPath();
-  Path argPath = WebUtils.getModuleArgumentDirectoryPath(webSite, request, true);
+  Path argPath = md.getModuleArgumentDirectoryPath(webSite, true);
 
   if (argPath != null) {
     SiteInfo siteInfo = webSite.getSiteInfo();
@@ -51,7 +57,7 @@
           %></ul><%
         }
   %>
-    <li><a href="<%= cp + pageInfo.getLink() %>"><%=
+    <li><a href="<%= cp + webSite.getLink(pageInfo) %>"><%=
       siteInfo.getPageTitle(pageInfo) %></a></li>
   <%
         lastLevel = level;

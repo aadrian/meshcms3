@@ -20,13 +20,13 @@
  and at info@cromoteca.com
 --%>
 
-<%@ page import="com.cromoteca.meshcms.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
-<jsp:useBean id="userInfo" scope="session" class="com.cromoteca.meshcms.UserInfo" />
+<%@ page import="org.meshcms.core.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+<jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
 <%@ taglib prefix="fmt" uri="standard-fmt-rt" %>
 <fmt:setLocale value="<%= userInfo.getPreferredLocaleCode() %>" scope="request" />
-<fmt:setBundle basename="com.cromoteca.meshcms.Locales" scope="page" />
+<fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
 
 <%
   if (!userInfo.canDo(UserInfo.CAN_MANAGE_FILES)) {
@@ -56,7 +56,7 @@
 
 <body>
   <p align="right"><%= webSite.helpIcon(request.getContextPath(),
-      Finals.HELP_ANCHOR_UPLOAD, userInfo) %></p>
+      WebSite.HELP_ANCHOR_UPLOAD, userInfo) %></p>
 
   <form name="upform" action="upload2.jsp" method="POST"
    enctype="multipart/form-data" onsubmit="javascript:showWaiting();">

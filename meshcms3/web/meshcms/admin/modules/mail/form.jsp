@@ -21,22 +21,23 @@
 --%>
 
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<%@ page import="org.meshcms.webui.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 <jsp:useBean id="fields" scope="session" class="java.util.ArrayList" />
 
 <%
   String cp = request.getContextPath();
   String mp = request.getParameter("modulepath");
-  String theme = new Path(request.getAttribute(Finals.THEME_PATH_ATTRIBUTE)).getLastElement();
+  String theme = new Path(request.getAttribute(HitFilter.THEME_PATH_ATTRIBUTE)).getLastElement();
   
   if (!Utils.isNullOrEmpty(theme)) {
-    theme = '?' + Finals.THEME_FILE_ATTRIBUTE + '=' + theme;
+    theme = '?' + HitFilter.THEME_FILE_ATTRIBUTE + '=' + theme;
   }
 %>
 
-<form action="<%= response.encodeURL(cp + mp + "/send.jsp" + theme) %>" method="POST">
+<form action="<%= response.encodeURL(cp + "/" + mp + "/send.jsp" + theme) %>" method="POST">
 <input type="hidden" name="modulepath" value="<%= mp %>" />
 <table align="center" border="0" cellspacing="0"
  cellpadding="0" width="400"><tr><td witdh="100%">

@@ -20,14 +20,15 @@
  and at info@cromoteca.com
 --%>
 
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
-<jsp:useBean id="userInfo" scope="session" class="com.cromoteca.meshcms.UserInfo" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.taglib.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+<jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
 <%@ taglib prefix="fmt" uri="standard-fmt-rt" %>
 <fmt:setLocale value="<%= userInfo.getPreferredLocaleCode() %>" scope="request" />
-<fmt:setBundle basename="com.cromoteca.meshcms.Locales" scope="page" />
+<fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
 
 <%
   if (!userInfo.canDo(UserInfo.CAN_MANAGE_FILES)) {
@@ -42,23 +43,17 @@
 
 <html>
 <head>
- <title><fmt:message key="newpage" /></title>
-<% if (!Utils.isNullOrEmpty(request.getParameter("applytheme"))) { %>
- <%= webSite.getAdminMetaThemeTag() %>
-<% } else { %>
- <%= webSite.getDummyMetaThemeTag() %>
- <link href="theme/main.css" type="text/css" rel="stylesheet" />
-<% } %>
+<title><fmt:message key="newpage" /></title>
+<%
+  boolean popup = Utils.isTrue(request.getParameter("popup"));
 
-<script language='javascript' type='text/javascript' src='tiny_mce/tiny_mce.js'></script>
-<script language="javascript" type="text/javascript">
-  function fixHTMLEntities() {
-    var tc = new TinyMCE_Cleanup();
-    tc.settings.entity_encoding = "numeric";
-    document.forms["createpage"].encTitle.value =
-      tc.xmlEncode(document.forms["createpage"].title.value);
+  if (popup) {
+    out.write(webSite.getDummyMetaThemeTag());
+  } else {
+    out.write(webSite.getAdminMetaThemeTag());
   }
-</script>
+%>
+<link href="theme/main.css" type="text/css" rel="stylesheet" />
 </head>
 
 <body>
@@ -67,12 +62,11 @@
 Path path = new Path(request.getParameter("path"));
 
 if (title.equals("")) { %>
-  <p align="right"><%= webSite.helpIcon(cp, Finals.HELP_ANCHOR_NEW_PAGE, userInfo) %></p>
+  <p align="right"><%= webSite.helpIcon(cp, WebSite.HELP_ANCHOR_NEW_PAGE, userInfo) %></p>
   
-  <form action='createpage.jsp' method='POST' id='createpage' name='createpage'
-   onsubmit='javascript:fixHTMLEntities();'>
+  <form action='createpage.jsp' method='POST' id='createpage' name='createpage'>
+    <input type="hidden" name="popup" value="<%= popup %>" />
     <input type='hidden' name='path' value='<%= path %>' />
-    <input type='hidden' name='encTitle' value='' />
 
     <table align='center' border='0' cellspacing='0' cellpadding='2'>
       <tr><td>
@@ -80,12 +74,13 @@ if (title.equals("")) { %>
         <input type='text' name='title' />
       </td></tr>
       <tr><td align='center'>
-        <input type='checkbox' name='newdir' checked='true' value='true' />
+        <input type='checkbox' name='newdir' checked='checked' value='true' />
         <fmt:message key="newpageFolder" />
       </td></tr>
       <tr><th align='center'>
         <input type='submit' value='<fmt:message key="newpageCreate" />' />
-        <input type='button' value='<fmt:message key="genericCancel" />' onclick='javascript:window.close();' />
+        <input type='button' value='<fmt:message key="genericCancel" />'
+         onclick='javascript:<%= popup ? "window.close" : "history.back" %>();' />
       </th></tr>
     </table>
   </form>
@@ -108,12 +103,13 @@ if (title.equals("")) { %>
       path = path.add(webSite.getWelcomeFileNames()[0]);
     }
     
-    String text = webSite.getHTMLTemplate(request.getParameter("encTitle"));
+    String text = webSite.getHTMLTemplate
+        (WebUtils.convertToHTMLEntities(request.getParameter("title")));
 
     if (webSite.saveToFile(userInfo, text, path, null)) {
       webSite.updateSiteMap(true);
       %><script type="text/javascript">
-        var page = "<%= cp + '/' + path + '?' + Finals.ACTION_NAME + '=' + Finals.ACTION_EDIT %>";
+        var page = "<%= cp + '/' + path + '?' + AbstractTag.ACTION_NAME + '=' + AbstractTag.ACTION_EDIT %>";
         
         if (window.name && window.name == "smallpopup") { // it's a popup
           window.opener.location.href = page;

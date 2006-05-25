@@ -22,12 +22,19 @@
 
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+
+<%--
+  Advanced parameters for this module:
+  - css = (name of a css class)
+--%>
 
 <%
-  File[] files = WebUtils.getModuleFiles(webSite, request, false);
+  ModuleDescriptor md = (ModuleDescriptor)
+      request.getAttribute(request.getParameter("modulecode"));
+  File[] files = md.getModuleFiles(webSite, false);
 
   if (files != null && files.length > 0) {
     Arrays.sort(files, new FileNameComparator());
@@ -35,7 +42,7 @@
     for (int i = 0; i < files.length; i++) {
       if (files[i].isFile()) {
         WebUtils.updateLastModifiedTime(request, files[i]);
-        out.write("<pre>");
+        out.write("<pre" + md.getFullCSSAttribute("css") + ">");
         out.write(Utils.encodeHTML(Utils.readFully(files[i])));
         out.write("</pre>");
       }

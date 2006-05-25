@@ -20,14 +20,14 @@
  and at info@cromoteca.com
 --%>
 
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
-<jsp:useBean id="userInfo" scope="session" class="com.cromoteca.meshcms.UserInfo" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+<jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
 <%@ taglib prefix="fmt" uri="standard-fmt-rt" %>
 <fmt:setLocale value="<%= userInfo.getPreferredLocaleCode() %>" scope="request" />
-<fmt:setBundle basename="com.cromoteca.meshcms.Locales" scope="page" />
+<fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
 
 <%
   if (!userInfo.canDo(UserInfo.CAN_DO_ADMINTASKS)) {
@@ -55,7 +55,7 @@
   c.setUseAdminTheme(Utils.isTrue(request.getParameter("useAdminTheme")));
   c.setPreventHotlinking(Utils.isTrue(request.getParameter("preventHotlinking")));
 
-  c.setCacheType(Utils.parseInt(request.getParameter("cacheType"), Finals.NO_CACHE));
+  c.setCacheType(Utils.parseInt(request.getParameter("cacheType"), Configuration.NO_CACHE));
   c.setMailServer(request.getParameter("mailServer"));
   c.setSmtpUsername(request.getParameter("smtpUsername"));
   c.setSmtpPassword(request.getParameter("smtpPassword"));
@@ -64,6 +64,7 @@
   c.setUpdateInterval(Utils.parseInt(request.getParameter("updateInterval"), c.getUpdateInterval()));
   c.setBackupLife(Utils.parseInt(request.getParameter("backupLife"), c.getBackupLife()));
   c.setStatsLength(Utils.parseInt(request.getParameter("statsLength"), c.getStatsLength()));
+  c.setAlwaysRedirectWelcomes(Utils.isTrue(request.getParameter("alwaysRedirectWelcomes")));
   
   webSite.updateSiteMap(true); // needed to re-init the cache
   

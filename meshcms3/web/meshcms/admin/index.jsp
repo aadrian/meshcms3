@@ -20,13 +20,14 @@
  and at info@cromoteca.com
 --%>
 
-<%@ page import="com.cromoteca.meshcms.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
-<jsp:useBean id="userInfo" scope="session" class="com.cromoteca.meshcms.UserInfo" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+<jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
 <%@ taglib prefix="fmt" uri="standard-fmt-rt" %>
 <fmt:setLocale value="<%= userInfo.getPreferredLocaleCode() %>" scope="request" />
-<fmt:setBundle basename="com.cromoteca.meshcms.Locales" scope="page" />
+<fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
 
 <%
   String cp = request.getContextPath();
@@ -41,7 +42,15 @@
 
 <body>
 
-<div align="right"><%= webSite.helpIcon(cp, Finals.HELP_ANCHOR_CONTROL_PANEL, userInfo) %></div>
+<div align="right"><%= webSite.helpIcon(cp, WebSite.HELP_ANCHOR_CONTROL_PANEL, userInfo) %></div>
+
+<%
+  if (userInfo.isGlobal()) {
+%>
+  <div><fmt:message key="homeGlobal" /></div>
+<%
+  }
+%>
 
 <table width="512" align="center" border="0" cellspacing="3" cellpadding="0">
  <tr>
@@ -50,15 +59,7 @@
 
  <tr valign="top">
   <td width="128" align="center">
-   <a href="<%= cp %>/"><img src="images/button_sitehome.gif" vspace="12" /><br /><fmt:message key="homePage" /></a>
-  </td>
-
-  <td width="128" align="center">
-   <% if (userInfo.canDo(UserInfo.CAN_BROWSE_FILES)) { %>
-    <a href="filemanager/"><img src="images/button_filemanager.gif" vspace="12" /><br /><fmt:message key="homeFile" /></a>
-   <% } else { %>
-    &nbsp;
-   <% } %>
+   <a href="<%= cp + webSite.getLink(Path.ROOT) %>"><img src="images/button_sitehome.gif" vspace="12" /><br /><fmt:message key="homePage" /></a>
   </td>
 
   <td width="128" align="center">
@@ -76,6 +77,14 @@
     &nbsp;
    <% } %>
   </td>
+
+  <td width="128" align="center">
+   <% if (userInfo.canDo(UserInfo.CAN_DO_ADMINTASKS)) { %>
+    <a href="<%= cp + '/' + webSite.getAdminPath() %>/editconfig1.jsp"><img src="images/button_configure.gif" vspace="12" /><br /><fmt:message key="homeConfigure" /></a>
+   <% } else { %>
+    &nbsp;
+   <% } %>
+  </td>
  </tr>
 
  <tr>
@@ -83,7 +92,7 @@
  </tr>
 
  <tr>
-  <th colspan="4"><fmt:message key="homeSystem" /></th>
+  <th colspan="4"><fmt:message key="homeUsers" /></th>
  </tr>
 
  <tr valign="top">
@@ -110,10 +119,28 @@
     &nbsp;
    <% } %>
   </td>
+ </tr>
+
+ <tr>
+  <td colspan="4">&nbsp;</td>
+ </tr>
+
+ <tr>
+  <th colspan="4"><fmt:message key="homeSystem" /></th>
+ </tr>
+
+ <tr valign="top">
+  <td width="128" align="center">
+   <% if (userInfo.canDo(UserInfo.CAN_BROWSE_FILES)) { %>
+    <a href="filemanager/index.jsp"><img src="images/button_filemanager.gif" vspace="12" /><br /><fmt:message key="homeFile" /></a>
+   <% } else { %>
+    &nbsp;
+   <% } %>
+  </td>
 
   <td align="center">
-   <% if (userInfo.canDo(UserInfo.CAN_DO_ADMINTASKS)) { %>
-    <a href="<%= cp + '/' + webSite.getAdminPath() %>/editconfig1.jsp"><img src="images/button_configure.gif" vspace="12" /><br /><fmt:message key="homeConfigure" /></a>
+   <% if (!webSite.isVirtual() && userInfo.canDo(UserInfo.CAN_DO_ADMINTASKS)) { %>
+    <a href="<%= cp + '/' + webSite.getAdminPath() %>/editsites1.jsp"><img src="images/button_sites.gif" vspace="12" /><br /><fmt:message key="homeSites" /></a>
    <% } else { %>
     &nbsp;
    <% } %>

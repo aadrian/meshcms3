@@ -5,7 +5,7 @@
   <description>Simple CMS based on SiteMesh and TinyMCE</description>
   <filter>
     <filter-name>meshcms</filter-name>
-    <filter-class>com.cromoteca.meshcms.MeshCMSFilter</filter-class>
+    <filter-class>org.meshcms.core.HitFilter</filter-class>
   </filter>
   <filter>
     <filter-name>sitemesh</filter-name>
@@ -21,19 +21,19 @@
   </filter-mapping>
   <servlet>
     <servlet-name>download</servlet-name>
-    <servlet-class>com.cromoteca.meshcms.DownloadServlet</servlet-class>
+    <servlet-class>org.meshcms.core.DownloadServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>downloadzip</servlet-name>
-    <servlet-class>com.cromoteca.meshcms.DownloadZipServlet</servlet-class>
+    <servlet-class>org.meshcms.core.DownloadZipServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>download</servlet-name>
-    <url-pattern>/servlet/com.cromoteca.meshcms.DownloadServlet/*</url-pattern>
+    <url-pattern>/servlet/org.meshcms.core.DownloadServlet/*</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>downloadzip</servlet-name>
-    <url-pattern>/servlet/com.cromoteca.meshcms.DownloadZipServlet/*</url-pattern>
+    <url-pattern>/servlet/org.meshcms.core.DownloadZipServlet/*</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>60</session-timeout>

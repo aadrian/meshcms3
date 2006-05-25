@@ -21,7 +21,7 @@
 		</mapper>
     
     <!-- This element is needed by MeshCMS. -->
-    <mapper class="com.cromoteca.meshcms.RequestDecoratorMapper">
+    <mapper class="org.meshcms.core.RequestDecoratorMapper">
       <param name="decorator.parameter" value="meshcmstheme" />
     </mapper>
 

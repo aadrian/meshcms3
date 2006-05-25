@@ -23,15 +23,16 @@
 <%@ page import="java.io.*" %>
 <%@ page import="java.text.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
-<jsp:useBean id="userInfo" scope="session" class="com.cromoteca.meshcms.UserInfo" />
-<jsp:useBean id="fileNameComparator" scope="session" class="com.cromoteca.util.FileNameComparator" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<%@ page import="org.meshcms.webui.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+<jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
+<jsp:useBean id="fileNameComparator" scope="session" class="org.meshcms.util.FileNameComparator" />
 
 <%@ taglib prefix="fmt" uri="standard-fmt-rt" %>
 <fmt:setLocale value="<%= userInfo.getPreferredLocaleCode() %>" scope="request" />
-<fmt:setBundle basename="com.cromoteca.meshcms.Locales" scope="page" />
+<fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
 
 <%
   if (!userInfo.canDo(UserInfo.CAN_BROWSE_FILES)) {
@@ -58,7 +59,7 @@
     File[] list = folder.listFiles();
     Arrays.sort(list, fileNameComparator);
     
-    Path welcomePath = webSite.getSiteMap().findCurrentWelcome(folderPath);
+    Path welcomePath = webSite.findCurrentWelcome(folderPath);
     String welcome = (welcomePath == null) ? null : welcomePath.getLastElement();
 %>
 
@@ -74,14 +75,9 @@
       // window.parent.fm_xTreeExpandTo(window.parent.folder<%= WebUtils.getMenuCode(folderPath) %>);
     }
     
-    function toggleSelection(tName) {
-      var files = document.getElementsByTagName('input');
-
-      for (var i = 0; i < files.length; i++) {
-        if (files[i].type == 'checkbox' && files[i].name == tName) {
-          files[i].checked = files[i].checked ? "" : "checked";
-        }
-      }
+    function toggleSelection(chkId) {
+      var elm = document.getElementById(chkId);
+      elm.checked = elm.checked ? "" : "checked";
     }
   </script>
   <link href="../theme/main.css" type="text/css" rel="stylesheet" />
@@ -129,7 +125,7 @@
      <% if (!userInfo.canWrite(webSite, folderPath)) { %>
        <img src="images/lock.gif" title="<fmt:message key="fmListLocked" />" />
      <% } %>
-     <%= webSite.helpIcon(cp, Finals.HELP_ANCHOR_FILE_MANAGER, userInfo) %>
+     <%= webSite.helpIcon(cp, WebSite.HELP_ANCHOR_FILE_MANAGER, userInfo) %>
    </th>
   </tr>
  </thead>
@@ -138,22 +134,25 @@
 <%
     } else {
 %>
-<div align="right" style="background-color: #D4D0C8;"><%= webSite.helpIcon(cp, Finals.HELP_ANCHOR_FILE_MANAGER, userInfo) %></div>
+<div align="right" style="background-color: #D4D0C8;"><%= webSite.helpIcon(cp, WebSite.HELP_ANCHOR_FILE_MANAGER, userInfo) %></div>
 <%
     }
   
     for (int i = 0; i < list.length; i++) {
       String name = list[i].getName();
       Path filePath = folderPath.add(name);
+      FolderXTree.DirectoryInfo di =
+          FolderXTree.getDirectoryInfo(webSite, userInfo, filePath);
       
-      if (!(webSite.isSystem(filePath, true) ||
-          filePath.isContainedIn(webSite.getCMSPath().add(Finals.GENERATED_FILES_SUBDIRECTORY)))) {
+      if (di.include) {
         String color = "";
 
         if (FileTypes.isPage(name)) {
           color = name.equals(welcome) ? "ffff99" : "eaeaea";
           color = " bgcolor='" + color + "'";
         }
+        
+        String id = "fs_" + WebUtils.getMenuCode(name);
 
         if (showThumbs) {
           Path thumbPath = null;
@@ -164,7 +163,7 @@
 %>
   <table title="<%= name %>" style="display: inline; width: <%= FileManagerThumbnail.THUMB_WIDTH %>px;">
    <tr>
-    <td onclick="javascript:toggleSelection('<%= Utils.escapeSingleQuotes(name) %>');"><% if (thumbPath != null) {
+    <td onclick="javascript:toggleSelection('<%= id %>');"><% if (thumbPath != null) {
       %><img src="<%= cp + '/' + thumbPath %>" /><% 
       } else { 
         %><div style="border: 1px solid #D8CECB; padding: 51px 45px;"><img
@@ -173,20 +172,20 @@
    </tr>
  
    <tr<%= color %>>
-    <td><div class="miniblock"><input type="checkbox" id="fileselector"
+    <td><div class="miniblock"><input type="checkbox" id="<%= id %>"
      name="<%= name %>" value="<%= name %>" />
-     <%= name %></div></td>
+     <label for="<%= id %>"><%= name %></label></div></td>
    </tr>
   </table> 
 <% 
         } else {
 %>
   <tr<%= color %>>
-   <td><img class="icon" src="images/<%= list[i].isDirectory() ? FileTypes.DIR_ICON :
+   <td onclick="javascript:toggleSelection('<%= id %>');"><img class="icon" src="images/<%= list[i].isDirectory() ? FileTypes.DIR_ICON :
      FileTypes.getIconFile(name) %>" vspace="2" title="<%= FileTypes.getDescription(name) %>"></td>
-   <td><input type="checkbox" id="fileselector"
+   <td><input type="checkbox" id="<%= id %>"
     name="<%= name %>" value="<%= name %>" /></td>  
-   <td onclick="javascript:toggleSelection('<%= Utils.escapeSingleQuotes(name) %>');"><%= name %></td>  
+   <td><label for="<%= id %>"><%= name %></label></td>  
    <td>&nbsp;</td>
    <td align="right"><%= list[i].isDirectory() ? "&nbsp;" : WebUtils.formatFileLength(list[i].length(), locale, bundle) %></td>
    <td>&nbsp;</td>

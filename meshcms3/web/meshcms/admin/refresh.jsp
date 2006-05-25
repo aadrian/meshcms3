@@ -20,11 +20,11 @@
  and at info@cromoteca.com
 --%>
 
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
-<jsp:useBean id="userInfo" scope="session" class="com.cromoteca.meshcms.UserInfo" />
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+<jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
 <%
-  if (!userInfo.canDo(com.cromoteca.meshcms.UserInfo.CAN_BROWSE_FILES)) {
+  if (!userInfo.canDo(org.meshcms.core.UserInfo.CAN_BROWSE_FILES)) {
     response.sendError(HttpServletResponse.SC_FORBIDDEN, "You don't have enough privileges");
     return;
   }
@@ -34,7 +34,7 @@
 
 <%@ taglib prefix="fmt" uri="standard-fmt-rt" %>
 <fmt:setLocale value="<%= userInfo.getPreferredLocaleCode() %>" scope="request" />
-<fmt:setBundle basename="com.cromoteca.meshcms.Locales" scope="page" />
+<fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
 
 <html>
 <head>

@@ -22,19 +22,22 @@
 
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<%@ page import="org.meshcms.webui.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 <jsp:useBean id="fields" scope="session" class="java.util.ArrayList" />
 
 <%
+  String moduleCode = request.getParameter("modulecode");
+  ModuleDescriptor md = (ModuleDescriptor) request.getAttribute(moduleCode);
   WebUtils.setBlockCache(request);
   fields.clear();
-  File[] files = WebUtils.getModuleFiles(webSite, request, false);
+  File[] files = md.getModuleFiles(webSite, false);
   
   if (files == null || files.length != 1) {
     FormField tempField = new FormField();
-    String recipient = request.getParameter("recipient");
+    String recipient = md.getArgument();
     
     if (Utils.isNullOrEmpty(recipient)) {
       recipient = request.getParameter("argument");
@@ -44,7 +47,7 @@
     fields.add(tempField);
     
     ResourceBundle pageBundle = ResourceBundle.getBundle
-        ("com/cromoteca/meshcms/Locales", WebUtils.getPageLocale(pageContext));
+        ("org/meshcms/webui/Locales", WebUtils.getPageLocale(pageContext));
         
     tempField = new FormField();
     tempField.setParameter(pageBundle.getString("mailName"));
@@ -107,7 +110,7 @@
   }
 
   if (hasRecipient) {
-    String mp = request.getParameter("modulepath");
-    pageContext.include(mp + "/form.jsp?modulepath=" + mp);
+    pageContext.include(webSite.getServedPath(md.getModulePath()).getAsLink() +
+        "/form.jsp?modulepath=" + md.getModulePath());
   }
 %>

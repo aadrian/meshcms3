@@ -22,12 +22,18 @@
 
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+
+<%--
+  Advanced parameters for this module: none
+--%>
 
 <%
-  File[] files = WebUtils.getModuleFiles(webSite, request, false);
+  ModuleDescriptor md = (ModuleDescriptor)
+      request.getAttribute(request.getParameter("modulecode"));
+  File[] files = md.getModuleFiles(webSite, false);
 
   if (files != null && files.length > 0) {
     WebUtils.setBlockCache(request);
@@ -35,7 +41,7 @@
     
     for (int i = 0; i < files.length; i++) {
       WebUtils.updateLastModifiedTime(request, files[i]);
-      pageContext.include("/" + webSite.getPath(files[i]));
+      pageContext.include("/" + webSite.getServedPath(webSite.getPath(files[i])));
     }
   }
 %>

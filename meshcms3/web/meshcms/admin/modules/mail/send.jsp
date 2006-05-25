@@ -23,32 +23,33 @@
 <%@ page import="java.io.*" %>
 <%@ page import="java.text.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<%@ page import="org.meshcms.webui.*" %>
 <%@ page import="javax.mail.*" %>
 <%@ page import="javax.mail.internet.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 <jsp:useBean id="fields" scope="session" class="java.util.ArrayList" />
 
-<%  
+<%
   response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
   String mp = request.getParameter("modulepath");
 %>
 
 <%@ taglib prefix="fmt" uri="standard-fmt-rt" %>
-<fmt:setBundle basename="com.cromoteca.meshcms.Locales" scope="page" />
+<fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
 
 <html>
 <head>
 
 <%
-  String themeParameter = request.getParameter(Finals.THEME_FILE_ATTRIBUTE);
+  String themeParameter = request.getParameter(HitFilter.THEME_FILE_ATTRIBUTE);
   Path themePath;
-  
+
   if (themeParameter != null) {
     out.write("<meta name=\"decorator\" content=\"/" +
         webSite.getSiteMap().getThemesMap().get(themeParameter) + '/' +
-        Finals.THEME_DECORATOR + "\" />\n");
+        SiteMap.THEME_DECORATOR + "\" />\n");
   }
 %>
 <title><fmt:message key="sendTitle" /></title>
@@ -98,12 +99,12 @@
     } else if (field.isSubject()) {
       subject = field.getValue();
     } else if (field.isMessageBody()) {
-      textMsg.append(field.getValue() + "\n\n");
+      textMsg.append(field.getValue()).append("\n\n");
     } else if (!Utils.isNullOrEmpty(field.getValue())) {
-      textMsg.append(field.getName() + ":\n" + field.getValue() + "\n\n\n");
+      textMsg.append(field.getName()).append(":\n").append(field.getValue()).append("\n\n\n");
     }
   }
-  
+
   String textMsgString = textMsg.toString();
 
   if (!Utils.checkAddress(recipient)) {
@@ -117,13 +118,13 @@
   if (errMsgs.size() == 0) {
     try {
       InternetAddress senderAddress = new InternetAddress(sender);
-      
+
       if (!Utils.isNullOrEmpty(senderName)) {
         senderAddress.setPersonal(senderName);
       }
-      
+
       InternetAddress recipientAddress = new InternetAddress(recipient);
-      
+
       Properties props = new Properties();
       props.put("mail.smtp.host", webSite.getConfiguration().getMailServer());
       final String smtpUsername = webSite.getConfiguration().getSmtpUsername();
@@ -137,8 +138,8 @@
         protected PasswordAuthentication getPasswordAuthentication() {
           return new PasswordAuthentication(smtpUsername, smtpPassword);
         }
-      });      
-      
+      });
+
       // Copy for the recipient
       MimeMessage outMsg = new MimeMessage(mailSession);
       outMsg.setFrom(senderAddress);
@@ -173,7 +174,8 @@
 %>
     </ul>
 <%
-    pageContext.include(mp + "/form.jsp?modulepath=" + mp);
+    pageContext.include(webSite.getServedPath(new Path(mp)).getAsLink() +
+        "/form.jsp?modulepath=" + mp);
   }
 %>
 

@@ -22,14 +22,14 @@
 
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
-<jsp:useBean id="userInfo" scope="session" class="com.cromoteca.meshcms.UserInfo" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+<jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
 <%@ taglib prefix="fmt" uri="standard-fmt-rt" %>
 <fmt:setLocale value="<%= userInfo.getPreferredLocaleCode() %>" scope="request" />
-<fmt:setBundle basename="com.cromoteca.meshcms.Locales" scope="page" />
+<fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
 
 <%
   if (!userInfo.canDo(UserInfo.CAN_EDIT_PAGES)) {
@@ -46,22 +46,7 @@
 <head>
 <%= webSite.getAdminMetaThemeTag() %>
 <title><fmt:message key="mapTitle" /></title>
-<script language='javascript' type='text/javascript' src='tiny_mce/tiny_mce_src.js'></script>
 <script language="javascript" type="text/javascript">
-  function fixHTMLEntities() {
-    if (document.forms["sitemapform"].useEntities.checked) {
-      var elms = document.forms["sitemapform"].elements;
-      var tc = new TinyMCE_Cleanup();
-      tc.settings.entity_encoding = "numeric";
-
-      for (var i = 0; i < elms.length; i++) {
-        if (elms[i].type == "text") {
-          elms[i].value = tc.xmlEncode(elms[i].value);
-        }
-      }
-    }
-  }
-
   /**
    * Closed folder
    */
@@ -178,7 +163,7 @@
    * Opens a popup to create a new page
    */
   function editMap_createPage(path) {
-    editMap_openSmallPopup("createpage.jsp?path=" + path);
+    editMap_openSmallPopup("createpage.jsp?popup=true&path=" + path);
   }
 
   /**
@@ -220,7 +205,7 @@
 %>
 
 <p style="padding-left: 5px; padding-right: 5px;">
- <div align="right"><%= webSite.helpIcon(cp, Finals.HELP_ANCHOR_MANAGE_PAGES, userInfo) %></div>
+ <div align="right"><%= webSite.helpIcon(cp, WebSite.HELP_ANCHOR_MANAGE_PAGES, userInfo) %></div>
  <fmt:message key="mapTotal" /> <%= pagesCount %>
 </p>
 
@@ -239,13 +224,13 @@
     webSite.getFile(userHome).mkdirs();
 %>
   <p align="center">
-    <a href="createpage.jsp?path=<%= userHome %>&title=<%= Utils.removeExtension(welcomes[0]) %>&newdir=false"><fmt:message key="mapCreateUserHome" /></a>
+    <a href="createpage.jsp?popup=false&amp;path=<%= userHome %>&title=<%= Utils.removeExtension(welcomes[0]) %>&newdir=false"><fmt:message key="mapCreateUserHome" /></a>
   </p>
 <%
   }
 %>
 
-<form action="editmap2.jsp" method="POST" name="sitemapform" onsubmit="javascript:fixHTMLEntities()">
+<form action="editmap2.jsp" method="POST" name="sitemapform">
   <table class="meshcmseditor" border="0" cellspacing="0" cellpadding="0">
     <tr>
       <th><img src="filemanager/images/icon_folderopen.gif" align="left"
@@ -276,9 +261,9 @@
           <img src="filemanager/images/icon_file.gif"
            title="<fmt:message key="mapNoClick" />" />
         <% } %>
-          <a href="<%= cp + pageInfo.getLink() %>"
+          <a href="<%= cp + webSite.getLink(pageInfo) %>"
            title="<fmt:message key="mapOpen">
-             <fmt:param value="<%= pageInfo.getLink() %>" />
+             <fmt:param value="<%= webSite.getLink(pageInfo) %>" />
            </fmt:message>"><%= pageInfo.getTitle() %></a>
         </td>
 
@@ -286,18 +271,18 @@
         
         <% boolean cached = false;
         
-        if (cacheType == Finals.IN_MEMORY_CACHE) {
+        if (cacheType == Configuration.IN_MEMORY_CACHE) {
           cached = siteMap.isCached(pagePath);
-        } else if (cacheType == Finals.ON_DISK_CACHE) {
+        } else if (cacheType == Configuration.ON_DISK_CACHE) {
           File cacheFile = webSite.getRepositoryFile
-              (siteMap.getServedPath(pagePath), Finals.CACHE_FILE_NAME);
+              (siteMap.getServedPath(pagePath), HitFilter.CACHE_FILE_NAME);
           cached = cacheFile.exists() &&
               cacheFile.lastModified() > siteMap.getLastModified();
         }
         
         if (cached) { %>
           <td align="center"><img src="filemanager/images/button_yes.gif"
-           align="absmiddle" title="<fmt:message key="mapInCache" />" /></td>
+           style='vertical-align:middle;' title="<fmt:message key="mapInCache" />" /></td>
         <% } else { %>
           <td>&nbsp;</td>
         <% }
@@ -308,14 +293,14 @@
           String dCode = siteInfo.getThemeCode(pagePath);
           String sCode = siteInfo.getScoreCode(pagePath);
           %><td><img src="images/clear_field.gif" onclick="javascript:editMap_clr('<%= tCode %>');"
-             align="middle" /><input type="text" name="<%= tCode %>"
+             style='vertical-align:middle;' /><input type="text" name="<%= tCode %>"
              id="<%= tCode %>" size="24"
              value="<%= siteInfo.getPageTitle(pagePath) %>" /></td>
 
             <td><select name="<%= dCode %>">
              <option value="">&nbsp;</option>
-             <option <%= Finals.EMPTY.equals(theme) ? "selected='selected'" : "" %>
-              value="<%= Finals.EMPTY %>"><fmt:message key="mapNoTheme" /></option>
+             <option <%= PageAssembler.EMPTY.equals(theme) ? "selected='selected'" : "" %>
+              value="<%= PageAssembler.EMPTY %>"><fmt:message key="mapNoTheme" /></option>
          
           <% for (int j = 0; j < themes.length; j++) { %>
              <option <%= themes[j].equals(theme) ? "selected='selected'" : "" %>
@@ -324,12 +309,12 @@
             </select></td>
 
             <td><img src="images/clear_field.gif" onclick="javascript:editMap_clr('<%= sCode %>');"
-             align="middle" /><input type="text" name="<%= sCode %>"
+             style='vertical-align:middle;' /><input type="text" name="<%= sCode %>"
              id="<%= sCode %>" size="6" value="<%= siteInfo.getPageScoreAsString(pagePath) %>" /></td>
 
           <% if (webSite.isDirectory(pagePath)) { %>
             <td align="center"><img src="filemanager/images/button_newchild.gif"
-             onclick="javascript:editMap_createPage('<%= Utils.escapeSingleQuotes(pagePath) %>');" align="middle"
+             onclick="javascript:editMap_createPage('<%= Utils.escapeSingleQuotes(pagePath) %>');" style='vertical-align:middle;'
              title="<fmt:message key="mapNewChild" />" /></td>
           <% } else { %>
             <td>&nbsp;</td>
@@ -337,7 +322,7 @@
           
           if (!hasChildren) { %>          
             <td align="center"><img src="filemanager/images/button_delete.gif"
-             onclick="javascript:editMap_deletePage('<%= Utils.escapeSingleQuotes(pagePath) %>');" align="middle"
+             onclick="javascript:editMap_deletePage('<%= Utils.escapeSingleQuotes(pagePath) %>');" style='vertical-align:middle;'
              title="<fmt:message key="mapDelete" />" /></td>
           <% } else { %>
             <td>&nbsp;</td>
@@ -350,13 +335,6 @@
           <td>&nbsp;</td>
         <% } %>
     </tr><% } %> <%-- IMPORTANT: no spaces after <tr>! --%>
-    <tr>
-      <td align="center" colspan="8">
-        <input type="checkbox" name="useEntities"
-         value="true"<%= webSite.getConfiguration().isUseEntities() ? " checked='true'" : "" %> />
-        <fmt:message key="mapUseEntities" />
-      </td>
-    </tr>
     <tr>
       <th align="center" colspan="8">
         <input type="submit" value="<fmt:message key="genericSave" />" />

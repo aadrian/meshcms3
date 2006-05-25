@@ -36,25 +36,25 @@
 <%@ page import="java.io.*" %>
 <%@ page import="java.text.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
 <%@ page import="com.opensymphony.module.sitemesh.parser.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+
+<%--
+  Advanced parameters for this module:
+  - css = (name of a css class)
+--%>
 
 <%
+  ModuleDescriptor md = (ModuleDescriptor)
+      request.getAttribute(request.getParameter("modulecode"));
   String cp = request.getContextPath();
-  String mp = request.getParameter("modulepath");
+  String style = md.getFullCSSAttribute("css");
 
   if (application.getAttribute("chatRoom") == null) {
     List room = Collections.synchronizedList(new LinkedList());
 	application.setAttribute("chatRoom", room);
-  }
-
-  String style = request.getParameter("style");
-  if (Utils.isNullOrEmpty(style)) {
-    style = "";
-  } else {
-    style = " class=\"" + style + "\"";
   }
 %>
 
@@ -130,7 +130,7 @@ function msgReceived(dummy) {
 
 /* Send entered message */
 function submitMsg() {
-  var url = '<%= cp + mp %>/server.jsp?u=' + encodeURIComponent(document.getElementById('chatuser').value) + '&m=' + encodeURIComponent(document.getElementById('chatmsg').value);
+  var url = '<%= cp + '/' + md.getModulePath() %>/server.jsp?u=' + encodeURIComponent(document.getElementById('chatuser').value) + '&m=' + encodeURIComponent(document.getElementById('chatmsg').value);
   sendRequest(url, msgReceived);
   document.getElementById('chatmsg').value = '';
   refreshChatRoom(true);
@@ -150,7 +150,7 @@ function chatRoomReceived(content) {
 
 /* Request updated chat room content from chat server */
 function getChatRoom() { 
-  var url = '<%= cp + mp %>/server.jsp?r=' + roomId;
+  var url = '<%= cp + '/' + md.getModulePath() %>/server.jsp?r=' + roomId;
   sendRequest(url, chatRoomReceived);
 }
 
@@ -169,11 +169,11 @@ function writeStatus(msg) {
 }
 </script>
 
-<textarea id="chatwindow" rows="10" cols="80" class="chatWindow" style="<%= style %>" readonly></textarea>
+<textarea id="chatwindow" rows="10" cols="80" class="chatWindow" <%= style %> readonly></textarea>
 <br>
-<input id="chatuser" type="text" size="10" maxlength="20" value="Anonymous" class="chatUser" style="<%= style %>">&gt;&nbsp;
-<input id="chatmsg" type="text" size="60" class="chatMsg" style="<%= style %>" onkeyup="keyup(event.keyCode);">
-<input type="button" value="OK" class="chatOK" style="<%= style %>" onclick="submitMsg()">
+<input id="chatuser" type="text" size="10" maxlength="20" value="Anonymous" class="chatUser" <%= style %>>&gt;&nbsp;
+<input id="chatmsg" type="text" size="60" class="chatMsg" <%= style %> onkeyup="keyup(event.keyCode);">
+<input type="button" value="OK" class="chatOK" <%= style %> onclick="submitMsg()">
 <br>
 <span id="chatstatus" class="chatStatus"> </span>
 <br>

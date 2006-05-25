@@ -22,15 +22,16 @@
 
 <%@ page import="java.text.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
-<jsp:useBean id="userInfo" scope="session" class="com.cromoteca.meshcms.UserInfo" />
-<jsp:useBean id="fileClipboard" scope="session" class="com.cromoteca.meshcms.FileClipboard" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<%@ page import="org.meshcms.webui.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+<jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
+<jsp:useBean id="fileClipboard" scope="session" class="org.meshcms.webui.FileClipboard" />
 
 <%@ taglib prefix="fmt" uri="standard-fmt-rt" %>
 <fmt:setLocale value="<%= userInfo.getPreferredLocaleCode() %>" scope="request" />
-<fmt:setBundle basename="com.cromoteca.meshcms.Locales" scope="page" />
+<fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
 
 <%
   if (!userInfo.canDo(UserInfo.CAN_BROWSE_FILES)) {
@@ -65,9 +66,9 @@
   <%= webSite.getDummyMetaThemeTag() %>
   <title><fmt:message key="homeFile" /></title>
   <link href="../theme/main.css" type="text/css" rel="stylesheet" />
-  <link href="xmenu/xmenu.css" type="text/css" rel="stylesheet" />
-  <link href="xmenu/xmenu.windows.css" type="text/css" rel="stylesheet" />
-  <link href="xtree/xtree.css" type="text/css" rel="stylesheet">
+  <link href="../scripts/xmenu/xmenu.css" type="text/css" rel="stylesheet" />
+  <link href="../scripts/xmenu/xmenu.windows.css" type="text/css" rel="stylesheet" />
+  <link href="../scripts/xtree/xtree.css" type="text/css" rel="stylesheet">
 
   <style type="text/css">
     body { margin: 0px; overflow: hidden; }
@@ -108,10 +109,10 @@
       return "<fmt:message key="msgSuggestedFolderName" />";
     }
   </script>
-  <script type="text/javascript" src="xmenu/cssexpr.js"></script>
-  <script type="text/javascript" src="xmenu/xmenu.js"></script>
-  <script type="text/javascript" src="xtree/xtree.js"></script>
-  <script type="text/javascript" src="filemanager.js"></script>
+  <script type="text/javascript" src="../scripts/xmenu/cssexpr.js"></script>
+  <script type="text/javascript" src="../scripts/xmenu/xmenu.js"></script>
+  <script type="text/javascript" src="../scripts/xtree/xtree.js"></script>
+  <script type="text/javascript" src="../scripts/filemanager.js"></script>
 </head>
 
 <body style="margin: 0px;" onload="fm_xTreeExpandTo(folder<%= WebUtils.getMenuCode(folderPath) %>)">
@@ -119,7 +120,7 @@
   <tr>
    <td colspan="2">
     <script type="text/javascript">
-      webfxMenuImagePath = "xmenu/images/";
+      webfxMenuImagePath = "../scripts/xmenu/images/";
       webfxMenuUseHover = true;
       WebFXMenu.prototype.borderLeft = 2;
       WebFXMenu.prototype.borderRight = 2;
@@ -167,16 +168,16 @@
       
       var toolsMenu = new WebFXMenu;
       toolsMenu.width = 200;
+      toolsMenu.add(new WebFXMenuItem('<img src=\'images/button_upload.gif\' class=\'menuicon\'><fmt:message key="fmUpload" />', 'javascript:fm_uploadFile()'));
       toolsMenu.add(new WebFXMenuItem('<img src=\'images/button_download.gif\' class=\'menuicon\'><fmt:message key="fmDownload" />', 'javascript:fm_downloadFile(\'<%= cp %>\')'));
       toolsMenu.add(new WebFXMenuItem('<img src=\'images/button_downloadzip.gif\' class=\'menuicon\'><fmt:message key="fmDownloadZip" />', 'javascript:fm_downloadZip(\'<%= cp %>\')'));
-      toolsMenu.add(new WebFXMenuItem('<img src=\'images/button_upload.gif\' class=\'menuicon\'><fmt:message key="fmUpload" />', 'javascript:fm_uploadFile()'));
       toolsMenu.add(new WebFXMenuSeparator());
       toolsMenu.add(new WebFXMenuItem('<img src=\'images/button_unzip.gif\' class=\'menuicon\'><fmt:message key="fmUnzip" />', 'javascript:fm_unzipFile()'));
 
       var themesMenu = new WebFXMenu;
       themesMenu.width = 200;
       themesMenu.add(new WebFXMenuItem('<img src=\'../theme/tx1x1.gif\' width=\'16\' height=\'16\' class=\'menuicon\'><fmt:message key="fmInherit" />', 'javascript:fm_changeTheme()'));
-      themesMenu.add(new WebFXMenuItem('<img src=\'../theme/tx1x1.gif\' width=\'16\' height=\'16\' class=\'menuicon\'><fmt:message key="fmNoTheme" />', 'javascript:fm_changeTheme(\'<%= Finals.EMPTY %>\')'));
+      themesMenu.add(new WebFXMenuItem('<img src=\'../theme/tx1x1.gif\' width=\'16\' height=\'16\' class=\'menuicon\'><fmt:message key="fmNoTheme" />', 'javascript:fm_changeTheme(\'<%= PageAssembler.EMPTY %>\')'));
       themesMenu.add(new WebFXMenuSeparator());
       
       <% String[] themes = webSite.getSiteMap().getThemeNames();
@@ -203,19 +204,19 @@
    <td width="240" valign="top">
     <div style="width: 240px; height: 100%; overflow:auto;">
       <script type="text/javascript">
-        webFXTreeConfig['rootIcon'] = 'xtree/images/foldericon.png';
-        webFXTreeConfig['openRootIcon'] = 'xtree/images/openfoldericon.png';
-        webFXTreeConfig['folderIcon'] = 'xtree/images/foldericon.png';
-        webFXTreeConfig['openFolderIcon'] = 'xtree/images/openfoldericon.png';
-        webFXTreeConfig['fileIcon'] = 'xtree/images/file.png';
-        webFXTreeConfig['iIcon'] = 'xtree/images/I.png';
-        webFXTreeConfig['lIcon'] = 'xtree/images/L.png';
-        webFXTreeConfig['lMinusIcon'] = 'xtree/images/Lminus.png';
-        webFXTreeConfig['lPlusIcon'] = 'xtree/images/Lplus.png';
-        webFXTreeConfig['tIcon'] = 'xtree/images/T.png';
-        webFXTreeConfig['tMinusIcon'] = 'xtree/images/Tminus.png';
-        webFXTreeConfig['tPlusIcon'] = 'xtree/images/Tplus.png';
-        webFXTreeConfig['blankIcon'] = 'xtree/images/blank.png';
+        webFXTreeConfig['rootIcon'] = '../scripts/xtree/images/foldericon.png';
+        webFXTreeConfig['openRootIcon'] = '../scripts/xtree/images/openfoldericon.png';
+        webFXTreeConfig['folderIcon'] = '../scripts/xtree/images/foldericon.png';
+        webFXTreeConfig['openFolderIcon'] = '../scripts/xtree/images/openfoldericon.png';
+        webFXTreeConfig['fileIcon'] = '../scripts/xtree/images/file.png';
+        webFXTreeConfig['iIcon'] = '../scripts/xtree/images/I.png';
+        webFXTreeConfig['lIcon'] = '../scripts/xtree/images/L.png';
+        webFXTreeConfig['lMinusIcon'] = '../scripts/xtree/images/Lminus.png';
+        webFXTreeConfig['lPlusIcon'] = '../scripts/xtree/images/Lplus.png';
+        webFXTreeConfig['tIcon'] = '../scripts/xtree/images/T.png';
+        webFXTreeConfig['tMinusIcon'] = '../scripts/xtree/images/Tminus.png';
+        webFXTreeConfig['tPlusIcon'] = '../scripts/xtree/images/Tplus.png';
+        webFXTreeConfig['blankIcon'] = '../scripts/xtree/images/blank.png';
         <% new FolderXTree(webSite, userInfo, pageContext.getOut(),
             thumbsParam, bundle.getString("fmSiteRoot")).process(); %>
         document.write(folder0);

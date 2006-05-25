@@ -21,14 +21,14 @@
 --%>
 
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
-<jsp:useBean id="userInfo" scope="session" class="com.cromoteca.meshcms.UserInfo" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+<jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
 <%@ taglib prefix="fmt" uri="standard-fmt-rt" %>
 <fmt:setLocale value="<%= userInfo.getPreferredLocaleCode() %>" scope="request" />
-<fmt:setBundle basename="com.cromoteca.meshcms.Locales" scope="page" />
+<fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
 
 <%
   response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
@@ -38,8 +38,8 @@
   String charset = null;
 
   if (Utils.isNullOrEmpty(fullSrc)) {
-    PageReconstructor pr = new PageReconstructor();
-    pr.setCharset(webSite.getConfiguration().getPreferredCharset());
+    PageAssembler pa = new PageAssembler();
+    pa.setCharset(webSite.getConfiguration().getPreferredCharset());
     Enumeration names = request.getParameterNames();
 
     while (names.hasMoreElements()) {
@@ -50,16 +50,16 @@
         filePath = new Path(value);
       } else {
         if (name.equals("pagetitle")) {
-          // value = Utils.encodeHTML(value);
+          value = WebUtils.convertToHTMLEntities(value);
           title = value;
         }
 
-        pr.addProperty(name, value);
+        pa.addProperty(name, value);
       }
     }
 
-    fullSrc = pr.getPage();
-    charset = pr.getCharset();
+    fullSrc = pa.getPage();
+    charset = pa.getCharset();
   } else {
     filePath = new Path(request.getParameter("pagepath"));
     PageInfo pageInfo = webSite.getSiteMap().getPageInfo(filePath);
@@ -96,7 +96,7 @@
 
   <p><fmt:message key="saveContinue"><fmt:param value="<%= request.getHeader("referer") %>" /></fmt:message></p>
 <%
-    if (!webSite.isSystem(filePath, true) && FileTypes.isPage(filePath)) {
+    if (!webSite.isSystem(filePath) && FileTypes.isPage(filePath)) {
 %>
   <p><fmt:message key="saveView"><fmt:param value="<%= WebUtils.getPathInContext(request, filePath) %>" /></fmt:message></p>
 <%

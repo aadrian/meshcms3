@@ -20,9 +20,9 @@
  and at info@cromoteca.com
 --%>
 
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 
 <%
   response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
@@ -50,7 +50,7 @@
 
 <p align="center">
  <%= isImage ? "Image" : "File" %> from
- <a href="<%= cp %>/"><%= request.getServerName() %></a>
+ <a href="<%= cp + webSite.getLink(Path.ROOT) %>"><%= request.getServerName() %></a>
 </p>
 
 </body>

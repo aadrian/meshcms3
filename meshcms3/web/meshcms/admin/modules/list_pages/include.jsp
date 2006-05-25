@@ -21,22 +21,32 @@
 --%>
 
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+
+<%--
+  Advanced parameters for this module:
+  - css = (name of a css class)
+--%>
 
 <%
+  ModuleDescriptor md = (ModuleDescriptor)
+      request.getAttribute(request.getParameter("modulecode"));
   String cp = request.getContextPath();
-  Path argPath = WebUtils.getModuleArgumentDirectoryPath(webSite, request, false);
+  Path argPath = md.getModuleArgumentDirectoryPath(webSite, false);
+  String style = md.getAdvancedParam("css", md.getStyle());
   
   if (argPath == null) {
-    argPath = new Path(request.getParameter("pagepath"));
+    argPath = md.getPagePath();
   }
 
   List list = webSite.getSiteMap().getPagesInDirectory(argPath, false);
 
   if (list != null && list.size() > 0) {
     PageInfo[] pages = (PageInfo[]) list.toArray(new PageInfo[list.size()]);
-    %><ul><li><%= Utils.generateList(webSite.getLinkList(pages, cp, null, null), "</li><li>") %></li></ul><%
+    %><ul>
+     <li><%= Utils.generateList(webSite.getLinkList(pages, cp, null, style), "</li><li>") %></li>
+    </ul><%
   }
 %>

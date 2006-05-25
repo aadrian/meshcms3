@@ -23,31 +23,32 @@
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="java.text.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<%@ page import="com.cromoteca.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
+<%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
+
+<%--
+  Advanced parameters for this module:
+  - css = (name of a css class)
+  - date = none (default) | normal | full
+--%>
 
 <%
-  String cp = request.getContextPath();
-  String style = request.getParameter("style");
+  ModuleDescriptor md = (ModuleDescriptor)
+      request.getAttribute(request.getParameter("modulecode"));
 
-  if (Utils.isNullOrEmpty(style)) {
-    style = "";
-  } else {
-    style = " class=\"" + style + "\"";
-  }
-  
-  File[] files = WebUtils.getModuleFiles(webSite, request, false);
+  String cp = request.getContextPath();
+  File[] files = md.getModuleFiles(webSite, false);
 
   if (files != null && files.length > 0) {
     Locale locale = WebUtils.getPageLocale(pageContext);
     ResourceBundle bundle =
-        ResourceBundle.getBundle("com/cromoteca/meshcms/Locales", locale);
+        ResourceBundle.getBundle("org/meshcms/webui/Locales", locale);
     Arrays.sort(files, new FileNameComparator());
-    DateFormat df = WebUtils.getModuleDateFormat(pageContext);
+    DateFormat df = md.getDateFormat(locale, "date");
 %>
 
-<table<%= style %> align="center" border="0" cellspacing="10" cellpadding="0">
+<table<%= md.getFullCSSAttribute("css") %> align="center" border="0" cellspacing="10" cellpadding="0">
 <%
     for (int i = 0; i < files.length; i++) {
       if (!files[i].isDirectory()) {

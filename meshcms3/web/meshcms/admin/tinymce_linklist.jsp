@@ -21,8 +21,8 @@
 --%>
 
 <%@ page import="java.util.*" %>
-<%@ page import="com.cromoteca.meshcms.*" %>
-<jsp:useBean id="webSite" scope="request" type="com.cromoteca.meshcms.WebSite" />
+<%@ page import="org.meshcms.core.*" %>
+<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 
 <%
   response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
@@ -46,7 +46,7 @@ var tinyMCELinkList = new Array(
     
     out.write("[\"" + separator.substring(0, spaces) + 
               siteInfo.getPageTitle(pageInfo) + "\", \"" + cp +
-              pageInfo.getLink() + "\"]" + (iter.hasNext() ? "," : "") +
+              webSite.getLink(pageInfo) + "\"]" + (iter.hasNext() ? "," : "") +
               "\n");
   }
 %>

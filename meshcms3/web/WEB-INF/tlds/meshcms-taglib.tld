@@ -8,7 +8,7 @@
   <uri>http://www.cromoteca.com/meshcms</uri>
   <tag>
     <name>adminmenu</name>
-    <tag-class>com.cromoteca.meshcms.taglib.AdminMenu</tag-class>
+    <tag-class>org.meshcms.taglib.AdminMenu</tag-class>
     <body-content>JSP</body-content>
     <attribute>
       <name>mode</name>
@@ -28,32 +28,32 @@
   </tag>
   <tag>
     <name>editor</name>
-    <tag-class>com.cromoteca.meshcms.taglib.Editor</tag-class>
+    <tag-class>org.meshcms.taglib.Editor</tag-class>
     <body-content>JSP</body-content>
   </tag>
   <tag>
     <name>ifuser</name>
-    <tag-class>com.cromoteca.meshcms.taglib.IfUser</tag-class>
+    <tag-class>org.meshcms.taglib.IfUser</tag-class>
     <body-content>JSP</body-content>
   </tag>
   <tag>
     <name>ifediting</name>
-    <tag-class>com.cromoteca.meshcms.taglib.IfEditing</tag-class>
+    <tag-class>org.meshcms.taglib.IfEditing</tag-class>
     <body-content>JSP</body-content>
   </tag>
   <tag>
     <name>ifnotuser</name>
-    <tag-class>com.cromoteca.meshcms.taglib.IfNotUser</tag-class>
+    <tag-class>org.meshcms.taglib.IfNotUser</tag-class>
     <body-content>JSP</body-content>
   </tag>
   <tag>
     <name>ifnotediting</name>
-    <tag-class>com.cromoteca.meshcms.taglib.IfNotEditing</tag-class>
+    <tag-class>org.meshcms.taglib.IfNotEditing</tag-class>
     <body-content>JSP</body-content>
   </tag>
   <tag>
     <name>user</name>
-    <tag-class>com.cromoteca.meshcms.taglib.User</tag-class>
+    <tag-class>org.meshcms.taglib.User</tag-class>
     <body-content>JSP</body-content>
     <attribute>
       <name>id</name>
@@ -63,7 +63,7 @@
   </tag>
   <tag>
     <name>breadcrumbs</name>
-    <tag-class>com.cromoteca.meshcms.taglib.Breadcrumbs</tag-class>
+    <tag-class>org.meshcms.taglib.Breadcrumbs</tag-class>
     <body-content>JSP</body-content>
     <attribute>
       <name>separator</name>
@@ -103,22 +103,22 @@
   </tag>
   <tag>
     <name>contextpath</name>
-    <tag-class>com.cromoteca.meshcms.taglib.ContextPath</tag-class>
+    <tag-class>org.meshcms.taglib.ContextPath</tag-class>
     <body-content>JSP</body-content>
   </tag>
   <tag>
     <name>themepath</name>
-    <tag-class>com.cromoteca.meshcms.taglib.ThemePath</tag-class>
+    <tag-class>org.meshcms.taglib.ThemePath</tag-class>
     <body-content>JSP</body-content>
   </tag>
   <tag>
     <name>defaultcss</name>
-    <tag-class>com.cromoteca.meshcms.taglib.DefaultCSS</tag-class>
+    <tag-class>org.meshcms.taglib.DefaultCSS</tag-class>
     <body-content>JSP</body-content>
   </tag>
   <tag>
     <name>lastmodified</name>
-    <tag-class>com.cromoteca.meshcms.taglib.LastModified</tag-class>
+    <tag-class>org.meshcms.taglib.LastModified</tag-class>
     <body-content>JSP</body-content>
     <attribute>
       <name>date</name>
@@ -143,7 +143,7 @@
   </tag>
   <tag>
     <name>links</name>
-    <tag-class>com.cromoteca.meshcms.taglib.Links</tag-class>
+    <tag-class>org.meshcms.taglib.Links</tag-class>
     <body-content>JSP</body-content>
     <attribute>
       <name>separator</name>
@@ -178,22 +178,22 @@
   </tag>
   <tag>
     <name>mailform</name>
-    <tag-class>com.cromoteca.meshcms.taglib.MailForm</tag-class>
+    <tag-class>org.meshcms.taglib.MailForm</tag-class>
     <body-content>JSP</body-content>
   </tag>
   <tag>
     <name>ifmailform</name>
-    <tag-class>com.cromoteca.meshcms.taglib.IfMailForm</tag-class>
+    <tag-class>org.meshcms.taglib.IfMailForm</tag-class>
     <body-content>JSP</body-content>
   </tag>
   <tag>
     <name>ifnotmailform</name>
-    <tag-class>com.cromoteca.meshcms.taglib.IfNotMailForm</tag-class>
+    <tag-class>org.meshcms.taglib.IfNotMailForm</tag-class>
     <body-content>JSP</body-content>
   </tag>
   <tag>
     <name>module</name>
-    <tag-class>com.cromoteca.meshcms.taglib.Module</tag-class>
+    <tag-class>org.meshcms.taglib.Module</tag-class>
     <body-content>JSP</body-content>
     <attribute>
       <name>name</name>
@@ -228,7 +228,7 @@
   </tag>
   <tag>
     <name>ifmodule</name>
-    <tag-class>com.cromoteca.meshcms.taglib.IfModule</tag-class>
+    <tag-class>org.meshcms.taglib.IfModule</tag-class>
     <body-content>JSP</body-content>
     <attribute>
       <name>location</name>
@@ -238,7 +238,7 @@
   </tag>
   <tag>
     <name>ifnotmodule</name>
-    <tag-class>com.cromoteca.meshcms.taglib.IfNotModule</tag-class>
+    <tag-class>org.meshcms.taglib.IfNotModule</tag-class>
     <body-content>JSP</body-content>
     <attribute>
       <name>location</name>
@@ -248,17 +248,17 @@
   </tag>
   <tag>
     <name>pagebody</name>
-    <tag-class>com.cromoteca.meshcms.taglib.PageBody</tag-class>
+    <tag-class>org.meshcms.taglib.PageBody</tag-class>
     <body-content>JSP</body-content>
   </tag>
   <tag>
     <name>pagehead</name>
-    <tag-class>com.cromoteca.meshcms.taglib.PageHead</tag-class>
+    <tag-class>org.meshcms.taglib.PageHead</tag-class>
     <body-content>JSP</body-content>
   </tag>
   <tag>
     <name>pagetitle</name>
-    <tag-class>com.cromoteca.meshcms.taglib.PageTitle</tag-class>
+    <tag-class>org.meshcms.taglib.PageTitle</tag-class>
     <body-content>JSP</body-content>
     <attribute>
       <name>default</name>
@@ -268,7 +268,7 @@
   </tag>
   <tag>
     <name>simplemenu</name>
-    <tag-class>com.cromoteca.meshcms.taglib.SimpleMenu</tag-class>
+    <tag-class>org.meshcms.taglib.SimpleMenu</tag-class>
     <body-content>JSP</body-content>
     <attribute>
       <name>path</name>
@@ -298,7 +298,7 @@
   </tag>
   <tag>
     <name>tigramenu</name>
-    <tag-class>com.cromoteca.meshcms.taglib.TigraMenu</tag-class>
+    <tag-class>org.meshcms.taglib.TigraMenu</tag-class>
     <body-content>JSP</body-content>
     <attribute>
       <name>part</name>
@@ -318,7 +318,7 @@
   </tag>
   <tag>
     <name>listmenu</name>
-    <tag-class>com.cromoteca.meshcms.taglib.ListMenu</tag-class>
+    <tag-class>org.meshcms.taglib.ListMenu</tag-class>
     <body-content>JSP</body-content>
     <attribute>
       <name>path</name>
@@ -340,5 +340,15 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>
-  </tag>      
+  </tag>
+  <tag>
+    <name>setlocale</name>
+    <tag-class>org.meshcms.taglib.SetLocale</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+      <name>value</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
 </taglib>
