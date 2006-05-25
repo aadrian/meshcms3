@@ -44,9 +44,15 @@ MeshCMS uses free software from other companies/developers:
     http://www.icon-king.com/
 - Tigra Menu & Tigra Tree Menu**
     http://www.softcomplex.com/
-- ALib Menu*
+- ALib Menu**
     http://sourceforge.net/projects/alib/
-- XStream
+- XStream*
     http://xstream.codehaus.org/
+- SVNAnt***
+    http://subclipse.tigris.org
+- Tag Library Documentation Generator***
+    https://taglibrarydoc.dev.java.net/
+
 *: these components are included unmodified, so you can upgrade them manually if you want to
 **: this component is not included in the MeshCMS release, but there is a custom tag that allows you to create a JavaScript menu easily with this script. Connect to its homepage to download it for use with MeshCMS
+***: these are used only in the build and the developement process.
