@@ -19,15 +19,17 @@ MeshCMS 3.0 Release (~ 10-Jul-2006)
 #15 - add better logging with Log4J
 #16 - some loading and performance tests of the multi-site feature with JMeter(http://jakarta.apache.org/jmeter/index.html)
 
-#17 - a better decision and planninig of the so wanted "static export" feature.
+#17 - a better and clear decision and planninig for the so wanted "static export" feature.
 
 #18 - add Checkstyle (http://checkstyle.sourceforge.net/), to automaticaly help cleanup the code.
-#19 - add Sandbox area for all developers into Subversion to have a better place for experimenting.
+x #19 - Sandbox area for all developers in the Subversion repository (to have a better place for experimenting).
 #20 - MOST IMPORTANT: find out how normal webapplications (that worked in their virtual host/doamin) will work now with this multi-site support.
 #21 - update the JavaDocs for the entire code base.
 #22 - architecture diagram and documentation of the CMS
 #23 - code refactorings, to make it easier to understand for newbies
 #24 - new and better and table-less theme for the default site (something that is more reusable than the "flowers" theme).
+#25 - add support for "Tag Library Documentation Generator"
+#26 - tune checkstyles config files, to obtain better results.
 
 MeshCMS 3.1 Release (~ Oct-2006)
 --------------------------------
