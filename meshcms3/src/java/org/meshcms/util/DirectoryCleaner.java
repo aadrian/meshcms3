@@ -20,10 +20,11 @@
  * and at info@cromoteca.com
  */
 
-package org.meshcms.core;
+package org.meshcms.util;
 
 import java.io.*;
 import org.meshcms.util.*;
+import org.meshcms.core.WebUtils;
 
 /**
  * Deletes old files from a directory.
@@ -65,17 +66,17 @@ public class DirectoryCleaner extends DirectoryParser {
     // something_lastmodified.extension
     // for example _bak_admin_20060128093159.html is a backup of a page
     int us = name.lastIndexOf('_');
-    
+
     if (us >= 0) {
       try {
         if (currentTime - WebUtils.numericDateFormatter.parse(name.substring(us + 1, us + 15)).getTime() > maxLife) {
           file.delete();
         }
-        
+
         return;
       } catch (Exception ex) {}
     }
-    
+
     // other files are deleted when too old based on last modified date.
     if (currentTime - file.lastModified() > (long) (maxLife * (1.0 + Math.random() / 2.0))) {
       file.delete();
