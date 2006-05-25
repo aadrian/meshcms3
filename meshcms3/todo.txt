@@ -4,7 +4,7 @@ MeshCMS 3.0 Release
 #1 - tool to edit file dates in the file manager
 #2 - tag to load the ALIB script (for menus)
 #3 - new default admin theme
-#4 - javadocs + documentation
+#4 - documentation (at least for the new multi-site support)
 #5 - www.meshcms.org (site + theme + hosting + required applications)
 #6 - update translations
 #7 - new module: headlines
@@ -19,7 +19,12 @@ MeshCMS 3.0 Release
 #15 - Improve the logging
 #16 - some loading and performance tests of the multi-site feature with JMeter(http://jakarta.apache.org/jmeter/index.html)
 
-#17  - a better decision and planninig of the so wanted "static export" feature.
+#17 - a better decision and planninig of the so wanted "static export" feature.
+
+#18 - add Checkstyle (http://checkstyle.sourceforge.net/), to automaticaly help cleanup the code.
+#19 - add Sandbox area for all developers into Subversion to have a better place for experimenting.
+#20 - MOST IMPORTANT: find out how normal webapplications (that worked in their virtual host/doamin) will work now with this multi-site support.
+#21 - update the JavaDocs for the entire code base. 
 
 MeshCMS 3.1 Release
 -------------------
@@ -28,6 +33,7 @@ MeshCMS 3.1 Release
 # - an article about "How to easily integrate other webapplications as MeshCMS modules" (e.g. for JForum, Pebble, RSS, etc.)
 # - improve the XDocs generation (PDFs too)
 # - support for plug-ins into the admin interface (e.g. WebLog Analyzers, better UserManagement,
+# - Exp - refactor the taglibs into normal libs + generic taglib wrapper (to be usable from everywhere, or to nest them). [Hue Holleran]
 # - WYSIWYG like theme builder
 
 
