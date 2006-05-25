@@ -59,12 +59,12 @@
 
  <tr valign="top">
   <td width="128" align="center">
-   <a href="<%= cp + webSite.getLink(Path.ROOT) %>"><img src="images/button_sitehome.gif" vspace="12" /><br /><fmt:message key="homePage" /></a>
+   <a href="<%= cp + webSite.getLink(Path.ROOT) %>"><img src="images/button_sitehome.gif" vspace="12" alt=""/><br /><fmt:message key="homePage" /></a>
   </td>
 
   <td width="128" align="center">
    <% if (userInfo.canDo(UserInfo.CAN_BROWSE_FILES)) { %>
-    <a href="<%= cp + '/' + webSite.getAdminPath() %>/refresh.jsp"><img src="images/button_refresh.gif" vspace="12" /><br /><fmt:message key="homeRefresh" /></a>
+    <a href="<%= cp + '/' + webSite.getAdminPath() %>/refresh.jsp"><img src="images/button_refresh.gif" vspace="12" alt=""/><br /><fmt:message key="homeRefresh" /></a>
    <% } else { %>
     &nbsp;
    <% } %>
@@ -72,7 +72,7 @@
 
   <td width="128" align="center">
    <% if (userInfo.canDo(UserInfo.CAN_EDIT_PAGES)) { %>
-    <a href="<%= cp + '/' + webSite.getAdminPath() %>/editmap1.jsp"><img src="images/button_editmenu.gif" vspace="12" /><br /><fmt:message key="homePages" /></a>
+    <a href="<%= cp + '/' + webSite.getAdminPath() %>/editmap1.jsp"><img src="images/button_editmenu.gif" vspace="12" alt=""/><br /><fmt:message key="homePages" /></a>
    <% } else { %>
     &nbsp;
    <% } %>
@@ -80,7 +80,7 @@
 
   <td width="128" align="center">
    <% if (userInfo.canDo(UserInfo.CAN_DO_ADMINTASKS)) { %>
-    <a href="<%= cp + '/' + webSite.getAdminPath() %>/editconfig1.jsp"><img src="images/button_configure.gif" vspace="12" /><br /><fmt:message key="homeConfigure" /></a>
+    <a href="<%= cp + '/' + webSite.getAdminPath() %>/editconfig1.jsp"><img src="images/button_configure.gif" vspace="12" alt=""/><br /><fmt:message key="homeConfigure" /></a>
    <% } else { %>
     &nbsp;
    <% } %>
@@ -98,15 +98,15 @@
  <tr valign="top">
   <td align="center">
    <% if (userInfo.isGuest()) { %>
-    <a href="<%= cp + '/' + webSite.getAdminPath() %>/login.jsp"><img src="images/button_login.gif" vspace="12" /><br /><fmt:message key="homeLogin" /></a>
+    <a href="<%= cp + '/' + webSite.getAdminPath() %>/login.jsp"><img src="images/button_login.gif" vspace="12" alt=""/><br /><fmt:message key="homeLogin" /></a>
    <% } else { %>
-    <a href="<%= cp + '/' + webSite.getAdminPath() %>/logout.jsp"><img src="images/button_logout.gif" vspace="12" /><br /><fmt:message key="homeLogout" /></a>
+    <a href="<%= cp + '/' + webSite.getAdminPath() %>/logout.jsp"><img src="images/button_logout.gif" vspace="12" alt=""/><br /><fmt:message key="homeLogout" /></a>
    <% } %>
   </td>
 
   <td align="center">
    <% if (!userInfo.isGuest()) { %>
-    <a href="<%= cp + '/' + webSite.getAdminPath() %>/edituser1.jsp?username=<%= userInfo.getUsername() %>"><img src="images/button_profile.gif" vspace="12" /><br /><fmt:message key="homeProfile" /></a>
+    <a href="<%= cp + '/' + webSite.getAdminPath() %>/edituser1.jsp?username=<%= userInfo.getUsername() %>"><img src="images/button_profile.gif" vspace="12" alt=""/><br /><fmt:message key="homeProfile" /></a>
    <% } else { %>
     &nbsp;
    <% } %>
@@ -114,7 +114,7 @@
 
   <td align="center">
    <% if (userInfo.canDo(UserInfo.CAN_ADD_USERS)) { %>
-    <a href="<%= cp + '/' + webSite.getAdminPath() %>/edituser1.jsp"><img src="images/button_adduser.gif" vspace="12" /><br /><fmt:message key="homeUser" /></a>
+    <a href="<%= cp + '/' + webSite.getAdminPath() %>/edituser1.jsp"><img src="images/button_adduser.gif" vspace="12" alt=""/><br /><fmt:message key="homeUser" /></a>
    <% } else { %>
     &nbsp;
    <% } %>
@@ -132,7 +132,7 @@
  <tr valign="top">
   <td width="128" align="center">
    <% if (userInfo.canDo(UserInfo.CAN_BROWSE_FILES)) { %>
-    <a href="filemanager/index.jsp"><img src="images/button_filemanager.gif" vspace="12" /><br /><fmt:message key="homeFile" /></a>
+    <a href="filemanager/index.jsp"><img src="images/button_filemanager.gif" vspace="12" alt=""/><br /><fmt:message key="homeFile" /></a>
    <% } else { %>
     &nbsp;
    <% } %>
@@ -140,7 +140,7 @@
 
   <td align="center">
    <% if (!webSite.isVirtual() && userInfo.canDo(UserInfo.CAN_DO_ADMINTASKS)) { %>
-    <a href="<%= cp + '/' + webSite.getAdminPath() %>/editsites1.jsp"><img src="images/button_sites.gif" vspace="12" /><br /><fmt:message key="homeSites" /></a>
+    <a href="<%= cp + '/' + webSite.getAdminPath() %>/editsites1.jsp"><img src="images/button_sites.gif" vspace="12" alt=""/><br /><fmt:message key="homeSites" /></a>
    <% } else { %>
     &nbsp;
    <% } %>

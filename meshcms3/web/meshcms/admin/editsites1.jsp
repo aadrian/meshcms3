@@ -80,7 +80,7 @@
 
     <div>
       <label for="mainWebSiteDomains"><fmt:message key="sitesMainWebSiteDomains" /></label><br />
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('mainWebSiteDomains');"
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('mainWebSiteDomains');" alt=""
        style="vertical-align:middle;" /><input type="text" id="mainWebSiteDomains" name="mainWebSiteDomains" size="60"
        value="<%= Utils.noNull(msm.getMainWebSiteDomains()) %>" />
     </div>
@@ -108,14 +108,14 @@
       <tr>
         <td><label for="aliases_<%= dirs[i] %>"><%= dirs[i] %></label></td>
         <td>
-          <img src="images/clear_field.gif" onclick="javascript:editor_clr('aliases_<%= dirs[i] %>');"
+          <img src="images/clear_field.gif" onclick="javascript:editor_clr('aliases_<%= dirs[i] %>');" alt=""
            style="vertical-align:middle;" /><input type="text" id="aliases_<%= dirs[i] %>"
            name="aliases_<%= dirs[i] %>" size="40"
            value="<%= Utils.noNull(msm.getDomains(dirs[i])) %>" />
         </td>
         <td align="center">
         <% if (((MainWebSite) webSite).getVirtualSite(dirs[i]).getCMSPath() != null) { %>
-          <img src="filemanager/images/button_yes.gif"
+          <img src="filemanager/images/button_yes.gif" alt=""
            style='vertical-align:middle;' title="<fmt:message key="genericYes" />" />
         <% } else { %>
           &nbsp;
@@ -131,12 +131,12 @@
       </tr>
       <tr>
         <td>
-          <img src="images/clear_field.gif" onclick="javascript:editor_clr('newsite_dirname');"
+          <img src="images/clear_field.gif" onclick="javascript:editor_clr('newsite_dirname');" alt=""
            style="vertical-align:middle;" /><input type="text" id="newsite_dirname"
            name="newsite_dirname" size="15" />
         </td>
         <td>
-          <img src="images/clear_field.gif" onclick="javascript:editor_clr('newsite_aliases');"
+          <img src="images/clear_field.gif" onclick="javascript:editor_clr('newsite_aliases');" alt=""
            style="vertical-align:middle;" /><input type="text" id="newsite_aliases"
            name="newsite_aliases" size="40" />
         </td>

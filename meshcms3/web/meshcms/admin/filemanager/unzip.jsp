@@ -88,7 +88,7 @@
     }
 %>
  <tr>
-  <td colspan="2"><img class="icon" src="images/<%= icon %>"> <%= name %></td>
+  <td colspan="2"><img class="icon" alt="" src="images/<%= icon %>"> <%= name %></td>
  </tr>
 <%
   }

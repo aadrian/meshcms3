@@ -68,7 +68,7 @@
   <tr>
    <td align="right"><fmt:message key="configVisual" /></td>
    <td>
-    <img src="images/clear_field.gif" onclick="javascript:editor_clr('visualTypes');"
+    <img src="images/clear_field.gif" onclick="javascript:editor_clr('visualTypes');" alt=""
      style='vertical-align:middle;' /><input type="text" id="visualTypes" name="visualTypes" size="30"
      value="<%= Utils.noNull(Utils.generateList(configuration.getVisualExtensions(), ", ")) %>" />
    </td>
@@ -95,7 +95,7 @@
   <tr>
    <td align="right"><fmt:message key="configMail" /></td>
    <td>
-    <img src="images/clear_field.gif" onclick="javascript:editor_clr('mailServer');"
+    <img src="images/clear_field.gif" onclick="javascript:editor_clr('mailServer');" alt=""
      style='vertical-align:middle;' /><input type="text" id="mailServer" name="mailServer" size="30"
      value="<%= configuration.getMailServer() %>" />
    </td>
@@ -104,7 +104,7 @@
   <tr>
    <td align="right"><fmt:message key="configSmtpUsername" /></td>
    <td>
-    <img src="images/clear_field.gif" onclick="javascript:editor_clr('smtpUsername');"
+    <img src="images/clear_field.gif" onclick="javascript:editor_clr('smtpUsername');" alt=""
      style='vertical-align:middle;' /><input type="text" id="smtpUsername" name="smtpUsername" size="30"
      value="<%= configuration.getSmtpUsername() %>" />
    </td>
@@ -113,7 +113,7 @@
   <tr>
    <td align="right"><fmt:message key="configSmtpPassword" /></td>
    <td>
-    <img src="images/clear_field.gif" onclick="javascript:editor_clr('smtpPassword');"
+    <img src="images/clear_field.gif" onclick="javascript:editor_clr('smtpPassword');" alt=""
      style='vertical-align:middle;' /><input type="text" id="smtpPassword" name="smtpPassword" size="30"
      value="<%= configuration.getSmtpPassword() %>" />
    </td>
@@ -138,7 +138,7 @@
   <tr>
    <td align="right"><fmt:message key="configMap" /></td>
    <td>
-    <img src="images/clear_field.gif" onclick="javascript:editor_clr('updateInterval');"
+    <img src="images/clear_field.gif" onclick="javascript:editor_clr('updateInterval');" alt=""
      style='vertical-align:middle;' /><input type="text" id="updateInterval" name="updateInterval" size="30"
      value="<%= configuration.getUpdateInterval() %>" />
    </td>
@@ -147,7 +147,7 @@
   <tr>
    <td align="right"><fmt:message key="configBackup" /></td>
    <td>
-    <img src="images/clear_field.gif" onclick="javascript:editor_clr('backupLife');"
+    <img src="images/clear_field.gif" onclick="javascript:editor_clr('backupLife');" alt=""
      style='vertical-align:middle;' /><input type="text" id="backupLife" name="backupLife" size="30"
      value="<%= configuration.getBackupLife() %>" />
    </td>
@@ -156,7 +156,7 @@
   <tr>
    <td align="right"><fmt:message key="configHits" /></td>
    <td>
-    <img src="images/clear_field.gif" onclick="javascript:editor_clr('statsLength');"
+    <img src="images/clear_field.gif" onclick="javascript:editor_clr('statsLength');" alt=""
      style='vertical-align:middle;' /><input type="text" id="statsLength" name="statsLength" size="30"
      value="<%= configuration.getStatsLength() %>" />
    </td>

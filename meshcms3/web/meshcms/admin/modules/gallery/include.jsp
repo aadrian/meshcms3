@@ -67,7 +67,7 @@
 
           %><td align="center" valign="top">
            <a href="<%= cp + '/' + path %>" target="meshcms_image"><img
-            src="<%= cp + '/' + thumbPath %>" /><% if (captions) { 
+            src="<%= cp + '/' + thumbPath %>" alt=""/><% if (captions) { 
               %><br /><%= Utils.beautify(Utils.removeExtension(path), true) %><%
             } %></a>
           </td><%

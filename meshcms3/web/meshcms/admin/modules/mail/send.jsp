@@ -43,8 +43,7 @@
 <head>
 
 <%
-  String themeParameter = request.getParameter(HitFilter.THEME_FILE_ATTRIBUTE);
-  Path themePath;
+  String themeParameter = request.getParameter(HitFilter.THEME_FILE_ATTRIBUTE);  
 
   if (themeParameter != null) {
     out.write("<meta name=\"decorator\" content=\"/" +

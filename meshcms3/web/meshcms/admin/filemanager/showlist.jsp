@@ -123,7 +123,7 @@
    <th><fmt:message key="fmListDate" /></th>
    <th width="100%" align="right">
      <% if (!userInfo.canWrite(webSite, folderPath)) { %>
-       <img src="images/lock.gif" title="<fmt:message key="fmListLocked" />" />
+       <img src="images/lock.gif" title="<fmt:message key="fmListLocked" />" alt=""/>
      <% } %>
      <%= webSite.helpIcon(cp, WebSite.HELP_ANCHOR_FILE_MANAGER, userInfo) %>
    </th>
@@ -164,10 +164,10 @@
   <table title="<%= name %>" style="display: inline; width: <%= FileManagerThumbnail.THUMB_WIDTH %>px;">
    <tr>
     <td onclick="javascript:toggleSelection('<%= id %>');"><% if (thumbPath != null) {
-      %><img src="<%= cp + '/' + thumbPath %>" /><% 
+      %><img src="<%= cp + '/' + thumbPath %>" alt=""/><%
       } else { 
         %><div style="border: 1px solid #D8CECB; padding: 51px 45px;"><img
-           src="images/<%= list[i].isDirectory() ? FileTypes.DIR_ICON : FileTypes.getIconFile(name) %>" /></div><%
+           src="images/<%= list[i].isDirectory() ? FileTypes.DIR_ICON : FileTypes.getIconFile(name) %>" alt=""/></div><%
       } %></td>
    </tr>
  
@@ -182,7 +182,7 @@
 %>
   <tr<%= color %>>
    <td onclick="javascript:toggleSelection('<%= id %>');"><img class="icon" src="images/<%= list[i].isDirectory() ? FileTypes.DIR_ICON :
-     FileTypes.getIconFile(name) %>" vspace="2" title="<%= FileTypes.getDescription(name) %>"></td>
+     FileTypes.getIconFile(name) %>" vspace="2" title="<%= FileTypes.getDescription(name) %>" alt=""></td>
    <td><input type="checkbox" id="<%= id %>"
     name="<%= name %>" value="<%= name %>" /></td>  
    <td><label for="<%= id %>"><%= name %></label></td>  

@@ -40,10 +40,10 @@
 
 <p align="center" style="border: 1px solid #cccccc; padding: 25px;">
   <% if (isImage) {
-    %><img src="<%= cp + '/' + path %>"><%
+    %><img src="<%= cp + '/' + path %>" alt=""><%
   } else {
     %><img src="<%= cp + '/' + webSite.getAdminPath() + "/filemanager/images/" +
-        FileTypes.getIconFile(path) %>">
+        FileTypes.getIconFile(path) %>" alt="">
     Get <a href="<%= cp + '/' + path %>"><%= path.getLastElement() %></a><%
   } %>
 </p>

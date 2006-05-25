@@ -22,7 +22,6 @@
 
 <%@ page import="java.util.*" %>
 <%@ page import="org.meshcms.core.*" %>
-<%@ page import="org.meshcms.util.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 <jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 

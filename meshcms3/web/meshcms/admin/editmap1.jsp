@@ -233,7 +233,7 @@
 <form action="editmap2.jsp" method="POST" name="sitemapform">
   <table class="meshcmseditor" border="0" cellspacing="0" cellpadding="0">
     <tr>
-      <th><img src="filemanager/images/icon_folderopen.gif" align="left"
+      <th><img src="filemanager/images/icon_folderopen.gif" align="left" alt=""
            onclick="javascript:editMap_openChildren(0, <%= padding %>, true);"
            title="<fmt:message key="mapClickExpandAll" />" /><fmt:message key="mapPageTitle" /></th>
       <th><fmt:message key="mapHits" /></th>
@@ -254,11 +254,11 @@
                             // IMPORTANT: no spaces between <tr> and <td> below!
     %><tr id="tr<%= code %>"><td style="padding-left: <%= (pagePath.getElementCount() + 1) * padding %>px;">
         <% if (hasChildren) { %>
-          <img src="filemanager/images/icon_folderopen.gif" id="img<%= code %>"
+          <img src="filemanager/images/icon_folderopen.gif" id="img<%= code %>" alt=""
            title="<fmt:message key="mapClickExpand" />"
            onclick="javascript:editMap_toggle(<%= code %>, <%= padding %>);" />
         <% } else { %>
-          <img src="filemanager/images/icon_file.gif"
+          <img src="filemanager/images/icon_file.gif" alt=""
            title="<fmt:message key="mapNoClick" />" />
         <% } %>
           <a href="<%= cp + webSite.getLink(pageInfo) %>"
@@ -281,7 +281,7 @@
         }
         
         if (cached) { %>
-          <td align="center"><img src="filemanager/images/button_yes.gif"
+          <td align="center"><img src="filemanager/images/button_yes.gif" alt=""
            style='vertical-align:middle;' title="<fmt:message key="mapInCache" />" /></td>
         <% } else { %>
           <td>&nbsp;</td>
@@ -292,7 +292,7 @@
           String tCode = siteInfo.getTitleCode(pagePath);
           String dCode = siteInfo.getThemeCode(pagePath);
           String sCode = siteInfo.getScoreCode(pagePath);
-          %><td><img src="images/clear_field.gif" onclick="javascript:editMap_clr('<%= tCode %>');"
+          %><td><img src="images/clear_field.gif" onclick="javascript:editMap_clr('<%= tCode %>');" alt=""
              style='vertical-align:middle;' /><input type="text" name="<%= tCode %>"
              id="<%= tCode %>" size="24"
              value="<%= siteInfo.getPageTitle(pagePath) %>" /></td>
@@ -308,12 +308,12 @@
           <% } %>
             </select></td>
 
-            <td><img src="images/clear_field.gif" onclick="javascript:editMap_clr('<%= sCode %>');"
+            <td><img src="images/clear_field.gif" onclick="javascript:editMap_clr('<%= sCode %>');" alt=""
              style='vertical-align:middle;' /><input type="text" name="<%= sCode %>"
              id="<%= sCode %>" size="6" value="<%= siteInfo.getPageScoreAsString(pagePath) %>" /></td>
 
           <% if (webSite.isDirectory(pagePath)) { %>
-            <td align="center"><img src="filemanager/images/button_newchild.gif"
+            <td align="center"><img src="filemanager/images/button_newchild.gif" alt=""
              onclick="javascript:editMap_createPage('<%= Utils.escapeSingleQuotes(pagePath) %>');" style='vertical-align:middle;'
              title="<fmt:message key="mapNewChild" />" /></td>
           <% } else { %>
@@ -321,7 +321,7 @@
           <% }
           
           if (!hasChildren) { %>          
-            <td align="center"><img src="filemanager/images/button_delete.gif"
+            <td align="center"><img src="filemanager/images/button_delete.gif" alt=""
              onclick="javascript:editMap_deletePage('<%= Utils.escapeSingleQuotes(pagePath) %>');" style='vertical-align:middle;'
              title="<fmt:message key="mapDelete" />" /></td>
           <% } else { %>

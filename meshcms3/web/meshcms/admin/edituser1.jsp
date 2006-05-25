@@ -190,7 +190,7 @@
 
   <tr>
    <th colspan="2">
-    <img src="<%= imagesPath %>/tree_plus.gif"
+    <img src="<%= imagesPath %>/tree_plus.gif" alt=""
      id='toggledetails' onclick='javascript:toggleDetails();' />
     <fmt:message key="userOpt" />
    </th>
