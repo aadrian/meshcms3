@@ -1,8 +1,9 @@
 ________________________________
 --------------------------------
-2006-xx-xx: 3.0 Alpha released
+2006-xx-xx: 3.0_Alpha1 released
 --------------------------------
 
+- Changed the distribution(meshcms-xxx-bin.zip and meshcms-xxx-src.zip now) 
 - Jetty is now supported out-of-the-box, without further configuration
 - Added support for multiple sites in a single installation (experimental)
 - Modules now are contained in separate directories
