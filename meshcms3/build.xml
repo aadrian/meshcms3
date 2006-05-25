@@ -1,28 +1,26 @@
 <?xml version="1.0"?>
 
-<project name="meshcms" basedir="." default="all">
+<project name="meshcms" basedir="." default="help">
 
-  <!-- meshcms version - derive from parent directory -->
-  <basename property="meshcms.version" file="${basedir}" />
-
-  <!--  all properties are in build.properties --> 
+  <!--  all properties are in build.properties -->
   <property file="build.properties" /> 
 
   <!-- import the svnant task -->
   <import file="${svnant.xml}" />
 
-  <target name="all" description="Do everything">
-    <antcall target="clean" />
-    <antcall target="init" />
-    <antcall target="dist" />
-  </target>
-  
-  <target name="clean" description="Clean all output directories">
-    <delete dir="${build}"/>  
-    <delete dir="${dist}"/>  
-  </target>
+    <target name="all" description="Build everything - all the distributions">
+        <antcall target="clean"/>
+        <antcall target="dist-src"/>
+        <antcall target="init"/>
+        <antcall target="dist-bin"/>
+    </target>
 
-  <target name="init" description="Setup properties depended-on by other tasks and all directories">
+    <target name="clean" description="Clean all output directories">
+        <delete dir="${build}"/>
+        <delete dir="${dist}"/>
+    </target>
+
+    <target name="init" description="Setup properties depended-on by other tasks and all directories">
     <path id="classpath.path">
       <pathelement location="${servlet.jar}" />
       <pathelement location="${classes}"/>
@@ -36,9 +34,9 @@
     <mkdir dir="${dist}" />
   </target>
 
-  <target name="checkout" depends="init">
+  <target name="checkout" depends="init" description="Checks out the project files from the sf.net subversion repository">
     <svn username="${meshcms.svn.username}" password="${meshcms.svn.password}">
-      <checkout destPath="${basedir}" revision="HEAD" url="${meshcms.svnroot.url}/${meshcms.version}" />
+      <checkout destPath="${basedir}" revision="HEAD" url="${meshcms.svnroot.url}/${svndir}" />
     </svn>
   </target>
 
@@ -50,12 +48,12 @@
 
   <!-- NB: Following task is designed to be called internally only -->
   <target name="-buildjar" depends="init,compile" if="meshcms.buildjar" description="Build a jar if and only if this is specified in the properties file">
-    <jar basedir="${classes}" destfile="${jars}/${meshcms.version}.jar" />
+    <jar basedir="${classes}" destfile="${jars}/${svndir}.jar" />
     <!-- Delete classes so they'll not be found to be copied into webapp -->
     <delete dir="${classes}" />
   </target>
 
-  <target name="webapp" depends="init,compile,-buildjar">
+  <target name="webapp" depends="init,compile,-buildjar" description="Build the webapplication, the WAR file">
     <!-- Build the webapp first -->
     <copy todir="${webapp}">
       <fileset dir="${srcweb}">
@@ -81,28 +79,70 @@
     </war>
   </target>
 
-  <target name="srczip" depends="init" description="Create a zip file of the src">
-    <zip destfile="${srczip}">
-      <fileset dir="${srcjava}" />
-    </zip>
-  </target>
-
-  <target name="javadoc" depends="init" description="Build the javadoc">
+  <target name="javadoc" depends="init" description="Create Javadoc HTML files">
     <javadoc sourcepath="${srcjava}" destdir="${javadoc}" packagenames="*">
       <classpath><path refid="classpath.path"/></classpath>
     </javadoc>
   </target>
 
-  <target name="dist" depends="init,webapp,srczip,javadoc">
-    <!-- Let's build the distribution .zip - need to do get into sub-dir in zip also -->
-    <zip destfile="${dist}/${meshcms.version}.zip">
-      <zipfileset file="${readme}"  prefix="${meshcms.version}" />
-      <zipfileset file="${license}" prefix="${meshcms.version}" />
-      <zipfileset file="${chglog}"  prefix="${meshcms.version}" />
-      <zipfileset file="${srczip}"  prefix="${meshcms.version}" />
-      <zipfileset dir="${javadoc}"  prefix="${meshcms.version}/javadoc" />
-      <zipfileset file="${warfile}" prefix="${meshcms.version}" />
-    </zip>
-  </target>
+    <target name="tagdoc" depends="init" description="Create Tag Library HTML files (with http://taglibrarydoc.dev.java.net/)">
+        <java fork="true" jar="${tlddoc.path}/tlddoc.jar" failonerror="true">
+        <arg line="-d ${tagdoc}"/>
+        <arg value="${srcweb}/WEB-INF/tlds/meshcms-taglib.tld"/>
+<!--
+        <arg value="${srcweb}/WEB-INF/tlds/sitemesh-decorator.tld"/>
+        <arg value="${srcweb}/WEB-INF/tlds/sitemesh-page.tld"/>
+-->
+        </java>
+    </target>
 
+    <target name="dist-bin" depends="init,webapp,javadoc,tagdoc" description="Build the binary distribution">
+        <!-- Let's build the distribution .zip - need to do get into sub-dir in zip also -->
+        <property name="dist-bin-name" value="meshcms-${version}-bin"/>
+        <zip destfile="${dist}/${dist-bin-name}.zip">
+            <zipfileset file="${readme}" prefix="${dist-bin-name}"/>
+            <zipfileset file="${license}" prefix="${dist-bin-name}"/>
+            <zipfileset file="${chglog}" prefix="${dist-bin-name}"/>
+            <zipfileset dir="${help}" prefix="${dist-bin-name}/help"/>
+            <zipfileset dir="${javadoc}" prefix="${dist-bin-name}/javadoc"/>
+            <zipfileset dir="${tagdoc}" prefix="${dist-bin-name}/tagdoc"/>
+            <zipfileset file="${warfile}" prefix="${dist-bin-name}"/>
+        </zip>
+    </target>
+
+    <target name="dist-src" depends="clean,init" description="Build the source distribution (basically the snapshot from the VCS">
+        <property name="dist-src-name" value="meshcms-${version}-src"/>
+        <zip destfile="${dist}/${dist-src-name}.zip">
+            <zipfileset dir="${build-essential}" prefix="${dist-src-name}/build-essential"/>
+            <zipfileset dir="${basedir}/src" prefix="${dist-src-name}/src"/>
+            <zipfileset dir="${basedir}/xdocs" prefix="${dist-src-name}/xdocs"/>
+            <zipfileset dir="${srcweb}" prefix="${dist-src-name}/web"/>
+            <zipfileset file="${readme}" prefix="${dist-src-name}"/>
+            <zipfileset file="${license}" prefix="${dist-src-name}"/>
+            <zipfileset file="${todo}" prefix="${dist-src-name}"/>
+            <zipfileset file="${chglog}" prefix="${dist-src-name}"/>
+            <zipfileset file="${basedir}/build.xml" prefix="${dist-src-name}"/>
+            <zipfileset file="${basedir}/build.properties" prefix="${dist-src-name}"/>
+            <!-- <zipfileset dir="${basedir}" prefix="${dist-src-name}" excludes="${build},${dist}"/> -->
+        </zip>
+    </target>
+
+    <target name="help" description="Display this Help message">
+        <echo message="MeshCMS ${version} Web Based Content Management System"/>
+        <echo message="===================================="/>
+        <echo/>
+        <echo message="Main targets:"/>
+        <echo message="all                   Build everything - all the distributions"/>
+        <echo message="dist-bin              Build the binary distribution"/>
+        <echo message="dist-src              Build the source distribution (basically the snapshot from the VCS"/>
+        <echo message="checkout              Checks out the project files from the sf.net subversion repository"/>
+        <echo message="clean                 Clean all output directories"/>
+        <echo message="webapp                Build the webapplication, the WAR file"/>
+        <echo message="javadoc               Create Javadoc HTML files"/>
+        <echo message="tagdoc                Create Tag Library HTML files (with http://taglibrarydoc.dev.java.net/)"/>
+        <echo message="help                  Display this Help message"/>
+        <echo/>
+        <echo/>
+        <echo message="Please ensure you have configured build.properties and ${build-essential}/svnant.properties"/>
+    </target>
 </project>
