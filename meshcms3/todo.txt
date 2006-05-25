@@ -1,0 +1,37 @@
+MeshCMS 3.0 Release
+-------------------
+
+#1 - tool to edit file dates in the file manager
+#2 - tag to load the ALIB script (for menus)
+#3 - new default admin theme
+#4 - javadocs + documentation
+#5 - www.meshcms.org (site + theme + hosting + required applications)
+#6 - update translations
+#7 - new module: headlines
+#8 - new module: search
+#9 - new module: comments
+
+#10 - new module support with multi-parameters (+ XUL)
+#11 - community themes to choose from
+#12 - build process improvements (support for versions: alpha, beta, RC; new distribution packaging)
+#13 - add UnitTests for the core functions (No WebUnit Tests)
+#14 - automatic web tests with Selenium (http://www.openqa.org/selenium/)  or Sahi (http://sahi.sourceforge.net/)
+#15 - Improve the logging
+#16 - some loading and performance tests of the multi-site feature with JMeter(http://jakarta.apache.org/jmeter/index.html)
+
+#17  - a better decision and planninig of the so wanted "static export" feature.
+
+MeshCMS 3.1 Release
+-------------------
+# - performance comparison between Tomcat and Jetty for the multi-site feature (for "massive multi site")
+# - finally a solution to "static export"
+# - an article about "How to easily integrate other webapplications as MeshCMS modules" (e.g. for JForum, Pebble, RSS, etc.)
+# - improve the XDocs generation (PDFs too)
+# - support for plug-ins into the admin interface (e.g. WebLog Analyzers, better UserManagement,
+# - WYSIWYG like theme builder
+
+
+NOTE:
+-----
+The above list is just a simple replacement till we get a decent Issue Tracking System, and most
+of them are subject to further discussions.
