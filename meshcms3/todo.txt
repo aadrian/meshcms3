@@ -31,8 +31,8 @@ x #25 - add support for "Tag Library Documentation Generator"
 #26 - tune checkstyles config files, to obtain better results.
 #27 - try to cover with unit tests as much as possible from the actual code base
 
-MeshCMS 3.1 Release (~ Oct-2006)
---------------------------------
+MeshCMS 3.1 Release (~ Sept-2006)
+---------------------------------
 # - performance comparison between Tomcat and Jetty for the multi-site feature (for "massive multi site")
 # - finally a solution to "static export"
 # - an article about "How to easily integrate other webapplications as MeshCMS modules" (e.g. for JForum, Pebble, RSS, etc.)
@@ -41,6 +41,12 @@ MeshCMS 3.1 Release (~ Oct-2006)
 # - Exp - refactor the taglibs into normal libs + generic taglib wrapper (to be usable from everywhere, or to nest them). [Hue Holleran]
 # - WYSIWYG like theme builder
 
+MeshCMS 3.5 Release (~ Dec-2006)
+--------------------------------
+# - experiment with a VFS(Virtual File System) to allow Subversion or other(than just files) persistence.
+# - rewrite the FileManager as a general component on top of the VFS (to be usable in any project, not just MeshCMS)
+# - include a zero-config web based weblog analyzer, so that statistisc to work out-of-the-box (e.g. based on Polliwog)
+# - upgrade to JDK 1.5 and servlet 2.4 as minimal requirement. 
 
 NOTE:
 -----
