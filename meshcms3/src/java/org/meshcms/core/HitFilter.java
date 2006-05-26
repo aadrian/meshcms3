@@ -102,10 +102,11 @@ public final class HitFilter implements Filter {
             "You are not allowed to request this file");
       }
 
-      if (webSite.getConfiguration().isAlwaysRedirectWelcomes()) {
+      if (webSite.isDirectory(pagePath)) {
         Path wPath = webSite.findCurrentWelcome(pagePath);
+        Configuration conf = webSite.getConfiguration();
 
-        if (wPath != null) {
+        if (wPath != null && (conf == null || conf.isAlwaysRedirectWelcomes())) {
           String q = httpReq.getQueryString();
 
           if (Utils.isNullOrEmpty(q)) {
@@ -114,6 +115,10 @@ public final class HitFilter implements Filter {
             httpRes.sendRedirect(httpReq.getContextPath() + "/" + wPath + '?' + q);
           }
 
+          return;
+        } else if (conf == null || conf.isAlwaysDenyDirectoryListings()) {
+          httpRes.sendError(HttpServletResponse.SC_FORBIDDEN,
+              "Directory listing denied");
           return;
         }
       }

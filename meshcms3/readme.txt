@@ -44,7 +44,7 @@ MeshCMS uses free software from other companies/developers:
     http://www.icon-king.com/
 - Tigra Menu & Tigra Tree Menu**
     http://www.softcomplex.com/
-- ALib Menu**
+- ALib Menu*
     http://sourceforge.net/projects/alib/
 - XStream*
     http://xstream.codehaus.org/

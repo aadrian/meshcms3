@@ -65,6 +65,7 @@
   c.setBackupLife(Utils.parseInt(request.getParameter("backupLife"), c.getBackupLife()));
   c.setStatsLength(Utils.parseInt(request.getParameter("statsLength"), c.getStatsLength()));
   c.setAlwaysRedirectWelcomes(Utils.isTrue(request.getParameter("alwaysRedirectWelcomes")));
+  c.setAlwaysDenyDirectoryListings(Utils.isTrue(request.getParameter("alwaysDenyDirectoryListings")));
   
   webSite.updateSiteMap(true); // needed to re-init the cache
   

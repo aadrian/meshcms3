@@ -29,15 +29,29 @@
     features are file-based.</para>
 
     <para>MeshCMS is available under the <ulink
-    url="http://www.gnu.org/copyleft/gpl.html">GPL license</ulink>. It has
-    been thought as a quick tool to edit pages online, without many of the
-    features that most CMSes offer. MeshCMS simply helps you to edit pages,
-    manage files and create some common components like menus, breadcrumbs,
-    mail forms, image galleries and so on. There is no database, no content
-    approval and no versioning. Not all people need those features and those
-    giant-sized products that require too much time to be learned and too much
-    system resources to run. MeshCMS is essential and requires few resources:
-    the default 64MB heap is enough to host a handful of sites.</para>
+    url="http://www.gnu.org/copyleft/gpl.html">GPL license</ulink>. It allows
+    some different usage approaches:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>it can be used as a simple, basic CMS. The user interface allows
+        to edit pages visually, add and delete pages and do other basic tasks.
+        This kind of approach should be easy enough for everyone;</para>
+      </listitem>
+
+      <listitem>
+        <para>more experienced users can create complex themes and modules to
+        fulfill specific needs. MeshCMS offers many convenience classes and
+        methods, and it allows to create JSP pages that will be added to the
+        site map just like plain HTML pages;</para>
+      </listitem>
+
+      <listitem>
+        <para>since MeshCMS uses plain files and supports the usual SiteMesh
+        configuration, many external Java applications can be integrated quite
+        easily.</para>
+      </listitem>
+    </itemizedlist>
 
     <para>Main features are:</para>
 
@@ -49,7 +63,13 @@
 
       <listitem>
         <para><emphasis role="bold">easy to install</emphasis> - deploy
-        meshcms.war and you're done;</para>
+        meshcms.war and you're done (tested on Tomcat and Jetty);</para>
+      </listitem>
+
+      <listitem>
+        <para><emphasis role="bold">multi-site support</emphasis> - multiple
+        sites can be served with a single installation on a single
+        context;</para>
       </listitem>
 
       <listitem>
@@ -112,114 +132,42 @@
       <para>If you want to try MeshCMS, the simplest way to get started is to
       copy meshcms.war into the webapps folder of your application server
       (e.g. <ulink url="http://jakarta.apache.org/tomcat/">Tomcat</ulink> or
-      <ulink url="http://www.caucho.com/">Resin</ulink>) and open
+      <ulink url="http://jetty.mortbay.org/">Jetty</ulink>) and open
       <emphasis>http://localhost:8080/meshcms/</emphasis>.</para>
 
       <para>If you want to deploy a website, you will have to configure a
       virtual host for it as usual. There is nothing special in the setup of
       MeshCMS, so please refer to the documentation of your application server
-      to choose the configuration options that best suit your needs. For
-      example, this is the configuration of the Cromoteca virtual host (this
-      is just an example and might not work on some versions of Tomcat or on
-      other application servers):</para>
-
-      <programlisting>&lt;Host name="cromoteca.com" debug="0" appBase="/home/tomcat/sites/cromoteca"
-     unpackWARs="true" autoDeploy="false" xmlValidation="false"
-     xmlNamespaceAware="false"&gt;
- &lt;Alias&gt;www.cromoteca.com&lt;/Alias&gt;
- &lt;Logger className="org.apache.catalina.logger.FileLogger"
-     directory="/home/tomcat/logs/cromoteca" prefix="error_log." suffix=".txt"
-     timestamp="true" /&gt;
- &lt;Valve className="org.apache.catalina.valves.AccessLogValve"
-     directory="/home/tomcat/logs/cromoteca"  prefix="access_log." suffix=".txt"
-     pattern='%h %l %u %t "%r" %s %b "%{user-agent}i" "%{referer}i"'
-     resolveHosts="false"/&gt;
- &lt;Context path="" docBase="" debug="0" reloadable="false" allowLinking="true" /&gt;
-&lt;/Host&gt;</programlisting>
+      to choose the configuration options that best suit your needs.</para>
 
       <para>MeshCMS is able to create thumbnails of images, so you need to
       provide an environment that allows image processing. On some systems you
       might need to add the <option>-Djava.awt.headless=true</option> option
       to the Java VM that runs the Servlet container.</para>
 
-      <note>
-        <para>to use MeshCMS with <ulink
-        url="http://jetty.mortbay.org/jetty/">Jetty</ulink>, you must set the
-        init parameter <parameter>redirectWelcome</parameter> to
-        <parameter>true</parameter> for
-        <parameter>org.mortbay.jetty.servlet.Default</parameter>.</para>
-      </note>
+      <para>Starting from version 3.0, MeshCMS allows to serve multiple sites
+      from within a single context. If you want to do this, you should
+      configure the context to accept all domains that you want to host.
+      Here's a simple example of <filename>server.xml</filename> file for
+      Tomcat 5.5.12 that accepts all domain names:</para>
+
+      <programlisting>&lt;Server port="8005" shutdown="SHUTDOWN"&gt;
+  &lt;Service name="Catalina"&gt;
+    &lt;Connector port="8080" /&gt;
+
+    &lt;Engine name="Catalina" defaultHost="localhost"&gt;
+      &lt;Host name="localhost" appBase="/home/meshcms"&gt;
+        &lt;Context path="" docBase="" debug="0" reloadable="false" allowLinking="false" /&gt;
+      &lt;/Host&gt;
+    &lt;/Engine&gt;
+  &lt;/Service&gt;
+&lt;/Server&gt;</programlisting>
     </section>
 
     <section id="upgrade">
-      <title>A strategy to manage MeshCMS installation and upgrade</title>
+      <title>Upgrade</title>
 
-      <para>When using MeshCMS, files from the application get somewhat mixed
-      with files that belong to the site itself. This makes the maintenance
-      quite hard, especially when it comes the time to upgrade MeshCMS.</para>
-
-      <para>Personally, I use a different approach that is allowing me to
-      manage upgrades easily, and also to manage many sites together. My
-      strategy is applicabile on UNIX-like operating systems only, since it
-      makes use of symbolic links. That's why I've put
-      <option>allowLinking="true"</option> in my Tomcat context definitions
-      (see <xref linkend="install_basic" />).</para>
-
-      <para>On my own server I unpacked the WAR file in a directory called
-      <filename>meshcms</filename>, then I created another directory called
-      <filename>sites</filename>, which contains a directory for each site I
-      host and an additional directory called <filename>symlinks</filename>
-      (names are not important of course). This is the <command>ls
-      -lR</command> command output for that directory:</para>
-
-      <programlisting>.:
-total 8
-lrwxrwxrwx    1 tomcat   tomcat         19 May 10 11:40 admin -&gt; ../../meshcms/admin
-drwxrwxr-x    3 tomcat   tomcat       4096 May 21 14:58 WEB-INF
-
-./WEB-INF:
-total 4
-lrwxrwxrwx    1 tomcat   tomcat         32 May 10 11:43 classes -&gt; ../../../meshcms/WEB-INF/classes
-lrwxrwxrwx    1 tomcat   tomcat         39 May 10 11:43 decorators.xml -&gt; ../../../meshcms/WEB-INF/decorators.xml
-lrwxrwxrwx    1 tomcat   tomcat         32 May 10 11:43 lib -&gt; ../../../meshcms/WEB-INF/lib
-drwxrwxr-x    3 tomcat   tomcat       4096 May 19 15:36 meshcms
-lrwxrwxrwx    1 tomcat   tomcat         37 May 10 11:43 sitemesh.xml -&gt; ../../../meshcms/WEB-INF/sitemesh.xml
-lrwxrwxrwx    1 tomcat   tomcat         29 May 10 11:43 tlds -&gt; ../../../meshcms/WEB-INF/tlds
-lrwxrwxrwx    1 tomcat   tomcat         32 May 10 11:44 web.xml -&gt; ../../../meshcms/WEB-INF/web.xml
-
-./WEB-INF/meshcms:
-total 4
-lrwxrwxrwx    1 tomcat   tomcat         49 May 19 15:36 filetypes.txt -&gt; ../../../../meshcms/WEB-INF/meshcms/filetypes.txt
-drwxrwxr-x    2 tomcat   tomcat       4096 May 10 12:07 users
-
-./WEB-INF/meshcms/users:
-total 0
-lrwxrwxrwx    1 tomcat   tomcat         21 May 10 12:07 admin.txt -&gt; ../../../../admin.txt</programlisting>
-
-      <para>When I want to create a new site, I just need to use <command>cp
-      -R <replaceable>symlinks</replaceable>
-      <replaceable>sitename</replaceable></command> and to create a host for
-      the new site. Then, when I need to upgrade MeshCMS, I just replace the
-      contents of the <filename>meshcms</filename> directory and restart
-      Tomcat so that all sites will use the new version.</para>
-
-      <para>The link for <filename>admin.txt</filename> serves a different
-      purpose: MeshCMS uses a file for each user and the name of the file is
-      always <filename><replaceable>username</replaceable>.txt</filename>. By
-      linking to a single <filename>admin.txt</filename> file placed
-      somewhere, I can use the same account to manage all sites. This trick
-      can be used in many situations: suppose that you want to allow a user to
-      access two or more sites. Create the user in a site using the MeshCMS
-      interface, then create a symlink into the
-      <filename>/WEB-INF/meshcms/users</filename> directory of the other
-      site(s). When the user will access one of the sites and will change his
-      profile and/or his password, changes will be valid for the other site(s)
-      too.</para>
-
-      <para>You can even use symlinks to share directories and files between
-      different sites. If you symlink a directory from a site to another, all
-      changes will be reflected immediately, and each site is allowed to use
-      its own theme to style the pages included in that directory.</para>
+      <para></para>
     </section>
 
     <section id="apache">

@@ -188,6 +188,14 @@
    </td>
   </tr>
 
+  <tr>
+   <td align="right"><fmt:message key="configAlwaysDenyDirList" /></td>
+   <td>
+    <input type="checkbox" id="alwaysDenyDirectoryListings" name="alwaysDenyDirectoryListings"
+     value="true"<%= configuration.isAlwaysDenyDirectoryListings() ? " checked='checked'" : "" %> />
+   </td>
+  </tr>
+
   <tr><th colspan="2"><input type="submit" value="<fmt:message key="genericSave" />" /></th></tr>
  </table>
 </form>

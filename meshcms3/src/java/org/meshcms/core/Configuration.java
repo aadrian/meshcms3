@@ -58,6 +58,7 @@ public class Configuration implements Serializable {
   private boolean useAdminTheme;
   private boolean preventHotlinking;
   private boolean alwaysRedirectWelcomes;
+  private boolean alwaysDenyDirectoryListings;
   private int backupLife;
   private int statsLength;
   private int updateInterval;
@@ -72,6 +73,7 @@ public class Configuration implements Serializable {
     setUseAdminTheme(true);
     setPreventHotlinking(false);
     setAlwaysRedirectWelcomes(true);
+    setAlwaysDenyDirectoryListings(true);
     
     setBackupLife(90);
     setStatsLength(3);
@@ -222,5 +224,13 @@ public class Configuration implements Serializable {
 
   public void setAlwaysRedirectWelcomes(boolean alwaysRedirectWelcomes) {
     this.alwaysRedirectWelcomes = alwaysRedirectWelcomes;
+  }
+
+  public boolean isAlwaysDenyDirectoryListings() {
+    return alwaysDenyDirectoryListings;
+  }
+
+  public void setAlwaysDenyDirectoryListings(boolean alwaysDenyDirectoryListings) {
+    this.alwaysDenyDirectoryListings = alwaysDenyDirectoryListings;
   }
 }
