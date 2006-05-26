@@ -28,7 +28,7 @@ x #19 - Sandbox area for all developers in the Subversion repository (to have a 
 #23 - code refactorings, to make it easier to understand for newbies
 #24 - new and better and table-less theme for the default site (something that is more reusable than the "flowers" theme).
 x #25 - add support for "Tag Library Documentation Generator"
-#26 - tune checkstyles config files, to obtain better results.
+x #26 - tune checkstyles config files, to obtain better results.
 #27 - try to cover with unit tests as much as possible from the actual code base
 
 MeshCMS 3.1 Release (~ Sept-2006)

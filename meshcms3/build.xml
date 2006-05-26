@@ -131,11 +131,24 @@
     </target>
 
     <target name="checkstyle" description="Run checkstyle report on all the soruces">
-      <checkstyle config="${build-essential}/checkstyle-checks.xml">
-         <fileset dir="${srcjava}" includes="**/*.java"/>
-         <fileset dir="${srcweb}" includes="**/*.jsp"/>
-      </checkstyle>
-   </target>
+        <property name="checkstyle.data.dir"
+                  location="${build}/checkstyle"/>
+        <property name="checkstyle.data.file"
+                  location="${checkstyle.data.dir}/checkstyle.xml"/>
+        <property name="checkstyle.report.file"
+                  location="${checkstyle.data.dir}/checkstyle.html"/>
+        <property name="checkstyle.xsl.file"
+                  location="${checkstyle.path}/contrib/checkstyle-noframes.xsl"/>
+        <mkdir dir="${checkstyle.data.dir}"/>
+        <checkstyle config="${build-essential}/checkstyle-checks.xml" failOnViolation="false">
+            <fileset dir="${srcjava}" includes="**/*.java"/>
+            <fileset dir="${srcweb}" includes="**/*.jsp"/>
+            <formatter type="plain"/>
+            <formatter type="xml" toFile="${checkstyle.data.file}"/>
+        </checkstyle>
+        <xslt in="${checkstyle.data.file}" out="${checkstyle.report.file}"
+              style="${checkstyle.xsl.file}"/>
+    </target>
 
     <target name="help" description="Display this Help message">
         <echo message="MeshCMS ${version} Web Based Content Management System"/>
