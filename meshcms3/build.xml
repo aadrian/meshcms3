@@ -8,6 +8,9 @@
   <!-- import the svnant task -->
   <import file="${svnant.xml}" />
 
+    <taskdef resource="checkstyletask.properties"
+            classpath="${checkstyle.path}/${jar.checkstyle}"/>
+
     <target name="all" description="Build everything - all the distributions">
         <antcall target="clean"/>
         <antcall target="dist-src"/>
@@ -127,6 +130,13 @@
         </zip>
     </target>
 
+    <target name="checkstyle" description="Run checkstyle report on all the soruces">
+      <checkstyle config="${build-essential}/checkstyle-checks.xml">
+         <fileset dir="${srcjava}" includes="**/*.java"/>
+         <fileset dir="${srcweb}" includes="**/*.jsp"/>
+      </checkstyle>
+   </target>
+
     <target name="help" description="Display this Help message">
         <echo message="MeshCMS ${version} Web Based Content Management System"/>
         <echo message="===================================="/>
@@ -135,11 +145,12 @@
         <echo message="all                   Build everything - all the distributions"/>
         <echo message="dist-bin              Build the binary distribution"/>
         <echo message="dist-src              Build the source distribution (basically the snapshot from the VCS"/>
-        <echo message="checkout              Checks out the project files from the sf.net subversion repository"/>
+        <echo message="checkout              Check out the project files from the sf.net subversion repository"/>
         <echo message="clean                 Clean all output directories"/>
         <echo message="webapp                Build the webapplication, the WAR file"/>
         <echo message="javadoc               Create Javadoc HTML files"/>
         <echo message="tagdoc                Create Tag Library HTML files (with http://taglibrarydoc.dev.java.net/)"/>
+        <echo message="checkstyle            Run checkstyle report on all the soruces"/>
         <echo message="help                  Display this Help message"/>
         <echo/>
         <echo/>

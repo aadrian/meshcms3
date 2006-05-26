@@ -20,7 +20,7 @@ x #12 - build process improvements (support for versions: alpha, beta, RC; new d
 
 #17 - IMPORTANT: a better and clear decision and planninig for the so wanted "static export" feature.
 
-#18 - add Checkstyle (http://checkstyle.sourceforge.net/), to automaticaly help cleanup the code.
+x #18 - add Checkstyle (http://checkstyle.sourceforge.net/), to automaticaly help cleanup the code.
 x #19 - Sandbox area for all developers in the Subversion repository (to have a better place for experimenting).
 #20 - MOST IMPORTANT: find out how normal webapplications (that worked in their virtual host/doamin) will work now with this multi-site support.
 #21 - update the JavaDocs for the entire code base.
@@ -29,6 +29,7 @@ x #19 - Sandbox area for all developers in the Subversion repository (to have a 
 #24 - new and better and table-less theme for the default site (something that is more reusable than the "flowers" theme).
 x #25 - add support for "Tag Library Documentation Generator"
 #26 - tune checkstyles config files, to obtain better results.
+#27 - try to cover with unit tests as much as possible from the actual code base
 
 MeshCMS 3.1 Release (~ Oct-2006)
 --------------------------------
