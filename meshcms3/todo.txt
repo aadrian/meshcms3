@@ -13,7 +13,7 @@ MeshCMS 3.0 Release (~ 10-Jul-2006)
 #10 - new module support with multi-parameters (+ XUL)
 #11 - community themes to choose from
 x #12 - build process improvements (support for versions: alpha, beta, RC; new distribution packaging)
-#13 - add UnitTests for the core functions (No WebUnit Tests)
+x #13 - add UnitTest support for the core functions (No WebUnit Tests)
 #14 - automatic web tests with Selenium (http://www.openqa.org/selenium/)  or Sahi (http://sahi.sourceforge.net/)
 #15 - add better logging with Log4J
 #16 - some loading and performance tests of the multi-site feature with JMeter(http://jakarta.apache.org/jmeter/index.html)
