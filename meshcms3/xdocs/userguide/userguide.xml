@@ -167,120 +167,26 @@
     <section id="upgrade">
       <title>Upgrade</title>
 
-      <para></para>
-    </section>
+      <para>MeshCMS is composed of two folders:
+      <filename>/meshcms/admin</filename> and <filename>/WEB-INF</filename>.
+      To perform an upgrade, you should delete the current versions of those
+      folders and use the new ones. Be careful not to delete the whole
+      <filename>/meshcms</filename> folder, but just the
+      <filename>admin</filename> subfolder.</para>
 
-    <section id="apache">
-      <title>Using MeshCMS with Apache</title>
+      <para>This upgrade strategy works fine in case of a simple usage of
+      MeshCMS. In other cases the upgrade process can be harder. You probably
+      won't modify the contents of the <filename>/meshcms/admin</filename>
+      folder, but the <filename>/WEB-INF</filename> one is more likely to be
+      changed. If you want to add an external application, or if you want to
+      configure SiteMesh differently, you must keep track of your changes so
+      that you can integrate them with the new release.</para>
 
-      <para>MeshCMS requires a Java Servlet container to run, but often pages
-      are served by an HTTP server. Tomcat and the Apache webserver are the
-      most widely used respectively, so they are used as examples in this
-      page.</para>
-
-      <para>There are some possible scenarios when MeshCMS must be installed
-      on a server where pages are served by Apache.</para>
-
-      <orderedlist>
-        <listitem>
-          <para>Tomcat is not available at all. Currently, there is no way to
-          run MeshCMS in such a case. A static export feature is on the way,
-          so it will be possible to run MeshCMS on a separate server and
-          export the sites to Apache, which will serve them as static sites.
-          At the moment, a similar result could be achieved with wget, but
-          that's a tedious approach with many flaws. For example, mail forms
-          wouldn't work, since the JSP page that sends messages won't be
-          available.</para>
-        </listitem>
-
-        <listitem>
-          <para>Apache serves static pages (*.html for example), while request
-          of type *.jsp or /servlet/* are passed to Tomcat. This is a very
-          common scenario. If you need to use MeshCMS in that situation, you
-          could do the following: in the configuration page, change the value
-          of Visually editable types to jsp. This way you'll be able to use
-          JSP files for simple HTML. Do not create *.html or *.htm files,
-          since those files are not managed by MeshCMS in this case. You
-          should also keep in mind that the Invoker is usually enabled on
-          those servers, to allow to run servlets by calling
-          /servlet/fullClassName. That configuration works with
-          MeshCMS.</para>
-        </listitem>
-      </orderedlist>
-    </section>
-
-    <section id="file_structure">
-      <title>File Structure</title>
-
-      <para>A normal installation of MeshCMS contains:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para><emphasis role="bold">WEB-INF</emphasis>: contains system
-          files (classes, libraries and configuration files);</para>
-
-          <itemizedlist>
-            <listitem>
-              <para><emphasis role="bold">meshcms</emphasis>: contains saved
-              items:</para>
-
-              <itemizedlist>
-                <listitem>
-                  <para><emphasis role="bold">users</emphasis>: contains users
-                  data (one file per user);</para>
-                </listitem>
-
-                <listitem>
-                  <para><emphasis role="bold">messages</emphasis>: contains a
-                  copy of the e-mail messages that are sent through mail
-                  forms;</para>
-                </listitem>
-
-                <listitem>
-                  <para><emphasis role="bold">repository</emphasis>: contains
-                  backups of modified and deleted files;</para>
-                </listitem>
-
-                <listitem>
-                  <para><emphasis role="bold">filetypes.txt</emphasis>:
-                  contains a database of file types; fields are
-                  tab-separated;</para>
-                </listitem>
-
-                <listitem>
-                  <para><emphasis role="bold">siteprops.txt</emphasis>:
-                  contains saved site customization;</para>
-                </listitem>
-
-                <listitem>
-                  <para><emphasis role="bold">configuration.txt</emphasis>:
-                  contains saved site configuration;</para>
-                </listitem>
-              </itemizedlist>
-            </listitem>
-          </itemizedlist>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">admin</emphasis>: contains
-          administrative pages, the wysiwyg editor, the default module
-          templates and the default admin theme; you can move or rename this
-          folder, but then you'll need to restart your web application;</para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">module_templates</emphasis>: can contain
-          your own module templates;</para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">themes</emphasis>: can contain your own
-          themes.</para>
-        </listitem>
-      </itemizedlist>
-
-      <para>The last two elements can be located elsewhere according to the
-      <link linkend="configure">Configuration</link>.</para>
+      <para>Upgrading from version prior to 3.0 is even harder. While the HTML
+      files created before will continue to work fine (module contents
+      included), there's no tool in the official release to convert users and
+      site configurations. Such tools might become available on the community
+      website.</para>
     </section>
   </chapter>
 
@@ -412,6 +318,86 @@
       SiteMesh. Of course, a web developer is still allowed to put all
       document type definitions in his own themes and to require his users to
       deal with well-formed documents only.</para>
+    </section>
+
+    <section>
+      <title>Serving multiple sites from a single installation</title>
+
+      <para>Tomcat and other servlet containers allow to create multiple
+      hosts, and to put multiple contexts between them. Web developers usually
+      need to host more than a single website on the same server, so they end
+      up creating a host for each website and specifying which domains must be
+      served by that host. This is a good setup strategy since it allows to
+      separate sites and to tune their configuration. Nevertheless, in the
+      real life this method leads to many installations of MeshCMS to be
+      maintained separately, which is quite annoying for example when
+      upgrading.</para>
+
+      <para>MeshCMS 3.0 gives the choice between this approach and a different
+      one: you can install it once and serve all sites from that single
+      context. You will probably configure the host to serve all domains and
+      let MeshCMS map them to different sites. The advantages of this approach
+      are:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>you have to deal with a single installation of the
+          software;</para>
+        </listitem>
+
+        <listitem>
+          <para>you will save some server resources;</para>
+        </listitem>
+
+        <listitem>
+          <para>you can see the files of all sites from the file manager if
+          you have the needed permissions;</para>
+        </listitem>
+
+        <listitem>
+          <para>you can configure the sites and their mappings using the web
+          interface.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>The drawback are:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>it is more difficult to manage security separately for each
+          site;</para>
+        </listitem>
+
+        <listitem>
+          <para>if you use JSP pages in virtual sites, you must keep into
+          account the fact that MeshCMS will map URLs to files
+          differently.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>To serve multiple sites, you need to install MeshCMS as usual.
+      Then you can use the Control Panel to create new sites.</para>
+
+      <section>
+        <title>Main site and virtual sites</title>
+
+        <para>When you install MeshCMS, you have a single site. This is the
+        good old default scenario. You can add a virtually unlimited number of
+        virtual sites on top of it. While virtual sites behave like the main
+        one apparently, there are many differences between. The main
+        difference is the fact that a different file is served when a page of
+        a virtual site is requested. Normally, if you configure a Tomcat host
+        to serve <uri>www.site1.com</uri> and <uri>www.site2.com</uri>, the
+        same file will be served for
+        <uri>http://www.site1.com/index.html</uri> and
+        <uri>http://www.site2.com/index.html</uri>. That file is simply
+        <filename>/index.html</filename>, located in the context root. But if
+        you setup <uri>www.site2.com</uri> as a virtual site on top of
+        <uri>www.site1.com</uri>, a request for
+        <uri>http://www.site2.com/index.html</uri> will lead to
+        <filename>/meshcms/sites/site2.com/index.html</filename> (that path
+        could be slightly different, but the concept remains the same).</para>
+      </section>
     </section>
   </chapter>
 
