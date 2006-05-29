@@ -52,29 +52,30 @@ public class PageBody extends AbstractTag {
 
     Writer w = getOut();
 
-    w.write("<table cellspacing='0' class='meshcmseditor'>\n");
-    w.write("<tr><td align='right'>" + webSite.helpIcon(cp, WebSite.HELP_ANCHOR_EDIT_PAGE, userInfo) + "</td></tr>\n");
-    w.write("<tr><th>" + bundle.getString("editorPageTitle") + "</th></tr>\n");
-    w.write("<tr><td><input type='text' name='pagetitle' value=\"" +
+    w.write("<div class='meshcmseditor'>\n");
+    w.write("<div align='right'>" + webSite.helpIcon(cp, WebSite.HELP_ANCHOR_EDIT_PAGE, userInfo) + "</div>\n");
+    w.write("<div class='meshcmstitle'>" + bundle.getString("editorMainSection") + "</div>\n");
+    w.write("<div class='meshcmsfieldname'>" + bundle.getString("editorPageTitle") + "</div>\n");
+    w.write("<div class='meshcmsfield'><input type='text' name='pagetitle' value=\"" +
       Utils.noNull(getPage().getTitle()) + 
-      "\" style='width: 100%;' /></td></tr>\n");
+      "\" style='width: 100%;' /></div>\n");
     
-    w.write("<tr><th><img src=\"" + afp +
+    w.write("<div class='meshcmsfieldname'><img src=\"" + afp +
       "/images/tree_plus.gif\" id='togglehead' onclick='javascript:editor_toggleHeadEditor();' />\n");
-    w.write(bundle.getString("editorPageHead") + "</th></tr>\n");
-    w.write("<tr><td><textarea id='meshcmshead' name='meshcmshead' style='height: 5em; width: 100%; display: none;'>" +
-      Utils.noNull(((HTMLPage) getPage()).getHead()) + "</textarea></td></tr>\n");
+    w.write(bundle.getString("editorPageHead") + "</div>\n");
+    w.write("<div class='meshcmsfield'><textarea id='meshcmshead' name='meshcmshead' style='height: 5em; width: 100%; display: none;'>" +
+      Utils.noNull(((HTMLPage) getPage()).getHead()) + "</textarea></div>\n");
 
-    w.write("<tr><th>" + bundle.getString("editorPageBody") + "</th></tr>\n");
-    w.write("<tr><td><textarea id='meshcmsbody' name='meshcmsbody' style='height: 30em; width: 100%;'>");
+    w.write("<div class='meshcmsfieldname'>" + bundle.getString("editorPageBody") + "</div>\n");
+    w.write("<div class='meshcmsfield'><textarea id='meshcmsbody' name='meshcmsbody' style='height: 30em; width: 100%;'>");
     w.write(Utils.encodeHTML(getPage().getBody()));
-    w.write("</textarea></td></tr>\n");
-    w.write("<tr><td align='center'><input type='checkbox' checked='checked'\n");
+    w.write("</textarea></div>\n");
+    w.write("<div class='meshcmsfield'><input type='checkbox' checked='checked'\n");
     w.write(" onclick=\"javascript:tinyMCE.settings['relative_urls']=this.checked;\" />\n");
-    w.write(" " + bundle.getString("editorRelative") + "</td></tr>\n");
+    w.write(" " + bundle.getString("editorRelative") + "</div>\n");
 
-    w.write(" <tr><th><input type='submit' value='" +
-        bundle.getString("genericSave") + "' /></th></tr>\n");
-    w.write("</table>");
+    w.write("<div class='meshcmsfield' align='center'><input type='submit' value='" +
+        bundle.getString("genericSave") + "' /></div>\n");
+    w.write("</div>");
   }
 }
