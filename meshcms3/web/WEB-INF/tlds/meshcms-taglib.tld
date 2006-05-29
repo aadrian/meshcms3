@@ -351,4 +351,29 @@
       <rtexprvalue>true</rtexprvalue>
     </attribute>
   </tag>
+  <tag>
+    <name>alibmenu</name>
+    <tag-class>org.meshcms.taglib.AlibMenu</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+      <name>part</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>path</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>orientation</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>current</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
 </taglib>
