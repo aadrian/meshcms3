@@ -9,12 +9,12 @@ body {
 
 #header {
   height: 156px;
-  background: url(top.jpg) right no-repeat;
+  background: #f6f248 url(top.jpg) right no-repeat;
 }
 
 #container {
   padding-left: 200px;      /* LC fullwidth */
-  padding-right: 190px;     /* RC fullwidth + CC padding */
+  padding-right: 240px;     /* RC fullwidth + CC padding */
 }
 
 #container .column {
@@ -29,13 +29,13 @@ body {
 
 #left {
   width: 180px;             /* LC width */
-  padding: 0 10px;          /* LC padding */
+  padding: 0 10px;         /* LC padding */
   right: 240px;             /* LC fullwidth + CC padding */
   margin-left: -100%;
 }
 
 #right {
-  width: 130px;             /* RC width */
+  width: 180px;             /* RC width */
   padding: 0 10px;          /* RC padding */
   margin-right: -100%;
 }
@@ -46,7 +46,7 @@ body {
 
 /*** IE Fix ***/
 * html #left {
-  left: 150px;              /* RC fullwidth */
+  left: 200px;              /* RC fullwidth */
 }
 
 /*** Equal-height Columns ***/
@@ -82,11 +82,94 @@ body {
 }
 
 #header, #footer {
-  font-size: large;
   text-align: center;
   /*padding: 0.3em 0;*/
 }
 
 #container .column {
   padding-top: 1em;
+}
+
+
+
+/* Colors
+  - light brown: e8c259
+  - yellow: f6f248
+  - blue: 5192d0
+  - light blue: d9e4f5
+*/
+
+
+
+body {
+  font-family: "Bitstream Vera Sans", "Lucida Sans Unicode", sans-serif;
+  font-size: 0.8em;
+}
+
+.box {
+  position: relative;
+  border: 1px solid #e8c259;
+  margin-bottom: 10px;
+}
+
+.boxtitle {
+  background-color: #e8c259;
+  margin: 1px;
+  padding: 1px 4px;
+  font-weight: bold;
+  color: white;
+}
+
+.boxcontent {
+  padding: 5px 0px;
+}
+
+a, a:visited {
+  color: #5192d0;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  border: none;
+}
+
+#footer {
+  border-top: 1px solid #d9e4f5;
+  padding: 2px 2px 6px 2px;
+}
+
+.breadcrumbs {
+  margin-top: 2px;
+  font-size: 0.8em;
+  background-color: #d9e4f5;
+  padding: 2px 20px 2px 20px;
+}
+
+input, select, textarea {
+  font-family: "Bitstream Vera Sans Mono", "Lucida Sans Typewriter", "Lucida Console", mono;
+  font-size: 1em;
+  border: 1px inset #5192d0;
+}
+
+pre {
+  font-family: "Bitstream Vera Sans Mono", "Lucida Sans Typewriter", "Lucida Console", mono;
+}
+
+.notice {
+  margin: 5px 20px;
+  border: 1px solid #5192d0;
+  background-color: #d9e4f5;
+  padding: 5px;
+}
+
+.codesample {
+  font-family: "Bitstream Vera Sans Mono", "Lucida Sans Typewriter", "Lucida Console", mono;
+  white-space: nowrap;
+  margin: 5px 20px;
+  border: 1px solid #d9e4f5;
+  padding: 5px;
 }
