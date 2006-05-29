@@ -146,12 +146,16 @@ img {
   margin-top: 2px;
   font-size: 0.8em;
   background-color: #d9e4f5;
-  padding: 2px 20px 2px 20px;
+  padding: 0.2em 2em;
+}
+
+.maincontent {
+  padding-top: 1em;
 }
 
 input, select, textarea {
   font-family: "Bitstream Vera Sans Mono", "Lucida Sans Typewriter", "Lucida Console", mono;
-  font-size: 1em;
+  font-size: 0.9em;
   border: 1px inset #5192d0;
 }
 
@@ -160,16 +164,16 @@ pre {
 }
 
 .notice {
-  margin: 5px 20px;
+  margin: 0.5em 2em;
   border: 1px solid #5192d0;
   background-color: #d9e4f5;
-  padding: 5px;
+  padding: 0.5em;
 }
 
 .codesample {
   font-family: "Bitstream Vera Sans Mono", "Lucida Sans Typewriter", "Lucida Console", mono;
   white-space: nowrap;
-  margin: 5px 20px;
+  margin: 0.5em 2em;
   border: 1px solid #d9e4f5;
-  padding: 5px;
+  padding: 0.5em;
 }

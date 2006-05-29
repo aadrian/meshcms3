@@ -20,8 +20,22 @@
  text-align: center;
 }
 
+/* Editing table */
+table.meshcmseditor {
+ border-top: 1px dashed #999999;
+ border-left: 1px dashed #999999;
+}
+
+table.meshcmseditor th, table.meshcmseditor td {
+ padding: 2px;
+ border-right: 1px dashed #999999;
+ border-bottom: 1px dashed #999999;
+}
+
+/* Editing DIVs */
 div.meshcmseditor {
  padding: 1em;
+ border: 1px dotted silver;
 }
 
 div.meshcmseditor div.meshcmstitle {
@@ -31,6 +45,8 @@ div.meshcmseditor div.meshcmstitle {
 
 div.meshcmseditor div.meshcmsfieldname {
  border-bottom: 1px dotted;
+ margin-top: 0.8em;
+ margin-bottom: 0.2em;
 }
 
 div.meshcmseditor div.meshcmsfield {

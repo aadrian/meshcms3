@@ -62,24 +62,22 @@
 <body>
 
 <form action="savepage.jsp" method="POST" id="srceditor" name="srceditor">
- <input type='hidden' name='pagepath' value="<%= pagePath %>" />
-<table align="center" border="0" cellspacing="10" cellpadding="2" width="100%">
-<tr>
- <th>
-  <fmt:message key="srcEditing" />
-  <a href="<%= cp + '/' + pagePath %>"><%= pagePath.getLastElement() %></a>
- </th>
-</tr>
+  <input type="hidden" name="pagepath" value="<%= pagePath %>" />
 
-<tr>
- <td align="center"><textarea rows="25" cols="80"
-  id="fullsrc" name="fullsrc"><%= Utils.encodeHTML(full) %></textarea></td>
-</tr>
+  <div class="meshcmseditor">
+    <div class="meshcmstitle">
+      <fmt:message key="srcEditing" />
+      <a href="<%= cp + '/' + pagePath %>"><%= pagePath.getLastElement() %></a>
+    </div>
 
-<tr>
- <th><input type="submit" value="<fmt:message key="genericSave" />"></th>
-</tr>
-</table>
+    <div class="meshcmsfield">
+      <textarea style="width: 100%; height: 25em;" id="fullsrc" name="fullsrc"><%= Utils.encodeHTML(full) %></textarea>
+    </div>
+
+    <div class="meshcmsfield" align="center">
+      <input type="submit" value="<fmt:message key="genericSave" />">
+    </div>
+  </div>
 </form>
 
 </body>

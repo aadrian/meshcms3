@@ -70,9 +70,9 @@ public class PageBody extends AbstractTag {
     w.write("<div class='meshcmsfield'><textarea id='meshcmsbody' name='meshcmsbody' style='height: 30em; width: 100%;'>");
     w.write(Utils.encodeHTML(getPage().getBody()));
     w.write("</textarea></div>\n");
-    w.write("<div class='meshcmsfield'><input type='checkbox' checked='checked'\n");
+    w.write("<div class='meshcmsfield'><input type='checkbox' checked='checked' id='relch' \n");
     w.write(" onclick=\"javascript:tinyMCE.settings['relative_urls']=this.checked;\" />\n");
-    w.write(" " + bundle.getString("editorRelative") + "</div>\n");
+    w.write(" <label for='relch'>" + bundle.getString("editorRelative") + "</label></div>\n");
 
     w.write("<div class='meshcmsfield' align='center'><input type='submit' value='" +
         bundle.getString("genericSave") + "' /></div>\n");

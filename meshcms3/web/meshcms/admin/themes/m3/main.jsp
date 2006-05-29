@@ -27,6 +27,7 @@
             <cms:module location="top" alt="" />
             <cms:pagebody />
             <cms:module location="bottom" alt="" />
+            <cms:mailform />
           </div>
         </div>
 
@@ -51,14 +52,6 @@
         </div>
 
         <div class="column" id="right">
-          <cms:ifmodule location="right">
-            <div class="box">
-              <div class="boxcontent">
-                <cms:module location="right" alt="" />
-              </div>
-            </div>
-          </cms:ifmodule>
-
           <cms:ifuser>
             <div class="box">
               <div class="boxtitle">
@@ -70,6 +63,14 @@
               </div>
             </div>
           </cms:ifuser>
+
+          <cms:ifmodule location="right">
+            <div class="box">
+              <div class="boxcontent">
+                <cms:module location="right" alt="" />
+              </div>
+            </div>
+          </cms:ifmodule>
         </div>
       </div>
 
