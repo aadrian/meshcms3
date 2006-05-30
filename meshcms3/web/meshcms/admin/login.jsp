@@ -66,23 +66,29 @@
     }
 %>
     <form name="loginform" action="login.jsp" method="post">
-     <table align="center" border="0" cellspacing="1" cellpadding="4">
-      <tr>
-       <td><fmt:message key="loginUsername" /></td>
-       <td><input type="text" name="username" size="12" value="<%= username %>" /></td>
-      </tr>
+     <div class="meshcmsfieldname">
+      <label for="username">
+       <fmt:message key="loginUsername" />
+      </label>
+     </div>
+     
+     <div class="meshcmsfield">
+      <input type="text" id="username" name="username" value="<%= username %>" />
+     </div>
+      
+     <div class="meshcmsfieldname">
+      <label for="password">
+       <fmt:message key="loginPassword" />
+      </label>
+     </div>
 
-      <tr>
-       <td><fmt:message key="loginPassword" /></td>
-       <td><input type="password" name="password" size="12" /></td>
-      </tr>
-
-      <tr>
-       <th colspan="2">
-        <input type="submit" value="<fmt:message key="loginSubmit" />" />
-       </th>
-      </tr>
-     </table>
+     <div class="meshcmsfield">
+      <input type="text" id="password" name="password" />
+     </div>
+     
+     <div class="meshcmsfield">
+      <input type="submit" value="<fmt:message key="loginSubmit" />" />
+     </div>
     </form>
 <%
   }

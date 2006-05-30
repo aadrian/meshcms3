@@ -22,14 +22,14 @@
 
 /* Editing table */
 table.meshcmseditor {
- border-top: 1px dashed #999999;
- border-left: 1px dashed #999999;
+ border-top: 1px dotted silver;
+ border-left: 1px dotted silver;
 }
 
 table.meshcmseditor th, table.meshcmseditor td {
  padding: 2px;
- border-right: 1px dashed #999999;
- border-bottom: 1px dashed #999999;
+ border-right: 1px dotted silver;
+ border-bottom: 1px dotted silver;
 }
 
 /* Editing DIVs */
@@ -39,17 +39,17 @@ div.meshcmseditor {
  margin-bottom: 1em;
 }
 
-div.meshcmseditor div.meshcmstitle {
+div.meshcmstitle {
  font-weight: bold;
  border-bottom: 1px dotted;
 }
 
-div.meshcmseditor div.meshcmsfieldname {
+div.meshcmsfieldname {
  border-bottom: 1px dotted;
  margin-top: 0.8em;
  margin-bottom: 0.2em;
 }
 
-div.meshcmseditor div.meshcmsfield {
+div.meshcmsfield {
  white-space: nowrap;
 }

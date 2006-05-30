@@ -55,18 +55,20 @@ public class PageBody extends AbstractTag {
     w.write("<div class='meshcmseditor'>\n");
     w.write("<div align='right'>" + webSite.helpIcon(cp, WebSite.HELP_ANCHOR_EDIT_PAGE, userInfo) + "</div>\n");
     w.write("<div class='meshcmstitle'>" + bundle.getString("editorMainSection") + "</div>\n");
-    w.write("<div class='meshcmsfieldname'>" + bundle.getString("editorPageTitle") + "</div>\n");
-    w.write("<div class='meshcmsfield'><input type='text' name='pagetitle' value=\"" +
+    w.write("<div class='meshcmsfieldname'><label for='pagetitle'>" +
+      bundle.getString("editorPageTitle") + "</label></div>\n");
+    w.write("<div class='meshcmsfield'><input type='text' id='pagetitle' name='pagetitle' value=\"" +
       Utils.noNull(getPage().getTitle()) + 
       "\" style='width: 100%;' /></div>\n");
     
     w.write("<div class='meshcmsfieldname'><img src=\"" + afp +
       "/images/tree_plus.gif\" id='togglehead' onclick='javascript:editor_toggleHeadEditor();' />\n");
-    w.write(bundle.getString("editorPageHead") + "</div>\n");
+    w.write("<label for='meshcmshead'>" + bundle.getString("editorPageHead") + "</label></div>\n");
     w.write("<div class='meshcmsfield'><textarea id='meshcmshead' name='meshcmshead' style='height: 5em; width: 100%; display: none;'>" +
       Utils.noNull(((HTMLPage) getPage()).getHead()) + "</textarea></div>\n");
 
-    w.write("<div class='meshcmsfieldname'>" + bundle.getString("editorPageBody") + "</div>\n");
+    w.write("<div class='meshcmsfieldname'><label for='meshcmsbody'>" +
+      bundle.getString("editorPageBody") + "</label></div>\n");
     w.write("<div class='meshcmsfield'><textarea id='meshcmsbody' name='meshcmsbody' style='height: 30em; width: 100%;'>");
     w.write(Utils.encodeHTML(getPage().getBody()));
     w.write("</textarea></div>\n");

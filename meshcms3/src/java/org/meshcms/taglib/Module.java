@@ -127,9 +127,11 @@ public final class Module extends AbstractTag {
           "', '_blank').focus();\" style='vertical-align:middle;' />\n");
       }
     } else {
-      w.write(" <div class='meshcmsfieldname'>" +
-        bundle.getString("editorModuleTemplate") + "</div>\n");
+      w.write(" <div class='meshcmsfieldname'><label for='" +
+        ModuleDescriptor.TEMPLATE_ID + location + "'>" +
+        bundle.getString("editorModuleTemplate") + "</label></div>\n");
       w.write(" <div class='meshcmsfield'>\n  <select name='" +
+        ModuleDescriptor.TEMPLATE_ID + location + "' id='" +
         ModuleDescriptor.TEMPLATE_ID + location + "'>\n");
       w.write("   <option value='" + PageAssembler.EMPTY + "'>" +
         bundle.getString("editorNoTemplate") + "</option>\n");
@@ -147,8 +149,9 @@ public final class Module extends AbstractTag {
       }
 
       w.write("  </select>\n </div>\n");
-      w.write(" <div class='meshcmsfieldname'>" +
-        bundle.getString("editorModuleArgument") + "</div>\n");
+      w.write(" <div class='meshcmsfieldname'><label for='" +
+        ModuleDescriptor.ARGUMENT_ID + location + "'>" +
+        bundle.getString("editorModuleArgument") + "</label></div>\n");
       w.write(" <div class='meshcmsfield'><img src='" + afp +
         "/images/clear_field.gif' onclick=\"javascript:editor_clr('" +
         ModuleDescriptor.ARGUMENT_ID + location + "');\" style='vertical-align:middle;' /><input type='text' id='" +
@@ -160,8 +163,9 @@ public final class Module extends AbstractTag {
         "' onclick=\"javascript:editor_openFileManager('" +
         ModuleDescriptor.ARGUMENT_ID + location + "');\" style='vertical-align:middle;' /></div>\n");
 
-      w.write(" <div class='meshcmsfieldname'>" +
-        bundle.getString("editorModuleParameters") + "</div>\n");
+      w.write(" <div class='meshcmsfieldname'><label for='" +
+        ModuleDescriptor.PARAMETERS_ID + location + "'>" +
+        bundle.getString("editorModuleParameters") + "</label></div>\n");
       w.write(" <div class='meshcmsfield'><img src='" + afp +
         "/images/clear_field.gif' onclick=\"javascript:editor_clr('" +
         ModuleDescriptor.PARAMETERS_ID + location + "');\" style='vertical-align:middle;' /><input type='text' id='" +
