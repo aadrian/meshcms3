@@ -43,13 +43,20 @@
     </svn>
   </target>
 
-  <target name="compile" depends="init">
-    <javac target="${javac.target}" source="${javac.source}" srcdir="${srcjava}" destdir="${classes}">
-      <classpath><path refid="classpath.path"/></classpath>
-    </javac>
-  </target>
+    <target name="compile" depends="init">
+        <javac target="${javac.target}" source="${javac.source}" srcdir="${srcjava}" destdir="${classes}">
+            <classpath>
+                <path refid="classpath.path"/>
+            </classpath>
+        </javac>
+        <copy todir="${classes}">
+            <fileset dir="${srcjava}">
+                <include name="**/*.properties"/>
+            </fileset>
+        </copy>
+    </target>
 
-  <!-- NB: Following task is designed to be called internally only -->
+    <!-- NB: Following task is designed to be called internally only -->
   <target name="-buildjar" depends="init,compile" if="meshcms.buildjar" description="Build a jar if and only if this is specified in the properties file">
     <jar basedir="${classes}" destfile="${jars}/${svndir}.jar" />
     <!-- Delete classes so they'll not be found to be copied into webapp -->
