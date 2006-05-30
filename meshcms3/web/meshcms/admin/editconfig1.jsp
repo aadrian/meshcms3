@@ -61,7 +61,7 @@
 
 <div align="right"><%= webSite.helpIcon(cp, WebSite.HELP_ANCHOR_CONFIGURE, userInfo) %></div>
 
-<form action="editconfig2.jsp" method="POST">
+<form action="editconfig2.jsp" method="post">
  <table class="meshcmseditor" cellspacing="0">
   <tr><th colspan="2"><fmt:message key="configInterface" /></th></tr>
 

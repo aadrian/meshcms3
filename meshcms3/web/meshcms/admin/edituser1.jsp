@@ -95,7 +95,7 @@
 <div align="right"><%= webSite.helpIcon(request.getContextPath(),
     newUser ? WebSite.HELP_ANCHOR_NEW_USER : WebSite.HELP_ANCHOR_EDIT_PROFILE, userInfo) %></div>
 
-<form action="edituser2.jsp" method="POST">
+<form action="edituser2.jsp" method="post">
  <table class='meshcmseditor' cellspacing='0'>
   <tr>
    <th colspan="2"><fmt:message key="<%= newUser ? "userNew" : "userEdit" %>" />:</th>

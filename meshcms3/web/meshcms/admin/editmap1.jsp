@@ -230,7 +230,7 @@
   }
 %>
 
-<form action="editmap2.jsp" method="POST" name="sitemapform">
+<form action="editmap2.jsp" method="post" name="sitemapform">
   <table class="meshcmseditor" border="0" cellspacing="0" cellpadding="0">
     <tr>
       <th><img src="filemanager/images/icon_folderopen.gif" align="left" alt=""

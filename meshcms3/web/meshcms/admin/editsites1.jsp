@@ -58,7 +58,7 @@
     msm = ((MainWebSite) webSite).getMultiSiteManager();
   }
 %>
-<form action="editsites2.jsp" method="POST">
+<form action="editsites2.jsp" method="post">
   
 <% if (msm != null) { %>
   <fieldset>

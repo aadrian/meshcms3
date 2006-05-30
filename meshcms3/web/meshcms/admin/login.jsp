@@ -65,7 +65,7 @@
 <%
     }
 %>
-    <form name="loginform" action="login.jsp" method="POST">
+    <form name="loginform" action="login.jsp" method="post">
      <table align="center" border="0" cellspacing="1" cellpadding="4">
       <tr>
        <td><fmt:message key="loginUsername" /></td>

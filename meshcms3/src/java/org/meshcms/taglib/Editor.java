@@ -69,7 +69,7 @@ public class Editor extends AbstractTag {
   public void writeEditTag() throws IOException {
     Writer w = getOut();
     w.write("<form id='editor' name='editor' action=\"" + afp +
-      "/savepage.jsp\" method='POST'>\n");
+      "/savepage.jsp\" method='post'>\n");
 
     FastPage fastPage = (FastPage) getPage();
     String[] keys = fastPage.getPropertyKeys();

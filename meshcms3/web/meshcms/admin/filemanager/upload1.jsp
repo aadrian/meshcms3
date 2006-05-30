@@ -58,7 +58,7 @@
   <p align="right"><%= webSite.helpIcon(request.getContextPath(),
       WebSite.HELP_ANCHOR_UPLOAD, userInfo) %></p>
 
-  <form name="upform" action="upload2.jsp" method="POST"
+  <form name="upform" action="upload2.jsp" method="post"
    enctype="multipart/form-data" onsubmit="javascript:showWaiting();">
   <input type="hidden" name="dir" /> 
     <table align="center" border="0" cellspacing="10" cellpadding="2">

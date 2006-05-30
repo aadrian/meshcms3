@@ -61,7 +61,7 @@
 
 <body>
 
-<form action="savepage.jsp" method="POST" id="srceditor" name="srceditor">
+<form action="savepage.jsp" method="post" id="srceditor" name="srceditor">
   <input type="hidden" name="pagepath" value="<%= pagePath %>" />
 
   <div class="meshcmseditor">

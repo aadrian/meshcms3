@@ -265,7 +265,7 @@
   </tr>
  </table> 
 
- <form name="fmfm" method="POST" action="process.jsp">
+ <form name="fmfm" method="post" action="process.jsp">
   <input type="hidden" name="f_action" />
   <input type="hidden" name="f_dir" value="<%= folderPath %>" />
   <input type="hidden" name="f_files" />

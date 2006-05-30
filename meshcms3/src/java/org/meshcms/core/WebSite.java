@@ -841,7 +841,7 @@ public class WebSite {
         "/images/small_help.gif' title='Help: " + anchor +
         "' alt='Help Icon' onclick=\"javascript:window.open('" +
         contextPath + '/' + helpPath + '/' + lang + "/userguide.html#" + anchor +
-        "', 'meshcmshelp', 'width=740,height=560,menubar=no,status=yes,toolbar=no,resizable=yes,scrollbars=yes').focus();\" \\>";
+        "', 'meshcmshelp', 'width=740,height=560,menubar=no,status=yes,toolbar=no,resizable=yes,scrollbars=yes').focus();\" />";
   }
 
   /**

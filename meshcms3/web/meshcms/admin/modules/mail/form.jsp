@@ -37,7 +37,7 @@
   }
 %>
 
-<form action="<%= response.encodeURL(cp + "/" + mp + "/send.jsp" + theme) %>" method="POST">
+<form action="<%= response.encodeURL(cp + "/" + mp + "/send.jsp" + theme) %>" method="post">
 <input type="hidden" name="modulepath" value="<%= mp %>" />
 <table align="center" border="0" cellspacing="0"
  cellpadding="0" width="400"><tr><td witdh="100%">
