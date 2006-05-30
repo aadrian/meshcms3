@@ -36,6 +36,7 @@ table.meshcmseditor th, table.meshcmseditor td {
 div.meshcmseditor {
  padding: 1em;
  border: 1px dotted silver;
+ margin-bottom: 1em;
 }
 
 div.meshcmseditor div.meshcmstitle {

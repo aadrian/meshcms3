@@ -1,94 +1,52 @@
-/*** Taken from http://alistapart.com/articles/holygrail ***/
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
 
-
-/*** The Essential Code ***/
-
+/* Layout from http://tjkdesign.com/articles/one_html_markup_many_css_layouts.asp */
 body {
-  min-width: 630px;         /* 2 x (LC fullwidth + CC padding) + RC fullwidth */
+  min-width: 640px;
 }
 
-#header {
-  height: 156px;
-  background: #f6f248 url(top.jpg) right no-repeat;
+#header, #leftcolumn, #content, #rightcolumn, #footer {
+  overflow: hidden;
+  display: inline-block;
 }
 
-#container {
-  padding-left: 200px;      /* LC fullwidth */
-  padding-right: 240px;     /* RC fullwidth + CC padding */
-}
-
-#container .column {
-  position: relative;
-  float: left;
-}
-
-#center {
-  padding: 10px 20px;       /* CC padding */
+/* safari and opera need this */
+#header, #footer {
   width: 100%;
 }
 
-#left {
-  width: 180px;             /* LC width */
-  padding: 0 10px;         /* LC padding */
-  right: 240px;             /* LC fullwidth + CC padding */
-  margin-left: -100%;
+#leftcolumn, #content, #rightcolumn {
+  float: left;
 }
 
-#right {
-  width: 180px;             /* RC width */
-  padding: 0 10px;          /* RC padding */
-  margin-right: -100%;
+#content {
+  width: 57%;
+  margin-left: 21%;
+  display: inline;
+}
+
+#leftcolumn {
+  width: 21%;
+  margin-left: -78%;
+  display: inline;
+}
+
+#rightcolumn {
+  width: 21%;
 }
 
 #footer {
   clear: both;
 }
+/*** End of Layout Code ***/
 
-/*** IE Fix ***/
-* html #left {
-  left: 200px;              /* RC fullwidth */
-}
 
-/*** Equal-height Columns ***/
 
-#container {
-  overflow: hidden;
-}
 
-#container .column {
-  padding-bottom: 1001em;     /* X + padding-bottom */
-  margin-bottom: -1000em;     /* X */
-}
 
-/*** Footer Fix ***/
-
-* html body {
-  overflow: hidden;
-}
-
-* html #footer-wrapper {
-  float: left;
-  position: relative;
-  width: 100%;
-  padding-bottom: 10010px;
-  margin-bottom: -10000px;
-}
-
-/*** Just for Looks ***/
-
-body {
-  margin: 0;
-  padding: 0;
-}
-
-#header, #footer {
-  text-align: center;
-  /*padding: 0.3em 0;*/
-}
-
-#container .column {
-  padding-top: 1em;
-}
 
 
 
@@ -101,13 +59,35 @@ body {
 
 
 
+#header {
+  height: 156px;
+  line-height: 156px;
+  background: #f6f248 url(top.jpg) right no-repeat;
+  vertical-align: bottom;
+  padding-left: 2em;
+  color: #2c2611;
+}
+
+#leftcolumn, #content, #rightcolumn {
+  padding: 1em 0.5em;
+}
+
+#footer {
+  border-top: 1px solid #d9e4f5;
+  padding: 2px 2px 6px 2px;
+}
+
 body {
+  margin: 0;
+  padding: 0;
+}
+
+body, th, td {
   font-family: "Bitstream Vera Sans", "Lucida Sans Unicode", sans-serif;
   font-size: 0.8em;
 }
 
 .box {
-  position: relative;
   border: 1px solid #e8c259;
   margin-bottom: 10px;
 }
@@ -135,11 +115,6 @@ a:hover {
 
 img {
   border: none;
-}
-
-#footer {
-  border-top: 1px solid #d9e4f5;
-  padding: 2px 2px 6px 2px;
 }
 
 .breadcrumbs {
