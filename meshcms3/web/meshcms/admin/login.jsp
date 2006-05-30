@@ -83,7 +83,7 @@
      </div>
 
      <div class="meshcmsfield">
-      <input type="text" id="password" name="password" />
+      <input type="password" id="password" name="password" />
      </div>
      
      <div class="meshcmsfield">
