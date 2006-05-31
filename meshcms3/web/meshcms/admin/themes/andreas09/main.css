@@ -169,7 +169,13 @@ margin:0 0 16px 10px;
 padding:0;
 }
 
-.linklist li {margin-bottom:0.7em;}
+.linklist li {margin-bottom:0.3em;}
+
+.linklist ul {
+list-style-type:none;
+margin-left:0;
+padding-left:1em;
+}
 
 /*** Sidebar menu ***/
 

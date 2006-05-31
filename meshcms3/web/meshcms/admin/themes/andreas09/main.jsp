@@ -1,10 +1,14 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <%@ taglib uri="meshcms-taglib" prefix="cms" %>
 <cms:setlocale value="en" /> 
 
 <html>
 <head>
 <title><cms:pagetitle /> [MeshCMS]</title>
-<cms:defaultcss /> <cms:pagehead /> 
+<cms:defaultcss />
+<cms:pagehead /> 
 </head>
 
 <body id="realbody">
@@ -15,10 +19,13 @@
     <h2>MeshCMS - Open Source Content Management System</h2>
   </div>
 
-  <div id="mainmenu"><cms:listmenu items="firstlevel" current="link" /></div>
+  <div id="mainmenu"><cms:listmenu items="firstlevel" current="link" currentStyle="current" /></div>
 
   <div id="wrap"> 
     <div id="rightside">
+      <h1>Navigation</h1>
+      <cms:listmenu items="onpath,lastlevel,children" style="linklist" />
+
       <cms:module location="right" alt="" />
 	  
       <cms:ifuser> 
@@ -26,11 +33,13 @@
       <p><cms:adminmenu separator="<br />" /></p>
       </cms:ifuser> 
 
+      <cms:ifnotediting>
       <h1>Search</h1>
       <p class="searchform"> 
         <input type="text" alt="Search" class="searchbox" />
         <input type="submit" value="Go!" class="searchbutton" />
       </p>
+      </cms:ifnotediting>
     </div>
     <div id="contentalt" >
       <cms:module location="top" alt="" />

@@ -8,8 +8,11 @@ body {
   min-width: 640px;
 }
 
-#header, #leftcolumn, #content, #rightcolumn, #footer {
+#header, #leftcolumn, #rightcolumn, #footer {
   overflow: hidden;
+}
+
+#header, #leftcolumn, #content, #rightcolumn, #footer {
   display: inline-block;
 }
 

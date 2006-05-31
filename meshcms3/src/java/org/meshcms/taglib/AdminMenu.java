@@ -101,13 +101,13 @@ public final class AdminMenu extends AbstractTag {
               Path parentPath = pathInMenu.getParent();
               
               if (userInfo.canWrite(webSite, parentPath)) {
-                l.add(a1 + afp + "/createpage.jsp?popup=false&path=" +
+                l.add(a1 + afp + "/createpage.jsp?popup=false&amp;path=" +
                     parentPath + a2 + bundle.getString("adminNewPage") + a3);
               }
             }
             
             if (webSite.isDirectory(pathInMenu)) {
-              l.add(a1 + afp + "/createpage.jsp?popup=false&path=" +
+              l.add(a1 + afp + "/createpage.jsp?popup=false&amp;path=" +
                   pathInMenu + a2 + bundle.getString("adminNewChildPage") + a3);
             }
           }

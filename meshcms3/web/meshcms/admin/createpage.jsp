@@ -49,11 +49,11 @@
 
   if (popup) {
     out.write(webSite.getDummyMetaThemeTag());
+    out.write("\n<link href='theme/main.css' type='text/css' rel='stylesheet' />");
   } else {
     out.write(webSite.getAdminMetaThemeTag());
   }
 %>
-<link href="theme/main.css" type="text/css" rel="stylesheet" />
 </head>
 
 <body>
