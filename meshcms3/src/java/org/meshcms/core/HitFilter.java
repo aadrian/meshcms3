@@ -107,6 +107,7 @@ public final class HitFilter implements Filter {
         Configuration conf = webSite.getConfiguration();
 
         if (wPath != null && (conf == null || conf.isAlwaysRedirectWelcomes())) {
+          blockRemoteCaching(httpRes);
           String q = httpReq.getQueryString();
 
           if (Utils.isNullOrEmpty(q)) {
@@ -155,13 +156,7 @@ public final class HitFilter implements Filter {
           }
 
           WebUtils.updateLastModifiedTime(httpReq, webSite.getFile(pagePath));
-
-          // HTTP 1.1
-          httpRes.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
-          // HTTP 1.0
-          httpRes.setHeader("Pragma", "no-cache");
-          // prevents caching at the proxy server
-          httpRes.setDateHeader("Expires", -1);
+          blockRemoteCaching(httpRes);
 
           // Find a theme for this page
           Path themePath = null;
@@ -390,5 +385,14 @@ public final class HitFilter implements Filter {
     }
     
     return rootSite;
+  }
+  
+  public static void blockRemoteCaching(HttpServletResponse httpRes) {
+    // HTTP 1.1
+    httpRes.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+    // HTTP 1.0
+    httpRes.setHeader("Pragma", "no-cache");
+    // prevents caching at the proxy server
+    httpRes.setDateHeader("Expires", -1);
   }
 }
