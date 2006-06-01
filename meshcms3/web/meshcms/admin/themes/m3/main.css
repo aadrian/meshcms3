@@ -3,7 +3,7 @@
   -moz-box-sizing: border-box;
 }
 
-/* Layout from http://tjkdesign.com/articles/one_html_markup_many_css_layouts.asp */
+/*** Layout Code ***/
 body {
   min-width: 640px;
 }
@@ -64,20 +64,22 @@ body {
 
 #header {
   height: 156px;
-  line-height: 156px;
   background: #f6f248 url(top.jpg) right no-repeat;
-  vertical-align: bottom;
-  padding-left: 2em;
+}
+
+#header h1 {
+  padding: 80px 0 0 50px;
   color: #2c2611;
 }
 
-#leftcolumn, #content, #rightcolumn {
+.columnpadding {
   padding: 1em 0.5em;
 }
 
 #footer {
   border-top: 1px solid #d9e4f5;
   padding: 2px 2px 6px 2px;
+  text-align: center;
 }
 
 body {
@@ -87,7 +89,7 @@ body {
 
 body, th, td {
   font-family: "Bitstream Vera Sans", "Lucida Sans Unicode", sans-serif;
-  font-size: 0.8em;
+  font-size: 0.9em;
 }
 
 .box {
@@ -122,7 +124,7 @@ img {
 
 .breadcrumbs {
   margin-top: 2px;
-  font-size: 0.8em;
+  font-size: 0.9em;
   background-color: #d9e4f5;
   padding: 0.2em 2em;
 }

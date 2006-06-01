@@ -11,7 +11,6 @@
     <cms:pagehead />
   </head>
 
-  <!-- Layout from http://tjkdesign.com/articles/one_html_markup_many_css_layouts.asp -->
   <body>
     <cms:editor>
       <div id="header">
@@ -21,58 +20,64 @@
       </div>
 
       <div id="content">
-        <div class="breadcrumbs">
-          <cms:breadcrumbs mode="links" separator=" &raquo; " pre="You are viewing: " />
-        </div>
+        <div class="columnpadding">
+          <div class="breadcrumbs">
+            <cms:breadcrumbs mode="links" separator=" &raquo; " pre="You are viewing: " />
+          </div>
 
-        <div class="maincontent">
-          <cms:module location="top" alt="" />
-          <cms:pagebody />
-          <cms:module location="bottom" alt="" />
-          <cms:mailform />
+          <div class="maincontent">
+            <cms:module location="top" alt="" />
+            <cms:pagebody />
+            <cms:module location="bottom" alt="" />
+            <cms:mailform />
+          </div>
         </div>
       </div>
 
       <div id="leftcolumn">
-        <div class="box">
-          <div class="boxtitle">
-            Site Menu
-          </div>
-
-          <div class="boxcontent">
-            <cms:simplemenu bullet="" space="16" />
-          </div>
-        </div>
-
-        <cms:ifmodule location="left">
+        <div class="columnpadding">
           <div class="box">
+            <div class="boxtitle">
+              Site Menu
+            </div>
+
             <div class="boxcontent">
-              <cms:module location="left" alt="" />
+              <cms:simplemenu bullet="" space="16" />
             </div>
           </div>
-        </cms:ifmodule>
+
+          <cms:ifmodule location="left">
+            <div class="box">
+              <div class="boxcontent">
+                <cms:module location="left" alt="" />
+              </div>
+            </div>
+          </cms:ifmodule>
+        </div>
       </div>
 
       <div id="rightcolumn">
-        <cms:ifuser>
-          <div class="box">
-            <div class="boxtitle">
-              User Menu
-            </div>
+        <div class="columnpadding">
+          <cms:ifuser>
+            <div class="box">
+              <div class="boxtitle">
+                User Menu
+              </div>
 
-            <div class="boxcontent">
-              &nbsp;<cms:adminmenu separator="<br />&nbsp;" />
+              <div class="boxcontent">
+                &nbsp;<cms:adminmenu separator="<br />&nbsp;" />
+              </div>
             </div>
-          </div>
-        </cms:ifuser>
+          </cms:ifuser>
 
-        <cms:ifmodule location="right">
-          <div class="box">
-            <div class="boxcontent">
-              <cms:module location="right" alt="" />
+          <cms:ifmodule location="right">
+            <div class="box">
+              <div class="boxcontent">
+                <cms:module location="right" alt="" />
+              </div>
             </div>
-          </div>
-        </cms:ifmodule>
+          </cms:ifmodule>
+        </div>
       </div>
 
       <div id="footer">
