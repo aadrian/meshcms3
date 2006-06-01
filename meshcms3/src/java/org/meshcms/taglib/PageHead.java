@@ -60,8 +60,7 @@ public class PageHead extends AbstractTag {
     Writer w = getOut();
     ((HTMLPage) getPage()).writeHead(w);
     w.write("\n<script language='javascript' type='text/javascript' src='" +
-      cp + '/' + (webSite.getFile(webSite.getCMSPath().add("tiny_mce")).exists() ?
-      webSite.getCMSPath() : webSite.getAdminScriptsPath()) +
+      cp + '/' + webSite.getAdminScriptsPath() +
       "/tiny_mce/tiny_mce.js'></script>\n");
     w.write("<script language='javascript' type='text/javascript'>\n");
     w.write(" var contextPath = \"" + cp + "\";\n");
