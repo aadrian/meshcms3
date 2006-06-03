@@ -62,142 +62,204 @@
 <div align="right"><%= webSite.helpIcon(cp, WebSite.HELP_ANCHOR_CONFIGURE, userInfo) %></div>
 
 <form action="editconfig2.jsp" method="post">
- <table class="meshcmseditor" cellspacing="0">
-  <tr><th colspan="2"><fmt:message key="configInterface" /></th></tr>
+  <fieldset class="meshcmseditor">
+    <legend><fmt:message key="configSiteInfo" /></legend>
 
-  <tr>
-   <td align="right"><fmt:message key="configVisual" /></td>
-   <td>
-    <img src="images/clear_field.gif" onclick="javascript:editor_clr('visualTypes');" alt=""
-     style='vertical-align:middle;' /><input type="text" id="visualTypes" name="visualTypes" size="30"
-     value="<%= Utils.noNull(Utils.generateList(configuration.getVisualExtensions(), ", ")) %>" />
-   </td>
-  </tr>
+    <div class="meshcmsfieldlabel">
+      <label for="siteName"><fmt:message key="configSiteName" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteName');" alt=""
+       style="vertical-align:middle;" /><input type="text" id="siteName" name="siteName"
+       style="width: 90%;" value="<%= Utils.noNull(configuration.getSiteName()) %>" />
+    </div>
 
-  <tr>
-   <td align="right"><fmt:message key="configSysTheme" /></td>
-   <td>
-    <input type="checkbox" id="useAdminTheme" name="useAdminTheme"
-     value="true"<%= configuration.isUseAdminTheme() ? " checked='checked'" : "" %> />
-   </td>
-  </tr>
+    <div class="meshcmsfieldlabel">
+      <label for="siteHost"><fmt:message key="configSiteHost" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteHost');" alt=""
+       style="vertical-align:middle;" /><input type="text" id="siteHost" name="siteHost"
+       style="width: 90%;" value="<%= Utils.noNull(configuration.getSiteHost()) %>" />
+    </div>
 
-  <tr>
-   <td align="right"><fmt:message key="configHotlinking" /></td>
-   <td>
-    <input type="checkbox" id="preventHotlinking" name="preventHotlinking"
-     value="true"<%= configuration.isPreventHotlinking() ? " checked='checked'" : "" %> />
-   </td>
-  </tr>
+    <div class="meshcmsfieldlabel">
+      <label for="siteDescription"><fmt:message key="configSiteDescription" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteDescription');" alt=""
+       style="vertical-align:middle;" /><input type="text" id="siteDescription" name="siteDescription"
+       style="width: 90%;" value="<%= Utils.noNull(configuration.getSiteDescription()) %>" />
+    </div>
 
-  <tr><th colspan="2"><fmt:message key="configMailParams" /></th></tr>
+    <div class="meshcmsfieldlabel">
+      <label for="siteKeywords"><fmt:message key="configSiteKeywords" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteKeywords');" alt=""
+       style="vertical-align:middle;" /><input type="text" id="siteKeywords" name="siteKeywords"
+       style="width: 90%;" value="<%= Utils.noNull(configuration.getSiteKeywords()) %>" />
+    </div>
 
-  <tr>
-   <td align="right"><fmt:message key="configMail" /></td>
-   <td>
-    <img src="images/clear_field.gif" onclick="javascript:editor_clr('mailServer');" alt=""
-     style='vertical-align:middle;' /><input type="text" id="mailServer" name="mailServer" size="30"
-     value="<%= configuration.getMailServer() %>" />
-   </td>
-  </tr>
-
-  <tr>
-   <td align="right"><fmt:message key="configSmtpUsername" /></td>
-   <td>
-    <img src="images/clear_field.gif" onclick="javascript:editor_clr('smtpUsername');" alt=""
-     style='vertical-align:middle;' /><input type="text" id="smtpUsername" name="smtpUsername" size="30"
-     value="<%= configuration.getSmtpUsername() %>" />
-   </td>
-  </tr>
-
-  <tr>
-   <td align="right"><fmt:message key="configSmtpPassword" /></td>
-   <td>
-    <img src="images/clear_field.gif" onclick="javascript:editor_clr('smtpPassword');" alt=""
-     style='vertical-align:middle;' /><input type="text" id="smtpPassword" name="smtpPassword" size="30"
-     value="<%= configuration.getSmtpPassword() %>" />
-   </td>
-  </tr>
+    <div class="meshcmsfieldlabel">
+      <label for="siteAuthor"><fmt:message key="configSiteAuthor" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteAuthor');" alt=""
+       style="vertical-align:middle;" /><input type="text" id="siteAuthor" name="siteAuthor"
+       style="width: 90%;" value="<%= Utils.noNull(configuration.getSiteAuthor()) %>" />
+    </div>
+  </fieldset>
   
-  <tr><th colspan="2"><fmt:message key="configSystem" /></th></tr>
+  <fieldset class="meshcmseditor">
+    <legend><fmt:message key="configInterface" /></legend>
 
-  <tr>
-   <td align="right"><fmt:message key="configCache" /></td>
-   <td>
-    <select name="cacheType">
-     <option value="<%= Configuration.NO_CACHE %>"
-      <%= cacheType == Configuration.NO_CACHE ? " selected='selected'" : "" %>><fmt:message key="configCacheNone" /></option>
-     <option value="<%= Configuration.IN_MEMORY_CACHE %>"
-      <%= cacheType == Configuration.IN_MEMORY_CACHE ? " selected='selected'" : "" %>><fmt:message key="configCacheMemory" /></option>
-     <option value="<%= Configuration.ON_DISK_CACHE %>"
-      <%= cacheType == Configuration.ON_DISK_CACHE ? " selected='selected'" : "" %>><fmt:message key="configCacheDisk" /></option>
-    </select>
-   </td>
-  </tr>
+    <div class="meshcmsfieldlabel">
+      <label for="visualTypes"><fmt:message key="configVisual" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('visualTypes');" alt=""
+       style="vertical-align:middle;" /><input type="text" id="visualTypes" name="visualTypes"
+       style="width: 90%;" value="<%= Utils.noNull(Utils.generateList(configuration.getVisualExtensions(), ", ")) %>" />
+    </div>
 
-  <tr>
-   <td align="right"><fmt:message key="configMap" /></td>
-   <td>
-    <img src="images/clear_field.gif" onclick="javascript:editor_clr('updateInterval');" alt=""
-     style='vertical-align:middle;' /><input type="text" id="updateInterval" name="updateInterval" size="30"
-     value="<%= configuration.getUpdateInterval() %>" />
-   </td>
-  </tr>
+    <div class="meshcmscheckbox">
+      <input type="checkbox" id="useAdminTheme" name="useAdminTheme"
+       value="true"<%= configuration.isUseAdminTheme() ? " checked='checked'" : "" %> />
+      <label for="useAdminTheme"><fmt:message key="configSysTheme" /></label>
+    </div>
 
-  <tr>
-   <td align="right"><fmt:message key="configBackup" /></td>
-   <td>
-    <img src="images/clear_field.gif" onclick="javascript:editor_clr('backupLife');" alt=""
-     style='vertical-align:middle;' /><input type="text" id="backupLife" name="backupLife" size="30"
-     value="<%= configuration.getBackupLife() %>" />
-   </td>
-  </tr>
+    <div class="meshcmscheckbox">
+      <input type="checkbox" id="preventHotlinking" name="preventHotlinking"
+       value="true"<%= configuration.isPreventHotlinking() ? " checked='checked'" : "" %> />
+      <label for="preventHotlinking"><fmt:message key="configHotlinking" /></label>
+    </div>
+  </fieldset>
+  
+  <fieldset class="meshcmseditor">
+    <legend><fmt:message key="configMailParams" /></legend>
 
-  <tr>
-   <td align="right"><fmt:message key="configHits" /></td>
-   <td>
-    <img src="images/clear_field.gif" onclick="javascript:editor_clr('statsLength');" alt=""
-     style='vertical-align:middle;' /><input type="text" id="statsLength" name="statsLength" size="30"
-     value="<%= configuration.getStatsLength() %>" />
-   </td>
-  </tr>
+    <div class="meshcmsfieldlabel">
+      <label for="mailServer"><fmt:message key="configMail" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('mailServer');" alt=""
+       style="vertical-align:middle;" /><input type="text" id="mailServer" name="mailServer"
+       style="width: 90%;" value="<%= configuration.getMailServer() %>" />
+    </div>
 
-  <tr>
-   <td align="right"><fmt:message key="configCharset" /></td>
-   <td><select name="preferredCharset"><%
-     Charset currentCharset = Charset.forName(configuration.getPreferredCharset());
-     SortedMap encMap = Charset.availableCharsets();
-     Iterator iter = encMap.keySet().iterator();
-     String encName;
-     Charset enc;
-     
-     while (iter.hasNext()) { 
-       encName = (String) iter.next();
-       enc = (Charset) encMap.get(encName); %>
-       <option value="<%= encName %>"<%= currentCharset.equals(enc) ?
-         " selected='selected'" : "" %>><%= enc.displayName(locale) %></option><%
-     } %>
-   </select></td>
-  </tr>
+    <div class="meshcmsfieldlabel">
+      <label for="smtpUsername"><fmt:message key="configSmtpUsername" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('smtpUsername');" alt=""
+       style="vertical-align:middle;" /><input type="text" id="smtpUsername" name="smtpUsername"
+       style="width: 90%;" value="<%= configuration.getSmtpUsername() %>" />
+    </div>
 
-  <tr>
-   <td align="right"><fmt:message key="configAlwaysRedirect" /></td>
-   <td>
-    <input type="checkbox" id="alwaysRedirectWelcomes" name="alwaysRedirectWelcomes"
-     value="true"<%= configuration.isAlwaysRedirectWelcomes() ? " checked='checked'" : "" %> />
-   </td>
-  </tr>
+    <div class="meshcmsfieldlabel">
+      <label for="smtpPassword"><fmt:message key="configSmtpPassword" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('smtpPassword');" alt=""
+       style="vertical-align:middle;" /><input type="text" id="smtpPassword" name="smtpPassword"
+       style="width: 90%;" value="<%= configuration.getSmtpPassword() %>" />
+    </div>
+  </fieldset>
+  
+  <fieldset class="meshcmseditor">
+    <legend><fmt:message key="configSystem" /></legend>
 
-  <tr>
-   <td align="right"><fmt:message key="configAlwaysDenyDirList" /></td>
-   <td>
-    <input type="checkbox" id="alwaysDenyDirectoryListings" name="alwaysDenyDirectoryListings"
-     value="true"<%= configuration.isAlwaysDenyDirectoryListings() ? " checked='checked'" : "" %> />
-   </td>
-  </tr>
+    <div class="meshcmsfieldlabel">
+      <label for="cacheType"><fmt:message key="configCache" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <select name="cacheType" id="cacheType">
+       <option value="<%= Configuration.NO_CACHE %>"
+        <%= cacheType == Configuration.NO_CACHE ? " selected='selected'" : "" %>><fmt:message key="configCacheNone" /></option>
+       <option value="<%= Configuration.IN_MEMORY_CACHE %>"
+        <%= cacheType == Configuration.IN_MEMORY_CACHE ? " selected='selected'" : "" %>><fmt:message key="configCacheMemory" /></option>
+       <option value="<%= Configuration.ON_DISK_CACHE %>"
+        <%= cacheType == Configuration.ON_DISK_CACHE ? " selected='selected'" : "" %>><fmt:message key="configCacheDisk" /></option>
+      </select>
+    </div>
 
-  <tr><th colspan="2"><input type="submit" value="<fmt:message key="genericSave" />" /></th></tr>
- </table>
+    <div class="meshcmsfieldlabel">
+      <label for="updateInterval"><fmt:message key="configMap" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('updateInterval');" alt=""
+       style="vertical-align:middle;" /><input type="text" id="updateInterval" name="updateInterval"
+       style="width: 90%;" value="<%= configuration.getUpdateInterval() %>" />
+    </div>
+
+    <div class="meshcmsfieldlabel">
+      <label for="backupLife"><fmt:message key="configBackup" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('backupLife');" alt=""
+       style="vertical-align:middle;" /><input type="text" id="backupLife" name="backupLife"
+       style="width: 90%;" value="<%= configuration.getBackupLife() %>" />
+    </div>
+
+    <div class="meshcmsfieldlabel">
+      <label for="statsLength"><fmt:message key="configHits" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('statsLength');" alt=""
+       style="vertical-align:middle;" /><input type="text" id="statsLength" name="statsLength"
+       style="width: 90%;" value="<%= configuration.getStatsLength() %>" />
+    </div>
+
+    <div class="meshcmsfieldlabel">
+      <label for="preferredCharset"><fmt:message key="configCharset" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <select name="preferredCharset" id="preferredCharset"><%
+       Charset currentCharset = Charset.forName(configuration.getPreferredCharset());
+       SortedMap encMap = Charset.availableCharsets();
+       Iterator iter = encMap.keySet().iterator();
+       String encName;
+       Charset enc;
+
+       while (iter.hasNext()) { 
+         encName = (String) iter.next();
+         enc = (Charset) encMap.get(encName); %>
+         <option value="<%= encName %>"<%= currentCharset.equals(enc) ?
+           " selected='selected'" : "" %>><%= enc.displayName(locale) %></option><%
+       } %></select>
+    </div>
+
+    <div class="meshcmscheckbox">
+      <input type="checkbox" id="alwaysRedirectWelcomes" name="alwaysRedirectWelcomes"
+       value="true"<%= configuration.isAlwaysRedirectWelcomes() ? " checked='checked'" : "" %> />
+      <label for="alwaysRedirectWelcomes"><fmt:message key="configAlwaysRedirect" /></label>
+    </div>
+
+    <div class="meshcmscheckbox">
+      <input type="checkbox" id="alwaysDenyDirectoryListings" name="alwaysDenyDirectoryListings"
+       value="true"<%= configuration.isAlwaysDenyDirectoryListings() ? " checked='checked'" : "" %> />
+      <label for="alwaysDenyDirectoryListings"><fmt:message key="configAlwaysDenyDirList" /></label>
+    </div>
+  </fieldset>
+
+  <div class="meshcmsbuttons">
+    <input type="submit" value="<fmt:message key="genericSave" />" />
+  </div>
 </form>
 
 </body>

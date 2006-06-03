@@ -1,9 +1,12 @@
 ________________________________
 --------------------------------
-2006-xx-xx: 3.0_Alpha1 released
+2006-06-03: 3.0 beta 1 released
 --------------------------------
 
-- Changed the distribution(meshcms-xxx-bin.zip and meshcms-xxx-src.zip now) 
+- Added some configuration options to define site information
+- Some work has been done to have less tables around in the admin area
+- New default theme (based on a design by Andreas Viklund)
+- Changed the distribution (meshcms-xxx-bin.zip and meshcms-xxx-src.zip now)
 - Jetty is now supported out-of-the-box, without further configuration
 - Added support for multiple sites in a single installation (experimental)
 - Modules now are contained in separate directories
@@ -17,7 +20,7 @@ ________________________________
 - Fixed a bug in the file manager when the admin directory has been renamed
 - Added the option to define advanced parameters for modules
 - Added chat module (contributed by Pierre Metras)
-- TinyMCE updated to 2.0.6
+- TinyMCE updated to 2.0.6.1
 - TinyMCE configuration moved to admin/tinymce_init.js so one can customize it
 - Now if a bad theme prevents loading the control panel, a reload fixes it
 

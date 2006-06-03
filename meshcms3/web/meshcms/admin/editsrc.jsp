@@ -64,17 +64,17 @@
 <form action="savepage.jsp" method="post" id="srceditor" name="srceditor">
   <input type="hidden" name="pagepath" value="<%= pagePath %>" />
 
-  <div class="meshcmseditor">
-    <div class="meshcmstitle">
+  <fieldset class="meshcmseditor">
+    <legend>
       <fmt:message key="srcEditing" />
       <a href="<%= cp + '/' + pagePath %>"><%= pagePath.getLastElement() %></a>
-    </div>
+    </legend>
 
     <div class="meshcmsfield">
       <textarea style="width: 100%; height: 25em;" id="fullsrc" name="fullsrc"><%= Utils.encodeHTML(full) %></textarea>
     </div>
 
-    <div class="meshcmsfield" align="center">
+    <div class="meshcmsbuttons">
       <input type="submit" value="<fmt:message key="genericSave" />">
     </div>
   </div>

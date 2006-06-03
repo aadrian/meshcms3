@@ -52,22 +52,23 @@ public class PageBody extends AbstractTag {
 
     Writer w = getOut();
 
-    w.write("<div class='meshcmseditor'>\n");
     w.write("<div align='right'>" + webSite.helpIcon(cp, WebSite.HELP_ANCHOR_EDIT_PAGE, userInfo) + "</div>\n");
-    w.write("<div class='meshcmstitle'>" + bundle.getString("editorMainSection") + "</div>\n");
-    w.write("<div class='meshcmsfieldname'><label for='pagetitle'>" +
+
+    w.write("<fieldset class='meshcmseditor'>\n");
+    w.write("<legend>" + bundle.getString("editorMainSection") + "</legend>\n");
+    w.write("<div class='meshcmsfieldlabel'><label for='pagetitle'>" +
       bundle.getString("editorPageTitle") + "</label></div>\n");
     w.write("<div class='meshcmsfield'><input type='text' id='pagetitle' name='pagetitle' value=\"" +
       Utils.noNull(getPage().getTitle()) + 
       "\" style='width: 100%;' /></div>\n");
     
-    w.write("<div class='meshcmsfieldname'><img src=\"" + afp +
+    w.write("<div class='meshcmsfieldlabel'><img src=\"" + afp +
       "/images/tree_plus.gif\" id='togglehead' onclick='javascript:editor_toggleHeadEditor();' />\n");
     w.write("<label for='meshcmshead'>" + bundle.getString("editorPageHead") + "</label></div>\n");
     w.write("<div class='meshcmsfield'><textarea id='meshcmshead' name='meshcmshead' style='height: 5em; width: 100%; display: none;'>" +
       Utils.noNull(((HTMLPage) getPage()).getHead()) + "</textarea></div>\n");
 
-    w.write("<div class='meshcmsfieldname'><label for='meshcmsbody'>" +
+    w.write("<div class='meshcmsfieldlabel'><label for='meshcmsbody'>" +
       bundle.getString("editorPageBody") + "</label></div>\n");
     w.write("<div class='meshcmsfield'><textarea id='meshcmsbody' name='meshcmsbody' style='height: 30em; width: 100%;'>");
     w.write(Utils.encodeHTML(getPage().getBody()));
@@ -76,8 +77,8 @@ public class PageBody extends AbstractTag {
     w.write(" onclick=\"javascript:tinyMCE.settings['relative_urls']=this.checked;\" />\n");
     w.write(" <label for='relch'>" + bundle.getString("editorRelative") + "</label></div>\n");
 
-    w.write("<div class='meshcmsfield' align='center'><input type='submit' value='" +
+    w.write("<div class='meshcmsbuttons'><input type='submit' value='" +
         bundle.getString("genericSave") + "' /></div>\n");
-    w.write("</div>");
+    w.write("</fieldset>");
   }
 }

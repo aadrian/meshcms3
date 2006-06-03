@@ -67,6 +67,11 @@ public class Configuration implements Serializable {
   private String smtpUsername;
   private String smtpPassword;
   private String preferredCharset;
+  private String siteName;
+  private String siteHost;
+  private String siteDescription;
+  private String siteKeywords;
+  private String siteAuthor;
   private String[] visualExtensions;
   
   private Configuration() {
@@ -85,6 +90,15 @@ public class Configuration implements Serializable {
     setSmtpPassword("");
     setPreferredCharset("UTF-8");
     
+    setSiteAuthor("Luciano Vernaschi");
+    setSiteDescription("MeshCMS is a Content Management System designed to be" +
+        " easy to use. It doesn't require a database, since it is file-based" +
+        " and can be used together with other applications, although it" +
+        " provides everything is needed to edit a website.");
+    setSiteHost("www.meshcms.org");
+    setSiteKeywords("meshcms, cms, java, jsp, servlet, content management system");
+    setSiteName("MeshCMS - Open Source Content Management System");
+
     setVisualExtensions(DEFAULT_VISUAL_EXTENSIONS);
   }
 
@@ -232,5 +246,45 @@ public class Configuration implements Serializable {
 
   public void setAlwaysDenyDirectoryListings(boolean alwaysDenyDirectoryListings) {
     this.alwaysDenyDirectoryListings = alwaysDenyDirectoryListings;
+  }
+
+  public String getSiteHost() {
+    return siteHost;
+  }
+
+  public void setSiteHost(String siteHost) {
+    this.siteHost = siteHost;
+  }
+
+  public String getSiteDescription() {
+    return siteDescription;
+  }
+
+  public void setSiteDescription(String siteDescription) {
+    this.siteDescription = siteDescription;
+  }
+
+  public String getSiteKeywords() {
+    return siteKeywords;
+  }
+
+  public void setSiteKeywords(String siteKeywords) {
+    this.siteKeywords = siteKeywords;
+  }
+
+  public String getSiteAuthor() {
+    return siteAuthor;
+  }
+
+  public void setSiteAuthor(String siteAuthor) {
+    this.siteAuthor = siteAuthor;
+  }
+
+  public String getSiteName() {
+    return siteName;
+  }
+
+  public void setSiteName(String siteName) {
+    this.siteName = siteName;
   }
 }

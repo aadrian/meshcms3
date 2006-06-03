@@ -108,10 +108,10 @@ public final class Module extends AbstractTag {
     ModuleDescriptor md = getModuleDescriptor(location, name);
     Writer w = getOut();
 
-    w.write("<div class='meshcmseditor'>\n");
+    w.write("<fieldset class='meshcmseditor'>\n");
     Object[] args = { location };
     formatter.applyPattern(bundle.getString("editorModuleLoc"));
-    w.write(" <div class='meshcmstitle'>" + formatter.format(args) + "</div>\n");
+    w.write(" <legend>" + formatter.format(args) + "</legend>\n");
 
     if (name != null) {
       w.write(bundle.getString("editorFixedModule"));
@@ -127,7 +127,7 @@ public final class Module extends AbstractTag {
           "', '_blank').focus();\" style='vertical-align:middle;' />\n");
       }
     } else {
-      w.write(" <div class='meshcmsfieldname'><label for='" +
+      w.write(" <div class='meshcmsfieldlabel'><label for='" +
         ModuleDescriptor.TEMPLATE_ID + location + "'>" +
         bundle.getString("editorModuleTemplate") + "</label></div>\n");
       w.write(" <div class='meshcmsfield'>\n  <select name='" +
@@ -149,7 +149,7 @@ public final class Module extends AbstractTag {
       }
 
       w.write("  </select>\n </div>\n");
-      w.write(" <div class='meshcmsfieldname'><label for='" +
+      w.write(" <div class='meshcmsfieldlabel'><label for='" +
         ModuleDescriptor.ARGUMENT_ID + location + "'>" +
         bundle.getString("editorModuleArgument") + "</label></div>\n");
       w.write(" <div class='meshcmsfield'><img src='" + afp +
@@ -158,12 +158,12 @@ public final class Module extends AbstractTag {
         ModuleDescriptor.ARGUMENT_ID + location + "' name='" +
         ModuleDescriptor.ARGUMENT_ID + location + "' value=\"" +
         (md == null || md.getArgument() == null ? "" : md.getArgument()) +
-        "\" style='width: 90%;' /><img src='" + afp +
+        "\" style='width: 80%;' /><img src='" + afp +
         "/images/small_browse.gif' title='" + bundle.getString("genericBrowse") +
         "' onclick=\"javascript:editor_openFileManager('" +
         ModuleDescriptor.ARGUMENT_ID + location + "');\" style='vertical-align:middle;' /></div>\n");
 
-      w.write(" <div class='meshcmsfieldname'><label for='" +
+      w.write(" <div class='meshcmsfieldlabel'><label for='" +
         ModuleDescriptor.PARAMETERS_ID + location + "'>" +
         bundle.getString("editorModuleParameters") + "</label></div>\n");
       w.write(" <div class='meshcmsfield'><img src='" + afp +
@@ -173,10 +173,10 @@ public final class Module extends AbstractTag {
         ModuleDescriptor.PARAMETERS_ID + location + "' value=\"" +
         (md == null || md.getAdvancedParams() == null ? "" :
         Utils.listProperties(md.getAdvancedParams(), ", ")) +
-        "\" style='width: 90%;' /></div>\n");
+        "\" style='width: 80%;' /></div>\n");
     }
 
-    w.write("</div>");
+    w.write("</fieldset>");
   }
 
   public String getName() {

@@ -8,11 +8,8 @@ body {
   min-width: 640px;
 }
 
-#header, #leftcolumn, #rightcolumn, #footer {
-  overflow: hidden;
-}
-
 #header, #leftcolumn, #content, #rightcolumn, #footer {
+  overflow: hidden;
   display: inline-block;
 }
 
@@ -100,7 +97,7 @@ body, th, td {
 .boxtitle {
   background-color: #e8c259;
   margin: 1px;
-  padding: 1px 4px;
+  padding: 0.2em 0.4em;
   font-weight: bold;
   color: white;
 }
@@ -137,6 +134,10 @@ input, select, textarea {
   font-family: "Bitstream Vera Sans Mono", "Lucida Sans Typewriter", "Lucida Console", mono;
   font-size: 0.9em;
   border: 1px inset #5192d0;
+}
+
+input[type="checkbox"] {
+  border: 0;
 }
 
 pre {

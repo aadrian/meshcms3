@@ -9,6 +9,9 @@
 <title><cms:pagetitle /> [MeshCMS]</title>
 <cms:defaultcss />
 <cms:pagehead /> 
+<meta name="description" content="<cms:info id="description" />" />
+<meta name="keywords" content="<cms:info id="keywords" />" />
+<meta name="author" content="<cms:info id="author" />" />
 </head>
 
 <body id="realbody">
@@ -16,7 +19,7 @@
 <div id="container"> 
   <div id="sitename"> 
     <h1><cms:pagetitle /></h1>
-    <h2>MeshCMS - Open Source Content Management System</h2>
+    <h2><cms:info id="name" /></h2>
   </div>
 
   <div id="mainmenu"><cms:listmenu items="firstlevel" current="link" currentStyle="current" /></div>
@@ -28,17 +31,17 @@
 
       <cms:module location="right" alt="" />
 	  
-      <cms:ifuser> 
       <h1>User Menu</h1>
       <p><cms:adminmenu separator="<br />" /></p>
-      </cms:ifuser> 
 
       <cms:ifnotediting>
+      <cms:ifediting> <%-- temporary: search is not available at the moment --%>
       <h1>Search</h1>
       <p class="searchform"> 
         <input type="text" alt="Search" class="searchbox" />
         <input type="submit" value="Go!" class="searchbutton" />
       </p>
+      </cms:ifediting>
       </cms:ifnotediting>
     </div>
     <div id="contentalt" >
@@ -53,8 +56,8 @@
   </div>
 </div>
 
-<div id="footer">&copy; 2004-2006 <a href="http://www.cromoteca.com/">Luciano 
-  Vernaschi</a> | Design by <a href="http://andreasviklund.com">Andreas Viklund</a></div>
+<div id="footer">&copy; <a href="http://<cms:info id="domain" />"><cms:info id="author" /></a>
+ | Design by <a href="http://andreasviklund.com">Andreas Viklund</a></div>
 </cms:editor>
 </body>
 </html>

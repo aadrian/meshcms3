@@ -69,26 +69,7 @@
 <head>
   <%= webSite.getAdminMetaThemeTag() %>
   <title><fmt:message key="<%= newUser ? "userNew" : "userEdit" %>" /></title>
-
-  <script type="text/javascript">
-    function toggleDetails() {
-      var mini = document.getElementById('toggledetails');
-
-      if (mini.src.indexOf("tree_plus") < 0) {
-        mini.src = "<%= imagesPath %>/tree_plus.gif";
-
-        for (var i = 0; i < <%= UserInfo.DETAILS.length %>; i++) {
-          document.getElementById("userdetail" + i).style.display = "none";
-        }
-      } else {
-        mini.src = "<%= imagesPath %>/tree_minus.gif";
-
-        for (var i = 0; i < <%= UserInfo.DETAILS.length %>; i++) {
-          document.getElementById("userdetail" + i).style.display = "";
-        }
-      }
-    }
-  </script>
+  <script language="javascript" type="text/javascript" src="scripts/editor.js"></script>
 </head>
 
 <body>
@@ -96,124 +77,146 @@
     newUser ? WebSite.HELP_ANCHOR_NEW_USER : WebSite.HELP_ANCHOR_EDIT_PROFILE, userInfo) %></div>
 
 <form action="edituser2.jsp" method="post">
- <table class='meshcmseditor' cellspacing='0'>
-  <tr>
-   <th colspan="2"><fmt:message key="<%= newUser ? "userNew" : "userEdit" %>" />:</th>
-  </tr>
+  <fieldset class="meshcmseditor">
+    <legend><fmt:message key="<%= newUser ? "userNew" : "userEdit" %>" /></legend>
 
-  <tr>
-   <td align="right"><fmt:message key="loginUsername" /></td>
-    <% if (newUser) { %>
-     <td><input type="text" name="username" size="30" /></td>
-    <% } else { %>
-     <td><%= edit.getUsername() %><input type="hidden" name="username"
-       value="<%= edit.getUsername() %>" /></td>
-    <% } %>
-  </tr>
+    <div class="meshcmsfieldlabel">
+      <label for="username"><fmt:message key="loginUsername" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <% if (newUser) { %>
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('username');" alt=""
+       style="vertical-align:middle;" /><input type="text" id="username" name="username"
+       style="width: 90%;" />
+      <% } else { %>
+       <strong><%= edit.getUsername() %></strong>
+       <input type="hidden" id="username" name="username" value="<%= edit.getUsername() %>" />
+      <% } %>
+    </div>
 
-  <tr>
-   <td align="right"><fmt:message key="userType" /></td>
-    <% if (newUser) { %>
-     <td><select name="permissions">
-      <option value="<%= UserInfo.EDITOR %>"><fmt:message key="userEditor" /></option>
-      <option value="<%= UserInfo.ADMIN %>"><fmt:message key="userAdmin" /></option>
-      <option value="<%= UserInfo.MEMBER %>"><fmt:message key="userMember" /></option>
-     </select></td>
-    <% } else {
-      int perm = edit.getPermissions();
-      String type;
-      ResourceBundle bundle = WebUtils.getPageResourceBundle(pageContext);
+    <div class="meshcmsfieldlabel">
+      <label for="permissions"><fmt:message key="userType" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <% if (newUser) { %>
+       <select name="permissions" id="permissions">
+        <option value="<%= UserInfo.EDITOR %>"><fmt:message key="userEditor" /></option>
+        <option value="<%= UserInfo.ADMIN %>"><fmt:message key="userAdmin" /></option>
+        <option value="<%= UserInfo.MEMBER %>"><fmt:message key="userMember" /></option>
+       </select>
+      <% } else {
+        int perm = edit.getPermissions();
+        String type;
+        ResourceBundle bundle = WebUtils.getPageResourceBundle(pageContext);
 
-      if (perm == UserInfo.ADMIN) {
-        type = bundle.getString("userAdmin");
-      } else if (perm == UserInfo.MEMBER) {
-        type = bundle.getString("userMember");
-      } else if (perm == UserInfo.EDITOR) {
-        type = bundle.getString("userEditor");
-      } else if (perm == UserInfo.GUEST) {
-        type = bundle.getString("userGuest");
-      } else {
-        type = bundle.getString("userCustom");
-      }
-      %><td><%= type %><input type="hidden" name="permissions" value="<%= perm %>" /></td>
-    <% } %>
-  </tr>
+        if (perm == UserInfo.ADMIN) {
+          type = bundle.getString("userAdmin");
+        } else if (perm == UserInfo.MEMBER) {
+          type = bundle.getString("userMember");
+        } else if (perm == UserInfo.EDITOR) {
+          type = bundle.getString("userEditor");
+        } else if (perm == UserInfo.GUEST) {
+          type = bundle.getString("userGuest");
+        } else {
+          type = bundle.getString("userCustom");
+        }
+        %><strong><%= type %></strong>
+        <input type="hidden" name="permissions" id="permissions" value="<%= perm %>" />
+      <% } %>
+    </div>
 
-  <tr>
-   <td align="right"><fmt:message key="userHome" /></td>
-    <% String hPath = "/" + edit.getHomePath();
+    <div class="meshcmsfieldlabel">
+      <label for="homepath"><fmt:message key="userHome" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <% String hPath = "/" + edit.getHomePath();
+      
+         if (newUser) { %>
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('homepath');" alt=""
+       style="vertical-align:middle;" /><input type="text" name="homepath" id="homepath"
+       value="<%= hPath %>" style="width: 90%;" />
+      <% } else { %>
+       <strong><%= hPath %></strong>
+       <input type="hidden" name="homepath" id="homepath" value="<%= hPath %>" />
+      <% } %>
+    </div>
 
-    if (newUser) { %>
-     <td><input type="text" name="homepath" size="30" value="<%= hPath %>" /></td>
-    <% } else { %>
-     <td><%= hPath %><input type="hidden" name="homepath" value="<%= hPath %>" /></td>
-    <% } %>
-  </tr>
+    <div class="meshcmsfieldlabel">
+      <label for="email"><fmt:message key="userMail" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('email');" alt=""
+       style="vertical-align:middle;" /><input type="text" name="email" id="email"
+       value="<%= edit.getEmail() %>" style="width: 90%;" />
+    </div>
 
-  <tr>
-   <td align="right"><fmt:message key="userMail" /></td>
-   <td><input type="text" name="email" size="30"
-        value="<%= edit.getEmail() %>" /></td>
-  </tr>
+    <div class="meshcmsfieldlabel">
+      <label for="language"><fmt:message key="userLanguage" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <select name="language" id="language"><% Locale[] locales = Locale.getAvailableLocales();
+       Arrays.sort(locales, new LocaleComparator(Locale.ENGLISH));
 
-  <tr>
-   <td align="right"><fmt:message key="userLanguage" /></td>
-   <td><select name="language"><% Locale[] locales = Locale.getAvailableLocales();
-     Arrays.sort(locales, new LocaleComparator(Locale.ENGLISH));
+       for (int i = 0; i < locales.length; i++) { %>
+         <option value="<%= locales[i] %>"<%= locales[i].toString().equals(edit.getPreferredLocaleCode()) ?
+           " selected='selected'" : "" %>><%= locales[i].getDisplayName(Locale.ENGLISH) %></option><%
+       } %></select>
+    </div>
+  </fieldset>
 
-     for (int i = 0; i < locales.length; i++) { %>
-       <option value="<%= locales[i] %>"<%= locales[i].toString().equals(edit.getPreferredLocaleCode()) ?
-         " selected='selected'" : "" %>><%= locales[i].getDisplayName(Locale.ENGLISH) %></option><%
-     } %>
-   </select></td>
-  </tr>
+  <fieldset class="meshcmseditor">
+    <legend><fmt:message key="<%= newUser ? "userInitPwd" : "userChangePwd" %>" /></legend>
+ 
+    <div class="meshcmsfieldlabel">
+      <label for="password1"><fmt:message key="loginPassword" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('password1');" alt=""
+       style="vertical-align:middle;" /><input type="password" name="password1" id="password1"
+       style="width: 90%;" />
+    </div>
 
-  <tr>
-   <th colspan="2">
-    <% if (newUser) { %>
-      <fmt:message key="userInitPwd" />
-    <% } else { %>
-      <fmt:message key="userChangePwd" />
-    <% } %>
-   </th>
-  </tr>
+    <div class="meshcmsfieldlabel">
+      <label for="password2"><fmt:message key="userConfirmPwd" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('password2');" alt=""
+       style="vertical-align:middle;" /><input type="password" name="password2" id="password2"
+       style="width: 90%;" />
+    </div>
+  </fieldset>
 
-  <tr>
-   <td align="right"><fmt:message key="loginPassword" /></td>
-   <td><input type="password" name="password1" size="30" /></td>
-  </tr>
+  <div class="meshcmsbuttons">
+    <input type="submit" value="<fmt:message key="genericSave" />" />
+  </div>
 
-  <tr>
-   <td align="right"><fmt:message key="userConfirmPwd" /></td>
-   <td><input type="password" name="password2" size="30" /></td>
-  </tr>
-
-  <tr>
-   <th colspan="2">
-    <img src="<%= imagesPath %>/tree_plus.gif" alt=""
-     id='toggledetails' onclick='javascript:toggleDetails();' />
-    <fmt:message key="userOpt" />
-   </th>
-  </tr>
-
+  <fieldset class="meshcmseditor">
+    <legend><fmt:message key="userOpt" /></legend>
+ 
 <%
   for (int i = 0; i < UserInfo.DETAILS.length; i++) {
 %>
-  <tr id="userdetail<%= i %>" style="display: none;">
-   <td align="right"><fmt:message key="<%= "user_" + UserInfo.DETAILS[i] %>" />:</td>
-   <td><input type="text" name="<%= UserInfo.DETAILS[i] %>"
-    value="<%= edit.getValue(UserInfo.DETAILS[i]) %>" size="30" /></td>
-  </tr>
+    <div class="meshcmsfieldlabel">
+      <label for="<%= UserInfo.DETAILS[i] %>"><fmt:message key="<%= "user_" + UserInfo.DETAILS[i] %>" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('<%= UserInfo.DETAILS[i] %>');" alt=""
+       style="vertical-align:middle;" /><input type="text"
+       name="<%= UserInfo.DETAILS[i] %>" id="<%= UserInfo.DETAILS[i] %>"
+       value="<%= edit.getValue(UserInfo.DETAILS[i]) %>" style="width: 90%;" />
+    </div>
 <%
   }
 %>
-
-  <tr>
-   <th colspan="2">
-    <input type="submit" value="<fmt:message key="genericSave" />" />
-   </th>
-  </tr>
- </table>
+  </fieldset>
 </form>
 
 </body>

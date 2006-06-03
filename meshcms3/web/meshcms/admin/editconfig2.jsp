@@ -67,6 +67,12 @@
   c.setAlwaysRedirectWelcomes(Utils.isTrue(request.getParameter("alwaysRedirectWelcomes")));
   c.setAlwaysDenyDirectoryListings(Utils.isTrue(request.getParameter("alwaysDenyDirectoryListings")));
   
+  c.setSiteName(request.getParameter("siteName"));
+  c.setSiteHost(request.getParameter("siteHost"));
+  c.setSiteDescription(request.getParameter("siteDescription"));
+  c.setSiteKeywords(request.getParameter("siteKeywords"));
+  c.setSiteAuthor(request.getParameter("siteAuthor"));
+  
   webSite.updateSiteMap(true); // needed to re-init the cache
   
   if (c.store(webSite)) {

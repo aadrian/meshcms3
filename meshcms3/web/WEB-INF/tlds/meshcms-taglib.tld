@@ -62,6 +62,16 @@
     </attribute>
   </tag>
   <tag>
+    <name>info</name>
+    <tag-class>org.meshcms.taglib.Info</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+      <name>id</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+  <tag>
     <name>breadcrumbs</name>
     <tag-class>org.meshcms.taglib.Breadcrumbs</tag-class>
     <body-content>JSP</body-content>

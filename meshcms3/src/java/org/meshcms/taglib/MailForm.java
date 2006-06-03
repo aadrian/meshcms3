@@ -66,15 +66,15 @@ public final class MailForm extends AbstractTag {
     String email = getPage().getProperty(PageAssembler.EMAIL_PARAM);
 
     Writer w = getOut();
-    w.write("<div class='meshcmseditor'>\n");
-    w.write("<div class='meshcmstitle'>" + bundle.getString("editorMailTitle") + "</div>\n");
-    w.write("<div class='meshcmsfieldname'>" + bundle.getString("editorMail") + "</div>\n");
+    w.write("<fieldset class='meshcmseditor'>\n");
+    w.write("<legend>" + bundle.getString("editorMailTitle") + "</legend>\n");
+    w.write("<div class='meshcmsfieldlabel'>" + bundle.getString("editorMail") + "</div>\n");
     w.write("<div class='meshcmsfield'><img src='" + afp +
       "/images/clear_field.gif' onclick=\"javascript:editor_clr('" +
       PageAssembler.EMAIL_PARAM + "');\" style='vertical-align:middle;' /><input type='text' id='" +
       PageAssembler.EMAIL_PARAM + "' name='" +
       PageAssembler.EMAIL_PARAM + "' value=\"" +
       Utils.noNull(email) + "\" style='width: 12em;' /></div>\n");
-    w.write("</div>");
+    w.write("</fieldset>");
   }
 }

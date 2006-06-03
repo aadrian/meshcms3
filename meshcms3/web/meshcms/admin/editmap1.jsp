@@ -235,7 +235,7 @@
     <tr>
       <th><img src="filemanager/images/icon_folderopen.gif" align="left" alt=""
            onclick="javascript:editMap_openChildren(0, <%= padding %>, true);"
-           title="<fmt:message key="mapClickExpandAll" />" /><fmt:message key="mapPageTitle" /></th>
+           title="<fmt:message key="mapClickExpandAll" />" />&nbsp;<fmt:message key="mapPageTitle" /></th>
       <th><fmt:message key="mapHits" /></th>
       <th><fmt:message key="mapCache" /></th>
       <th><fmt:message key="mapMenu" /></th>

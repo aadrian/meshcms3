@@ -66,7 +66,7 @@
     }
 %>
     <form name="loginform" action="login.jsp" method="post">
-     <div class="meshcmsfieldname">
+     <div class="meshcmsfieldlabel">
       <label for="username">
        <fmt:message key="loginUsername" />
       </label>
@@ -76,7 +76,7 @@
       <input type="text" id="username" name="username" value="<%= username %>" />
      </div>
       
-     <div class="meshcmsfieldname">
+     <div class="meshcmsfieldlabel">
       <label for="password">
        <fmt:message key="loginPassword" />
       </label>

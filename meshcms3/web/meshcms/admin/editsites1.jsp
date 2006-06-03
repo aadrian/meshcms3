@@ -61,28 +61,29 @@
 <form action="editsites2.jsp" method="post">
   
 <% if (msm != null) { %>
-  <fieldset>
+  <fieldset class="meshcmseditor">
     <legend><fmt:message key="sitesGeneral" /></legend>
-
-    <div>
+    
+    <div class="meshcmsfield">
       <input type="checkbox" id="useDirsAsDomains" name="useDirsAsDomains"
        value="true"<%= msm.isUseDirsAsDomains() ? " checked='checked'" : "" %> />
       <label for="useDirsAsDomains"><fmt:message key="sitesDirsAsDomains" /></label>
     </div>
 
-    <div>
+    <div class="meshcmsfield">
       <input type="checkbox" id="manageTripleWs" name="manageTripleWs"
        value="true"<%= msm.isManageTripleWs() ? " checked='checked'" : "" %> />
       <label for="manageTripleWs"><fmt:message key="sitesManageTripleWs" /></label>
     </div>
 
-    <hr />
-
-    <div>
-      <label for="mainWebSiteDomains"><fmt:message key="sitesMainWebSiteDomains" /></label><br />
+    <div class="meshcmsfieldlabel">
+      <label for="mainWebSiteDomains"><fmt:message key="sitesMainWebSiteDomains" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('mainWebSiteDomains');" alt=""
-       style="vertical-align:middle;" /><input type="text" id="mainWebSiteDomains" name="mainWebSiteDomains" size="60"
-       value="<%= Utils.noNull(msm.getMainWebSiteDomains()) %>" />
+       style="vertical-align:middle;" /><input type="text" id="mainWebSiteDomains" name="mainWebSiteDomains"
+       style="width: 90%;" value="<%= Utils.noNull(msm.getMainWebSiteDomains()) %>" />
     </div>
   </fieldset>
 <% } else { %>
@@ -90,10 +91,10 @@
   <input type="hidden" name="manageTripleWs" value="true" />
 <% } %>
 
-  <fieldset>
+  <fieldset class="meshcmseditor">
     <legend><fmt:message key="sitesList" /></legend>
 
-    <table class="meshcmseditor" cellspacing="0">
+    <table class="meshcmseditor" cellspacing="0" style="width: 100%;">
       <tr>
         <th><fmt:message key="sitesHeaderName" /></th>
         <th><fmt:message key="sitesHeaderAliases" /></th>
@@ -110,10 +111,10 @@
         <td>
           <img src="images/clear_field.gif" onclick="javascript:editor_clr('aliases_<%= dirs[i] %>');" alt=""
            style="vertical-align:middle;" /><input type="text" id="aliases_<%= dirs[i] %>"
-           name="aliases_<%= dirs[i] %>" size="40"
+           name="aliases_<%= dirs[i] %>" style="width: 90%;"
            value="<%= Utils.noNull(msm.getDomains(dirs[i])) %>" />
         </td>
-        <td align="center">
+        <td style="text-align: center;">
         <% if (((MainWebSite) webSite).getVirtualSite(dirs[i]).getCMSPath() != null) { %>
           <img src="filemanager/images/button_yes.gif" alt=""
            style='vertical-align:middle;' title="<fmt:message key="genericYes" />" />
@@ -127,20 +128,17 @@
   }
 %>
       <tr>
-        <td colspan="3" align="center"><fmt:message key="sitesNew" /></td>
-      </tr>
-      <tr>
-        <td>
+        <td style="width: 30%;">
           <img src="images/clear_field.gif" onclick="javascript:editor_clr('newsite_dirname');" alt=""
            style="vertical-align:middle;" /><input type="text" id="newsite_dirname"
-           name="newsite_dirname" size="15" />
+           style="width: 90%;" name="newsite_dirname" />
         </td>
-        <td>
+        <td style="width: 50%;">
           <img src="images/clear_field.gif" onclick="javascript:editor_clr('newsite_aliases');" alt=""
            style="vertical-align:middle;" /><input type="text" id="newsite_aliases"
-           name="newsite_aliases" size="40" />
+           style="width: 90%;" name="newsite_aliases" />
         </td>
-        <td align="center">
+        <td style="width: 20%; text-align: center;">
           <input type="checkbox" id="newsite_cms" name="newsite_cms" value="true"
            checked="checked" />
         </td>
@@ -149,7 +147,7 @@
     </table>
   </fieldset>
 
-  <div align="center">
+  <div class="meshcmsbuttons">
     <input type="submit" value="<fmt:message key="genericUpdate" />" />
   </div>
 </form>
