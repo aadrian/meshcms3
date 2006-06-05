@@ -114,6 +114,16 @@
        style="vertical-align:middle;" /><input type="text" id="siteAuthor" name="siteAuthor"
        style="width: 90%;" value="<%= Utils.noNull(configuration.getSiteAuthor()) %>" />
     </div>
+    
+    <div class="meshcmsfieldlabel">
+      <label for="siteAuthorURL"><fmt:message key="configSiteAuthorURL" /></label>
+    </div>
+    
+    <div class="meshcmsfield">
+      <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteAuthorURL');" alt=""
+       style="vertical-align:middle;" /><input type="text" id="siteAuthorURL" name="siteAuthorURL"
+       style="width: 90%;" value="<%= Utils.noNull(configuration.getSiteAuthorURL()) %>" />
+    </div>
   </fieldset>
   
   <fieldset class="meshcmseditor">

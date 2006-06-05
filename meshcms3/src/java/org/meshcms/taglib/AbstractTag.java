@@ -42,19 +42,6 @@ public abstract class AbstractTag extends TagSupport implements RequestConstants
    */
   public static final String PAGE_MODULES = "page_modules";
 
-  /**
-   * Name of the request parameter that is used to specify some actions.
-   * Currently only {@link #ACTION_EDIT} is used as value. This parameter is
-   * read by custom JSP tags.
-   */
-  public static final String ACTION_NAME = "meshcmsaction";
-
-  /**
-   * Value of {@link #ACTION_NAME} used to indicate that the current page
-   * must be edited.
-   */
-  public static final String ACTION_EDIT = "edit";
-
   WebSite webSite;
   HttpServletRequest request;
   Path pagePath;
@@ -77,7 +64,7 @@ public abstract class AbstractTag extends TagSupport implements RequestConstants
     cp = request.getContextPath();
     ap = "/" + webSite.getAdminPath();
     afp = cp + ap;
-    isEdit = ACTION_EDIT.equals(request.getParameter(ACTION_NAME)) &&
+    isEdit = HitFilter.ACTION_EDIT.equals(request.getParameter(HitFilter.ACTION_NAME)) &&
              userInfo != null && userInfo.canWrite(webSite, pagePath);
 
     try {

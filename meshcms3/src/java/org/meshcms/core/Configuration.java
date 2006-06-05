@@ -72,6 +72,7 @@ public class Configuration implements Serializable {
   private String siteDescription;
   private String siteKeywords;
   private String siteAuthor;
+  private String siteAuthorURL;
   private String[] visualExtensions;
   
   private Configuration() {
@@ -91,10 +92,11 @@ public class Configuration implements Serializable {
     setPreferredCharset("UTF-8");
     
     setSiteAuthor("Luciano Vernaschi");
+    setSiteAuthorURL("http://www.cromoteca.com/");
     setSiteDescription("MeshCMS is a Content Management System designed to be" +
-        " easy to use. It doesn't require a database, since it is file-based" +
-        " and can be used together with other applications, although it" +
-        " provides everything is needed to edit a website.");
+        " easy to use. It doesn't require a database and offers easy" +
+        " deployment, management of multiple sites, wysiwyg editing, file" +
+        " manager, themes, modules and a custom tag library.");
     setSiteHost("www.meshcms.org");
     setSiteKeywords("meshcms, cms, java, jsp, servlet, content management system");
     setSiteName("MeshCMS - Open Source Content Management System");
@@ -286,5 +288,13 @@ public class Configuration implements Serializable {
 
   public void setSiteName(String siteName) {
     this.siteName = siteName;
+  }
+
+  public String getSiteAuthorURL() {
+    return siteAuthorURL;
+  }
+
+  public void setSiteAuthorURL(String siteAuthorURL) {
+    this.siteAuthorURL = siteAuthorURL;
   }
 }

@@ -245,26 +245,7 @@ public class SiteInfo {
     return false;
   }
 
-  /**
-   * Returns the path of the theme to be applied to the given path. This depends
-   * on the stored values and on the option to use the default theme for the
-   * admin pages. This method returns null if no theme is found.
-   */
-  public Path getThemePath(Path pagePath) {
-    Path themePath = findThemePath(pagePath);
-
-    if (pagePath.isContainedIn(webSite.getAdminPath())) {
-      if (webSite.getConfiguration().isUseAdminTheme() ||
-          themePath == null ||
-          !webSite.getFile(themePath.add(SiteMap.THEME_DECORATOR)).exists()) {
-        themePath = webSite.getAdminThemePath();
-      }
-    }
-
-    return themePath;
-  }
-
-  private Path findThemePath(Path pagePath) {
+  protected Path getThemePath(Path pagePath) {
     do {
       String theme = getPageTheme(pagePath);
 

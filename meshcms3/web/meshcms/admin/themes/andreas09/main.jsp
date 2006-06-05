@@ -34,15 +34,15 @@
       <h1>User Menu</h1>
       <p><cms:adminmenu separator="<br />" /></p>
 
+      <%-- search is not available at the moment
       <cms:ifnotediting>
-      <cms:ifediting> <%-- temporary: search is not available at the moment --%>
       <h1>Search</h1>
       <p class="searchform"> 
         <input type="text" alt="Search" class="searchbox" />
         <input type="submit" value="Go!" class="searchbutton" />
       </p>
-      </cms:ifediting>
       </cms:ifnotediting>
+      --%>
     </div>
     <div id="contentalt" >
       <cms:module location="top" alt="" />
@@ -56,7 +56,7 @@
   </div>
 </div>
 
-<div id="footer">&copy; <a href="http://<cms:info id="domain" />"><cms:info id="author" /></a>
+<div id="footer">&copy; <a href="<cms:info id="authorurl" />"><cms:info id="author" /></a>
  | Design by <a href="http://andreasviklund.com">Andreas Viklund</a></div>
 </cms:editor>
 </body>

@@ -92,6 +92,7 @@ public final class Module extends AbstractTag {
           pageContext.include("/" + webSite.getServedPath(modulePath) + "/" +
               SiteMap.MODULE_INCLUDE_FILE + "?modulecode=" + moduleCode);
         } catch (ServletException ex) {
+          WebUtils.setBlockCache(request);
           throw new JspException(ex);
         }
       }

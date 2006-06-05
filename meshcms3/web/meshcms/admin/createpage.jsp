@@ -21,7 +21,6 @@
 --%>
 
 <%@ page import="org.meshcms.core.*" %>
-<%@ page import="org.meshcms.taglib.*" %>
 <%@ page import="org.meshcms.util.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 <jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
@@ -109,7 +108,7 @@ if (title.equals("")) { %>
     if (webSite.saveToFile(userInfo, text, path, null)) {
       webSite.updateSiteMap(true);
       %><script type="text/javascript">
-        var page = "<%= cp + '/' + path + '?' + AbstractTag.ACTION_NAME + '=' + AbstractTag.ACTION_EDIT %>";
+        var page = "<%= cp + '/' + path + '?' + HitFilter.ACTION_NAME + '=' + HitFilter.ACTION_EDIT %>";
         
         if (window.name && window.name == "smallpopup") { // it's a popup
           window.opener.location.href = page;

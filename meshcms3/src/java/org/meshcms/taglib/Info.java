@@ -47,6 +47,8 @@ public final class Info extends AbstractTag {
         result = c.getSiteKeywords();
       } else if (id.equals("author")) {
         result = c.getSiteAuthor();
+      } else if (id.equals("authorurl")) {
+        result = c.getSiteAuthorURL();
       }
     }
     

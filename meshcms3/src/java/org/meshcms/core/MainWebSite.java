@@ -78,4 +78,35 @@ public class MainWebSite extends WebSite {
   public MultiSiteManager getMultiSiteManager() {
     return multiSiteManager;
   }
+
+  public void updateSiteMap(boolean force) {
+    super.updateSiteMap(force);
+    multiSiteManager.initDomainsMap();
+  }
+  
+  public String getHost(String dirName) {
+    WebSite site = multiSiteManager.getWebSite(dirName);
+    
+    if (site != null) {
+      String host = site.getConfiguration().getSiteHost();
+      
+      if (!Utils.isNullOrEmpty(host) &&
+          multiSiteManager.getWebSite(host).equals(site)) {
+        return host;
+      }
+      
+      if (multiSiteManager.isUseDirsAsDomains()) {
+        return dirName;
+      }
+      
+      StringTokenizer st =
+          new StringTokenizer(multiSiteManager.getDomains(dirName), ";:, \t");
+      
+      if (st.hasMoreTokens()) {
+        return st.nextToken();
+      }
+    }
+    
+    return null;
+  }
 }

@@ -87,8 +87,8 @@ public final class AdminMenu extends AbstractTag {
       if (!isEdit) {
         if (userInfo.canWrite(webSite, pagePath)) {
           if (webSite.isVisuallyEditable(pagePath)) {
-            l.add(a1 + request.getRequestURI() + '?' + AbstractTag.ACTION_NAME +
-                '=' + AbstractTag.ACTION_EDIT + a2 +
+            l.add(a1 + request.getRequestURI() + '?' + HitFilter.ACTION_NAME +
+                '=' + HitFilter.ACTION_EDIT + a2 +
                 bundle.getString("adminEditPage") + a3);
           }
 

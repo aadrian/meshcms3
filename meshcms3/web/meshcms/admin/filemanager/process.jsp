@@ -24,7 +24,6 @@
 <%@ page import="java.text.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="org.meshcms.core.*" %>
-<%@ page import="org.meshcms.taglib.*" %>
 <%@ page import="org.meshcms.util.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 <jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
@@ -194,8 +193,8 @@
 
       if (!webSite.getFile(pp).isDirectory()) {
         if (webSite.isVisuallyEditable(pp)) {
-          redirect = cp + "/" + pp + "?" + AbstractTag.ACTION_NAME + "=" +
-              AbstractTag.ACTION_EDIT;
+          redirect = cp + "/" + pp + "?" + HitFilter.ACTION_NAME + "=" +
+              HitFilter.ACTION_EDIT;
         } else {
           Object[] args = { fileNames[0] };
           formatter.applyPattern(bundle.getString("fmErrorNoHTML"));

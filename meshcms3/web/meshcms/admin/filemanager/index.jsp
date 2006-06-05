@@ -204,6 +204,8 @@
    <td width="240" valign="top">
     <div style="width: 240px; height: 100%; overflow:auto;">
       <script type="text/javascript">
+        webFXTreeConfig['usePersistence'] = false;
+        
         webFXTreeConfig['rootIcon'] = '../scripts/xtree/images/foldericon.png';
         webFXTreeConfig['openRootIcon'] = '../scripts/xtree/images/openfoldericon.png';
         webFXTreeConfig['folderIcon'] = '../scripts/xtree/images/foldericon.png';

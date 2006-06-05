@@ -57,13 +57,28 @@ public final class HitFilter implements Filter {
 
   public static final String LAST_MODIFIED_ATTRIBUTE = "meshcmslastmodified";
 
-  public static final String BLOCK_CACHE_ATTRIBUTE = "MeshCMS-No-Cache-Please";
+  public static final String BLOCK_CACHE_ATTRIBUTE = "meshcmsnocache";
 
   /**
    * Name of the session attribute that allows hotlinking within the session
    * itself.
    */
-  public static final String HOTLINKING_ALLOWED = "MeshCMS-Hotlinking-Allowed";
+  public static final String HOTLINKING_ALLOWED = "meshcmshotlinkingallowed";
+
+  /**
+   * Name of the request parameter that is used to specify some actions.
+   * Currently only {@link #ACTION_EDIT} is used as value. This parameter is
+   * read by custom JSP tags.
+   */
+  public static final String ACTION_NAME = "meshcmsaction";
+
+  /**
+   * Value of {@link #ACTION_NAME} used to indicate that the current page
+   * must be edited.
+   */
+  public static final String ACTION_EDIT = "edit";
+  
+  public static final String ROOT_WEBSITE = "meshcmsrootsite";
 
   private FilterConfig filterConfig = null;
 
@@ -106,21 +121,23 @@ public final class HitFilter implements Filter {
         Path wPath = webSite.findCurrentWelcome(pagePath);
         Configuration conf = webSite.getConfiguration();
 
-        if (wPath != null && (conf == null || conf.isAlwaysRedirectWelcomes())) {
-          blockRemoteCaching(httpRes);
-          String q = httpReq.getQueryString();
+        if (conf == null || conf.isAlwaysDenyDirectoryListings()) {
+          if (wPath != null) {
+            blockRemoteCaching(httpRes);
+            String q = httpReq.getQueryString();
 
-          if (Utils.isNullOrEmpty(q)) {
-            httpRes.sendRedirect(httpReq.getContextPath() + "/" + wPath);
+            if (Utils.isNullOrEmpty(q)) {
+              httpRes.sendRedirect(httpReq.getContextPath() + "/" + wPath);
+            } else {
+              httpRes.sendRedirect(httpReq.getContextPath() + "/" + wPath + '?' + q);
+            }
+
+            return;
           } else {
-            httpRes.sendRedirect(httpReq.getContextPath() + "/" + wPath + '?' + q);
+            httpRes.sendError(HttpServletResponse.SC_FORBIDDEN,
+                "Directory listing denied");
+            return;
           }
-
-          return;
-        } else if (conf == null || conf.isAlwaysDenyDirectoryListings()) {
-          httpRes.sendError(HttpServletResponse.SC_FORBIDDEN,
-              "Directory listing denied");
-          return;
         }
       }
       
@@ -167,7 +184,7 @@ public final class HitFilter implements Filter {
           }
 
           if (themePath == null || !webSite.getFile(themePath).exists()) {
-            themePath = webSite.getSiteInfo().getThemePath(pagePath);
+            themePath = webSite.getThemePath(pagePath);
           }
 
           if (themePath != null) { // there is a theme for this page
@@ -328,7 +345,7 @@ public final class HitFilter implements Filter {
         webSite.updateSiteMap(false); // better here than nowhere :)
       } catch (Exception ex) {
         if (isAdminPage) {
-          webSite.getConfiguration().setUseAdminTheme(true);
+          webSite.setLastAdminThemeBlock(System.currentTimeMillis());
         }
         
         Path wPath = webSite.findCurrentWelcome(pagePath);
@@ -358,7 +375,7 @@ public final class HitFilter implements Filter {
   }
   
   public static WebSite getRootSite(ServletContext sc, boolean alwaysCreate) {
-    WebSite rootSite = (WebSite) sc.getAttribute("MeshCMS-Root-Site");
+    WebSite rootSite = (WebSite) sc.getAttribute(ROOT_WEBSITE);
 
     if (rootSite == null || alwaysCreate) {
       File rootFile = new File(sc.getRealPath("/"));
@@ -381,7 +398,7 @@ public final class HitFilter implements Filter {
               Path.ROOT, cmsPath) :
           WebSite.create(sc, WebUtils.getWelcomeFiles(sc), rootFile,
               Path.ROOT, cmsPath);
-      sc.setAttribute("MeshCMS-Root-Site", rootSite);
+      sc.setAttribute(ROOT_WEBSITE, rootSite);
     }
     
     return rootSite;

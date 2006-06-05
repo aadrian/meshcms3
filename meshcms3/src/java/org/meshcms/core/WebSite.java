@@ -57,6 +57,7 @@ public class WebSite {
   protected String[] welcomeFiles;
 
   protected File rootFile;
+  protected long lastAdminThemeBlock;
   protected long statsZero;
   protected int statsLength;
   protected Configuration configuration;
@@ -803,7 +804,7 @@ public class WebSite {
    * a custom theme or the default admin theme).
    */
   public String getAdminMetaThemeTag() {
-    Path themePath = getSiteInfo().getThemePath(getAdminPath());
+    Path themePath = getThemePath(adminPath);
     return "<meta name=\"decorator\" content=\"/" + getServedPath(themePath) +
         "/" + SiteMap.THEME_DECORATOR + "\" />";
   }
@@ -1005,6 +1006,25 @@ public class WebSite {
     return false;
   }
 
+  /**
+   * Returns the path of the theme to be applied to the given path. This depends
+   * on the stored values and on the option to use the default theme for the
+   * admin pages. This method returns null if no theme is found.
+   */
+  public Path getThemePath(Path pagePath) {
+    Path themePath = siteInfo.getThemePath(pagePath);
+
+    if (pagePath.isContainedIn(adminPath)) {
+      if (configuration.isUseAdminTheme() || themePath == null ||
+          System.currentTimeMillis() - lastAdminThemeBlock < 300000L || // 5 minutes
+          !getFile(themePath.add(SiteMap.THEME_DECORATOR)).exists()) {
+        themePath = adminThemePath;
+      }
+    }
+
+    return themePath;
+  }
+
   public Path getAdminThemePath() {
     return adminThemePath;
   }
@@ -1059,5 +1079,13 @@ public class WebSite {
 
   public Path getSitesFilePath() {
     return sitesFilePath;
+  }
+
+  public long getLastAdminThemeBlock() {
+    return lastAdminThemeBlock;
+  }
+
+  public void setLastAdminThemeBlock(long lastAdminThemeBlock) {
+    this.lastAdminThemeBlock = lastAdminThemeBlock;
   }
 }
