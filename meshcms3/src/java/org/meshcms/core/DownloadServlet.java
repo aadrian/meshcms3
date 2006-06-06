@@ -61,23 +61,19 @@ public final class DownloadServlet extends HttpServlet {
    */
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
-    // Do not restrict usage to registered users.
-    /* UserInfo userInfo = (UserInfo)
-        request.getSession(true).getAttribute("userInfo");
-
-    if (userInfo == null || userInfo.isGuest()) {
-      response.sendError(HttpServletResponse.SC_FORBIDDEN,
-          "You don't have enough privileges");
-      return;
-    } */
-
     WebSite webSite = (WebSite) request.getAttribute("webSite");
     Path path = new Path(request.getPathInfo());
 
     if (webSite.isSystem(path)) {
-      response.sendError(HttpServletResponse.SC_FORBIDDEN,
-          "You are not allowed to download this file");
-      return;
+      /* Only authenticated users can download system files */
+      UserInfo userInfo = (UserInfo)
+        request.getSession(true).getAttribute("userInfo");
+
+      if (userInfo == null || userInfo.isGuest()) {
+        response.sendError(HttpServletResponse.SC_FORBIDDEN,
+            "You are not allowed to download this file");
+        return;
+      }
     }
 
     File file = webSite.getFile(path);
