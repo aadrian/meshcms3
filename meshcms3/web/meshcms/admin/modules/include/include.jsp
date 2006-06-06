@@ -44,7 +44,7 @@
     DateFormat df = md.getDateFormat(WebUtils.getPageLocale(pageContext), "date");
 %>
 
-<table<%= md.getFullCSSAttribute("css") %> align="center" border="0" cellspacing="2" cellpadding="0">
+<div<%= md.getFullCSSAttribute("css") %>>
 <%
     for (int i = 0; i < files.length; i++) {
       if (FileTypes.isPage(files[i])) {
@@ -56,28 +56,30 @@
           FastPage pg = (FastPage) fpp.parse(reader);
           String title = pg.getTitle();
 %>
-  <tr>
-    <th><%= Utils.isNullOrEmpty(title) ? "&nbsp;" : title %></th>
-  </tr>
+ <div class="includeitem">
+  <div class="includetitle">
+    <%= Utils.isNullOrEmpty(title) ? "&nbsp;" : title %>
+  </div>
 <%
           if (df != null) {
 %>
-  <tr>
-    <td align="right">(<%= df.format(new Date(files[i].lastModified())) %>)</td>
-  </tr>
+  <div class="includedate">
+    (<%= df.format(new Date(files[i].lastModified())) %>)
+  </div>
 <%
           }
 %>
-  <tr>
-    <td><%= pg.getBody() %></td>
-  </tr>
+  <div class="includetext">
+    <%= pg.getBody() %>
+  </div>
+ </div>
 <%
           reader.close();
         } catch (Exception ex) {}
       }
     }
 %>
-</table>
+</div>
 
 <%
   }

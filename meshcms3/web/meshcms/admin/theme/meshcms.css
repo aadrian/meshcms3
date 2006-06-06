@@ -20,6 +20,29 @@
  text-align: center;
 }
 
+/* A file included by the "Include" module ... */
+.includeitem {
+ border-left: 1px dotted silver;
+ margin: 0.5em;
+ padding-left: 0.5em;
+}
+
+/* ... its title, ... */
+.includetitle {
+ font-weight: bold;
+}
+
+/* ... its date ... */
+.includedate {
+ text-align: right;
+ font-style: italic;
+}
+
+/* ... and its text */
+.includetext {
+ padding: 0.5em;
+}
+
 /* Editing table */
 table.meshcmseditor {
  border-top: 1px dotted silver;
