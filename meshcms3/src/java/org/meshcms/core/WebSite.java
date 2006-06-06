@@ -950,7 +950,7 @@ public class WebSite {
         (cmsPath == null ? "disabled" : "enabled on path /" + cmsPath);
   }
 
-  protected Object loadFromXML(Path path) {
+  public Object loadFromXML(Path path) {
     File file = getFile(path);
 
     if (file.exists()) {
@@ -979,7 +979,7 @@ public class WebSite {
     return null;
   }
 
-  protected boolean storeToXML(Object o, Path path) {
+  public boolean storeToXML(Object o, Path path) {
     File file = getFile(path);
     OutputStream os = null;
 
