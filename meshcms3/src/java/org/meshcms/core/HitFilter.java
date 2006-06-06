@@ -131,13 +131,12 @@ public final class HitFilter implements Filter {
             } else {
               httpRes.sendRedirect(httpReq.getContextPath() + "/" + wPath + '?' + q);
             }
-
-            return;
           } else {
             httpRes.sendError(HttpServletResponse.SC_FORBIDDEN,
                 "Directory listing denied");
-            return;
           }
+
+          return;
         }
       }
       
@@ -248,8 +247,9 @@ public final class HitFilter implements Filter {
           }
 
           // If it is a static page, try to get it from the cache
-          if (isGuest && Utils.isNullOrEmpty(httpReq.getQueryString()) &&
-              FileTypes.isLike(pagePath, "html")) {
+          if (isGuest && FileTypes.isLike(pagePath, "html") &&
+              httpReq.getMethod().equalsIgnoreCase("get") &&
+              Utils.isNullOrEmpty(httpReq.getQueryString())) {
             int cacheType = webSite.getConfiguration().getCacheType();
 
             // Let's see if the browser supports GZIP
@@ -312,8 +312,8 @@ public final class HitFilter implements Filter {
       } // end of CMS stuff
       
       try {
-        if (!(pageInfo == null || webSite.getCMSPath() == null ||
-            WebUtils.isCacheBlocked(httpReq)) && isGuest) {
+        if (isGuest && !(pageInfo == null || webSite.getCMSPath() == null ||
+            WebUtils.isCacheBlocked(httpReq))) {
           int cacheType = webSite.getConfiguration().getCacheType();
           
           if (cacheType != Configuration.NO_CACHE) {

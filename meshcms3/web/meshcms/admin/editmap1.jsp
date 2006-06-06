@@ -204,11 +204,14 @@
   int pagesCount = pagesList.size();
 %>
 
+<div style="text-align: right; padding-left: 5px; padding-right: 5px;">
+ <%= webSite.helpIcon(cp, WebSite.HELP_ANCHOR_MANAGE_PAGES, userInfo) %>
+</div>
+
 <p style="padding-left: 5px; padding-right: 5px;">
- <div align="right"><%= webSite.helpIcon(cp, WebSite.HELP_ANCHOR_MANAGE_PAGES, userInfo) %></div>
  <fmt:message key="mapTotal" /> <%= pagesCount %>
 </p>
-
+ 
 <%
   Path userHome = userInfo.getHomePath();
   String[] welcomes = webSite.getWelcomeFileNames();
