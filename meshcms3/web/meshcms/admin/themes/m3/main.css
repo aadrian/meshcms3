@@ -86,7 +86,7 @@ body {
 
 body, th, td {
   font-family: "Bitstream Vera Sans", "Lucida Sans Unicode", sans-serif;
-  font-size: 0.9em;
+  font-size: 0.8em;
 }
 
 .box {
@@ -121,7 +121,7 @@ img {
 
 .breadcrumbs {
   margin-top: 2px;
-  font-size: 0.9em;
+  font-size: 0.7em;
   background-color: #d9e4f5;
   padding: 0.2em 2em;
 }
