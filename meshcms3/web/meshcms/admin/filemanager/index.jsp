@@ -69,6 +69,7 @@
   <link href="../scripts/xmenu/xmenu.css" type="text/css" rel="stylesheet" />
   <link href="../scripts/xmenu/xmenu.windows.css" type="text/css" rel="stylesheet" />
   <link href="../scripts/xtree/xtree.css" type="text/css" rel="stylesheet">
+  <link href="../scripts/jscalendar/calendar-win2k-1.css" type="text/css" rel="stylesheet">
 
   <style type="text/css">
     body { margin: 0px; overflow: hidden; }
@@ -113,6 +114,9 @@
   <script type="text/javascript" src="../scripts/xmenu/xmenu.js"></script>
   <script type="text/javascript" src="../scripts/xtree/xtree.js"></script>
   <script type="text/javascript" src="../scripts/filemanager.js"></script>
+  <script type="text/javascript" src="../scripts/jscalendar/calendar.js"></script>
+  <script type="text/javascript" src="../scripts/jscalendar/lang/<fmt:message key="DHTMLCalendarLangCode" />.js" charset="<fmt:message key="DHTMLCalendarLangCharset" />"></script>
+  <script type="text/javascript" src="../scripts/jscalendar/calendar-setup.js"></script>
 </head>
 
 <body style="margin: 0px;" onload="fm_xTreeExpandTo(folder<%= WebUtils.getMenuCode(folderPath) %>)">
@@ -147,6 +151,7 @@
       fileMenu.add(new WebFXMenuItem('<img src=\'images/button_delete.gif\' class=\'menuicon\'><fmt:message key="fmDelete" />', 'javascript:fm_deleteFiles()'));
       fileMenu.add(new WebFXMenuItem('<img src=\'images/button_rename.gif\' class=\'menuicon\'><fmt:message key="fmRename" />', 'javascript:fm_renameFile()'));
       fileMenu.add(new WebFXMenuItem('<img src=\'images/button_touch.gif\' class=\'menuicon\'><fmt:message key="fmTouch" />', 'javascript:fm_touchFiles()'));
+      fileMenu.add(new WebFXMenuItem('<img src=\'images/button_changedate.gif\' class=\'menuicon\'><fmt:message key="fmChangeDate" />', null));
     
       var editMenu = new WebFXMenu;
       editMenu.width = 200;
@@ -268,12 +273,25 @@
  </table> 
 
  <form name="fmfm" method="post" action="process.jsp">
-  <input type="hidden" name="f_action" />
-  <input type="hidden" name="f_dir" value="<%= folderPath %>" />
-  <input type="hidden" name="f_files" />
-  <input type="hidden" name="s_thumbs" value="<%= thumbnails %>" />
-  <input type="hidden" name="s_field" value="<%= field %>" />
+  <input type="hidden" name="f_action" id="f_action" />
+  <input type="hidden" name="f_dir" id="f_dir" value="<%= folderPath %>" />
+  <input type="hidden" name="f_files" id="f_files" />
+  <input type="hidden" name="s_thumbs" id="s_thumbs" value="<%= thumbnails %>" />
+  <input type="hidden" name="s_field" id="s_field" value="<%= field %>" />
  </form>
 
+ <script type="text/javascript">
+  Calendar.setup(
+    {
+      inputField : "f_action",
+      ifFormat : "cdate%Y%m%d%H%M%S",
+      button : "webfx-menu-object-13",
+      onClose : fm_closeCalendar,
+      showsTime : true,
+      singleClick : false,
+      align : "bR"
+    }
+  );
+ </script>
 </body>
 </html>

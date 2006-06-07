@@ -84,6 +84,18 @@
           errMsgs.add(formatter.format(args));
         }
       }
+    } else if (action.startsWith("cdate")) {
+      long time = WebUtils.numericDateFormatter.parse(action.substring(5)).getTime();
+
+      for (int i = 0; i < fileNames.length; i++) {
+        if (webSite.setFileTime(userInfo, path.add(fileNames[i]), time)) {
+          needsUpdate = true;
+        } else {
+          Object[] args = { fileNames[i] };
+          formatter.applyPattern(bundle.getString("fmErrorNotTouched"));
+          errMsgs.add(formatter.format(args));
+        }
+      }
     } else if (action.startsWith("theme")) {
       SiteInfo siteInfo = webSite.getSiteInfo();
       String themeName = (action.length() == 5) ? "" : action.substring(5);

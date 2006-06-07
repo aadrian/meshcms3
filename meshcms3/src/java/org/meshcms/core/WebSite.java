@@ -399,6 +399,10 @@ public class WebSite {
    * @return true if the date has been changed, false otherwise
    */
   public boolean touch(UserInfo user, Path filePath) {
+    return setFileTime(user, filePath, System.currentTimeMillis());
+  }
+  
+  public boolean setFileTime(UserInfo user, Path filePath, long time) {
     if (user == null || !user.canWrite(this, filePath)) {
       return false;
     }
@@ -409,7 +413,7 @@ public class WebSite {
       return false;
     }
 
-    file.setLastModified(System.currentTimeMillis());
+    file.setLastModified(time);
     return true;
   }
 

@@ -292,22 +292,32 @@ public final class HitFilter implements Filter {
             }
           } // cache control finished
         } else { // not a page in the site map
-          // Let's try to apply the right charset to TinyMCE lang files
+          // Let's try to apply the right charset to JavaScript lang files
           if (isAdminPage && pagePath.getLastElement().endsWith(".js") &&
-              userInfo != null && userInfo.canDo(UserInfo.CAN_EDIT_PAGES)) {
-            Locale locale = Utils.getLocale(userInfo.getPreferredLocaleCode());
-            ResourceBundle bundle =
-                ResourceBundle.getBundle("org/meshcms/webui/Locales", locale);
-            String s = bundle.getString("TinyMCELangCode");
+              userInfo != null && userInfo.canDo(UserInfo.CAN_BROWSE_FILES)) {
+            String script = null;
+            
+            if (pagePath.isContainedIn(webSite.getAdminScriptsPath().add("tiny_mce"))) {
+              script = "TinyMCE";
+            } else if (pagePath.isContainedIn(webSite.getAdminScriptsPath().add("jscalendar"))) {
+              script = "DHTMLCalendar";
+            }
+            
+            if (script != null) {
+              Locale locale = Utils.getLocale(userInfo.getPreferredLocaleCode());
+              ResourceBundle bundle =
+                  ResourceBundle.getBundle("org/meshcms/webui/Locales", locale);
+              String s = bundle.getString(script + "LangCode");
 
-            if (!Utils.isNullOrEmpty(s) && pagePath.getLastElement().equals(s + ".js")) {
-              s = bundle.getString("TinyMCELangCharset");
+              if (!Utils.isNullOrEmpty(s) && pagePath.getLastElement().equals(s + ".js")) {
+                s = bundle.getString(script + "LangCharset");
 
-              if (!Utils.isNullOrEmpty(s)) {
-                httpRes.setHeader("Content-Type", "text/javascript; charset=" + s);
+                if (!Utils.isNullOrEmpty(s)) {
+                  httpRes.setHeader("Content-Type", "text/javascript; charset=" + s);
+                }
               }
             }
-          } // end of TinyMCE stuff
+          } // end of JavaScript stuff
         }
       } // end of CMS stuff
       

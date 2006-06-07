@@ -423,3 +423,16 @@ function fm_touchFiles() {
     fmfm.submit();
   }
 }
+
+function fm_closeCalendar(cal) {
+  cal.hide();
+  var fmfm = document.forms['fmfm'];
+
+  if (fmfm.f_action.value) {
+    fm_collectFiles();
+
+    if (fmfm.f_files.value.length > 1) {
+      fmfm.submit();
+    }
+  }
+}
