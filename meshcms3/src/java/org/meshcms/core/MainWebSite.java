@@ -81,7 +81,10 @@ public class MainWebSite extends WebSite {
 
   public void updateSiteMap(boolean force) {
     super.updateSiteMap(force);
-    multiSiteManager.initDomainsMap();
+    
+    if (multiSiteManager != null) {
+      multiSiteManager.initDomainsMap();
+    }
   }
   
   public String getHost(String dirName) {
