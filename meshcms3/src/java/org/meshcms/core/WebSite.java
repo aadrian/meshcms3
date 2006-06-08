@@ -32,7 +32,7 @@ import com.thoughtworks.xstream.*;
 import com.thoughtworks.xstream.io.xml.*;
 
 public class WebSite {
-  public static final String VERSION_ID = "3.0 alpha";
+  public static final String VERSION_ID = "3.0 beta 1";
   public static final String SYSTEM_CHARSET =
       System.getProperty("file.encoding", "UTF-8");
 
