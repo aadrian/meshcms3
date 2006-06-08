@@ -227,14 +227,8 @@ public class ModuleDescriptor {
    * files included in the same folder of the page are returned
    */
   public File[] getModuleFiles(WebSite webSite, boolean allowCurrentDir) {
-    Path argPath = null;
-    
-    if (argument != null) {
-      argPath = new Path(argument);
-    } else if (allowCurrentDir) {
-      argPath = webSite.getDirectory(pagePath);
-    }
-    
+    Path argPath = getModuleArgumentPath(allowCurrentDir);
+
     if (argPath != null && !webSite.isSystem(argPath)) {
       File moduleFile = webSite.getFile(argPath);
       File[] files = null;
@@ -252,14 +246,7 @@ public class ModuleDescriptor {
     return null;
   }
   
-  /**
-   * Returns the folder path to be used as argument for the module.
-   *
-   * @param allowCurrentPath if true and the argument parameter is null, the
-   * path of the page is returned
-   */
-  public Path getModuleArgumentDirectoryPath(WebSite webSite,
-      boolean allowCurrentPath) {
+  public Path getModuleArgumentPath(boolean allowCurrentPath) {
     Path argPath = null;
     
     if (argument != null) {
@@ -268,11 +255,20 @@ public class ModuleDescriptor {
       argPath = pagePath;
     }
     
-    if (argPath != null && !webSite.isSystem(argPath)) {
-      return webSite.getDirectory(argPath);
-    }
-    
-    return null;
+    return argPath;
+  }
+  
+  /**
+   * Returns the folder path to be used as argument for the module.
+   *
+   * @param allowCurrentPath if true and the argument parameter is null, the
+   * path of the page is returned
+   */
+  public Path getModuleArgumentDirectoryPath(WebSite webSite,
+      boolean allowCurrentPath) {
+    Path argPath = getModuleArgumentPath(allowCurrentPath);
+    return (argPath == null || webSite.isSystem(argPath)) ? null :
+        webSite.getDirectory(argPath);
   }
   
   public String getFullCSSAttribute(String paramName) {
