@@ -22,7 +22,7 @@
     <h2><cms:info id="name" /></h2>
   </div>
 
-  <div id="navigation"><cms:listmenu items="firstlevel" current="link" currentStyle="current" /></div>
+  <div id="navigation"><cms:listmenu items="firstlevel" current="link" currentStyle="selected" /></div>
 
   <div id="content">
     <cms:module location="top" alt="" />
