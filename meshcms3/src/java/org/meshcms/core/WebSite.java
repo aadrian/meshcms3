@@ -754,9 +754,13 @@ public class WebSite {
     if (path == null || path.isRoot()) {
       return false;
     }
+    
+    if (path.isRelative()) {
+      return true;
+    }
 
-    if (path.isRelative() || path.isContainedIn(adminPath) ||
-        path.isContainedIn(privatePath) || path.equals(cmsPath.add(ID_FILE))) {
+    if (adminPath != null && (path.isContainedIn(adminPath) ||
+        path.isContainedIn(privatePath) || path.equals(cmsPath.add(ID_FILE)))) {
       return true;
     }
 
