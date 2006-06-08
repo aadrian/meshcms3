@@ -47,7 +47,7 @@
 <%
   if (userInfo.isGlobal()) {
 %>
-  <div><fmt:message key="homeGlobal" /></div>
+  <p style="text-align: center;"><fmt:message key="homeGlobal" /></p>
 <%
   }
 %>
