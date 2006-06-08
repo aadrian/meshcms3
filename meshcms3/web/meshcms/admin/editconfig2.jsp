@@ -66,6 +66,7 @@
   c.setStatsLength(Utils.parseInt(request.getParameter("statsLength"), c.getStatsLength()));
   c.setAlwaysRedirectWelcomes(Utils.isTrue(request.getParameter("alwaysRedirectWelcomes")));
   c.setAlwaysDenyDirectoryListings(Utils.isTrue(request.getParameter("alwaysDenyDirectoryListings")));
+  c.setHideExceptions(Utils.isTrue(request.getParameter("hideExceptions")));
   
   c.setSiteName(request.getParameter("siteName"));
   c.setSiteHost(request.getParameter("siteHost"));

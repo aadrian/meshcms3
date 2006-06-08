@@ -265,6 +265,12 @@
        value="true"<%= configuration.isAlwaysDenyDirectoryListings() ? " checked='checked'" : "" %> />
       <label for="alwaysDenyDirectoryListings"><fmt:message key="configAlwaysDenyDirList" /></label>
     </div>
+
+    <div class="meshcmscheckbox">
+      <input type="checkbox" id="hideExceptions" name="hideExceptions"
+       value="true"<%= configuration.isHideExceptions() ? " checked='checked'" : "" %> />
+      <label for="hideExceptions"><fmt:message key="configHideExceptions" /></label>
+    </div>
   </fieldset>
 
   <div class="meshcmsbuttons">

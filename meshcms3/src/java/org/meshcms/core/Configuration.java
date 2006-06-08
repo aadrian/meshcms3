@@ -59,6 +59,7 @@ public class Configuration implements Serializable {
   private boolean preventHotlinking;
   private boolean alwaysRedirectWelcomes;
   private boolean alwaysDenyDirectoryListings;
+  private boolean hideExceptions;
   private int backupLife;
   private int statsLength;
   private int updateInterval;
@@ -80,6 +81,7 @@ public class Configuration implements Serializable {
     setPreventHotlinking(false);
     setAlwaysRedirectWelcomes(true);
     setAlwaysDenyDirectoryListings(true);
+    setHideExceptions(true);
     
     setBackupLife(90);
     setStatsLength(3);
@@ -296,5 +298,13 @@ public class Configuration implements Serializable {
 
   public void setSiteAuthorURL(String siteAuthorURL) {
     this.siteAuthorURL = siteAuthorURL;
+  }
+
+  public boolean isHideExceptions() {
+    return hideExceptions;
+  }
+
+  public void setHideExceptions(boolean hideExceptions) {
+    this.hideExceptions = hideExceptions;
   }
 }

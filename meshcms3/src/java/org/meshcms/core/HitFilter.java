@@ -374,7 +374,14 @@ public final class HitFilter implements Filter {
         
         sc.log("--------\n\nIMPORTANT: an exception has been caught while serving " +
             httpReq.getRequestURI(), ex);
-        httpRes.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        
+        Configuration c = webSite.getConfiguration();
+        
+        if (c == null || c.isHideExceptions()) {
+          httpRes.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } else {
+          throw new ServletException(ex);
+        }
       }
       
       return;
