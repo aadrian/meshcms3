@@ -91,4 +91,10 @@ public class VirtualWebSite extends WebSite {
   public String getLink(Path path) {
     return siteMap.getServedPath(path).getAsLink();
   }
+
+  public void updateSiteMap(boolean force) {
+    if (cmsPath != null) {
+      super.updateSiteMap(force);
+    }
+  }
 }
