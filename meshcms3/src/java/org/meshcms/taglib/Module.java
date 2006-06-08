@@ -93,7 +93,7 @@ public final class Module extends AbstractTag {
               SiteMap.MODULE_INCLUDE_FILE + "?modulecode=" + moduleCode);
         } catch (ServletException ex) {
           WebUtils.setBlockCache(request);
-          throw new JspException(ex);
+          webSite.log("Exception while including module " + modulePath, ex);
         }
       }
     } else {
