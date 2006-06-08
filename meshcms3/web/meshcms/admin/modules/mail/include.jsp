@@ -36,9 +36,9 @@
   ModuleDescriptor md = (ModuleDescriptor) request.getAttribute(moduleCode);
   String cp = request.getContextPath();
 
-  ResourceBundle pageBundle = ResourceBundle.getBundle
-      ("org/meshcms/webui/Locales", WebUtils.getPageLocale(pageContext));
   Locale locale = WebUtils.getPageLocale(pageContext);
+  ResourceBundle pageBundle = ResourceBundle.getBundle
+      ("org/meshcms/webui/Locales", locale);
   MessageFormat formatter = new MessageFormat("", locale);
 
   boolean sent = false;
