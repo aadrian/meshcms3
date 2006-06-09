@@ -92,7 +92,7 @@ public class SiteMap extends DirectoryParser {
         try {
           Utils.writeFully(new File(file, wName),
               webSite.getHTMLTemplate("Home Page"));
-          webSite.getSiteInfo().setPageTheme(Path.ROOT, "andreas09");
+          webSite.getSiteInfo().setPageTheme(Path.ROOT, "default");
           webSite.getSiteInfo().store();
           wPath = new Path(wName);
         } catch (IOException ex) {
