@@ -227,7 +227,11 @@ public class ModuleDescriptor {
    * files included in the same folder of the page are returned
    */
   public File[] getModuleFiles(WebSite webSite, boolean allowCurrentDir) {
-    Path argPath = getModuleArgumentPath(allowCurrentDir);
+    Path argPath = getModuleArgumentPath(false);
+    
+    if (argPath == null && allowCurrentDir) {
+      argPath = getModuleArgumentDirectoryPath(webSite, true);
+    }
 
     if (argPath != null && !webSite.isSystem(argPath)) {
       File moduleFile = webSite.getFile(argPath);
