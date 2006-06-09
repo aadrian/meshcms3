@@ -149,15 +149,15 @@
       from within a single context. If you want to do this, you should
       configure the context to accept all domains that you want to host.
       Here's a simple example of <filename>server.xml</filename> file for
-      Tomcat 5.5.12 that accepts all domain names:</para>
+      Tomcat 5.5 that accepts all domain names:</para>
 
       <programlisting>&lt;Server port="8005" shutdown="SHUTDOWN"&gt;
   &lt;Service name="Catalina"&gt;
     &lt;Connector port="8080" /&gt;
 
     &lt;Engine name="Catalina" defaultHost="localhost"&gt;
-      &lt;Host name="localhost" appBase="/home/meshcms"&gt;
-        &lt;Context path="" docBase="" debug="0" reloadable="false" allowLinking="false" /&gt;
+      &lt;Host name="localhost" appBase="/home/tomcat"&gt;
+        &lt;Context path="" docBase="/meshcms" debug="0" reloadable="false" allowLinking="false" /&gt;
       &lt;/Host&gt;
     &lt;/Engine&gt;
   &lt;/Service&gt;
@@ -186,7 +186,8 @@
       files created before will continue to work fine (module contents
       included), there's no tool in the official release to convert users and
       site configurations. Such tools might become available on the community
-      website.</para>
+      website. Furthermore, some files (for example themes and modules) need
+      to be renamed and moved manually to match the new file structure.</para>
     </section>
   </chapter>
 
@@ -320,18 +321,17 @@
       deal with well-formed documents only.</para>
     </section>
 
-    <section>
+    <section id="multiple_sites">
       <title>Serving multiple sites from a single installation</title>
 
       <para>Tomcat and other servlet containers allow to create multiple
-      hosts, and to put multiple contexts between them. Web developers usually
+      hosts, and to put multiple contexts within them. Web developers usually
       need to host more than a single website on the same server, so they end
       up creating a host for each website and specifying which domains must be
       served by that host. This is a good setup strategy since it allows to
-      separate sites and to tune their configuration. Nevertheless, in the
-      real life this method leads to many installations of MeshCMS to be
-      maintained separately, which is quite annoying for example when
-      upgrading.</para>
+      separate sites and to tune their configuration. Nevertheless, this
+      method leads to many installations of MeshCMS that must be maintained
+      separately, which is quite annoying, for example when upgrading.</para>
 
       <para>MeshCMS 3.0 gives the choice between this approach and a different
       one: you can install it once and serve all sites from that single
@@ -360,7 +360,7 @@
         </listitem>
       </itemizedlist>
 
-      <para>The drawback are:</para>
+      <para>The drawbacks are:</para>
 
       <itemizedlist>
         <listitem>
@@ -376,7 +376,8 @@
       </itemizedlist>
 
       <para>To serve multiple sites, you need to install MeshCMS as usual.
-      Then you can use the Control Panel to create new sites.</para>
+      Then you can use the <link linkend="control_panel">Control Panel</link>
+      to create new sites.</para>
 
       <section>
         <title>Main site and virtual sites</title>
@@ -384,19 +385,18 @@
         <para>When you install MeshCMS, you have a single site. This is the
         good old default scenario. You can add a virtually unlimited number of
         virtual sites on top of it. While virtual sites behave like the main
-        one apparently, there are many differences between. The main
+        one apparently, there are some differences between. The main
         difference is the fact that a different file is served when a page of
         a virtual site is requested. Normally, if you configure a Tomcat host
         to serve <uri>www.site1.com</uri> and <uri>www.site2.com</uri>, the
         same file will be served for
         <uri>http://www.site1.com/index.html</uri> and
         <uri>http://www.site2.com/index.html</uri>. That file is simply
-        <filename>/index.html</filename>, located in the context root. But if
+        <filename>/index.html</filename>, located in the root context. But if
         you setup <uri>www.site2.com</uri> as a virtual site on top of
         <uri>www.site1.com</uri>, a request for
         <uri>http://www.site2.com/index.html</uri> will lead to
-        <filename>/meshcms/sites/site2.com/index.html</filename> (that path
-        could be slightly different, but the concept remains the same).</para>
+        <filename>/meshcms/sites/site2.com/index.html</filename>.</para>
       </section>
     </section>
   </chapter>
@@ -478,7 +478,6 @@
  &lt;body&gt;
   &lt;cms:editor&gt;
    &lt;cms:pagebody /&gt;
-   &lt;cms:mailform /&gt;
   &lt;/cms:editor&gt;
  &lt;/body&gt;
 &lt;/html&gt;</programlisting>
@@ -488,7 +487,7 @@
 
         <screenshot>
           <screeninfo>The simplest theme ever with a minimal CSS file (just to
-          show it works)</screeninfo>
+          show that it works too)</screeninfo>
 
           <mediaobject>
             <imageobject>
@@ -527,6 +526,7 @@
 
  &lt;body&gt;
   &lt;p&gt;Welcome to MeshCMS 2.0. Here is a list ...&lt;/p&gt;
+  ...
  &lt;/body&gt;
 &lt;/html&gt;</programlisting>
 
@@ -704,7 +704,13 @@
           </listitem>
 
           <listitem>
-            <para>you will probably want to add one or more modules;</para>
+            <para><code>&lt;cms:setlocale /&gt;</code> to define the locale of
+            the pages that will use the theme;</para>
+          </listitem>
+
+          <listitem>
+            <para>you will probably want to add one or more <link
+            linkend="modules">modules</link>;</para>
           </listitem>
 
           <listitem>
@@ -717,6 +723,7 @@
         code:</para>
 
         <programlisting>&lt;%@ taglib uri="meshcms-taglib" prefix="cms" %&gt;
+<emphasis role="bold">&lt;cms:setlocale value="en" /&gt;</emphasis>
 
 &lt;html&gt;
 
@@ -766,12 +773,6 @@
       both cases, messages sent through that form will be delivered to an
       address you specify (which will not be visible to anyone, since it's not
       displayed in the page and not included in its source code).</para>
-
-      <note>
-        <para>you can't put more than one mail form in a page. If you put
-        more, they will render correctly, but only the last one will work as
-        expected.</para>
-      </note>
 
       <para>The two methods are:</para>
 
@@ -1238,12 +1239,12 @@ submit</programlisting>
 
         <listitem>
           <para><emphasis role="bold">home folder</emphasis>: the folder in
-          which the user can edit files</para>
+          which the user can edit files;</para>
         </listitem>
 
         <listitem>
           <para><emphasis role="bold">password</emphasis>: an initial password
-          that can be changed later by the user himself</para>
+          that can be changed later by the user himself.</para>
         </listitem>
       </itemizedlist>
 
@@ -1258,30 +1259,9 @@ submit</programlisting>
 
       <itemizedlist>
         <listitem>
-          <para><emphasis role="bold">Themes</emphasis>: the path to the
-          folder that contains themes. Usually you won't need to change it,
-          unless you need to use the default folder for another purpose.
-          Please note that changing this parameter won't move the theme files:
-          you must do that using the <link linkend="file_manager">file
-          manager</link>.</para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">Module templates</emphasis>: the path to
-          the folder that contains custom module templates. Same
-          considerations as above.</para>
-        </listitem>
-
-        <listitem>
           <para><emphasis role="bold">Visually editable types</emphasis>: a
           comma-separated list of file types that can be edited using the
           wysiwyg editor.</para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">Help URL</emphasis>: the base URL for
-          help pages. If you want, you can mirror the help locally (for
-          example using wget) and then change the base URL to your one.</para>
         </listitem>
 
         <listitem>
@@ -1361,22 +1341,25 @@ submit</programlisting>
       While one can just write down those pages each time, it is clear that
       some automation is possible in those cases. The MeshCMS answer to this
       demand is the concept of <firstterm>module</firstterm>. A module is a
-      box in a page, whose content is created by a <firstterm>module
-      template</firstterm>. In most cases, the module template is applied to a
-      folder or to a file. That folder/file is called <firstterm>module
-      argument</firstterm>. If it is not specified, modules behave
+      configurable zone in a page: when you edit the page, you have some boxes
+      where you can select a module and provide an
+      <firstterm>argument</firstterm> (usually a file or directory) and some
+      advanced parameters. If the argument is not specified, modules behave
       differently: some can default to the folder that contains the page,
-      while others will do nothing.</para>
+      while others will do nothing.<note>
+          <para>the argument of a module is not necessarily a directory or a
+          file. For example, in the mail module you can specify an e-mail
+          address as argument, and a standard form will be created using that
+          address as recipient.</para>
+        </note></para>
 
       <para>When you edit a page, you will have the chance to configure as
       many modules as the page theme specifies. Normally all themes should
-      contain a module at least. When editing a module, choose a module
-      template from the dropdown list, then specify an argument if
-      needed.</para>
+      contain a module at least.</para>
 
-      <para>MeshCMS provides some module templates, and others can be created
-      by everyone that is able to write a JSP page. Here's a table of standard
-      templates:</para>
+      <para>MeshCMS provides some modules, and others can be created by
+      everyone that is able to write a JSP page. Here's a table of standard
+      modules:</para>
 
       <table>
         <title>MeshCMS Standard Module Templates</title>
@@ -1396,6 +1379,17 @@ submit</programlisting>
 
           <tbody>
             <row>
+              <entry>chat</entry>
+
+              <entry>Creation of a simple chat</entry>
+
+              <entry>Provides a form to chat with other people looking at the
+              same page</entry>
+
+              <entry>Argument is always ignored</entry>
+            </row>
+
+            <row>
               <entry><classname>downloads</classname></entry>
 
               <entry>Creation of a list of downloads</entry>
@@ -1414,6 +1408,18 @@ submit</programlisting>
               argument</entry>
 
               <entry>Uses the folder that contains the page</entry>
+            </row>
+
+            <row>
+              <entry>headlines</entry>
+
+              <entry>inclusion of other pages, showing the first words
+              only</entry>
+
+              <entry>Shows the first words of each page, followed by a link to
+              the full page</entry>
+
+              <entry>Does nothing</entry>
             </row>
 
             <row>
@@ -1456,8 +1462,8 @@ submit</programlisting>
               in the argument, which must be a file used as form
               descriptor</entry>
 
-              <entry><emphasis>Please always specify a form
-              descriptor</emphasis></entry>
+              <entry><emphasis>Please always specify a form descriptor or an
+              e-mail address</emphasis></entry>
             </row>
 
             <row>
@@ -1485,6 +1491,78 @@ submit</programlisting>
           </tbody>
         </tgroup>
       </table>
+
+      <section id="module_chat">
+        <title>Chat</title>
+
+        <para>The chat module has been created by Pierre Métras and provides a
+        simple, AJAX-based chat. To use it, simply select the module: no
+        argument is needed.</para>
+
+        <para>Advanced parameters:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>css</parameter>: the name of a css class.</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section>
+        <title>Downloads</title>
+
+        <para>The downloads module creates a list of downloadable files. An
+        icon and the size are shown near the name of each file.</para>
+
+        <para>Advanced parameters:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>css</parameter>: the name of a css class;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>date</parameter>: the type of file date to be
+            shown. Possible values are <option>none</option> (default),
+            <option>normal</option> (date only) and <option>full</option>
+            (date and time).</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section>
+        <title>Gallery</title>
+
+        <para>The gallery module creates thumbnails for a list of images.
+        Thumbnails link to full images, and file names are used as
+        captions.</para>
+
+        <para>Advanced parameters:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>css</parameter>: the name of a css class;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>captions</parameter>: defines if the captions
+            must be shown or not. Values are <option>true</option> (default)
+            and <option>false</option>;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>columns</parameter>: defines the number of
+            columns (default <option>3</option>);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>quality</parameter>: defines the algorithm used
+            to create the thumbnails. Values are <option>low</option>
+            (default) and <option>high</option>. High quality requires more
+            CPU and RAM (thumbnails are cached anyway).</para>
+          </listitem>
+        </itemizedlist>
+      </section>
     </section>
   </chapter>
 
