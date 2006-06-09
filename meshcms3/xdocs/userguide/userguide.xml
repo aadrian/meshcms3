@@ -579,7 +579,7 @@
   &lt;/tr&gt;
   &lt;tr align="center"&gt;
     &lt;td colspan="2" bgcolor="#DDBC00"&gt;
-      Powered by &lt;a href="http://www.cromoteca.com/meshcms/"&gt;MeshCMS&lt;/a&gt;
+      Powered by &lt;a href="http://www.meshcms.org/"&gt;MeshCMS&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
@@ -679,7 +679,7 @@
   &lt;/tr&gt;
   &lt;tr align="center"&gt;
     &lt;td colspan="2" bgcolor="#DDBC00"&gt;
-      Powered by &lt;a href="http://www.cromoteca.com/meshcms/"&gt;MeshCMS&lt;/a&gt;
+      Powered by &lt;a href="http://www.meshcms.org/"&gt;MeshCMS&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
@@ -755,7 +755,7 @@
   &lt;/tr&gt;
   &lt;tr align="center"&gt;
     &lt;td colspan="2" bgcolor="#DDBC00"&gt;
-      Powered by &lt;a href="http://www.cromoteca.com/meshcms/"&gt;MeshCMS&lt;/a&gt;
+      Powered by &lt;a href="http://www.meshcms.org/"&gt;MeshCMS&lt;/a&gt;
     &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
@@ -1563,6 +1563,83 @@ submit</programlisting>
           </listitem>
         </itemizedlist>
       </section>
+
+      <section>
+        <title>Headlines</title>
+
+        <para>The headlines module shows the first words of a list of pages,
+        adding links to go to the full pages.</para>
+
+        <para>Advanced parameters:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>css</parameter>: the name of a css class;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>date</parameter>: the type of file date to be
+            shown. Possible values are <option>none</option> (default),
+            <option>normal</option> (date only) and <option>full</option>
+            (date and time);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>words</parameter>: defines the number of words to
+            show for each page (default <option>50</option>).</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section>
+        <title>Include</title>
+
+        <para>The include module adds the contents of a list of pages.</para>
+
+        <para>Advanced parameters:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>css</parameter>: the name of a css class;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>date</parameter>: the type of file date to be
+            shown. Possible values are <option>none</option> (default),
+            <option>normal</option> (date only) and <option>full</option>
+            (date and time).</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section>
+        <title>Include As Text</title>
+
+        <para>The include as text module adds the contents of a list of files
+        as plain text (i.e. inside a <code>&lt;pre&gt;</code> tag).</para>
+
+        <para>Advanced parameters:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>css</parameter>: the name of a css class.</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section>
+        <title>List Pages</title>
+
+        <para>The list pages module ...</para>
+
+        <para>Advanced parameters:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>css</parameter>: the name of a css class.</para>
+          </listitem>
+        </itemizedlist>
+      </section>
     </section>
   </chapter>
 
@@ -1572,8 +1649,8 @@ submit</programlisting>
     <para>MeshCMS provides a library of custom tags to ease the creation of
     themes. Some are mandatory, others can be useful in many situations. The
     following sections explain each tag separately. As an example, the
-    <code>&lt;cms:tagname&gt;</code> form is used, which implies the following
-    declaration at the beginning of the theme file:</para>
+    <code>&lt;cms:tagname&gt;</code> format is used, which implies the
+    following declaration at the beginning of the theme file:</para>
 
     <programlisting>&lt;%@ taglib uri="meshcms-taglib" prefix="cms" %&gt;</programlisting>
 
