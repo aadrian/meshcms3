@@ -322,8 +322,7 @@ public final class HitFilter implements Filter {
       } // end of CMS stuff
       
       try {
-        if (isGuest && !(pageInfo == null || webSite.getCMSPath() == null ||
-            WebUtils.isCacheBlocked(httpReq))) {
+        if (isGuest && !(pageInfo == null || webSite.getCMSPath() == null)) {
           int cacheType = webSite.getConfiguration().getCacheType();
           
           if (cacheType != Configuration.NO_CACHE) {
@@ -338,13 +337,15 @@ public final class HitFilter implements Filter {
 
             /* If WebUtils.setBlockCache has not been called while creating
                the page, it can be cached */
-            if (cacheType == Configuration.IN_MEMORY_CACHE) {
-              siteMap.cache(pageInfo.getPath(), baos.toByteArray());
-            } else if (cacheType == Configuration.ON_DISK_CACHE) {
-              File cacheFile =
-                  webSite.getRepositoryFile(pagePath, CACHE_FILE_NAME);
-              cacheFile.getParentFile().mkdirs();
-              Utils.writeFully(cacheFile, baos.toByteArray());
+            if (!WebUtils.isCacheBlocked(httpReq)) {
+              if (cacheType == Configuration.IN_MEMORY_CACHE) {
+                siteMap.cache(pageInfo.getPath(), baos.toByteArray());
+              } else if (cacheType == Configuration.ON_DISK_CACHE) {
+                File cacheFile =
+                    webSite.getRepositoryFile(pagePath, CACHE_FILE_NAME);
+                cacheFile.getParentFile().mkdirs();
+                Utils.writeFully(cacheFile, baos.toByteArray());
+              }
             }
             
             return;
