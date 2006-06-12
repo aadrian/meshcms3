@@ -89,6 +89,16 @@
     </war>
   </target>
 
+    <target name="samples" depends="webapp" description="Build the sample site">
+        <war destfile="${sampleswar}" webxml="${webapp}/WEB-INF/web.xml">
+            <fileset dir="${webapp}">
+                <exclude name="WEB-INF/web.xml"/>
+                <exclude name="META-INF/context.xml"/>
+            </fileset>
+            <fileset dir="${samples}"/>
+        </war>
+    </target>
+
   <target name="javadoc" depends="init" description="Create Javadoc HTML files">
     <javadoc sourcepath="${srcjava}" destdir="${javadoc}" packagenames="*">
       <classpath><path refid="classpath.path"/></classpath>
@@ -106,7 +116,7 @@
         </java>
     </target>
 
-    <target name="dist-bin" depends="init,webapp,javadoc,tagdoc" description="Build the binary distribution">
+    <target name="dist-bin" depends="init,webapp,samples,javadoc,tagdoc" description="Build the binary distribution">
         <!-- Let's build the distribution .zip - need to do get into sub-dir in zip also -->
         <property name="dist-bin-name" value="meshcms-${version}-bin"/>
         <zip destfile="${dist}/${dist-bin-name}.zip">
@@ -117,6 +127,7 @@
             <zipfileset dir="${javadoc}" prefix="${dist-bin-name}/javadoc"/>
             <zipfileset dir="${tagdoc}" prefix="${dist-bin-name}/tagdoc"/>
             <zipfileset file="${warfile}" prefix="${dist-bin-name}"/>
+            <zipfileset file="${sampleswar}" prefix="${dist-bin-name}"/>
         </zip>
     </target>
 
@@ -127,6 +138,7 @@
             <zipfileset dir="${basedir}/src" prefix="${dist-src-name}/src"/>
             <zipfileset dir="${basedir}/xdocs" prefix="${dist-src-name}/xdocs"/>
             <zipfileset dir="${srcweb}" prefix="${dist-src-name}/web"/>
+            <zipfileset dir="${samples}" prefix="${dist-src-name}/samples"/>
             <zipfileset file="${readme}" prefix="${dist-src-name}"/>
             <zipfileset file="${license}" prefix="${dist-src-name}"/>
             <zipfileset file="${todo}" prefix="${dist-src-name}"/>
@@ -201,6 +213,7 @@
         <echo message="checkout              Check out the project files from the sf.net subversion repository"/>
         <echo message="clean                 Clean all output directories"/>
         <echo message="webapp                Build the webapplication, the WAR file"/>
+        <echo message="samples               Build the sample site"/>
         <echo message="javadoc               Create Javadoc HTML files"/>
         <echo message="tagdoc                Create Tag Library HTML files (with http://taglibrarydoc.dev.java.net/)"/>
         <echo message="checkstyle            Run checkstyle report on all the soruces"/>

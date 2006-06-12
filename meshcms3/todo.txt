@@ -1,9 +1,9 @@
 MeshCMS 3.0 Release (~ 10-Jul-2006)
 -----------------------------------
 
-#1 - tool to edit file dates in the file manager
-#2 - tag to load the ALIB script (for menus)
-#3 - new default admin theme
+x #1 - tool to edit file dates in the file manager
+x #2 - tag to load the ALIB script (for menus)
+x #3 - new default admin theme
 #4 - documentation (at least for the new multi-site support)
 #5 - www.meshcms.org (site + theme + hosting + required applications to install)
 #6 - update translations
