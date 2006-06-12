@@ -149,6 +149,11 @@ public final class ListMenu extends AbstractTag {
           writeIndented(outWriter, "<li>", level);
         }
 
+        for ( int i = lastLevel - 1; i >= level; i--) {
+            writeIndented(outWriter, "</li>", i);
+            writeIndented(outWriter, "<li>", i);
+        }
+
         if (current.getPath().equals(pathInMenu)) {
           if (isEdit || linkCurrent) {
             if (Utils.isNullOrEmpty(currentStyle)) {
