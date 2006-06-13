@@ -40,10 +40,12 @@ Hmenu.prototype.initMenuItem = function(li, num) {
 			// 1 + n-level submenu
 			if (li.parentNode.className != 'hmenuALIB') {
 				// background arrow
-				li.style.backgroundRepeat = 'no-repeat';
-				li.style.backgroundImage = 'url("menu.horizontal/sub.gif")';
-				li.style.backgroundColor = 'white';
-				li.style.backgroundPosition = '99%';
+				li.childNodes[0].className += ' hmenuALIBsuba';  // shrink anchor
+				li.className += ' hmenuALIBsubli';               // apply image
+//				li.style.backgroundRepeat = 'no-repeat';
+//				li.style.backgroundImage = 'url(/meshcms3/meshcms/admin/scripts/alib/menu.horizontal/sub.gif)';
+//				li.style.backgroundColor = 'white';
+//				li.style.backgroundPosition = '99%';
 			}
 			alib.addListener(li, 'mouseover', Hmenu.prototype.showSubmenu);
 			alib.addListener(li, 'mouseout',  Hmenu.prototype.hideSubmenu);
