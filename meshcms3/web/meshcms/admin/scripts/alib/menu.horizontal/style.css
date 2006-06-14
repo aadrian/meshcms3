@@ -75,7 +75,7 @@
 	line-height: 1.4em;
 }
 
-.hmenuALIB li a:hover {
+.hmenuALIB .selected,.hmenuALIB li a:hover {
 	background-color: #cc0001;
 	background-image: inherit;
 	background-position: inherit;
