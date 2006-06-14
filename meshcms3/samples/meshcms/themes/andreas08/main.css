@@ -119,6 +119,7 @@ color: #ffffff;
 }
 
 #navigation ul li ul li {
+white-space:normal;
 background-color:#578bb8;
 }
 
