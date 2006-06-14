@@ -67,10 +67,13 @@
 
  <tr>
   <td align="center" valign="top" height="100%" background="<%= themePath %>/l2bg.gif">
-   <table border="0" cellspacing="10" cellpadding="0" width="97%">
+   <table border="0" cellspacing="0" cellpadding="0" width="97%">
     <tr>
      <td align="center">
-       <table border="0"><tr><td><decorator:body /></td></tr></table>
+      <table border="0"><tr><td>
+       <img src="<%= themePath %>/tx1x1.gif" alt="" width="480" height="1" />
+       <decorator:body />
+      </td></tr></table>
      </td>
     </tr>
    </table>
