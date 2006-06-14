@@ -101,11 +101,10 @@ public final class ListMenu extends AbstractTag {
 
       boolean add = false;
 
-      Path parentPath = currentPath.getParent();
       if (itemsAll) {
         add = true;
       } else {
-//        Path parentPath = currentPath.getParent();
+        Path parentPath = currentPath.getParent();
 
         if (parentPath.isRelative() || pathInMenu.isContainedIn(parentPath)) {
           if (itemsOnPath && pathInMenu.isContainedIn(currentPath)) {
