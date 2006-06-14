@@ -118,7 +118,7 @@ background-color:inherit;
 color: #ffffff;
 }
 
-* html #navigation a {width:1%;}
+/* * html #navigation a {width:1%;} */
 
 #navigation .selected,#navigation a:hover{
 background:#80b0da;
