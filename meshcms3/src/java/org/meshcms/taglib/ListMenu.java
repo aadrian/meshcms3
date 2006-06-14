@@ -46,6 +46,7 @@ public final class ListMenu extends AbstractTag {
   private String style;
   private String current;
   private String currentStyle;
+  private String currentPathStyle;
 
   boolean itemsAll;
   boolean itemsOnPath;
@@ -100,10 +101,11 @@ public final class ListMenu extends AbstractTag {
 
       boolean add = false;
 
+      Path parentPath = currentPath.getParent();
       if (itemsAll) {
         add = true;
       } else {
-        Path parentPath = currentPath.getParent();
+//        Path parentPath = currentPath.getParent();
 
         if (parentPath.isRelative() || pathInMenu.isContainedIn(parentPath)) {
           if (itemsOnPath && pathInMenu.isContainedIn(currentPath)) {
@@ -154,15 +156,21 @@ public final class ListMenu extends AbstractTag {
             writeIndented(outWriter, "<li>", i);
         }
 
-        if (current.getPath().equals(pathInMenu)) {
+        if ( current.getLevel() > 0 && pathInMenu.isContainedIn(currentPath)
+                && ! current.getPath().equals(pathInMenu)
+                && ! Utils.isNullOrEmpty(currentPathStyle)) {
+            outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
+                    "\" class='" + currentPathStyle + "'>" +
+                    siteInfo.getPageTitle(current) + "</a>");
+        } else if (current.getPath().equals(pathInMenu)) {
           if (isEdit || linkCurrent) {
-            if (Utils.isNullOrEmpty(currentStyle)) {
-              outWriter.write("<a href=\"" + cp + webSite.getLink(current) + "\">" +
-                siteInfo.getPageTitle(current) + "</a>");
+            if (! Utils.isNullOrEmpty(currentStyle) || ! Utils.isNullOrEmpty(currentPathStyle)) {
+                outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
+                        "\" class='" + new String(currentPathStyle+" "+currentStyle).trim() + "'>" +
+                        siteInfo.getPageTitle(current) + "</a>");
             } else {
-              outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
-                "\" class='" + currentStyle + "'>" +
-                siteInfo.getPageTitle(current) + "</a>");
+                outWriter.write("<a href=\"" + cp + webSite.getLink(current) + "\">" +
+                        siteInfo.getPageTitle(current) + "</a>");
             }
           } else {
             if (Utils.isNullOrEmpty(currentStyle)) {
@@ -236,5 +244,13 @@ public final class ListMenu extends AbstractTag {
 
   public void setCurrentStyle(String currentStyle) {
     this.currentStyle = currentStyle;
+  }
+
+  public String getCurrentPathStyle() {
+    return currentPathStyle;
+  }
+
+  public void setCurrentPathStyle(String currentPathStyle) {
+    this.currentPathStyle = currentPathStyle;
   }
 }
