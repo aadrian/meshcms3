@@ -43,6 +43,7 @@ public final class AlibMenu extends AbstractTag {
   private String part;
   private String path;
   private String current;
+  private String currentPathStyle = "selected";
 
   public void writeTag() throws IOException {
     Writer outWriter = getOut();
@@ -105,8 +106,19 @@ public final class AlibMenu extends AbstractTag {
           writeIndented(outWriter, "<li>", level);
         }
 
-        if (!isEdit && !linkCurrent && current.getPath().equals(pathInMenu)) {
-          outWriter.write(siteInfo.getPageTitle(current));
+        for ( int i = lastLevel - 1; i >= level; i--) {
+            writeIndented(outWriter, "</li>", i);
+            writeIndented(outWriter, "<li>", i);
+        }
+
+        if ( ! Utils.isNullOrEmpty(currentPathStyle)
+        		&& ( current.getLevel() > 0
+        		       && pathInMenu.isContainedIn(currentPath) 
+                     || current.getPath().equals(pathInMenu)
+                   ) ) {
+          outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
+            "\" class='" + currentPathStyle + "'>" +
+            siteInfo.getPageTitle(current) + "</a>");
         } else {
           outWriter.write("<a href=\"" + cp + webSite.getLink(current) +"\">" +
             siteInfo.getPageTitle(current) + "</a>");
@@ -163,5 +175,13 @@ public final class AlibMenu extends AbstractTag {
 
   public void setPart(String part) {
     this.part = part;
+  }
+
+  public String getCurrentPathStyle() {
+    return currentPathStyle;
+  }
+
+  public void setCurrentPathStyle(String currentPathStyle) {
+    this.currentPathStyle = currentPathStyle;
   }
 }
