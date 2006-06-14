@@ -432,7 +432,7 @@ public final class WebUtils {
    * Returns a modified name that does not contain characters not recommended
    * in a file name.
    */
-  public static String fixFileName(String name) {
+  public static String fixFileName(String name, boolean useSpacers) {
     name = name.trim();
     StringBuffer sb = new StringBuffer(name.length());
     boolean addSpacer = false;
@@ -450,7 +450,7 @@ public final class WebUtils {
 
       if (FN_SPACERS.indexOf(c) < 0) { // not a spacer
         if (addSpacer) { // needs to add a spacer due to previous characters
-          if (sb.length() > 0) { // add a spacer only if not as first char
+          if (useSpacers && sb.length() > 0) { // add a spacer only if not as first char
             sb.append(spacer);
           }
 
@@ -461,6 +461,10 @@ public final class WebUtils {
       } else {
         addSpacer = true; // it's a spacer, will be added next if needed
       }
+    }
+    
+    while(sb.charAt(sb.length() - 1) == '.') {
+      sb.deleteCharAt(sb.length() - 1);
     }
 
     return sb.toString();

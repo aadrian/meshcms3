@@ -126,7 +126,7 @@
         }
       }
     } else if (action.startsWith("rename") && fileNames.length == 1) {
-      String name = WebUtils.fixFileName(action.substring(6));
+      String name = WebUtils.fixFileName(action.substring(6), true);
 
       if (webSite.move(userInfo, path.add(fileNames[0]), path.add(name))) {
         needsUpdate = true;
@@ -136,7 +136,7 @@
         errMsgs.add(formatter.format(args));
       }
     } else if (action.startsWith("copy") && fileNames.length == 1) {
-      String name = WebUtils.fixFileName(action.substring(4));
+      String name = WebUtils.fixFileName(action.substring(4), true);
 
       if (webSite.copyFile(userInfo, path.add(fileNames[0]), name)) {
         needsUpdate = true;
@@ -146,7 +146,7 @@
         errMsgs.add(formatter.format(args));
       }
     } else if (action.startsWith("createfile")) {
-      String name = WebUtils.fixFileName(action.substring(10));
+      String name = WebUtils.fixFileName(action.substring(10), true);
 
       if (webSite.createFile(userInfo, path.add(name))) {
         needsUpdate = true;
@@ -156,7 +156,7 @@
         errMsgs.add(formatter.format(args));
       }
     } else if (action.startsWith("createdir")) {
-      String name = WebUtils.fixFileName(action.substring(9));
+      String name = WebUtils.fixFileName(action.substring(9), true);
 
       if (webSite.createDirectory(userInfo, path.add(name))) {
         needsUpdate = true;
@@ -170,7 +170,7 @@
       File unzipDir = webSite.getFile(path);
       
       if (action.length() > 5) {
-        unzipDir = new File(unzipDir, WebUtils.fixFileName(action.substring(5)));
+        unzipDir = new File(unzipDir, WebUtils.fixFileName(action.substring(5), true));
         unzipDir.mkdir();
       }
 

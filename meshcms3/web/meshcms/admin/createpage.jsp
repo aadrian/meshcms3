@@ -85,7 +85,7 @@ if (title.equals("")) { %>
   </form>
 <% } else { 
   boolean newDir = Utils.isTrue(request.getParameter("newdir"));
-  String fileName = WebUtils.fixFileName(title).toLowerCase();
+  String fileName = WebUtils.fixFileName(title, false).toLowerCase();
   
   if (!newDir) {
     fileName += '.' + webSite.getConfiguration().getVisualExtensions()[0];

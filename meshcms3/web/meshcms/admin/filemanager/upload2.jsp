@@ -75,7 +75,7 @@
     }
 
     if (upItem != null && path != null) {
-      String fileName = WebUtils.fixFileName(new Path(upItem.getName()).getLastElement());
+      String fileName = WebUtils.fixFileName(new Path(upItem.getName()).getLastElement(), true);
       ok = webSite.saveToFile(userInfo, upItem, path.add(fileName), null);
     }
   } catch (Exception ex) {
