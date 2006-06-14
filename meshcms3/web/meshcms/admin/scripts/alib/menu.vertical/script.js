@@ -41,16 +41,17 @@ Vmenu.prototype.initMenuItem = function(li, num) {
 			var nodeUL = li.childNodes[i];
 			li.cachedUL = nodeUL;
 			// 1 + n-level submenu
-			if (li.parentNode.className != 'hmenuALIB') {
+			if (li.parentNode.className != 'vmenuALIB') {
 				// ul position -
 				// TODO - i am unable to find its width
 				// anyway it is a bad idea, cos it changes with zoom
 				// nodeUL.style.left = li.style.pixelWidth;
 				// background arrow
-				li.style.backgroundRepeat = 'no-repeat';
-				li.style.backgroundImage = 'url("menu.vertical/sub.gif")';
-				li.style.backgroundColor = 'white';
-				li.style.backgroundPosition = '99%';
+//				li.style.backgroundRepeat = 'no-repeat';
+//				li.style.backgroundImage = 'url("menu.vertical/sub.gif")';
+//				li.style.backgroundColor = 'white';
+//				li.style.backgroundPosition = '99%';
+				li.className += ' vmenuALIBsubli';               // apply image
 			}
 			alib.addListener(li, 'mouseover', Vmenu.prototype.showSubmenu);
 			alib.addListener(li, 'mouseout',  Vmenu.prototype.hideSubmenu);

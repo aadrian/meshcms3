@@ -88,3 +88,11 @@
 	width: 150px;
 	line-height: normal;
 }
+
+.hmenuALIBsuba {
+	width: 140px;
+}
+
+.hmenuALIBsubli {
+background: #ffffff url(sub.gif) no-repeat 99%;
+}
