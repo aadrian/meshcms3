@@ -118,6 +118,14 @@ background-color:inherit;
 color: #ffffff;
 }
 
+#navigation ul li ul li {
+background-color:#578bb8;
+}
+
+#navigation ul li ul {
+display:none;
+}
+
 /* * html #navigation a {width:1%;} */
 
 #navigation .selected,#navigation a:hover{
