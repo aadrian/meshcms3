@@ -101,11 +101,10 @@ color:#ffffff;
 }
 
 #navigation li{
-/*float:left;*/
+float:left;
 list-style-type:none;
 border-right:1px solid #ffffff;
 white-space:nowrap;
-background-color:#578bb8;
 }
 
 #navigation li a{
@@ -115,15 +114,19 @@ font-size:0.8em;
 font-weight:normal;
 text-transform:uppercase;
 text-decoration:none;
-background-color:#578bb8;
+background-color:inherit;
 color: #ffffff;
 }
 
-#navigation ul li{
+#navigation ul li ul li {
 background-color:#578bb8;
 }
 
-/** html #navigation a {width:1%;} */
+#navigation ul li ul {
+display:none;
+}
+
+/* * html #navigation a {width:1%;} */
 
 #navigation .selected,#navigation a:hover{
 background:#80b0da;
