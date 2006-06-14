@@ -134,6 +134,8 @@
         outMsg.setSubject(Utils.isNullOrEmpty(subject) ?
           "Message from " + request.getServerName() : subject);
         outMsg.setHeader("Content-Transfer-Encoding", "8bit");
+        outMsg.setHeader("X-MeshCMS-Log", "Sent from " + request.getRemoteAddr() +
+            " at " + new Date() + " using page /" + pagePath);
         outMsg.setText(textMsgString);
         Transport.send(outMsg);
         sent = true;
