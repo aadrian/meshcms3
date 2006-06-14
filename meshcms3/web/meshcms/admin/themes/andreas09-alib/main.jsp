@@ -23,7 +23,7 @@
     <h2><cms:info id="name" /></h2>
   </div>
 
-  <div id="navigation"><cms:listmenu style="hmenu" items="all" current="link" currentStyle="selected" currentPathStyle="selected" /></div>
+  <div id="navigation"><cms:alibmenu part="body" orientation="horizontal" currentPathStyle="selected" /></div>
 
   <div id="wrap"> 
     <div id="rightside">
