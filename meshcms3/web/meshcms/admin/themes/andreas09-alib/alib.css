@@ -35,8 +35,9 @@
 .hmenuALIB ul {								/* 1-level menu */
 	position: absolute;					/* ie: out of flow, so do not strech height of top-level menu */
 /*	top: 1.4em;*/
-	top: 2.2em;									/* For andreas09 */
-	left: -1px;							/* due to box model */
+/*	top: 2.2em;	*/								/* For andreas09 */
+	top: 36px;								/* For andreas09 */
+		left: -1px;							/* due to box model */
 /*Commented-out: inherit from andreas08
 	padding: 0px;
 	margin: 0px;
@@ -99,7 +100,7 @@
 	display: block;						/* all same width */
 /*	width: 150px;*/
 /*	line-height: normal;*/
-	line-height: 2.4em;				/* For andreas08 */
+	line-height:2.4em;				/* For andreas08 */
 }
 
 .hmenuALIBsuba {

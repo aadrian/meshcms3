@@ -1,5 +1,9 @@
 /* andreas09 v1.0 (Dec 10th 2005) - An open source template by Andreas Viklund - http://andreasviklund.com. Free to use for any purpose as long as the proper credits are given to the original author. */
 
+*{margin:0; padding:0;}
+
+html { height:100%; }
+
 body {
 background-color:#fafcff;
 color:#303030;
@@ -51,7 +55,7 @@ width:100%;
 
 #sitename {
 color:#ffffff;
-height:92px;
+height:91px;
 margin:0 20px 10px;
 text-align:left;
 }
@@ -64,7 +68,7 @@ padding:0;
 }
 
 #sitename h1 {
-font-size:2.4em;
+font-size:2.0em;
 padding-top:20px;
 }
 
@@ -74,73 +78,70 @@ font-size:1.6em;
 
 /*** Horizontal menu ***/
 
-#mainmenu {
+#navigation{
 float:left;
-margin-bottom:25px;
+height:36px;
+line-height:36px;
+margin:0 0 25px;
 }
 
-#mainmenu ul {
-font-size:16px;
-margin:0;
-padding:0;
-}
-
-#mainmenu li {
+#navigation li{
+max-height:36px;
 float:left;
-/*height:35px;*/
-list-style:none;
-margin:0;
-padding:0;
-}
-
-#mainmenu a {
+list-style-type:none;
 border-right:1px solid #b0b0b0;
-color:#606060;
+white-space:nowrap;
+}
+
+#navigation li a{
+max-height:36px;
 display:block;
-font-size:0.7em;
-padding:11px 10px 10px;
-text-transform:uppercase;
-}
-
-#mainmenu ul li ul li a {
-border-right:0;
 padding:0 10px;
-background:#eef2f5;
-}
-
-#mainmenu ul li ul li {
-white-space:normal;
-}
-
-#mainmenu ul li ul li a {
+font-size:0.8em;
 font-weight:normal;
+text-transform:uppercase;
+text-decoration:none;
+background-color:inherit;
+color:#606060;
 }
 
-#mainmenu ul li ul {  /* do not show dropdowns by default */
+#navigation ul li ul li {
+max-height:inherit;
+white-space:normal;
+background-color:#eef2f5;
+}
+
+#navigation ul li ul li a {
+max-height:inherit;
+}
+
+#navigation ul li ul {
 display:none;
 }
 
-#mainmenu ul li .current {
+/* * html #navigation a {width:1%;} */
+
+#navigation ul li .selected {
 font-weight:bold;
 }
 
-#mainmenu a:hover {
+#navigation a:hover {
+max-height:36px;
 background:#cbe2ea url(img/menuhover.jpg) top left repeat-x;
-color:#505050;
-text-decoration:none;
 }
 
-#mainmenu ul li ul li a:hover {  /* no bg image for dropdowns */
+#navigation ul li ul li a:hover {  /* no bg image for dropdowns */
+max-height:inherit;
 background-image:none;
 }
 
-#mainmenu a.current {
+#navigation a.selected {
+max-height:36px;
 background:#cbe2ea url(img/menuhover.jpg) top left repeat-x;
-color:#505050;
-text-decoration:none;
 }
 
-#mainmenu ul li ul li a.current {  /* no bg image for dropdowns */
+#navigation ul li ul li a.selected {  /* no bg image for dropdowns */
+max-height:inherit;
 background-image:none;
 }
 
