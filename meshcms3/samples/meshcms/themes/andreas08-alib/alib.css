@@ -87,11 +87,13 @@
 }
 
 .hmenuALIB li a:hover {
+/*Commented-out: inherit from andreas08
 	background-color: #cc0001;
+	background:#80b0da;
 	background-image: inherit;
 	background-position: inherit;
 	background-repeat: inherit;
-	color: white;
+	color: white;*/
 }
 
 .hmenuALIB ul li a {						/* 1 or n-level menu anchors */
