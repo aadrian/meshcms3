@@ -129,6 +129,10 @@ display:none;
 
 /* * html #navigation a {width:1%;} */
 
+#navigation ul li .selected {
+font-weight:bold;
+}
+
 #navigation .selected,#navigation a:hover{
 background:#80b0da;
 color:#ffffff;
