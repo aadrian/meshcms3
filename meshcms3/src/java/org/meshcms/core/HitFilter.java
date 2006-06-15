@@ -95,8 +95,7 @@ public final class HitFilter implements Filter {
    */
   public void doFilter(ServletRequest request, ServletResponse response,
       FilterChain chain) throws IOException, ServletException {
-    if (filterConfig != null && (request instanceof HttpServletRequest) /* &&
-        FileTypes.isPage(((HttpServletRequest) request).getServletPath()) */) {
+    if (filterConfig != null && (request instanceof HttpServletRequest)) {
       ServletContext sc = filterConfig.getServletContext();
       HttpServletResponse httpRes = (HttpServletResponse) response;
       WebSite rootSite = getRootSite(sc, false);
