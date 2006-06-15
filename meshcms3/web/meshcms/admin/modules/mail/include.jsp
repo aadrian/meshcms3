@@ -31,7 +31,7 @@
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 
 <%
-  Path pagePath = new Path(request.getServletPath());
+  Path pagePath = webSite.getRequestedPath(request);
   String moduleCode = request.getParameter("modulecode");
   ModuleDescriptor md = (ModuleDescriptor) request.getAttribute(moduleCode);
   String cp = request.getContextPath();
