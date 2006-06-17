@@ -110,10 +110,12 @@ public final class HitFilter implements Filter {
       HttpServletRequest httpReq = webSite.wrapRequest(request);
       Path pagePath = webSite.getRequestedPath(httpReq);
 
+      /* This is needed to avoid source code disclosure in virtual sites */
       if (webSite instanceof VirtualWebSite &&
           httpReq.getRequestURI().endsWith(".jsp/")) {
         httpRes.sendError(HttpServletResponse.SC_FORBIDDEN,
             "You are not allowed to request this file");
+        return;
       }
 
       if (webSite.isDirectory(pagePath)) {
@@ -150,6 +152,7 @@ public final class HitFilter implements Filter {
             pagePath.isContainedIn(webSite.getPrivatePath())) {
           httpRes.sendError(HttpServletResponse.SC_FORBIDDEN,
               "You are not allowed to request this file");
+          return;
         }
         
         siteMap = webSite.getSiteMap();
