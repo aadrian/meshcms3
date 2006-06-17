@@ -765,236 +765,6 @@
       </section>
     </section>
 
-    <section id="create_mail_form">
-      <title>Create a Mail Form</title>
-
-      <para>The WYSIWYG editor does not allow to create mail forms. To fill
-      this gap, MeshCMS provides two ways to add a mail form to a page. In
-      both cases, messages sent through that form will be delivered to an
-      address you specify (which will not be visible to anyone, since it's not
-      displayed in the page and not included in its source code).</para>
-
-      <para>The two methods are:</para>
-
-      <orderedlist>
-        <listitem>
-          <para>you can specify an e-mail address in the "E-mail for comments"
-          field while editing a page. A simple form will be inserted into the
-          page and the address you entered will receive the messages. The form
-          can't be customized, but this method is very easy to apply and will
-          be enough for most situations. To be able to use this method, the
-          page theme must contain the <code>&lt;cms:mailform&gt;</code>
-          tag;</para>
-        </listitem>
-
-        <listitem>
-          <para>a module is available that parses a text file and builds a
-          form based on simple instructions. This method offers more options
-          and will be described in the rest of this page, since it requires to
-          learn the syntax to be used in the text file. To be able to use this
-          method, the page theme must contain at least one configurable
-          <code>&lt;cms:module&gt;</code> tag.</para>
-        </listitem>
-      </orderedlist>
-
-      <para>To create a form using the second method, you must write a text
-      file following a specific syntax. As a first example, let's create the
-      simplest form you could use (similar to the one provided by the first
-      method):</para>
-
-      <programlisting>recipient:name@site.com
-
-Name
-
-E-mail
-email
-sender
-
-Message
-text:12
-
-Send
-submit</programlisting>
-
-      <para>Field definition blocks are separated by empty lines. The first
-      line of each block indicates the field name. Let's look at each block
-      separately:</para>
-
-      <orderedlist>
-        <listitem>
-          <para>the first line specifies the <option>recipient</option>
-          address;</para>
-        </listitem>
-
-        <listitem>
-          <para>"Name" is a text field. This is the default when no other
-          parameters are specified;</para>
-        </listitem>
-
-        <listitem>
-          <para>"E-mail" is a text field that is expected to contain an
-          <option>e-mail</option> address (a check will be executed to verify
-          this condition). Its value will be used as <option>sender</option>
-          address;</para>
-        </listitem>
-
-        <listitem>
-          <para>"Message" and is a text area of <option>12</option>
-          rows;</para>
-        </listitem>
-
-        <listitem>
-          <para>the next element is a <option>submit</option> button whose
-          label is "Send this message".</para>
-        </listitem>
-      </orderedlist>
-
-      <para>Here's how to add a drop down box:</para>
-
-      <programlisting>recipient:name@site.com
-
-Name
-
-E-mail
-email
-sender
-
-<emphasis role="bold">Topic
-options: Information, Support Request, Feedback</emphasis>
-
-Message
-text:16
-
-Send Now
-submit</programlisting>
-
-      <para>Other notes:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para>the default field type is <option>text</option>;</para>
-        </listitem>
-
-        <listitem>
-          <para>the <option>number</option> field type can be used for fields
-          that require a numeric value;</para>
-        </listitem>
-
-        <listitem>
-          <para>the <option>reset</option> field inserts a reset button. A
-          label can be specified as for the <option>submit</option>
-          button;</para>
-        </listitem>
-
-        <listitem>
-          <para>buttons are inserted at the end of the form, regardless of the
-          field order;</para>
-        </listitem>
-
-        <listitem>
-          <para>the <option>textarea</option> field type is a synonym of
-          <option>text:12</option>;</para>
-        </listitem>
-
-        <listitem>
-          <para>the <option>value</option>: line can be used for all fields of
-          type <option>text</option>, <option>email</option>,
-          <option>number</option> and <option>textarea</option> to provide a
-          default value;</para>
-        </listitem>
-
-        <listitem>
-          <para>the <option>sendername</option> attribute indicates that the
-          field value must be used as name of the sender;</para>
-        </listitem>
-
-        <listitem>
-          <para>the <option>subject</option> attribute indicates that the
-          field value will be the subject of the message;</para>
-        </listitem>
-
-        <listitem>
-          <para>the <option>message</option> attribute will insert the field
-          value "as is", i.e. without specifying the field name;</para>
-        </listitem>
-
-        <listitem>
-          <para>you can't insert a new line while defining a parameter. Each
-          parameter (field name, field type, options, etc.) goes on its own
-          line.</para>
-        </listitem>
-      </itemizedlist>
-
-      <para>A more complex example is shown here:</para>
-
-      <programlisting>recipient:name@site.com
-
-Note
-hidden
-value: This is a hidden note
-
-Name
-sendername
-
-E-mail
-email
-sender
-
-Gender
-options: male, female
-
-Age
-options: less than 13, 13-20, 21-30, 31-40, 41-50, 51-60, more than 60
-
-Subject
-subject
-value: Hello
-required
-
-Message
-text:16
-required
-
-Send Now
-submit
-
-Reset All Fields
-reset</programlisting>
-
-      <para>And here's how it looks in the browser:</para>
-
-      <screenshot>
-        <screeninfo>Mail form</screeninfo>
-
-        <mediaobject>
-          <imageobject>
-            <imagedata align="center" fileref="sample_mail_form.png" />
-          </imageobject>
-        </mediaobject>
-      </screenshot>
-
-      <para>Finally, this is the default MeshCMS form in English (recipient is
-      not specified since it is added in the page editor):</para>
-
-      <programlisting>Name
-sendername
-
-E-mail
-email
-sender
-
-Message
-textarea
-messagebody
-
-Send Now
-submit</programlisting>
-
-      <para>Required fields are shown in bold by default. You can change this
-      by creating a <filename>meshcms.css</filename> file in your
-      theme.</para>
-    </section>
-
     <section id="edit_page">
       <title>Edit a Page</title>
 
@@ -1492,6 +1262,9 @@ submit</programlisting>
         </tgroup>
       </table>
 
+      <para>Details about advanced parameters are illustrated in the following
+      sections.</para>
+
       <section id="module_chat">
         <title>Chat</title>
 
@@ -1508,7 +1281,7 @@ submit</programlisting>
         </itemizedlist>
       </section>
 
-      <section>
+      <section id="module_downloads">
         <title>Downloads</title>
 
         <para>The downloads module creates a list of downloadable files. An
@@ -1530,7 +1303,7 @@ submit</programlisting>
         </itemizedlist>
       </section>
 
-      <section>
+      <section id="module_gallery">
         <title>Gallery</title>
 
         <para>The gallery module creates thumbnails for a list of images.
@@ -1564,7 +1337,7 @@ submit</programlisting>
         </itemizedlist>
       </section>
 
-      <section>
+      <section id="module_headlines">
         <title>Headlines</title>
 
         <para>The headlines module shows the first words of a list of pages,
@@ -1591,7 +1364,7 @@ submit</programlisting>
         </itemizedlist>
       </section>
 
-      <section>
+      <section id="module_include">
         <title>Include</title>
 
         <para>The include module adds the contents of a list of pages.</para>
@@ -1612,7 +1385,7 @@ submit</programlisting>
         </itemizedlist>
       </section>
 
-      <section>
+      <section id="module_include_as_text">
         <title>Include As Text</title>
 
         <para>The include as text module adds the contents of a list of files
@@ -1627,10 +1400,11 @@ submit</programlisting>
         </itemizedlist>
       </section>
 
-      <section>
+      <section id="module_list_pages">
         <title>List Pages</title>
 
-        <para>The list pages module ...</para>
+        <para>The list pages module creates a list of links to the pages
+        contained in the given folder.</para>
 
         <para>Advanced parameters:</para>
 
@@ -1639,6 +1413,247 @@ submit</programlisting>
             <para><parameter>css</parameter>: the name of a css class.</para>
           </listitem>
         </itemizedlist>
+      </section>
+
+      <section id="module_mail">
+        <title>Mail</title>
+
+        <para>The mail module creates a mail form. It can be used in two
+        ways:</para>
+
+        <orderedlist>
+          <listitem>
+            <para>you can specify an e-mail address as argument. A simple form
+            will be inserted into the page and the address you entered will
+            receive the messages. The form can't be customized, but this
+            method is very easy to apply and will be enough for most
+            situations;</para>
+          </listitem>
+
+          <listitem>
+            <para>you can specify the name of a text file as argument. In this
+            case, the form will be created accorded to the instructions
+            contained in that file. This method offers more options and will
+            be described in the rest of this section, since it requires to
+            learn the syntax to be used in the text file.</para>
+          </listitem>
+        </orderedlist>
+
+        <para>In both cases, messages sent through that form will be delivered
+        to an address you specify (which will not be visible to anyone, since
+        it's not displayed in the page and not included in its source
+        code).</para>
+
+        <para>To create a form using the second method, you must write a text
+        file following a specific syntax. As a first example, let's create the
+        simplest form you could use (similar to the one provided by the first
+        method):</para>
+
+        <programlisting>recipient:name@site.com
+
+Name
+
+E-mail
+email
+sender
+
+Message
+text:12
+
+Send
+submit</programlisting>
+
+        <para>Field definition blocks are separated by empty lines. The first
+        line of each block indicates the field name. Let's look at each block
+        separately:</para>
+
+        <orderedlist>
+          <listitem>
+            <para>the first line specifies the <option>recipient</option>
+            address;</para>
+          </listitem>
+
+          <listitem>
+            <para>"Name" is a text field. This is the default when no other
+            parameters are specified;</para>
+          </listitem>
+
+          <listitem>
+            <para>"E-mail" is a text field that is expected to contain an
+            <option>e-mail</option> address (a check will be executed to
+            verify this condition). Its value will be used as
+            <option>sender</option> address;</para>
+          </listitem>
+
+          <listitem>
+            <para>"Message" and is a text area of <option>12</option>
+            rows;</para>
+          </listitem>
+
+          <listitem>
+            <para>the next element is a <option>submit</option> button whose
+            label is "Send this message".</para>
+          </listitem>
+        </orderedlist>
+
+        <para>Here's how to add a drop down box:</para>
+
+        <programlisting>recipient:name@site.com
+
+Name
+
+E-mail
+email
+sender
+
+<emphasis role="bold">Topic
+options: Information, Support Request, Feedback</emphasis>
+
+Message
+text:16
+
+Send Now
+submit</programlisting>
+
+        <para>Other notes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>the default field type is <option>text</option>;</para>
+          </listitem>
+
+          <listitem>
+            <para>the <option>number</option> field type can be used for
+            fields that require a numeric value;</para>
+          </listitem>
+
+          <listitem>
+            <para>the <option>reset</option> field inserts a reset button. A
+            label can be specified as for the <option>submit</option>
+            button;</para>
+          </listitem>
+
+          <listitem>
+            <para>buttons are inserted at the end of the form, regardless of
+            the field order;</para>
+          </listitem>
+
+          <listitem>
+            <para>the <option>textarea</option> field type is a synonym of
+            <option>text:12</option>;</para>
+          </listitem>
+
+          <listitem>
+            <para>the <option>value</option>: line can be used for all fields
+            of type <option>text</option>, <option>email</option>,
+            <option>number</option> and <option>textarea</option> to provide a
+            default value;</para>
+          </listitem>
+
+          <listitem>
+            <para>the <option>sendername</option> attribute indicates that the
+            field value must be used as name of the sender;</para>
+          </listitem>
+
+          <listitem>
+            <para>the <option>subject</option> attribute indicates that the
+            field value will be the subject of the message;</para>
+          </listitem>
+
+          <listitem>
+            <para>the <option>message</option> attribute will insert the field
+            value "as is", i.e. without specifying the field name;</para>
+          </listitem>
+
+          <listitem>
+            <para>you can't insert a new line while defining a parameter. Each
+            parameter (field name, field type, options, etc.) goes on its own
+            line.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>A more complex example is shown here:</para>
+
+        <programlisting>recipient:name@site.com
+
+Note
+hidden
+value: This is a hidden note
+
+Name
+sendername
+
+E-mail
+email
+sender
+
+Gender
+options: male, female
+
+Age
+options: less than 13, 13-20, 21-30, 31-40, 41-50, 51-60, more than 60
+
+Subject
+subject
+value: Hello
+required
+
+Message
+text:16
+required
+
+Send Now
+submit
+
+Reset All Fields
+reset</programlisting>
+
+        <para>And here's how it looks in the browser:</para>
+
+        <screenshot>
+          <screeninfo>Mail form</screeninfo>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata align="center" fileref="sample_mail_form.png" />
+            </imageobject>
+          </mediaobject>
+        </screenshot>
+
+        <para>Finally, this is the default MeshCMS form in English (recipient
+        is not specified since it is added in the page editor):</para>
+
+        <programlisting>Name
+sendername
+
+E-mail
+email
+sender
+
+Message
+textarea
+messagebody
+
+Send Now
+submit</programlisting>
+
+        <para>Required fields are shown in bold by default. You can change
+        this by creating a <filename>meshcms.css</filename> file in your
+        theme.</para>
+      </section>
+
+      <section id="module_list_pages">
+        <title>Parse</title>
+
+        <para>The parse module includes a list of files using the
+        <code>pageContext.include()</code> Java method.</para>
+      </section>
+
+      <section id="module_list_pages">
+        <title>Site Map</title>
+
+        <para>The siite map module creates a site map using an HTML unordered
+        list.</para>
       </section>
     </section>
   </chapter>
@@ -1699,6 +1714,29 @@ submit</programlisting>
       <emphasis>mandatory</emphasis> since it is needed when editing pages (it
       makes no sense to have a theme that does not show the contents of the
       page anyway). This tag has no attributes.</para>
+    </section>
+
+    <section id="tag_pagebody">
+      <title>&lt;cms:setlocale&gt;</title>
+
+      <para>Sets a locale that will be used in the page. Other MeshCMS
+      components will refer to that locale to display some string such as
+      dates, mail form field names and so on.</para>
+
+      <para>Attributes:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><parameter>value</parameter>: the locale name. Please note
+          that this attribute is <emphasis>not</emphasis> required. If not
+          provided, it will be searched in the path of the requested page,
+          starting from left to right. For example, if the URL is
+          <uri>http://www.site.com/web/en/products/index.html</uri>, the
+          locale will be set to
+          <parameter><parameter>en</parameter></parameter>. If no valid locale
+          is found in the page path, no locale will be set.</para>
+        </listitem>
+      </itemizedlist>
     </section>
 
     <section id="tag_pagetitle">
@@ -2126,6 +2164,11 @@ submit</programlisting>
       to receive a feedback from visitors. The form will only appear in pages
       that have a recipient specified (it can be set when editing the page).
       This tag has no attributes.</para>
+
+      <para>Starting from MeshCMS 3.0, the same functionality can be achieved
+      by using the <link linkend="module_mail">mail module</link> and
+      specifying the e-mail address as argument, so it's up to the theme
+      designer to decide if it is worth to use this tag.</para>
     </section>
 
     <section id="tag_lastmodified">
