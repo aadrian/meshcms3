@@ -37,6 +37,8 @@ public final class ListMenu extends AbstractTag {
   public static final String ITEMS_LAST_LEVEL = "lastlevel";
   public static final String ITEMS_CHILDREN = "children";
   public static final String ITEMS_INTERMEDIATE_LEVELS = "intermediatelevels";
+  public static final String TEXT = "text";
+  public static final String LINK = "link";
 
   private String indentation = "  ";
   private String indentBuffer = "";
@@ -81,7 +83,7 @@ public final class ListMenu extends AbstractTag {
       }
     }
 
-    boolean linkCurrent = current != null && current.equalsIgnoreCase("link");
+    boolean linkCurrent = current != null && current.equalsIgnoreCase(LINK);
 
     SiteMap siteMap = webSite.getSiteMap();
     SiteInfo siteInfo = webSite.getSiteInfo();
