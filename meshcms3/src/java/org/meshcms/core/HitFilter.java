@@ -399,7 +399,7 @@ public final class HitFilter implements Filter {
 
     if (rootSite == null || alwaysCreate) {
       File rootFile = new File(sc.getRealPath("/"));
-      Path cmsPath = new CMSDirectoryFinder(rootFile).getCMSPath();
+      Path cmsPath = new CMSDirectoryFinder(rootFile, false).getCMSPath();
       boolean multisite = false;
       File sitesDir = new File(rootFile, cmsPath + "/sites");
 

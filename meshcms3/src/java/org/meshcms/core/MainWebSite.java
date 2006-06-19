@@ -67,7 +67,7 @@ public class MainWebSite extends WebSite {
     if (vws == null) {
       Path sitePath = virtualSitesPath.add(dirName);
       File rootFile = getFile(sitePath);
-      Path cmsPath = new CMSDirectoryFinder(rootFile).getCMSPath();
+      Path cmsPath = new CMSDirectoryFinder(rootFile, true).getCMSPath();
       vws = VirtualWebSite.create(this, sitePath, cmsPath);
       virtualSitesMap.put(dirName, vws);
     }

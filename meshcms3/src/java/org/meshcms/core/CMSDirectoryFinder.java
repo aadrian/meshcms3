@@ -31,10 +31,14 @@ import org.meshcms.util.*;
  */
 public class CMSDirectoryFinder extends DirectoryParser {
   private Path cmsPath;
+  private boolean virtualSite;
+  String idFileName;
   
-  public CMSDirectoryFinder(File siteRoot) {
+  public CMSDirectoryFinder(File siteRoot, boolean virtualSite) {
     setRecursive(true);
     setInitialDir(siteRoot);
+    this.virtualSite = virtualSite;
+    idFileName = virtualSite ? WebSite.CMS_ID_FILE : WebSite.ADMIN_ID_FILE;
   }
 
   protected void processFile(File file, Path path) {
@@ -46,10 +50,10 @@ public class CMSDirectoryFinder extends DirectoryParser {
       return false;
     }
     
-    File vFile = new File(file, WebSite.ID_FILE);
+    File vFile = new File(file, idFileName);
     
     if (vFile.exists()) {
-      cmsPath = path;
+      cmsPath = virtualSite ? path : path.getParent();
       return false;
     }
     

@@ -61,8 +61,8 @@
       if (Utils.isTrue(request.getParameter("newsite_cms"))) {
         File cmsDir = new File(siteDirFile, "meshcms");
         cmsDir.mkdir();
-        Utils.copyFile(webSite.getFile(webSite.getCMSPath().add(WebSite.ID_FILE)),
-            new File(cmsDir, WebSite.ID_FILE), false, false);
+        Utils.copyFile(webSite.getFile(webSite.getAdminPath().add(WebSite.ADMIN_ID_FILE)),
+            new File(cmsDir, WebSite.CMS_ID_FILE), false, false);
       }
 
       if (!(webSite instanceof MainWebSite)) {

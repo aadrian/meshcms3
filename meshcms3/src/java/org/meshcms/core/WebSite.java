@@ -51,7 +51,9 @@ public class WebSite {
    */
   public static final String ADMIN_THEME = "theme";
 
-  public static final String ID_FILE = "meshcms_id";
+  public static final String CMS_ID_FILE = "meshcms_id";
+
+  public static final String ADMIN_ID_FILE = "meshcms_id";
 
   protected ServletContext sc;
   protected String[] welcomeFiles;
@@ -760,7 +762,7 @@ public class WebSite {
     }
 
     if (adminPath != null && (path.isContainedIn(adminPath) ||
-        path.isContainedIn(privatePath) || path.equals(cmsPath.add(ID_FILE)))) {
+        path.isContainedIn(privatePath) || path.equals(cmsPath.add(CMS_ID_FILE)))) {
       return true;
     }
 
