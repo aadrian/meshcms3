@@ -379,7 +379,7 @@
       Then you can use the <link linkend="control_panel">Control Panel</link>
       to create new sites.</para>
 
-      <section>
+      <section id="main_and_virtual_sites">
         <title>Main site and virtual sites</title>
 
         <para>When you install MeshCMS, you have a single site. This is the
@@ -924,7 +924,7 @@
     </section>
 
     <section id="manage_pages">
-      <title>Manage Pages</title>
+      <title>Page Manager</title>
 
       <para>Here the site map is shown in a convenient way and some actions
       are available for each page. The table has these columns:</para>
@@ -1025,7 +1025,46 @@
       <title>Configure</title>
 
       <para>The configure page is available to administrators only. Editable
-      options are:</para>
+      options are divided in groups.</para>
+
+      <para>The first section allows to define some values for the site, which
+      can be useful or not according to the theme used. The theme can display
+      them using the <link linkend="tag_info">&lt;cms:info&gt;</link>
+      tag.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><emphasis role="bold">Name</emphasis>: name of the
+          site;</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Host (domain)</emphasis>: the main host
+          for the site (e.g. www.site.com, not the full URL);</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Description</emphasis>: a description of
+          the site (usually inserted into the related meta tag);</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Keywords</emphasis>: some keywords for
+          the site (usually inserted into the related meta tag);</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Author</emphasis>: name of the site
+          author (e.g. for a copyright notice);</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Author full URL</emphasis>: full address
+          of the author's website.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>The second section defines some interface parameters.</para>
 
       <itemizedlist>
         <listitem>
@@ -1049,14 +1088,32 @@
           directly: they must link to pages on your site. A simple window will
           be shown to state that the file comes from your site.</para>
         </listitem>
+      </itemizedlist>
 
+      <para>The third section configures the SMTP server used to send mail
+      messages.</para>
+
+      <itemizedlist>
         <listitem>
-          <para><emphasis role="bold">SMTP Server</emphasis>: the server used
-          to send e-mail messages when a visitor compiles a mail form. You
-          must specify its name; username and password are required only if
-          the server uses SMTP authentication.</para>
+          <para><emphasis role="bold">Server name</emphasis>: the name of the
+          server used to send e-mail messages when a visitor compiles a mail
+          form;</para>
         </listitem>
 
+        <listitem>
+          <para><emphasis role="bold">Username</emphasis>: needed if the
+          server requires authentication;</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Password</emphasis>: needed if the
+          server requires authentication.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>The fourth section defines more system parameters.</para>
+
+      <itemizedlist>
         <listitem>
           <para><emphasis role="bold">Page cache</emphasis>: used to activate
           the page caching. This is highly recommended since the "decoration"
@@ -1094,9 +1151,85 @@
           to be used whenever possible, for example when creating pages or
           when serving files that do not specify a charset. It is <emphasis
           role="bold">highly recommended</emphasis> that you keep the default,
-          that matches the encoding used by the underlying platform.</para>
+          that matches the encoding used by the underlying platform;</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Always redirect to welcome
+          pages</emphasis>: check this option to ask MeshCMS to check if a
+          welcome file is available when the required URL points to a folder.
+          Usually the servlet container does this, but it is not the case for
+          the default Jetty configuration for example. Setting this option to
+          true allows to achieve a uniform behavior and offers better safety
+          if virtual sites are used (the servlet container is not aware of
+          MeshCMS virtual sites);</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Always deny directory
+          listings</emphasis>: check this option to show an error when a
+          directory is required and there's no welcome file within it. Again,
+          you can achieve the same result by configuring the servlet container
+          properly, but if virtual sites are used it is better to make use of
+          this option instead of relying on the container;</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Hide Java exceptions when
+          possible</emphasis>: if this option is checked, MeshCMS tries to
+          catch Java exception and hide its details to site visitors (it will
+          be logged though).</para>
         </listitem>
       </itemizedlist>
+    </section>
+
+    <section id="site_manager">
+      <title>Site Manager</title>
+
+      <para>The site manager is available for administrators only. It is not
+      available at all in virtual sites. It is used to manage virtual sites
+      and to map domains to sites. If no virtual sites are defined, this page
+      can be used to define the first one. Otherwise, more options are
+      available.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><emphasis role="bold">Use folder names as domain
+          names</emphasis>: if true, names of the folders that contain virtual
+          sites will be taken into account when mapping domains to
+          sites;</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Automatically manage the "www."
+          prefix</emphasis>: if true, an additional mapping will be used for
+          each domain name specified, to map the same domain with the www
+          prefix added. This parameter applies to <emphasis>all</emphasis>
+          domain names defined;</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Domain aliases for the main
+          website</emphasis>: a comma-separated list of domain names that must
+          point to the main website. If no domain names are specified, all
+          domain names that are not mapped to other sites will point to the
+          main site. If at least a domain is specified and an unlisted domain
+          is requested, MeshCMS will send a server error as response.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>After these options, a table of virtual sites follows. For each
+      site the directory name is shown and a check indicates that the CMS is
+      active for that site. It is possible to add or modify a comma-separated
+      list of domains that will be mapped to that site.</para>
+
+      <para>At the end of the list, a blank row is available to create a new
+      site. You must specify the directory name and optionally add aliases and
+      enable the CMS.</para>
+
+      <para>Please be careful when specifying domain names: if a domain is
+      mapped to more than one site, it is hard to know which one will be
+      associated to that domain.</para>
     </section>
   </chapter>
 
@@ -1642,14 +1775,14 @@ submit</programlisting>
         theme.</para>
       </section>
 
-      <section id="module_list_pages">
+      <section id="module_parse">
         <title>Parse</title>
 
         <para>The parse module includes a list of files using the
         <code>pageContext.include()</code> Java method.</para>
       </section>
 
-      <section id="module_list_pages">
+      <section id="module_site_map">
         <title>Site Map</title>
 
         <para>The siite map module creates a site map using an HTML unordered
@@ -1674,605 +1807,757 @@ submit</programlisting>
     linkend="tag_pagehead">&lt;cms:pagehead&gt;</link> and <link
     linkend="tag_pagebody">&lt;cms:pagebody&gt;</link>.</para>
 
-    <section id="tag_editor">
-      <title>&lt;cms:editor&gt;</title>
+    <section id="tags_mandatory">
+      <title>Mandatory Tags</title>
 
-      <para>This tag is <emphasis>mandatory</emphasis> and must enclose all
-      tags of type <code>&lt;cms:pagebody&gt;</code>,
-      <code>&lt;cms:module&gt;</code> and <code>&lt;cms:mailform&gt;</code> in
-      the theme file. Since these three tags are always used inside the HTML
-      <code>&lt;body&gt;</code> tag, usually the
-      <code>&lt;cms:editor&gt;</code> is inserted immediately after the
-      <code>&lt;body&gt;</code>:</para>
+      <para>These tags must be included in all themes.</para>
 
-      <programlisting>&lt;html&gt;
+      <section id="tag_editor">
+        <title>&lt;cms:editor&gt;</title>
+
+        <para>This tag is <emphasis>mandatory</emphasis> and must enclose all
+        tags of type <code>&lt;cms:pagebody&gt;</code>,
+        <code>&lt;cms:module&gt;</code> and <code>&lt;cms:mailform&gt;</code>
+        in the theme file. Since these three tags are always used inside the
+        HTML <code>&lt;body&gt;</code> tag, usually the
+        <code>&lt;cms:editor&gt;</code> is inserted immediately after the
+        <code>&lt;body&gt;</code>:</para>
+
+        <programlisting>&lt;html&gt;
 ...
 &lt;body&gt;&lt;cms:editor&gt;
 ... body content...
 &lt;/cms:editor&gt;&lt;/body&gt;
 &lt;/html&gt;</programlisting>
 
-      <para>The purpose of this tag is to insert a <code>&lt;form&gt;</code>
-      element when the page is being edited. For that reason, you must also
-      enclose any other <code>&lt;form&gt;</code> tag into a
-      <code>&lt;cms:ifnotediting&gt;</code> tag, so your forms won't be shown
-      during page editing (HTML does not allow nested forms).</para>
+        <para>The purpose of this tag is to insert a <code>&lt;form&gt;</code>
+        element when the page is being edited. For that reason, you must also
+        enclose any other <code>&lt;form&gt;</code> tag into a
+        <code>&lt;cms:ifnotediting&gt;</code> tag, so your forms won't be
+        shown during page editing (HTML does not allow nested forms).</para>
+      </section>
+
+      <section id="tag_pagehead">
+        <title>&lt;cms:pagehead&gt;</title>
+
+        <para>Inserts some headers found in the page. This tag is
+        <emphasis>mandatory</emphasis> since it is needed when editing pages.
+        This tag has no attributes.</para>
+      </section>
+
+      <section id="tag_pagebody">
+        <title>&lt;cms:pagebody&gt;</title>
+
+        <para>Inserts the body of the page. This tag is
+        <emphasis>mandatory</emphasis> since it is needed when editing pages
+        (it makes no sense to have a theme that does not show the contents of
+        the page anyway). This tag has no attributes.</para>
+      </section>
     </section>
 
-    <section id="tag_pagehead">
-      <title>&lt;cms:pagehead&gt;</title>
+    <section id="tags_page_design">
+      <title>Page Design Tags</title>
 
-      <para>Inserts some headers found in the page. This tag is
-      <emphasis>mandatory</emphasis> since it is needed when editing pages.
-      This tag has no attributes.</para>
+      <para></para>
+
+      <section id="tag_setlocale">
+        <title>&lt;cms:setlocale&gt;</title>
+
+        <para>Sets a locale that will be used in the page. Other MeshCMS
+        components will refer to that locale to display some string such as
+        dates, mail form field names and so on.</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>value</parameter>: the locale name. Please note
+            that this attribute is <emphasis>not</emphasis> required. If not
+            provided, it will be searched in the path of the requested page,
+            starting from left to right. For example, if the URL is
+            <uri>http://www.site.com/web/en/products/index.html</uri>, the
+            locale will be set to
+            <parameter><parameter>en</parameter></parameter>. If no valid
+            locale is found in the page path, no locale will be set.</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section id="tag_defaultcss">
+        <title>&lt;cms:defaultcss&gt;</title>
+
+        <para>Creates a link to the default style sheets for that page and for
+        the additional. You can use it (recommended) or import/link styles as
+        usual. This tag has no attributes.</para>
+      </section>
+
+      <section id="tag_contextpath">
+        <title>&lt;cms:contextpath&gt;</title>
+
+        <para>Inserts the context path, i.e. the value of
+        <code>HttpServletRequest.getContextPath()</code>. Useful for absolute
+        paths, since the context path might be added when the web application
+        context is not root in its host. This tag has no attributes.</para>
+
+        <example>
+          <title>An absolute link</title>
+
+          <programlisting>&lt;a href="&lt;cms:contextpath /&gt;/dir/page.html"&gt;An absolute link&lt;/a&gt;</programlisting>
+        </example>
+      </section>
+
+      <section id="tag_themepath">
+        <title>&lt;cms:themepath&gt;</title>
+
+        <para>Inserts the complete path of the folder that contains the
+        current theme. Very useful to insert files of the theme itself. This
+        tag has no attributes.</para>
+
+        <example>
+          <title>Insert an image located in the theme folder</title>
+
+          <programlisting>&lt;img src="&lt;cms:themepath /&gt;/logo.jpg"&gt;</programlisting>
+        </example>
+      </section>
     </section>
 
-    <section id="tag_pagebody">
-      <title>&lt;cms:pagebody&gt;</title>
+    <section id="tags_page_elements">
+      <title>Page Elements Tags</title>
 
-      <para>Inserts the body of the page. This tag is
-      <emphasis>mandatory</emphasis> since it is needed when editing pages (it
-      makes no sense to have a theme that does not show the contents of the
-      page anyway). This tag has no attributes.</para>
+      <para></para>
+
+      <section id="tag_pagetitle">
+        <title>&lt;cms:pagetitle&gt;</title>
+
+        <para>This tag prints the title of the page. It has one
+        attribute:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>default</parameter>: default title to be used
+            when the page has no title. This attribute is optional and its
+            default value is <code>&amp;nbsp;</code>.</para>
+          </listitem>
+        </itemizedlist>
+
+        <example>
+          <title>A simple title</title>
+
+          <programlisting>&lt;title&gt;My Site: &lt;cms:pagetitle /&gt;&lt;/title&gt;</programlisting>
+        </example>
+
+        <note>
+          <para>the use of <code>&lt;cms:pagetitle&gt;</code> is not limited
+          to the HTML <code>&lt;title&gt;</code> tag: you can use it elsewhere
+          to repeat the title of the page, and you can use anything else
+          within the HTML <code>&lt;title&gt;</code> tag.</para>
+        </note>
+      </section>
+
+      <section id="tag_module">
+        <title>&lt;cms:module&gt;</title>
+
+        <para>This tag allows to include a <link
+        linkend="modules">module</link> in the place where it is located in
+        the page.</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>name</parameter>: the description of the module
+            content, in the form <option>template:argument</option>. The
+            template can be omitted: in this case the colon can be omitted
+            too, and the Include template will be used. The fact that this
+            attribute is called name can be misleading: it is a heritage of a
+            previous version;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>date</parameter>: the format of the date. This is
+            passed to the include template and might be used or not (for
+            example <classname>Include</classname> uses it). Possible values
+            are <option>none</option> (default), <option>normal</option> and
+            <option>full</option>;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>style</parameter>: a css style. This is passed to
+            the include template and might be used or not (for example
+            <classname>Include</classname> uses it). Default is no
+            style;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>location</parameter> (required): the name of the
+            module location. <emphasis>All modules in a theme must have
+            different location names</emphasis>;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>alt</parameter>: a string that is inserted when
+            the module is not used (default
+            <option>&amp;nbsp;</option>).</para>
+          </listitem>
+        </itemizedlist>
+
+        <example>
+          <title>A fixed module that includes some files located in the
+          <filename>/include/news</filename> folder</title>
+
+          <programlisting>&lt;cms:module location="news" name="includes/news" date="normal" style="news" /&gt;</programlisting>
+        </example>
+
+        <example>
+          <title>A module that can be configured while editing the
+          page</title>
+
+          <programlisting>&lt;cms:module location="afterbody" /&gt;</programlisting>
+        </example>
+
+        <example>
+          <title>A module that shows a site map starting from the folder of
+          the page, using <code>(none)</code> to pass an empty
+          argument:</title>
+
+          <programlisting>&lt;cms:module location="sitemap" name="site_map:(none)" /&gt;</programlisting>
+        </example>
+
+        <para>A note about locations: suppose to edit some pages using a theme
+        that contains two configurable modules, whose locations are left and
+        afterbody. Modules will be saved in the page with those location
+        names. If you change theme, those modules will appear if the new theme
+        contains configurable modules with the same location names. So it
+        suggested to use common names for module locations. This is a possible
+        convention:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><option>left</option> for a module in the left
+            column;</para>
+          </listitem>
+
+          <listitem>
+            <para><option>right</option> for a module in the right
+            column;</para>
+          </listitem>
+
+          <listitem>
+            <para><option>top</option> for a module at the top of the
+            page;</para>
+          </listitem>
+
+          <listitem>
+            <para><option>bottom</option> for a module at the bottom of the
+            page;</para>
+          </listitem>
+
+          <listitem>
+            <para>numbers for modules below others (<option>left2</option>,
+            <option>right2</option>, etc.)</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>There's no limit to the number of modules that can be specified
+        in a theme.</para>
+      </section>
+
+      <section id="tag_adminmenu">
+        <title>&lt;cms:adminmenu&gt;</title>
+
+        <para>This tag inserts a menu to access some specific MeshCMS
+        functions when the user has logged in:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><emphasis role="bold">Control Panel</emphasis>: a link to
+            the Control Panel;</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Edit this page</emphasis>: a link to
+            edit the current page visually;</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Edit source</emphasis>: a link to edit
+            the source of the current page;</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">New page</emphasis>: a link to create
+            a new page at the same level of the current one;</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">New child page</emphasis>: a link to
+            create a new child page.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>Some links won't appear if they are not appropriate. If no user
+        has logged in, the behavior depends on the mode attribute. You should
+        always use this tag in a theme, since it offers the most comfortable
+        way to edit pages.</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>mode</parameter>: what to display before a user
+            has logged in. There are 2 possible values:
+            <option>normal</option> (default) displays a link to the login
+            page and <option>hidden</option> shows nothing.</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>separator</parameter>: the text between elements
+            (default is a space);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>style</parameter>: a css style for links (default
+            is no style).</para>
+          </listitem>
+        </itemizedlist>
+
+        <example>
+          <title>A vertical admin menu</title>
+
+          <programlisting>&lt;cms:adminmenu separator="&lt;br /&gt;" /&gt;</programlisting>
+        </example>
+      </section>
+
+      <section id="tag_mailform">
+        <title>&lt;cms:mailform&gt;</title>
+
+        <para>Creates a standard form to send e-mail messages. This can be
+        used to receive a feedback from visitors. The form will only appear in
+        pages that have a recipient specified (it can be set when editing the
+        page). This tag has no attributes.</para>
+
+        <para>Starting from MeshCMS 3.0, the same functionality can be
+        achieved by using the <link linkend="module_mail">mail module</link>
+        and specifying the e-mail address as argument, so it's up to the theme
+        designer to decide if it is worth to use this tag.</para>
+      </section>
     </section>
 
-    <section id="tag_pagebody">
-      <title>&lt;cms:setlocale&gt;</title>
+    <section id="tags_information">
+      <title>Information Tags</title>
 
-      <para>Sets a locale that will be used in the page. Other MeshCMS
-      components will refer to that locale to display some string such as
-      dates, mail form field names and so on.</para>
+      <para></para>
 
-      <para>Attributes:</para>
+      <section id="tag_info">
+        <title>&lt;cms:info&gt;</title>
 
-      <itemizedlist>
-        <listitem>
-          <para><parameter>value</parameter>: the locale name. Please note
-          that this attribute is <emphasis>not</emphasis> required. If not
-          provided, it will be searched in the path of the requested page,
-          starting from left to right. For example, if the URL is
-          <uri>http://www.site.com/web/en/products/index.html</uri>, the
-          locale will be set to
-          <parameter><parameter>en</parameter></parameter>. If no valid locale
-          is found in the page path, no locale will be set.</para>
-        </listitem>
-      </itemizedlist>
+        <para>This tag shows some info about the website. Values are defined
+        in the Configuration page.</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>id</parameter>: indicates which site information
+            must be shown. Value can be <option>name</option> (default),
+            <option>host</option> (or <option>domain</option>),
+            <option>description</option>, <option>keywords</option>,
+            <option>author</option> or <option>authorurl</option>.</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section id="tag_user">
+        <title>&lt;cms:user&gt;</title>
+
+        <para>This tag shows some info about the current user.</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>id</parameter>: indicates which user information
+            must be shown. Value can be <option>username</option>,
+            <option>e-mail</option> (or <option>email</option>), or another
+            user detail (<option>salutation</option>, <option>name</option>,
+            <option>surname</option>, <option>company</option>,
+            <option>address</option>, <option>zip</option>,
+            <option>city</option>, <option>state</option>,
+            <option>country</option>, <option>phone_number</option>,
+            <option>fax_number</option>,
+            <option>mobile_phone_number</option>). If id is not specified, the
+            value displayed depends on what information is available.</para>
+          </listitem>
+        </itemizedlist>
+
+        <example>
+          <title>Welcoming a user when he has logged in</title>
+
+          <programlisting>&lt;cms:ifuser&gt;Welcome &lt;cms:user /&gt;!&lt;/cms:ifuser&gt;</programlisting>
+        </example>
+      </section>
+
+      <section id="tag_lastmodified">
+        <title>&lt;cms:lastmodified&gt;</title>
+
+        <para>Writes the date of the last modification of the current page.
+        Usually this is the last modification time of the HTML file, but some
+        modules can change that value. For example, if the gallery module is
+        used in the page, and an image is newer than the HTML file, its
+        modification time will be used, provided that the module tag is
+        located before this tag in the theme. This means that it is
+        recommended to put this tag at the end of the page.</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>date</parameter>: the format of the date.
+            Possible values are <option>normal</option> (default) and
+            <option>full</option>;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>mode</parameter>: since usually it makes no sense
+            to use this tag for server-side pages (e.g. JSPs), you can set
+            this attribute to <option>static</option> (default) to show the
+            date for static files only, or you can use <option>all</option> to
+            always show it;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>pre</parameter>: a text to be added before the
+            date. It won't be added if the date is not shown;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>post</parameter>: a text to be added after the
+            date. It won't be added if the date is not shown.</para>
+          </listitem>
+        </itemizedlist>
+      </section>
     </section>
 
-    <section id="tag_pagetitle">
-      <title>&lt;cms:pagetitle&gt;</title>
+    <section id="tags_navigation">
+      <title>Navigation Tags</title>
 
-      <para>This tag prints the title of the page. It has one
-      attribute:</para>
+      <para></para>
 
-      <itemizedlist>
-        <listitem>
-          <para><parameter>default</parameter>: default title to be used when
-          the page has no title. This attribute is optional and its default
-          value is <code>&amp;nbsp;</code>.</para>
-        </listitem>
-      </itemizedlist>
+      <section id="tag_listmenu">
+        <title>&lt;cms:listmenu&gt;</title>
 
-      <example>
-        <title>A simple title</title>
+        <para>Creates a navigation menu using an HTML unordered list.</para>
 
-        <programlisting>&lt;title&gt;My Site: &lt;cms:pagetitle /&gt;&lt;/title&gt;</programlisting>
-      </example>
+        <para>Attributes:</para>
 
-      <note>
-        <para>the use of <code>&lt;cms:pagetitle&gt;</code> is not limited to
-        the HTML <code>&lt;title&gt;</code> tag: you can use it elsewhere to
-        repeat the title of the page, and you can use anything else within the
-        HTML <code>&lt;title&gt;</code> tag.</para>
-      </note>
+        <itemizedlist>
+          <listitem>
+            <para><parameter>path</parameter>: the path used as root for the
+            menu. Defaults to the path of the page to which the theme is
+            applied;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>items</parameter>: a comma-separated list of
+            categories of pages to be added to the menu. Possible values are
+            <option>all</option> or any combination of
+            <option>firstlevel</option> (pages in the folder defined by path),
+            <option>lastlevel</option> (pages at the level of the current
+            page), <option>intermediatelevels</option> (all levels between
+            first and last), <option>onpath</option> (pages along the current
+            page path, like breadcrumbs) and <option>children</option> (pages
+            that are children of the current page). The default value is
+            <option>firstlevel,lastlevel,onpath,children</option>;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>current</parameter>: indicates how to display the
+            current page in the menu. Possible values are
+            <option>text</option> (default) and <option>link</option>.</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>style</parameter>: a css style for menu elements
+            (default is no style);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>currentStyle</parameter>: a css style for the
+            current page (default is no style);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>currentPathStyle</parameter>: a css style for
+            pages on path (default is no style);</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section id="tag_alibmenu">
+        <title>&lt;cms:alibmenu&gt;</title>
+
+        <para>Creates a navigation menu using an HTML unordered list and the
+        ALIB script. The same result could be achieved by including the script
+        in the theme and using &lt;cms:listmenu&gt; with appropriate
+        parameters, but this solution is more straightforward.</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>part</parameter>: the part of code. Possible
+            values are <option>head</option> and <option>body</option>. You
+            must use both values (the former within the head tag, the latter
+            within the body tag, where you want to insert the menu);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>orientation</parameter>: the type of menu.
+            Possible values are <option>vertical</option> and
+            <option>horizontal</option>.</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>path</parameter>: the path used as root for the
+            menu. Defaults to the path of the page to which the theme is
+            applied;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>current</parameter>: indicates how to display the
+            current page in the menu. Possible values are
+            <option>text</option> (default) and <option>link</option>.</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>currentPathStyle</parameter>: a css style for
+            pages on path (default is no style);</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section id="tag_simplemenu">
+        <title>&lt;cms:simplemenu&gt;</title>
+
+        <para>Creates a simple textual menu, similar to a typical CMS menu
+        (first level + path to current level + current level).</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>path</parameter>: the path used as root for the
+            menu. Defaults to the path of the page to which the theme is
+            applied;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>space</parameter>: the number of pixels used to
+            indent the menu. Default is <option>8</option>;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>bullet</parameter>: the HTML code used as bullet
+            in the menu. Default is <option>&amp;middot;</option>;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>style</parameter>: a css style for menu elements
+            (default is no style);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>expand</parameter>: set this to
+            <option>true</option> to expand the intermediate levels of the
+            menu (by default it is <option>false</option> and only expands the
+            first and last levels).</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section id="tag_tigramenu">
+        <title>&lt;cms:tigramenu&gt;</title>
+
+        <para>Creates a JavaScript menu (using <ulink
+        url="http://www.softcomplex.com/products/tigra_menu/">this free
+        script</ulink>). This script needs to insert some code in the head tag
+        and some in the body tag, so you must call this tag twice in the same
+        page.</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>part</parameter>: the part of code. Possible
+            values are <option>head</option> and <option>body</option>. You
+            must use both values (the former within the head tag, the latter
+            within the body tag);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>path</parameter>: the path used as root for the
+            menu. Defaults to the path of the page to which the theme is
+            applied. Use this attribute when <parameter>part</parameter> has
+            the <option>head</option> value;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>placeholder</parameter>: a boolean value to
+            include a transparent image with the size of the menu. This is
+            useful when the layout of the page does not use absolute
+            positioning as the script does. Default is <option>false</option>.
+            Use this attribute olny when <parameter>part</parameter> has the
+            <option>body</option> value.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>If you use this tag in a theme, you must include the files
+        <filename>menu.js</filename>, <filename>menu_tpl.js</filename> and
+        <filename>menu.css</filename> in the same folder of the
+        <filename>main.jsp</filename> theme file.
+        <filename>menu_tpl.js</filename> and <filename>menu.css</filename> can
+        be customized to get the desired result, as videly illustrated in the
+        documentation of the script.</para>
+      </section>
+
+      <section id="tag_breadcrumbs">
+        <title>&lt;cms:breadcrumbs&gt;</title>
+
+        <para>Creates a list of titles/links for all the pages from the site
+        root (included) to the current page (can be excluded).
+        Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>separator</parameter>: the text between elements
+            (default is a space);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>mode</parameter>: the type of breadcrumbs.
+            Possible values are <option>titles</option> (default) and
+            <option>links</option>;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>style</parameter>: a css style for links (default
+            is no style);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>target</parameter>: the target for links (default
+            is no target, hence same window);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>current</parameter>: boolean value to
+            include/exclude the current page (default is
+            <option>true</option>);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>pre</parameter>: a text to be added before the
+            first element. It won't be added if there are no elements at
+            all;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>post</parameter>: a text to be added after the
+            last element. It won't be added if there are no elements at
+            all.</para>
+          </listitem>
+        </itemizedlist>
+
+        <example>
+          <title>The most common breadcrumbs</title>
+
+          <programlisting>&lt;cms:breadcrumbs mode="links" pre="You are viewing: " separator=" &amp;raquo; " /&gt;</programlisting>
+        </example>
+      </section>
+
+      <section id="tag_links">
+        <title>&lt;cms:links&gt;</title>
+
+        <para>Creates a list of links to pages in the same level (i.e.
+        folder).</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>separator</parameter>: the text between elements
+            (default is a space);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>style</parameter>: a css style for links (default
+            is no style);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>target</parameter>: the target for links (default
+            is no target, hence same window);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>current</parameter>: boolean value to
+            include/exclude the current page (default is
+            <option>true</option>);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>pre</parameter>: a text to be added before the
+            first element. It won't be added if there are no elements at
+            all;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>post</parameter>: a text to be added after the
+            last element. It won't be added if there are no elements at
+            all.</para>
+          </listitem>
+        </itemizedlist>
+      </section>
     </section>
 
-    <section id="tag_breadcrumbs">
-      <title>&lt;cms:breadcrumbs&gt;</title>
+    <section id="tags_conditional">
+      <title>Conditional Tags</title>
 
-      <para>Creates a list of titles/links for all the pages from the site
-      root (included) to the current page (can be excluded).
-      Attributes:</para>
+      <para></para>
 
-      <itemizedlist>
-        <listitem>
-          <para><parameter>separator</parameter>: the text between elements
-          (default is a space);</para>
-        </listitem>
+      <section id="tag_ifuser">
+        <title>&lt;cms:ifuser&gt;, &lt;cms:ifnotuser&gt;</title>
 
-        <listitem>
-          <para><parameter>mode</parameter>: the type of breadcrumbs. Possible
-          values are <option>titles</option> (default) and
-          <option>links</option>;</para>
-        </listitem>
+        <para>These tags mark a part of the page that must be shown only when
+        a user has logged in or not.</para>
 
-        <listitem>
-          <para><parameter>style</parameter>: a css style for links (default
-          is no style);</para>
-        </listitem>
+        <para>These tags have no attributes.</para>
 
-        <listitem>
-          <para><parameter>target</parameter>: the target for links (default
-          is no target, hence same window);</para>
-        </listitem>
+        <example>
+          <title>Displaying a message to a user</title>
 
-        <listitem>
-          <para><parameter>current</parameter>: boolean value to
-          include/exclude the current page (default is
-          <option>true</option>);</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>pre</parameter>: a text to be added before the
-          first element. It won't be added if there are no elements at
-          all;</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>post</parameter>: a text to be added after the last
-          element. It won't be added if there are no elements at all.</para>
-        </listitem>
-      </itemizedlist>
-
-      <example>
-        <title>The most common breadcrumbs</title>
-
-        <programlisting>&lt;cms:breadcrumbs mode="links" pre="You are viewing: " separator=" &amp;raquo; " /&gt;</programlisting>
-      </example>
-    </section>
-
-    <section id="tag_defaultcss">
-      <title>&lt;cms:defaultcss&gt;</title>
-
-      <para>Creates a link to the default style sheets for that page and for
-      the additional. You can use it (recommended) or import/link styles as
-      usual. This tag has no attributes.</para>
-    </section>
-
-    <section id="tag_contextpath">
-      <title>&lt;cms:contextpath&gt;</title>
-
-      <para>Inserts the context path, i.e. the value of
-      <code>HttpServletRequest.getContextPath()</code>. Useful for absolute
-      paths, since the context path might be added when the web application
-      context is not root in its host. This tag has no attributes.</para>
-
-      <example>
-        <title>An absolute link</title>
-
-        <programlisting>&lt;a href="&lt;cms:contextpath /&gt;/dir/page.html"&gt;An absolute link&lt;/a&gt;</programlisting>
-      </example>
-    </section>
-
-    <section id="tag_themepath">
-      <title>&lt;cms:themepath&gt;</title>
-
-      <para>Inserts the complete path of the folder that contains the current
-      theme. Very useful to insert files of the theme itself. This tag has no
-      attributes.</para>
-
-      <example>
-        <title>Insert an image located in the theme folder</title>
-
-        <programlisting>&lt;img src="&lt;cms:themepath /&gt;/logo.jpg"&gt;</programlisting>
-      </example>
-    </section>
-
-    <section id="tag_adminmenu">
-      <title>&lt;cms:adminmenu&gt;</title>
-
-      <para>This tag inserts a menu to access some specific MeshCMS functions
-      when the user has logged in:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para><emphasis role="bold">Control Panel</emphasis>: a link to the
-          Control Panel;</para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">Edit this page</emphasis>: a link to
-          edit the current page visually;</para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">Edit source</emphasis>: a link to edit
-          the source of the current page;</para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">New page</emphasis>: a link to create a
-          new page at the same level of the current one;</para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">New child page</emphasis>: a link to
-          create a new child page.</para>
-        </listitem>
-      </itemizedlist>
-
-      <para>Some links won't appear if they are not appropriate. If no user
-      has logged in, the behavior depends on the mode attribute. You should
-      always use this tag in a theme, since it offers the most comfortable way
-      to edit pages.</para>
-
-      <para>Attributes:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para><parameter>mode</parameter>: what to display before a user has
-          logged in. There are 2 possible values: <option>normal</option>
-          (default) displays a link to the login page and
-          <option>hidden</option> shows nothing.</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>separator</parameter>: the text between elements
-          (default is a space);</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>style</parameter>: a css style for links (default
-          is no style).</para>
-        </listitem>
-      </itemizedlist>
-
-      <example>
-        <title>A vertical admin menu</title>
-
-        <programlisting>&lt;cms:adminmenu separator="&lt;br /&gt;" /&gt;</programlisting>
-      </example>
-    </section>
-
-    <section id="tag_simplemenu">
-      <title>&lt;cms:simplemenu&gt;</title>
-
-      <para>Creates a simple textual menu, similar to a typical CMS menu
-      (first level + path to current level + current level).</para>
-
-      <para>Attributes:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para><parameter>path</parameter>: the path used as root for the
-          menu. Default is the root of the site;</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>space</parameter>: the number of pixels used to
-          indent the menu. Default is <option>8</option>;</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>bullet</parameter>: the HTML code used as bullet in
-          the menu. Default is <option>&amp;middot;</option>;</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>style</parameter>: a css style for menu elements
-          (default is no style);</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>expand</parameter>: set <option>this</option> to
-          true to expand the intermediate levels of the menu (by default it is
-          <option>false</option> and only expands the first and last
-          levels).</para>
-        </listitem>
-      </itemizedlist>
-    </section>
-
-    <section id="tag_tigramenu">
-      <title>&lt;cms:tigramenu&gt;</title>
-
-      <para>Creates a JavaScript menu (using <ulink
-      url="http://www.softcomplex.com/products/tigra_menu/">this free
-      script</ulink>). This script needs to insert some code in the head tag
-      and some in the body tag, so you must call this tag twice in the same
-      page.</para>
-
-      <para>Attributes:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para><parameter>part</parameter>: the part of code. Possible values
-          are <option>head</option> and <option>body</option>. You must use
-          both values (the former within the head tag, the latter within the
-          body tag);</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>path</parameter>: the path used as root for the
-          menu. Default is the root of the site. Use this attribute when
-          <parameter>part</parameter> has the <option>head</option>
-          value;</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>placeholder</parameter>: a boolean value to include
-          a transparent image with the size of the menu. This is useful when
-          the layout of the page does not use absolute positioning as the
-          script does. Default is <option>false</option>. Use this attribute
-          olny when <parameter>part</parameter> has the <option>body</option>
-          value.</para>
-        </listitem>
-      </itemizedlist>
-
-      <para>If you use this tag in a theme, you must include the files
-      <filename>menu.js</filename>, <filename>menu_tpl.js</filename> and
-      <filename>menu.css</filename> in the same folder of the
-      <filename>main.jsp</filename> theme file.
-      <filename>menu_tpl.js</filename> and <filename>menu.css</filename> can
-      be customized to get the desired result, as videly illustrated in the
-      documentation of the script.</para>
-    </section>
-
-    <section id="tag_links">
-      <title>&lt;cms:links&gt;</title>
-
-      <para>Creates a list of links to pages in the same level (i.e.
-      folder).</para>
-
-      <para>Attributes:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para><parameter>separator</parameter>: the text between elements
-          (default is a space);</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>style</parameter>: a css style for links (default
-          is no style);</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>target</parameter>: the target for links (default
-          is no target, hence same window);</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>current</parameter>: boolean value to
-          include/exclude the current page (default is
-          <option>true</option>);</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>pre</parameter>: a text to be added before the
-          first element. It won't be added if there are no elements at
-          all;</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>post</parameter>: a text to be added after the last
-          element. It won't be added if there are no elements at all.</para>
-        </listitem>
-      </itemizedlist>
-    </section>
-
-    <section id="tag_module">
-      <title>&lt;cms:module&gt;</title>
-
-      <para>This tag allows to include a <link linkend="modules">module</link>
-      in the place where it is located in the page.</para>
-
-      <para>Attributes:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para><parameter>name</parameter>: the description of the module
-          content, in the form <option>template:argument</option>. The
-          template can be omitted: in this case the colon can be omitted too,
-          and the Include template will be used. The fact that this attribute
-          is called name can be misleading: it is a heritage of a previous
-          version;</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>date</parameter>: the format of the date. This is
-          passed to the include template and might be used or not (for example
-          <classname>Include</classname> uses it). Possible values are
-          <option>none</option> (default), <option>normal</option> and
-          <option>full</option>;</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>style</parameter>: a css style. This is passed to
-          the include template and might be used or not (for example
-          <classname>Include</classname> uses it). Default is no style;</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>location</parameter> (required): the name of the
-          module location. <emphasis>All modules in a theme must have
-          different location names</emphasis>;</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>alt</parameter>: a string that is inserted when the
-          module is not used (default <option>&amp;nbsp;</option>).</para>
-        </listitem>
-      </itemizedlist>
-
-      <example>
-        <title>A fixed module that includes some files located in the
-        <filename>/include/news</filename> folder</title>
-
-        <programlisting>&lt;cms:module location="news" name="includes/news" date="normal" style="news" /&gt;</programlisting>
-      </example>
-
-      <example>
-        <title>A module that can be configured while editing the page</title>
-
-        <programlisting>&lt;cms:module location="afterbody" /&gt;</programlisting>
-      </example>
-
-      <example>
-        <title>A module that shows a site map starting from the folder of the
-        page, using <code>(none)</code> to pass an empty argument:</title>
-
-        <programlisting>&lt;cms:module location="sitemap" name="site_map:(none)" /&gt;</programlisting>
-      </example>
-
-      <para>A note about locations: suppose to edit some pages using a theme
-      that contains two configurable modules, whose locations are left and
-      afterbody. Modules will be saved in the page with those location names.
-      If you change theme, those modules will appear if the new theme contains
-      configurable modules with the same location names. So it suggested to
-      use common names for module locations. This is a possible
-      convention:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para><option>left</option> for a module in the left column;</para>
-        </listitem>
-
-        <listitem>
-          <para><option>right</option> for a module in the right
-          column;</para>
-        </listitem>
-
-        <listitem>
-          <para><option>top</option> for a module at the top of the
-          page;</para>
-        </listitem>
-
-        <listitem>
-          <para><option>afterbody</option> for a module after the page
-          body;</para>
-        </listitem>
-
-        <listitem>
-          <para><option>bottom</option> for a module at the bottom of the
-          page;</para>
-        </listitem>
-
-        <listitem>
-          <para>numbers for modules below others (<option>left2</option>,
-          <option>right2</option>, etc.)</para>
-        </listitem>
-      </itemizedlist>
-
-      <para>Usually a theme will contain 1, 2 or 3 modules, but there's no
-      limit to their number.</para>
-    </section>
-
-    <section id="tag_mailform">
-      <title>&lt;cms:mailform&gt;</title>
-
-      <para>Creates a standard form to send e-mail messages. This can be used
-      to receive a feedback from visitors. The form will only appear in pages
-      that have a recipient specified (it can be set when editing the page).
-      This tag has no attributes.</para>
-
-      <para>Starting from MeshCMS 3.0, the same functionality can be achieved
-      by using the <link linkend="module_mail">mail module</link> and
-      specifying the e-mail address as argument, so it's up to the theme
-      designer to decide if it is worth to use this tag.</para>
-    </section>
-
-    <section id="tag_lastmodified">
-      <title>&lt;cms:lastmodified&gt;</title>
-
-      <para>Writes the date of the last modification of the current
-      file.</para>
-
-      <para>Attributes:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para><parameter>date</parameter>: the format of the date. Possible
-          values are <option>normal</option> (default) and
-          <option>full</option>;</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>mode</parameter>: since usually it makes no sense
-          to use this tag for server-side pages (e.g. JSPs), you can set this
-          attribute to <option>static</option> (default) to show the date for
-          static files only, or you can use <option>all</option> to always
-          show it;</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>pre</parameter>: a text to be added before the
-          date. It won't be added if the date is not shown;</para>
-        </listitem>
-
-        <listitem>
-          <para><parameter>post</parameter>: a text to be added after the
-          date. It won't be added if the date is not shown.</para>
-        </listitem>
-      </itemizedlist>
-
-      <para>Please note that the last modification date refers to the file of
-      the page and does not reflects the dates of other files included through
-      modules.</para>
-    </section>
-
-    <section id="tag_user">
-      <title>&lt;cms:user&gt;</title>
-
-      <para>This tag shows some info about the current user.</para>
-
-      <para>Attributes:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para><parameter>id</parameter>: indicates which user information
-          must be shown. Value can be <option>username</option>,
-          <option>e-mail</option> (or <option>email</option>), or another user
-          detail (<option>salutation</option>, <option>name</option>,
-          <option>surname</option>, <option>company</option>,
-          <option>address</option>, <option>zip</option>,
-          <option>city</option>, <option>state</option>,
-          <option>country</option>, <option>phone_number</option>,
-          <option>fax_number</option>, <option>mobile_phone_number</option>).
-          If id is not specified, the value displayed depends on what
-          information is available.</para>
-        </listitem>
-      </itemizedlist>
-
-      <example>
-        <title>Welcoming a user when he has logged in</title>
-
-        <programlisting>&lt;cms:ifuser&gt;Welcome &lt;cms:user /&gt;!&lt;/cms:ifuser&gt;</programlisting>
-      </example>
-    </section>
-
-    <section id="tag_ifuser">
-      <title>&lt;cms:ifuser&gt;, &lt;cms:ifnotuser&gt;</title>
-
-      <para>These tags mark a part of the page that must be shown only when a
-      user has logged in or not.</para>
-
-      <para>These tags have no attributes.</para>
-
-      <example>
-        <title>Displaying a message to a user</title>
-
-        <programlisting>&lt;cms:ifuser&gt;Welcome &lt;cms:user /&gt;!&lt;/cms:ifuser&gt;
+          <programlisting>&lt;cms:ifuser&gt;Welcome &lt;cms:user /&gt;!&lt;/cms:ifuser&gt;
 &lt;cms:ifnotuser&gt;You are not logged in&lt;/cms:ifnotuser&gt;</programlisting>
-      </example>
-    </section>
+        </example>
+      </section>
 
-    <section id="tag_ifediting">
-      <title>&lt;cms:ifediting&gt;, &lt;cms:ifnotediting&gt;</title>
+      <section id="tag_ifediting">
+        <title>&lt;cms:ifediting&gt;, &lt;cms:ifnotediting&gt;</title>
 
-      <para>These tags are used to mark a part of the page that must be shown
-      only when editing or viewing a page.</para>
+        <para>These tags are used to mark a part of the page that must be
+        shown only when editing or viewing a page.</para>
 
-      <para>These tags have no attributes.</para>
+        <para>These tags have no attributes.</para>
 
-      <para>The <code>&lt;cms:ifnotediting&gt;</code> tag is mainly used to
-      enclose forms that would otherwise conflict with the main editing
-      form.</para>
+        <para>The <code>&lt;cms:ifnotediting&gt;</code> tag is mainly used to
+        enclose forms that would otherwise conflict with the main editing
+        form.</para>
 
-      <example>
-        <title>Inserting a search form without conflicting with the MeshCMS
-        editor</title>
+        <example>
+          <title>Inserting a search form without conflicting with the MeshCMS
+          editor</title>
 
-        <programlisting>&lt;cms:ifnotediting&gt;
+          <programlisting>&lt;cms:ifnotediting&gt;
  &lt;!-- Search Google --&gt;
   &lt;center&gt;
    &lt;FORM method=GET action="http://www.google.com/search"&gt;
@@ -2289,51 +2574,53 @@ submit</programlisting>
   &lt;/center&gt;
  &lt;!-- Search Google --&gt;
 &lt;/cms:ifnotediting&gt;</programlisting>
-      </example>
-    </section>
+        </example>
+      </section>
 
-    <section id="tag_ifmodule">
-      <title>&lt;cms:ifmodule&gt;, &lt;cms:ifnotmodule&gt;</title>
+      <section id="tag_ifmodule">
+        <title>&lt;cms:ifmodule&gt;, &lt;cms:ifnotmodule&gt;</title>
 
-      <para>These tags are used to display a part of the page only when the
-      specified module is active or not.</para>
+        <para>These tags are used to display a part of the page only when the
+        specified module is active or not.</para>
 
-      <para>Attributes:</para>
+        <para>Attributes:</para>
 
-      <itemizedlist>
-        <listitem>
-          <para><parameter>location</parameter> (required): the name of the
-          module location.</para>
-        </listitem>
-      </itemizedlist>
+        <itemizedlist>
+          <listitem>
+            <para><parameter>location</parameter> (required): the name of the
+            module location.</para>
+          </listitem>
+        </itemizedlist>
 
-      <example>
-        <title>Adding some HTML around a module</title>
+        <example>
+          <title>Adding some HTML around a module</title>
 
-        <programlisting>&lt;cms:ifmodule location="afterbody"&gt;
+          <programlisting>&lt;cms:ifmodule location="afterbody"&gt;
  &lt;div align="center"&gt;Module title&lt;/div&gt;
  &lt;cms:module location="afterbody" /&gt;
  &lt;div align="center"&gt;End of module&lt;/div&gt;
 &lt;/cms:ifmodule&gt;</programlisting>
-      </example>
-    </section>
+        </example>
+      </section>
 
-    <section id="tag_ifmailform">
-      <title>&lt;cms:ifmailform&gt;, &lt;cms:ifnotmailform&gt;</title>
+      <section id="tag_ifmailform">
+        <title>&lt;cms:ifmailform&gt;, &lt;cms:ifnotmailform&gt;</title>
 
-      <para>These tags are used to display a part of the page only if a
-      recipient has been specified to receive messages from that page.</para>
+        <para>These tags are used to display a part of the page only if a
+        recipient has been specified to receive messages from that
+        page.</para>
 
-      <para>These tags have no attributes:</para>
+        <para>These tags have no attributes:</para>
 
-      <example>
-        <title>Adding some HTML around a mail form</title>
+        <example>
+          <title>Adding some HTML around a mail form</title>
 
-        <programlisting>&lt;cms:ifmailform&gt;
+          <programlisting>&lt;cms:ifmailform&gt;
  &lt;div align="center"&gt;Send a message&lt;/div&gt;
  &lt;cms:mailform /&gt;
 &lt;/cms:ifmailform&gt;</programlisting>
-      </example>
+        </example>
+      </section>
     </section>
   </chapter>
 </book>

@@ -1,16 +1,17 @@
 ________________________________
 --------------------------------
-2006-06-03: 3.0 beta 1 released
+2006-06-xx: 3.0 beta 1 released
 --------------------------------
 
-- Added some configuration options to define site information
-- Some work has been done to have less tables around in the admin area
-- New default theme (based on a design by Andreas Viklund)
-- Changed the distribution (meshcms-xxx-bin.zip and meshcms-xxx-src.zip now)
-- Jetty is now supported out-of-the-box, without further configuration
 - Added support for multiple sites in a single installation (experimental)
+- Added ALIB to provide nice menus (script modified by Hue Holleran)
+- Added some configuration options to define site information
 - Modules now are contained in separate directories
 - Modules can accept advanced parameters
+- New default theme (based on a design by Andreas Viklund)
+- Some work has been done to have less tables around in the admin area
+- Changed the distribution (meshcms-xxx-bin.zip and meshcms-xxx-src.zip now)
+- Jetty is now supported out-of-the-box, without further configuration
 - The file manager can copy/duplicate/delete entire directories
 - The file manager allows to download directories and files as a single ZIP file
 - Added Spanish translation (contributed by Raul Herranz)
