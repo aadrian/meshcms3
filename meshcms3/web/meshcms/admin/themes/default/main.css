@@ -35,6 +35,10 @@ line-height:1.5em;
 margin:0 0 15px;
 }
 
+pre {
+font-size:120%;
+}
+
 /*** Main container ***/
 
 #container {
