@@ -41,6 +41,16 @@
   ModuleDescriptor md = (ModuleDescriptor)
       request.getAttribute(request.getParameter("modulecode"));
   
+  /* if md is null, this module has not been called correctly */
+  if (md == null) {
+    /* send an error if possible (maybe the module has been called directly) */
+    if (!response.isCommitted()) {
+      response.sendError(HttpServletResponse.SC_FORBIDDEN);
+    }
+    
+    return;
+  }
+  
   /* get the files to be processed. Note that the argument is not required to
      be a path (it can be any string), so getModuleFiles can return null */
   File[] files = md.getModuleFiles(webSite, false);

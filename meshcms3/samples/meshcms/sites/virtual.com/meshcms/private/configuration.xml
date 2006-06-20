@@ -1,0 +1,25 @@
+<org.meshcms.core.Configuration>
+  <useAdminTheme>false</useAdminTheme>
+  <preventHotlinking>false</preventHotlinking>
+  <alwaysRedirectWelcomes>true</alwaysRedirectWelcomes>
+  <alwaysDenyDirectoryListings>true</alwaysDenyDirectoryListings>
+  <hideExceptions>true</hideExceptions>
+  <backupLife>90</backupLife>
+  <statsLength>3</statsLength>
+  <updateInterval>4</updateInterval>
+  <cacheType>0</cacheType>
+  <mailServer>localhost</mailServer>
+  <smtpUsername></smtpUsername>
+  <smtpPassword></smtpPassword>
+  <preferredCharset>ISO-8859-1</preferredCharset>
+  <siteName>MeshCMS - A virtual website</siteName>
+  <siteHost>www.virtual.com</siteHost>
+  <siteDescription>This is a sample virtual website for MeshCMS</siteDescription>
+  <siteKeywords>meshcms, cms, java, jsp, servlet, content management system</siteKeywords>
+  <siteAuthor>Luciano Vernaschi</siteAuthor>
+  <siteAuthorURL>http://www.cromoteca.com/</siteAuthorURL>
+  <visualExtensions>
+    <string>html</string>
+    <string>htm</string>
+  </visualExtensions>
+</org.meshcms.core.Configuration>
