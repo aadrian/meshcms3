@@ -145,6 +145,8 @@
       }
     }
 
+    out.println("<p>");
+    
     if (errMsgs.size() == 0) {
       out.println(pageBundle.getString("sendOk"));
     } else {
@@ -157,6 +159,8 @@
 
       out.println("</ul>");
     }
+
+    out.println("</p>");
   } else {
     fields = new ArrayList();
     File[] files = md.getModuleFiles(webSite, false);
