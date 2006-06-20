@@ -53,7 +53,7 @@ public class WebSite {
 
   public static final String CMS_ID_FILE = "meshcms_id";
 
-  public static final String ADMIN_ID_FILE = "meshcms_id";
+  public static final String ADMIN_ID_FILE = "meshcms_admin_id";
 
   protected ServletContext sc;
   protected String[] welcomeFiles;
