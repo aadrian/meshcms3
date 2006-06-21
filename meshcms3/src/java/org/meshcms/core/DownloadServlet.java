@@ -70,8 +70,7 @@ public final class DownloadServlet extends HttpServlet {
         request.getSession(true).getAttribute("userInfo");
 
       if (userInfo == null || userInfo.isGuest()) {
-        response.sendError(HttpServletResponse.SC_FORBIDDEN,
-            "You are not allowed to download this file");
+        response.sendError(HttpServletResponse.SC_NOT_FOUND);
         return;
       }
     }

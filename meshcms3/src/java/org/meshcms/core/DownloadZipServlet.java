@@ -67,8 +67,7 @@ public final class DownloadZipServlet extends HttpServlet {
         request.getSession(true).getAttribute("userInfo");
 
     if (userInfo == null || userInfo.isGuest()) {
-      response.sendError(HttpServletResponse.SC_FORBIDDEN,
-          "You don't have enough privileges");
+      response.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     }
 
@@ -76,8 +75,7 @@ public final class DownloadZipServlet extends HttpServlet {
     Path path = new Path(request.getPathInfo());
 
     /* if (webSite.isSystem(path)) {
-      response.sendError(HttpServletResponse.SC_FORBIDDEN,
-          "You are not allowed to download this file");
+      response.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     } */
 

@@ -11,7 +11,7 @@
 <cms:pagehead /> 
 <meta name="description" content="<cms:info id="description" />" />
 <meta name="keywords" content="<cms:info id="keywords" />" />
-<meta name="author" content="<cms:info id="author" />" />
+<meta name="author" content="<cms:info id="author" /> (<cms:info id="authorurl" />)" />
 </head>
 
 <body id="realbody">

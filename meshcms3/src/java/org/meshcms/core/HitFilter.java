@@ -113,8 +113,7 @@ public final class HitFilter implements Filter {
       /* This is needed to avoid source code disclosure in virtual sites */
       if (webSite instanceof VirtualWebSite &&
           httpReq.getRequestURI().endsWith(".jsp/")) {
-        httpRes.sendError(HttpServletResponse.SC_FORBIDDEN,
-            "You are not allowed to request this file");
+        httpRes.sendError(HttpServletResponse.SC_NOT_FOUND);
         return;
       }
 
@@ -150,8 +149,7 @@ public final class HitFilter implements Filter {
       if (webSite.getCMSPath() != null) {
         if (pagePath.isContainedIn(webSite.getVirtualSitesPath()) ||
             pagePath.isContainedIn(webSite.getPrivatePath())) {
-          httpRes.sendError(HttpServletResponse.SC_FORBIDDEN,
-              "You are not allowed to request this file");
+          httpRes.sendError(HttpServletResponse.SC_NOT_FOUND);
           return;
         }
         
@@ -166,12 +164,11 @@ public final class HitFilter implements Filter {
         // Deal with all pages
         if (FileTypes.isPage(pagePath)) {
           // Block direct requests of modules from non authenticated users
-          if (isGuest && webSite.isInsideModules(pagePath) &&
+          /* if (isGuest && webSite.isInsideModules(pagePath) &&
               pagePath.getLastElement().equalsIgnoreCase(SiteMap.MODULE_INCLUDE_FILE)) {
-            httpRes.sendError(HttpServletResponse.SC_FORBIDDEN,
-                "You are not allowed to request this file");
+            httpRes.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
-          }
+          } */
 
           WebUtils.updateLastModifiedTime(httpReq, webSite.getFile(pagePath));
           blockRemoteCaching(httpRes);

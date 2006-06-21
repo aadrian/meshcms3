@@ -461,7 +461,12 @@ public final class Utils {
    * Writes the whole String to the File using a buffered FileWriter.
    */
   public static void writeFully(File file, String s) throws IOException {
-    Writer writer = new BufferedWriter(new FileWriter(file));
+    writeFully(file, s, null);
+  }
+  
+  public static void writeFully(File file, String s, String charset) throws IOException {
+    Writer writer = isNullOrEmpty(charset) ? new BufferedWriter(new FileWriter(file)) :
+        new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), charset));
     writer.write(s);
     writer.close();
   }

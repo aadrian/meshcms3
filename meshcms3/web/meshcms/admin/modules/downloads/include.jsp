@@ -34,8 +34,20 @@
 --%>
 
 <%
-  ModuleDescriptor md = (ModuleDescriptor)
-      request.getAttribute(request.getParameter("modulecode"));
+  String moduleCode = request.getParameter("modulecode");
+  ModuleDescriptor md = null;
+  
+  if (moduleCode != null) {
+    md = (ModuleDescriptor) request.getAttribute(moduleCode);
+  }
+
+  if (md == null) {
+    if (!response.isCommitted()) {
+      response.sendError(HttpServletResponse.SC_NOT_FOUND);
+    }
+    
+    return;
+  }
 
   String cp = request.getContextPath();
   File[] files = md.getModuleFiles(webSite, false);

@@ -41,8 +41,8 @@
 <body>
 
 <%
-  String username = Utils.noNull(request.getParameter("username"));
-  String password = Utils.noNull(request.getParameter("password"));
+  String username = Utils.encodeHTML(Utils.noNull(request.getParameter("username")));
+  String password = Utils.encodeHTML(Utils.noNull(request.getParameter("password")));
   boolean loaded = false;
   
   if (!username.equals("") && !password.equals("")) {

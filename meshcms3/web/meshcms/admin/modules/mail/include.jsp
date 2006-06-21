@@ -31,9 +31,22 @@
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 
 <%
-  Path pagePath = webSite.getRequestedPath(request);
   String moduleCode = request.getParameter("modulecode");
-  ModuleDescriptor md = (ModuleDescriptor) request.getAttribute(moduleCode);
+  ModuleDescriptor md = null;
+  
+  if (moduleCode != null) {
+    md = (ModuleDescriptor) request.getAttribute(moduleCode);
+  }
+
+  if (md == null) {
+    if (!response.isCommitted()) {
+      response.sendError(HttpServletResponse.SC_NOT_FOUND);
+    }
+    
+    return;
+  }
+
+  Path pagePath = webSite.getRequestedPath(request);
   String cp = request.getContextPath();
 
   Locale locale = WebUtils.getPageLocale(pageContext);

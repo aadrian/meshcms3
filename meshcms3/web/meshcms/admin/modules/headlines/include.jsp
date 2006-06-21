@@ -40,8 +40,21 @@
   ResourceBundle pageBundle = ResourceBundle.getBundle
       ("org/meshcms/webui/Locales", locale);
 
-  ModuleDescriptor md = (ModuleDescriptor)
-      request.getAttribute(request.getParameter("modulecode"));
+  String moduleCode = request.getParameter("modulecode");
+  ModuleDescriptor md = null;
+  
+  if (moduleCode != null) {
+    md = (ModuleDescriptor) request.getAttribute(moduleCode);
+  }
+
+  if (md == null) {
+    if (!response.isCommitted()) {
+      response.sendError(HttpServletResponse.SC_NOT_FOUND);
+    }
+    
+    return;
+  }
+
   Path argPath = md.getModuleArgumentPath(false);
   Path dirPath = webSite.getDirectory(md.getPagePath());
   File[] files = md.getModuleFiles(webSite, false);

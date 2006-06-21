@@ -38,14 +38,18 @@
 
 <%
   /* get the module descriptor (contains all the info we need about this module */
-  ModuleDescriptor md = (ModuleDescriptor)
-      request.getAttribute(request.getParameter("modulecode"));
+  String moduleCode = request.getParameter("modulecode");
+  ModuleDescriptor md = null;
+
+  if (moduleCode != null) {
+    md = (ModuleDescriptor) request.getAttribute(moduleCode);
+  }
   
   /* if md is null, this module has not been called correctly */
   if (md == null) {
     /* send an error if possible (maybe the module has been called directly) */
     if (!response.isCommitted()) {
-      response.sendError(HttpServletResponse.SC_FORBIDDEN);
+      response.sendError(HttpServletResponse.SC_NOT_FOUND);
     }
     
     return;

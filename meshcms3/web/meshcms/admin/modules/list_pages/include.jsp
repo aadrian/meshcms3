@@ -31,8 +31,21 @@
 --%>
 
 <%
-  ModuleDescriptor md = (ModuleDescriptor)
-      request.getAttribute(request.getParameter("modulecode"));
+  String moduleCode = request.getParameter("modulecode");
+  ModuleDescriptor md = null;
+  
+  if (moduleCode != null) {
+    md = (ModuleDescriptor) request.getAttribute(moduleCode);
+  }
+
+  if (md == null) {
+    if (!response.isCommitted()) {
+      response.sendError(HttpServletResponse.SC_NOT_FOUND);
+    }
+    
+    return;
+  }
+
   String cp = request.getContextPath();
   Path argPath = md.getModuleArgumentDirectoryPath(webSite, false);
   String style = md.getAdvancedParam("css", md.getStyle());

@@ -169,6 +169,7 @@ public abstract class AbstractTag extends TagSupport implements RequestConstants
       md = (ModuleDescriptor) pageModules.get(location);
     } else {
       md = new ModuleDescriptor(name);
+      md.setLocation(location);
     }
     
     return md;
