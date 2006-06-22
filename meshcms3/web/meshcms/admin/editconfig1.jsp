@@ -24,6 +24,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
+<%@ page import="org.meshcms.webui.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 <jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
@@ -59,7 +60,7 @@
 
 <body>
 
-<div align="right"><%= webSite.helpIcon(cp, WebSite.HELP_ANCHOR_CONFIGURE, userInfo) %></div>
+<div align="right"><%= Help.icon(webSite, cp, Help.CONFIGURE, userInfo) %></div>
 
 <form action="editconfig2.jsp" method="post">
   <fieldset class="meshcmseditor">

@@ -22,6 +22,7 @@
 
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
+<%@ page import="org.meshcms.webui.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 <jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
@@ -61,7 +62,7 @@
 Path path = new Path(request.getParameter("path"));
 
 if (title.equals("")) { %>
-  <p align="right"><%= webSite.helpIcon(cp, WebSite.HELP_ANCHOR_NEW_PAGE, userInfo) %></p>
+  <p align="right"><%= Help.icon(webSite, cp, Help.NEW_PAGE, userInfo) %></p>
   
   <form action='createpage.jsp' method='post' id='createpage' name='createpage'>
     <input type="hidden" name="popup" value="<%= popup %>" />

@@ -23,6 +23,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
+<%@ page import="org.meshcms.webui.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 <jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
@@ -73,8 +74,8 @@
 </head>
 
 <body>
-<div align="right"><%= webSite.helpIcon(request.getContextPath(),
-    newUser ? WebSite.HELP_ANCHOR_NEW_USER : WebSite.HELP_ANCHOR_EDIT_PROFILE, userInfo) %></div>
+<div align="right"><%= Help.icon(webSite, request.getContextPath(),
+    newUser ? Help.NEW_USER : Help.EDIT_PROFILE, userInfo) %></div>
 
 <form action="edituser2.jsp" method="post">
   <fieldset class="meshcmseditor">

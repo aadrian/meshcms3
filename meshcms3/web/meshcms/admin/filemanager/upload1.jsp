@@ -21,6 +21,7 @@
 --%>
 
 <%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.webui.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 <jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
@@ -55,8 +56,8 @@
 </head>
 
 <body>
-  <p align="right"><%= webSite.helpIcon(request.getContextPath(),
-      WebSite.HELP_ANCHOR_UPLOAD, userInfo) %></p>
+  <p align="right"><%= Help.icon(webSite, request.getContextPath(),
+      Help.UPLOAD, userInfo) %></p>
 
   <form name="upform" action="upload2.jsp" method="post"
    enctype="multipart/form-data" onsubmit="javascript:showWaiting();">

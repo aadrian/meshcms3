@@ -27,6 +27,7 @@ import java.util.*;
 import javax.servlet.jsp.*;
 import org.meshcms.core.*;
 import org.meshcms.util.*;
+import org.meshcms.webui.*;
 import com.opensymphony.module.sitemesh.*;
 
 /**
@@ -52,7 +53,7 @@ public class PageBody extends AbstractTag {
 
     Writer w = getOut();
 
-    w.write("<div align='right'>" + webSite.helpIcon(cp, WebSite.HELP_ANCHOR_EDIT_PAGE, userInfo) + "</div>\n");
+    w.write("<div align='right'>" + Help.icon(webSite, cp, Help.EDIT_PAGE, userInfo) + "</div>\n");
 
     w.write("<fieldset class='meshcmseditor'>\n");
     w.write("<legend>" + bundle.getString("editorMainSection") + "</legend>\n");

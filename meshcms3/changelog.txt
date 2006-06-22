@@ -12,15 +12,16 @@ ________________________________
 - Some work has been done to have less tables around in the admin area
 - Changed the distribution (meshcms-xxx-bin.zip and meshcms-xxx-src.zip now)
 - Jetty is now supported out-of-the-box, without further configuration
-- The file manager can copy/duplicate/delete entire directories
-- The file manager allows to download directories and files as a single ZIP file
+- The file manager can now copy/duplicate/delete entire directories
+- The file manager now allows to download directories and files as a ZIP file
 - Added Spanish translation (contributed by Raul Herranz)
 - Added German translation (contributed by Dirk Deeken)
 - Added the new ListMenu tag to create menus as HTML unordered lists
-- SimpleMenu and TigraMenu now default to the folder where the theme is applied
+- SimpleMenu and TigraMenu now default to the directory where the theme is applied
 - Fixed a bug in the file manager when the admin directory has been renamed
 - Added the option to define advanced parameters for modules
 - Added chat module (contributed by Pierre Metras)
+- Added other modules: headlines, latest changes and comments
 - TinyMCE updated to 2.0.6.1
 - TinyMCE configuration moved to admin/tinymce_init.js so one can customize it
 - Now if a bad theme prevents loading the control panel, a reload fixes it

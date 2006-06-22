@@ -24,6 +24,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
+<%@ page import="org.meshcms.webui.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 <jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
@@ -205,7 +206,7 @@
 %>
 
 <div style="text-align: right; padding-left: 5px; padding-right: 5px;">
- <%= webSite.helpIcon(cp, WebSite.HELP_ANCHOR_MANAGE_PAGES, userInfo) %>
+ <%= Help.icon(webSite, cp, Help.PAGE_MANAGER, userInfo) %>
 </div>
 
 <p style="padding-left: 5px; padding-right: 5px;">

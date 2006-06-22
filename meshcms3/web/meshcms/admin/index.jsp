@@ -22,6 +22,7 @@
 
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
+<%@ page import="org.meshcms.webui.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 <jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
@@ -42,7 +43,7 @@
 
 <body>
 
-<div align="right"><%= webSite.helpIcon(cp, WebSite.HELP_ANCHOR_CONTROL_PANEL, userInfo) %></div>
+<div align="right"><%= Help.icon(webSite, cp, Help.CONTROL_PANEL, userInfo) %></div>
 
 <%
   if (userInfo.isGlobal()) {

@@ -24,6 +24,7 @@
 <%@ page import="java.util.zip.*" %>
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
+<%@ page import="org.meshcms.webui.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 <jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
@@ -65,8 +66,8 @@
   <th align="left"><fmt:message key="fmUnzipList">
     <fmt:param value="<%= zipPath.getLastElement() %>" />
   </fmt:message></th>
-  <th align="right"><%= webSite.helpIcon(request.getContextPath(),
-      WebSite.HELP_ANCHOR_UNZIP, userInfo) %></th>
+  <th align="right"><%= Help.icon(webSite, request.getContextPath(),
+      Help.UNZIP, userInfo) %></th>
  </tr>
 
 <%

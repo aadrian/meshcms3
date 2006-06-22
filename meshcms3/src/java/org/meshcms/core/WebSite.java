@@ -823,38 +823,6 @@ public class WebSite {
     return "<meta name=\"decorator\" content=\"/" + adminPath + "/theme/dummy.jsp\" />";
   }
 
-  public static final String HELP_ANCHOR_CONFIGURE = "configure";
-  public static final String HELP_ANCHOR_CONTROL_PANEL = "control_panel";
-  public static final String HELP_ANCHOR_EDIT_PAGE = "edit_page";
-  public static final String HELP_ANCHOR_EDIT_PROFILE = "edit_profile";
-  public static final String HELP_ANCHOR_FILE_MANAGER = "file_manager";
-  public static final String HELP_ANCHOR_MANAGE_PAGES = "manage_pages";
-  public static final String HELP_ANCHOR_NEW_PAGE = "create_new_page";
-  public static final String HELP_ANCHOR_NEW_USER = "new_user";
-  public static final String HELP_ANCHOR_UNZIP = "unzip";
-  public static final String HELP_ANCHOR_UPLOAD = "upload";
-  /**
-   * Creates the HTML used to display the help icon in the admin pages.
-   */
-  public String helpIcon(String contextPath, String anchor, UserInfo userInfo) {
-    Path helpPath = adminPath.add("help");
-    String lang = "en";
-
-    if (userInfo != null) {
-      String otherLang = userInfo.getPreferredLocaleCode();
-
-      if (getFile(helpPath.add(otherLang)).exists()) {
-        lang = otherLang;
-      }
-    }
-
-    return "<img src='" + contextPath + '/' + adminPath +
-        "/images/small_help.gif' title='Help: " + anchor +
-        "' alt='Help Icon' onclick=\"javascript:window.open('" +
-        contextPath + '/' + helpPath + '/' + lang + "/userguide.html#" + anchor +
-        "', 'meshcmshelp', 'width=740,height=560,menubar=no,status=yes,toolbar=no,resizable=yes,scrollbars=yes').focus();\" />";
-  }
-
   /**
    * Returns a string containing a basic HTML page.
    *

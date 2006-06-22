@@ -1,7 +1,7 @@
 MeshCMS Readme
 
 ------------------------------------------------------------------------------
-This file contains some basic information about MeshCMS. For a more detailed description and guide, open the userguide/index.html file.
+This file contains some basic information about MeshCMS. For a more detailed description and guide, open the help/index.html file.
 ------------------------------------------------------------------------------
 
 MeshCMS is a content management system written in Java. It provides the ability to edit a page using a web browser, then updates all navigation components automatically. It doesn't use databases: the site is file-based, so one can choose to make changes using MeshCMS or using local tools, like Dreamweaver, Notepad and so on.
