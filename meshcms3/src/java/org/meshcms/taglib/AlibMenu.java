@@ -60,7 +60,7 @@ public final class AlibMenu extends AbstractTag {
       outWriter.write("<script src='" + sp +
           "/menu." + menuType + "/script.js' type='text/javascript'></script>\n");
       outWriter.write("<link type='text/css' href='" +
-          WebUtils.getFullThemeFolder(request) + "/alib.css' rel='stylesheet'>\n");
+          WebUtils.getFullThemeFolder(request) + "/alib.css' rel='stylesheet' />\n");
     } else {
       boolean linkCurrent = current != null && current.equalsIgnoreCase(LINK);
 
