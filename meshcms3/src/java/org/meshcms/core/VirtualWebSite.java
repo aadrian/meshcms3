@@ -61,8 +61,8 @@ public class VirtualWebSite extends WebSite {
     return new MultiSiteRequestWrapper((HttpServletRequest) request, this);
   }
 
-  public String getName() {
-    return rootPath.getLastElement();
+  public String getTypeDescription() {
+    return "virtual web site (" + rootPath.getLastElement() + ')';
   }
   
   public Path getRequestedPath(HttpServletRequest request) {

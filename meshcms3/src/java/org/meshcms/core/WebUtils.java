@@ -215,15 +215,17 @@ public final class WebUtils {
    */
   public static StringBuffer getContextHomeURL(HttpServletRequest request) {
     StringBuffer sb = new StringBuffer();
-    sb.append(request.getScheme()).append("://");
+    String scheme = request.getScheme();
+    sb.append(scheme).append("://");
     sb.append(request.getServerName());
     int port = request.getServerPort();
 
-    if (port != 80) {
+    if (!(("http".equals(scheme) && port == 80) ||
+          ("https".equals(scheme) && port == 443))) {
       sb.append(':').append(port);
     }
 
-    return sb.append(request.getContextPath()).append('/');
+    return sb.append(request.getContextPath());
   }
 
   /**

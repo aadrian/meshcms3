@@ -71,7 +71,7 @@ public class SiteMap extends DirectoryParser {
     setProcessStartDir(true);
     setInitialDir(webSite.getRootFile());
     setDaemon(true);
-    setName("Site map parser for \"" + webSite.getName() + '"');
+    setName("Site map parser for \"" + webSite.getTypeDescription() + '"');
     pageCache = new HashMap();
   }
 

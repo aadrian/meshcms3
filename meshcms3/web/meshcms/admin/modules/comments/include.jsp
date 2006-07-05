@@ -23,6 +23,8 @@
 <%@ page import="java.io.*" %>
 <%@ page import="java.text.*" %>
 <%@ page import="java.util.*" %>
+<%@ page import="javax.mail.*" %>
+<%@ page import="javax.mail.internet.*" %>
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
 <%@ page import="com.opensymphony.module.sitemesh.parser.*" %>
@@ -33,6 +35,8 @@
   Advanced parameters for this module:
   - css = (name of a css class)
   - date = none (default) | normal | full
+  - width = (width of fields, defaults to 98%)
+  - notify = (e-mail address to send notifications of new comments)
 --%>
 
 <%
@@ -54,8 +58,8 @@
   Path commentsPath = md.getModuleArgumentPath(false);
   
   if (commentsPath == null) {
-    commentsPath = webSite.getDirectory(md.getPagePath()).add("mcc_" +
-        md.getPagePath().getLastElement() + '_' + md.getLocation());
+    commentsPath = new Path("_meshcms_comments", md.getPagePath(),
+        md.getLocation());
   }
   
   File commentsDir = webSite.getFile(commentsPath);
@@ -92,6 +96,38 @@
       File commentFile = new File(commentsDir, "mcc_" +
           WebUtils.numericDateFormatter.format(new Date()) + ".html");
       Utils.writeFully(commentFile, pa.getPage(), pa.getCharset());
+      
+      String email = md.getAdvancedParam("notify", null);
+      
+      if (Utils.checkAddress(email)) {
+        InternetAddress address = new InternetAddress(email);
+        Properties props = new Properties();
+        props.put("mail.smtp.host", webSite.getConfiguration().getMailServer());
+        final String smtpUsername = webSite.getConfiguration().getSmtpUsername();
+        final String smtpPassword = webSite.getConfiguration().getSmtpPassword();
+
+        if (!Utils.isNullOrWhitespace(smtpUsername)) {
+          props.put("mail.smtp.auth", "true");
+        }
+
+        Session mailSession = Session.getInstance(props, new Authenticator() {
+          protected PasswordAuthentication getPasswordAuthentication() {
+            return new PasswordAuthentication(smtpUsername, smtpPassword);
+          }
+        });
+
+        MimeMessage outMsg = new MimeMessage(mailSession);
+        outMsg.setFrom(address);
+        outMsg.addRecipient(Message.RecipientType.TO, address);
+        outMsg.setSubject("Comment added on " + request.getServerName());
+        outMsg.setHeader("Content-Transfer-Encoding", "8bit");
+        outMsg.setHeader("X-MeshCMS-Log", "Sent from " + request.getRemoteAddr() +
+            " at " + new Date() + " using page /" + md.getPagePath());
+        outMsg.setText("A comment has been added to " +
+            WebUtils.getContextHomeURL(request) + md.getPagePath().getAsLink() +
+            " by " + name + ":\n\n" + text);
+        Transport.send(outMsg);
+      }
     }
   }
 
@@ -189,19 +225,21 @@
       }
     }
   }
+  
+  String width = md.getAdvancedParam("width", "98%");
 %>
 
  <div class="includeitem">
   <div class="includetext">
     <div><label for="mcc_name"><%= pageBundle.getString("commentsName") %></label></div>
-    <div><input type="text" name="name" id="mcc_name" style="width: 98%;" /></div>
+    <div><input type="text" name="name" id="mcc_name" style="width: <%= width %>;" /></div>
   </div>
   <div class="includetext">
     <div><label for="mcc_text"><%= pageBundle.getString("commentsText") %></label></div>
-    <div><textarea name="text" id="mcc_text" class="mceEditor" style="width: 98%; height: 12em;"></textarea></div>
-    <div style="text-align: center">
+    <div><textarea name="text" id="mcc_text" class="mceEditor" style="width: <%= width %>; height: 12em;"></textarea></div>
+    <div style="margin-top: 1em;">
       <input type="button" value="<%= pageBundle.getString("commentsSubmit") %>" onclick="javascript:submitComment();" />
-    </div>
+    </p>
   </div>
  </div>
 

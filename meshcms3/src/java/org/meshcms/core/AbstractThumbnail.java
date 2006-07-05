@@ -33,7 +33,14 @@ public abstract class AbstractThumbnail {
    */
   public static final Color DEFAULT_BORDER_COLOR = new Color(216, 206, 203);
 
+  /**
+   * Returns the recommended file name for the current thumbnail.
+   */
   public abstract String getSuggestedFileName();
+  
+  /**
+   * Creates the thumbnail.&nbsp;Called only if needed.
+   */
   protected abstract boolean createThumbnail(File imageFile, File thumbnailFile);
 
   public Path checkAndCreate(WebSite webSite, Path imagePath,
@@ -60,6 +67,10 @@ public abstract class AbstractThumbnail {
     return thumbnailPath;
   }
 
+  /**
+   * Resizes an image. The method used is chosen according to the ratio between
+   * original and new size.
+   */
   public static BufferedImage resize(BufferedImage in, int width, int height) {
     int imageWidth = in.getWidth();
     int imageHeight = in.getHeight();
@@ -69,6 +80,10 @@ public abstract class AbstractThumbnail {
         linearResize(in, width, height);
   }
 
+  /**
+   * Resizes an image using a simple linear interpolation (suitable
+   * to resize to a size similar to the original one).
+   */
   public static BufferedImage linearResize(BufferedImage in, int width, int height) {
     int imageWidth = in.getWidth();
     int imageHeight = in.getHeight();
@@ -130,6 +145,10 @@ public abstract class AbstractThumbnail {
     return out;
   }
 
+  /**
+   * Resizes an image using a simple area average (suitable to create images that
+   * are much smaller than the original).
+   */
   public static BufferedImage averageResize(BufferedImage in, int width, int height) {
     int imageWidth = in.getWidth();
     int imageHeight = in.getHeight();

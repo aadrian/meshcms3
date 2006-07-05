@@ -32,11 +32,26 @@ import org.meshcms.util.*;
  * Stores the description of a module when read from the page.
  */
 public class ModuleDescriptor {
+  /**
+   * Location parameter.
+   */
   public static final String LOCATION_ID = "m_loc";
+
+  /**
+   * Argument parameter.
+   */
   public static final String ARGUMENT_ID = "m_arg";
+
+  /**
+   * Template parameter.
+   */
   public static final String TEMPLATE_ID = "m_tpl";
-  public static final String PARAMETERS_ID = "m_apm";
   
+  /**
+   * Advanced parameters.
+   */
+  public static final String PARAMETERS_ID = "m_apm";
+
   private String location;
   private String template;
   private String argument;
@@ -92,6 +107,9 @@ public class ModuleDescriptor {
     }
   }
 
+  /**
+   * Parses the given string using the new format (version 3.0).
+   */
   public void parseParameters(String data) {
     advancedParams = new Properties();
     StringTokenizer st = new StringTokenizer(data, ",");
@@ -175,47 +193,80 @@ public class ModuleDescriptor {
   public void setArgument(String s) {
     argument = PageAssembler.EMPTY.equals(s) ? null : s;
   }
-  
+
+  /**
+   * Returns the advanced parameters as a <code>Properties</code> object.
+   */
   public Properties getAdvancedParams() {
     return advancedParams;
   }
   
+  /**
+   * Returns the value of the requested advanced parameter.
+   */
   public String getAdvancedParam(String paramName, String defaultValue) {
     return advancedParams.getProperty(paramName, defaultValue);
   }
 
+  /**
+   * Sets the advanced parameters values.
+   */
   public void setAdvancedParams(Properties advancedParams) {
     this.advancedParams = advancedParams;
   }
 
+  /**
+   * Returns the path of the page that contains the module.
+   */
   public Path getPagePath() {
     return pagePath;
   }
 
+  /**
+   * Sets the path of the page that contains the module.
+   */
   public void setPagePath(Path pagePath) {
     this.pagePath = pagePath;
   }
 
+  /**
+   * Returns the path of the module.
+   */
   public Path getModulePath() {
     return modulePath;
   }
 
+  /**
+   * Sets the path of the module.
+   */
   public void setModulePath(Path modulePath) {
     this.modulePath = modulePath;
   }
 
+  /**
+   * Returns the date format of the module.
+   */
   public String getDateFormat() {
     return dateFormat;
   }
 
+  /**
+   * Sets the date format of the module.
+   */
   public void setDateFormat(String dateFormat) {
     this.dateFormat = dateFormat;
   }
 
+  /**
+   * Returns the CSS style to be applied to the module.
+   */
   public String getStyle() {
     return style;
   }
 
+  /**
+   * Sets the CSS style to be applied to the module.
+   */
   public void setStyle(String style) {
     this.style = style;
   }
@@ -249,7 +300,13 @@ public class ModuleDescriptor {
     
     return null;
   }
-  
+
+  /**
+   * Returns the path passed as argument.
+   *
+   * @param allowCurrentDir if true and the argument parameter is null, the
+   * page path is returned
+   */
   public Path getModuleArgumentPath(boolean allowCurrentPath) {
     Path argPath = null;
     
@@ -274,14 +331,24 @@ public class ModuleDescriptor {
     return (argPath == null || webSite.isSystem(argPath)) ? null :
         webSite.getDirectory(argPath);
   }
-  
+
+  /**
+   * Convenience method to get full HTML class attribute (e.g.
+   * <code> class=&quot;stylename&quot;</code>. The value is searched in the
+   * given advanced parameter or, alternatively, in the
+   * value of the &quot;style&quot; tag attribute. If both are unavailable,
+   * an empty string is returned.
+   */
   public String getFullCSSAttribute(String paramName) {
     String css = getAdvancedParam(paramName, style);
     return Utils.isNullOrEmpty(css) ? "" : " class=\"" + css + "\"";
   }
 
   /**
-   * Returns format to be used to display the date (can be null).
+   * Returns format to be used to display the date. The value is searched in the
+   * given advanced parameter or, alternatively, in the
+   * value of the &quot;date&quot; tag attribute. If both are unavailable,
+   * null is returned.
    */
   public DateFormat getDateFormat(Locale locale, String paramName) {
     String paramValue = getAdvancedParam(paramName, dateFormat);

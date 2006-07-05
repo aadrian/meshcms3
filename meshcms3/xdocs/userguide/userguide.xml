@@ -157,7 +157,8 @@
 
     &lt;Engine name="Catalina" defaultHost="localhost"&gt;
       &lt;Host name="localhost" appBase="/home/tomcat"&gt;
-        &lt;Context path="" docBase="/meshcms" debug="0" reloadable="false" allowLinking="false" /&gt;
+        &lt;Context path="" docBase="/meshcms" debug="0"
+         reloadable="false" allowLinking="false" /&gt;
       &lt;/Host&gt;
     &lt;/Engine&gt;
   &lt;/Service&gt;
@@ -177,10 +178,10 @@
       <para>This upgrade strategy works fine in case of a simple usage of
       MeshCMS. In other cases the upgrade process can be harder. You probably
       won't modify the contents of the <filename>/meshcms/admin</filename>
-      directory, but the <filename>/WEB-INF</filename> one is more likely to be
-      changed. If you want to add an external application, or if you want to
-      configure SiteMesh differently, you must keep track of your changes so
-      that you can integrate them with the new release.</para>
+      directory, but the <filename>/WEB-INF</filename> one is more likely to
+      be changed. If you want to add an external application, or if you want
+      to configure SiteMesh differently, you must keep track of your changes
+      so that you can integrate them with the new release.</para>
 
       <para>Upgrading from version prior to 3.0 is even harder. While the HTML
       files created before will continue to work fine (module contents
@@ -205,13 +206,13 @@
 
       <para>The key of the site map is the concept of <firstterm>welcome
       file</firstterm>. This concept is well known by webmasters. When you
-      access <uri>http://www.site.com/somedirectory/somepage.html</uri>, the file
-      <filename>somepage.html</filename> located in the
-      <filename>/somedir</filename> directory is sent to your browser. But when
-      you access <uri>http://www.site.com/somedirectory/</uri>, you are
+      access <uri>http://www.site.com/somedirectory/somepage.html</uri>, the
+      file <filename>somepage.html</filename> located in the
+      <filename>/somedir</filename> directory is sent to your browser. But
+      when you access <uri>http://www.site.com/somedirectory/</uri>, you are
       requesting a directory, not a file. In such case, a file with a specific
-      name is searched into that directory and, if it is available, that file is
-      sent to your browser. Usually this file is called
+      name is searched into that directory and, if it is available, that file
+      is sent to your browser. Usually this file is called
       <filename>index.html</filename>, but more than one can be specified, and
       the first match will be used. The default for MeshCMS is to search for
       <filename>index.html</filename>, then <filename>index.htm</filename> and
@@ -223,54 +224,56 @@
       same page.</para>
 
       <para>MeshCMS uses the welcome files heavily. When it encounters a
-      directory while parsing the website tree, it checks whether that directory
-      contains a welcome file or not. If there is no welcome file, <emphasis
-      role="bold">that directory is ignored</emphasis>, along with all
-      subdirectories. This means that all pages included in that directory will
-      <emphasis>not</emphasis> be included in the site map, and that users
-      will not find those pages in the navigation menu.</para>
+      directory while parsing the website tree, it checks whether that
+      directory contains a welcome file or not. If there is no welcome file,
+      <emphasis role="bold">that directory is ignored</emphasis>, along with
+      all subdirectories. This means that all pages included in that directory
+      will <emphasis>not</emphasis> be included in the site map, and that
+      users will not find those pages in the navigation menu.</para>
 
       <note>
-        <para>Pages included in ignored directories are still available by using a
-        direct link or by typing the full address in the browser location
-        bar.</para>
+        <para>Pages included in ignored directories are still available by
+        using a direct link or by typing the full address in the browser
+        location bar.</para>
       </note>
 
       <para>Why is the site map made this way? There are two main reasons. The
-      first one is that if a directory without welcome file were included in the
-      navigation menu, clicking on it would show a listing of the directory
-      contents, or an error page if that listing is not allowed. So this is a
-      way to force the use of a welcome page. The second reason is that there
-      are many cases where a page must not be available in the navigation
-      menu. Suppose that you want to use the <link linkend="modules">include
-      module template</link> to add some news in your web pages. You will
-      create a directory that will contain an HTML file for each news, and then
-      you will use that directory as module argument. If none of the HTML files
-      has the name of a welcome file, those news will not be inserted in the
-      navigation menu directly, but they will still available for the module
-      as expected. This is just an example of a situation in which a welcome
-      file should not be used.</para>
+      first one is that if a directory without welcome file were included in
+      the navigation menu, clicking on it would show a listing of the
+      directory contents, or an error page if that listing is not allowed. So
+      this is a way to force the use of a welcome page. The second reason is
+      that there are many cases where a page must not be available in the
+      navigation menu. Suppose that you want to use the <link
+      linkend="modules">include module template</link> to add some news in
+      your web pages. You will create a directory that will contain an HTML
+      file for each news, and then you will use that directory as module
+      argument. If none of the HTML files has the name of a welcome file,
+      those news will not be inserted in the navigation menu directly, but
+      they will still available for the module as expected. This is just an
+      example of a situation in which a welcome file should not be
+      used.</para>
 
-      <para>When a directory contains a welcome file, it is inserted in the site
-      map, and all other items available in that directory are included as
-      children pages. Items can be files (HTML or server-side pages) or
+      <para>When a directory contains a welcome file, it is inserted in the
+      site map, and all other items available in that directory are included
+      as children pages. Items can be files (HTML or server-side pages) or
       directories (which must have their own welcome file as explained
       above).</para>
 
       <para>This method has an important drawback: <emphasis role="bold">a
       page that is not a welcome file cannot have children pages</emphasis>.
       For example, there is no way to add a child page to
-      <uri>http://www.site.com/somedirectory/somepage.html</uri>. This is usually
-      not a problem, since you can always create a page at the same level (for
-      example <uri>http://www.site.com/somedirectory/otherpage.html</uri>), but
-      if you think you will want to add children pages to a page, use a new
-      directory for it. Keep in mind that
+      <uri>http://www.site.com/somedirectory/somepage.html</uri>. This is
+      usually not a problem, since you can always create a page at the same
+      level (for example
+      <uri>http://www.site.com/somedirectory/otherpage.html</uri>), but if you
+      think you will want to add children pages to a page, use a new directory
+      for it. Keep in mind that
       <uri>http://www.site.com/somedirectory/somepage.html</uri> and
       <uri>http://www.site.com/somedirectory/somepage/index.html</uri> are
       indexed <emphasis role="bold">exactly in the same way</emphasis>. If you
       create new pages using the <link linkend="page_manager">Page
-      Manager</link> tool, leave the "Create enclosing directory" box checked, so
-      you will be able to add children pages to your new page in
+      Manager</link> tool, leave the "Create enclosing directory" box checked,
+      so you will be able to add children pages to your new page in
       future.</para>
     </section>
 
@@ -531,15 +534,15 @@
 &lt;/html&gt;</programlisting>
 
         <para>When you create a theme, you should create a normal HTML page
-        along with its own CSS file and images and store all files in a directory
-        (you can use subdirectories if you want). Use some text placeholder to
-        point out where to put page components. For example, write [TITLE]
-        where you expect to see the title of the page, [SITE MENU] where you
-        want to see the menu, [BODY] where the text of the page should be
-        located and so on. Please note that the notation with square brackets
-        has nothing special. They are just placeholders. You might also use
-        the "lorem ipsum" text instead of [BODY]. Your file might look like
-        this one:</para>
+        along with its own CSS file and images and store all files in a
+        directory (you can use subdirectories if you want). Use some text
+        placeholder to point out where to put page components. For example,
+        write [TITLE] where you expect to see the title of the page, [SITE
+        MENU] where you want to see the menu, [BODY] where the text of the
+        page should be located and so on. Please note that the notation with
+        square brackets has nothing special. They are just placeholders. You
+        might also use the "lorem ipsum" text instead of [BODY]. Your file
+        might look like this one:</para>
 
         <screenshot>
           <screeninfo>A skeleton for a theme file</screeninfo>
@@ -562,16 +565,18 @@
 &lt;body style="margin: 0px;"&gt;
 &lt;table width="770" border="0" cellspacing="0" cellpadding="0"&gt;
   &lt;tr&gt;
-    &lt;td colspan="2" valign="bottom"
-      style="background: url(flowers.jpg) no-repeat; height: 120px; padding: 10px; font-size: 22px;"&gt;[TITLE]&lt;/td&gt;
+    &lt;td colspan="2" valign="bottom" style="background: url(flowers.jpg) no-repeat; ¶
+     height: 120px; padding: 10px; font-size: 22px;"&gt;[TITLE]&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-    &lt;td bgcolor="#E2E0C9"&gt;&lt;table border="0" align="center" cellpadding="3" cellspacing="0"&gt;
+    &lt;td bgcolor="#E2E0C9"&gt;
+    &lt;table border="0" align="center" cellpadding="3" cellspacing="0"&gt;
       &lt;tr&gt;&lt;th&gt;Site Menu:&lt;/th&gt;&lt;/tr&gt;
       &lt;tr&gt;&lt;td&gt;[SITE MENU]&lt;/td&gt;&lt;/tr&gt;
       &lt;tr&gt;&lt;th&gt;MeshCMS Menu:&lt;/th&gt;&lt;/tr&gt;
       &lt;tr&gt;&lt;td&gt;[MESHCMS MENU]&lt;/td&gt;&lt;/tr&gt;
-    &lt;/table&gt;&lt;/td&gt;
+    &lt;/table&gt;
+    &lt;/td&gt;
     &lt;td&gt;&lt;table border="0" cellspacing="0" cellpadding="5"&gt;
       &lt;tr&gt;&lt;td&gt;[BREADCRUMBS]&lt;/td&gt;&lt;/tr&gt;
       &lt;tr&gt;&lt;td&gt;[BODY]&lt;/td&gt;&lt;/tr&gt;
@@ -627,12 +632,12 @@
         <para>Save your file and name it <filename>main.jsp</filename>. The
         CSS must be named <filename>main.css</filename> and must be located in
         the same directory. This directory must be located in the
-        <filename>/themes</filename> directory in your site (this location can be
-        changed in the <link linkend="configure">Configuration</link>), and
-        the name of the directory will be used as name of the theme itself. All
-        images and other files must be located in the same directory. You can use
-        subdirectories, but then you need to write paths accordingly: for example,
-        if you put all images in a subdirectory called
+        <filename>/themes</filename> directory in your site (this location can
+        be changed in the <link linkend="configure">Configuration</link>), and
+        the name of the directory will be used as name of the theme itself.
+        All images and other files must be located in the same directory. You
+        can use subdirectories, but then you need to write paths accordingly:
+        for example, if you put all images in a subdirectory called
         <filename>images</filename>, you will use <code>url(&lt;cms:themepath
         /&gt;/images/flowers.jpg)</code> in the example above.</para>
 
@@ -661,17 +666,19 @@
 &lt;body style="margin: 0px;"&gt;
 &lt;table width="770" border="0" cellspacing="0" cellpadding="0"&gt;
   &lt;tr&gt;
-    &lt;td colspan="2" valign="bottom"
-      style="background: url(<emphasis role="bold">&lt;cms:themepath /&gt;</emphasis>/flowers.jpg) no-repeat; height: 120px; padding: 10px; font-size: 22px;"&gt;<emphasis
-            role="bold">&lt;cms:pagetitle /&gt;</emphasis>&lt;/td&gt;
+    &lt;td colspan="2" valign="bottom" style="background: ¶
+     url(<emphasis role="bold">&lt;cms:themepath /&gt;</emphasis>/flowers.jpg) no-repeat; height: 120px; ¶
+     padding: 10px; font-size: 22px;"&gt;<emphasis role="bold">&lt;cms:pagetitle /&gt;</emphasis>&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-    &lt;td bgcolor="#E2E0C9"&gt;&lt;table border="0" align="center" cellpadding="3" cellspacing="0"&gt;
+    &lt;td bgcolor="#E2E0C9"&gt;
+    &lt;table border="0" align="center"cellpadding="3" cellspacing="0"&gt;
       &lt;tr&gt;&lt;th&gt;Site Menu:&lt;/th&gt;&lt;/tr&gt;
       &lt;tr&gt;&lt;td&gt;<emphasis role="bold">&lt;cms:simplemenu /&gt;</emphasis>&lt;/td&gt;&lt;/tr&gt;
       &lt;tr&gt;&lt;th&gt;MeshCMS Menu:&lt;/th&gt;&lt;/tr&gt;
       &lt;tr&gt;&lt;td&gt;<emphasis role="bold">&lt;cms:adminmenu separator="&lt;br /&gt;" /&gt;</emphasis>&lt;/td&gt;&lt;/tr&gt;
-    &lt;/table&gt;&lt;/td&gt;
+    &lt;/table&gt;
+    &lt;/td&gt;
     &lt;td&gt;&lt;table border="0" cellspacing="0" cellpadding="5"&gt;
       &lt;tr&gt;&lt;td&gt;<emphasis role="bold">&lt;cms:breadcrumbs /&gt;</emphasis>&lt;/td&gt;&lt;/tr&gt;
       &lt;tr&gt;&lt;td&gt;<emphasis role="bold">&lt;cms:pagebody /&gt;</emphasis>&lt;/td&gt;&lt;/tr&gt;
@@ -738,16 +745,19 @@
 &lt;body style="margin: 0px;"&gt;<emphasis role="bold">&lt;cms:editor&gt;</emphasis>
 &lt;table width="770" border="0" cellspacing="0" cellpadding="0"&gt;
   &lt;tr&gt;
-    &lt;td colspan="2" valign="bottom"
-      style="background: url(&lt;cms:themepath /&gt;/flowers.jpg) no-repeat; height: 120px; padding: 10px; font-size: 22px;"&gt;&lt;cms:pagetitle /&gt;&lt;/td&gt;
+    &lt;td colspan="2" valign="bottom" style="background: ¶
+     url(&lt;cms:themepath /&gt;/flowers.jpg) no-repeat; height: 120px; ¶
+     padding: 10px; font-size: 22px;"&gt;&lt;cms:pagetitle /&gt;&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-    &lt;td bgcolor="#E2E0C9"&gt;&lt;table border="0" align="center" cellpadding="3" cellspacing="0"&gt;
+    &lt;td bgcolor="#E2E0C9"&gt;
+    &lt;table border="0" align="center" cellpadding="3" cellspacing="0"&gt;
       &lt;tr&gt;&lt;th&gt;Site Menu:&lt;/th&gt;&lt;/tr&gt;
       &lt;tr&gt;&lt;td&gt;&lt;cms:simplemenu /&gt;&lt;/td&gt;&lt;/tr&gt;
       &lt;tr&gt;&lt;th&gt;MeshCMS Menu:&lt;/th&gt;&lt;/tr&gt;
       &lt;tr&gt;&lt;td&gt;&lt;cms:adminmenu separator="&lt;br /&gt;" /&gt;&lt;/td&gt;&lt;/tr&gt;
-    &lt;/table&gt;&lt;/td&gt;
+    &lt;/table&gt;
+    &lt;/td&gt;
     &lt;td&gt;&lt;table border="0" cellspacing="0" cellpadding="5"&gt;
       &lt;tr&gt;&lt;td&gt;&lt;cms:breadcrumbs /&gt;&lt;/td&gt;&lt;/tr&gt;
       &lt;tr&gt;&lt;td&gt;&lt;cms:pagebody /&gt;&lt;/td&gt;&lt;/tr&gt;
@@ -815,10 +825,10 @@
           you will add a child page to that one. A small popup will open.
           Insert a title for the page (use a short one since it wiil be used
           to choose a name for the file: you will be able to change it while
-          editing the page). Uncheck <option>Create enclosing directory</option>
-          only if you are absolutely sure that you won't add a child page to
-          the new one in future. Then click on <command>Create</command> and
-          the editor will be opened;</para>
+          editing the page). Uncheck <option>Create enclosing
+          directory</option> only if you are absolutely sure that you won't
+          add a child page to the new one in future. Then click on
+          <command>Create</command> and the editor will be opened;</para>
         </listitem>
 
         <listitem>
@@ -861,19 +871,19 @@
       file system of your website.</para>
 
       <para>The look &amp; feel of the file manager window should be familiar
-      to everyone. On the left there is the directory tree, while the contents of
-      the currently opened directory are shown on the right. There you can select
-      some items and choose an action from the menu at the top of the
+      to everyone. On the left there is the directory tree, while the contents
+      of the currently opened directory are shown on the right. There you can
+      select some items and choose an action from the menu at the top of the
       window.</para>
 
       <para>Most of the menu items are easy to understand. Probably the
       <property>Themes</property> menu is the most <quote>obscure</quote>, in
       fact it is rarely used. This menu allows to specify what theme should be
-      applied to a page or directory. Normally it's easier to apply themes using
-      the <link linkend="page_manager">Page Manager</link> feature of the
-      Control Panel, but using the file manager you can apply themes even to
-      files not included in the site map. Simply select the desired items and
-      then pick a theme for them. If you choose <option>Don't
+      applied to a page or directory. Normally it's easier to apply themes
+      using the <link linkend="page_manager">Page Manager</link> feature of
+      the Control Panel, but using the file manager you can apply themes even
+      to files not included in the site map. Simply select the desired items
+      and then pick a theme for them. If you choose <option>Don't
       Specify</option>, the theme will be inherited from the parent directory
       (this is the default for all items that don't have an associated theme,
       in fact if you only select a theme for the home page, all other pages
@@ -902,17 +912,17 @@
         <title>Unzip</title>
 
         <para>You can unpack a ZIP archive from within the file manager. It
-        will be unpacked in the same directory or in a subdirectory, so make sure to
-        put it in the right place before unzipping (you can always move the
-        unpacked items later).</para>
+        will be unpacked in the same directory or in a subdirectory, so make
+        sure to put it in the right place before unzipping (you can always
+        move the unpacked items later).</para>
 
         <para>Select the ZIP file (it can have any extension) and choose
         <command>Unzip</command> from the <option>Tools</option> menu. You'll
         see a list of the files that are packed into the archive. If you
-        prefer, you can check the flag to unzip the files in a new directory and
-        edit its name. Note that many archives already put all files in a
-        directory: you can verify if this is the case by looking at the list of
-        files.</para>
+        prefer, you can check the flag to unzip the files in a new directory
+        and edit its name. Note that many archives already put all files in a
+        directory: you can verify if this is the case by looking at the list
+        of files.</para>
 
         <important>
           <para>this operation is quite dangerous, since it will overwrite
@@ -1008,8 +1018,8 @@
         </listitem>
 
         <listitem>
-          <para><emphasis role="bold">home directory</emphasis>: the directory in
-          which the user can edit files;</para>
+          <para><emphasis role="bold">home directory</emphasis>: the directory
+          in which the user can edit files;</para>
         </listitem>
 
         <listitem>
@@ -1157,12 +1167,12 @@
         <listitem>
           <para><emphasis role="bold">Always redirect to welcome
           pages</emphasis>: check this option to ask MeshCMS to check if a
-          welcome file is available when the required URL points to a directory.
-          Usually the servlet container does this, but it is not the case for
-          the default Jetty configuration for example. Setting this option to
-          true allows to achieve a uniform behavior and offers better safety
-          if virtual sites are used (the servlet container is not aware of
-          MeshCMS virtual sites);</para>
+          welcome file is available when the required URL points to a
+          directory. Usually the servlet container does this, but it is not
+          the case for the default Jetty configuration for example. Setting
+          this option to true allows to achieve a uniform behavior and offers
+          better safety if virtual sites are used (the servlet container is
+          not aware of MeshCMS virtual sites);</para>
         </listitem>
 
         <listitem>
@@ -1195,8 +1205,8 @@
       <itemizedlist>
         <listitem>
           <para><emphasis role="bold">Use directory names as domain
-          names</emphasis>: if true, names of the directories that contain virtual
-          sites will be taken into account when mapping domains to
+          names</emphasis>: if true, names of the directories that contain
+          virtual sites will be taken into account when mapping domains to
           sites;</para>
         </listitem>
 
@@ -2261,13 +2271,13 @@ submit</programlisting>
             <para><parameter>items</parameter>: a comma-separated list of
             categories of pages to be added to the menu. Possible values are
             <option>all</option> or any combination of
-            <option>firstlevel</option> (pages in the directory defined by path),
-            <option>lastlevel</option> (pages at the level of the current
-            page), <option>intermediatelevels</option> (all levels between
-            first and last), <option>onpath</option> (pages along the current
-            page path, like breadcrumbs) and <option>children</option> (pages
-            that are children of the current page). The default value is
-            <option>firstlevel,lastlevel,onpath,children</option>;</para>
+            <option>firstlevel</option> (pages in the directory defined by
+            path), <option>lastlevel</option> (pages at the level of the
+            current page), <option>intermediatelevels</option> (all levels
+            between first and last), <option>onpath</option> (pages along the
+            current page path, like breadcrumbs) and <option>children</option>
+            (pages that are children of the current page). The default value
+            is <option>firstlevel,lastlevel,onpath,children</option>;</para>
           </listitem>
 
           <listitem>

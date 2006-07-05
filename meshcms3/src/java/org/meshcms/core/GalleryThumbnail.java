@@ -117,10 +117,16 @@ public class GalleryThumbnail extends AbstractThumbnail {
     return true;
   }
 
+  /**
+   * Returns the quality setting.
+   */
   public boolean isHighQuality() {
     return highQuality;
   }
 
+  /**
+   * Enables or disables better quality for image resizing.
+   */
   public void setHighQuality(boolean highQuality) {
     this.highQuality = highQuality;
   }

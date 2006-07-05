@@ -41,10 +41,24 @@ public final class FileTypes {
    */
   public static final String DIR_ICON = "icon_folder.gif";
 
+  /**
+   * Denotes an unknown file type.
+   */
   public static final TypeInfo UNKNOWN;
+
+  /**
+   * Denotes a directory.
+   */
   public static final TypeInfo DIRECTORY;
 
+  /**
+   * Id of static HTML files.
+   */
   public static final int HTML_ID = 1;
+
+  /**
+   * Id of server-side HTML files (e.g. JSPs).
+   */
   public static final int SERVERSIDE_ID = 2;
 
   static {

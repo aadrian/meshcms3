@@ -391,6 +391,9 @@ public final class HitFilter implements Filter {
     chain.doFilter(request, response);
   }
   
+  /**
+   * Returns the main website instance. It will be created if not already done.
+   */
   public static WebSite getRootSite(ServletContext sc, boolean alwaysCreate) {
     WebSite rootSite = (WebSite) sc.getAttribute(ROOT_WEBSITE);
 
@@ -421,6 +424,9 @@ public final class HitFilter implements Filter {
     return rootSite;
   }
   
+  /**
+   * Sets some headers to discourage remote caching of pages.
+   */
   public static void blockRemoteCaching(HttpServletResponse httpRes) {
     // HTTP 1.1
     httpRes.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");

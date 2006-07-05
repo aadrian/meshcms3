@@ -919,12 +919,12 @@ public class WebSite {
     return (HttpServletRequest) request;
   }
 
-  public String getName() {
+  public String getTypeDescription() {
     return "single web site";
   }
 
   public String toString() {
-    return "Name: " + getName() + "; path: /" + rootPath + "; CMS: " +
+    return "Type: " + getTypeDescription() + "; path: /" + rootPath + "; CMS: " +
         (cmsPath == null ? "disabled" : "enabled on path /" + cmsPath);
   }
 

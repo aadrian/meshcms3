@@ -31,13 +31,20 @@ public class MainWebSite extends WebSite {
   private SortedMap virtualSitesMap;
   private MultiSiteManager multiSiteManager;
 
+  /**
+   * Creates a new main website.
+   */
   protected static WebSite create(ServletContext sc,
       String[] welcomeFiles, File rootFile, Path rootPath, Path cmsPath) {
     MainWebSite mainWebSite = new MainWebSite();
     mainWebSite.init(sc, welcomeFiles, rootFile, rootPath, cmsPath);
     return mainWebSite;
   }
-  
+
+  /**
+   * Initializes the website. After calling the method of the superclass,
+   * initializes the virtual websites.
+   */
   protected void init(ServletContext sc, String[] welcomeFiles, File rootFile,
       Path rootPath, Path cmsPath) {
     super.init(sc, welcomeFiles, rootFile, rootPath, cmsPath);
@@ -53,14 +60,24 @@ public class MainWebSite extends WebSite {
     multiSiteManager.initDomainsMap();
   }
 
+  /**
+   * Returns the right website for the given request. Since this is a main
+   * website, it will return the website itself or a virtual website, according
+   * to the requested host name.
+   */
   public WebSite getWebSite(ServletRequest request) {
     return multiSiteManager.getWebSite(request.getServerName());
   }
 
-  public String getName() {
+  public String getTypeDescription() {
     return "main web site";
   }
-  
+
+  /**
+   * Returns the virtual website instance related to the given directory name.
+   * That instance will be created if not found, and will not fail if the
+   * directory does not exist (this is subject to change).
+   */
   public VirtualWebSite getVirtualSite(String dirName) {
     VirtualWebSite vws = (VirtualWebSite) virtualSitesMap.get(dirName);
     
@@ -75,6 +92,9 @@ public class MainWebSite extends WebSite {
     return vws;
   }
 
+  /**
+   * Returns the MultiSiteManager instance.
+   */
   public MultiSiteManager getMultiSiteManager() {
     return multiSiteManager;
   }
@@ -86,8 +106,8 @@ public class MainWebSite extends WebSite {
       multiSiteManager.initDomainsMap();
     }
   }
-  
-  public String getHost(String dirName) {
+
+  /* public String getHost(String dirName) {
     WebSite site = multiSiteManager.getWebSite(dirName);
     
     if (site != null) {
@@ -111,5 +131,5 @@ public class MainWebSite extends WebSite {
     }
     
     return null;
-  }
+  } */
 }

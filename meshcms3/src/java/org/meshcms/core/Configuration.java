@@ -25,7 +25,7 @@ package org.meshcms.core;
 import java.io.*;
 
 /**
- * Manages the configuration parameters of MeshCMS.
+ * Manages the configuration parameters of a website.
  */
 public class Configuration implements Serializable {
   /**
@@ -38,6 +38,9 @@ public class Configuration implements Serializable {
    */
   public static final long LENGTH_OF_DAY = 24 * LENGTH_OF_HOUR;
 
+  /**
+   * Contains the extensions of files that are visually editable by default.
+   */
   public static final String[] DEFAULT_VISUAL_EXTENSIONS = {"html", "htm"};
   
   /**
@@ -106,82 +109,155 @@ public class Configuration implements Serializable {
     setVisualExtensions(DEFAULT_VISUAL_EXTENSIONS);
   }
 
+  /**
+   * Returns true if the default MeshCMS theme is always used for the pages
+   * of the control panel.
+   */
   public boolean isUseAdminTheme() {
     return useAdminTheme;
   }
 
+  /**
+   * Sets if the default MeshCMS theme is always used for the pages
+   * of the control panel.
+   */
   public void setUseAdminTheme(boolean useAdminTheme) {
     this.useAdminTheme = useAdminTheme;
   }
 
+  /**
+   * Returns true if the option to prevent hotlinking is enabled.
+   */
   public boolean isPreventHotlinking() {
     return preventHotlinking;
   }
 
+  /**
+   * Enables or disables hotlinking prevention.
+   */
   public void setPreventHotlinking(boolean preventHotlinking) {
     this.preventHotlinking = preventHotlinking;
   }
 
+  /**
+   * Returns the minimum time before deleting a backup file,
+   * measured in days.
+   */
   public int getBackupLife() {
     return backupLife;
   }
 
+  /**
+   * Sets the minimum time before deleting a backup file,
+   * measured in days.
+   */
   public void setBackupLife(int backupLife) {
     this.backupLife = backupLife;
   }
 
+  /**
+   * Returns the length of stats (hit counts) measured in days.
+   */
   public int getStatsLength() {
     return statsLength;
   }
 
+  /**
+   * Sets the length of stats (hit counts) measured in days. Please note that
+   * this value is fixed when the web application is initialized, so if the
+   * value is changed, the new value won't be used until the next restart of the
+   * web application.
+   */
   public void setStatsLength(int statsLength) {
     this.statsLength = statsLength;
   }
 
+  /**
+   * Returns the minimum interval between two updates of the site map,
+   * measured in hours.
+   */
   public int getUpdateInterval() {
     return updateInterval;
   }
 
+  /**
+   * Sets the minimum interval between two updates of the site map,
+   * measured in hours.
+   */
   public void setUpdateInterval(int updateInterval) {
     this.updateInterval = updateInterval;
   }
 
+  /**
+   * Returns the type of cache to be used for pages.
+   *
+   * @see #setCacheType
+   */
   public int getCacheType() {
     return cacheType;
   }
 
+  /**
+   * Sets the type of cache to be used for pages. Possible values are defined in
+   * {@link Finals} and are {@link Finals#NO_CACHE},
+   * {@link Finals#IN_MEMORY_CACHE} and {@link Finals#ON_DISK_CACHE}.
+   */
   public void setCacheType(int cacheType) {
     this.cacheType = cacheType;
   }
 
+  /**
+   * Returns the name of the mail server (SMTP).
+   */
   public String getMailServer() {
     return mailServer;
   }
 
+  /**
+   * Sets the name of the mail server (SMTP).
+   */
   public void setMailServer(String mailServer) {
     this.mailServer = mailServer;
   }
 
+  /**
+   * Returns the SMTP username.
+   */
   public String getSmtpUsername() {
     return smtpUsername;
   }
 
+  /**
+   * Sets the SMTP username.
+   */
   public void setSmtpUsername(String smtpUsername) {
     this.smtpUsername = smtpUsername;
   }
 
+  /**
+   * Returns the SMTP password.
+   */
   public String getSmtpPassword() {
     return smtpPassword;
   }
 
+  /**
+   * Sets the SMTP password.
+   */
   public void setSmtpPassword(String smtpPassword) {
     this.smtpPassword = smtpPassword;
   }
 
+  /**
+   * Returns the preferred charset.
+   */
   public String getPreferredCharset() {
     return preferredCharset;
   }
 
+  /**
+   * Sets the preferred charset, that will be used when possible.
+   */
   public void setPreferredCharset(String preferredCharset) {
     this.preferredCharset = preferredCharset;
   }
@@ -228,82 +304,146 @@ public class Configuration implements Serializable {
     return getBackupLife() * LENGTH_OF_DAY;
   }
 
+  /**
+   * Returns the extensions that denote file types that can be edited
+   * using the wysiwyg editor.
+   */
   public String[] getVisualExtensions() {
     return visualExtensions;
   }
 
+  /**
+   * Sets the extensions that denote file types that can be edited
+   * using the wysiwyg editor.
+   */
   public void setVisualExtensions(String[] visualExtensions) {
     this.visualExtensions = visualExtensions;
   }
 
+  /**
+   * Returns the state of the automatic redirection to welcome files.
+   */
   public boolean isAlwaysRedirectWelcomes() {
     return alwaysRedirectWelcomes;
   }
 
+  /**
+   * Enables or disables automatic redirection to welcome files.
+   */
   public void setAlwaysRedirectWelcomes(boolean alwaysRedirectWelcomes) {
     this.alwaysRedirectWelcomes = alwaysRedirectWelcomes;
   }
 
+  /**
+   * Returns the state of directory list blocking.
+   */
   public boolean isAlwaysDenyDirectoryListings() {
     return alwaysDenyDirectoryListings;
   }
 
+  /**
+   * Enables or disables blocking of directory listings.
+   */
   public void setAlwaysDenyDirectoryListings(boolean alwaysDenyDirectoryListings) {
     this.alwaysDenyDirectoryListings = alwaysDenyDirectoryListings;
   }
 
+  /**
+   * Returns the main host name of this website.
+   */
   public String getSiteHost() {
     return siteHost;
   }
 
+  /**
+   * Sets the main host name of this website.
+   */
   public void setSiteHost(String siteHost) {
     this.siteHost = siteHost;
   }
 
+  /**
+   * Returns the website description.
+   */
   public String getSiteDescription() {
     return siteDescription;
   }
 
+  /**
+   * Sets the website description.
+   */
   public void setSiteDescription(String siteDescription) {
     this.siteDescription = siteDescription;
   }
 
+  /**
+   * Returns the keywords related to the website.
+   */
   public String getSiteKeywords() {
     return siteKeywords;
   }
 
+  /**
+   * Sets the keywords related to the website.
+   */
   public void setSiteKeywords(String siteKeywords) {
     this.siteKeywords = siteKeywords;
   }
 
+  /**
+   * Returns the author name.
+   */
   public String getSiteAuthor() {
     return siteAuthor;
   }
 
+  /**
+   * Sets the author name.
+   */
   public void setSiteAuthor(String siteAuthor) {
     this.siteAuthor = siteAuthor;
   }
 
+  /**
+   * Returns the site name.
+   */
   public String getSiteName() {
     return siteName;
   }
 
+  /**
+   * Sets the site name.
+   */
   public void setSiteName(String siteName) {
     this.siteName = siteName;
   }
 
+  /**
+   * Returns the author's URL.
+   */
   public String getSiteAuthorURL() {
     return siteAuthorURL;
   }
 
+  /**
+   * Returns the author's URL. Can be a website URL or a mailto. It is expected
+   * to be a full URL.
+   */
   public void setSiteAuthorURL(String siteAuthorURL) {
     this.siteAuthorURL = siteAuthorURL;
   }
 
+  /**
+   * Returns the state of exception hiding.
+   */
   public boolean isHideExceptions() {
     return hideExceptions;
   }
 
+  /**
+   * Enables or disables hiding of Java exceptions. If enabled, exception will
+   * be catched and not rethrown.
+   */
   public void setHideExceptions(boolean hideExceptions) {
     this.hideExceptions = hideExceptions;
   }

@@ -26,14 +26,20 @@ import java.io.*;
 import org.meshcms.util.*;
 
 /**
- * Finds the admin directory. This class is run once when the web application
- * starts.
+ * Finds the CMS directory by searching for a sentinel file.
  */
 public class CMSDirectoryFinder extends DirectoryParser {
   private Path cmsPath;
   private boolean virtualSite;
-  String idFileName;
+  private String idFileName;
   
+  /**
+   * Creates a new instance to search for the CMS directory using the
+   * given root.
+   *
+   * @param virtualSite used to determine what file to search (virtual sites
+   * do not contain an admin directory, so a different file is searched).
+   */
   public CMSDirectoryFinder(File siteRoot, boolean virtualSite) {
     setRecursive(true);
     setInitialDir(siteRoot);
@@ -59,7 +65,10 @@ public class CMSDirectoryFinder extends DirectoryParser {
     
     return true;
   }
-  
+
+  /**
+   * Performs the search and returns the result.
+   */
   public Path getCMSPath() {
     if (cmsPath == null) {
       process();
