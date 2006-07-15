@@ -49,6 +49,7 @@ public final class ListMenu extends AbstractTag {
   private String current;
   private String currentStyle;
   private String currentPathStyle;
+  private String allowHiding;
 
   boolean itemsAll;
   boolean itemsOnPath;
@@ -84,6 +85,7 @@ public final class ListMenu extends AbstractTag {
     }
 
     boolean linkCurrent = current != null && current.equalsIgnoreCase(LINK);
+    boolean allowHiding = Utils.isTrue(this.allowHiding);
 
     SiteMap siteMap = webSite.getSiteMap();
     SiteInfo siteInfo = webSite.getSiteInfo();
@@ -95,11 +97,18 @@ public final class ListMenu extends AbstractTag {
     Iterator iter = siteMap.getPagesList(rootPath).iterator();
     boolean liUsed = false;
     boolean styleNotApplied = !Utils.isNullOrEmpty(style);
+    int showLastLevel = -1;
 
     while (iter.hasNext()) {
       PageInfo current = (PageInfo) iter.next();
       Path currentPath = current.getPath();
       int level = Math.max(baseLevel, current.getLevel());
+
+      if ( current.getLevel() <= showLastLevel )
+      	showLastLevel = -1;
+
+      if ( siteInfo.getHideSubmenu(currentPath) && showLastLevel == -1 )
+      	showLastLevel = current.getLevel(); 
 
       boolean add = false;
 
@@ -123,6 +132,8 @@ public final class ListMenu extends AbstractTag {
         }
       }
 
+      add = add && (! allowHiding || showLastLevel == -1 || current.getLevel() <= showLastLevel); 
+      
       if (add) {
         for (int i = lastLevel; i < level; i++) {
           if (styleNotApplied) {
@@ -253,5 +264,12 @@ public final class ListMenu extends AbstractTag {
 
   public void setCurrentPathStyle(String currentPathStyle) {
     this.currentPathStyle = currentPathStyle;
+  }
+  public String getAllowHiding() {
+    return allowHiding;
+  }
+
+  public void setAllowHiding(String allowHiding) {
+    this.allowHiding = allowHiding;
   }
 }

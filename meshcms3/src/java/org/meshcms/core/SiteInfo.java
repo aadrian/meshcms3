@@ -44,6 +44,11 @@ public class SiteInfo {
    */
   public static final String THEME = "theme";
 
+  /**
+   * Prefix of the submenu codes.
+   */
+  public static final String HIDESUBMENU = "hideSubmenu";
+  
   private Properties data;
   private transient WebSite webSite;
 
@@ -171,6 +176,45 @@ public class SiteInfo {
   }
 
   /**
+   * Returns the hide submenu for the given path (false if not available).
+   */
+  public boolean getHideSubmenu(Path pagePath) {
+    return Utils.parseBoolean(data.getProperty(getHideSubmenuCode(pagePath)), false);
+  }
+
+  /**
+   * Returns the hide submenu as a string for the given path. An empty string
+   * is returned if the hide submenu is false.
+   */
+  public String getHideSubmenuAsString(Path pagePath) {
+    boolean hide = getHideSubmenu(pagePath);
+    return hide == false ? "" : Boolean.toString(hide);
+  }
+
+  /**
+   * Sets the hide submenu for the given path.
+   */
+  public void setHideSubmenu(Path pagePath, String hide) {
+    setHideSubmenu(pagePath, Utils.parseBoolean(hide, false));
+  }
+
+  /**
+   * Sets the hide submenu for the given path. If the submenu is shown, it is removed
+   * since false is the default.
+   */
+  public void setHideSubmenu(Path pagePath, boolean hide) {
+    setHideSubmenu(getHideSubmenuCode(pagePath), hide);
+  }
+
+  private void setHideSubmenu(String pageCode, boolean hide) {
+    if (hide == false) {
+      data.remove(pageCode);
+    } else {
+      data.setProperty(pageCode, Boolean.toString(hide));
+    }
+  }
+
+  /**
    * Returns the code for the score field of the given path. This code is
    * used in the HTML configuration form and in the config file.
    */
@@ -192,6 +236,14 @@ public class SiteInfo {
    */
   public static String getThemeCode(Path pagePath) {
     return THEME + WebUtils.getMenuCode(pagePath);
+  }
+
+  /**
+   * Returns the code for the show submenu field of the given path. This code is
+   * used in the HTML configuration form and in the config file.
+   */
+  public static String getHideSubmenuCode(Path pagePath) {
+    return HIDESUBMENU + WebUtils.getMenuCode(pagePath);
   }
 
   /**
@@ -242,6 +294,18 @@ public class SiteInfo {
       return true;
     }
 
+    if (fieldName.startsWith(HIDESUBMENU)) {
+        boolean b = Utils.isTrue(value);
+
+        if (b == false) {
+          data.remove(fieldName);
+        } else {
+          data.setProperty(fieldName, "true");
+        }
+
+        return true;
+    }
+    
     return false;
   }
 

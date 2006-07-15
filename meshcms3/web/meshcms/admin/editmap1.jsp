@@ -242,6 +242,7 @@
            title="<fmt:message key="mapClickExpandAll" />" />&nbsp;<fmt:message key="mapPageTitle" /></th>
       <th><fmt:message key="mapHits" /></th>
       <th><fmt:message key="mapCache" /></th>
+      <th><fmt:message key="mapHideSubmenu" /></th>
       <th><fmt:message key="mapMenu" /></th>
       <th><fmt:message key="mapTheme" /></th>
       <th><fmt:message key="mapScore" /></th>
@@ -296,7 +297,12 @@
           String tCode = siteInfo.getTitleCode(pagePath);
           String dCode = siteInfo.getThemeCode(pagePath);
           String sCode = siteInfo.getScoreCode(pagePath);
-          %><td><img src="images/clear_field.gif" onclick="javascript:editMap_clr('<%= tCode %>');" alt=""
+          String hCode = siteInfo.getHideSubmenuCode(pagePath);
+          %><td align="center"><select name="<%= hCode %>">
+             <option value="">&nbsp;</option>
+             <option value="true" <%= siteInfo.getHideSubmenu(pagePath)? "selected='selected'" : "" %>>Hide&nbsp;</option>
+            </select></td>
+            <td><img src="images/clear_field.gif" onclick="javascript:editMap_clr('<%= tCode %>');" alt=""
              style='vertical-align:middle;' /><input type="text" name="<%= tCode %>"
              id="<%= tCode %>" size="24"
              value="<%= siteInfo.getPageTitle(pagePath) %>" /></td>

@@ -46,6 +46,7 @@ public final class AlibMenu extends AbstractTag {
   private String path;
   private String current;
   private String currentPathStyle = "selected";
+  private String allowHiding = "true";
 
   public void writeTag() throws IOException {
     Writer outWriter = getOut();
@@ -63,6 +64,7 @@ public final class AlibMenu extends AbstractTag {
           WebUtils.getFullThemeFolder(request) + "/alib.css' rel='stylesheet' />\n");
     } else {
       boolean linkCurrent = current != null && current.equalsIgnoreCase(LINK);
+      boolean allowHiding = Utils.isTrue(this.allowHiding);
 
       SiteMap siteMap = webSite.getSiteMap();
       SiteInfo siteInfo = webSite.getSiteInfo();
@@ -73,61 +75,72 @@ public final class AlibMenu extends AbstractTag {
       Iterator iter = siteMap.getPagesList(rootPath).iterator();
       boolean liUsed = false;
       boolean firstUl = true;
+      int showLastLevel = -1;
 
       while (iter.hasNext()) {
         PageInfo current = (PageInfo) iter.next();
         Path currentPath = current.getPath();
         int level = Math.max(baseLevel, current.getLevel());
 
-        for (int i = lastLevel; i < level; i++) {
-          if (firstUl) {
-            writeIndented(outWriter, "<ul class=\"" +
-                (horizontal ? "hmenu" : "vmenu") + "\">", i);
-            firstUl = false;
-          } else {
-            writeIndented(outWriter, "<ul>", i);
-          }
+        if ( current.getLevel() <= showLastLevel )
+        	showLastLevel = -1;
+        
+        if ( siteInfo.getHideSubmenu(currentPath) && showLastLevel == -1 )
+        	showLastLevel = current.getLevel(); 
 
-          writeIndented(outWriter, "<li>", i + 1);
-          liUsed = false;
+        boolean add = ! allowHiding || showLastLevel == -1 || current.getLevel() <= showLastLevel;
+
+        if (add) {
+	        for (int i = lastLevel; i < level; i++) {
+	          if (firstUl) {
+	            writeIndented(outWriter, "<ul class=\"" +
+	                (horizontal ? "hmenu" : "vmenu") + "\">", i);
+	            firstUl = false;
+	          } else {
+	            writeIndented(outWriter, "<ul>", i);
+	          }
+	
+	          writeIndented(outWriter, "<li>", i + 1);
+	          liUsed = false;
+	        }
+	
+	        for (int i = lastLevel - 1; i >= level; i--) {
+	          if (liUsed) {
+	            outWriter.write("</li>");
+	            liUsed = false;
+	          } else {
+	            writeIndented(outWriter, "</li>", i + 1);
+	          }
+	
+	          writeIndented(outWriter, "</ul>", i);
+	        }
+	
+	        if (liUsed) {
+	          outWriter.write("</li>");
+	          writeIndented(outWriter, "<li>", level);
+	        }
+	
+	        for ( int i = lastLevel - 1; i >= level; i--) {
+	            writeIndented(outWriter, "</li>", i);
+	            writeIndented(outWriter, "<li>", i);
+	        }
+	
+	        if ( ! Utils.isNullOrEmpty(currentPathStyle)
+	        		&& ( current.getLevel() > 0
+	        		       && pathInMenu.isContainedIn(currentPath) 
+	                     || current.getPath().equals(pathInMenu)
+	                   ) ) {
+	          outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
+	            "\" class='" + currentPathStyle + "'>" +
+	            siteInfo.getPageTitle(current) + "</a>");
+	        } else {
+	          outWriter.write("<a href=\"" + cp + webSite.getLink(current) +"\">" +
+	            siteInfo.getPageTitle(current) + "</a>");
+	        }
+
+	        liUsed = true;
+	        lastLevel = level;
         }
-
-        for (int i = lastLevel - 1; i >= level; i--) {
-          if (liUsed) {
-            outWriter.write("</li>");
-            liUsed = false;
-          } else {
-            writeIndented(outWriter, "</li>", i + 1);
-          }
-
-          writeIndented(outWriter, "</ul>", i);
-        }
-
-        if (liUsed) {
-          outWriter.write("</li>");
-          writeIndented(outWriter, "<li>", level);
-        }
-
-        for ( int i = lastLevel - 1; i >= level; i--) {
-            writeIndented(outWriter, "</li>", i);
-            writeIndented(outWriter, "<li>", i);
-        }
-
-        if ( ! Utils.isNullOrEmpty(currentPathStyle)
-        		&& ( current.getLevel() > 0
-        		       && pathInMenu.isContainedIn(currentPath) 
-                     || current.getPath().equals(pathInMenu)
-                   ) ) {
-          outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
-            "\" class='" + currentPathStyle + "'>" +
-            siteInfo.getPageTitle(current) + "</a>");
-        } else {
-          outWriter.write("<a href=\"" + cp + webSite.getLink(current) +"\">" +
-            siteInfo.getPageTitle(current) + "</a>");
-        }
-
-        liUsed = true;
-        lastLevel = level;
       }
 
       for (int i = lastLevel - 1; i >= rootPath.getElementCount(); i--) {
@@ -185,5 +198,13 @@ public final class AlibMenu extends AbstractTag {
 
   public void setCurrentPathStyle(String currentPathStyle) {
     this.currentPathStyle = currentPathStyle;
+  }
+
+  public String getAllowHiding() {
+    return allowHiding;
+  }
+
+  public void setAllowHiding(String allowHiding) {
+    this.allowHiding = allowHiding;
   }
 }

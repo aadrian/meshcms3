@@ -169,8 +169,8 @@ public final class Utils {
    * Checks if a string contains a value that is supposed to mean
    * &quot;true&quot;.
    *
-   * @return true if the string is "true", "1", "yes", "ok", "checked"
-   * or "selected" (case insensitive),
+   * @return true if the string is "true", "1", "yes", "ok", "checked",
+   * "selected" or "on" (case insensitive),
    * false otherwise (null included)
    */
   public static boolean isTrue(String s) {
@@ -180,7 +180,8 @@ public final class Utils {
 
     s = s.trim().toLowerCase();
     return s.equals("true") || s.equals("1") || s.equals("yes") ||
-        s.equals("ok") || s.equals("checked") || s.equals("selected");
+        s.equals("ok") || s.equals("checked") || s.equals("selected") ||
+        s.equals("on");
   }
 
   /**
@@ -875,6 +876,19 @@ public final class Utils {
     return def;
   }
 
+  /**
+   * Parses the string argument as a boolean, but without returning
+   * exception. If that would be the case, the default value provided is
+   * returned instead.
+   */
+  public static boolean parseBoolean(String s, boolean def) {
+    try {
+      def = Boolean.parseBoolean(s);
+    } catch (Exception ex) {}
+
+    return def;
+  }
+  
   /**
    * Returns the tokens of a string. The default delimiter characters of
    * <code>java.util.StringTokenizer</code> are used.
