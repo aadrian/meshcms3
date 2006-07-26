@@ -239,7 +239,7 @@
     <div><textarea name="text" id="mcc_text" class="mceEditor" style="width: <%= width %>; height: 12em;"></textarea></div>
     <div style="margin-top: 1em;">
       <input type="button" value="<%= pageBundle.getString("commentsSubmit") %>" onclick="javascript:submitComment();" />
-    </p>
+    </div>
   </div>
  </div>
 
