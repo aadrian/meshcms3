@@ -380,7 +380,11 @@
 
       <para>To serve multiple sites, you need to install MeshCMS as usual.
       Then you can use the <link linkend="control_panel">Control Panel</link>
-      to create new sites.</para>
+      to create new sites. If the DNS has been configured properly, you can
+      access a new site immediately. Please do so, log into it with your admin
+      user of the main website and check the <link linkend="configure">site
+      configuration</link> to make sure that all options are fine. You may
+      also want to create some users, a welcome page and so on.</para>
 
       <section id="main_and_virtual_sites">
         <title>Main site and virtual sites</title>
