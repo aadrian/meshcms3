@@ -877,19 +877,6 @@ public final class Utils {
   }
 
   /**
-   * Parses the string argument as a boolean, but without returning
-   * exception. If that would be the case, the default value provided is
-   * returned instead.
-   */
-  public static boolean parseBoolean(String s, boolean def) {
-    try {
-      def = Boolean.parseBoolean(s);
-    } catch (Exception ex) {}
-
-    return def;
-  }
-  
-  /**
    * Returns the tokens of a string. The default delimiter characters of
    * <code>java.util.StringTokenizer</code> are used.
    */

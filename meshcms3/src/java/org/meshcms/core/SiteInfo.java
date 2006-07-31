@@ -179,7 +179,7 @@ public class SiteInfo {
    * Returns the hide submenu for the given path (false if not available).
    */
   public boolean getHideSubmenu(Path pagePath) {
-    return Utils.parseBoolean(data.getProperty(getHideSubmenuCode(pagePath)), false);
+    return Utils.isTrue(data.getProperty(getHideSubmenuCode(pagePath)));
   }
 
   /**
@@ -195,7 +195,7 @@ public class SiteInfo {
    * Sets the hide submenu for the given path.
    */
   public void setHideSubmenu(Path pagePath, String hide) {
-    setHideSubmenu(pagePath, Utils.parseBoolean(hide, false));
+    setHideSubmenu(pagePath, Utils.isTrue(hide));
   }
 
   /**
