@@ -52,8 +52,7 @@ public class SiteInfo {
   private Properties data;
   private transient WebSite webSite;
 
-  protected SiteInfo(WebSite webSite) {
-    this.webSite = webSite;
+  protected SiteInfo() {
     data = new Properties();
   }
 
@@ -67,7 +66,8 @@ public class SiteInfo {
         webSite.loadFromXML(webSite.getPropertiesFilePath());
 
     if (siteInfo == null) {
-      siteInfo = new SiteInfo(webSite);
+      siteInfo = new SiteInfo();
+      siteInfo.setWebSite(webSite);
     } else {
       siteInfo.setWebSite(webSite);
     }
@@ -354,7 +354,7 @@ public class SiteInfo {
     return webSite;
   }
 
-  protected void setWebSite(WebSite webSite) {
+  public void setWebSite(WebSite webSite) {
     this.webSite = webSite;
   }
 }

@@ -34,10 +34,8 @@ public class MultiSiteManager implements Serializable {
   private String mainWebSiteDomains;
   private Properties domains;
   
-  private MultiSiteManager(MainWebSite mainWebSite) {
-    this.mainWebSite = mainWebSite;
+  private MultiSiteManager() {
     domains = new Properties();
-
     manageTripleWs = true;
     useDirsAsDomains = true;
   }
@@ -141,7 +139,8 @@ public class MultiSiteManager implements Serializable {
     } catch (Exception ex) {}
     
     if (m == null) {
-      m = new MultiSiteManager(mainWebSite);
+      m = new MultiSiteManager();
+      m.setMainWebSite(mainWebSite);
     }
     
     return m;
@@ -155,7 +154,7 @@ public class MultiSiteManager implements Serializable {
     return mainWebSite;
   }
 
-  protected void setMainWebSite(MainWebSite mainWebSite) {
+  public void setMainWebSite(MainWebSite mainWebSite) {
     this.mainWebSite = mainWebSite;
   }
 }
