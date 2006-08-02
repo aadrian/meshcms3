@@ -1,5 +1,14 @@
 ________________________________
 --------------------------------
+2006-08-xx: 3.0 rc 1 released
+--------------------------------
+
+- Experimental support for XStream in pure mode
+- Option to show/hide subpages in navigation menus (by Hue)
+- Added e-mail notifications for the comments module
+
+________________________________
+--------------------------------
 2006-06-xx: 3.0 beta 1 released
 --------------------------------
 
