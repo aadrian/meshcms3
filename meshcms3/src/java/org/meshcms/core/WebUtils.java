@@ -538,4 +538,24 @@ public final class WebUtils {
 
     return time;
   }
+  
+  public static javax.mail.Session getMailSession(WebSite webSite) {
+    Properties props = new Properties();
+    props.put("mail.smtp.host", webSite.getConfiguration().getMailServer());
+    final String smtpUsername = webSite.getConfiguration().getSmtpUsername();
+    final String smtpPassword = webSite.getConfiguration().getSmtpPassword();
+
+    if (!Utils.isNullOrWhitespace(smtpUsername)) {
+      props.put("mail.smtp.auth", "true");
+    }
+
+    javax.mail.Session mailSession = javax.mail.Session.getInstance(props,
+        new javax.mail.Authenticator() {
+      protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+        return new javax.mail.PasswordAuthentication(smtpUsername, smtpPassword);
+      }
+    });
+    
+    return mailSession;
+  }
 }

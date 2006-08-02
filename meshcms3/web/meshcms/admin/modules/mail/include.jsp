@@ -125,22 +125,7 @@
         }
 
         InternetAddress recipientAddress = new InternetAddress(recipient);
-
-        Properties props = new Properties();
-        props.put("mail.smtp.host", webSite.getConfiguration().getMailServer());
-        final String smtpUsername = webSite.getConfiguration().getSmtpUsername();
-        final String smtpPassword = webSite.getConfiguration().getSmtpPassword();
-
-        if (!Utils.isNullOrWhitespace(smtpUsername)) {
-          props.put("mail.smtp.auth", "true");
-        }
-
-        Session mailSession = Session.getInstance(props, new Authenticator() {
-          protected PasswordAuthentication getPasswordAuthentication() {
-            return new PasswordAuthentication(smtpUsername, smtpPassword);
-          }
-        });
-
+        Session mailSession = WebUtils.getMailSession(webSite);
         MimeMessage outMsg = new MimeMessage(mailSession);
         outMsg.setFrom(senderAddress);
         outMsg.addRecipient(Message.RecipientType.TO, recipientAddress);
