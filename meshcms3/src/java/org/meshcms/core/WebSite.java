@@ -23,6 +23,8 @@
 package org.meshcms.core;
 
 import java.io.*;
+import java.nio.charset.*;
+import java.nio.charset.Charset;
 import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -33,8 +35,7 @@ import com.thoughtworks.xstream.io.xml.*;
 
 public class WebSite {
   public static final String VERSION_ID = "3.0 Release Candidate 1";
-  public static final String SYSTEM_CHARSET =
-      System.getProperty("file.encoding", "UTF-8");
+  public static final String SYSTEM_CHARSET;
 
   /**
    * A prefix to be used for every backup file.
@@ -54,6 +55,16 @@ public class WebSite {
   public static final String CMS_ID_FILE = "meshcms_id";
 
   public static final String ADMIN_ID_FILE = "meshcms_admin_id";
+  
+  static {
+    String s = System.getProperty("file.encoding", "UTF-8");
+    
+    try {
+      s = Charset.forName(s).toString();
+    } catch (Exception ex) {}
+    
+    SYSTEM_CHARSET = s;
+  }
 
   protected ServletContext sc;
   protected String[] welcomeFiles;
