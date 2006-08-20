@@ -160,6 +160,7 @@ public final class FileTypes {
     info.preventHotlinking = true;
     info.iconFile = "icon_video.gif";
     EXT_MAP.put("avi", info);
+    EXT_MAP.put("flv", info);
     EXT_MAP.put("mov", info);
     EXT_MAP.put("mpeg", info);
     EXT_MAP.put("mpg", info);
