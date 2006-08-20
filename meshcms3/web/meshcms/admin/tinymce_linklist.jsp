@@ -20,6 +20,7 @@
  and at info@cromoteca.com
 --%>
 
+<%@ page contentType="text/javascript" %>
 <%@ page import="java.util.*" %>
 <%@ page import="org.meshcms.core.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
