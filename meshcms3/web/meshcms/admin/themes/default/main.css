@@ -10,7 +10,7 @@ padding:0;
 
 /* MeshCMS: support preserve text size in tables */
 th, td {
-font:76%;
+font-size:76%;
 }
 
 /* MeshCMS: a trick to avoid TinyMCE to apply these values. */
