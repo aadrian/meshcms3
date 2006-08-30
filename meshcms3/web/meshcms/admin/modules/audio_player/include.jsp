@@ -55,8 +55,22 @@
       "&autoload=false&info_button_text=download";
 %>
 
+<%--
 <div align="center">
   <object type="application/x-shockwave-flash" width="400" height="170" data="<%= data %>">
     <param name="movie" value="<%= data %>" />
   </object>
 </div>
+--%>
+
+<script type="text/javascript" src="<%= request.getContextPath() %>/<%= webSite.getAdminPath() %>/scripts/swfobject/swfobject.js"></script>
+
+<div id="flashcontent" align="center">
+  This module requires a Flash Player.
+</div>
+
+<script type="text/javascript">
+   var so = new SWFObject("<%= data %>", "xspfplayer", "400", "170", "7", "#FFFFFF");
+   so.addParam("movie", "<%= data %>");
+   so.write("flashcontent");
+</script>

@@ -34,13 +34,14 @@
   String cp = request.getContextPath();
   Path path = new Path(request.getParameter("path"));
   String[] files = webSite.getFile(path).list();
+  String base = cp + path.getAsLink() + '/';
   boolean comma = false;
   
   for (int i = 0; files != null && i < files.length; i++) {
     if (Utils.getExtension(files[i], false).equalsIgnoreCase("flv")) {
 %>
     <%= comma ? "," : "" %>
-    { name: '<%= Utils.replace(Utils.beautify(Utils.removeExtension(files[i]), true), '\'', "\\'") %>', url: '<%= cp + '/' + path + '/' + Utils.replace(files[i], '\'', "\\'") %>' }
+    { name: '<%= Utils.replace(Utils.beautify(Utils.removeExtension(files[i]), true), '\'', "\\'") %>', url: '<%= base + Utils.replace(files[i], '\'', "\\'") %>' }
 <%
       comma = true;
     }
@@ -53,7 +54,7 @@
   autoBuffering: false,
   bufferLength: 5,
   loop: false,
-  videoHeight: 320,
-  splashImageFile: '<%= cp + '/' + new Path(request.getParameter("modulepath")) %>/clicktoplay.jpg',
+  videoHeight: 240,
+  splashImageFile: '<%= cp %><%= new Path(request.getParameter("modulepath")).getAsLink() %>/clicktoplay.jpg',
   scaleSplash: false
 }

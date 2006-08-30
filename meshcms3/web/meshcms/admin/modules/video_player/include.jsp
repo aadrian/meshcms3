@@ -48,17 +48,31 @@
     return;
   }
 
-  String mp = request.getContextPath() + '/' + md.getModulePath();
-  String fName = mp + "/flowplayer.jsp?path=" + md.getModuleArgumentDirectoryPath(webSite, true) + "&modulepath=" + md.getModulePath();
+  String cp = request.getContextPath();
+  String mp = md.getModulePath().getAsLink();
+  String fName = cp + mp + "/flowplayer.jsp?path=" + md.getModuleArgumentDirectoryPath(webSite, true) + "&modulepath=" + mp;
 %>
 
+<%--
 <div align="center">
-  <object type="application/x-shockwave-flash" data="<%= mp %>/flowplayer.swf" width="420" height="380" id="FlowPlayer">
+  <object type="application/x-shockwave-flash" data="<%= cp %><%= mp %>/flowplayer.swf" width="320" height="325" id="FlowPlayer">
     <param name="allowScriptAccess" value="sameDomain" />
-    <param name="movie" value="<%= mp %>/flowplayer.swf" />
+    <param name="movie" value="<%= cp %><%= mp %>/flowplayer.swf" />
     <param name="quality" value="high" />
     <param name="scale" value="noScale" />
-    <param name="wmode" value="transparent" />
     <param name="flashvars" value="configFileName=<%= URLEncoder.encode(fName, webSite.getConfiguration().getPreferredCharset()) %>" />
   </object>
 </div>
+--%>
+
+<script type="text/javascript" src="<%= cp %>/<%= webSite.getAdminPath() %>/scripts/swfobject/swfobject.js"></script>
+
+<div id="flashcontent" align="center">
+  This module requires a Flash Player.
+</div>
+
+<script type="text/javascript">
+   var so = new SWFObject("<%= cp %><%= mp %>/flowplayer.swf", "FlowPlayer", "320", "325", "7", "#FFFFFF");
+   so.addParam("flashvars", "configFileName=<%= URLEncoder.encode(fName, webSite.getConfiguration().getPreferredCharset()) %>");
+   so.write("flashcontent");
+</script>
