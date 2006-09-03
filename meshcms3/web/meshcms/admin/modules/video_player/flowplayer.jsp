@@ -37,13 +37,17 @@
   String base = cp + path.getAsLink() + '/';
   boolean comma = false;
   
-  for (int i = 0; files != null && i < files.length; i++) {
-    if (Utils.getExtension(files[i], false).equalsIgnoreCase("flv")) {
+  if (files != null) {
+    Arrays.sort(files);
+  
+    for (int i = 0; files != null && i < files.length; i++) {
+      if (Utils.getExtension(files[i], false).equalsIgnoreCase("flv")) {
 %>
     <%= comma ? "," : "" %>
     { name: '<%= Utils.replace(Utils.beautify(Utils.removeExtension(files[i]), true), '\'', "\\'") %>', url: '<%= base + Utils.replace(files[i], '\'', "\\'") %>' }
 <%
-      comma = true;
+        comma = true;
+      }
     }
   }
 %>

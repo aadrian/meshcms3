@@ -36,16 +36,19 @@
   File dir = webSite.getFile(path);
   String[] files = dir.list();
   
-  for (int i = 0; files != null && i < files.length; i++) {
-    if (Utils.getExtension(files[i], false).equalsIgnoreCase("mp3")) {
-      String base = WebUtils.getContextHomeURL(request).append('/').append(path).append('/').toString();
-      String imgName = Utils.removeExtension(files[i]) + ".jpg";
-      
-      if (new File(dir, imgName).exists()) {
-        imgName = base + imgName;
-      } else {
-        imgName = defaultImage;
-      }
+  if (files != null) {
+    Arrays.sort(files);
+  
+    for (int i = 0; i < files.length; i++) {
+      if (Utils.getExtension(files[i], false).equalsIgnoreCase("mp3")) {
+        String base = WebUtils.getContextHomeURL(request).append('/').append(path).append('/').toString();
+        String imgName = Utils.removeExtension(files[i]) + ".jpg";
+
+        if (new File(dir, imgName).exists()) {
+          imgName = base + imgName;
+        } else {
+          imgName = defaultImage;
+        }
 %>
     <track>
       <location><%= WebUtils.getContextHomeURL(request).append('/').append(path).append('/') %><%= files[i] %></location>
@@ -54,6 +57,7 @@
       <image><%= imgName %></image>
     </track>
 <%
+      }
     }
   }
 %>
