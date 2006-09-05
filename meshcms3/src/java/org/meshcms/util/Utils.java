@@ -360,6 +360,7 @@ public final class Utils {
       if (c == '<') {
         text = false;
       } else if (c == '>') {
+        sb.append(' ');
         text = true;
       } else if (text) {
         sb.append(c);
