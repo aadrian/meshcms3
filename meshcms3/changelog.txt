@@ -1,15 +1,19 @@
 ________________________________
 --------------------------------
-2006-08-xx: 3.0 rc 1 released
+2006-09-06: 3.0 rc 1 released
 --------------------------------
 
+- Comments module can send email notifications
+- Added an option to hide subpages in navigation menus (by Hue)
+- Fixed recognition of different charset names (e.g. ANSI_X3.*)
+- Two new modules: audio and video player (both are Flash-based)
 - Experimental support for XStream in pure mode
 - Option to show/hide subpages in navigation menus (by Hue)
 - Added e-mail notifications for the comments module
 
 ________________________________
 --------------------------------
-2006-06-xx: 3.0 beta 1 released
+2006-06-22: 3.0 beta 1 released
 --------------------------------
 
 - Added support for multiple sites in a single installation (experimental)
