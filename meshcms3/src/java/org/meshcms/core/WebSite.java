@@ -155,9 +155,13 @@ public class WebSite {
   public void updateSiteMap(boolean force) {
     if (force) {
       new SiteMap(this).process();
+      new SiteInfoCleaner(this).process();
     } else if (System.currentTimeMillis() - siteMap.getLastModified() >
                configuration.getUpdateIntervalMillis()) {
-      new SiteMap(this).start();
+    	SiteMap siteMap = new SiteMap(this);
+    	SiteInfoCleaner siteInfoCleaner = new SiteInfoCleaner(this,siteMap);
+    	siteInfoCleaner.start();
+    	siteMap.start();
       new DirectoryCleaner(getFile(repositoryPath),
           configuration.getBackupLifeMillis()).start();
       new DirectoryCleaner(getFile(generatedFilesPath),
@@ -187,6 +191,13 @@ public class WebSite {
   }
 
   /**
+   * Sets the <code>SiteInfo</code> object related to this website.  
+   */
+  void setSiteInfo(SiteInfo siteInfo) {
+		this.siteInfo = siteInfo;
+	}
+
+	/**
    * Returns the instance of the <code>SiteInfo</code> class that is managing
    * the site information.
    *
