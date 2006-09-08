@@ -345,29 +345,7 @@ public final class Utils {
    * Strips the HTML tags from a string.
    */
   public static String stripHTMLTags(String s) {
-    if (s == null) {
-      return null;
-    }
-
-    StringBuffer sb = new StringBuffer();
-    boolean text = true;
-    int len = s.length();
-    char c;
-
-    for (int i = 0; i < len; i++) {
-      c = s.charAt(i);
-
-      if (c == '<') {
-        text = false;
-      } else if (c == '>') {
-        sb.append(' ');
-        text = true;
-      } else if (text) {
-        sb.append(c);
-      }
-    }
-
-    return sb.toString();
+    return (s!=null) ? s.replaceAll("</?\\S+?[\\s\\S+]*?>", " ") : null;
   }
 
   /**
