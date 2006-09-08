@@ -357,4 +357,29 @@ public class SiteInfo {
   public void setWebSite(WebSite webSite) {
     this.webSite = webSite;
   }
+
+  /**
+	 * Cleans SiteInfo by removing info for pagePaths that no longer exist.
+	 */
+	protected boolean cleanupSiteInfo() {
+		boolean success = true;
+		SiteInfo newSiteInfo = new SiteInfo();
+		newSiteInfo.setWebSite(webSite);
+		List pagesList = webSite.getSiteMap().getPagesList();
+		if (pagesList != null) {
+			Iterator iter = pagesList.iterator();
+			while (iter.hasNext()) {
+				Path pagePath = ((PageInfo) iter.next()).getPath();
+				newSiteInfo.setPageTitle(pagePath, getPageTitle(pagePath));
+				newSiteInfo.setPageTheme(pagePath, getPageTheme(pagePath));
+				newSiteInfo.setPageScore(pagePath, getPageScore(pagePath));
+				newSiteInfo.setHideSubmenu(pagePath, getHideSubmenu(pagePath));
+			}
+			if (this.data.size() != newSiteInfo.data.size()) {
+		 		success = newSiteInfo.store();
+		 		webSite.setSiteInfo(newSiteInfo);
+			}
+		}
+		return success;
+	}
 }

@@ -155,13 +155,9 @@ public class WebSite {
   public void updateSiteMap(boolean force) {
     if (force) {
       new SiteMap(this).process();
-      new SiteInfoCleaner(this).process();
     } else if (System.currentTimeMillis() - siteMap.getLastModified() >
                configuration.getUpdateIntervalMillis()) {
-    	SiteMap siteMap = new SiteMap(this);
-    	SiteInfoCleaner siteInfoCleaner = new SiteInfoCleaner(this,siteMap);
-    	siteInfoCleaner.start();
-    	siteMap.start();
+    	new SiteMap(this).start();
       new DirectoryCleaner(getFile(repositoryPath),
           configuration.getBackupLifeMillis()).start();
       new DirectoryCleaner(getFile(generatedFilesPath),

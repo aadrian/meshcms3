@@ -197,6 +197,8 @@ public class SiteMap extends DirectoryParser {
     pagesList = new ArrayList(pagesMap.values());
     Collections.sort(pagesList, new PageInfoComparator(webSite));
     pagesList = Collections.unmodifiableList(pagesList);
+
+    webSite.getSiteInfo().cleanupSiteInfo();
   }
 
   /**
