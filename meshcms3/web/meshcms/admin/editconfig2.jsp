@@ -67,6 +67,7 @@
   c.setAlwaysRedirectWelcomes(Utils.isTrue(request.getParameter("alwaysRedirectWelcomes")));
   c.setAlwaysDenyDirectoryListings(Utils.isTrue(request.getParameter("alwaysDenyDirectoryListings")));
   c.setHideExceptions(Utils.isTrue(request.getParameter("hideExceptions")));
+  c.setEditorModulesCollapsed(Utils.isTrue(request.getParameter("editorModulesCollapsed")));
   
   c.setSiteName(request.getParameter("siteName"));
   c.setSiteHost(request.getParameter("siteHost"));

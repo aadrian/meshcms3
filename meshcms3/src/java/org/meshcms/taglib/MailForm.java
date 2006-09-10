@@ -23,6 +23,7 @@
 package org.meshcms.taglib;
 
 import java.io.*;
+import java.text.MessageFormat;
 import java.util.*;
 import javax.servlet.*;
 import javax.servlet.jsp.*;
@@ -60,16 +61,37 @@ public final class MailForm extends AbstractTag {
   }
 
   public void writeEditTag() throws IOException, JspException {
+    final String uniqueHash = new Integer(new Object().hashCode()).toString();
+  	final String tagIdPrefix = "meshcmsmodule_mail_"+ uniqueHash +"_";
+  	final String idCont = tagIdPrefix +"cont";
+  	final String idElem = tagIdPrefix +"elem";
+  	final String idIcon = tagIdPrefix +"icon";
+  	final boolean isEditorModulesCollapsed = webSite.getConfiguration().isEditorModulesCollapsed();
+
     Locale locale = WebUtils.getPageLocale(pageContext);
     ResourceBundle bundle = ResourceBundle.getBundle("org/meshcms/webui/Locales", locale);
 
     String email = getPage().getProperty(PageAssembler.EMAIL_PARAM);
 
     Writer w = getOut();
-    w.write("<fieldset class='meshcmseditor'>\n");
+
+    if (isEditorModulesCollapsed) {
+      MessageFormat formatter = new MessageFormat("", locale);
+	    w.write("<div id=\""+ idCont +"\" class='meshcmsfieldlabel' " +
+	    	" style=\"cursor:pointer;\" onclick=\"javascript:editor_moduleShow('"+ idCont +"','"+ idElem +"','"+ idIcon +"');\">" +
+	    	"<img alt=\"\" src=\"" + afp + "/images/tree_plus.gif\" id=\""+ idIcon +"\" />\n");
+	    Object[] args = { bundle.getString("editorMailTitle"), email != null ? bundle.getString("editorMailTitle") : bundle.getString("editorNoTemplate"),
+	    		Utils.noNull(email), "" };
+	    formatter.applyPattern(bundle.getString("editorModuleLocExt"));
+	    w.write("<label for=\""+ idElem +"\">"+ formatter.format(args) +"</label>");
+	    w.write("</div>");
+    }
+
+    w.write("<fieldset  "+ (isEditorModulesCollapsed ? "style=\"display:none;\"" : "") +
+    		"class='meshcmseditor' id=\""+ idElem +"\">\n");
     w.write("<legend>" + bundle.getString("editorMailTitle") + "</legend>\n");
     w.write("<div class='meshcmsfieldlabel'>" + bundle.getString("editorMail") + "</div>\n");
-    w.write("<div class='meshcmsfield'><img src='" + afp +
+    w.write("<div class='meshcmsfield'><img alt=\"\" src='" + afp +
       "/images/clear_field.gif' onclick=\"javascript:editor_clr('" +
       PageAssembler.EMAIL_PARAM + "');\" style='vertical-align:middle;' /><input type='text' id='" +
       PageAssembler.EMAIL_PARAM + "' name='" +

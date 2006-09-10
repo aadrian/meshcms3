@@ -102,25 +102,53 @@ public final class Module extends AbstractTag {
   }
 
   public void writeEditTag() throws IOException, JspException {
+    final String uniqueHash = new Integer(new Object().hashCode()).toString();
+  	final String tagIdPrefix = "meshcmsmodule_"+ location +"_"+ uniqueHash +"_";
+  	final String idCont = tagIdPrefix +"cont";
+  	final String idElem = tagIdPrefix +"elem";
+  	final String idIcon = tagIdPrefix +"icon";
+  	final boolean isEditorModulesCollapsed = webSite.getConfiguration().isEditorModulesCollapsed();
+
+  	String template = null;
+    String argPath = null;
+    String advParms = null;
+
+    ModuleDescriptor md = getModuleDescriptor(location, name);
+    if (md != null) {
+	    template = md.getTemplate();
+	    argPath  = md.getArgument();
+	    advParms = Utils.listProperties(md.getAdvancedParams(), ", ");
+    }
+
     Locale locale = WebUtils.getPageLocale(pageContext);
     ResourceBundle bundle = ResourceBundle.getBundle("org/meshcms/webui/Locales", locale);
     MessageFormat formatter = new MessageFormat("", locale);
-
-    ModuleDescriptor md = getModuleDescriptor(location, name);
+    
     Writer w = getOut();
 
-    w.write("<fieldset class='meshcmseditor'>\n");
-    Object[] args = { location };
+    Object[] args = { location,
+    		template != null ? Utils.beautify(template,true) : bundle.getString("editorNoTemplate"),
+        Utils.noNull(argPath), Utils.noNull(advParms) };
+
+    if (isEditorModulesCollapsed) {
+	    w.write("<div id=\""+ idCont +"\" class='meshcmsfieldlabel' " +
+	    	" style=\"cursor:pointer;position:relative;\" onclick=\"javascript:editor_moduleShow('"+ idCont +"','"+ idElem +"','"+ idIcon +"');\">" +
+	    	"<img alt=\"\" src=\"" + afp + "/images/tree_plus.gif\" id=\""+ idIcon +"\" />\n");
+	    formatter.applyPattern(bundle.getString("editorModuleLocExt"));
+	    w.write("<label for=\""+ idElem +"\">"+ formatter.format(args) +"</label>");
+	    w.write("</div>");
+    }
+
+    w.write("<fieldset "+ (isEditorModulesCollapsed ? "style=\"display:none;\"" : "") +
+    		" id=\""+ idElem +"\" class='meshcmseditor' >\n");
     formatter.applyPattern(bundle.getString("editorModuleLoc"));
     w.write(" <legend>" + formatter.format(args) + "</legend>\n");
 
     if (name != null) {
       w.write(bundle.getString("editorFixedModule"));
 
-      String argPath = md.getArgument();
-
       if (argPath != null) {
-        w.write("<img src='" + afp + "/images/small_browse.gif' title='" +
+        w.write("<img alt=\"\" src='" + afp + "/images/small_browse.gif' title='" +
           bundle.getString("editorBrowseModule") +
           "' onclick=\"javascript:window.open('" +
           afp + "/filemanager/index.jsp?folder=" +
@@ -142,7 +170,7 @@ public final class Module extends AbstractTag {
       for (int i = 0; i < mtNames.length; i++) {
         w.write("   <option value='" + mtNames[i] + "'");
 
-        if (md != null && mtNames[i].equals(md.getTemplate())) {
+        if (md != null && mtNames[i].equals(template)) {
           w.write(" selected='selected'");
         }
 
@@ -153,13 +181,13 @@ public final class Module extends AbstractTag {
       w.write(" <div class='meshcmsfieldlabel'><label for='" +
         ModuleDescriptor.ARGUMENT_ID + location + "'>" +
         bundle.getString("editorModuleArgument") + "</label></div>\n");
-      w.write(" <div class='meshcmsfield'><img src='" + afp +
+      w.write(" <div class='meshcmsfield'><img alt=\"\" src='" + afp +
         "/images/clear_field.gif' onclick=\"javascript:editor_clr('" +
         ModuleDescriptor.ARGUMENT_ID + location + "');\" style='vertical-align:middle;' /><input type='text' id='" +
         ModuleDescriptor.ARGUMENT_ID + location + "' name='" +
         ModuleDescriptor.ARGUMENT_ID + location + "' value=\"" +
-        (md == null || md.getArgument() == null ? "" : md.getArgument()) +
-        "\" style='width: 80%;' /><img src='" + afp +
+        (md == null || argPath == null ? "" : argPath) +
+        "\" style='width: 80%;' /><img alt=\"\" src='" + afp +
         "/images/small_browse.gif' title='" + bundle.getString("genericBrowse") +
         "' onclick=\"javascript:editor_openFileManager('" +
         ModuleDescriptor.ARGUMENT_ID + location + "');\" style='vertical-align:middle;' /></div>\n");
@@ -167,7 +195,7 @@ public final class Module extends AbstractTag {
       w.write(" <div class='meshcmsfieldlabel'><label for='" +
         ModuleDescriptor.PARAMETERS_ID + location + "'>" +
         bundle.getString("editorModuleParameters") + "</label></div>\n");
-      w.write(" <div class='meshcmsfield'><img src='" + afp +
+      w.write(" <div class='meshcmsfield'><img alt=\"\" src='" + afp +
         "/images/clear_field.gif' onclick=\"javascript:editor_clr('" +
         ModuleDescriptor.PARAMETERS_ID + location + "');\" style='vertical-align:middle;' /><input type='text' id='" +
         ModuleDescriptor.PARAMETERS_ID + location + "' name='" +

@@ -272,6 +272,12 @@
        value="true"<%= configuration.isHideExceptions() ? " checked='checked'" : "" %> />
       <label for="hideExceptions"><fmt:message key="configHideExceptions" /></label>
     </div>
+
+    <div class="meshcmscheckbox">
+      <input type="checkbox" id="editorModulesCollapsed" name="editorModulesCollapsed"
+       value="true"<%= configuration.isEditorModulesCollapsed() ? " checked='checked'" : "" %> />
+      <label for="editorModulesCollapsed"><fmt:message key="configEditorModulesCollapsed" /></label>
+    </div>
   </fieldset>
 
   <div class="meshcmsbuttons">

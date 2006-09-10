@@ -63,6 +63,7 @@ public class Configuration implements Serializable {
   private boolean alwaysRedirectWelcomes;
   private boolean alwaysDenyDirectoryListings;
   private boolean hideExceptions;
+  private boolean editorModulesCollapsed;
   private int backupLife;
   private int statsLength;
   private int updateInterval;
@@ -85,6 +86,7 @@ public class Configuration implements Serializable {
     setAlwaysRedirectWelcomes(true);
     setAlwaysDenyDirectoryListings(true);
     setHideExceptions(true);
+    setEditorModulesCollapsed(false);
     
     setBackupLife(90);
     setStatsLength(3);
@@ -447,4 +449,18 @@ public class Configuration implements Serializable {
   public void setHideExceptions(boolean hideExceptions) {
     this.hideExceptions = hideExceptions;
   }
+
+  /**
+   * Returns the state of whether modules are collapsed in the editor. 
+   */
+	public boolean isEditorModulesCollapsed() {
+		return editorModulesCollapsed;
+	}
+
+  /**
+   * Sets whether modules are collapsed in the editor or not.
+   */
+	public void setEditorModulesCollapsed(boolean editorModulesCollapsed) {
+		this.editorModulesCollapsed = editorModulesCollapsed;
+	}
 }

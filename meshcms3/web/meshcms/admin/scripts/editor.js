@@ -79,17 +79,30 @@
   }
 
   /**
-   * Shows or hides the textarea to edit the headers of the page.
+   * Shows the module entry fields allowing the module to be edited.
    */
-  function editor_toggleHeadEditor() {
-    var he = document.getElementById('meshcmshead');
+   function editor_moduleShow(cont_id,elem_id,icon_id) {
+    var cont = document.getElementById(cont_id);
+    cont.parentNode.removeChild(cont);
+    editor_toggleHideShow(elem_id,icon_id);
+   }
 
-    if (he.style.display == 'none') {
-      he.style.display = '';
-      document.getElementById('togglehead').src = adminFullPath + '/images/tree_minus.gif';
+  /**
+   * Shows or hides the element and sets correct icon.
+   */
+  function editor_toggleHideShow(elem_id,icon_id) {
+    var elem = document.getElementById(elem_id);
+    var icon = icon_id != null ? document.getElementById(icon_id) : null;
+    if (elem.style.display == 'none') {
+      elem.style.display = '';
+      if (icon != null) {
+	      icon.src = adminFullPath + '/images/tree_minus.gif';
+      }
     } else {
-      he.style.display = 'none';
-      document.getElementById('togglehead').src = adminFullPath + '/images/tree_plus.gif';
+      elem.style.display = 'none';
+      if (icon != null) {
+	      icon.src = adminFullPath + '/images/tree_plus.gif';
+	    }
     }
   }
 
