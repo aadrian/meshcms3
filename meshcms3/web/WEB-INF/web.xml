@@ -27,6 +27,10 @@
     <servlet-name>downloadzip</servlet-name>
     <servlet-class>org.meshcms.core.DownloadZipServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>EncodingAwareServlet</servlet-name>
+    <servlet-class>org.meshcms.core.EncodingAwareServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>download</servlet-name>
     <url-pattern>/servlet/org.meshcms.core.DownloadServlet/*</url-pattern>
@@ -34,6 +38,16 @@
   <servlet-mapping>
     <servlet-name>downloadzip</servlet-name>
     <url-pattern>/servlet/org.meshcms.core.DownloadZipServlet/*</url-pattern>
+  </servlet-mapping>
+  <!--
+  <servlet-mapping>
+    <servlet-name>EncodingAwareServlet</servlet-name>
+    <url-pattern>*.html</url-pattern>
+  </servlet-mapping>
+  -->
+  <servlet-mapping>
+    <servlet-name>EncodingAwareServlet</servlet-name>
+    <url-pattern>*.htm</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>60</session-timeout>
