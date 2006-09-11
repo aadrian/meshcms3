@@ -25,10 +25,16 @@ package org.meshcms.util;
 import java.io.*;
 import java.util.zip.*;
 
+/**
+ * Creates a ZIP file from a directory or file.
+ */
 public class ZipArchiver extends DirectoryParser {
   private ZipOutputStream zout;
   private byte[] buf;
   
+  /**
+   * Instantiates the archiver for the given file and output stream.
+   */
   public ZipArchiver(File contents, OutputStream out) {
     zout = new ZipOutputStream(out);
     setInitialDir(contents);

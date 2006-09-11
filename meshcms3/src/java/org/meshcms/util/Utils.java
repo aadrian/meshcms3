@@ -382,6 +382,10 @@ public final class Utils {
     return true;
   }
 
+  /**
+   * Copies a directory with its contents. See {@link DirectoryCopier} for
+   * details on options.
+   */
   public static boolean copyDirectory(File dir, File newDir,
       boolean overwriteDir, boolean overwriteFiles, boolean setLastModified) {
     DirectoryCopier dc = new DirectoryCopier(dir, newDir, overwriteDir,
@@ -444,6 +448,10 @@ public final class Utils {
     writeFully(file, s, null);
   }
   
+  /**
+   * Writes the whole String to the File using a buffered FileWriter and the
+   * given charset.
+   */
   public static void writeFully(File file, String s, String charset) throws IOException {
     Writer writer = isNullOrEmpty(charset) ? new BufferedWriter(new FileWriter(file)) :
         new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), charset));
@@ -603,6 +611,9 @@ public final class Utils {
     return sb.toString();
   }
 
+  /**
+   * Appends all properties into a single string using the given separator.
+   */
   public static String listProperties(Properties p, String sep) {
     if (p == null) {
       return null;

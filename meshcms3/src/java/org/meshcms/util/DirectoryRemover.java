@@ -24,6 +24,9 @@ package org.meshcms.util;
 
 import java.io.*;
 
+/**
+ * Deletes a directory even if not empty.
+ */
 public class DirectoryRemover extends DirectoryParser {
   private boolean result;
   
@@ -49,6 +52,10 @@ public class DirectoryRemover extends DirectoryParser {
     }
   }
 
+  /**
+   * This method can be called after processing to know whether the directory
+   * has been fully deleted or not.
+   */
   public boolean getResult() {
     return result;
   }

@@ -108,6 +108,9 @@ public class FolderXTree extends DirectoryParser {
     return include;
   }
   
+  /**
+   * Returns info about a directory, based on path and permissions.
+   */
   public static DirectoryInfo getDirectoryInfo(WebSite webSite,
       UserInfo userInfo, Path dirPath) {
     DirectoryInfo di = new DirectoryInfo();
@@ -142,6 +145,9 @@ public class FolderXTree extends DirectoryParser {
     return di;
   }
   
+  /**
+   * Encapsulates inclusion flag and icon for a directory.
+   */
   public static class DirectoryInfo {
     public boolean include = true;
     public String iconName = null;

@@ -2,6 +2,9 @@ package org.meshcms.util;
 
 import com.thoughtworks.xstream.converters.basic.*;
 
+/**
+ * Allows to save instances of {@link Path} using XStream.
+ */
 public class XStreamPathConverter extends AbstractBasicConverter {
   private boolean prependSlash;
   
@@ -17,10 +20,17 @@ public class XStreamPathConverter extends AbstractBasicConverter {
     return prependSlash ? ((Path) obj).getAsLink() : obj.toString();
   }
 
+  /**
+   * Returns the current type of string (with or without prepended slash).
+   */
   public boolean isPrependSlash() {
     return prependSlash;
   }
 
+  /**
+   * Defines the type of string that will be used to save (with or without
+   * prepended slash).
+   */
   public void setPrependSlash(boolean prependSlash) {
     this.prependSlash = prependSlash;
   }

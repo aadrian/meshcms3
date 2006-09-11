@@ -387,10 +387,17 @@ public class FormField implements Serializable {
     this.subject = subject;
   }
 
+  /**
+   * Returns the value of the message body flag.
+   */
   public boolean isMessageBody() {
     return messageBody;
   }
 
+  /**
+   * Sets the message body flag. If true, this filed is considered to be the
+   * body of the message and will be written without caption
+   */
   public void setMessageBody(boolean messageBody) {
     this.messageBody = messageBody;
   }

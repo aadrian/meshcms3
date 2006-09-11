@@ -43,6 +43,9 @@ public abstract class AbstractThumbnail {
    */
   protected abstract boolean createThumbnail(File imageFile, File thumbnailFile);
 
+  /**
+   * Checks the current thumbnail, and creates it if not available or too old.
+   */
   public Path checkAndCreate(WebSite webSite, Path imagePath,
       String thumbnailFileName) {
     Path thumbnailPath = webSite.getGeneratedFilesPath().add(imagePath);
