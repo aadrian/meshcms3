@@ -112,7 +112,7 @@ public final class HitFilter implements Filter {
 
       /* This is needed to avoid source code disclosure in virtual sites */
       if (webSite instanceof VirtualWebSite &&
-          httpReq.getRequestURI().endsWith(".jsp/")) {
+          httpReq.getRequestURI().toLowerCase().endsWith(".jsp/")) {
         httpRes.sendError(HttpServletResponse.SC_NOT_FOUND);
         return;
       }
@@ -238,6 +238,7 @@ public final class HitFilter implements Filter {
           pageCharset = pageInfo.getCharset();
 
           if (pageCharset != null) {
+            httpReq.setCharacterEncoding(pageCharset);
             httpRes.setHeader("Content-Type", "text/html; charset=" + pageCharset);
           }
 
