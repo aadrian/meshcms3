@@ -60,8 +60,7 @@ public class EncodingAwareServlet extends HttpServlet {
       reader = new InputStreamReader(new FileInputStream(servedFile), charset);
     }
     
-    response.setContentType("text/html");
-    response.setCharacterEncoding(charset);
+    response.setContentType("text/html; charset=" + charset);
     Utils.copyReaderToWriter(reader, response.getWriter(), false);
   }
 
