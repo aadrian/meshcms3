@@ -60,7 +60,6 @@
   c.setSmtpUsername(request.getParameter("smtpUsername"));
   c.setSmtpPassword(request.getParameter("smtpPassword"));
 
-  c.setPreferredCharset(request.getParameter("preferredCharset"));
   c.setUpdateInterval(Utils.parseInt(request.getParameter("updateInterval"), c.getUpdateInterval()));
   c.setBackupLife(Utils.parseInt(request.getParameter("backupLife"), c.getBackupLife()));
   c.setStatsLength(Utils.parseInt(request.getParameter("statsLength"), c.getStatsLength()));
@@ -75,6 +74,15 @@
   c.setSiteKeywords(request.getParameter("siteKeywords"));
   c.setSiteAuthor(request.getParameter("siteAuthor"));
   c.setSiteAuthorURL(request.getParameter("siteAuthorURL"));
+
+  String newCharset = request.getParameter("preferredCharset");
+  
+  if (!c.getPreferredCharset().equals(newCharset)) {
+    // don't preserve old page info if charset has changed
+    webSite.getSiteMap().setObsolete(true);
+  }
+  
+  c.setPreferredCharset(newCharset);
   
   webSite.setLastAdminThemeBlock(0L); // re-enable the ability to use a custom admin theme
   webSite.updateSiteMap(true); // needed to re-init the cache

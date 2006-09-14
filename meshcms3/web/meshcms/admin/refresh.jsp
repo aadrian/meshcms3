@@ -44,7 +44,10 @@
 
 <body>
 
-<% webSite.updateSiteMap(true); %>
+<%
+  webSite.getSiteMap().setObsolete(true);
+  webSite.updateSiteMap(true);
+%>
 <fmt:message key="refreshOk" />
 <script type="text/javascript">location.replace('index.jsp');</script>
 

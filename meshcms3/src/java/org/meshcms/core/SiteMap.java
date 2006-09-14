@@ -60,6 +60,8 @@ public class SiteMap extends DirectoryParser {
   private SortedMap themesMap;
   private SortedMap modulesMap;
   private Map pageCache;
+  
+  private boolean obsolete;
 
   /**
    * Creates a new instance of SiteMap
@@ -77,6 +79,11 @@ public class SiteMap extends DirectoryParser {
 
   protected boolean preProcess() {
     oldSiteMap = webSite.getSiteMap();
+    
+    if (oldSiteMap != null && oldSiteMap.isObsolete()) {
+      oldSiteMap = null;
+    }
+    
     pagesMap = new TreeMap();
     currentWelcomes = new TreeMap();
     return true;
@@ -192,9 +199,9 @@ public class SiteMap extends DirectoryParser {
     pagesMap = Collections.unmodifiableSortedMap(pagesMap);
     oldSiteMap = null;
     setLastModified();
-    webSite.setSiteMap(this);
 
     pagesList = new ArrayList(pagesMap.values());
+    webSite.setSiteMap(this);
     Collections.sort(pagesList, new PageInfoComparator(webSite));
     pagesList = Collections.unmodifiableList(pagesList);
 
@@ -297,7 +304,7 @@ public class SiteMap extends DirectoryParser {
         int previousLevel = Math.max(previous.getLevel(), baseLevel);
 
         for (int j = level; j > previousLevel; j--) {
-          // qui niente
+          // nothing here
         }
 
         if (level <= previousLevel) {
@@ -564,5 +571,20 @@ public class SiteMap extends DirectoryParser {
         }
       }
     }
+  }
+
+  /**
+   * @see #setObsolete(boolean)
+   */
+  public boolean isObsolete() {
+    return obsolete;
+  }
+
+  /**
+   * When obsolete, info contained in this site map will be discarded when a
+   * new site map is created.
+   */
+  public void setObsolete(boolean obsolete) {
+    this.obsolete = obsolete;
   }
 }
