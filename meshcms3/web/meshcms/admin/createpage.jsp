@@ -104,7 +104,7 @@ if (title.equals("")) { %>
     }
     
     String text = webSite.getHTMLTemplate
-        (WebUtils.convertToHTMLEntities(request.getParameter("title")));
+        (WebUtils.convertToHTMLEntities(request.getParameter("title"), true));
 
     if (webSite.saveToFile(userInfo, text, path, null)) {
       webSite.updateSiteMap(true);

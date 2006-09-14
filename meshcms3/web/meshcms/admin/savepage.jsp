@@ -50,7 +50,7 @@
         filePath = new Path(value);
       } else {
         if (name.equals("pagetitle")) {
-          value = WebUtils.convertToHTMLEntities(value);
+          value = WebUtils.convertToHTMLEntities(value, true);
           title = value;
         }
 

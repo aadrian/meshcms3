@@ -129,17 +129,30 @@ public final class WebUtils {
     }
   }
 
-  public static String convertToHTMLEntities(String s) {
+  public static String convertToHTMLEntities(String s, boolean named) {
     StringBuffer sb = new StringBuffer(s.length());
+    
+    if (named) {
+      for (int i = 0; i < s.length(); i++) {
+        char c = s.charAt(i);
+        String ent = NUMBER_TO_ENTITY.getProperty(Integer.toString(c));
 
-    for (int i = 0; i < s.length(); i++) {
-      char c = s.charAt(i);
-      String ent = NUMBER_TO_ENTITY.getProperty(Integer.toString(c));
+        if (ent == null) {
+          sb.append(c);
+        } else {
+          sb.append('&').append(ent).append(';');
+        }
+      }
+    } else {
+      for (int i = 0; i < s.length(); i++) {
+        char c = s.charAt(i);
+        int n = ((int) c) & 0xFFFF;
 
-      if (ent == null) {
-        sb.append(c);
-      } else {
-        sb.append('&').append(ent).append(';');
+        if (n > 127 || n == 60 || n == 62 || n == 38 || n == 39 || n == 34) {
+          sb.append("&#").append(n).append(';');
+        } else {
+          sb.append(c);
+        }
       }
     }
 
