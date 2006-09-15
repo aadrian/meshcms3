@@ -201,10 +201,10 @@ public class SiteMap extends DirectoryParser {
     setLastModified();
 
     pagesList = new ArrayList(pagesMap.values());
-    webSite.setSiteMap(this);
-    Collections.sort(pagesList, new PageInfoComparator(webSite));
+    Collections.sort(pagesList, new PageInfoComparator(this, webSite.getSiteInfo()));
     pagesList = Collections.unmodifiableList(pagesList);
 
+    webSite.setSiteMap(this);
     webSite.getSiteInfo().cleanupSiteInfo();
   }
 

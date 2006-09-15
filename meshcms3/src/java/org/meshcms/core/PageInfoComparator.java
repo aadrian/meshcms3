@@ -33,12 +33,12 @@ import org.meshcms.util.*;
  * @see SiteMap
  */
 public final class PageInfoComparator implements Comparator {
-  private SiteInfo siteInfo;
   private SiteMap siteMap;
+  private SiteInfo siteInfo;
 
-  public PageInfoComparator(WebSite webSite) {
-    siteInfo = webSite.getSiteInfo();
-    siteMap = webSite.getSiteMap();
+  public PageInfoComparator(SiteMap siteMap, SiteInfo siteInfo) {
+    this.siteMap = siteMap;
+    this.siteInfo = siteInfo;
   }
 
   /**
@@ -91,10 +91,10 @@ public final class PageInfoComparator implements Comparator {
     return compareSameLevel(subPath1, subPath2);
   }
 
-  private int compareSameLevel(Path path1, Path path2) {
+  private int compareSameLevel(Path subPath1, Path subPath2) {
     // compare scores
-    int score1 = siteInfo.getPageScore(path1);
-    int score2 = siteInfo.getPageScore(path2);
+    int score1 = siteInfo.getPageScore(subPath1);
+    int score2 = siteInfo.getPageScore(subPath2);
 
     if (score1 > score2) {
       return -1;
@@ -105,8 +105,8 @@ public final class PageInfoComparator implements Comparator {
     }
 
     // Get page infos and compares them by hit counts.
-    PageInfo pageInfo1 = siteMap.getPageInfo(path1);
-    PageInfo pageInfo2 = siteMap.getPageInfo(path2);
+    PageInfo pageInfo1 = siteMap.getPageInfo(subPath1);
+    PageInfo pageInfo2 = siteMap.getPageInfo(subPath2);
 
     if (pageInfo1.getTotalHits() > pageInfo2.getTotalHits()) {
       return -1;
