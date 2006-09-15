@@ -154,7 +154,7 @@ public class Configuration implements Serializable {
    * measured in days.
    */
   public void setBackupLife(int backupLife) {
-    this.backupLife = backupLife;
+    this.backupLife = Math.max(backupLife, 0);
   }
 
   /**
@@ -171,7 +171,7 @@ public class Configuration implements Serializable {
    * web application.
    */
   public void setStatsLength(int statsLength) {
-    this.statsLength = statsLength;
+    this.statsLength = Math.max(statsLength, 1);
   }
 
   /**
@@ -187,7 +187,7 @@ public class Configuration implements Serializable {
    * measured in hours.
    */
   public void setUpdateInterval(int updateInterval) {
-    this.updateInterval = updateInterval;
+    this.updateInterval = Math.max(updateInterval, 1);
   }
 
   /**
