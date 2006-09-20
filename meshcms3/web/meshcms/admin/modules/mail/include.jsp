@@ -244,6 +244,7 @@
 %>
     <form method="post">
     <input type="hidden" name="post_modulecode" value="<%= moduleCode %>" />
+    <div class="formfields">
 <%
       Iterator iterator = fields.iterator();
       FormField field;
@@ -293,9 +294,9 @@
           }
         }
       }
-
+      %></div>
+      <div class="fieldbuttons"><%
       iterator = fields.iterator();
-      %><div class="fieldbuttons"><%
 
       while (iterator.hasNext()) {
         field = (FormField) iterator.next();
