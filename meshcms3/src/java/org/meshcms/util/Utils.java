@@ -435,6 +435,7 @@ public final class Utils {
     }
 
     reader.close();
+    writer.flush();
 
     if (closeWriter) {
       writer.close();
