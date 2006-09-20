@@ -190,10 +190,10 @@ public class WebSite {
    * Sets the <code>SiteInfo</code> object related to this website.  
    */
   void setSiteInfo(SiteInfo siteInfo) {
-		this.siteInfo = siteInfo;
-	}
+    this.siteInfo = siteInfo;
+  }
 
-	/**
+  /**
    * Returns the instance of the <code>SiteInfo</code> class that is managing
    * the site information.
    *
@@ -618,8 +618,8 @@ public class WebSite {
     return dr.getResult();
   }
 
-  public File createDir(Path requestedPath) {
-    File dir = getFile(requestedPath);
+  public File createDir(Path path) {
+    File dir = getFile(path);
     dir.mkdirs();
     return dir.isDirectory() ? dir : null;
   }
@@ -628,9 +628,9 @@ public class WebSite {
    * Returns the file object for a given path in the web application. The file
    * is not checked for existance.
    */
-  public File getFile(Path requestedPath) {
-    return (requestedPath == null || requestedPath.isRelative()) ? null :
-        new File(rootFile, requestedPath.toString());
+  public File getFile(Path path) {
+    return (path == null || path.isRelative()) ? null :
+        new File(rootFile, path.toString());
   }
 
   public File getRootFile() {
