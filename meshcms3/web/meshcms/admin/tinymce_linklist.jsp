@@ -25,10 +25,6 @@
 <%@ page import="org.meshcms.core.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 
-<%
-  response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
-%>
-
 var tinyMCELinkList = new Array(
 <%
   String cp = request.getContextPath();

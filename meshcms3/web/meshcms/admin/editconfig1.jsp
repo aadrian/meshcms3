@@ -39,7 +39,6 @@
     return;
   }
 
-  response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
   Locale locale = WebUtils.getPageLocale(pageContext);
   Configuration configuration = webSite.getConfiguration();
   int cacheType = configuration.getCacheType();
@@ -239,22 +238,6 @@
       <label for="preferredCharset"><fmt:message key="configCharset" /></label>
     </div>
     
-    <div class="meshcmsfield">
-      <select name="preferredCharset" id="preferredCharset"><%
-       Charset currentCharset = Charset.forName(configuration.getPreferredCharset());
-       SortedMap encMap = Charset.availableCharsets();
-       Iterator iter = encMap.keySet().iterator();
-       String encName;
-       Charset enc;
-
-       while (iter.hasNext()) { 
-         encName = (String) iter.next();
-         enc = (Charset) encMap.get(encName); %>
-         <option value="<%= encName %>"<%= currentCharset.equals(enc) ?
-           " selected='selected'" : "" %>><%= enc.displayName(locale) %></option><%
-       } %></select>
-    </div>
-
     <div class="meshcmscheckbox">
       <input type="checkbox" id="alwaysRedirectWelcomes" name="alwaysRedirectWelcomes"
        value="true"<%= configuration.isAlwaysRedirectWelcomes() ? " checked='checked'" : "" %> />

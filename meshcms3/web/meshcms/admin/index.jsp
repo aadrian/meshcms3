@@ -32,7 +32,6 @@
 
 <%
   String cp = request.getContextPath();
-  response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
 %>
 
 <html>

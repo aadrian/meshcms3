@@ -147,17 +147,11 @@ public class SiteMap extends DirectoryParser {
 
     if (pageInfo.getLastModified() != file.lastModified()) {
       FastPageParser fpp = new FastPageParser();
-      String charset = pageInfo.getCharset();
-
-      if (charset == null) {
-        charset = webSite.getConfiguration().getPreferredCharset();
-      }
-
       Reader reader = null;
 
       try {
-        reader = new BufferedReader
-            (new InputStreamReader(new FileInputStream(file), charset));
+        reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), 
+            webSite.getConfiguration().getPreferredCharset(file)));
         Page page = fpp.parse(reader);
         String title = page.getTitle();
 
@@ -176,8 +170,6 @@ public class SiteMap extends DirectoryParser {
             pageCharset = WebUtils.parseCharset(page.getProperty(pKeys[i]));
           }
         }
-
-        pageInfo.setCharset(pageCharset);
       } catch (Exception ex) {
         pageInfo.setTitle(Utils.beautify(path.getLastElement(), true));
         pageInfo.setLastModified(0L);

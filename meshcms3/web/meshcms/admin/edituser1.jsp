@@ -62,7 +62,6 @@
     return;
   }
 
-  response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
   String imagesPath = request.getContextPath() + '/' + webSite.getAdminPath() + "/images";
 %>
 

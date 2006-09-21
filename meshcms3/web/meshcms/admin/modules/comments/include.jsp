@@ -90,12 +90,12 @@
     
     if (!(Utils.isNullOrEmpty(name) || Utils.isNullOrEmpty(text))) {
       PageAssembler pa = new PageAssembler();
-      pa.setCharset(webSite.getConfiguration().getPreferredCharset());
       pa.addProperty("pagetitle", Utils.encodeHTML(name));
       pa.addProperty("meshcmsbody", text);
       File commentFile = new File(commentsDir, "mcc_" +
           WebUtils.numericDateFormatter.format(new Date()) + ".html");
-      Utils.writeFully(commentFile, pa.getPage(), pa.getCharset());
+      Utils.writeFully(commentFile, pa.getPage(),
+          webSite.getConfiguration().getPreferredCharset(request.getServletPath()));
       
       String email = md.getAdvancedParam("notify", null);
       

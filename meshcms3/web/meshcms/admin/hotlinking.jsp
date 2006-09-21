@@ -25,7 +25,6 @@
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 
 <%
-  response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
   Path path = new Path(request.getParameter("path"));
   String cp = request.getContextPath();
   boolean isImage = FileTypes.isLike(path, "jpg");

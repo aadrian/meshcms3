@@ -71,7 +71,7 @@ public final class WebUtils {
    * file names can't be found in the web.xml configuration file.
    */
   public static final String[] DEFAULT_WELCOME_FILES =
-    {"index.html", "index.htm", "index.jsp"};
+    {"index.html", "index.htm", "index.jsp", "index.html.utf8"};
 
   public static final String HTML_ENTITIES = "39,#39,160,nbsp,161,iexcl," +
       "162,cent,163,pound,164,curren,165,yen,166,brvbar,167,sect,168,uml," +
@@ -129,30 +129,24 @@ public final class WebUtils {
     }
   }
 
-  public static String convertToHTMLEntities(String s, boolean named) {
+  public static String convertToHTMLEntities(String s, boolean allowNumeric) {
     StringBuffer sb = new StringBuffer(s.length());
     
-    if (named) {
-      for (int i = 0; i < s.length(); i++) {
-        char c = s.charAt(i);
-        String ent = NUMBER_TO_ENTITY.getProperty(Integer.toString(c));
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
+      String ent = NUMBER_TO_ENTITY.getProperty(Integer.toString(c));
 
-        if (ent == null) {
-          sb.append(c);
-        } else {
-          sb.append('&').append(ent).append(';');
-        }
-      }
-    } else {
-      for (int i = 0; i < s.length(); i++) {
-        char c = s.charAt(i);
+      if (ent == null) {
         int n = ((int) c) & 0xFFFF;
 
-        if (n > 127 || n == 60 || n == 62 || n == 38 || n == 39 || n == 34) {
+        if (allowNumeric && 
+            (n > 127 || n == 60 || n == 62 || n == 38 || n == 39 || n == 34)) {
           sb.append("&#").append(n).append(';');
         } else {
           sb.append(c);
         }
+      } else {
+        sb.append('&').append(ent).append(';');
       }
     }
 

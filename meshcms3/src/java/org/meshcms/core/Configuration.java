@@ -23,6 +23,7 @@
 package org.meshcms.core;
 
 import java.io.*;
+import org.meshcms.util.*;
 
 /**
  * Manages the configuration parameters of a website.
@@ -41,7 +42,7 @@ public class Configuration implements Serializable {
   /**
    * Contains the extensions of files that are visually editable by default.
    */
-  public static final String[] DEFAULT_VISUAL_EXTENSIONS = {"html", "htm"};
+  public static final String[] DEFAULT_VISUAL_EXTENSIONS = {"html", "htm", "html.utf8"};
   
   /**
    * Value used to disable page caching.
@@ -64,6 +65,7 @@ public class Configuration implements Serializable {
   private boolean alwaysDenyDirectoryListings;
   private boolean hideExceptions;
   private boolean editorModulesCollapsed;
+  private boolean useUTF8;
   private int backupLife;
   private int statsLength;
   private int updateInterval;
@@ -71,7 +73,6 @@ public class Configuration implements Serializable {
   private String mailServer;
   private String smtpUsername;
   private String smtpPassword;
-  private String preferredCharset;
   private String siteName;
   private String siteHost;
   private String siteDescription;
@@ -87,6 +88,7 @@ public class Configuration implements Serializable {
     setAlwaysDenyDirectoryListings(true);
     setHideExceptions(true);
     setEditorModulesCollapsed(false);
+    setUseUTF8(false);
     
     setBackupLife(90);
     setStatsLength(3);
@@ -96,7 +98,6 @@ public class Configuration implements Serializable {
     setMailServer("localhost");
     setSmtpUsername("");
     setSmtpPassword("");
-    setPreferredCharset("UTF-8");
     
     setSiteAuthor("Luciano Vernaschi");
     setSiteAuthorURL("http://www.cromoteca.com/");
@@ -251,17 +252,17 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * Returns the preferred charset.
+   * Returns the preferred charset to deal with the given file.
    */
-  public String getPreferredCharset() {
-    return preferredCharset;
+  public String getPreferredCharset(Object file) {
+    return isUseUTF8() &&
+        UTF8Servlet.EXTENSION.equals(Utils.getExtension(file, true)) ?
+        UTF8Servlet.CHARSET : WebSite.SYSTEM_CHARSET;
   }
-
-  /**
-   * Sets the preferred charset, that will be used when possible.
-   */
-  public void setPreferredCharset(String preferredCharset) {
-    this.preferredCharset = preferredCharset;
+  
+  public BufferedReader getReader(File file) throws IOException {
+    return new BufferedReader(new InputStreamReader
+        (new FileInputStream(file), getPreferredCharset(file)));
   }
 
   /**
@@ -277,7 +278,6 @@ public class Configuration implements Serializable {
     
     if (c == null) {
       c = new Configuration();
-      c.setPreferredCharset(WebSite.SYSTEM_CHARSET);
     }
     
     return c;
@@ -453,14 +453,22 @@ public class Configuration implements Serializable {
   /**
    * Returns the state of whether modules are collapsed in the editor. 
    */
-	public boolean isEditorModulesCollapsed() {
-		return editorModulesCollapsed;
-	}
+  public boolean isEditorModulesCollapsed() {
+    return editorModulesCollapsed;
+  }
 
   /**
    * Sets whether modules are collapsed in the editor or not.
    */
-	public void setEditorModulesCollapsed(boolean editorModulesCollapsed) {
-		this.editorModulesCollapsed = editorModulesCollapsed;
-	}
+  public void setEditorModulesCollapsed(boolean editorModulesCollapsed) {
+    this.editorModulesCollapsed = editorModulesCollapsed;
+  }
+
+  public boolean isUseUTF8() {
+    return useUTF8;
+  }
+
+  public void setUseUTF8(boolean useUTF8) {
+    this.useUTF8 = useUTF8;
+  }
 }

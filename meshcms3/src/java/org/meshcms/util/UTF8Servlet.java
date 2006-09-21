@@ -20,61 +20,49 @@
  * and at info@cromoteca.com
  */
 
-package org.meshcms.core;
+package org.meshcms.util;
 
 import java.io.*;
-import java.net.*;
-import java.nio.charset.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import com.glaforge.i18n.io.*;
-import org.meshcms.util.*;
 
-public class EncodingAwareServlet extends HttpServlet {
+public class UTF8Servlet extends HttpServlet {
+  public static final String CHARSET = "UTF-8";
+  public static final String EXTENSION = ".utf8";
+  
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
-    WebSite webSite = (WebSite) request.getAttribute("webSite");
-    HttpServletRequest httpReq = webSite.wrapRequest(request);
-    Path pagePath = webSite.getRequestedPath(httpReq);
-    String servedPath = webSite.getServedPath(httpReq).getAsLink();
-    PageInfo pageInfo = webSite.getSiteMap().getPageInfo(pagePath);
-    File servedFile = new File(getServletContext().getRealPath(servedPath));
+    ServletContext context = getServletContext();
+    File servedFile = new File(context.getRealPath(request.getServletPath()));
     
     if (!servedFile.exists()) {
       response.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     }
-
-    String charset = (pageInfo == null) ? null : pageInfo.getCharset();
-    Reader reader;
-
-    if (charset == null) {
-      SmartEncodingInputStream seis = new SmartEncodingInputStream(
-          new FileInputStream(servedFile),
-          SmartEncodingInputStream.BUFFER_LENGTH_4KB,
-          Charset.forName(webSite.getConfiguration().getPreferredCharset())
-      );
-      reader = seis.getReader();
-      charset = seis.getEncoding().toString();
-    } else {
-      reader = new InputStreamReader(new FileInputStream(servedFile), charset);
+    
+    Reader reader = new BufferedReader
+        (new InputStreamReader(new FileInputStream(servedFile), CHARSET));
+    String mimeType = context.getMimeType(Utils.removeExtension(servedFile));
+    
+    if (mimeType == null) {
+      mimeType = "text/html";
     }
     
-    response.setContentType("text/html; charset=" + charset);
-    Utils.copyReaderToWriter(reader, response.getWriter(), false);
+    response.setContentType(mimeType + "; charset=" + CHARSET);
+    Utils.copyReaderToWriter(reader, response.getWriter(), true);
   }
-
+  
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     processRequest(request, response);
   }
-  
+
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     processRequest(request, response);
   }
-  
+
   public String getServletInfo() {
-    return "Servlet that reads a plain HTML file using charset information when available";
+    return "Serves files using UTF-8 as charset";
   }
 }

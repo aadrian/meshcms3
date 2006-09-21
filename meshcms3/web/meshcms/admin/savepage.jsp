@@ -31,15 +31,12 @@
 <fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
 
 <%
-  response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
   String fullSrc = request.getParameter("fullsrc");
   Path filePath = null;
   String title = null;
-  String charset = null;
 
   if (Utils.isNullOrEmpty(fullSrc)) {
     PageAssembler pa = new PageAssembler();
-    pa.setCharset(webSite.getConfiguration().getPreferredCharset());
     Enumeration names = request.getParameterNames();
 
     while (names.hasMoreElements()) {
@@ -59,14 +56,9 @@
     }
 
     fullSrc = pa.getPage();
-    charset = pa.getCharset();
   } else {
     filePath = new Path(request.getParameter("pagepath"));
     PageInfo pageInfo = webSite.getSiteMap().getPageInfo(filePath);
-    
-    if (pageInfo != null) {
-      charset = pageInfo.getCharset();
-    }
   }
 
   if (!userInfo.canWrite(webSite, filePath)) {
@@ -85,7 +77,8 @@
 <body>
 
 <%
-  if (webSite.saveToFile(userInfo, fullSrc, filePath, charset)) {
+  if (webSite.saveToFile(userInfo, fullSrc, filePath,
+      webSite.getConfiguration().getPreferredCharset(filePath))) {
     webSite.updateSiteMap(true);
 %>
   <p><% if (Utils.isNullOrEmpty(title)) { %>

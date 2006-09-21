@@ -35,8 +35,6 @@
                        "You don't have enough privileges");
     return;
   }
-
-  response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
 %>
 
 <html>

@@ -50,8 +50,10 @@
 
   String mp = request.getContextPath() + '/' + md.getModulePath();
   String data = mp + "/xspf_player.swf?playlist_url=" +
-      URLEncoder.encode(mp + "/playlist.jsp?path=" + md.getModuleArgumentDirectoryPath(webSite, true) +
-      "&modulepath=" + md.getModulePath(), webSite.getConfiguration().getPreferredCharset()) +
+      URLEncoder.encode(mp + "/playlist.jsp?path=" +
+      md.getModuleArgumentDirectoryPath(webSite, true) +
+      "&modulepath=" + md.getModulePath(),
+      webSite.getConfiguration().getPreferredCharset(request.getServletPath())) +
       "&autoload=false&info_button_text=download";
 %>
 

@@ -52,7 +52,6 @@ public final class PageAssembler {
   private StringBuffer bodyTag = new StringBuffer();
   private Properties mod_templates, mod_args, mod_params;
   private boolean contentType;
-  private String charset;
 
   public PageAssembler() {
     mod_templates = new Properties();
@@ -91,15 +90,9 @@ public final class PageAssembler {
         mod_params.setProperty(name.substring(ModuleDescriptor.PARAMETERS_ID.length()), value);
     } else if (name.startsWith("body.")) {
       bodyTag.append(' ').append(name.substring(5)).append("=\"").append(value).append('\"');
-    } else if (name.startsWith("meta.")) {
-      if (name.toLowerCase().indexOf("content-type") != -1) {
-        charset = WebUtils.parseCharset(value);
-
-        if (charset != null) {
-          contentType = true;
-        }
-      }
     /*
+      } else if (name.startsWith("meta.")) {
+        //
       } else if (name.startsWith("page.")) {
         //
       } else if (name.startsWith("mce_editor")) {
@@ -154,12 +147,6 @@ public final class PageAssembler {
     sb.append(">\n<head>\n<title>");
     sb.append(Utils.noNull(title));
     sb.append("</title>\n");
-
-    if (!contentType && charset != null) {
-      sb.append("<meta http-equiv=\"Content-Type\" content=\"text/html;");
-      sb.append(" charset=").append(charset).append("\" />");
-    }
-
     sb.append(Utils.noNull(head));
     sb.append("\n</head>\n<body");
     sb.append(bodyTag);
@@ -168,13 +155,5 @@ public final class PageAssembler {
     sb.append("\n</body>\n</html>\n");
 
     return sb.toString();
-  }
-
-  public void setCharset(String charset) {
-    this.charset = charset;
-  }
-
-  public String getCharset() {
-    return charset;
   }
 }

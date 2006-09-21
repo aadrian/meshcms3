@@ -142,7 +142,6 @@ public final class HitFilter implements Filter {
       
       SiteMap siteMap = null;
       PageInfo pageInfo = null;
-      String pageCharset = null;
       boolean isAdminPage = false;
       boolean isGuest = true;
 
@@ -155,7 +154,6 @@ public final class HitFilter implements Filter {
         
         siteMap = webSite.getSiteMap();
         isAdminPage = pagePath.isContainedIn(webSite.getAdminPath());
-        httpReq.setCharacterEncoding(webSite.getConfiguration().getPreferredCharset());
         HttpSession session = httpReq.getSession(true);
 
         UserInfo userInfo = (UserInfo) httpReq.getSession().getAttribute("userInfo");
@@ -235,13 +233,6 @@ public final class HitFilter implements Filter {
         pageInfo = siteMap.getPageInfo(pagePath);
 
         if (pageInfo != null) { // this page is contained in the site map
-          pageCharset = pageInfo.getCharset();
-
-          if (pageCharset != null) {
-            httpReq.setCharacterEncoding(pageCharset);
-            httpRes.setHeader("Content-Type", "text/html; charset=" + pageCharset);
-          }
-
           if (isGuest) {
             pageInfo.addHit();
           }
@@ -329,8 +320,7 @@ public final class HitFilter implements Filter {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             OutputStream os = new GZIPOutputStream(baos);
             CacheResponseWrapper wrapper = new CacheResponseWrapper(httpRes, os,
-                pageCharset == null ? 
-                webSite.getConfiguration().getPreferredCharset() : pageCharset);
+                webSite.getConfiguration().getPreferredCharset(pagePath));
             chain.doFilter(httpReq, wrapper);
             wrapper.finishResponse();
             // os.flush();

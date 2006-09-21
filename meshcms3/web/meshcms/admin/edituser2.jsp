@@ -65,8 +65,6 @@
     return;
   }
 
-  response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
-
   try {
     edit.setPermissions(Integer.parseInt(request.getParameter("permissions")));
   } catch (Exception ex) {

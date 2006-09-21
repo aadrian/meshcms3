@@ -39,7 +39,6 @@
     return;
   }
 
-  response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
   int padding = 13;
 %>
 
@@ -181,7 +180,7 @@
    */
   function editMap_openSmallPopup(url) {
     popup = window.open(url, "smallpopup",
-      "width=340,height=180,menubar=no,status=no,toolbar=no,resizable=yes");
+      "width=360,height=220,menubar=no,status=no,toolbar=no,resizable=yes");
     popup.focus();
   }
 </script>

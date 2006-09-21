@@ -35,8 +35,6 @@
                        "You don't have enough privileges");
     return;
   }
-
-  response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
 %>
 
 <html>
@@ -75,15 +73,6 @@
   c.setSiteAuthor(request.getParameter("siteAuthor"));
   c.setSiteAuthorURL(request.getParameter("siteAuthorURL"));
 
-  String newCharset = request.getParameter("preferredCharset");
-  
-  if (!c.getPreferredCharset().equals(newCharset)) {
-    // don't preserve old page info if charset has changed
-    webSite.getSiteMap().setObsolete(true);
-  }
-  
-  c.setPreferredCharset(newCharset);
-  
   webSite.setLastAdminThemeBlock(0L); // re-enable the ability to use a custom admin theme
   webSite.updateSiteMap(true); // needed to re-init the cache
   

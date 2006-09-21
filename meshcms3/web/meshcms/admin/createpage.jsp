@@ -37,7 +37,6 @@
     return;
   }
 
-  response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
   String cp = request.getContextPath();
 %>
 
@@ -50,10 +49,12 @@
   if (popup) {
     out.write(webSite.getDummyMetaThemeTag());
     out.write("\n<link href='theme/main.css' type='text/css' rel='stylesheet' />");
+    out.write("\n<link href='theme/meshcms.css' type='text/css' rel='stylesheet' />");
   } else {
     out.write(webSite.getAdminMetaThemeTag());
   }
 %>
+<script language="javascript" type="text/javascript" src="scripts/editor.js"></script>
 </head>
 
 <body>
@@ -68,21 +69,47 @@ if (title.equals("")) { %>
     <input type="hidden" name="popup" value="<%= popup %>" />
     <input type='hidden' name='path' value='<%= path %>' />
 
-    <table align='center' border='0' cellspacing='0' cellpadding='2'>
-      <tr><td>
-        <fmt:message key="newpageTitle" />
-        <input type='text' name='title' />
-      </td></tr>
-      <tr><td align='center'>
-        <input type='checkbox' name='newdir' checked='checked' value='true' />
-        <fmt:message key="newpageFolder" />
-      </td></tr>
-      <tr><th align='center'>
+    <fieldset class="meshcmseditor">
+      <legend><fmt:message key="newpageBoxTitle" /></legend>
+      <div class="meshcmsfieldlabel">
+        <label for="titlefld"><fmt:message key="newpageTitle" /></label>
+      </div>
+      
+      <div class="meshcmsfield">
+        <img src="images/clear_field.gif" onclick="javascript:editor_clr('titlefld');"
+         alt="" style="vertical-align:middle;" /><input type='text' name='title'
+         id='titlefld' style="width: 90%;" />
+      </div>
+      
+      <%--
+      <select name="fileext">
+          <% 
+            String[] exts = webSite.getConfiguration().getVisualExtensions();
+            for (int i = 0; i < exts.length; i++) {
+          %>
+            <option value="<%= exts[i] %>"><%= exts[i] %></option>
+          <%
+            }
+          %>
+      </select>
+      --%>
+      
+      <div class="meshcmscheckbox">
+        <input type='checkbox' name='newdir' checked='checked' value='true' id='newdirch' />
+        <label for="newdirch"><fmt:message key="newpageFolder" /></label>
+      </div>
+      
+      <div class="meshcmscheckbox">
+        <input type='checkbox' name='useutf' checked='checked' value='true' id='useutfch' />
+        <label for="useutfch"><fmt:message key="newpageUseUTF" /></label>
+      </div>
+      
+      <div class="meshcmsbuttons">
         <input type='submit' value='<fmt:message key="newpageCreate" />' />
         <input type='button' value='<fmt:message key="genericCancel" />'
          onclick='javascript:<%= popup ? "window.close" : "history.back" %>();' />
-      </th></tr>
-    </table>
+      </div>
+    </fieldset>
   </form>
 <% } else { 
   boolean newDir = Utils.isTrue(request.getParameter("newdir"));

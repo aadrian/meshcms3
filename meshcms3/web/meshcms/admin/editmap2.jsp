@@ -36,7 +36,6 @@
     return;
   }
 
-  response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
   SiteInfo siteInfo = webSite.getSiteInfo();
   Enumeration enumeration = request.getParameterNames();
 

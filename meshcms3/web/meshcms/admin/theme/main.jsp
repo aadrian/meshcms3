@@ -88,8 +88,7 @@
 %>
     Used Memory: <%= (runtime.totalMemory() - runtime.freeMemory()) *
                       100 / runtime.maxMemory() %>% |
-    System charset: <%= webSite.SYSTEM_CHARSET %> |
-    Preferred charset: <%= webSite.getConfiguration().getPreferredCharset() %>
+    System charset: <%= webSite.SYSTEM_CHARSET %>
     
     <br />
 <%

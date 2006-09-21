@@ -34,8 +34,9 @@ import com.thoughtworks.xstream.*;
 import com.thoughtworks.xstream.io.xml.*;
 
 public class WebSite {
-  public static final String VERSION_ID = "3.0 Release Candidate 1";
+  public static final String VERSION_ID = "3.0 Release Candidate 2";
   public static final String SYSTEM_CHARSET;
+  public static final boolean IS_MULTIBYTE_SYSTEM_CHARSET;
 
   /**
    * A prefix to be used for every backup file.
@@ -57,13 +58,17 @@ public class WebSite {
   public static final String ADMIN_ID_FILE = "meshcms_admin_id";
   
   static {
-    String s = System.getProperty("file.encoding", "UTF-8");
+    String s = System.getProperty("file.encoding", UTF8Servlet.CHARSET);
+    boolean multibyte = true;
     
     try {
-      s = Charset.forName(s).toString();
+      Charset c = Charset.forName(s);
+      s = c.toString();
+      multibyte = c.newEncoder().maxBytesPerChar() > 1.0F;
     } catch (Exception ex) {}
     
     SYSTEM_CHARSET = s;
+    IS_MULTIBYTE_SYSTEM_CHARSET = multibyte;
   }
 
   protected ServletContext sc;
@@ -519,7 +524,7 @@ public class WebSite {
       Writer writer = null;
 
       if (Utils.isNullOrEmpty(charset)) {
-        charset = getConfiguration().getPreferredCharset();
+        charset = getConfiguration().getPreferredCharset(saveThis);
       }
 
       try {
@@ -851,19 +856,7 @@ public class WebSite {
     String text = Utils.readFully(getFile(getAdminPath().add("template.html")));
 
     if (pageTitle != null) {
-      int idx = text.indexOf("New Page");
-
-      if (idx != -1) {
-        text = text.substring(0, idx) + pageTitle + text.substring(idx + 8);
-      }
-    }
-
-    int idx = text.indexOf("utf-8");
-
-    if (idx != -1) {
-      text = text.substring(0, idx) +
-          getConfiguration().getPreferredCharset() +
-          text.substring(idx + 5);
+      text = text.replaceFirst("New Page", pageTitle);
     }
 
     return text;

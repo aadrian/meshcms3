@@ -36,7 +36,6 @@ public final class PageInfo {
   private int lastStatsIndex;
   private WebSite webSite;
   private long lastModified;
-  private String charset;
 
   /**
    * Creates a page info in the specified {@link WebSite} to describe the page
@@ -161,13 +160,5 @@ public final class PageInfo {
    */
   public void setLastModified(long lastModified) {
     this.lastModified = lastModified;
-  }
-  
-  public String getCharset() {
-    return charset;
-  }
-
-  public void setCharset(String charset) {
-    this.charset = charset;
   }
 }

@@ -40,16 +40,9 @@
     return;
   }
 
-  response.setHeader("Content-Type", "text/html; charset=" + webSite.getConfiguration().getPreferredCharset());
   File file = webSite.getFile(pagePath);
   PageInfo pageInfo = webSite.getSiteMap().getPageInfo(pagePath);
-  String charset = null;
-  
-  if (pageInfo != null) {
-    charset = pageInfo.getCharset();
-  }
-  
-  String full = Utils.readFully(file, charset);
+  String full = Utils.readFully(file, webSite.getConfiguration().getPreferredCharset(file));
   session.setAttribute("MeshCMSNowEditing", pagePath);
 %>
 
