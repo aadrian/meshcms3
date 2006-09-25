@@ -323,7 +323,7 @@
 
           <% if (webSite.isDirectory(pagePath)) { %>
             <td align="center"><img src="filemanager/images/button_newchild.gif" alt=""
-             onclick="javascript:editMap_createPage('<%= Utils.escapeSingleQuotes(pagePath) %>');" style='vertical-align:middle;'
+             onclick="javascript:editMap_createPage('<%= Utils.escapeSingleQuotes(pagePath.toString()) %>');" style='vertical-align:middle;'
              title="<fmt:message key="mapNewChild" />" /></td>
           <% } else { %>
             <td>&nbsp;</td>
@@ -331,7 +331,7 @@
           
           if (!hasChildren) { %>          
             <td align="center"><img src="filemanager/images/button_delete.gif" alt=""
-             onclick="javascript:editMap_deletePage('<%= Utils.escapeSingleQuotes(pagePath) %>');" style='vertical-align:middle;'
+             onclick="javascript:editMap_deletePage('<%= Utils.escapeSingleQuotes(pagePath.toString()) %>');" style='vertical-align:middle;'
              title="<fmt:message key="mapDelete" />" /></td>
           <% } else { %>
             <td>&nbsp;</td>

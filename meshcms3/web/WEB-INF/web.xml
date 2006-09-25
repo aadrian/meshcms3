@@ -50,7 +50,7 @@
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
     <welcome-file>index.jsp</welcome-file>
-    <welcome-file>index.html.utf8</welcome-file>
+    <welcome-file>index.utf8</welcome-file>
   </welcome-file-list>
   <taglib>
     <taglib-uri>sitemesh-page</taglib-uri>

@@ -155,7 +155,7 @@
         if (showThumbs) {
           Path thumbPath = null;
 
-          if (!list[i].isDirectory() && FileTypes.isLike(list[i], "jpg")) {
+          if (!list[i].isDirectory() && FileTypes.isLike(list[i].getName(), "jpg")) {
             thumbPath = thumbMaker.checkAndCreate(webSite, filePath, thumbName);
           }
 %>

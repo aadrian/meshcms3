@@ -102,22 +102,23 @@ public final class Module extends AbstractTag {
   }
 
   public void writeEditTag() throws IOException, JspException {
-    final String uniqueHash = new Integer(new Object().hashCode()).toString();
-  	final String tagIdPrefix = "meshcmsmodule_"+ location +"_"+ uniqueHash +"_";
-  	final String idCont = tagIdPrefix +"cont";
-  	final String idElem = tagIdPrefix +"elem";
-  	final String idIcon = tagIdPrefix +"icon";
-  	final boolean isEditorModulesCollapsed = webSite.getConfiguration().isEditorModulesCollapsed();
+    String uniqueHash = new Integer(new Object().hashCode()).toString();
+    String tagIdPrefix = "meshcmsmodule_"+ location +"_"+ uniqueHash +"_";
+    String idCont = tagIdPrefix +"cont";
+    String idElem = tagIdPrefix +"elem";
+    String idIcon = tagIdPrefix +"icon";
+    boolean isEditorModulesCollapsed = webSite.getConfiguration().isEditorModulesCollapsed();
 
-  	String template = null;
+    String template = null;
     String argPath = null;
     String advParms = null;
 
     ModuleDescriptor md = getModuleDescriptor(location, name);
+    
     if (md != null) {
-	    template = md.getTemplate();
-	    argPath  = md.getArgument();
-	    advParms = Utils.listProperties(md.getAdvancedParams(), ", ");
+      template = md.getTemplate();
+      argPath  = md.getArgument();
+      advParms = Utils.listProperties(md.getAdvancedParams(), ", ");
     }
 
     Locale locale = WebUtils.getPageLocale(pageContext);
@@ -126,21 +127,25 @@ public final class Module extends AbstractTag {
     
     Writer w = getOut();
 
-    Object[] args = { location,
-    		template != null ? Utils.beautify(template,true) : bundle.getString("editorNoTemplate"),
-        Utils.noNull(argPath), Utils.noNull(advParms) };
+    Object[] args = {
+      location,
+      template != null ? Utils.beautify(template,true) : bundle.getString("editorNoTemplate"),
+      Utils.noNull(argPath),
+      Utils.noNull(advParms)
+    };
 
     if (isEditorModulesCollapsed) {
-	    w.write("<div id=\""+ idCont +"\" class='meshcmsfieldlabel' " +
-	    	" style=\"cursor:pointer;position:relative;\" onclick=\"javascript:editor_moduleShow('"+ idCont +"','"+ idElem +"','"+ idIcon +"');\">" +
-	    	"<img alt=\"\" src=\"" + afp + "/images/tree_plus.gif\" id=\""+ idIcon +"\" />\n");
-	    formatter.applyPattern(bundle.getString("editorModuleLocExt"));
-	    w.write("<label for=\""+ idElem +"\">"+ formatter.format(args) +"</label>");
-	    w.write("</div>");
+      w.write("<div id=\"" + idCont + "\" class='meshcmsfieldlabel' " +
+          " style=\"cursor:pointer;position:relative;\" onclick=\"javascript:editor_moduleShow('" +
+          idCont + "','" + idElem + "','" + idIcon + "');\">" +
+          "<img alt=\"\" src=\"" + afp + "/images/tree_plus.gif\" id=\"" + idIcon + "\" />\n");
+      formatter.applyPattern(bundle.getString("editorModuleLocExt"));
+      w.write("<label for=\"" + idElem + "\">" + formatter.format(args) + "</label>");
+      w.write("</div>");
     }
 
     w.write("<fieldset "+ (isEditorModulesCollapsed ? "style=\"display:none;\"" : "") +
-    		" id=\""+ idElem +"\" class='meshcmseditor' >\n");
+    	" id=\""+ idElem +"\" class='meshcmseditor' >\n");
     formatter.applyPattern(bundle.getString("editorModuleLoc"));
     w.write(" <legend>" + formatter.format(args) + "</legend>\n");
 

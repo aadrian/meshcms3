@@ -30,6 +30,10 @@ public class UTF8Servlet extends HttpServlet {
   public static final String CHARSET = "UTF-8";
   public static final String EXTENSION = ".utf8";
   
+  public static boolean matchExtension(String fileName) {
+    return EXTENSION.equals(Utils.getExtension(fileName, true));
+  }
+  
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     ServletContext context = getServletContext();

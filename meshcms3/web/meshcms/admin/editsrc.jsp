@@ -42,7 +42,7 @@
 
   File file = webSite.getFile(pagePath);
   PageInfo pageInfo = webSite.getSiteMap().getPageInfo(pagePath);
-  String full = Utils.readFully(file, webSite.getConfiguration().getPreferredCharset(file));
+  String full = Utils.readFully(file, webSite.getPreferredCharset(file.getName()));
   session.setAttribute("MeshCMSNowEditing", pagePath);
 %>
 

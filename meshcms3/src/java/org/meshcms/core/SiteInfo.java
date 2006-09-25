@@ -266,7 +266,8 @@ public class SiteInfo {
       if (Utils.isNullOrEmpty(value)) {
         data.remove(fieldName);
       } else {
-        data.setProperty(fieldName, WebUtils.convertToHTMLEntities(value, true));
+        data.setProperty(fieldName, WebSite.IS_MULTIBYTE_SYSTEM_CHARSET ?
+            value : WebUtils.convertToHTMLEntities(value, true));
       }
 
       return true;

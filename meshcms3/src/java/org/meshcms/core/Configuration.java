@@ -42,7 +42,7 @@ public class Configuration implements Serializable {
   /**
    * Contains the extensions of files that are visually editable by default.
    */
-  public static final String[] DEFAULT_VISUAL_EXTENSIONS = {"html", "htm", "html.utf8"};
+  public static final String[] DEFAULT_VISUAL_EXTENSIONS = {"html", "htm", "utf8"};
   
   /**
    * Value used to disable page caching.
@@ -65,7 +65,6 @@ public class Configuration implements Serializable {
   private boolean alwaysDenyDirectoryListings;
   private boolean hideExceptions;
   private boolean editorModulesCollapsed;
-  private boolean useUTF8;
   private int backupLife;
   private int statsLength;
   private int updateInterval;
@@ -88,7 +87,6 @@ public class Configuration implements Serializable {
     setAlwaysDenyDirectoryListings(true);
     setHideExceptions(true);
     setEditorModulesCollapsed(false);
-    setUseUTF8(false);
     
     setBackupLife(90);
     setStatsLength(3);
@@ -249,20 +247,6 @@ public class Configuration implements Serializable {
    */
   public void setSmtpPassword(String smtpPassword) {
     this.smtpPassword = smtpPassword;
-  }
-
-  /**
-   * Returns the preferred charset to deal with the given file.
-   */
-  public String getPreferredCharset(Object file) {
-    return isUseUTF8() &&
-        UTF8Servlet.EXTENSION.equals(Utils.getExtension(file, true)) ?
-        UTF8Servlet.CHARSET : WebSite.SYSTEM_CHARSET;
-  }
-  
-  public BufferedReader getReader(File file) throws IOException {
-    return new BufferedReader(new InputStreamReader
-        (new FileInputStream(file), getPreferredCharset(file)));
   }
 
   /**
@@ -462,13 +446,5 @@ public class Configuration implements Serializable {
    */
   public void setEditorModulesCollapsed(boolean editorModulesCollapsed) {
     this.editorModulesCollapsed = editorModulesCollapsed;
-  }
-
-  public boolean isUseUTF8() {
-    return useUTF8;
-  }
-
-  public void setUseUTF8(boolean useUTF8) {
-    this.useUTF8 = useUTF8;
   }
 }

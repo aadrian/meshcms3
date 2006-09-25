@@ -67,7 +67,7 @@
     String thumbName = thumbMaker.getSuggestedFileName();
     
     for (int i = 0; i < files.length; i++) {
-      if (!files[i].isDirectory() && FileTypes.isLike(files[i], "jpg")) {
+      if (!files[i].isDirectory() && FileTypes.isLike(files[i].getName(), "jpg")) {
         Path path = webSite.getPath(files[i]);
         Path thumbPath = thumbMaker.checkAndCreate(webSite, path, thumbName);
         

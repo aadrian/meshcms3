@@ -85,6 +85,7 @@ public final class FileTypes {
     EXT_MAP.put("htm", info);
     EXT_MAP.put("html", info);
     EXT_MAP.put("xhtml", info);
+    EXT_MAP.put("utf8", info);
 
     info = new TypeInfo();
     info.id = SERVERSIDE_ID;
@@ -294,14 +295,11 @@ public final class FileTypes {
 
   /**
    * Returns true if the type of the file is the same as the given extension.
-   * For example, isLike(new Path("images/button.gif"), "jpg") returns true
+   * For example, isLike("button.gif", "jpg") returns true
    * since gif and jpg are both images.
-   *
-   * @param file an Object of type String java.io.File or
-   * org.meshcms.util.Path (other object types are converted to Strings)
    */
-  public static boolean isLike(Object file, String extension) {
-    return getInfo(Utils.getExtension(file, false)).id == getInfo(extension).id;
+  public static boolean isLike(String fileName, String extension) {
+    return getInfo(Utils.getExtension(fileName, false)).id == getInfo(extension).id;
   }
   
   /**
@@ -310,8 +308,8 @@ public final class FileTypes {
    * @param file an Object of type String java.io.File or
    * org.meshcms.util.Path (other object types are converted to Strings)
    */
-  public static String getDescription(Object file) {
-    return getInfo(Utils.getExtension(file, false)).description;
+  public static String getDescription(String fileName) {
+    return getInfo(Utils.getExtension(fileName, false)).description;
   }
   
   /**
@@ -320,8 +318,8 @@ public final class FileTypes {
    * @param file an Object of type String java.io.File or
    * org.meshcms.util.Path (other object types are converted to Strings)
    */
-  public static String getIconFile(Object file) {
-    return getInfo(Utils.getExtension(file, false)).iconFile;
+  public static String getIconFile(String fileName) {
+    return getInfo(Utils.getExtension(fileName, false)).iconFile;
   }
   
   /**
@@ -331,8 +329,8 @@ public final class FileTypes {
    * @param file an Object of type String java.io.File or
    * org.meshcms.util.Path (other object types are converted to Strings)
    */
-  public static boolean isCompressible(Object file) {
-    return getInfo(Utils.getExtension(file, false)).compressible;
+  public static boolean isCompressible(String fileName) {
+    return getInfo(Utils.getExtension(fileName, false)).compressible;
   }
   
   /**
@@ -341,8 +339,8 @@ public final class FileTypes {
    * @param file an Object of type String java.io.File or
    * org.meshcms.util.Path (other object types are converted to Strings)
    */
-  public static boolean isPreventHotlinking(Object file) {
-    return getInfo(Utils.getExtension(file, false)).preventHotlinking;
+  public static boolean isPreventHotlinking(String fileName) {
+    return getInfo(Utils.getExtension(fileName, false)).preventHotlinking;
   }
   
   /**
@@ -351,8 +349,8 @@ public final class FileTypes {
    * @param file an Object of type String java.io.File or
    * org.meshcms.util.Path (other object types are converted to Strings)
    */
-  public static boolean isPage(Object file) {
-    int id = getInfo(Utils.getExtension(file, false)).id;
+  public static boolean isPage(String fileName) {
+    int id = getInfo(Utils.getExtension(fileName, false)).id;
     return id == HTML_ID || id == SERVERSIDE_ID;
   }
   

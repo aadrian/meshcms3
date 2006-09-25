@@ -74,7 +74,7 @@
 
     if (upItem != null && path != null) {
       String fileName = WebUtils.fixFileName(new Path(upItem.getName()).getLastElement(), true);
-      ok = webSite.saveToFile(userInfo, upItem, path.add(fileName), null);
+      ok = webSite.saveToFile(userInfo, upItem, path.add(fileName));
     }
   } catch (Exception ex) {
     webSite.log("Can't upload in directory " + path, ex);

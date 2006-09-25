@@ -61,7 +61,7 @@ public final class LastModified extends AbstractTag {
     Writer w = getOut();
     
     if ((mode != null && mode.equals(MODE_ALL)) ||
-        FileTypes.isLike(pagePath, "html")) {
+        FileTypes.isLike(pagePath.getLastElement(), "html")) {
       Locale locale = WebUtils.getPageLocale(pageContext);
       DateFormat df;
 

@@ -100,8 +100,8 @@ public final class Utils {
   /**
    * Checks if an object is null or if its string representation is empty.
    */
-  public static boolean isNullOrEmpty(Object s) {
-    return s == null || s.toString().equals("");
+  public static boolean isNullOrEmpty(String s) {
+    return s == null || s.equals("");
   }
 
   /**
@@ -133,8 +133,8 @@ public final class Utils {
    *
    * @return s.toString(), or the empty string if s is null
    */
-  public static String noNull(Object s) {
-    return s == null ? "" : s.toString();
+  public static String noNull(String s) {
+    return s == null ? "" : s;
   }
 
   /**
@@ -207,54 +207,8 @@ public final class Utils {
   /**
    * Replaces ' with \' (useful for JavaScript).
    */
-  public static String escapeSingleQuotes(Object o) {
-    return replace(o, '\'', "\\'");
-  }
-
-  /**
-   * Replaces ' with '' (useful for SQL).
-   */
-  public static String fixSingleQuotes(Object o) {
-    return replace(o, '\'', "''");
-  }
-
-  /**
-   * Returns an SQL string that represents the object.
-   */
-  public static String sqlString(Object o) {
-    if (o == null) {
-      return "NULL";
-    }
-
-    return "'" + replace(o, '\'', "''") + "'";
-  }
-
-  /**
-   * Replaces all the occurrences of a character in a string.
-   *
-   * @param o the object that will be converted into the string to be analized
-   * @param c the character to be replaced
-   * @param n the string used in place of the character
-   *
-   * Return the empty string if s is null; the modified string otherwise.
-   */
-  public static String replace(Object o, char c, String n) {
-    if (o == null) {
-      return "";
-    }
-
-    String s = o.toString();
-    StringBuffer sb = new StringBuffer();
-
-    for (int i = 0; i < s.length(); i++) {
-      if (s.charAt(i) == c) {
-        sb.append(n);
-      } else {
-        sb.append(s.charAt(i));
-      }
-    }
-
-    return sb.toString();
+  public static String escapeSingleQuotes(String s) {
+    return s.replaceAll("'", "\\'");
   }
 
   /**
@@ -1154,26 +1108,21 @@ public final class Utils {
 
     return f.getAbsolutePath();
   }
+  
+  public static String getExtension(File file, boolean includeDot) {
+    return getExtension(file.getName(), includeDot);
+  }
+
+  public static String getExtension(Path path, boolean includeDot) {
+    return getExtension(path.getLastElement(), includeDot);
+  }
 
   /**
-   * Returns the extension of the file represented by the given object. The
-   * object can be an instance of <code>java.io.File</code>,
-   * <code>Path</code> or <code>java.lang.String</code>. Other objects are
-   * converted to <code>String</code>s.
+   * Returns the extension of the given file name.
    *
    * @param includeDot if true, the dot is returned with the extension
    */
-  public static String getExtension(Object o, boolean includeDot) {
-    String fileName = null;
-
-    if (o instanceof File) {
-      fileName = ((File) o).getName();
-    } else if (o instanceof Path) {
-      fileName = ((Path) o).getLastElement();
-    } else if (o != null) {
-      fileName = o.toString();
-    }
-
+  public static String getExtension(String fileName, boolean includeDot) {
     if (fileName == null) {
       return null;
     }
@@ -1255,48 +1204,6 @@ public final class Utils {
     }
 
     return sb.toString();
-  }
-
-  /**
-   * Modifies a string to make it more suitable as a filename. "Dangerous"
-   * characters are converted to underscores and lower case is applied if
-   * requested. Same as {@link #uglify(String, boolean, String)} with an
-   * underscore as spacer.
-   */
-  public static String uglify(String s, boolean lowerCase) {
-    return uglify(s, lowerCase, "_");
-  }
-
-  /**
-   * Modifies a string to make it more suitable as a filename. "Dangerous"
-   * characters are converted to underscores and lower case is applied if
-   * requested.
-   *
-   * @param spacer a safe String (usually a single character) to be used in
-   * place of spaces
-   */
-  public static String uglify(String s, boolean lowerCase, String spacer) {
-    s = s.trim();
-    StringBuffer sb = new StringBuffer(s.length());
-    char last = '?';
-
-    for (int i = 0; i < s.length(); i++) {
-      char c = s.charAt(i);
-
-      if (VALID_FILENAME_CHARS.indexOf(c) != -1) {
-        if (lowerCase) {
-          c = Character.toLowerCase(c);
-        }
-
-        last = c;
-        sb.append(c);
-      } else if (last != ' ') {
-        last = ' ';
-        sb.append(' ');
-      }
-    }
-
-    return replace(sb.toString().trim(), ' ', spacer);
   }
 
   /**

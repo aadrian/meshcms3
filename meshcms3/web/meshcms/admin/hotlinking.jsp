@@ -27,7 +27,7 @@
 <%
   Path path = new Path(request.getParameter("path"));
   String cp = request.getContextPath();
-  boolean isImage = FileTypes.isLike(path, "jpg");
+  boolean isImage = FileTypes.isLike(path.getLastElement(), "jpg");
 %>
 
 <html>
@@ -42,7 +42,7 @@
     %><img src="<%= cp + '/' + path %>" alt=""><%
   } else {
     %><img src="<%= cp + '/' + webSite.getAdminPath() + "/filemanager/images/" +
-        FileTypes.getIconFile(path) %>" alt="">
+        FileTypes.getIconFile(path.getLastElement()) %>" alt="">
     Get <a href="<%= cp + '/' + path %>"><%= path.getLastElement() %></a><%
   } %>
 </p>

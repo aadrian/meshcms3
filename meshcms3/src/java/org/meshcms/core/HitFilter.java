@@ -160,7 +160,7 @@ public final class HitFilter implements Filter {
         isGuest = userInfo == null || userInfo.isGuest();
 
         // Deal with all pages
-        if (FileTypes.isPage(pagePath)) {
+        if (FileTypes.isPage(pagePath.getLastElement())) {
           // Block direct requests of modules from non authenticated users
           /* if (isGuest && webSite.isInsideModules(pagePath) &&
               pagePath.getLastElement().equalsIgnoreCase(SiteMap.MODULE_INCLUDE_FILE)) {
@@ -203,7 +203,7 @@ public final class HitFilter implements Filter {
         }
 
         if (webSite.getConfiguration().isPreventHotlinking() &&
-            FileTypes.isPreventHotlinking(pagePath) &&
+            FileTypes.isPreventHotlinking(pagePath.getLastElement()) &&
             session.getAttribute(HOTLINKING_ALLOWED) == null) {
           String agent = httpReq.getHeader("user-agent");
 
@@ -238,7 +238,7 @@ public final class HitFilter implements Filter {
           }
 
           // If it is a static page, try to get it from the cache
-          if (isGuest && FileTypes.isLike(pagePath, "html") &&
+          if (isGuest && FileTypes.isLike(pagePath.getLastElement(), "html") &&
               httpReq.getMethod().equalsIgnoreCase("get") &&
               Utils.isNullOrEmpty(httpReq.getQueryString())) {
             int cacheType = webSite.getConfiguration().getCacheType();
@@ -320,7 +320,7 @@ public final class HitFilter implements Filter {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             OutputStream os = new GZIPOutputStream(baos);
             CacheResponseWrapper wrapper = new CacheResponseWrapper(httpRes, os,
-                webSite.getConfiguration().getPreferredCharset(pagePath));
+                webSite.getPreferredCharset(pagePath.getLastElement()));
             chain.doFilter(httpReq, wrapper);
             wrapper.finishResponse();
             // os.flush();

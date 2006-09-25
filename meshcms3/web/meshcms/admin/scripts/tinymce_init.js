@@ -19,6 +19,7 @@ tinyMCE.init({
   mode : 'exact',
   elements : 'meshcmsbody',
   external_link_list_url : linkListPath,
+  entity_encoding : 'raw',
   auto_cleanup_word : true,
   plugins : 'contextmenu,directionality,iespell,searchreplace,table',
   theme_advanced_buttons1_add : 'separator,search,replace,separator,ltr,rtl',

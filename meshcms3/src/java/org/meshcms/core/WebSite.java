@@ -272,12 +272,12 @@ public class WebSite {
     }
 
     try {
-      if (FileTypes.isPage(filePath)) {
+      if (FileTypes.isPage(filePath.getLastElement())) {
         if (newFile.exists()) {
           return false;
         }
 
-        return saveToFile(user, getHTMLTemplate(null), filePath, null);
+        return saveToFile(user, getHTMLTemplate(null), filePath);
       } else {
         return newFile.createNewFile();
       }
@@ -463,8 +463,7 @@ public class WebSite {
    * @return true if the operation has been completed successfully,
    * false otherwise
    */
-  public boolean saveToFile(UserInfo user, Object saveThis, Path filePath,
-      String charset) {
+  public boolean saveToFile(UserInfo user, Object saveThis, Path filePath) {
     if (user == null || !user.canWrite(this, filePath)) {
       return false;
     }
@@ -523,13 +522,10 @@ public class WebSite {
     } else {
       Writer writer = null;
 
-      if (Utils.isNullOrEmpty(charset)) {
-        charset = getConfiguration().getPreferredCharset(saveThis);
-      }
-
       try {
-        writer = new OutputStreamWriter(new FileOutputStream(writeTo), charset);
-        writer.write(saveThis.toString());
+        writer = new OutputStreamWriter(new FileOutputStream(writeTo),
+            getPreferredCharset(filePath.getLastElement()));
+        writer.write(smartHTMLEntities(saveThis.toString(), filePath.getLastElement()));
       } catch (IOException ex) {
         sc.log("Can't write generic object to file " + writeTo, ex);
         return false;
@@ -1076,5 +1072,22 @@ public class WebSite {
 
   public void setLastAdminThemeBlock(long lastAdminThemeBlock) {
     this.lastAdminThemeBlock = lastAdminThemeBlock;
+  }
+
+  /**
+   * Returns the preferred charset to deal with the given file name.
+   */
+  public String getPreferredCharset(String fileName) {
+    return UTF8Servlet.matchExtension(fileName) ? UTF8Servlet.CHARSET : SYSTEM_CHARSET;
+  }
+  
+  public BufferedReader getReader(File file) throws IOException {
+    return new BufferedReader(new InputStreamReader
+        (new FileInputStream(file), getPreferredCharset(file.getName())));
+  }
+  
+  public String smartHTMLEntities(String s, String fileName) {
+    return IS_MULTIBYTE_SYSTEM_CHARSET || UTF8Servlet.matchExtension(fileName) ?
+        s : WebUtils.convertToHTMLEntities(s, true);
   }
 }

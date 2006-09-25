@@ -47,7 +47,6 @@
         filePath = new Path(value);
       } else {
         if (name.equals("pagetitle")) {
-          value = WebUtils.convertToHTMLEntities(value, true);
           title = value;
         }
 
@@ -77,8 +76,7 @@
 <body>
 
 <%
-  if (webSite.saveToFile(userInfo, fullSrc, filePath,
-      webSite.getConfiguration().getPreferredCharset(filePath))) {
+  if (webSite.saveToFile(userInfo, fullSrc, filePath)) {
     webSite.updateSiteMap(true);
 %>
   <p><% if (Utils.isNullOrEmpty(title)) { %>
@@ -89,7 +87,7 @@
 
   <p><fmt:message key="saveContinue"><fmt:param value="<%= request.getHeader("referer") %>" /></fmt:message></p>
 <%
-    if (!webSite.isSystem(filePath) && FileTypes.isPage(filePath)) {
+    if (!webSite.isSystem(filePath) && FileTypes.isPage(filePath.getLastElement())) {
 %>
   <p><fmt:message key="saveView"><fmt:param value="<%= WebUtils.getPathInContext(request, filePath) %>" /></fmt:message></p>
 <%

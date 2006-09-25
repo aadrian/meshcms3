@@ -117,7 +117,7 @@ public class SiteMap extends DirectoryParser {
   }
 
   protected void processFile(File file, Path path) {
-    if (!FileTypes.isPage(path)) {
+    if (!FileTypes.isPage(path.getLastElement())) {
       return;
     }
 
@@ -151,7 +151,7 @@ public class SiteMap extends DirectoryParser {
 
       try {
         reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), 
-            webSite.getConfiguration().getPreferredCharset(file)));
+            webSite.getPreferredCharset(file.getName())));
         Page page = fpp.parse(reader);
         String title = page.getTitle();
 

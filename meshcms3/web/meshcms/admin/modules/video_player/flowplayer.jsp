@@ -44,7 +44,7 @@
       if (Utils.getExtension(files[i], false).equalsIgnoreCase("flv")) {
 %>
     <%= comma ? "," : "" %>
-    { name: '<%= Utils.replace(Utils.beautify(Utils.removeExtension(files[i]), true), '\'', "\\'") %>', url: '<%= base + Utils.replace(files[i], '\'', "\\'") %>' }
+    { name: '<%= Utils.beautify(Utils.removeExtension(files[i]), true).replaceAll("'", "\\'") %>', url: '<%= base + files[i].replaceAll("'", "\\'") %>' }
 <%
         comma = true;
       }

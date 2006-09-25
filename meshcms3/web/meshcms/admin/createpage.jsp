@@ -130,10 +130,13 @@ if (title.equals("")) { %>
       path = path.add(webSite.getWelcomeFileNames()[0]);
     }
     
-    String text = webSite.getHTMLTemplate
-        (WebUtils.convertToHTMLEntities(request.getParameter("title"), true));
+    if (!WebSite.IS_MULTIBYTE_SYSTEM_CHARSET) {
+      title = WebUtils.convertToHTMLEntities(title, true);
+    }
+    
+    String text = webSite.getHTMLTemplate(title);
 
-    if (webSite.saveToFile(userInfo, text, path, null)) {
+    if (webSite.saveToFile(userInfo, text, path)) {
       webSite.updateSiteMap(true);
       %><script type="text/javascript">
         var page = "<%= cp + '/' + path + '?' + HitFilter.ACTION_NAME + '=' + HitFilter.ACTION_EDIT %>";

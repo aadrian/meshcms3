@@ -95,7 +95,7 @@
       File commentFile = new File(commentsDir, "mcc_" +
           WebUtils.numericDateFormatter.format(new Date()) + ".html");
       Utils.writeFully(commentFile, pa.getPage(),
-          webSite.getConfiguration().getPreferredCharset(request.getServletPath()));
+          webSite.getPreferredCharset(request.getServletPath()));
       
       String email = md.getAdvancedParam("notify", null);
       
@@ -176,7 +176,7 @@
     DateFormat df = md.getDateFormat(locale, "date");
 
     for (int i = 0; i < files.length; i++) {
-      if (FileTypes.isPage(files[i])) {
+      if (FileTypes.isPage(files[i].getName())) {
         WebUtils.updateLastModifiedTime(request, files[i]);
         FastPageParser fpp = new FastPageParser();
 

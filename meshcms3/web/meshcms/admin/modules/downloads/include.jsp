@@ -67,7 +67,7 @@
         WebUtils.updateLastModifiedTime(request, files[i]);
 %>
  <tr valign="top">
-  <td><img src="<%= cp + '/' + webSite.getAdminPath() %>/filemanager/images/<%= FileTypes.getIconFile(files[i]) %>" border="0" alt=""></td>
+  <td><img src="<%= cp + '/' + webSite.getAdminPath() %>/filemanager/images/<%= FileTypes.getIconFile(files[i].getName()) %>" border="0" alt=""></td>
   <td><a href="<%= cp + '/' + webSite.getPath(files[i]) %>"><%= files[i].getName() %></a></td>
   <td align="right"><%= WebUtils.formatFileLength(files[i].length(), locale, bundle) %></td>
   <% if (df != null) { %><td><%= df.format(new Date(files[i].lastModified())) %></td><% } %>

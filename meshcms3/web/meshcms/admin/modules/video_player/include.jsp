@@ -60,7 +60,7 @@
     <param name="movie" value="<%= cp %><%= mp %>/flowplayer.swf" />
     <param name="quality" value="high" />
     <param name="scale" value="noScale" />
-    <param name="flashvars" value="configFileName=<%= URLEncoder.encode(fName, webSite.getConfiguration().getPreferredCharset(request.getServletPath())) %>" />
+    <param name="flashvars" value="configFileName=<%= URLEncoder.encode(fName, webSite.getPreferredCharset(request.getServletPath())) %>" />
   </object>
 </div>
 --%>
@@ -73,6 +73,6 @@
 
 <script type="text/javascript">
    var so = new SWFObject("<%= cp %><%= mp %>/flowplayer.swf", "FlowPlayer", "320", "325", "7", "#FFFFFF");
-   so.addParam("flashvars", "configFileName=<%= URLEncoder.encode(fName, webSite.getConfiguration().getPreferredCharset(request.getServletPath())) %>");
+   so.addParam("flashvars", "configFileName=<%= URLEncoder.encode(fName, webSite.getPreferredCharset(request.getServletPath())) %>");
    so.write("flashcontent");
 </script>

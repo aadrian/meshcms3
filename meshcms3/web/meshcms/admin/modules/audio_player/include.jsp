@@ -53,7 +53,7 @@
       URLEncoder.encode(mp + "/playlist.jsp?path=" +
       md.getModuleArgumentDirectoryPath(webSite, true) +
       "&modulepath=" + md.getModulePath(),
-      webSite.getConfiguration().getPreferredCharset(request.getServletPath())) +
+      webSite.getPreferredCharset(request.getServletPath())) +
       "&autoload=false&info_button_text=download";
 %>
 
