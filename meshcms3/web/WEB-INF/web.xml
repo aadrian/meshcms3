@@ -27,10 +27,6 @@
     <servlet-name>downloadzip</servlet-name>
     <servlet-class>org.meshcms.core.DownloadZipServlet</servlet-class>
   </servlet>
-  <servlet>
-    <servlet-name>utf8</servlet-name>
-    <servlet-class>org.meshcms.util.UTF8Servlet</servlet-class>
-  </servlet>
   <servlet-mapping>
     <servlet-name>download</servlet-name>
     <url-pattern>/servlet/org.meshcms.core.DownloadServlet/*</url-pattern>
@@ -39,10 +35,6 @@
     <servlet-name>downloadzip</servlet-name>
     <url-pattern>/servlet/org.meshcms.core.DownloadZipServlet/*</url-pattern>
   </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>utf8</servlet-name>
-    <url-pattern>*.utf8</url-pattern>
-  </servlet-mapping>
   <session-config>
     <session-timeout>60</session-timeout>
   </session-config>
@@ -50,7 +42,6 @@
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
     <welcome-file>index.jsp</welcome-file>
-    <welcome-file>index.utf8</welcome-file>
   </welcome-file-list>
   <taglib>
     <taglib-uri>sitemesh-page</taglib-uri>

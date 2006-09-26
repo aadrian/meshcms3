@@ -94,8 +94,7 @@
       pa.addProperty("meshcmsbody", text);
       File commentFile = new File(commentsDir, "mcc_" +
           WebUtils.numericDateFormatter.format(new Date()) + ".html");
-      Utils.writeFully(commentFile, pa.getPage(),
-          webSite.getPreferredCharset(request.getServletPath()));
+      Utils.writeFully(commentFile, pa.getPage());
       
       String email = md.getAdvancedParam("notify", null);
       

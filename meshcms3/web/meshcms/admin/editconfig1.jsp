@@ -20,7 +20,6 @@
  and at info@cromoteca.com
 --%>
 
-<%@ page import="java.nio.charset.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
@@ -234,10 +233,6 @@
        style="width: 90%;" value="<%= configuration.getStatsLength() %>" />
     </div>
 
-    <div class="meshcmsfieldlabel">
-      <label for="preferredCharset"><fmt:message key="configCharset" /></label>
-    </div>
-    
     <div class="meshcmscheckbox">
       <input type="checkbox" id="alwaysRedirectWelcomes" name="alwaysRedirectWelcomes"
        value="true"<%= configuration.isAlwaysRedirectWelcomes() ? " checked='checked'" : "" %> />

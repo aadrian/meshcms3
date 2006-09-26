@@ -150,8 +150,7 @@ public class SiteMap extends DirectoryParser {
       Reader reader = null;
 
       try {
-        reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), 
-            webSite.getPreferredCharset(file.getName())));
+        reader = new BufferedReader(new FileReader(file));
         Page page = fpp.parse(reader);
         String title = page.getTitle();
 

@@ -57,7 +57,7 @@ public class WebSite {
   public static final String ADMIN_ID_FILE = "meshcms_admin_id";
   
   static {
-    String s = System.getProperty("file.encoding", UTF8Servlet.CHARSET);
+    String s = System.getProperty("file.encoding", "ISO-8859-1");
     boolean multibyte = true;
     
     try {
@@ -522,9 +522,8 @@ public class WebSite {
       Writer writer = null;
 
       try {
-        writer = new OutputStreamWriter(new FileOutputStream(writeTo),
-            getPreferredCharset(filePath.getLastElement()));
-        writer.write(smartHTMLEntities(saveThis.toString(), filePath.getLastElement()));
+        writer = new BufferedWriter(new FileWriter(writeTo));
+        writer.write(saveThis.toString());
       } catch (IOException ex) {
         sc.log("Can't write generic object to file " + writeTo, ex);
         return false;
@@ -1071,22 +1070,5 @@ public class WebSite {
 
   public void setLastAdminThemeBlock(long lastAdminThemeBlock) {
     this.lastAdminThemeBlock = lastAdminThemeBlock;
-  }
-
-  /**
-   * Returns the preferred charset to deal with the given file name.
-   */
-  public String getPreferredCharset(String fileName) {
-    return UTF8Servlet.matchExtension(fileName) ? UTF8Servlet.CHARSET : SYSTEM_CHARSET;
-  }
-  
-  public BufferedReader getReader(File file) throws IOException {
-    return new BufferedReader(new InputStreamReader
-        (new FileInputStream(file), getPreferredCharset(file.getName())));
-  }
-  
-  public String smartHTMLEntities(String s, String fileName) {
-    return IS_MULTIBYTE_SYSTEM_CHARSET || UTF8Servlet.matchExtension(fileName) ?
-        s : WebUtils.convertToHTMLEntities(s, true);
   }
 }

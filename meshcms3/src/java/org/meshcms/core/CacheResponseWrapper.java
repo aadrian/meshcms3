@@ -39,7 +39,6 @@ public class CacheResponseWrapper extends HttpServletResponseWrapper {
   ServletOutputStream stream;
   PrintWriter writer;
   OutputStream cacheOutput;
-  String charset;
   
   /**
    * Creates a new wrapper.
@@ -48,11 +47,10 @@ public class CacheResponseWrapper extends HttpServletResponseWrapper {
    * @param cacheOutput the output stream to write the cached page to
    */
   public CacheResponseWrapper(HttpServletResponse response,
-      OutputStream cacheOutput, String charset) {
+      OutputStream cacheOutput) {
     super(response);
     this.response = response;
     this.cacheOutput = cacheOutput;
-    this.charset = charset;
     //response.setHeader("Content-Encoding", "gzip");
   }
 
@@ -104,8 +102,7 @@ public class CacheResponseWrapper extends HttpServletResponseWrapper {
     }
     
     stream = createOutputStream();
-    writer = new PrintWriter(new OutputStreamWriter(stream,
-        charset == null ? response.getCharacterEncoding() : charset));
+    writer = new PrintWriter(stream);
     return writer;
   }
 }

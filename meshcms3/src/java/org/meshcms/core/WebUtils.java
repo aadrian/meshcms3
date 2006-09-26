@@ -71,7 +71,7 @@ public final class WebUtils {
    * file names can't be found in the web.xml configuration file.
    */
   public static final String[] DEFAULT_WELCOME_FILES =
-    {"index.html", "index.htm", "index.jsp", "index.utf8"};
+    {"index.html", "index.htm", "index.jsp"};
 
   public static final String HTML_ENTITIES = "39,#39,160,nbsp,161,iexcl," +
       "162,cent,163,pound,164,curren,165,yen,166,brvbar,167,sect,168,uml," +

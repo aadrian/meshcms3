@@ -400,20 +400,11 @@ public final class Utils {
    * Writes the whole String to the File using a buffered FileWriter.
    */
   public static void writeFully(File file, String s) throws IOException {
-    writeFully(file, s, null);
-  }
-  
-  /**
-   * Writes the whole String to the File using a buffered FileWriter and the
-   * given charset.
-   */
-  public static void writeFully(File file, String s, String charset) throws IOException {
-    Writer writer = isNullOrEmpty(charset) ? new BufferedWriter(new FileWriter(file)) :
-        new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), charset));
+    Writer writer = new BufferedWriter(new FileWriter(file));
     writer.write(s);
     writer.close();
   }
-
+  
   /**
    * Writes the whole byte array to the File using a FileOutputStream.
    */
@@ -427,22 +418,7 @@ public final class Utils {
    * Reads a file and puts all data into a String.
    */
   public static String readFully(File file) throws IOException {
-    return readFully(file, null);
-  }
-
-  /**
-   * Reads a file and puts all data into a String.
-   */
-  public static String readFully(File file, String charset) throws IOException {
-    Reader reader;
-
-    try {
-      reader = new InputStreamReader(new FileInputStream(file), charset);
-    } catch (Exception ex) {
-      reader = new FileReader(file);
-    }
-
-    reader = new BufferedReader(reader);
+    Reader reader = new BufferedReader(new FileReader(file));
     String s = readFully(reader);
     reader.close();
     return s;

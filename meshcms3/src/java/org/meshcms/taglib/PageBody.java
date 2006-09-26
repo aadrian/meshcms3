@@ -34,11 +34,12 @@ import com.opensymphony.module.sitemesh.*;
  * Writes the page body or the main part of the page editor.
  */
 public class PageBody extends AbstractTag {
+  public static final int MINIMUM_PAGE_SIZE = 32;
   public void writeTag() throws IOException {
     String body = getPage().getBody();
     
     // Let's prevent caching of pages with a "small body"
-    if (body.length() < 128) {
+    if (body.length() < MINIMUM_PAGE_SIZE) {
       WebUtils.setBlockCache(request);
     }
     

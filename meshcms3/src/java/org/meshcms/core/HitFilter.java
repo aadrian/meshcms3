@@ -108,15 +108,7 @@ public final class HitFilter implements Filter {
       
       request.setAttribute("webSite", webSite);
       HttpServletRequest httpReq = webSite.wrapRequest(request);
-      HttpSession session = httpReq.getSession();
-      
-      if (session != null) {
-        if (session.getAttribute(UTF8Servlet.UTF8_SESSION) != null) {
-          httpReq.setCharacterEncoding(UTF8Servlet.CHARSET);
-          session.removeAttribute(UTF8Servlet.UTF8_SESSION);
-        }
-      }
-      
+      httpReq.setCharacterEncoding(WebSite.SYSTEM_CHARSET);
       Path pagePath = webSite.getRequestedPath(httpReq);
 
       /* This is needed to avoid source code disclosure in virtual sites */
@@ -153,6 +145,7 @@ public final class HitFilter implements Filter {
       PageInfo pageInfo = null;
       boolean isAdminPage = false;
       boolean isGuest = true;
+      String pageCharset = webSite.SYSTEM_CHARSET;
 
       if (webSite.getCMSPath() != null) {
         if (pagePath.isContainedIn(webSite.getVirtualSitesPath()) ||
@@ -163,6 +156,7 @@ public final class HitFilter implements Filter {
         
         siteMap = webSite.getSiteMap();
         isAdminPage = pagePath.isContainedIn(webSite.getAdminPath());
+        HttpSession session = httpReq.getSession();
 
         UserInfo userInfo = (session == null) ? null :
             (UserInfo) session.getAttribute("userInfo");
@@ -245,52 +239,10 @@ public final class HitFilter implements Filter {
           if (isGuest) {
             pageInfo.addHit();
           }
-
-          // If it is a static page, try to get it from the cache
-          if (isGuest && FileTypes.isLike(pagePath.getLastElement(), "html") &&
-              httpReq.getMethod().equalsIgnoreCase("get") &&
-              Utils.isNullOrEmpty(httpReq.getQueryString())) {
-            int cacheType = webSite.getConfiguration().getCacheType();
-
-            // Let's see if the browser supports GZIP
-            String ae = httpReq.getHeader("Accept-Encoding");
-            boolean gzip = ae != null && ae.toLowerCase().indexOf("gzip") > -1;
-
-            InputStream in = null;
-
-            if (cacheType == Configuration.IN_MEMORY_CACHE) {
-              byte[] pageBytes = siteMap.getCached(pageInfo.getPath());
-
-              // a cached page too small is suspicious
-              if (pageBytes != null && pageBytes.length > 256) {
-                in = new ByteArrayInputStream(pageBytes);
-              }
-            } else if (cacheType == Configuration.ON_DISK_CACHE) {
-              File cacheFile =
-                  webSite.getRepositoryFile(pagePath, CACHE_FILE_NAME);
-              // a cached page too small is suspicious
-              if (cacheFile.exists() && cacheFile.length() > 256 &&
-                  cacheFile.lastModified() > siteMap.getLastModified()) {
-                // file exists and is not too old
-                in = new FileInputStream(cacheFile);
-              }
-            }
-
-            if (in != null) {
-              ServletOutputStream sos = response.getOutputStream();
-
-              if (gzip) {
-                httpRes.setHeader("Content-Encoding", "gzip");
-              } else {
-                // uncompress the page on the fly for that spider or old browser
-                in = new GZIPInputStream(in);
-              }
-
-              Utils.copyStream(in, sos, false);
-              sos.flush();
-              return;
-            }
-          } // cache control finished
+          
+          if (pageInfo.getCharset() != null) {
+            pageCharset = pageInfo.getCharset();
+          }
         } else { // not a page in the site map
           // Let's try to apply the right charset to JavaScript lang files
           if (isAdminPage && pagePath.getLastElement().endsWith(".js") &&
@@ -313,7 +265,7 @@ public final class HitFilter implements Filter {
                 s = bundle.getString(script + "LangCharset");
 
                 if (!Utils.isNullOrEmpty(s)) {
-                  httpRes.setHeader("Content-Type", "text/javascript; charset=" + s);
+                  pageCharset = s;
                 }
               }
             }
@@ -321,15 +273,67 @@ public final class HitFilter implements Filter {
         }
       } // end of CMS stuff
       
+      String mimeType = sc.getMimeType(pagePath.getLastElement());
+      
+      if (mimeType == null) {
+        mimeType = "text/html";
+      }
+      
+      httpRes.setContentType(mimeType + "; charset=" + pageCharset);
+      
       try {
-        if (isGuest && !(pageInfo == null || webSite.getCMSPath() == null)) {
+        // Cache management
+        if (isGuest && pageInfo != null &&
+            httpReq.getMethod().equalsIgnoreCase("get") &&
+            Utils.isNullOrEmpty(httpReq.getQueryString()) &&
+            webSite.isVisuallyEditable(pagePath)) {
           int cacheType = webSite.getConfiguration().getCacheType();
-          
+
+          // Let's see if the browser supports GZIP
+          String ae = httpReq.getHeader("Accept-Encoding");
+          boolean gzip = ae != null && ae.toLowerCase().indexOf("gzip") > -1;
+
+          InputStream in = null;
+
+          if (cacheType == Configuration.IN_MEMORY_CACHE) {
+            byte[] pageBytes = siteMap.getCached(pageInfo.getPath());
+
+            // a cached page too small is suspicious
+            if (pageBytes != null && pageBytes.length > 256) {
+              in = new ByteArrayInputStream(pageBytes);
+            }
+          } else if (cacheType == Configuration.ON_DISK_CACHE) {
+            File cacheFile =
+                webSite.getRepositoryFile(pagePath, CACHE_FILE_NAME);
+            // a cached page too small is suspicious
+            if (cacheFile.exists() && cacheFile.length() > 256 &&
+                cacheFile.lastModified() > siteMap.getLastModified()) {
+              // file exists and is not too old
+              in = new FileInputStream(cacheFile);
+            }
+          }
+
+          // if a valid cached version has been found, use it
+          if (in != null) {
+            ServletOutputStream sos = response.getOutputStream();
+
+            if (gzip) {
+              httpRes.setHeader("Content-Encoding", "gzip");
+            } else {
+              // uncompress the page on the fly for that spider or old browser
+              in = new GZIPInputStream(in);
+            }
+
+            Utils.copyStream(in, sos, false);
+            sos.flush();
+            return;
+          }
+
+          // otherwise, if cache is enabled, store the generated page
           if (cacheType != Configuration.NO_CACHE) {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             OutputStream os = new GZIPOutputStream(baos);
-            CacheResponseWrapper wrapper = new CacheResponseWrapper(httpRes, os,
-                webSite.getPreferredCharset(pagePath.getLastElement()));
+            CacheResponseWrapper wrapper = new CacheResponseWrapper(httpRes, os);
             chain.doFilter(httpReq, wrapper);
             wrapper.finishResponse();
             // os.flush();
@@ -349,7 +353,7 @@ public final class HitFilter implements Filter {
             
             return;
           }
-        }
+        } // end of cache management
 
         chain.doFilter(httpReq, httpRes);
         webSite.updateSiteMap(false); // better here than nowhere :)

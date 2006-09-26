@@ -85,7 +85,6 @@ public final class FileTypes {
     EXT_MAP.put("htm", info);
     EXT_MAP.put("html", info);
     EXT_MAP.put("xhtml", info);
-    EXT_MAP.put("utf8", info);
 
     info = new TypeInfo();
     info.id = SERVERSIDE_ID;

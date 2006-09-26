@@ -40,14 +40,9 @@
     return;
   }
   
-  if (UTF8Servlet.matchExtension(pagePath.getLastElement())) {
-    response.setContentType("text/html; charset=utf-8");
-    session.setAttribute(UTF8Servlet.UTF8_SESSION, UTF8Servlet.UTF8_SESSION);
-  }
-
   File file = webSite.getFile(pagePath);
   PageInfo pageInfo = webSite.getSiteMap().getPageInfo(pagePath);
-  String full = Utils.readFully(file, webSite.getPreferredCharset(file.getName()));
+  String full = Utils.readFully(file);
   session.setAttribute("MeshCMSNowEditing", pagePath);
 %>
 
