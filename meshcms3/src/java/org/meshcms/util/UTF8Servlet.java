@@ -29,13 +29,15 @@ import javax.servlet.http.*;
 public class UTF8Servlet extends HttpServlet {
   public static final String CHARSET = "UTF-8";
   public static final String EXTENSION = ".utf8";
-  
+  public static final String UTF8_SESSION = "is-utf8-session";  
+
   public static boolean matchExtension(String fileName) {
     return EXTENSION.equals(Utils.getExtension(fileName, true));
   }
   
   protected void processRequest(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
+    request.getSession(true).setAttribute(UTF8_SESSION, UTF8_SESSION);
     ServletContext context = getServletContext();
     File servedFile = new File(context.getRealPath(request.getServletPath()));
     

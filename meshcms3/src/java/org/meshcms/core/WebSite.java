@@ -24,7 +24,6 @@ package org.meshcms.core;
 
 import java.io.*;
 import java.nio.charset.*;
-import java.nio.charset.Charset;
 import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;

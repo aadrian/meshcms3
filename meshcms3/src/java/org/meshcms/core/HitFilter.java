@@ -108,6 +108,15 @@ public final class HitFilter implements Filter {
       
       request.setAttribute("webSite", webSite);
       HttpServletRequest httpReq = webSite.wrapRequest(request);
+      HttpSession session = httpReq.getSession();
+      
+      if (session != null) {
+        if (session.getAttribute(UTF8Servlet.UTF8_SESSION) != null) {
+          httpReq.setCharacterEncoding(UTF8Servlet.CHARSET);
+          session.removeAttribute(UTF8Servlet.UTF8_SESSION);
+        }
+      }
+      
       Path pagePath = webSite.getRequestedPath(httpReq);
 
       /* This is needed to avoid source code disclosure in virtual sites */
@@ -154,9 +163,9 @@ public final class HitFilter implements Filter {
         
         siteMap = webSite.getSiteMap();
         isAdminPage = pagePath.isContainedIn(webSite.getAdminPath());
-        HttpSession session = httpReq.getSession(true);
 
-        UserInfo userInfo = (UserInfo) httpReq.getSession().getAttribute("userInfo");
+        UserInfo userInfo = (session == null) ? null :
+            (UserInfo) session.getAttribute("userInfo");
         isGuest = userInfo == null || userInfo.isGuest();
 
         // Deal with all pages
@@ -196,7 +205,7 @@ public final class HitFilter implements Filter {
 
           /* Since a true page has been requested, disable hotlinking prevention
              for this session */
-          if (webSite.getConfiguration().isPreventHotlinking() &&
+          if (session != null && webSite.getConfiguration().isPreventHotlinking() &&
               session.getAttribute(HOTLINKING_ALLOWED) == null && !isAdminPage) {
             session.setAttribute(HOTLINKING_ALLOWED, HOTLINKING_ALLOWED);
           }
@@ -204,7 +213,7 @@ public final class HitFilter implements Filter {
 
         if (webSite.getConfiguration().isPreventHotlinking() &&
             FileTypes.isPreventHotlinking(pagePath.getLastElement()) &&
-            session.getAttribute(HOTLINKING_ALLOWED) == null) {
+            (session == null || session.getAttribute(HOTLINKING_ALLOWED) == null)) {
           String agent = httpReq.getHeader("user-agent");
 
           if (agent == null || agent.toLowerCase().indexOf("java") < 0) {
