@@ -42,7 +42,7 @@ public class Configuration implements Serializable {
   /**
    * Contains the extensions of files that are visually editable by default.
    */
-  public static final String[] DEFAULT_VISUAL_EXTENSIONS = {"html", "htm", "utf8"};
+  public static final String[] DEFAULT_VISUAL_EXTENSIONS = {"html", "htm"};
   
   /**
    * Value used to disable page caching.
