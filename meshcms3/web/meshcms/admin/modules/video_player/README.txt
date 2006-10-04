@@ -104,6 +104,11 @@ Version history
 	the playList. Now following characters are available: 
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz?!/-:,. 1234567890"
 
+1.6.1
+	Fixes:
+	- flowPlayer.js was missing from the binary distribution package
+	- Absolute URLs did not work in the configFileName
+
 Distribution file contents 
 ===========================
 
