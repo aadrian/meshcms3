@@ -1629,6 +1629,39 @@
         </itemizedlist>
       </section>
 
+      <section id="module_latest_changes">
+        <title>Latest Changes</title>
+
+        <para>The latest changes module shows the first words of the most
+        recently modified pages, adding links to go to the full pages.
+        Modified pages are searched in subdirectories too.</para>
+
+        <para>Advanced parameters:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>css</parameter>: the name of a css class;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>date</parameter>: the type of file date to be
+            shown. Possible values are <option>none</option> (default),
+            <option>normal</option> (date only) and <option>full</option>
+            (date and time);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>words</parameter>: defines the number of words to
+            show for each page (default <option>50</option>).</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>items</parameter>: defines the number of pages to
+            show (default <option>5</option>).</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
       <section id="module_list_pages">
         <title>List Pages</title>
 
@@ -1883,6 +1916,17 @@ submit</programlisting>
 
         <para>The siite map module creates a site map using an HTML unordered
         list.</para>
+      </section>
+
+      <section id="module_video_player">
+        <title>Video Player</title>
+
+        <para>The video player module shows a FLV video player using the
+        Flash-based <ulink
+        url="http://flowplayer.sourceforge.net/">FlowPlayer</ulink>. It will
+        play all the FLV files that are available in the directory passed as
+        argument, or that are found in the directory that contains the page if
+        no argument is specified.</para>
       </section>
     </section>
   </chapter>
@@ -2239,101 +2283,6 @@ submit</programlisting>
       </section>
     </section>
 
-    <section id="tags_information">
-      <title>Information Tags</title>
-
-      <para></para>
-
-      <section id="tag_info">
-        <title>&lt;cms:info&gt;</title>
-
-        <para>This tag shows some info about the website. Values are defined
-        in the Configuration page.</para>
-
-        <para>Attributes:</para>
-
-        <itemizedlist>
-          <listitem>
-            <para><parameter>id</parameter>: indicates which site information
-            must be shown. Value can be <option>name</option> (default),
-            <option>host</option> (or <option>domain</option>),
-            <option>description</option>, <option>keywords</option>,
-            <option>author</option> or <option>authorurl</option>.</para>
-          </listitem>
-        </itemizedlist>
-      </section>
-
-      <section id="tag_user">
-        <title>&lt;cms:user&gt;</title>
-
-        <para>This tag shows some info about the current user.</para>
-
-        <para>Attributes:</para>
-
-        <itemizedlist>
-          <listitem>
-            <para><parameter>id</parameter>: indicates which user information
-            must be shown. Value can be <option>username</option>,
-            <option>e-mail</option> (or <option>email</option>), or another
-            user detail (<option>salutation</option>, <option>name</option>,
-            <option>surname</option>, <option>company</option>,
-            <option>address</option>, <option>zip</option>,
-            <option>city</option>, <option>state</option>,
-            <option>country</option>, <option>phone_number</option>,
-            <option>fax_number</option>,
-            <option>mobile_phone_number</option>). If id is not specified, the
-            value displayed depends on what information is available.</para>
-          </listitem>
-        </itemizedlist>
-
-        <example>
-          <title>Welcoming a user when he has logged in</title>
-
-          <programlisting>&lt;cms:ifuser&gt;Welcome &lt;cms:user /&gt;!&lt;/cms:ifuser&gt;</programlisting>
-        </example>
-      </section>
-
-      <section id="tag_lastmodified">
-        <title>&lt;cms:lastmodified&gt;</title>
-
-        <para>Writes the date of the last modification of the current page.
-        Usually this is the last modification time of the HTML file, but some
-        modules can change that value. For example, if the gallery module is
-        used in the page, and an image is newer than the HTML file, its
-        modification time will be used, provided that the module tag is
-        located before this tag in the theme. This means that it is
-        recommended to put this tag at the end of the page.</para>
-
-        <para>Attributes:</para>
-
-        <itemizedlist>
-          <listitem>
-            <para><parameter>date</parameter>: the format of the date.
-            Possible values are <option>normal</option> (default) and
-            <option>full</option>;</para>
-          </listitem>
-
-          <listitem>
-            <para><parameter>mode</parameter>: since usually it makes no sense
-            to use this tag for server-side pages (e.g. JSPs), you can set
-            this attribute to <option>static</option> (default) to show the
-            date for static files only, or you can use <option>all</option> to
-            always show it;</para>
-          </listitem>
-
-          <listitem>
-            <para><parameter>pre</parameter>: a text to be added before the
-            date. It won't be added if the date is not shown;</para>
-          </listitem>
-
-          <listitem>
-            <para><parameter>post</parameter>: a text to be added after the
-            date. It won't be added if the date is not shown.</para>
-          </listitem>
-        </itemizedlist>
-      </section>
-    </section>
-
     <section id="tags_navigation">
       <title>Navigation Tags</title>
 
@@ -2611,6 +2560,101 @@ submit</programlisting>
             <para><parameter>post</parameter>: a text to be added after the
             last element. It won't be added if there are no elements at
             all.</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+
+    <section id="tags_information">
+      <title>Information Tags</title>
+
+      <para></para>
+
+      <section id="tag_info">
+        <title>&lt;cms:info&gt;</title>
+
+        <para>This tag shows some info about the website. Values are defined
+        in the Configuration page.</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>id</parameter>: indicates which site information
+            must be shown. Value can be <option>name</option> (default),
+            <option>host</option> (or <option>domain</option>),
+            <option>description</option>, <option>keywords</option>,
+            <option>author</option> or <option>authorurl</option>.</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section id="tag_user">
+        <title>&lt;cms:user&gt;</title>
+
+        <para>This tag shows some info about the current user.</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>id</parameter>: indicates which user information
+            must be shown. Value can be <option>username</option>,
+            <option>e-mail</option> (or <option>email</option>), or another
+            user detail (<option>salutation</option>, <option>name</option>,
+            <option>surname</option>, <option>company</option>,
+            <option>address</option>, <option>zip</option>,
+            <option>city</option>, <option>state</option>,
+            <option>country</option>, <option>phone_number</option>,
+            <option>fax_number</option>,
+            <option>mobile_phone_number</option>). If id is not specified, the
+            value displayed depends on what information is available.</para>
+          </listitem>
+        </itemizedlist>
+
+        <example>
+          <title>Welcoming a user when he has logged in</title>
+
+          <programlisting>&lt;cms:ifuser&gt;Welcome &lt;cms:user /&gt;!&lt;/cms:ifuser&gt;</programlisting>
+        </example>
+      </section>
+
+      <section id="tag_lastmodified">
+        <title>&lt;cms:lastmodified&gt;</title>
+
+        <para>Writes the date of the last modification of the current page.
+        Usually this is the last modification time of the HTML file, but some
+        modules can change that value. For example, if the gallery module is
+        used in the page, and an image is newer than the HTML file, its
+        modification time will be used, provided that the module tag is
+        located before this tag in the theme. This means that it is
+        recommended to put this tag at the end of the page.</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>date</parameter>: the format of the date.
+            Possible values are <option>normal</option> (default) and
+            <option>full</option>;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>mode</parameter>: since usually it makes no sense
+            to use this tag for server-side pages (e.g. JSPs), you can set
+            this attribute to <option>static</option> (default) to show the
+            date for static files only, or you can use <option>all</option> to
+            always show it;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>pre</parameter>: a text to be added before the
+            date. It won't be added if the date is not shown;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>post</parameter>: a text to be added after the
+            date. It won't be added if the date is not shown.</para>
           </listitem>
         </itemizedlist>
       </section>
