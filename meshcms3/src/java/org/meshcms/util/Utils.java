@@ -314,7 +314,7 @@ public final class Utils {
    */
   public static boolean copyFile(File file, File newFile, boolean overwrite,
                                  boolean setLastModified) throws IOException {
-    if (!file.exists() || (newFile.exists() && !overwrite)) {
+    if (newFile.exists() && !overwrite) {
       return false;
     }
 
@@ -1194,7 +1194,7 @@ public final class Utils {
       return true;
     }
 
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 20; i++) {
       if (file.delete()) {
         return true;
       }
@@ -1228,7 +1228,7 @@ public final class Utils {
       }
     }
 
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 20; i++) {
       if (oldFile.renameTo(newFile)) {
         return true;
       }

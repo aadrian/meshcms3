@@ -23,7 +23,7 @@
 package org.meshcms.taglib;
 
 import java.io.*;
-import java.text.MessageFormat;
+import java.text.*;
 import java.util.*;
 import javax.servlet.*;
 import javax.servlet.jsp.*;

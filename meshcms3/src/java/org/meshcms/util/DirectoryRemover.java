@@ -39,7 +39,7 @@ public class DirectoryRemover extends DirectoryParser {
   }
 
   protected boolean processDirectory(File file, Path path) {
-    if (!file.delete()) {
+    if (!Utils.forceDelete(file)) {
       result = false;
     }
     
@@ -47,7 +47,7 @@ public class DirectoryRemover extends DirectoryParser {
   }
   
   protected void processFile(File file, Path path) {
-    if (!file.delete()) {
+    if (!Utils.forceDelete(file)) {
       result = false;
     }
   }
