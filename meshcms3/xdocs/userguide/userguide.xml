@@ -47,9 +47,9 @@
       </listitem>
 
       <listitem>
-        <para>since MeshCMS uses plain files and supports the usual SiteMesh
-        configuration, many external Java applications can be integrated quite
-        easily.</para>
+        <para>since MeshCMS uses plain files and supports the standard
+        SiteMesh configuration, many external Java applications can be
+        integrated quite easily.</para>
       </listitem>
     </itemizedlist>
 
@@ -130,10 +130,13 @@
       <title>Basic Procedures</title>
 
       <para>If you want to try MeshCMS, the simplest way to get started is to
-      copy meshcms.war into the webapps directory of your application server
-      (e.g. <ulink url="http://jakarta.apache.org/tomcat/">Tomcat</ulink> or
-      <ulink url="http://jetty.mortbay.org/">Jetty</ulink>) and open
-      <emphasis>http://localhost:8080/meshcms/</emphasis>.</para>
+      copy <filename>meshcms.war</filename> or
+      <filename>samples.war</filename> into the webapps directory of your
+      application server (e.g. <ulink
+      url="http://jakarta.apache.org/tomcat/">Tomcat</ulink> or <ulink
+      url="http://jetty.mortbay.org/">Jetty</ulink>) and open
+      <emphasis>http://localhost:8080/meshcms/</emphasis> or
+      <emphasis>http://localhost:8080/samples/</emphasis>.</para>
 
       <para>If you want to deploy a website, you will have to configure a
       virtual host for it as usual. There is nothing special in the setup of
@@ -156,9 +159,8 @@
     &lt;Connector port="8080" /&gt;
 
     &lt;Engine name="Catalina" defaultHost="localhost"&gt;
-      &lt;Host name="localhost" appBase="/home/tomcat"&gt;
-        &lt;Context path="" docBase="/meshcms" debug="0"
-         reloadable="false" allowLinking="false" /&gt;
+      &lt;Host name="localhost" appBase="/home/tomcat/webapps"&gt;
+        &lt;Context path="" docBase="meshcms" /&gt;
       &lt;/Host&gt;
     &lt;/Engine&gt;
   &lt;/Service&gt;
@@ -168,7 +170,7 @@
     <section id="upgrade">
       <title>Upgrade</title>
 
-      <para>MeshCMS is composed of two directories:
+      <para>Starting from version 3.0, MeshCMS is composed of two directories:
       <filename>/meshcms/admin</filename> and <filename>/WEB-INF</filename>.
       To perform an upgrade, you should delete the current versions of those
       directories and use the new ones. Be careful not to delete the whole
@@ -182,13 +184,6 @@
       be changed. If you want to add an external application, or if you want
       to configure SiteMesh differently, you must keep track of your changes
       so that you can integrate them with the new release.</para>
-
-      <para>Upgrading from version prior to 3.0 is even harder. While the HTML
-      files created before will continue to work fine (module contents
-      included), there's no tool in the official release to convert users and
-      site configurations. Such tools might become available on the community
-      website. Furthermore, some files (for example themes and modules) need
-      to be renamed and moved manually to match the new file structure.</para>
     </section>
   </chapter>
 
@@ -300,12 +295,12 @@
       dealing with hundreds of documents. MeshCMS automatically puts the
       welcome file at the beginning on the list and then orders the other
       pages according to the number of visits in the last days. This brings
-      the most interesting documents at the beginning of the list.</para>
+      the most requested documents at the beginning of the list.</para>
 
       <para>The <link linkend="page_manager">Page Manager</link> tool offers
-      an option to assign a <firstterm>score</firstterm> to each page. Pages
-      with higher score will always come first, regardless of the count of
-      visits. It is a tedious process to use scores to order the whole site
+      an option to assign a <firstterm>score</firstterm> to each page anyway.
+      Pages with higher score will always come first, regardless of the count
+      of visits. It is a tedious process to use scores to order the whole site
       map, and it is not a user-friendly method at all. But partial orderings
       are allowed: default score is zero for all pages, so one can assign a
       score just to those pages that he wants to see at the beginning
@@ -319,9 +314,9 @@
       <para>Another consequence of the need to support documents that come
       from many sources is that MeshCMS does not check them for standard
       compliance. It respects the generalistic approach that is allowed by
-      SiteMesh. Of course, a web developer is still allowed to put all
-      document type definitions in his own themes and to require his users to
-      deal with well-formed documents only.</para>
+      SiteMesh. Of course, a web developer is still allowed to put document
+      type definitions in his own themes and to require his users to deal with
+      well-formed documents only.</para>
     </section>
 
     <section id="multiple_sites">
@@ -381,7 +376,7 @@
       <para>To serve multiple sites, you need to install MeshCMS as usual.
       Then you can use the <link linkend="control_panel">Control Panel</link>
       to create new sites. If the DNS has been configured properly, you can
-      access a new site immediately. Please do so, log into it with your admin
+      access new sites immediately. Please do so, log into it with your admin
       user of the main website and check the <link linkend="configure">site
       configuration</link> to make sure that all options are fine. You may
       also want to create some users, a welcome page and so on.</para>
@@ -418,11 +413,10 @@
       common look &amp; feel to many pages, adding the graphics and some other
       components like the navigation menu. In MeshCMS you can achieve this
       result by using a <firstterm>theme</firstterm>. There is a special
-      directory in MeshCMS whose default path is <filename>/themes</filename>
-      (you can change that path in the <link
-      linkend="configure">Configuration</link>). A theme is a subdirectory of
-      <filename>/themes</filename> that contains all the elements needed by
-      the theme itself. Those elements are:</para>
+      directory in MeshCMS whose default path is
+      <filename>/meshcms/themes</filename>. A theme is a subdirectory of
+      <filename>/meshcms/themes</filename> that contains all the elements
+      needed by the theme itself. Those elements are:</para>
 
       <itemizedlist>
         <listitem>
@@ -447,7 +441,7 @@
           not found in the theme, the default one will be used. You can
           override it if you want to change the appearance of those two
           components (the default is located in the
-          <filename>/admin/theme</filename> directory);</para>
+          <filename>/meshcms/admin/theme</filename> directory);</para>
         </listitem>
 
         <listitem>
@@ -539,14 +533,13 @@
 
         <para>When you create a theme, you should create a normal HTML page
         along with its own CSS file and images and store all files in a
-        directory (you can use subdirectories if you want). Use some text
-        placeholder to point out where to put page components. For example,
-        write [TITLE] where you expect to see the title of the page, [SITE
-        MENU] where you want to see the menu, [BODY] where the text of the
-        page should be located and so on. Please note that the notation with
-        square brackets has nothing special. They are just placeholders. You
-        might also use the "lorem ipsum" text instead of [BODY]. Your file
-        might look like this one:</para>
+        directory. Use some text placeholder to point out where to put page
+        components. For example, write [TITLE] where you expect to see the
+        title of the page, [SITE MENU] where you want to see the menu, [BODY]
+        where the text of the page should be located and so on. Please note
+        that the notation with square brackets has nothing special. They are
+        just placeholders. You might also use the "lorem ipsum" text instead
+        of [BODY]. Your file might look like this one:</para>
 
         <screenshot>
           <screeninfo>A skeleton for a theme file</screeninfo>
@@ -636,12 +629,11 @@
         <para>Save your file and name it <filename>main.jsp</filename>. The
         CSS must be named <filename>main.css</filename> and must be located in
         the same directory. This directory must be located in the
-        <filename>/themes</filename> directory in your site (this location can
-        be changed in the <link linkend="configure">Configuration</link>), and
-        the name of the directory will be used as name of the theme itself.
-        All images and other files must be located in the same directory. You
-        can use subdirectories, but then you need to write paths accordingly:
-        for example, if you put all images in a subdirectory called
+        <filename>/meshcms/themes</filename> directory in your site, and the
+        name of the directory will be used as name of the theme itself. All
+        images and other files must be located in the same directory. You can
+        use subdirectories, but then you need to write paths accordingly: for
+        example, if you put all images in a subdirectory called
         <filename>images</filename>, you will use <code>url(&lt;cms:themepath
         /&gt;/images/flowers.jpg)</code> in the example above.</para>
 
@@ -716,12 +708,13 @@
 
           <listitem>
             <para><code>&lt;cms:setlocale /&gt;</code> to define the locale of
-            the pages that will use the theme;</para>
+            the pages that will use the theme (optional);</para>
           </listitem>
 
           <listitem>
             <para>you will probably want to add one or more <link
-            linkend="modules">modules</link>;</para>
+            linkend="modules">modules</link>; otherwise you can't take
+            advantage of available modules in your pages;</para>
           </listitem>
 
           <listitem>
@@ -822,13 +815,13 @@
         </listitem>
 
         <listitem>
-          <para>(much easier) open the <link linkend="control_panel">Control
+          <para>(much easier) go to the <link linkend="control_panel">Control
           Panel</link>, then choose <link linkend="page_manager">Page
           Manager</link>. Choose the <inlinegraphic
           fileref="newpage_button.gif" /> icon associated to the right page:
           you will add a child page to that one. A small popup will open.
           Insert a title for the page (use a short one since it wiil be used
-          to choose a name for the file: you will be able to change it while
+          to create a name for the file: you will be able to change it while
           editing the page). Uncheck <option>Create enclosing
           directory</option> only if you are absolutely sure that you won't
           add a child page to the new one in future. Then click on
@@ -847,7 +840,9 @@
       <para>Additionally, you can add (and edit) pages from outside MeshCMS,
       for example using an FTP client. After doing that, make sure you run
       <command>Refresh Site Map</command> in the Control Panel so MeshCMS can
-      find your new page(s).</para>
+      find your new page(s). The site map is automatically refreshed after
+      some hours, so new pages will be found even if you don't start the
+      update manually.</para>
     </section>
   </chapter>
 
@@ -855,7 +850,7 @@
     <title>Control Panel</title>
 
     <para>This is the home page of the MeshCMS admin area. It contains icons
-    for the most operations. Icons are shown or hidden according to user's
+    for the all availabe tools. Icons are shown or hidden according to user's
     privileges.</para>
 
     <para>Some of them are very simple: there is a link to the home page, a
@@ -931,8 +926,8 @@
         <important>
           <para>this operation is quite dangerous, since it will overwrite
           files if needed, without backing them up. So it is highly
-          recommended to unzip files in a new directory as described
-          above.</para>
+          recommended to unzip files in a new directory as described above.
+          Then you can move them safely.</para>
         </important>
       </section>
     </section>
@@ -1032,7 +1027,7 @@
         </listitem>
       </itemizedlist>
 
-      <para>All other details are optional.</para>
+      <para>All other fields are optional.</para>
     </section>
 
     <section id="configure">
@@ -1100,7 +1095,8 @@
           <para><emphasis role="bold">Prevent hotlinking</emphasis>: if
           selected, others are not allowed to link to your images and files
           directly: they must link to pages on your site. A simple window will
-          be shown to state that the file comes from your site.</para>
+          be shown to state that the file comes from your site. That page
+          won't mention that you're using MeshCMS.</para>
         </listitem>
       </itemizedlist>
 
@@ -1161,14 +1157,6 @@
         </listitem>
 
         <listitem>
-          <para><emphasis role="bold">Preferred charset</emphasis>: a charset
-          to be used whenever possible, for example when creating pages or
-          when serving files that do not specify a charset. It is <emphasis
-          role="bold">highly recommended</emphasis> that you keep the default,
-          that matches the encoding used by the underlying platform;</para>
-        </listitem>
-
-        <listitem>
           <para><emphasis role="bold">Always redirect to welcome
           pages</emphasis>: check this option to ask MeshCMS to check if a
           welcome file is available when the required URL points to a
@@ -1192,7 +1180,15 @@
           <para><emphasis role="bold">Hide Java exceptions when
           possible</emphasis>: if this option is checked, MeshCMS tries to
           catch Java exception and hide its details to site visitors (it will
-          be logged though).</para>
+          be logged though);</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Modules are collapsed initially in the
+          editor</emphasis>: if this option is checked, you will need to click
+          on a module caption in the editor to modify the module. This has
+          been done to make the editor interface less cluttered when a theme
+          has many modules.</para>
         </listitem>
       </itemizedlist>
     </section>
@@ -1296,7 +1292,17 @@
 
           <tbody>
             <row>
-              <entry>chat</entry>
+              <entry><classname>Audio Player</classname></entry>
+
+              <entry>Creation of a Flash-based MP3 player</entry>
+
+              <entry>Shows a simple MP3 player</entry>
+
+              <entry>Uses the directory that contains the page</entry>
+            </row>
+
+            <row>
+              <entry><classname>Chat</classname></entry>
 
               <entry>Creation of a simple chat</entry>
 
@@ -1307,7 +1313,17 @@
             </row>
 
             <row>
-              <entry><classname>downloads</classname></entry>
+              <entry><classname>Comments</classname></entry>
+
+              <entry>Creation of a simple message board</entry>
+
+              <entry>Provides a form to leave comments on the page</entry>
+
+              <entry>A default directory is used to store comments</entry>
+            </row>
+
+            <row>
+              <entry><classname>Downloads</classname></entry>
 
               <entry>Creation of a list of downloads</entry>
 
@@ -1317,7 +1333,7 @@
             </row>
 
             <row>
-              <entry><classname>gallery</classname></entry>
+              <entry><classname>Gallery</classname></entry>
 
               <entry>Creation of an image gallery</entry>
 
@@ -1328,9 +1344,9 @@
             </row>
 
             <row>
-              <entry>headlines</entry>
+              <entry><classname>Headlines</classname></entry>
 
-              <entry>inclusion of other pages, showing the first words
+              <entry>Inclusion of other pages, showing the first words
               only</entry>
 
               <entry>Shows the first words of each page, followed by a link to
@@ -1340,7 +1356,7 @@
             </row>
 
             <row>
-              <entry><classname>include</classname></entry>
+              <entry><classname>Include</classname></entry>
 
               <entry>Inclusion of files in the page</entry>
 
@@ -1351,7 +1367,7 @@
             </row>
 
             <row>
-              <entry><classname>include_as_text</classname></entry>
+              <entry><classname>Include As Text</classname></entry>
 
               <entry>Inclusion of files in the page</entry>
 
@@ -1361,7 +1377,19 @@
             </row>
 
             <row>
-              <entry><classname>list_pages</classname></entry>
+              <entry><classname>Latest Changes</classname></entry>
+
+              <entry>Inclusion of the first words of the pages that have
+              changed more recently</entry>
+
+              <entry>Shows the first words of each recently modified page,
+              followed by a link to the full page</entry>
+
+              <entry>Uses the directory that contains the page</entry>
+            </row>
+
+            <row>
+              <entry><classname>List Pages</classname></entry>
 
               <entry>Creation of a list of links</entry>
 
@@ -1371,7 +1399,7 @@
             </row>
 
             <row>
-              <entry><classname>mail</classname></entry>
+              <entry><classname>Mail</classname></entry>
 
               <entry>Creation of a mail form</entry>
 
@@ -1384,7 +1412,7 @@
             </row>
 
             <row>
-              <entry><classname>parse</classname></entry>
+              <entry><classname>Parse</classname></entry>
 
               <entry>Inclusion of dynamic files</entry>
 
@@ -1396,7 +1424,7 @@
             </row>
 
             <row>
-              <entry><classname>site_map</classname></entry>
+              <entry><classname>Site Map</classname></entry>
 
               <entry>Creation of a site map</entry>
 
@@ -1405,12 +1433,32 @@
 
               <entry>Starts from the directory that contains the page</entry>
             </row>
+
+            <row>
+              <entry><classname>Video Player</classname></entry>
+
+              <entry>Creation of a Flash-based FLV player</entry>
+
+              <entry>Shows a simple video player to play FLV files</entry>
+
+              <entry>Uses the directory that contains the page</entry>
+            </row>
           </tbody>
         </tgroup>
       </table>
 
       <para>Details about advanced parameters are illustrated in the following
       sections.</para>
+
+      <section id="module_audio_player">
+        <title>Audio Player</title>
+
+        <para>The audio player module shows a MP3 player using the Flash-based
+        <ulink url="http://musicplayer.sourceforge.net/">XSPF Web Music
+        Player</ulink>. It will play all the MP3 files that are available in
+        the directory passed as argument, or that are found in the directory
+        that contains the page if no argument is specified.</para>
+      </section>
 
       <section id="module_chat">
         <title>Chat</title>
@@ -1424,6 +1472,40 @@
         <itemizedlist>
           <listitem>
             <para><parameter>css</parameter>: the name of a css class.</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section id="module_comments">
+        <title>Comments</title>
+
+        <para>The comments module creates a form that allows site visitors to
+        leave comments on that page. Authenticated users with edit permissions
+        on that page can delete unwanted comments by visiting the page
+        itself.</para>
+
+        <para>Advanced parameters:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>css</parameter>: the name of a css class;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>date</parameter>: the type of file date to be
+            shown. Possible values are <option>none</option> (default),
+            <option>normal</option> (date only) and <option>full</option>
+            (date and time);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>width</parameter>: relative width of fields
+            (defaults to 98%);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>notify</parameter>: an optional e-mail address to
+            receive comment notifications.</para>
           </listitem>
         </itemizedlist>
       </section>
