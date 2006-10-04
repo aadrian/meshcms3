@@ -55,6 +55,7 @@
 
   Path path = null;
   boolean ok = false;
+  boolean fixName = false;
 
   try {
     FileItem upItem = null;
@@ -67,13 +68,20 @@
       
       if (item.getFieldName().equals("dir")) {
         path = new Path(item.getString());
+      } else if (item.getFieldName().equals("fixname")) {
+        fixName = Utils.isTrue(item.getString());
       } else if (item.getFieldName().equals("upfile") && item.getSize() > 0L) {
         upItem = item;
       }
     }
 
     if (upItem != null && path != null) {
-      String fileName = WebUtils.fixFileName(new Path(upItem.getName()).getLastElement(), true);
+      String fileName = new Path(upItem.getName()).getLastElement();
+      
+      if (fixName) {
+        fileName = WebUtils.fixFileName(fileName, true);
+      }
+      
       ok = webSite.saveToFile(userInfo, upItem, path.add(fileName));
     }
   } catch (Exception ex) {

@@ -99,6 +99,19 @@ function fm_deleteFiles() {
 }
 
 /**
+ * Asks process.jsp to fix file names of all selected items
+ */
+function fm_fixFileNames() {
+  var fmfm = document.forms['fmfm'];
+  fm_collectFiles();
+
+  if (fmfm.f_files.value.length > 1) {
+    fmfm.f_action.value = "fixnames";
+    fmfm.submit();
+  }
+}
+
+/**
  * Asks process.jsp to change the theme associated to the selected item(s)
  */
 function fm_changeTheme(themeName) {

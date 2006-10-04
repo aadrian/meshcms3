@@ -124,7 +124,7 @@
         }
       }
     } else if (action.startsWith("rename") && fileNames.length == 1) {
-      String name = WebUtils.fixFileName(action.substring(6), true);
+      String name = action.substring(6);
 
       if (webSite.move(userInfo, path.add(fileNames[0]), path.add(name))) {
         needsUpdate = true;
@@ -133,8 +133,22 @@
         formatter.applyPattern(bundle.getString("fmErrorNotRenamed"));
         errMsgs.add(formatter.format(args));
       }
+    } else if (action.equals("fixnames")) {
+      for (int i = 0; i < fileNames.length; i++) {
+        String name = WebUtils.fixFileName(fileNames[i], true);
+        
+        if (!name.equals(fileNames[i])) {
+          if (webSite.move(userInfo, path.add(fileNames[i]), path.add(name))) {
+            needsUpdate = true;
+          } else {
+            Object[] args = { fileNames[i], name };
+            formatter.applyPattern(bundle.getString("fmErrorNotRenamed"));
+            errMsgs.add(formatter.format(args));
+          }
+        }
+      }
     } else if (action.startsWith("copy") && fileNames.length == 1) {
-      String name = WebUtils.fixFileName(action.substring(4), true);
+      String name = action.substring(4);
 
       if (webSite.copyFile(userInfo, path.add(fileNames[0]), name)) {
         needsUpdate = true;
@@ -144,7 +158,7 @@
         errMsgs.add(formatter.format(args));
       }
     } else if (action.startsWith("createfile")) {
-      String name = WebUtils.fixFileName(action.substring(10), true);
+      String name = action.substring(10);
 
       if (webSite.createFile(userInfo, path.add(name))) {
         needsUpdate = true;
@@ -154,7 +168,7 @@
         errMsgs.add(formatter.format(args));
       }
     } else if (action.startsWith("createdir")) {
-      String name = WebUtils.fixFileName(action.substring(9), true);
+      String name = action.substring(9);
 
       if (webSite.createDirectory(userInfo, path.add(name))) {
         needsUpdate = true;
@@ -168,7 +182,7 @@
       File unzipDir = webSite.getFile(path);
       
       if (action.length() > 5) {
-        unzipDir = new File(unzipDir, WebUtils.fixFileName(action.substring(5), true));
+        unzipDir = new File(unzipDir, action.substring(5));
         unzipDir.mkdir();
       }
 

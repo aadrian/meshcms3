@@ -70,6 +70,13 @@
       </tr>
 
       <tr>
+        <td>
+          <input type="checkbox" name="fixname" id="fixname" value="true" checked="checked">
+          <label for="fixname"><fmt:message key="fmUploadFixFileName" /></label>
+        </td>
+      </tr>
+
+      <tr>
         <th>
           <input type="submit" value="<fmt:message key="fmUploadButton" />" id="subBtn">
           <input type="button" value="<fmt:message key="genericCancel" />" onclick="javascript:history.back();" />

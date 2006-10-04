@@ -148,6 +148,7 @@
       fileMenu.add(new WebFXMenuSeparator());
       fileMenu.add(new WebFXMenuItem('<img src=\'images/button_delete.gif\' class=\'menuicon\'><fmt:message key="fmDelete" />', 'javascript:fm_deleteFiles()'));
       fileMenu.add(new WebFXMenuItem('<img src=\'images/button_rename.gif\' class=\'menuicon\'><fmt:message key="fmRename" />', 'javascript:fm_renameFile()'));
+      fileMenu.add(new WebFXMenuItem('<img src=\'images/button_rename.gif\' class=\'menuicon\'><fmt:message key="fmFixFileNames" />', 'javascript:fm_fixFileNames()'));
       fileMenu.add(new WebFXMenuItem('<img src=\'images/button_touch.gif\' class=\'menuicon\'><fmt:message key="fmTouch" />', 'javascript:fm_touchFiles()'));
       fileMenu.add(new WebFXMenuItem('<img src=\'images/button_changedate.gif\' class=\'menuicon\'><fmt:message key="fmChangeDate" />', null));
     
