@@ -68,7 +68,8 @@ public class ZipArchiver extends DirectoryParser {
       while((len = fis.read(buf)) != -1) {
         zout.write(buf, 0, len);
       }
-
+      
+      fis.close();
       zout.closeEntry();
     } catch (IOException ex) {
       ex.printStackTrace();
