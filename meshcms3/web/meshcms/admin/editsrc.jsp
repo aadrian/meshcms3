@@ -44,12 +44,36 @@
   PageInfo pageInfo = webSite.getSiteMap().getPageInfo(pagePath);
   String full = Utils.readFully(file);
   session.setAttribute("MeshCMSNowEditing", pagePath);
+  
+  String codeSyntax = "";
+  String fileName = pagePath.getLastElement();
+  
+  if (FileTypes.isLike(fileName, "html")) {
+    codeSyntax = "html";
+  } else if (FileTypes.isLike(fileName, "php")) {
+    codeSyntax = "php";
+  } else if (FileTypes.isLike(fileName, "css")) {
+    codeSyntax = "css";
+  } else if (FileTypes.isLike(fileName, "js")) {
+    codeSyntax = "js";
+  } else if (FileTypes.isLike(fileName, "xml")) {
+    codeSyntax = "xml";
+  }
 %>
 
 <html>
 <head>
 <%= webSite.getAdminMetaThemeTag() %>
 <title><fmt:message key="srcTitle" /></title>
+<script type="text/javascript" src="scripts/edit_area/edit_area_full.js"></script>
+<script language="javascript" type="text/javascript">
+editAreaLoader.init({
+  id : "fullsrc",
+  syntax: "<%= codeSyntax %>",
+  language: "<fmt:message key="editAreaLang" />",
+  start_highlight: true
+});
+</script>
 </head>
 
 <body>
