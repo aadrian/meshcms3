@@ -31,6 +31,8 @@
  * Whatever you want to add...
 --%>
 
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page pageEncoding="UTF-8" %>
 <%@ page import="java.io.*" %>
 <%@ page import="java.text.*" %>
 <%@ page import="java.util.*" %>
@@ -88,7 +90,7 @@ function sendRequest(url, callback) {
   if (window.XMLHttpRequest) {
     request = new XMLHttpRequest();
 	  if (request.overrideMimeType) {
-	    request.overrideMimeType('text/xml;charset="UTF-8');
+	    request.overrideMimeType('text/xml;charset=UTF-8');
 	  }
   } else if(window.ActiveXObject) {
     try {
@@ -151,8 +153,9 @@ function submitMsg() {
 /* Response from server.jsp from the request for updated chat room content */
 function chatRoomReceived(content) {
   if (content != '') {
+    content = content.replace(/\n/g, '');
     if (document.getElementById('chatwindow').value != content) {
-      document.getElementById('chatwindow').value = eval('\'' + content.replace(/\n/g, '') + '\'');
+      document.getElementById('chatwindow').value = content;
 	  }
   }
   refreshChatRoom(false);
