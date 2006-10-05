@@ -1,5 +1,17 @@
 ________________________________
 --------------------------------
+2006-10-xx: 3.0 released
+--------------------------------
+
+- SiteInfo stored data is now cleaned to forget info about deleted pages
+- Modules can be collapsed in the editor
+- Conversion to HTML entities is now done only for single-byte charsets
+- File Manager no longer modifies file names automatically
+- Function added to the File Manager to remove unsuited characters from file names
+- Added EditArea to have syntax highlighting in the source editor
+
+________________________________
+--------------------------------
 2006-09-06: 3.0 rc 1 released
 --------------------------------
 
