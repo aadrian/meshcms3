@@ -99,11 +99,6 @@ if (title.equals("")) { %>
         <label for="newdirch"><fmt:message key="newpageFolder" /></label>
       </div>
       
-      <div class="meshcmscheckbox">
-        <input type='checkbox' name='useutf' checked='checked' value='true' id='useutfch' />
-        <label for="useutfch"><fmt:message key="newpageUseUTF" /></label>
-      </div>
-      
       <div class="meshcmsbuttons">
         <input type='submit' value='<fmt:message key="newpageCreate" />' />
         <input type='button' value='<fmt:message key="genericCancel" />'
