@@ -164,14 +164,10 @@ public class SiteInfo {
    * since 0 is the default.
    */
   public void setPageScore(Path pagePath, int score) {
-    setPageScore(getScoreCode(pagePath), score);
-  }
-
-  private void setPageScore(String pageCode, int score) {
     if (score == 0) {
-      data.remove(pageCode);
+      data.remove(getScoreCode(pagePath));
     } else {
-      data.setProperty(pageCode, Integer.toString(score));
+      data.setProperty(getScoreCode(pagePath), Integer.toString(score));
     }
   }
 
@@ -203,14 +199,10 @@ public class SiteInfo {
    * since false is the default.
    */
   public void setHideSubmenu(Path pagePath, boolean hide) {
-    setHideSubmenu(getHideSubmenuCode(pagePath), hide);
-  }
-
-  private void setHideSubmenu(String pageCode, boolean hide) {
     if (hide == false) {
-      data.remove(pageCode);
+      data.remove(getHideSubmenuCode(pagePath));
     } else {
-      data.setProperty(pageCode, Boolean.toString(hide));
+      data.setProperty(getHideSubmenuCode(pagePath), Boolean.toString(hide));
     }
   }
 
