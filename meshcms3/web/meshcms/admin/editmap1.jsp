@@ -183,6 +183,22 @@
       "width=360,height=220,menubar=no,status=no,toolbar=no,resizable=yes");
     popup.focus();
   }
+  
+  /**
+   * Toggles the value of menu hiding and changes the related image
+   */
+  function editMap_toggleMenuHiding(code) {
+    var fld = document.getElementById(code);
+    var img = document.getElementById("img_" + code);
+    
+    if (fld.value == "true") {
+      fld.value = false;
+      img.src = "filemanager/images/button_showmenu.gif";
+    } else {
+      fld.value = true;
+      img.src = "filemanager/images/button_hidemenu.gif";
+    }
+  }
 </script>
 
 <style type="text/css">
@@ -241,11 +257,10 @@
            title="<fmt:message key="mapClickExpandAll" />" />&nbsp;<fmt:message key="mapPageTitle" /></th>
       <th><fmt:message key="mapHits" /></th>
       <th><fmt:message key="mapCache" /></th>
-      <th><fmt:message key="mapHideSubmenu" /></th>
       <th><fmt:message key="mapMenu" /></th>
       <th><fmt:message key="mapTheme" /></th>
       <th><fmt:message key="mapScore" /></th>
-      <th colspan="2"><fmt:message key="mapActions" /></th>
+      <th colspan="5"><fmt:message key="mapActions" /></th>
     </tr>
 <%
   Iterator iter = pagesList.iterator();
@@ -290,62 +305,89 @@
         <% } else { %>
           <td>&nbsp;</td>
         <% }
-    
-        if (userInfo.canWrite(webSite, pagePath)) {
-          String theme = siteInfo.getPageTheme(pagePath);
-          String tCode = siteInfo.getTitleCode(pagePath);
-          String dCode = siteInfo.getThemeCode(pagePath);
-          String sCode = siteInfo.getScoreCode(pagePath);
-          String hCode = siteInfo.getHideSubmenuCode(pagePath);
-          %><td align="center"><select name="<%= hCode %>">
-             <option value="">&nbsp;</option>
-             <option value="true" <%= siteInfo.getHideSubmenu(pagePath)? "selected='selected'" : "" %>>Hide&nbsp;</option>
-            </select></td>
-            <td><img src="images/clear_field.gif" onclick="javascript:editMap_clr('<%= tCode %>');" alt=""
-             style='vertical-align:middle;' /><input type="text" name="<%= tCode %>"
-             id="<%= tCode %>" size="24"
-             value="<%= siteInfo.getPageTitle(pagePath) %>" /></td>
 
-            <td><select name="<%= dCode %>">
-             <option value="">&nbsp;</option>
-             <option <%= PageAssembler.EMPTY.equals(theme) ? "selected='selected'" : "" %>
-              value="<%= PageAssembler.EMPTY %>"><fmt:message key="mapNoTheme" /></option>
-         
-          <% for (int j = 0; j < themes.length; j++) { %>
-             <option <%= themes[j].equals(theme) ? "selected='selected'" : "" %>
-              value="<%= themes[j] %>"><%= Utils.beautify(themes[j], true) %></option>
-          <% } %>
-            </select></td>
+        String theme = siteInfo.getPageTheme(pagePath);
+        String tCode = siteInfo.getTitleCode(pagePath);
+        String dCode = siteInfo.getThemeCode(pagePath);
+        String sCode = siteInfo.getScoreCode(pagePath);
+        String hCode = siteInfo.getHideSubmenuCode(pagePath);
+        boolean hideMenu = siteInfo.getHideSubmenu(pagePath);
+        boolean userOk = userInfo.canWrite(webSite, pagePath);
+        Path servedPath = siteMap.getServedPath(pagePath);
 
-            <td><img src="images/clear_field.gif" onclick="javascript:editMap_clr('<%= sCode %>');" alt=""
-             style='vertical-align:middle;' /><input type="text" name="<%= sCode %>"
-             id="<%= sCode %>" size="6" value="<%= siteInfo.getPageScoreAsString(pagePath) %>" /></td>
-
-          <% if (webSite.isDirectory(pagePath)) { %>
-            <td align="center"><img src="filemanager/images/button_newchild.gif" alt=""
-             onclick="javascript:editMap_createPage('<%= Utils.escapeSingleQuotes(pagePath.toString()) %>');" style='vertical-align:middle;'
-             title="<fmt:message key="mapNewChild" />" /></td>
-          <% } else { %>
-            <td>&nbsp;</td>
-          <% }
-          
-          if (!hasChildren) { %>          
-            <td align="center"><img src="filemanager/images/button_delete.gif" alt=""
-             onclick="javascript:editMap_deletePage('<%= Utils.escapeSingleQuotes(pagePath.toString()) %>');" style='vertical-align:middle;'
-             title="<fmt:message key="mapDelete" />" /></td>
-          <% } else { %>
-            <td>&nbsp;</td>
-          <% }
-        } else { %>
+        if (userOk) { %>
+          <td><img src="images/clear_field.gif" onclick="javascript:editMap_clr('<%= tCode %>');" alt=""
+           style='vertical-align:middle;' /><input type="text" name="<%= tCode %>"
+           id="<%= tCode %>" size="24"
+           value="<%= siteInfo.getPageTitle(pagePath) %>" /></td>
+        <% } else { %>
           <td>&nbsp;<%= siteInfo.getPageTitle(pagePath) %></td>
+        <% } %>
+
+        <% if (userOk) { %>
+          <td><select name="<%= dCode %>">
+           <option value="">&nbsp;</option>
+           <option <%= PageAssembler.EMPTY.equals(theme) ? "selected='selected'" : "" %>
+            value="<%= PageAssembler.EMPTY %>"><fmt:message key="mapNoTheme" /></option>
+
+          <% for (int j = 0; j < themes.length; j++) { %>
+           <option <%= themes[j].equals(theme) ? "selected='selected'" : "" %>
+            value="<%= themes[j] %>"><%= Utils.beautify(themes[j], true) %></option>
+          <% } %>
+          </select></td>
+        <% } else { %>
           <td>&nbsp;<%= Utils.beautify(siteInfo.getPageTheme(pagePath), true) %></td>
+        <% } %>
+
+        <% if (userOk) { %>
+          <td><img src="images/clear_field.gif" onclick="javascript:editMap_clr('<%= sCode %>');" alt=""
+           style='vertical-align:middle;' /><input type="text" name="<%= sCode %>"
+           id="<%= sCode %>" size="6" value="<%= siteInfo.getPageScoreAsString(pagePath) %>" /></td>
+        <% } else { %>
           <td>&nbsp;<%= siteInfo.getPageScoreAsString(pagePath) %></td>
-          <td>&nbsp;</td>
+        <% } %>
+
+          <td align="center"><img src="filemanager/images/button_viewpage.gif" alt=""
+           onclick="javascript:location.href='<%= cp + webSite.getLink(pageInfo) %>';" style='vertical-align:middle;'
+           title="<fmt:message key="mapViewPage" />" /></td>
+
+          <td align="center"><img src="filemanager/images/button_editpage.gif" alt=""
+           onclick="javascript:location.href='<%= webSite.isVisuallyEditable(servedPath) ?
+               cp + webSite.getLink(pageInfo) + "?meshcmsaction=edit" :
+               cp + '/' + webSite.getAdminPath() + "/editsrc.jsp?path=" + servedPath
+              %>';" style='vertical-align:middle;'
+           title="<fmt:message key="mapEditPage" />" /></td>
+
+          <input type="hidden" name="<%= hCode %>" id="<%= hCode %>"
+           value="<%= Boolean.toString(hideMenu) %>" />
+        <% if (userOk && webSite.isDirectory(pagePath)) { %>
+          <td align="center"><img src="filemanager/images/<%= hideMenu ? "button_hidemenu.gif" : "button_showmenu.gif" %>"
+           alt="" id="img_<%= hCode %>" style='vertical-align:middle;'
+           onclick="javascript:editMap_toggleMenuHiding('<%= hCode %>');"
+           title="<fmt:message key="mapToggleMenuHiding" />" /></td>
+        <% } else { %>
           <td>&nbsp;</td>
         <% } %>
+
+        <% if (userOk && webSite.isDirectory(pagePath)) { %>
+          <td align="center"><img src="filemanager/images/button_newchild.gif" alt=""
+           onclick="javascript:editMap_createPage('<%= Utils.escapeSingleQuotes(pagePath.toString()) %>');" style='vertical-align:middle;'
+           title="<fmt:message key="mapNewChild" />" /></td>
+        <% } else { %>
+          <td>&nbsp;</td>
+        <% } %>
+
+        <% if (userOk && !hasChildren) { %>          
+          <td align="center"><img src="filemanager/images/button_delete.gif" alt=""
+           onclick="javascript:editMap_deletePage('<%= Utils.escapeSingleQuotes(pagePath.toString()) %>');" style='vertical-align:middle;'
+           title="<fmt:message key="mapDelete" />" /></td>
+        <% } else { %>
+          <td>&nbsp;</td>
+        <% } %>
+        
     </tr><% } %> <%-- IMPORTANT: no spaces after <tr>! --%>
     <tr>
-      <th align="center" colspan="8">
+      <th align="center" colspan="11">
         <input type="submit" value="<fmt:message key="genericSave" />" />
       </th>
     </tr>
