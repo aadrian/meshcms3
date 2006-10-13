@@ -208,7 +208,30 @@ public final class Utils {
    * Replaces ' with \' (useful for JavaScript).
    */
   public static String escapeSingleQuotes(String s) {
-    return s.replaceAll("'", "\\'");
+    return replace(s, '\'', "\\'");
+  }
+
+  /**
+   * Replaces all the occurrences of a character in a string.
+   *
+   * @param o the object that will be converted into the string to be analized
+   * @param c the character to be replaced
+   * @param n the string used in place of the character
+   *
+   * Return the empty string if s is null; the modified string otherwise.
+   */
+  public static String replace(String s, char c, String n) {
+    StringBuffer sb = new StringBuffer();
+
+    for (int i = 0; i < s.length(); i++) {
+      if (s.charAt(i) == c) {
+        sb.append(n);
+      } else {
+        sb.append(s.charAt(i));
+      }
+    }
+
+    return sb.toString();
   }
 
   /**

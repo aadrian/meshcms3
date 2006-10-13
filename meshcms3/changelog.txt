@@ -1,6 +1,6 @@
 ________________________________
 --------------------------------
-2006-10-xx: 3.0 released
+2006-10-13: 3.0 rc 2 released
 --------------------------------
 
 - SiteInfo stored data is now cleaned to forget info about deleted pages
@@ -9,6 +9,7 @@ ________________________________
 - File Manager no longer modifies file names automatically
 - Function added to the File Manager to remove unsuited characters from file names
 - Added EditArea to have syntax highlighting in the source editor
+- Improved the Page Manager interface
 
 ________________________________
 --------------------------------

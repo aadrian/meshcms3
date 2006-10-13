@@ -52,7 +52,7 @@
   </tr>
   <tr align="center">
     <td colspan="2" bgcolor="#DDBC00">
-      Powered by <a href="http://www.meshcms.org/">MeshCMS</a>
+      Powered by <a href="http://www.cromoteca.com/meshcms/">MeshCMS</a>
       | Generated: <%= new java.util.Date() %>
     </td>
   </tr>

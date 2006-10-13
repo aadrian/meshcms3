@@ -91,7 +91,7 @@ public class Configuration implements Serializable {
     setBackupLife(90);
     setStatsLength(3);
     setUpdateInterval(4);
-    setCacheType(NO_CACHE);
+    setCacheType(ON_DISK_CACHE);
     
     setMailServer("localhost");
     setSmtpUsername("");

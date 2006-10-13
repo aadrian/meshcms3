@@ -94,8 +94,8 @@
 <%
   }
 %>
-    Powered by <a href="http://www.meshcms.org/" target="blank">MeshCMS</a>
-    <%= webSite.VERSION_ID %> | Copyright &copy; 2004-2006
+    Powered by <a href="http://www.cromoteca.com/meshcms/" target="blank">MeshCMS</a>
+    <%= WebSite.VERSION_ID %> | Copyright &copy; 2004-2006
     <a href="http://www.cromoteca.com/" target="blank">Luciano Vernaschi</a>
   </td>
  </tr>
