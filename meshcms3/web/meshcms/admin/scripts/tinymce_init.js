@@ -7,7 +7,7 @@
  cssPath - the path to the main css of the current theme
  contextPath - the web application context path (usually empty)
  adminPath - the path to the admin folder
-  (TinyMCE is contained in adminPath + '/tiny_mce')
+  (TinyMCE is contained in adminPath + '/scripts/tiny_mce')
 
  If you want to modify this file, copy it into the folder that contains your
  theme and make your changes there.
