@@ -21,6 +21,8 @@ tinyMCE.init({
   external_link_list_url : linkListPath,
   entity_encoding : 'raw',
   auto_cleanup_word : true,
+  fix_list_elements : true,
+  // apply_source_formatting : true,
   plugins : 'contextmenu,directionality,iespell,searchreplace,table',
   theme_advanced_buttons1_add : 'separator,search,replace,separator,ltr,rtl',
   theme_advanced_buttons2_add_before : 'cut,copy,paste,separator',
