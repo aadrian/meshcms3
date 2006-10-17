@@ -2,6 +2,6 @@
 
 tinyMCE.addToLang('',{
 iespell_desc : 'Lav stavekontrol',
-iespell_download : "ieSpell kan ikke findes. Klik p&aring; OK for at forts&aelig;tte til downloadsiden."
+iespell_download : "Kan ikke finde ieSpell. Klik p&aring; OK for at forts&aelig;tte til siden med overførsler."
 });
 
