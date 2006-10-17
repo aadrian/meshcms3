@@ -980,11 +980,37 @@
         </listitem>
 
         <listitem>
-          <para><emphasis role="bold">Actions</emphasis>: icons to create a
-          new child page or delete a page. Not all pages can have children
-          pages (see <xref linkend="site_map" /> to know why). Pages with
-          children cannot be deleted, although you can always use the file
-          manager to delete them anyway.</para>
+          <para><emphasis role="bold">Actions</emphasis>: icons to perform
+          some actions related to that page:</para>
+
+          <itemizedlist>
+            <listitem>
+              <para><emphasis>View this page</emphasis>;</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis>Edit this page</emphasis>: uses the best editor
+              (visual or source) according to the file type;</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis>Toggle submenu visibility</emphasis>: if grayed
+              out, some menus will take this option into account and will not
+              display children of that page (useful when a page has too many
+              children for example);</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis>Create a new child page</emphasis>: available if
+              that page can have children (see <xref linkend="site_map" /> for
+              details);</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis>Delete this page</emphasis>: available if the
+              page has not children pages.</para>
+            </listitem>
+          </itemizedlist>
         </listitem>
       </itemizedlist>
     </section>
@@ -2137,7 +2163,12 @@ submit</programlisting>
           <listitem>
             <para><parameter>alt</parameter>: a string that is inserted when
             the module is not used (default
-            <option>&amp;nbsp;</option>).</para>
+            <option>&amp;nbsp;</option>);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>parameters</parameter>: a string that contains
+            advanced module parameters and their values.</para>
           </listitem>
         </itemizedlist>
 
@@ -2335,6 +2366,14 @@ submit</programlisting>
             <para><parameter>currentPathStyle</parameter>: a css style for
             pages on path (default is no style);</para>
           </listitem>
+
+          <listitem>
+            <para><parameter>allowHiding</parameter>: if
+            <option>true</option>, tells the menu to obey to the hiding
+            settings specified in the <link linkend="page_manager">Page
+            Manager</link>, i.e. hide submenus that are set to be hidden
+            (default <option>false</option>).</para>
+          </listitem>
         </itemizedlist>
       </section>
 
@@ -2377,6 +2416,14 @@ submit</programlisting>
           <listitem>
             <para><parameter>currentPathStyle</parameter>: a css style for
             pages on path (default is no style);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>allowHiding</parameter>: if
+            <option>true</option>, tells the menu to obey to the hiding
+            settings specified in the <link linkend="page_manager">Page
+            Manager</link>, i.e. hide submenus that are set to be hidden
+            (default <option>true</option>).</para>
           </listitem>
         </itemizedlist>
       </section>
