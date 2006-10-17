@@ -360,6 +360,11 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>
+    <attribute>
+      <name>allowHiding</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
   </tag>
   <tag>
     <name>setlocale</name>
@@ -397,6 +402,11 @@
     </attribute>
     <attribute>
       <name>currentPathStyle</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>allowHiding</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>
