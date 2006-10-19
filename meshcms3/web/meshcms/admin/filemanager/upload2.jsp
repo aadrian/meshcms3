@@ -79,7 +79,8 @@
       String fileName = new Path(upItem.getName()).getLastElement();
       
       if (fixName) {
-        fileName = WebUtils.fixFileName(fileName, true);
+        fileName = Utils.generateUniqueName
+            (WebUtils.fixFileName(fileName, true), webSite.getFile(path));
       }
       
       ok = webSite.saveToFile(userInfo, upItem, path.add(fileName));
