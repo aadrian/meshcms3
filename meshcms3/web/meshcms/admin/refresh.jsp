@@ -43,7 +43,7 @@
 <body>
 
 <%
-  webSite.getSiteMap().setObsolete(true);
+  // webSite.getSiteMap().setObsolete(true);
   webSite.updateSiteMap(true);
 %>
 <fmt:message key="refreshOk" />
