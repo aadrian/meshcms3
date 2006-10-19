@@ -565,4 +565,56 @@ public final class WebUtils {
     
     return mailSession;
   }
+  
+  public static File getCacheFile(WebSite webSite, SiteMap siteMap, Path pagePath) {
+    if (siteMap == null) {
+      siteMap = webSite.getSiteMap();
+    }
+    
+    pagePath = siteMap.getServedPath(pagePath);
+    File cacheFile = webSite.getRepositoryFile(pagePath, HitFilter.CACHE_FILE_NAME);
+    // a cached page too small is suspicious
+    if (cacheFile.exists() && cacheFile.length() > 256 &&
+        cacheFile.lastModified() > siteMap.getLastModified()) {
+      return cacheFile;
+    }
+    
+    return null;
+  }
+  
+  public static boolean isCached(WebSite webSite, SiteMap siteMap, Path pagePath) {
+    if (siteMap == null) {
+      siteMap = webSite.getSiteMap();
+    }
+    
+    int cacheType = webSite.getConfiguration().getCacheType();
+    pagePath = siteMap.getServedPath(pagePath);
+    
+    if (cacheType == Configuration.IN_MEMORY_CACHE) {
+      return siteMap.isCached(pagePath);
+    } else if (cacheType == Configuration.ON_DISK_CACHE) {
+      return getCacheFile(webSite, siteMap, pagePath) != null;
+    }
+    
+    return false;
+  }
+  
+  public static void removeFromCache(WebSite webSite, SiteMap siteMap, Path pagePath) {
+    if (siteMap == null) {
+      siteMap = webSite.getSiteMap();
+    }
+    
+    int cacheType = webSite.getConfiguration().getCacheType();
+    pagePath = siteMap.getServedPath(pagePath);
+    
+    if (cacheType == Configuration.IN_MEMORY_CACHE) {
+      siteMap.removeFromCache(pagePath);
+    } else if (cacheType == Configuration.ON_DISK_CACHE) {
+      File cacheFile = getCacheFile(webSite, siteMap, pagePath);
+
+      if (cacheFile.exists()) {
+        cacheFile.delete();
+      }
+    }
+  }
 }

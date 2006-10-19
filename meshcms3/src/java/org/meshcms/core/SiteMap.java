@@ -507,6 +507,13 @@ public class SiteMap extends DirectoryParser {
   public void cache(Path path, byte[] b) {
     pageCache.put(path, b);
   }
+  
+  /**
+   * Removes a page from the cache.
+   */
+  public void removeFromCache(Path path) {
+    pageCache.remove(path);
+  }
 
   /**
    * Gets a page from the cache.

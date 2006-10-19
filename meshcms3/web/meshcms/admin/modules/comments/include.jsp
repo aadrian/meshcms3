@@ -75,6 +75,8 @@
 
   if (request.getMethod().equalsIgnoreCase("post") &&
       moduleCode.equals(request.getParameter("post_modulecode"))) {
+    WebUtils.setBlockCache(request);
+    WebUtils.removeFromCache(webSite, null, md.getPagePath());
     String delId = request.getParameter("delId");
     
     if (!Utils.isNullOrEmpty(delId)) {

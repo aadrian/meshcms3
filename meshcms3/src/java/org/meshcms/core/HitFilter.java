@@ -303,12 +303,9 @@ public final class HitFilter implements Filter {
               in = new ByteArrayInputStream(pageBytes);
             }
           } else if (cacheType == Configuration.ON_DISK_CACHE) {
-            File cacheFile =
-                webSite.getRepositoryFile(pagePath, CACHE_FILE_NAME);
-            // a cached page too small is suspicious
-            if (cacheFile.exists() && cacheFile.length() > 256 &&
-                cacheFile.lastModified() > siteMap.getLastModified()) {
-              // file exists and is not too old
+            File cacheFile = WebUtils.getCacheFile(webSite, siteMap, pagePath);
+
+            if (cacheFile != null) {
               in = new FileInputStream(cacheFile);
             }
           }
@@ -344,8 +341,8 @@ public final class HitFilter implements Filter {
               if (cacheType == Configuration.IN_MEMORY_CACHE) {
                 siteMap.cache(pageInfo.getPath(), baos.toByteArray());
               } else if (cacheType == Configuration.ON_DISK_CACHE) {
-                File cacheFile =
-                    webSite.getRepositoryFile(pagePath, CACHE_FILE_NAME);
+                File cacheFile = webSite.getRepositoryFile
+                    (siteMap.getServedPath(pagePath), CACHE_FILE_NAME);
                 cacheFile.getParentFile().mkdirs();
                 Utils.writeFully(cacheFile, baos.toByteArray());
               }

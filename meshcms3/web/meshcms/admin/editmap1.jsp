@@ -212,7 +212,6 @@
 
 <%
   String cp = request.getContextPath();
-  int cacheType = webSite.getConfiguration().getCacheType();
   SiteInfo siteInfo = webSite.getSiteInfo();
   SiteMap siteMap = webSite.getSiteMap();
   String[] themes = siteMap.getThemeNames();
@@ -288,18 +287,7 @@
 
         <td align="right"><%= pageInfo.getTotalHits() %></td>
         
-        <% boolean cached = false;
-        
-        if (cacheType == Configuration.IN_MEMORY_CACHE) {
-          cached = siteMap.isCached(pagePath);
-        } else if (cacheType == Configuration.ON_DISK_CACHE) {
-          File cacheFile = webSite.getRepositoryFile
-              (siteMap.getServedPath(pagePath), HitFilter.CACHE_FILE_NAME);
-          cached = cacheFile.exists() &&
-              cacheFile.lastModified() > siteMap.getLastModified();
-        }
-        
-        if (cached) { %>
+        <% if (WebUtils.isCached(webSite, siteMap, pagePath)) { %>
           <td align="center"><img src="filemanager/images/button_yes.gif" alt=""
            style='vertical-align:middle;' title="<fmt:message key="mapInCache" />" /></td>
         <% } else { %>
