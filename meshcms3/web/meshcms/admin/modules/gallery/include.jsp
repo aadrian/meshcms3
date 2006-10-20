@@ -31,7 +31,7 @@
   - captions = "true" (default) | false
   - columns = n (default 3)
   - css = (name of a css class)
-  - quality = "high" | "low" (default)
+  - quality = "low" | "high" (default)
 --%>
 
 <%
@@ -63,7 +63,7 @@
 <table<%= md.getFullCSSAttribute("css") %> width="100" align="center" border="0" cellspacing="20" cellpadding="0">
 <%
     GalleryThumbnail thumbMaker = new GalleryThumbnail();
-    thumbMaker.setHighQuality("high".equals(md.getAdvancedParam("quality", "low")));
+    thumbMaker.setHighQuality(!"low".equals(md.getAdvancedParam("quality", "high")));
     String thumbName = thumbMaker.getSuggestedFileName();
     
     for (int i = 0; i < files.length; i++) {

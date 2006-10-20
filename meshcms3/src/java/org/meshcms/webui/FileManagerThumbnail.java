@@ -110,7 +110,9 @@ public class FileManagerThumbnail extends AbstractThumbnail {
       ix += (THUMB_SIZE - w0) / 2;
     }
 
-    g.drawImage(image, ix, iy, w0, h0, null);
+    BufferedImage resized = AbstractThumbnail.resize(image, w0, h0);
+    g.drawImage(resized, ix, iy, null);
+    resized.flush();
     image.flush();
 
     ix = (THUMB_WIDTH - labelSize) / 2;

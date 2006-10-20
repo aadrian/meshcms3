@@ -1585,9 +1585,9 @@
 
           <listitem>
             <para><parameter>quality</parameter>: defines the algorithm used
-            to create the thumbnails. Values are <option>low</option>
-            (default) and <option>high</option>. High quality requires more
-            CPU and RAM (thumbnails are cached anyway).</para>
+            to create the thumbnails. Values are <option>low</option> and
+            <option>high</option> (default). High quality requires more CPU
+            and RAM (thumbnails are cached anyway).</para>
           </listitem>
         </itemizedlist>
       </section>
