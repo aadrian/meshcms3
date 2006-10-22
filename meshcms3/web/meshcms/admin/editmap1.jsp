@@ -366,7 +366,7 @@
         <% } %>
 
         <% if (userOk && !hasChildren) { %>          
-          <td align="center"><img src="filemanager/images/button_delete.gif" alt=""
+          <td align="center"><img src="filemanager/images/button_deletepage.gif" alt=""
            onclick="javascript:editMap_deletePage('<%= Utils.escapeSingleQuotes(pagePath.toString()) %>');" style='vertical-align:middle;'
            title="<fmt:message key="mapDelete" />" /></td>
         <% } else { %>
