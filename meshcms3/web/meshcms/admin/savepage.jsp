@@ -87,7 +87,8 @@
 
   <p><fmt:message key="saveContinue"><fmt:param value="<%= request.getHeader("referer") %>" /></fmt:message></p>
 <%
-    if (!webSite.isSystem(filePath) && FileTypes.isPage(filePath.getLastElement())) {
+    if (!webSite.isSystem(filePath) && !filePath.isContainedIn(webSite.getCMSPath()) &&
+        FileTypes.isPage(filePath.getLastElement())) {
 %>
   <p><fmt:message key="saveView"><fmt:param value="<%= WebUtils.getPathInContext(request, filePath) %>" /></fmt:message></p>
 <%
