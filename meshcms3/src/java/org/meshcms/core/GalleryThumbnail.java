@@ -82,6 +82,9 @@ public class GalleryThumbnail extends AbstractThumbnail {
       w0 = h0 * w / h;
       ix += (THUMB_IMAGE_SIZE - w0) / 2;
     }
+    
+    w0 = Math.max(w0, 1);
+    h0 = Math.max(h0, 1);
 
     if (highQuality) {
       BufferedImage resized = AbstractThumbnail.resize(image, w0, h0);

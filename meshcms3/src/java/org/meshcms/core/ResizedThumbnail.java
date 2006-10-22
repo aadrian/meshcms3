@@ -71,6 +71,9 @@ public class ResizedThumbnail extends AbstractThumbnail {
       h0 = reqH;
     }
 
+    w0 = Math.max(w0, 1);
+    h0 = Math.max(h0, 1);
+
     BufferedImage thumb = new BufferedImage(w0, h0, BufferedImage.TYPE_INT_RGB);
     Graphics g = thumb.getGraphics();
     BufferedImage resized = AbstractThumbnail.resize(image, w0, h0);

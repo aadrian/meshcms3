@@ -75,6 +75,7 @@ public abstract class AbstractThumbnail {
    * original and new size.
    */
   public static BufferedImage resize(BufferedImage in, int width, int height) {
+    checkImageSize(width, height);
     int imageWidth = in.getWidth();
     int imageHeight = in.getHeight();
 
@@ -88,6 +89,7 @@ public abstract class AbstractThumbnail {
    * to resize to a size similar to the original one).
    */
   public static BufferedImage linearResize(BufferedImage in, int width, int height) {
+    checkImageSize(width, height);
     int imageWidth = in.getWidth();
     int imageHeight = in.getHeight();
     int[] pixels = in.getRGB(0, 0, imageWidth, imageHeight, null, 0, imageWidth);
@@ -153,6 +155,7 @@ public abstract class AbstractThumbnail {
    * are much smaller than the original).
    */
   public static BufferedImage averageResize(BufferedImage in, int width, int height) {
+    checkImageSize(width, height);
     int imageWidth = in.getWidth();
     int imageHeight = in.getHeight();
     int[] pixels = in.getRGB(0, 0, imageWidth, imageHeight, null, 0, imageWidth);
@@ -195,5 +198,15 @@ public abstract class AbstractThumbnail {
     BufferedImage out = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     out.setRGB(0, 0, width, height, outPixels, 0, width);
     return out;
+  }
+  
+  private static void checkImageSize(int width, int height) {
+    if (width < 1) {
+      throw new IllegalArgumentException("Invalid width: " + width + " pixels");
+    }
+    
+    if (height < 1) {
+      throw new IllegalArgumentException("Invalid height: " + height + " pixels");
+    }
   }
 }
