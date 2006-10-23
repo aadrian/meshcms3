@@ -279,10 +279,7 @@
           <img src="filemanager/images/icon_file.gif" alt=""
            title="<fmt:message key="mapNoClick" />" />
         <% } %>
-          <a href="<%= cp + webSite.getLink(pageInfo) %>"
-           title="<fmt:message key="mapOpen">
-             <fmt:param value="<%= webSite.getLink(pageInfo) %>" />
-           </fmt:message>"><%= pageInfo.getTitle() %></a>
+          <%= pageInfo.getTitle() %>
         </td>
 
         <td align="right"><%= pageInfo.getTotalHits() %></td>
@@ -365,7 +362,7 @@
           <td>&nbsp;</td>
         <% } %>
 
-        <% if (userOk && !hasChildren) { %>          
+        <% if (userOk && !hasChildren && pageInfo.getLevel() > 0) { %>          
           <td align="center"><img src="filemanager/images/button_deletepage.gif" alt=""
            onclick="javascript:editMap_deletePage('<%= Utils.escapeSingleQuotes(pagePath.toString()) %>');" style='vertical-align:middle;'
            title="<fmt:message key="mapDelete" />" /></td>
