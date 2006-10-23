@@ -47,7 +47,11 @@
         filePath = new Path(value);
       } else {
         if (name.equals("pagetitle")) {
+          value = WebUtils.encodeHTML(value);
           title = value;
+        } else if (name.equals("meshcmsbody") &&
+            !WebSite.IS_MULTIBYTE_SYSTEM_CHARSET) {
+          value = WebUtils.convertToHTMLEntities(value, false);
         }
 
         pa.addProperty(name, value);

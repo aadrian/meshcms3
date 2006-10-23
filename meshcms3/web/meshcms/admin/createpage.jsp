@@ -125,10 +125,7 @@ if (title.equals("")) { %>
       path = path.add(webSite.getWelcomeFileNames()[0]);
     }
     
-    if (!WebSite.IS_MULTIBYTE_SYSTEM_CHARSET) {
-      title = WebUtils.convertToHTMLEntities(title, true);
-    }
-    
+    title = WebUtils.encodeHTML(title);
     String text = webSite.getHTMLTemplate(title);
 
     if (webSite.saveToFile(userInfo, text, path)) {
