@@ -199,9 +199,8 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * Sets the type of cache to be used for pages. Possible values are defined in
-   * {@link Finals} and are {@link Finals#NO_CACHE},
-   * {@link Finals#IN_MEMORY_CACHE} and {@link Finals#ON_DISK_CACHE}.
+   * Sets the type of cache to be used for pages. Possible values are
+   * {@link #NO_CACHE}, {@link #IN_MEMORY_CACHE} and {@link #ON_DISK_CACHE}.
    */
   public void setCacheType(int cacheType) {
     this.cacheType = cacheType;

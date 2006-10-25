@@ -386,7 +386,7 @@ public class UserInfo implements Serializable {
   /**
    * Sets a user's detail. Available details are specified in
    * {@link #DETAILS}. Other details can be set, but they will not be stored
-   * when {@link #save} is called.
+   * when {@link #store} is called.
    *
    * @see #getValue
    */

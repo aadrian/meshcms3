@@ -303,9 +303,6 @@ public final class FileTypes {
   
   /**
    * Returns the description of the type of the file.
-   *
-   * @param file an Object of type String java.io.File or
-   * org.meshcms.util.Path (other object types are converted to Strings)
    */
   public static String getDescription(String fileName) {
     return getInfo(Utils.getExtension(fileName, false)).description;
@@ -313,9 +310,6 @@ public final class FileTypes {
   
   /**
    * Returns the name of the icon file for the type of the given file.
-   *
-   * @param file an Object of type String java.io.File or
-   * org.meshcms.util.Path (other object types are converted to Strings)
    */
   public static String getIconFile(String fileName) {
     return getInfo(Utils.getExtension(fileName, false)).iconFile;
@@ -324,9 +318,6 @@ public final class FileTypes {
   /**
    * Returns true if the file is supposed to be compressible. For example, text
    * files are compressible, while ZIP files are not.
-   *
-   * @param file an Object of type String java.io.File or
-   * org.meshcms.util.Path (other object types are converted to Strings)
    */
   public static boolean isCompressible(String fileName) {
     return getInfo(Utils.getExtension(fileName, false)).compressible;
@@ -334,9 +325,6 @@ public final class FileTypes {
   
   /**
    * Returns true if the file should be referred from a page to be accessed.
-   *
-   * @param file an Object of type String java.io.File or
-   * org.meshcms.util.Path (other object types are converted to Strings)
    */
   public static boolean isPreventHotlinking(String fileName) {
     return getInfo(Utils.getExtension(fileName, false)).preventHotlinking;
@@ -344,9 +332,6 @@ public final class FileTypes {
   
   /**
    * Returns true if the file is a page (static or server-side).
-   *
-   * @param file an Object of type String java.io.File or
-   * org.meshcms.util.Path (other object types are converted to Strings)
    */
   public static boolean isPage(String fileName) {
     int id = getInfo(Utils.getExtension(fileName, false)).id;

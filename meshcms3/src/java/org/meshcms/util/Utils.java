@@ -214,7 +214,7 @@ public final class Utils {
   /**
    * Replaces all the occurrences of a character in a string.
    *
-   * @param o the object that will be converted into the string to be analized
+   * @param s the string that will be analyzed
    * @param c the character to be replaced
    * @param n the string used in place of the character
    *

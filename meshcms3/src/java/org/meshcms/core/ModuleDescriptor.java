@@ -304,7 +304,7 @@ public class ModuleDescriptor {
   /**
    * Returns the path passed as argument.
    *
-   * @param allowCurrentDir if true and the argument parameter is null, the
+   * @param allowCurrentPath if true and the argument parameter is null, the
    * page path is returned
    */
   public Path getModuleArgumentPath(boolean allowCurrentPath) {
