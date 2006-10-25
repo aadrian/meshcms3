@@ -1438,6 +1438,18 @@
             </row>
 
             <row>
+              <entry><classname>Most Visited</classname></entry>
+
+              <entry>Inclusion of the first words of the pages that have been
+              viewed more times in the latest days</entry>
+
+              <entry>Shows the first words of each most visited page, followed
+              by a link to the full page</entry>
+
+              <entry>Uses the directory that contains the page</entry>
+            </row>
+
+            <row>
               <entry><classname>Parse</classname></entry>
 
               <entry>Inclusion of dynamic files</entry>
@@ -1928,6 +1940,39 @@ submit</programlisting>
         <para>Required fields are shown in bold by default. You can change
         this by creating a <filename>meshcms.css</filename> file in your
         theme.</para>
+      </section>
+
+      <section id="module_most_visited">
+        <title>Most Visited</title>
+
+        <para>The most visited module shows the first words of the pages that
+        have been viewed more times in the latest days, adding links to go to
+        the full pages. Pages are searched in subdirectories too.</para>
+
+        <para>Advanced parameters:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>css</parameter>: the name of a css class;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>date</parameter>: the type of file date to be
+            shown. Possible values are <option>none</option> (default),
+            <option>normal</option> (date only) and <option>full</option>
+            (date and time);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>words</parameter>: defines the number of words to
+            show for each page (default <option>50</option>).</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>items</parameter>: defines the number of pages to
+            show (default <option>5</option>).</para>
+          </listitem>
+        </itemizedlist>
       </section>
 
       <section id="module_parse">
