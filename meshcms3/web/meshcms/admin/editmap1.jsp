@@ -336,12 +336,16 @@
            onclick="javascript:location.href='<%= cp + webSite.getLink(pageInfo) %>';" style='vertical-align:middle;'
            title="<fmt:message key="mapViewPage" />" /></td>
 
+        <% if (userOk) { %>
           <td align="center"><img src="filemanager/images/button_editpage.gif" alt=""
            onclick="javascript:location.href='<%= webSite.isVisuallyEditable(servedPath) ?
                cp + webSite.getLink(pageInfo) + "?meshcmsaction=edit" :
                cp + '/' + webSite.getAdminPath() + "/editsrc.jsp?path=" + servedPath
               %>';" style='vertical-align:middle;'
            title="<fmt:message key="mapEditPage" />" /></td>
+        <% } else { %>
+          <td>&nbsp;</td>
+        <% } %>
 
           <input type="hidden" name="<%= hCode %>" id="<%= hCode %>"
            value="<%= Boolean.toString(hideMenu) %>" />
