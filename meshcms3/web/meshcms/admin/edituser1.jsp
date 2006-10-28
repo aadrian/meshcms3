@@ -77,6 +77,8 @@
     newUser ? Help.NEW_USER : Help.EDIT_PROFILE, userInfo) %></div>
 
 <form action="edituser2.jsp" method="post">
+  <input type="hidden" name="new" value="<%= newUser %>" />
+  
   <fieldset class="meshcmseditor">
     <legend><fmt:message key="<%= newUser ? "userNew" : "userEdit" %>" /></legend>
 

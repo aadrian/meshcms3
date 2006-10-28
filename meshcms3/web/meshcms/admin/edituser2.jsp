@@ -38,17 +38,16 @@
 
   List errMsgs = new ArrayList();
   boolean error = false;
-  boolean newUser = false;
+  boolean newUser = Utils.isTrue(request.getParameter("new"));
   UserInfo edit = null;
 
   if (username.equals("")) {
     error = true;
-  } else if (username.equals(edituser)) {
+  } else if (!newUser && username.equals(edituser)) {
     edit = userInfo;
   } else if (edituser.equals("")) {
-    error = true;
+    errMsgs.add(bundle.getString("userNoUsername"));
   } else if (userInfo.canDo(UserInfo.CAN_ADD_USERS)) {
-    newUser = true;
     edit = new UserInfo();
     edit.setUsername(edituser);
 
@@ -64,57 +63,63 @@
                        "You don't have enough privileges");
     return;
   }
-
-  try {
-    edit.setPermissions(Integer.parseInt(request.getParameter("permissions")));
-  } catch (Exception ex) {
-    errMsgs.add(bundle.getString("userWrongPerm"));
-  }
-
-  String p1 = request.getParameter("password1").trim();
-  String p2 = request.getParameter("password2").trim();
-
-  if (!p1.equals("") || !p2.equals("")) {
-    if (p1.equals(p2)) {
-      edit.setPassword(p1);
-    } else {
-      errMsgs.add("Passwords don't match");
+  
+  if (edit != null) {
+    try {
+      edit.setPermissions(Integer.parseInt(request.getParameter("permissions")));
+    } catch (Exception ex) {
+      errMsgs.add(bundle.getString("userWrongPerm"));
     }
-  }
 
-  String email = request.getParameter("email");
+    String p1 = request.getParameter("password1").trim();
+    String p2 = request.getParameter("password2").trim();
 
-  if (!Utils.isNullOrEmpty(email)) {
-    email = email.trim();
-
-    if (Utils.checkAddress(email)) {
-      edit.setEmail(email);
+    if (p1.equals("") && p2.equals("")) {
+      if (newUser) {
+        errMsgs.add(bundle.getString("userNoPwd"));
+      }
     } else {
-      errMsgs.add(bundle.getString("userWrongMail"));
+      if (p1.equals(p2)) {
+        edit.setPassword(p1);
+      } else {
+        errMsgs.add(bundle.getString("userNoPwdMatch"));
+      }
     }
-  }
 
-  if (newUser) {
-    Path hp = new Path(request.getParameter("homepath"));
-    File hf = webSite.getFile(hp);
-    hf.mkdirs();
+    String email = request.getParameter("email");
 
-    if (hf.isDirectory()) {
-      edit.setHomePath(hp);
-    } else {
-      errMsgs.add(bundle.getString("userWrongHome"));
+    if (!Utils.isNullOrEmpty(email)) {
+      email = email.trim();
+
+      if (Utils.checkAddress(email)) {
+        edit.setEmail(email);
+      } else {
+        errMsgs.add(bundle.getString("userWrongMail"));
+      }
+    }
+
+    if (newUser) {
+      Path hp = new Path(request.getParameter("homepath"));
+      File hf = webSite.getFile(hp);
+      hf.mkdirs();
+
+      if (hf.isDirectory()) {
+        edit.setHomePath(hp);
+      } else {
+        errMsgs.add(bundle.getString("userWrongHome"));
+      }
+    }
+
+    edit.setPreferredLocaleCode(request.getParameter("language"));
+
+    Enumeration ps = request.getParameterNames();
+
+    while(ps.hasMoreElements()) {
+      String n = ps.nextElement().toString();
+      edit.setDetail(n, request.getParameter(n));
     }
   }
   
-  edit.setPreferredLocaleCode(request.getParameter("language"));
-
-  Enumeration ps = request.getParameterNames();
-
-  while(ps.hasMoreElements()) {
-    String n = ps.nextElement().toString();
-    edit.setDetail(n, request.getParameter(n));
-  }
-
   if (errMsgs.size() == 0) {
     if (!edit.store(webSite)) {
       errMsgs.add(bundle.getString("userFileError"));
