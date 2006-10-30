@@ -13,6 +13,15 @@
  */
 
   /**
+   * Some default values, just to avoid JavaScript errors
+   */
+  contextPath = window.contextPath || "";
+  adminPath = window.adminPath || "/meshcms/admin";
+  languageCode = window.languageCode || "en";
+  linkListPath = window.linkListPath || "/meshcms/admin/tinymce_linklist.jsp";
+  cssPath = window.cssPath || "/meshcms/admin/theme/main.css";
+
+  /**
    * Full path of the admin folder (context path included)
    */
   var adminFullPath = contextPath + '/' + adminPath;
