@@ -1,9 +1,25 @@
 ________________________________
 --------------------------------
-2006-10-28: 3.0 released
+2006-11-xx: 3.0 released
 --------------------------------
 
-- TinyMCE upgraded to 2.0.7
+- Page Manager improved
+- New module: most visited pages
+- Updated Simplified Chinese, French and German translations
+- TinyMCE upgraded to 2.0.8
+- TinyMCE configured to generate valid XHTML
+- TinyMCE enhanced with inline popups, advanced paste and source formatting
+- Bug fixed: the allowHiding attribute had been omitted by the tld file
+- If the upload file can be renamed, it will avoid overwriting another file
+- The Refresh Site Map button won't mark the old map as obsolete
+- Improved cache management and monitoring
+- Default thumbnail quality changed to high
+- Option to view saved page no longer shown for files inside the CMS dir
+- Bug fixed: HTML entities weren't managed correctly in some cases
+- Page manager no longer allows to delete the home page
+- Bug fixed: a user was allowed to create another user with the same username
+- Bug fixed: the page editing icon was shown even for pages that the current user can't edit
+- Bug fixed: editor.js now checks for uninitialized variables
 
 ________________________________
 --------------------------------
