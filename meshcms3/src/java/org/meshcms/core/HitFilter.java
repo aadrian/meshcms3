@@ -108,7 +108,6 @@ public final class HitFilter implements Filter {
       
       request.setAttribute("webSite", webSite);
       HttpServletRequest httpReq = webSite.wrapRequest(request);
-      httpReq.setCharacterEncoding(WebSite.SYSTEM_CHARSET);
       Path pagePath = webSite.getRequestedPath(httpReq);
 
       /* This is needed to avoid source code disclosure in virtual sites */
@@ -145,7 +144,7 @@ public final class HitFilter implements Filter {
       PageInfo pageInfo = null;
       boolean isAdminPage = false;
       boolean isGuest = true;
-      String pageCharset = webSite.SYSTEM_CHARSET;
+      String pageCharset = null;
 
       if (webSite.getCMSPath() != null) {
         if (pagePath.isContainedIn(webSite.getVirtualSitesPath()) ||
@@ -279,7 +278,9 @@ public final class HitFilter implements Filter {
         mimeType = "text/html";
       }
       
-      httpRes.setContentType(mimeType + "; charset=" + pageCharset);
+      if (pageCharset != null) {
+        httpRes.setContentType(mimeType + "; charset=" + pageCharset);
+      }
       
       try {
         // Cache management
