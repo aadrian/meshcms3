@@ -32,8 +32,8 @@ public final class DefaultCSS extends AbstractTag {
   public void writeTag() throws IOException {
     Writer w = getOut();
     w.write("<link type=\"text/css\" rel=\"stylesheet\" href=\"" + 
-        WebUtils.getFullThemeCSS(request) + "\" />\n");
-    w.write("<link type=\"text/css\" rel=\"stylesheet\" href=\"" + 
         WebUtils.getFullMeshCSS(webSite, request) + "\" />");
+    w.write("<link type=\"text/css\" rel=\"stylesheet\" href=\"" + 
+        WebUtils.getFullThemeCSS(request) + "\" />\n");
   }
 }
