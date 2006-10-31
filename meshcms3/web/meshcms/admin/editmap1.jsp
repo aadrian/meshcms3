@@ -279,7 +279,10 @@
           <img src="filemanager/images/icon_file.gif" alt=""
            title="<fmt:message key="mapNoClick" />" />
         <% } %>
-          <%= pageInfo.getTitle() %>
+          <a href="<%= cp + webSite.getLink(pageInfo) %>"
+           title="<fmt:message key="mapOpen">
+             <fmt:param value="<%= webSite.getLink(pageInfo) %>" />
+           </fmt:message>"><%= pageInfo.getTitle() %></a>
         </td>
 
         <td align="right"><%= pageInfo.getTotalHits() %></td>
