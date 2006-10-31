@@ -436,12 +436,12 @@
         </listitem>
 
         <listitem>
-          <para>an additional CSS for MeshCMS specific styles (mail forms and
-          page editor), named <filename>meshcms.css</filename>. If this CSS is
-          not found in the theme, the default one will be used. You can
-          override it if you want to change the appearance of those two
-          components (the default is located in the
-          <filename>/meshcms/admin/theme</filename> directory);</para>
+          <para>an additional CSS for MeshCMS specific styles (page editor and
+          modules), named <filename>meshcms.css</filename>. If this CSS is not
+          found in the theme, the default one will be used. You can override
+          it if you want to change the appearance of MeshCMS components (the
+          default is located in the <filename>/meshcms/admin/theme</filename>
+          directory);</para>
         </listitem>
 
         <listitem>
@@ -799,6 +799,41 @@
         will allow links included in that pages to work regardless of the page
         in which they will be included.</para>
       </note>
+
+      <note>
+        <para>TinyMCE comes pre-configured in MeshCMS, but you can change that
+        configuration, for example to use other features and plugins.</para>
+      </note>
+
+      <section id="tinymce_config">
+        <title>TinyMCE configuration</title>
+
+        <para>MeshCMS includes TinyMCE with a selection of plugins and a
+        default configuration. If you want to customize TinyMCE, you have two
+        options:</para>
+
+        <orderedlist>
+          <listitem>
+            <para>create your own <filename>tinymce_init.js</filename> file in
+            the CMS directory (which defaults to /meshcms). The default
+            version of that file is contained in
+            <filename>/meshcms/admin/scripts</filename>;</para>
+          </listitem>
+
+          <listitem>
+            <para>use another TinyMCE version, with the plugins you want, by
+            putting it into the CMS directory (e.g.
+            <filename>/meshcms/tiny_mce</filename>).</para>
+          </listitem>
+        </orderedlist>
+
+        <para>You can apply both customizations if you want, i.e. using a
+        different TinyMCE version with your own configuration.</para>
+
+        <para>It is not recommended to replace the TinyMCE version shipped
+        with MeshCMS, nor to change the default configurations, as your
+        changes would be lost when upgrading to a new MeshCMS version.</para>
+      </section>
     </section>
 
     <section id="create_new_page">
@@ -1297,196 +1332,8 @@
       contain a module at least.</para>
 
       <para>MeshCMS provides some modules, and others can be created by
-      everyone that is able to write a JSP page. Here's a table of standard
-      modules:</para>
-
-      <table>
-        <title>MeshCMS Standard Module Templates</title>
-
-        <tgroup cols="4">
-          <thead>
-            <row>
-              <entry>Module Template</entry>
-
-              <entry>Purpose</entry>
-
-              <entry>Action</entry>
-
-              <entry>Behavior Without Argument</entry>
-            </row>
-          </thead>
-
-          <tbody>
-            <row>
-              <entry><classname>Audio Player</classname></entry>
-
-              <entry>Creation of a Flash-based MP3 player</entry>
-
-              <entry>Shows a simple MP3 player</entry>
-
-              <entry>Uses the directory that contains the page</entry>
-            </row>
-
-            <row>
-              <entry><classname>Chat</classname></entry>
-
-              <entry>Creation of a simple chat</entry>
-
-              <entry>Provides a form to chat with other people looking at the
-              same page</entry>
-
-              <entry>Argument is always ignored</entry>
-            </row>
-
-            <row>
-              <entry><classname>Comments</classname></entry>
-
-              <entry>Creation of a simple message board</entry>
-
-              <entry>Provides a form to leave comments on the page</entry>
-
-              <entry>A default directory is used to store comments</entry>
-            </row>
-
-            <row>
-              <entry><classname>Downloads</classname></entry>
-
-              <entry>Creation of a list of downloads</entry>
-
-              <entry>Provides a link for each file in the argument</entry>
-
-              <entry>Does nothing</entry>
-            </row>
-
-            <row>
-              <entry><classname>Gallery</classname></entry>
-
-              <entry>Creation of an image gallery</entry>
-
-              <entry>Shows a thumbnail with a link for each image file in the
-              argument</entry>
-
-              <entry>Uses the directory that contains the page</entry>
-            </row>
-
-            <row>
-              <entry><classname>Headlines</classname></entry>
-
-              <entry>Inclusion of other pages, showing the first words
-              only</entry>
-
-              <entry>Shows the first words of each page, followed by a link to
-              the full page</entry>
-
-              <entry>Does nothing</entry>
-            </row>
-
-            <row>
-              <entry><classname>Include</classname></entry>
-
-              <entry>Inclusion of files in the page</entry>
-
-              <entry>Shows the title and body of each page file in the
-              argument</entry>
-
-              <entry>Does nothing</entry>
-            </row>
-
-            <row>
-              <entry><classname>Include As Text</classname></entry>
-
-              <entry>Inclusion of files in the page</entry>
-
-              <entry>Includes each file as plain text</entry>
-
-              <entry>Does nothing</entry>
-            </row>
-
-            <row>
-              <entry><classname>Latest Changes</classname></entry>
-
-              <entry>Inclusion of the first words of the pages that have
-              changed more recently</entry>
-
-              <entry>Shows the first words of each recently modified page,
-              followed by a link to the full page</entry>
-
-              <entry>Uses the directory that contains the page</entry>
-            </row>
-
-            <row>
-              <entry><classname>List Pages</classname></entry>
-
-              <entry>Creation of a list of links</entry>
-
-              <entry>Shows a link for each page file in the argument</entry>
-
-              <entry>Uses the directory that contains the page</entry>
-            </row>
-
-            <row>
-              <entry><classname>Mail</classname></entry>
-
-              <entry>Creation of a mail form</entry>
-
-              <entry>Shows a mail form according to the information contained
-              in the argument, which must be a file used as form
-              descriptor</entry>
-
-              <entry><emphasis>Please always specify a form descriptor or an
-              e-mail address</emphasis></entry>
-            </row>
-
-            <row>
-              <entry><classname>Most Visited</classname></entry>
-
-              <entry>Inclusion of the first words of the pages that have been
-              viewed more times in the latest days</entry>
-
-              <entry>Shows the first words of each most visited page, followed
-              by a link to the full page</entry>
-
-              <entry>Uses the directory that contains the page</entry>
-            </row>
-
-            <row>
-              <entry><classname>Parse</classname></entry>
-
-              <entry>Inclusion of dynamic files</entry>
-
-              <entry>Includes all files in the argument using the
-              pageContext.include() method. This module template is intended
-              for advanced users</entry>
-
-              <entry>Does nothing</entry>
-            </row>
-
-            <row>
-              <entry><classname>Site Map</classname></entry>
-
-              <entry>Creation of a site map</entry>
-
-              <entry>Creates a site map starting from the argument
-              path</entry>
-
-              <entry>Starts from the directory that contains the page</entry>
-            </row>
-
-            <row>
-              <entry><classname>Video Player</classname></entry>
-
-              <entry>Creation of a Flash-based FLV player</entry>
-
-              <entry>Shows a simple video player to play FLV files</entry>
-
-              <entry>Uses the directory that contains the page</entry>
-            </row>
-          </tbody>
-        </tgroup>
-      </table>
-
-      <para>Details about advanced parameters are illustrated in the following
-      sections.</para>
+      everyone that is able to write a JSP page. Details about available
+      modules are illustrated in the following sections.</para>
 
       <section id="module_audio_player">
         <title>Audio Player</title>
@@ -1494,8 +1341,10 @@
         <para>The audio player module shows a MP3 player using the Flash-based
         <ulink url="http://musicplayer.sourceforge.net/">XSPF Web Music
         Player</ulink>. It will play all the MP3 files that are available in
-        the directory passed as argument, or that are found in the directory
-        that contains the page if no argument is specified.</para>
+        the directory passed as argument.</para>
+
+        <para>Argument: path to a file or directory. If not provided, defaults
+        to the directory that contains the current page.</para>
       </section>
 
       <section id="module_chat">
@@ -1521,6 +1370,9 @@
         leave comments on that page. Authenticated users with edit permissions
         on that page can delete unwanted comments by visiting the page
         itself.</para>
+
+        <para>Argument: path to a directory used to hold comments. If not
+        provided, a default directory will be used.</para>
 
         <para>Advanced parameters:</para>
 
@@ -1554,6 +1406,9 @@
         <para>The downloads module creates a list of downloadable files. An
         icon and the size are shown near the name of each file.</para>
 
+        <para>Argument: path to a file or directory. If not provided, the
+        module does nothing.</para>
+
         <para>Advanced parameters:</para>
 
         <itemizedlist>
@@ -1576,6 +1431,9 @@
         <para>The gallery module creates thumbnails for a list of images.
         Thumbnails link to full images, and file names are used as
         captions.</para>
+
+        <para>Argument: path to a file or directory. If not provided, defaults
+        to the directory that contains the current page.</para>
 
         <para>Advanced parameters:</para>
 
@@ -1610,6 +1468,9 @@
         <para>The headlines module shows the first words of a list of pages,
         adding links to go to the full pages.</para>
 
+        <para>Argument: path to a directory. If not provided, the module does
+        nothing.</para>
+
         <para>Advanced parameters:</para>
 
         <itemizedlist>
@@ -1636,6 +1497,9 @@
 
         <para>The include module adds the contents of a list of pages.</para>
 
+        <para>Argument: path to a file or directory. If not provided, the
+        module does nothing.</para>
+
         <para>Advanced parameters:</para>
 
         <itemizedlist>
@@ -1658,6 +1522,9 @@
         <para>The include as text module adds the contents of a list of files
         as plain text (i.e. inside a <code>&lt;pre&gt;</code> tag).</para>
 
+        <para>Argument: path to a file or directory. If not provided, the
+        module does nothing.</para>
+
         <para>Advanced parameters:</para>
 
         <itemizedlist>
@@ -1673,6 +1540,9 @@
         <para>The latest changes module shows the first words of the most
         recently modified pages, adding links to go to the full pages.
         Modified pages are searched in subdirectories too.</para>
+
+        <para>Argument: path to a directory. If not provided, defaults to the
+        directory that contains the current page.</para>
 
         <para>Advanced parameters:</para>
 
@@ -1705,6 +1575,9 @@
 
         <para>The list pages module creates a list of links to the pages
         contained in the given directory.</para>
+
+        <para>Argument: path to a file or directory. If not provided, defaults
+        to the directory that contains the current page.</para>
 
         <para>Advanced parameters:</para>
 
@@ -1937,9 +1810,7 @@ messagebody
 Send Now
 submit</programlisting>
 
-        <para>Required fields are shown in bold by default. You can change
-        this by creating a <filename>meshcms.css</filename> file in your
-        theme.</para>
+        <para>Required fields are shown in bold by default.</para>
       </section>
 
       <section id="module_most_visited">
@@ -1948,6 +1819,9 @@ submit</programlisting>
         <para>The most visited module shows the first words of the pages that
         have been viewed more times in the latest days, adding links to go to
         the full pages. Pages are searched in subdirectories too.</para>
+
+        <para>Argument: path to a directory. If not provided, defaults to the
+        directory that contains the current page.</para>
 
         <para>Advanced parameters:</para>
 
@@ -1980,13 +1854,19 @@ submit</programlisting>
 
         <para>The parse module includes a list of files using the
         <code>pageContext.include()</code> Java method.</para>
+
+        <para>Argument: path to a file or directory. If not provided, the
+        module does nothing.</para>
       </section>
 
       <section id="module_site_map">
         <title>Site Map</title>
 
-        <para>The siite map module creates a site map using an HTML unordered
+        <para>The site map module creates a site map using an HTML unordered
         list.</para>
+
+        <para>Argument: path to a directory. If not provided, the site map
+        will start from the directory that contains the current page.</para>
       </section>
 
       <section id="module_video_player">
@@ -1996,8 +1876,10 @@ submit</programlisting>
         Flash-based <ulink
         url="http://flowplayer.sourceforge.net/">FlowPlayer</ulink>. It will
         play all the FLV files that are available in the directory passed as
-        argument, or that are found in the directory that contains the page if
-        no argument is specified.</para>
+        argument.</para>
+
+        <para>Argument: path to a file or directory. If not provided, defaults
+        to the directory that contains the current page.</para>
       </section>
     </section>
   </chapter>
