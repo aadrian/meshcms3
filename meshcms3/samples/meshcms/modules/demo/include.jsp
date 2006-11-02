@@ -47,7 +47,7 @@
   
   /* if md is null, this module has not been called correctly */
   if (md == null) {
-    /* send an error if possible (maybe the module has been called directly) */
+    /* send an error if possible (maybe the module page has been called directly) */
     if (!response.isCommitted()) {
       response.sendError(HttpServletResponse.SC_NOT_FOUND);
     }
@@ -55,31 +55,42 @@
     return;
   }
   
+  out.println("<div" + md.getFullCSSAttribute("css") + ">");
+  out.println("<div style='border: 1px solid silver; padding: 5px;'>");
+  
+  if (md.getArgument() == null) {
+    out.println("  <p>No argument has been passed, will use the directory that contains the page</p>");
+  }
+  
   /* get the files to be processed. Note that the argument is not required to
      be a path (it can be any string), so getModuleFiles can return null */
-  File[] files = md.getModuleFiles(webSite, false);
-
+  File[] files = md.getModuleFiles(webSite, true);
+  
   /* display the list of files into a div that uses the style if it is provided */
-  out.println("<p" + md.getFullCSSAttribute("css") + ">");
+  out.println("<p>");
   
   if (files != null && files.length > 0) {
     Arrays.sort(files);
     DateFormat df = md.getDateFormat(WebUtils.getPageLocale(pageContext), "date");
-      out.println("  <div>List of files:</div>");
+    out.println("  <div>List of files:</div>\n<ul>");
 
     for (int i = 0; i < files.length; i++) {
       /* update the last modified time for the page */
       WebUtils.updateLastModifiedTime(request, files[i]);
-      out.print("  <div>" + files[i].getName());
+      out.print("  <li>" + files[i].getName());
       
       if (df != null) {
+        /* the module was requested to show the dates */
         out.print(" (" + df.format(new Date(files[i].lastModified())) + ")");
       }
       
-      out.println("</div>");
+      out.println("</li>");
     }
+    
+    out.println("</ul>");
   } else {
-    out.println("  <div><em>no files in &quot;" + md.getArgument() + "&quot;</em></div>");
+    out.println("  <div><em>no files in &quot;/" +
+        md.getModuleArgumentDirectoryPath(webSite, true) + "&quot;</em></div>");
   }
   
   out.println("</p>");
@@ -88,6 +99,12 @@
   String msg = md.getAdvancedParam("message", null);
   
   if (msg != null) {
-    out.println("  <p>Message: &quot;" + msg + "&quot;</p>");
+    out.println("  <p>Custom message (passed by an advanced parameter): &quot;" +
+        msg + "&quot;</p>");
   }
+  
+  
+
+  out.println("</div>");
+  out.println("</div>");
 %>
