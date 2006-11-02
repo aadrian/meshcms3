@@ -41,6 +41,7 @@ public class Help {
   public static final String SITE_MANAGER = "site_manager";
   public static final String UNZIP = "unzip";
   public static final String UPLOAD = "upload";
+  public static final String MODULES = "modules";
 
   private static Properties args;
   
@@ -57,27 +58,42 @@ public class Help {
     args.setProperty(SITE_MANAGER, "ch05s06.html");
     args.setProperty(UNZIP, "ch05s01.html#unzip");
     args.setProperty(UPLOAD, "ch05s01.html#upload");
+    args.setProperty(MODULES, "ch06s01.html");
   }
   
   /**
    * Creates the HTML used to display the help icon in the admin pages.
    */
-  public static String icon(WebSite webSite, String contextPath, String argument, UserInfo userInfo) {
-    Path helpPath = webSite.getAdminPath().add("help");
+  public static String icon(WebSite webSite, String contextPath,
+      String argument, UserInfo userInfo) {
+    return icon(webSite, contextPath, argument, userInfo, null, false);
+  }
+  
+  public static String icon(WebSite webSite, String contextPath,
+      String argument, UserInfo userInfo, String anchor, boolean grayIcon) {
+    String lang = getHelpLang(webSite, userInfo);
+
+    return "<img src='" + contextPath + '/' + webSite.getAdminPath() +
+        "/images/" + (grayIcon ? "small_help_gray.gif" : "small_help.gif") +
+        "' title='Help: " + argument +
+        "' alt='Help Icon' onclick=\"javascript:window.open('" +
+        contextPath + '/' + webSite.getAdminPath() + "/help/" + lang +
+        '/' + args.getProperty(argument, "index.html") +
+        (Utils.isNullOrEmpty(anchor) ? "" : "#" + anchor) +
+        "', 'meshcmshelp', 'width=740,height=560,menubar=no,status=yes,toolbar=no,resizable=yes,scrollbars=yes').focus();\" />";
+  }
+  
+  public static String getHelpLang(WebSite webSite, UserInfo userInfo) {
     String lang = "en";
 
     if (userInfo != null) {
       String otherLang = userInfo.getPreferredLocaleCode();
 
-      if (webSite.getFile(helpPath.add(otherLang)).exists()) {
+      if (webSite.getFile(webSite.getAdminPath().add("help", otherLang)).exists()) {
         lang = otherLang;
       }
     }
-
-    return "<img src='" + contextPath + '/' + webSite.getAdminPath() +
-        "/images/small_help.gif' title='Help: " + argument +
-        "' alt='Help Icon' onclick=\"javascript:window.open('" +
-        contextPath + '/' + helpPath + '/' + lang + '/' + args.getProperty(argument, "index.html") +
-        "', 'meshcmshelp', 'width=740,height=560,menubar=no,status=yes,toolbar=no,resizable=yes,scrollbars=yes').focus();\" />";
+    
+    return lang;
   }
 }

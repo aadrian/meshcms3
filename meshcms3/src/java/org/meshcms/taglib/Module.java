@@ -29,6 +29,7 @@ import javax.servlet.*;
 import javax.servlet.jsp.*;
 import org.meshcms.core.*;
 import org.meshcms.util.*;
+import org.meshcms.webui.*;
 
 /**
  * Writes a module or the needed fields to edit it.
@@ -182,7 +183,10 @@ public final class Module extends AbstractTag {
         w.write(">" + Utils.beautify(Utils.removeExtension(mtNames[i]), true) + "</option>\n");
       }
 
-      w.write("  </select>\n </div>\n");
+      w.write("  </select>&nbsp;");
+      w.write(Help.icon(webSite, cp, Help.MODULES, userInfo, "module_'+document.getElementById('" +
+          ModuleDescriptor.TEMPLATE_ID + location + "').value+'", true));
+      w.write("\n </div>\n");
       w.write(" <div class='meshcmsfieldlabel'><label for='" +
         ModuleDescriptor.ARGUMENT_ID + location + "'>" +
         bundle.getString("editorModuleArgument") + "</label></div>\n");
