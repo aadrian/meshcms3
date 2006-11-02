@@ -804,36 +804,6 @@
         <para>TinyMCE comes pre-configured in MeshCMS, but you can change that
         configuration, for example to use other features and plugins.</para>
       </note>
-
-      <section id="tinymce_config">
-        <title>TinyMCE configuration</title>
-
-        <para>MeshCMS includes TinyMCE with a selection of plugins and a
-        default configuration. If you want to customize TinyMCE, you have two
-        options:</para>
-
-        <orderedlist>
-          <listitem>
-            <para>create your own <filename>tinymce_init.js</filename> file in
-            the CMS directory (which defaults to /meshcms). The default
-            version of that file is contained in
-            <filename>/meshcms/admin/scripts</filename>;</para>
-          </listitem>
-
-          <listitem>
-            <para>use another TinyMCE version, with the plugins you want, by
-            putting it into the CMS directory (e.g.
-            <filename>/meshcms/tiny_mce</filename>).</para>
-          </listitem>
-        </orderedlist>
-
-        <para>You can apply both customizations if you want, i.e. using a
-        different TinyMCE version with your own configuration.</para>
-
-        <para>It is not recommended to replace the TinyMCE version shipped
-        with MeshCMS, nor to change the default configurations, as your
-        changes would be lost when upgrading to a new MeshCMS version.</para>
-      </section>
     </section>
 
     <section id="create_new_page">
@@ -2735,6 +2705,126 @@ submit</programlisting>
 &lt;/cms:ifmailform&gt;</programlisting>
         </example>
       </section>
+    </section>
+  </chapter>
+
+  <chapter>
+    <title>Tips</title>
+
+    <para>This is a collection of tips that don't fit into any of the previous
+    chapters.</para>
+
+    <section id="tinymce_config">
+      <title>TinyMCE configuration</title>
+
+      <para>MeshCMS includes TinyMCE with a selection of plugins and a default
+      configuration. If you want to customize TinyMCE, you have two
+      options:</para>
+
+      <orderedlist>
+        <listitem>
+          <para>create your own <filename>tinymce_init.js</filename> file in
+          the CMS directory (which defaults to /meshcms). The default version
+          of that file is contained in
+          <filename>/meshcms/admin/scripts</filename>;</para>
+        </listitem>
+
+        <listitem>
+          <para>use another TinyMCE version, with the plugins you want, by
+          putting it into the CMS directory (e.g.
+          <filename>/meshcms/tiny_mce</filename>).</para>
+        </listitem>
+      </orderedlist>
+
+      <para>You can apply both customizations if you want, i.e. using a
+      different TinyMCE version with your own configuration.</para>
+
+      <para>It is not recommended to replace the TinyMCE version shipped with
+      MeshCMS, nor to change the default configurations, as your changes would
+      be lost when upgrading to a new MeshCMS version.</para>
+    </section>
+
+    <section>
+      <title>Multilingual sites</title>
+
+      <para>Since MeshCMS pages are simple HTML files, a page cannot contain
+      multiple versions of itself, so different languages must be managed
+      separately. Nevertheless, MeshCMS offers some expedients to deal with
+      multiple languages. Suppose that you have to create a site in two
+      languages: English and Italian. Here are the steps to follow:</para>
+
+      <orderedlist>
+        <listitem>
+          <para>start with a welcome page that offers a language choice, or
+          redirects to one of the available languages according to browser
+          settings for example;</para>
+        </listitem>
+
+        <listitem>
+          <para>create a directory for each language, making sure that the
+          each directory is named after the language code (i.e.
+          <code>en</code> and <code>it</code> in our example);</para>
+        </listitem>
+
+        <listitem>
+          <para>in your theme, use the <link
+          linkend="tag_setlocale">&lt;cms:setlocale&gt;</link> tag without
+          specifying the <parameter>value</parameter> attribute. This way the
+          locale code will be taken from the url, and will be <code>en</code>
+          or <code>it</code> according to the page that is currently
+          displayed;</para>
+
+          <screenshot>
+            <screeninfo>A directory for each language has been
+            created.</screeninfo>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="ml_file_manager.png" />
+              </imageobject>
+            </mediaobject>
+          </screenshot>
+        </listitem>
+
+        <listitem>
+          <para>finally, apply the theme to both home pages, so navigation
+          menus will start from the language root instead of the site
+          root.</para>
+
+          <screenshot>
+            <screeninfo>The site theme has been applied to both English and
+            Italian home pages. The same or another theme could also be
+            applied to the root page if wanted.</screeninfo>
+
+            <mediaobject>
+              <imageobject>
+                <imagedata fileref="ml_page_manager.png" />
+              </imageobject>
+            </mediaobject>
+          </screenshot>
+        </listitem>
+      </orderedlist>
+
+      <para>This way you get a site that separates languages correctly. You
+      could also put common images in a directory at the root level (e.g.
+      <filename>/images</filename>).</para>
+
+      <screenshot>
+        <screeninfo>Navigation menus in the English site don't show Italian
+        pages. The theme should provide a way to go to other
+        languages.</screeninfo>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata align="center" fileref="ml_eng_home.png" />
+          </imageobject>
+        </mediaobject>
+      </screenshot>
+
+      <para>With a bit of code in the theme, you can implement a language menu
+      that sends to other versions of the same page or to the home page in
+      other languages, depending on how you prefer to let visitors change
+      language.</para>
     </section>
   </chapter>
 </book>
