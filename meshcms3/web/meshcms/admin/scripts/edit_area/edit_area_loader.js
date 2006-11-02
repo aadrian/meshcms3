@@ -112,7 +112,7 @@
 			this.load_script(this.baseURL + this.scripts_to_load[script]+ ".js");
 			this.waiting_loading[this.scripts_to_load[script]+ ".js"]= false;
 		}
-		
+				
 		this.addEvent(window, "load", EditAreaLoader.prototype.window_loaded);
 	};
 	
@@ -625,6 +625,7 @@
 	};
 	
 	EditAreaLoader.prototype.load_script= function(url){
+		
 		if (this.loadedFiles[url])
 			return;	
 	//	alert("laod: "+url);

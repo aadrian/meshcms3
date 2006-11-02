@@ -169,6 +169,7 @@ div#area_search_replace .button a{
 	text-decoration: none;
 	padding: 0 2px;
 	color: #000000;	
+	white-space: nowrap;
 }
 
 div#area_search_replace a:hover{	

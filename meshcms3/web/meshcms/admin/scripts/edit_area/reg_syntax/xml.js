@@ -48,7 +48,7 @@ editAreaLoader.load_syntax["xml"] = {
 		,'DELIMITERS' : ''
 		,'REGEXPS' : {
 			'attributes': 'color: #B1AC41;'
-			,'tags': 'color: #800080;'
+			,'tags': 'color: #E62253;'
 			,'xml': 'color: #8DCFB5;'
 			,'cdata': 'color: #50B020;'
 		}	

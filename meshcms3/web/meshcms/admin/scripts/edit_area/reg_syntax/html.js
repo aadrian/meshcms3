@@ -42,7 +42,7 @@ editAreaLoader.load_syntax["html"] = {
 		,'DELIMITERS' : ''
 		,'REGEXPS' : {
 			'attributes': 'color: #B1AC41;'
-			,'tags': 'color: #800080;'
+			,'tags': 'color: #E62253;'
 			,'doctype': 'color: #8DCFB5;'
 			,'test': 'color: #00FF00;'
 		}	
