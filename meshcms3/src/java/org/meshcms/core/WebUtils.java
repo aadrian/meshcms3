@@ -635,7 +635,7 @@ public final class WebUtils {
     } else if (cacheType == Configuration.ON_DISK_CACHE) {
       File cacheFile = getCacheFile(webSite, siteMap, pagePath);
 
-      if (cacheFile.exists()) {
+      if (cacheFile != null && cacheFile.exists()) {
         cacheFile.delete();
       }
     }
