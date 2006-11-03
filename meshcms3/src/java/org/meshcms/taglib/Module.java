@@ -95,6 +95,23 @@ public final class Module extends AbstractTag {
         } catch (ServletException ex) {
           WebUtils.setBlockCache(request);
           webSite.log("Exception while including module " + modulePath, ex);
+          
+          if (!webSite.getConfiguration().isHideExceptions()) {
+            Writer w = getOut();
+            PrintWriter pw = new PrintWriter(w);
+            w.write("<pre class='meshcmserror'>\n");
+            ex.printStackTrace(pw);
+            
+            if (ex instanceof ServletException) {
+              Throwable t = ((ServletException) ex).getRootCause();
+              
+              if (t != null) {
+                t.printStackTrace(pw);
+              }
+            }
+            
+            w.write("</pre>");
+          }
         }
       }
     } else {
