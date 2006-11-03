@@ -79,7 +79,8 @@
     WebUtils.removeFromCache(webSite, null, md.getPagePath());
     String delId = request.getParameter("delId");
     
-    if (!Utils.isNullOrEmpty(delId)) {
+    if (!Utils.isNullOrEmpty(delId) &&
+        userInfo.canWrite(webSite, md.getPagePath())) {
       File delFile = new File(commentsDir, delId);
       
       if (delFile.exists()) {
@@ -89,8 +90,14 @@
     
     String name = request.getParameter("name");
     String text = request.getParameter("text");
+    int sum = Utils.parseInt(request.getParameter("sum"), -1);
+    int n1 = Utils.parseInt(request.getParameter("n1"), 0) /
+        (WebSite.SYSTEM_CHARSET.hashCode() >>> 8);
+    int n2 = Utils.parseInt(request.getParameter("n2"), 0) /
+        (WebSite.VERSION_ID.hashCode() >>> 8);
     
-    if (!(Utils.isNullOrEmpty(name) || Utils.isNullOrEmpty(text))) {
+    if (!(Utils.isNullOrEmpty(name) || Utils.isNullOrEmpty(text)) &&
+        sum == n1 + n2) {
       PageAssembler pa = new PageAssembler();
       pa.addProperty("pagetitle", Utils.encodeHTML(name));
       pa.addProperty("meshcmsbody", text);
@@ -117,6 +124,10 @@
       }
     }
   }
+
+  // numbers to verify submitted post
+  int n1 = Utils.getRandomInt(30);
+  int n2 = Utils.getRandomInt(30);
 
   String langCode = pageBundle.getString("TinyMCELangCode");
 
@@ -150,6 +161,12 @@
     if (f.text.value == "") {
       alert("<%= pageBundle.getString("commentsNoText") %>");
       f.text.focus();
+      return;
+    }
+    
+    if (isNaN(f.sum.value) || f.sum.value != <%= n1 + n2 %>) {
+      alert("<%= pageBundle.getString("commentsWrongSum") %>");
+      f.sum.focus();
       return;
     }
     
@@ -189,7 +206,7 @@
  <div class="includeitem">
   <div class="includetitle">
     <%= Utils.isNullOrEmpty(title) ? "&nbsp;" : title %>
-    <% if (!userInfo.isGuest()) { %>
+    <% if (userInfo.canWrite(webSite, md.getPagePath())) { %>
       (<a href="javascript:deleteComment('<%= files[i].getName() %>');"><%= pageBundle.getString("commentsDelete") %></a>)
     <% } %>
   </div>
@@ -224,6 +241,14 @@
   <div class="includetext">
     <div><label for="mcc_text"><%= pageBundle.getString("commentsText") %></label></div>
     <div><textarea name="text" id="mcc_text" class="mceEditor" style="width: <%= width %>; height: 12em;"></textarea></div>
+  </div>
+  <div class="includetext">
+    <div>
+      <label for="mcc_sum"><%= n1 %> + <%= n2 %> =</label>
+      <input type="text" name="sum" id="mcc_sum" style="width: 3em;" />
+      <input type="hidden" name="n1" value="<%= n1 * (WebSite.SYSTEM_CHARSET.hashCode() >>> 8) %>" />
+      <input type="hidden" name="n2" value="<%= n2 * (WebSite.VERSION_ID.hashCode() >>> 8) %>" />
+    </div>
     <div style="margin-top: 1em;">
       <input type="button" value="<%= pageBundle.getString("commentsSubmit") %>" onclick="javascript:submitComment();" />
     </div>
