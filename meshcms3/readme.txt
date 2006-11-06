@@ -60,6 +60,12 @@ MeshCMS uses free software from other companies/developers:
 - ALIB (modified by Hue Holleran)
     http://sourceforge.net/projects/alib/
 
+- EditArea
+    http://www.cdolivet.net/index.php?page=editArea
+
+- SWFObject
+    http://blog.deconcept.com/swfobject/
+
 - Tigra Menu & Tigra Tree Menu (not included, but supported)
     http://www.softcomplex.com/
 

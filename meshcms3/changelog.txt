@@ -1,6 +1,6 @@
 ________________________________
 --------------------------------
-2006-11-xx: 3.0 released
+2006-11-06: 3.0 released
 --------------------------------
 
 - Page Manager improved
@@ -20,6 +20,12 @@ ________________________________
 - Bug fixed: a user was allowed to create another user with the same username
 - Bug fixed: the page editing icon was shown even for pages that the current user can't edit
 - Bug fixed: editor.js now checks for uninitialized variables
+- EditArea upgraded to 0.6.1
+- XStream upgraded to 1.2 (this solves an issue with non-ASCII characters)
+- Bug fixed: the chat module is working again
+- Modules now have a directory where they can save persistent data
+- Added an icon that points to the help for the currently selected module
+- The comments module now implements a simple check against automated submissions
 
 ________________________________
 --------------------------------
