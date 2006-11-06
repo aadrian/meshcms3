@@ -19,8 +19,6 @@
  You can contact the author at http://www.cromoteca.com
  and at info@cromoteca.com
 --%>
-<%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page pageEncoding="UTF-8" %>
 <%@ page import="java.util.*" %>
 <%
   final int MAX_MESSAGES = 100;
@@ -49,14 +47,15 @@
         final StringBuffer sb = new StringBuffer(MAX_MESSAGES * 30);
 	      int i = 0;
         for (final Iterator it = room.iterator(); it.hasNext() && i < MAX_MESSAGES; i++) {
-		      final String s = (String) it.next();
+                sb.append((String) it.next()).append('\n');
+		      /* final String s = (String) it.next();
 		      final int length = s.length();
 		      for (int j = 0; j < length; j++) {
 		        final String hex = "0000" + Integer.toHexString((int) s.charAt(j));
 		        sb.append("\\u");
 		        sb.append(hex.substring(hex.length() - 4, hex.length()));
 		      }
-		      sb.append("\\u000A");
+		      sb.append("\\u000A"); */
         }
 		    chatRoomText = sb.toString();
         application.setAttribute("chatRoomCache", chatRoomText);
