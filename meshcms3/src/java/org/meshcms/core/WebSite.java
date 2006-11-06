@@ -94,6 +94,7 @@ public class WebSite {
   protected Path repositoryPath;
   protected Path customModulesPath;
   protected Path generatedFilesPath;
+  protected Path moduleDataPath;
   protected Path customThemesPath;
 
   protected Path configFilePath;
@@ -132,6 +133,7 @@ public class WebSite {
       createDir(repositoryPath = privatePath.add("repository"));
       createDir(customModulesPath = cmsPath.add("modules"));
       createDir(generatedFilesPath = cmsPath.add("generated"));
+      createDir(moduleDataPath = cmsPath.add("moduledata"));
       createDir(customThemesPath = cmsPath.add("themes"));
       configFilePath = privatePath.add("configuration.xml");
       propertiesFilePath = privatePath.add("siteinfo.xml");
@@ -1014,6 +1016,10 @@ public class WebSite {
 
   public Path getAdminModulesPath() {
     return adminModulesPath;
+  }
+  
+  public Path getModuleDataPath() {
+    return moduleDataPath;
   }
 
   public Path getAdminThemesPath() {

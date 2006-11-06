@@ -235,6 +235,10 @@ public class ModuleDescriptor {
   public Path getModulePath() {
     return modulePath;
   }
+  
+  public Path getModuleDataPath(WebSite webSite) {
+    return webSite.getModuleDataPath().add(modulePath.getLastElement());
+  }
 
   /**
    * Sets the path of the module.

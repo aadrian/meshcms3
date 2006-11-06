@@ -58,15 +58,15 @@
   Path commentsPath = md.getModuleArgumentPath(false);
   
   if (commentsPath == null) {
-    commentsPath = new Path("_meshcms_comments", md.getPagePath(),
-        md.getLocation());
+    commentsPath = md.getModuleDataPath(webSite).add(md.getPagePath(), md.getLocation());
   }
   
   File commentsDir = webSite.getFile(commentsPath);
   commentsDir.mkdirs();
   
   if (!commentsDir.isDirectory()) {
-    return;
+    throw new IllegalStateException(Utils.getFilePath(commentsDir) +
+        " is not a directory");
   }
 
   Locale locale = WebUtils.getPageLocale(pageContext);
