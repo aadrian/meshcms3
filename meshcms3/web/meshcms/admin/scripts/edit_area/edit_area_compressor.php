@@ -10,7 +10,7 @@
 
 	// CONFIG
 	$param['cache_duration']= 3600 * 24 * 10;		// 10 days util client cache expires
-	$param['debug'] = true;						// Enable this option if you need debuging info
+	$param['debug'] = false;						// Enable this option if you need debuging info
 	$param['use_disk_cache']= true;					// If you enable this option gzip files will be cached on disk.
 	$param['use_gzip']= true;						// Enable gzip compression
 	// END CONFIG

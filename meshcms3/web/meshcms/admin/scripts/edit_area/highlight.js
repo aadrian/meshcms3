@@ -58,7 +58,7 @@
 	EditArea.prototype.enable_highlight= function(){
 		width=document.getElementById("editor").offsetWidth;
 		height=document.getElementById("editor").offsetHeight;
-		if(this.nav['isGecko'] || this.nav['isOpera']){
+		if(this.nav['isGecko'] || this.nav['isOpera'] || this.nav['isIE']>=7){
 			width-=2;
 			height-=2;
 		}

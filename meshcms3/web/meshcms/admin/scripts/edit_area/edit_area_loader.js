@@ -1,6 +1,6 @@
 /******
  *
- *	EditArea v0.6
+ *	EditArea v0.6.1
  * 	Developped by Christophe Dolivet
  *	Released under LGPL license
  *
@@ -11,7 +11,7 @@
 			loaded_files= new Array();*/
 		date= new Date();
 		this.start_time=date.getTime();
-		
+		this.win= "loading";	// window loading state
 		this.error= false;	// to know if load is interrrupt
 		this.baseURL="";
 		//this.suffix="";
@@ -47,6 +47,7 @@
 			,max_undo: 20
 			,browsers: "known"	// all or known
 			,plugins: "" // comma separated plugin list
+			,gecko_spellcheck: true	// enable/disable by default the gecko_spellcheck
 		};
 		
 		this.advanced_buttons = [
@@ -122,15 +123,38 @@
 		for(var i in EditAreaLoader.prototype){
 			EditAreaLoader.prototype[i]=function(){};		
 		}
-		//delete this;
 	};
 	
+	EditAreaLoader.prototype.window_loaded= function(){
+		editAreaLoader.win="loaded";
+		
+		// add events on forms
+		if (document.forms) {
+			for (var i=0; i<document.forms.length; i++) {
+				var form = document.forms[i];
+				form.edit_area_replaced_submit=null;
+				try {
+					
+					form.edit_area_replaced_submit = form.onsubmit;
+					form.onsubmit="";
+				} catch (e) {// Do nothing
+				}
+				editAreaLoader.addEvent(form, "submit", EditAreaLoader.prototype.submit);
+				editAreaLoader.addEvent(form, "reset", EditAreaLoader.prototype.reset);
+			}
+		}
+	};
+		
 	EditAreaLoader.prototype.init= function(settings){
+	
 		if(!settings["id"])
 			this.has_error();
 		
 		if(this.error)
 			return;
+		// if an instance of the editor already exists for this textarea => delete the previous one
+		if(editAreas[settings["id"]])
+			editAreaLoader.delete_instance(settings["id"]);
 			
 		// init settings
 		for(var i in this.default_settings){
@@ -171,100 +195,94 @@
 		
 		editAreas[settings["id"]]= {"settings": settings};
 		editAreas[settings["id"]]["displayed"]=false;
-			
 		
-		//alert(this.tab_toolbar.length+"\n"+this.tab_toolbar.join("\n =>"));
-		/*if(this.nav['isIE'] || this.nav['isNS']){	// IE work well only with those settings
-			this.font_familly= this.default_font_family;
-			this.font_size= this.default_font_size;		
-		}
-		if(this.nav['isOpera']){
-			this.tab_nb_char=6;
-		}*/
-		
-		// bracket selection init 
-		/*this.assocBracket["("]=")";
-		this.assocBracket["{"]="}";
-		this.assocBracket["["]="]";		
-		for(var index in this.assocBracket){
-			this.revertAssocBracket[this.assocBracket[index]]=index;
-		}		*/
-		// load language file
-		// load code regexp syntax file
-		//this.loadScript(this.baseURL + "reg_syntax/"+ this.code_lang +".js");
-		//this.addEvent(window, "load", EditArea.prototype.startArea);
-		//this.state="init";
+		//if(settings["display"]=="onload")
+		editAreaLoader.start(settings["id"]);
+
 	};
 	
+	// delete an instance of an EditArea
+	EditAreaLoader.prototype.delete_instance= function(id){
+		editAreaLoader.toggle_off(id);
+		
+		// remove toogle infos and debug textarea
+		var span= document.getElementById("EditAreaArroundInfos_"+id);
+		if(span){
+			span.parentNode.removeChild(span);
+		}
+		
+		// remove the iframe
+		var iframe= document.getElementById("frame_"+id);
+		if(iframe){
+			iframe.parentNode.removeChild(iframe);
+			//delete iframe;
+			try {
+				delete window.frames["frame_"+id];
+			} catch (e) {// Do nothing
+			}
+		}	
+		delete editAreas[id];
+	};
+
 	
-	EditAreaLoader.prototype.window_loaded= function(){
-			
+	EditAreaLoader.prototype.start= function(id){
+		// check that the window is loaded
+		if(this.win!="loaded"){
+			setTimeout("editAreaLoader.start('"+id+"');", 50);
+			return;
+		}
+		
 		// check that all needed scripts are loaded
 		for( var i in editAreaLoader.waiting_loading){
 			if(editAreaLoader.waiting_loading[i]!="loaded"){
-				setTimeout("editAreaLoader.window_loaded();", 100);
-				return;
-			}
-		}
-		for(var i in editAreas){
-			// wait until language and syntax files are loaded
-			if(!editAreaLoader.lang[editAreas[i]["settings"]["language"]] || (editAreas[i]["settings"]["syntax"].length>0 && !editAreaLoader.load_syntax[editAreas[i]["settings"]["syntax"]]) ){
-				setTimeout("editAreaLoader.window_loaded();", 100);
+				setTimeout("editAreaLoader.start('"+id+"');", 50);
 				return;
 			}
 		}
 		
-		editAreaLoader.init_syntax_regexp();
-		
-		// add events on forms
-		if (document.forms) {
-			for (var i=0; i<document.forms.length; i++) {
-				var form = document.forms[i];
-				form.edit_area_replaced_submit=null;
-				try {
-					
-					form.edit_area_replaced_submit = form.onsubmit;
-					form.onsubmit="";
-				} catch (e) {// Do nothing
-				}
-				editAreaLoader.addEvent(form, "submit", EditAreaLoader.prototype.submit);
-				editAreaLoader.addEvent(form, "reset", EditAreaLoader.prototype.reset);
-			}
+		// wait until language and syntax files are loaded
+		if(!editAreaLoader.lang[editAreas[id]["settings"]["language"]] || (editAreas[id]["settings"]["syntax"].length>0 && !editAreaLoader.load_syntax[editAreas[id]["settings"]["syntax"]]) ){
+			setTimeout("editAreaLoader.start('"+id+"');", 50);
+			return;
 		}
+		// init the regexp for syntax highlight
+		if(editAreas[id]["settings"]["syntax"].length>0)
+			editAreaLoader.init_syntax_regexp();
 		
-		// init all editareas
-		for(var i in editAreas)
-		{
 			
-			// display toggle option and debug area
-			if(editAreas[i]["settings"]["debug"] || editAreas[i]["settings"]["allow_toggle"])
-			{
-				var span= document.createElement("span");
-				var html="";
-				if(editAreas[i]["settings"]["allow_toggle"]){
-					checked=(editAreas[i]["settings"]["display"]=="onload")?"checked":"";
-					html+="<div id='edit_area_toggle_"+i+"'>";
-					html+="<input id='edit_area_toggle_checkbox_"+ i +"' class='toggle_"+ i +"' type='checkbox' onclick='editAreaLoader.toggle(\""+ i +"\");' accesskey='e' "+checked+" />";
-					html+="<label for='edit_area_toggle_checkbox_"+ i +"'>{$toggle}</label></div>";	
-				}
-				if(editAreas[i]["settings"]["debug"])
-					html+="<textarea id='edit_area_debug_"+ i +"' style='z-index: 20; width: 100%; height: 120px;overflow: auto; border: solid black 1px;'></textarea><br />";				
-				html= editAreaLoader.translate(html, editAreas[i]["settings"]["language"]);				
-				span.innerHTML= html;				
-				var father= document.getElementById(i).parentNode;
-				var next= document.getElementById(i).nextSibling;
-				if(next==null)
-					father.appendChild(span);
-				else
-					father.insertBefore(span, next);
+		// display toggle option and debug area
+		if(!document.getElementById("EditAreaArroundInfos_"+id) && (editAreas[id]["settings"]["debug"] || editAreas[id]["settings"]["allow_toggle"]))
+		{
+			var span= document.createElement("span");
+			span.id= "EditAreaArroundInfos_"+id;
+			var html="";
+			if(editAreas[id]["settings"]["allow_toggle"]){
+				checked=(editAreas[id]["settings"]["display"]=="onload")?"checked":"";
+				html+="<div id='edit_area_toggle_"+i+"'>";
+				html+="<input id='edit_area_toggle_checkbox_"+ id +"' class='toggle_"+ id +"' type='checkbox' onclick='editAreaLoader.toggle(\""+ id +"\");' accesskey='e' "+checked+" />";
+				html+="<label for='edit_area_toggle_checkbox_"+ id +"'>{$toggle}</label></div>";	
 			}
-			if(editAreas[i]["settings"]["display"]=="onload")
-				editAreaLoader.start(i);
+			if(editAreas[id]["settings"]["debug"])
+				html+="<textarea id='edit_area_debug_"+ id +"' style='z-index: 20; width: 100%; height: 120px;overflow: auto; border: solid black 1px;'></textarea><br />";				
+			html= editAreaLoader.translate(html, editAreas[id]["settings"]["language"]);				
+			span.innerHTML= html;				
+			var father= document.getElementById(id).parentNode;
+			var next= document.getElementById(id).nextSibling;
+			if(next==null)
+				father.appendChild(span);
+			else
+				father.insertBefore(span, next);
 		}
 		
-	};
-	
-	EditAreaLoader.prototype.start= function(id){
+		if(editAreas[id]["settings"]["display"]=="later"){
+			editAreas[id]["settings"]["display"]="onload";
+			return
+		}
+		
+	/*	if(editAreas[id]["settings"]["display"]=="onload")
+			editAreaLoader.start(id);*/
+
+		
 		// get toolbar content
 		//alert("start: "+id);
 		var html_toolbar_content="";

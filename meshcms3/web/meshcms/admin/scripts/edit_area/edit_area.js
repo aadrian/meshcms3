@@ -187,6 +187,10 @@
 			children[i].style.KhtmlUserSelect = "none";  // Konqueror/Safari*/
 		}
 		
+		if(this.nav['isGecko']){
+			this.textarea.spellcheck= this.settings["gecko_spellcheck"];
+		}
+		
 		if(this.nav['isOpera']){
 			document.getElementById("editor").style.position= "absolute";
 			document.getElementById("selection_field").style.marginTop= "-1pt";			

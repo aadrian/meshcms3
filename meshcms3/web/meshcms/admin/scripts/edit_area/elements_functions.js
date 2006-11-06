@@ -257,25 +257,4 @@
 		range.select();
 	};
 	
-
-	
-	/*isMSIE = (navigator.appName == "Microsoft Internet Explorer");
-		isMSIE5 = this.isMSIE && (ua.indexOf('MSIE 5') != -1);
-		this.isMSIE5_0 = this.isMSIE && (ua.indexOf('MSIE 5.0') != -1);
-		this.nav['isGecko'] = ua.indexOf('Gecko') != -1;
-		this.nav['isSafari'] = ua.indexOf('Safari') != -1;
-		this.nav['isOpera'] = ua.indexOf('Opera') != -1;
-	//	this.isMac = ua.indexOf('Mac') != -1;
-		this.nav['isNS']7 = ua.indexOf('Netscape/7') != -1;
-		this.nav['isNS']71 = ua.indexOf('Netscape/7.1') != -1;
-		
-		var date= new Date();
-		var dend= date.getTime();
-		if(dend-d1 >100)
-			this.debug.value="end "+ (dend - d1)+ " middle a "+ (dmiddle- d1)+ " middle b "+ (dend-dmiddle);
-		
-		
-		
-		
-		*/
 	editAreaLoader.waiting_loading["elements_functions.js"]= "loaded";

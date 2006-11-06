@@ -110,7 +110,7 @@ var clavier_cds=new Array(146);
 					use=true;
 					break;
 				case "g":
-					setTimeout("editArea..execCommand('go_to_line');", 5);	// the prompt stop the return false otherwise
+					setTimeout("editArea.execCommand('go_to_line');", 5);	// the prompt stop the return false otherwise
 					use=true;
 					break;
 				case "e":
