@@ -33,7 +33,7 @@ td.lastmodified {
 }
 
 pre {
- font-family: "Bitstream Vera Sans Mono", mono;
+ font-family: "Bitstream Vera Sans Mono", monospace;
  font-size: 11px;
 }
 
@@ -57,7 +57,7 @@ img {
 
 input, select, textarea {
  border: 1px inset #cccccc;
- font-family: "Bitstream Vera Sans Mono", mono;
+ font-family: "Bitstream Vera Sans Mono", monospace;
  font-size: 11px;
 }
 

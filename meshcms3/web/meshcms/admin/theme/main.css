@@ -3,7 +3,7 @@ body {
  margin-top: 0px;
  margin-right: 0px;
  margin-bottom: 0px;
- font-family: "Bitstream Vera Sans", sans-serif;
+ font-family: "Bitstream Vera Sans", "Lucida Sans Unicode", sans-serif;
  font-size: 11px;
  color: #000000;
  background-color: #FFFFFF;
@@ -33,14 +33,14 @@ a:hover {
 }
 
 th {
- font-family: "Bitstream Vera Sans", sans-serif;
+ font-family: "Bitstream Vera Sans", "Lucida Sans Unicode", sans-serif;
  font-weight: bold;
  font-size: 11px;
  background-color: #D4D0C8;
 }
 
 td {
- font-family: "Bitstream Vera Sans", sans-serif;
+ font-family: "Bitstream Vera Sans", "Lucida Sans Unicode", sans-serif;
  font-size: 11px;
 }
 
@@ -58,7 +58,7 @@ td {
 input, textarea, select {
  border: solid 1px #999999;
  padding: 0px;
- font-family: "Bitstream Vera Sans Mono", mono;
+ font-family: "Bitstream Vera Sans Mono", "Lucida Sans Typewriter", monospace;
  font-size: 12px;
 }
 
@@ -82,7 +82,7 @@ a.button:hover {
 }
 
 a.filelist, a.filelist:visited {
- font-family: "Bitstream Vera Sans", sans-serif;
+ font-family: "Bitstream Vera Sans", "Lucida Sans Unicode", sans-serif;
  font-size: 11px;
  color: #000000;
  background-color: #FFFFFF;
@@ -93,7 +93,7 @@ a.filelist, a.filelist:visited {
 }
 
 a.filelistsel, a.filelistsel:visited {
- font-family: "Bitstream Vera Sans", sans-serif;
+ font-family: "Bitstream Vera Sans", "Lucida Sans Unicode", sans-serif;
  font-size: 11px;
  font-weight: normal;
  color: #000000;
