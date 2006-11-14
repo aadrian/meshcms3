@@ -25,6 +25,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
+<%@ page import="com.opensymphony.module.sitemesh.*" %>
 <%@ page import="com.opensymphony.module.sitemesh.parser.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 
@@ -70,11 +71,11 @@
     for (int i = 0; i < files.length; i++) {
       if (FileTypes.isPage(files[i].getName())) {
         WebUtils.updateLastModifiedTime(request, files[i]);
-        FastPageParser fpp = new FastPageParser();
+        HTMLPageParser fpp = new HTMLPageParser();
 
         try {
           Reader reader = new BufferedReader(new FileReader(files[i]));
-          FastPage pg = (FastPage) fpp.parse(reader);
+          HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
           String title = pg.getTitle();
 %>
  <div class="includeitem">

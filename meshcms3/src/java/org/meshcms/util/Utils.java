@@ -461,6 +461,18 @@ public final class Utils {
 
     return caw.toString();
   }
+  
+  public static char[] readAllChars(Reader reader) throws IOException {
+    CharArrayWriter caw = new CharArrayWriter();
+    char[] cbuf = new char[BUFFER_SIZE];
+    int n;
+
+    while ((n = reader.read(cbuf)) != -1) {
+      caw.write(cbuf, 0, n);
+    }
+
+    return caw.toCharArray();
+  }
 
   /**
    * Reads from an InputStream and puts all available data into an array of

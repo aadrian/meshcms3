@@ -24,6 +24,7 @@ package org.meshcms.taglib;
 
 import java.io.*;
 import org.meshcms.core.*;
+import com.opensymphony.module.sitemesh.*;
 import com.opensymphony.module.sitemesh.parser.*;
 
 /**
@@ -71,15 +72,15 @@ public class Editor extends AbstractTag {
     w.write("<form id='editor' name='editor' action=\"" + afp +
       "/savepage.jsp\" method='post'>\n");
 
-    FastPage fastPage = (FastPage) getPage();
-    String[] keys = fastPage.getPropertyKeys();
+    HTMLPage htmlPage = (HTMLPage) getPage();
+    String[] keys = htmlPage.getPropertyKeys();
 
     for (int i = 0; i < keys.length; i++) {
       if (!keys[i].equals(PageAssembler.EMAIL_PARAM) &&
           !keys[i].equals(PageAssembler.MODULES_PARAM) &&
           !keys[i].equals("title")) {
         w.write("<input type='hidden' name='" + keys[i] + "' value=\"" + 
-            fastPage.getProperty(keys[i]) + "\" />\n");
+            htmlPage.getProperty(keys[i]) + "\" />\n");
       }
     }
 

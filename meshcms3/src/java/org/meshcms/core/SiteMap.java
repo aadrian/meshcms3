@@ -146,12 +146,13 @@ public class SiteMap extends DirectoryParser {
     }
 
     if (pageInfo.getLastModified() != file.lastModified()) {
-      FastPageParser fpp = new FastPageParser();
+      HTMLPageParser fpp = new HTMLPageParser();
       Reader reader = null;
 
       try {
         reader = new BufferedReader(new FileReader(file));
-        Page page = fpp.parse(reader);
+        Page page = fpp.parse(Utils.readAllChars(reader));
+        reader.close();
         String title = page.getTitle();
 
         if (Utils.isNullOrWhitespace(title)) {
