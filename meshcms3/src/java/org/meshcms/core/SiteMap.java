@@ -196,7 +196,7 @@ public class SiteMap extends DirectoryParser {
     pagesList = Collections.unmodifiableList(pagesList);
 
     webSite.setSiteMap(this);
-    webSite.getSiteInfo().cleanupSiteInfo();
+    // webSite.getSiteInfo().cleanupSiteInfo(); // deprecated
   }
 
   /**

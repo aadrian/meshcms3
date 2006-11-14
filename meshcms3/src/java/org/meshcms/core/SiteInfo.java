@@ -352,6 +352,11 @@ public class SiteInfo {
 
   /**
    * Cleans SiteInfo by removing info for pagePaths that no longer exist.
+   *
+   * @deprecated with no replacement, since it's better <em>not</em> to
+   * clean up SiteInfo this way, to retain info about pages that are not in the
+   * site map. A different solution would be to check for non-existing files
+   * instead of pages not in the site map.
    */
   protected boolean cleanupSiteInfo() {
     boolean success = true;
