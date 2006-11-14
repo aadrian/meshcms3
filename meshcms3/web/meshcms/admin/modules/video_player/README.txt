@@ -92,7 +92,7 @@ Version history
 
 1.6
 	Bug fixes:
-	- Does not buffer unnessessarily if looping through one loop again and again
+	- Does not buffer unnessessarily if looping through one clip again and again
 	- Playback can be started normally again when the clip is done and looping
 	is off. There was a bug that prevented this.
 	- Clicking on the video area did not start playing if splash not used and
@@ -104,10 +104,28 @@ Version history
 	the playList. Now following characters are available: 
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz?!/-:,. 1234567890"
 
-1.6.1
+1.7
 	Fixes:
-	- flowPlayer.js was missing from the binary distribution package
-	- Absolute URLs did not work in the configFileName
+	- baseURLs are not appended to file name values that are complete URLs
+	- minor visual enhancements
+	New features:
+	- Support for long videos: Initial support for streaming servers (tested with red5) +
+	thumbnails corresponding to cue points.
+	- Video duration and time indicator
+	- Resizing of the video area through a menu
+
+1.7.1
+	- Now the original FLV video dimensions are detected from the FLV metadata.
+	  The different resizing options are based on those. Initially the size is 
+	  maximized according to the 'videoHeight' setting and preserving the aspect ratio.
+	Fixes:
+	- progress bar goes to the start position (left) even when autoPlay=false 
+	and autoBuffering=false [1574640]
+	- resizing menu does not toggle pause/resume anymore [1581085]
+	- missing audio on some FLV files [1568612]
+	- Flash Media Servers seems to send the FLV metadata again and again when seeking. This
+	  caused unnessessary rearranging of the thumbnails.
+	- Thumnail list's scrollbar is not shown if all thumbnails fit the available visible space
 
 Distribution file contents 
 ===========================
