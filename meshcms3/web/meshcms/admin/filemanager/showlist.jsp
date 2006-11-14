@@ -44,6 +44,7 @@
 
 <%
   String cp = request.getContextPath();
+  SiteInfo siteInfo = webSite.getSiteInfo();
   boolean showThumbs = Utils.isTrue(request.getParameter("thumbnails"));
   Path folderPath = new Path(request.getParameter("folder"));
   File folder = webSite.getFile(folderPath);
@@ -183,7 +184,19 @@
      FileTypes.getIconFile(name) %>" vspace="2" title="<%= FileTypes.getDescription(name) %>" alt=""></td>
    <td><input type="checkbox" id="<%= id %>"
     name="<%= name %>" value="<%= name %>" /></td>  
-   <td><label for="<%= id %>"><%= name %></label></td>  
+   <td><label for="<%= id %>"><%= name %></label>
+     <%
+          String theme = siteInfo.getPageTheme(filePath);
+          
+          if (!Utils.isNullOrEmpty(theme)) {
+            Object[] args = { theme };
+            theme = MessageFormat.format(bundle.getString("fmUsedTheme"), args);
+     %>
+       <img src="images/theme_smallicon1.gif" alt="<%= theme %>" title="<%= theme %>" />
+     <%
+          }
+     %>
+   </td>  
    <td>&nbsp;</td>
    <td align="right"><%= list[i].isDirectory() ? "&nbsp;" : WebUtils.formatFileLength(list[i].length(), locale, bundle) %></td>
    <td>&nbsp;</td>
