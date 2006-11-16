@@ -92,7 +92,7 @@
 <div<%= md.getFullCSSAttribute("css") %>>
 <%
     for (int i = 0; i < pages.length && count < items; i++) {
-      if (!siteMap.getPathInMenu(pages[i].getPath()).equals(dirPath)) {
+      if (!siteMap.getServedPath(pages[i].getPath()).equals(md.getPagePath())) {
         WebUtils.updateLastModifiedTime(request, pages[i].getLastModified());
         HTMLPageParser fpp = new HTMLPageParser();
 
