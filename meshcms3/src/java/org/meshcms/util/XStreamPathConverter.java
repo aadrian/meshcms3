@@ -5,10 +5,10 @@ import com.thoughtworks.xstream.converters.basic.*;
 /**
  * Allows to save instances of {@link Path} using XStream.
  */
-public class XStreamPathConverter extends AbstractBasicConverter {
+public class XStreamPathConverter extends AbstractSingleValueConverter {
   private boolean prependSlash;
   
-  protected Object fromString(String string) {
+  public Object fromString(String string) {
     return new Path(string);
   }
 
@@ -16,7 +16,7 @@ public class XStreamPathConverter extends AbstractBasicConverter {
     return aClass.equals(Path.class);
   }
 
-  protected String toString(Object obj) {
+  public String toString(Object obj) {
     return prependSlash ? ((Path) obj).getAsLink() : obj.toString();
   }
 
