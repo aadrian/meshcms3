@@ -293,7 +293,7 @@ public class UserInfo implements Serializable {
         
         return true;
       }
-    } else if (!global && username.equals("admin") && password.equals("admin")) {
+    } else if (username.equals("admin") && password.equals("admin")) {
       info = new Properties();
       info.setProperty(USERNAME, "admin");
       info.setProperty(PASSWORD, cryptPassword("admin"));
