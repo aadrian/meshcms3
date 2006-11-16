@@ -126,7 +126,7 @@ public final class AlibMenu extends AbstractTag {
 	        }
 	
 	        if ( ! Utils.isNullOrEmpty(currentPathStyle)
-	        		&& ( current.getLevel() > 0
+	        		&& ( current.getLevel() >= baseLevel
 	        		       && pathInMenu.isContainedIn(currentPath) 
 	                     || current.getPath().equals(pathInMenu)
 	                   ) ) {
