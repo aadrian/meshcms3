@@ -645,4 +645,37 @@ public final class WebUtils {
     return WebSite.IS_MULTIBYTE_SYSTEM_CHARSET ?
         Utils.encodeHTML(html) : WebUtils.convertToHTMLEntities(html, true);
   }
+  
+  public static Path getCorrespondingPath(WebSite webSite, Path path,
+      String otherRoot) {
+    Path cPath = path.replace(0, otherRoot);
+    return webSite.getFile(cPath).exists() ? cPath : new Path(otherRoot);
+  }
+  
+  public static String[] getAcceptedLanguages(HttpServletRequest request) {
+    Enumeration alEnum = request.getHeaders("Accept-Language");
+    ArrayList list = new ArrayList();
+    
+    while (alEnum.hasMoreElements()) {
+      String s = (String) alEnum.nextElement();
+      StringTokenizer st = new StringTokenizer(s, ",");
+      
+      while (st.hasMoreTokens()) {
+        String token = st.nextToken();
+        int sc = token.indexOf(';');
+        
+        if (sc >= 0) {
+          token = token.substring(0, sc);
+        }
+        
+        token = token.trim();
+        
+        if (!list.contains(token)) {
+          list.add(token);
+        }
+      }
+    }
+    
+    return (String[]) list.toArray(new String[list.size()]);
+  }
 }

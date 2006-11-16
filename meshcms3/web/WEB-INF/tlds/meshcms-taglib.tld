@@ -375,6 +375,11 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>
+    <attribute>
+      <name>defaultValue</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
   </tag>
   <tag>
     <name>alibmenu</name>
@@ -407,6 +412,16 @@
     </attribute>
     <attribute>
       <name>allowHiding</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+  <tag>
+    <name>switchlang</name>
+    <tag-class>org.meshcms.taglib.SwitchLang</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+      <name>separator</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>

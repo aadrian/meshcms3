@@ -34,6 +34,7 @@ import org.meshcms.util.*;
  */
 public final class SetLocale extends AbstractTag {
   private String value;
+  private String defaultValue;
   
   public void writeTag() throws IOException {
     Locale locale = null;
@@ -44,6 +45,10 @@ public final class SetLocale extends AbstractTag {
       for (int i = pagePath.getElementCount() - 1; locale == null && i >= 0; i--) {
         locale = Utils.getLocale(pagePath.getElementAt(i));
       }
+    }
+    
+    if (locale == null) {
+      locale = Utils.getLocale(defaultValue);
     }
     
     if (locale != null) {
@@ -58,5 +63,13 @@ public final class SetLocale extends AbstractTag {
 
   public void setValue(String value) {
     this.value = value;
+  }
+
+  public String getDefaultValue() {
+    return defaultValue;
+  }
+
+  public void setDefaultValue(String defaultValue) {
+    this.defaultValue = defaultValue;
   }
 }

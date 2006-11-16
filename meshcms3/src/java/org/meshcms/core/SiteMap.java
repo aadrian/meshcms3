@@ -59,6 +59,7 @@ public class SiteMap extends DirectoryParser {
 
   private SortedMap themesMap;
   private SortedMap modulesMap;
+  private List langList;
   private Map pageCache;
   
   private boolean obsolete;
@@ -195,7 +196,23 @@ public class SiteMap extends DirectoryParser {
     pagesList = new ArrayList(pagesMap.values());
     Collections.sort(pagesList, new PageInfoComparator(this, webSite.getSiteInfo()));
     pagesList = Collections.unmodifiableList(pagesList);
+    
+    langList = new ArrayList();
+    Iterator iter = getPagesInDirectory(Path.ROOT, false).iterator();
 
+    while (iter.hasNext()) {
+      Path path = ((PageInfo) iter.next()).getPath();
+      
+      if (path.getElementCount() == 1) {
+        Locale locale = Utils.getLocale(path.getElementAt(0));
+        
+        if (locale != null) {
+          langList.add(new CodeLocalePair(path.getElementAt(0), locale));
+        }
+      }
+    }
+
+    langList = Collections.unmodifiableList(langList);
     webSite.setSiteMap(this);
     // webSite.getSiteInfo().cleanupSiteInfo(); // deprecated
   }
@@ -360,6 +377,10 @@ public class SiteMap extends DirectoryParser {
     return root.isRoot() ? pagesMap : pagesMap.subMap(root, root.successor());
   }
 
+  public List getLangList() {
+    return langList;
+  }
+  
   /**
    * Returns true if there is at least one page whose parent path is the
    * given one.
@@ -585,5 +606,23 @@ public class SiteMap extends DirectoryParser {
    */
   public void setObsolete(boolean obsolete) {
     this.obsolete = obsolete;
+  }
+  
+  public class CodeLocalePair {
+    private String code;
+    private Locale locale;
+
+    public CodeLocalePair(String code, Locale locale) {
+      this.code = code;
+      this.locale = locale;
+    }
+
+    public String getCode() {
+      return code;
+    }
+
+    public Locale getLocale() {
+      return locale;
+    }
   }
 }

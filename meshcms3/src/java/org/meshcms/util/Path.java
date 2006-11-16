@@ -458,4 +458,21 @@ public class Path implements Comparable, Serializable, Cloneable {
     //return super.clone();
     return new Path(this);
   }
+  
+  public Path replace(int index, String element) {
+    int n = elements.length;
+
+    if (index < 0 || index >= n) {
+      throw new IllegalArgumentException("index out of range");
+    }
+    
+    if (Utils.isNullOrEmpty(element)) {
+      throw new IllegalArgumentException("element value is missing or empty");
+    }
+    
+    String[] elms = new String[n];
+    System.arraycopy(elements, 0, elms, 0, n);
+    elms[index] = element;
+    return new Path(elms);
+  }
 }
