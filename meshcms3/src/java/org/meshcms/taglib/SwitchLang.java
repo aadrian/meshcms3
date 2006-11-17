@@ -64,21 +64,48 @@ public class SwitchLang extends AbstractTag {
       Locale locale = lang.getLocale();
       String localeName = WebUtils.encodeHTML
           (Utils.toTitleCase(locale.getDisplayName(locale)));
+      String link = null;
+      String msg = null;
       
-      if (langCode.equals(pagePath.getElementAt(0))) {
-        w.write(localeName);
-      } else {
+      if (!langCode.equals(pagePath.getElementAt(0))) {
         Path path = siteMap.getServedPath(pagePath.replace(0, langCode));
 
         if (!webSite.getFile(path).isFile()) {
-          if (isEdit) {
-            path = new Path(langCode); // temporary
-          } else {
+          if (userInfo.canWrite(webSite, path)) {
+            PageInfo ppi = siteMap.getParentPageInfo(pagePath);
+            
+            if (ppi != null && ppi.getLevel() > 0) {
+              Path pPath = ppi.getPath().replace(0, langCode);
+              
+              if (siteMap.getPageInfo(pPath) != null) {
+                if (msg == null) {
+                  ResourceBundle bundle = 
+                      ResourceBundle.getBundle("org/meshcms/webui/Locales",
+                      WebUtils.getPageLocale(pageContext));
+                  msg = Utils.replace(bundle.getString("confirmTranslation"),
+                      '\'', "\\'");
+                }
+                link = "javascript:if (confirm('" + msg +"')) location.href='" + 
+                    afp + "/createpage.jsp?popup=false&newdir=false&fullpath=" +
+                    path + "';";
+              }
+            }
+          } 
+          
+          if (link == null) {
             path = new Path(langCode);
           }
         }
-
-        w.write("<a href=\"" + cp + path.getAsLink() + "\">" + localeName + "</a>");
+        
+        if (link == null) {
+          link = cp + webSite.getLink(path);
+        }
+      }
+      
+      if (link == null) {
+        w.write(localeName);
+      } else {
+        w.write("<a href=\"" + link + "\">" + localeName + "</a>");
       }
     }
   }

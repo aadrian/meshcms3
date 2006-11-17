@@ -31,7 +31,7 @@
 <fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
 
 <%
-  if (!userInfo.canDo(UserInfo.CAN_MANAGE_FILES)) {
+  if (!userInfo.canDo(UserInfo.CAN_EDIT_PAGES)) {
     response.sendError(HttpServletResponse.SC_FORBIDDEN,
                        "You don't have enough privileges");
     return;
@@ -59,10 +59,12 @@
 
 <body>
 
-<% String title = Utils.noNull(request.getParameter("title"));
+<%
+String title = Utils.noNull(request.getParameter("title"));
+Path fullPath = new Path(request.getParameter("fullpath"));
 Path path = new Path(request.getParameter("path"));
 
-if (title.equals("")) { %>
+if (title.equals("") && fullPath.isRoot()) { %>
   <p align="right"><%= Help.icon(webSite, cp, Help.NEW_PAGE, userInfo) %></p>
   
   <form action='createpage.jsp' method='post' id='createpage' name='createpage'>
@@ -106,15 +108,24 @@ if (title.equals("")) { %>
       </div>
     </fieldset>
   </form>
-<% } else { 
-  boolean newDir = Utils.isTrue(request.getParameter("newdir"));
-  String fileName = WebUtils.fixFileName(title, false).toLowerCase();
-  
-  if (!newDir) {
-    fileName += '.' + webSite.getConfiguration().getVisualExtensions()[0];
+<% } else {
+  boolean newDir = false;
+  String fileName = null;
+
+  if (fullPath.isRoot()) {
+    newDir = Utils.isTrue(request.getParameter("newdir"));
+    fileName = WebUtils.fixFileName(title, false).toLowerCase();
+
+    if (!newDir) {
+      fileName += '.' + webSite.getConfiguration().getVisualExtensions()[0];
+    }
+
+    fileName = Utils.generateUniqueName(fileName, webSite.getFile(path));
+  } else {
+    path = fullPath.getParent();
+    fileName = fullPath.getLastElement();
+    title = "";
   }
-  
-  fileName = Utils.generateUniqueName(fileName, webSite.getFile(path));
   
   if (fileName == null) {
     %><fmt:message key="newpageError" /><br /><%

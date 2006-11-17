@@ -223,6 +223,14 @@ public class SiteMap extends DirectoryParser {
   public PageInfo getPageInfo(Path path) {
     return (PageInfo) pagesMap.get(getPathInMenu(path));
   }
+  
+  /**
+   * Returns the <code>PageInfo</code> for parent of the page at the given path.
+   */
+  public PageInfo getParentPageInfo(Path path) {
+    path = getPathInMenu(path).getParent();
+    return path.isRelative() ? null : (PageInfo) pagesMap.get(path);
+  }
 
   /**
    * Returns the given path unless it is the current welcome file in its
