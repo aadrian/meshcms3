@@ -31,18 +31,35 @@ import java.util.*;
  * @author Luciano Vernaschi
  */
 public final class FileDateComparator implements Comparator {
+
+  private final boolean forwards;
+
+  public FileDateComparator() {
+    forwards = true;
+  }
+
+  public FileDateComparator(boolean forwards) {
+    this.forwards = forwards;
+  }
+
   public int compare(Object o1, Object o2) {
     try {
       long f1 = ((File) o1).lastModified();
       long f2 = ((File) o2).lastModified();
-
-      if (f1 > f2) {
-        return -1;
-      } else if (f1 < f2) {
-        return 1;
+      if (forwards) {
+        if (f1 > f2) {
+          return -1;
+        } else if (f1 < f2) {
+          return 1;
+        }
+      } else {
+        if (f2 > f1) {
+          return -1;
+        } else if (f2 < f1) {
+          return 1;
+        }
       }
     } catch (ClassCastException ex) {}
-
     return 0;
   }
 }

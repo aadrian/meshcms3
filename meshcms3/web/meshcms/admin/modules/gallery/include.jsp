@@ -54,7 +54,16 @@
   File[] files = md.getModuleFiles(webSite, true);
 
   if (files != null) {
-    Arrays.sort(files, new FileNameComparator());
+    String sort = md.getAdvancedParam("order", "name");
+    Comparator cmp;
+    if ("date".equalsIgnoreCase(sort) || "date_fwd".equalsIgnoreCase(sort)) {
+      cmp = new FileDateComparator(true);
+    } else if ("date_rev".equals(sort)) {
+      cmp = new FileDateComparator(false);
+    } else {
+      cmp = new FileNameComparator();
+    }
+    Arrays.sort(files, cmp);
     int col = 0;
     int cols = Utils.parseInt(md.getAdvancedParam("columns", null), Math.min(3, files.length));
     boolean captions = Utils.isTrue(md.getAdvancedParam("captions", "true"));
