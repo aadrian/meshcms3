@@ -69,6 +69,17 @@ public abstract class AbstractThumbnail {
 
     return thumbnailPath;
   }
+  
+  public static void drawResizedImage(Graphics g, BufferedImage image, int x, int y,
+      int width, int height, boolean highQuality) {
+    if (highQuality) {
+      BufferedImage resized = resize(image, width, height);
+      g.drawImage(resized, x, y, null);
+      resized.flush();
+    } else {
+      g.drawImage(image, x, y, width, height, null);
+    }
+  }
 
   /**
    * Resizes an image. The method used is chosen according to the ratio between

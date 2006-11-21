@@ -49,6 +49,7 @@
   Path folderPath = new Path(request.getParameter("folder"));
   File folder = webSite.getFile(folderPath);
   FileManagerThumbnail thumbMaker = new FileManagerThumbnail();
+  thumbMaker.setHighQuality(webSite.getConfiguration().isHighQualityThumbnails());
   String thumbName = thumbMaker.getSuggestedFileName();
 
   if (folder.isDirectory()) {

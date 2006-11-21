@@ -43,9 +43,11 @@ public class FileManagerThumbnail extends AbstractThumbnail {
    * Width and height of the image in the thumbnail.
    */
   public static int THUMB_SIZE = 100;
-
+  
+  private boolean highQuality;
+  
   public String getSuggestedFileName() {
-    return "filemanager.jpg";
+    return highQuality ? "filemanager_hq.jpg" : "filemanager.jpg";
   }
 
   protected boolean createThumbnail(File imageFile, File thumbnailFile) {
@@ -113,9 +115,7 @@ public class FileManagerThumbnail extends AbstractThumbnail {
     w0 = Math.max(w0, 1);
     h0 = Math.max(h0, 1);
 
-    BufferedImage resized = AbstractThumbnail.resize(image, w0, h0);
-    g.drawImage(resized, ix, iy, null);
-    resized.flush();
+    AbstractThumbnail.drawResizedImage(g, image, ix, iy, w0, h0, highQuality);
     image.flush();
 
     ix = (THUMB_WIDTH - labelSize) / 2;
@@ -142,5 +142,19 @@ public class FileManagerThumbnail extends AbstractThumbnail {
     }
 
     return true;
+  }
+
+  /**
+   * Returns the quality setting.
+   */
+  public boolean isHighQuality() {
+    return highQuality;
+  }
+
+  /**
+   * Enables or disables better quality for image resizing.
+   */
+  public void setHighQuality(boolean highQuality) {
+    this.highQuality = highQuality;
   }
 }

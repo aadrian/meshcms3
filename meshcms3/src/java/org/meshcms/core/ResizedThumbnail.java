@@ -29,6 +29,8 @@ import javax.imageio.*;
 import org.meshcms.util.*;
 
 public class ResizedThumbnail extends AbstractThumbnail {
+  private boolean highQuality;
+
   int reqW, reqH;
 
   public ResizedThumbnail(String requestedWidth, String requestedHeight) {
@@ -38,7 +40,8 @@ public class ResizedThumbnail extends AbstractThumbnail {
 
   public String getSuggestedFileName() {
     return (reqW < 1 ? "" : Integer.toString(reqW)) + "x" +
-           (reqH < 1 ? "" : Integer.toString(reqH)) + ".jpg";
+           (reqH < 1 ? "" : Integer.toString(reqH)) + 
+           (highQuality ? "_hq" : "") + ".jpg";
   }
 
   protected boolean createThumbnail(File imageFile, File thumbnailFile) {
@@ -76,9 +79,7 @@ public class ResizedThumbnail extends AbstractThumbnail {
 
     BufferedImage thumb = new BufferedImage(w0, h0, BufferedImage.TYPE_INT_RGB);
     Graphics g = thumb.getGraphics();
-    BufferedImage resized = AbstractThumbnail.resize(image, w0, h0);
-    g.drawImage(resized, 0, 0, null);
-    resized.flush();
+    AbstractThumbnail.drawResizedImage(g, image, 0, 0, w0, h0, highQuality);
     image.flush();
 
     OutputStream os = null;
@@ -101,5 +102,19 @@ public class ResizedThumbnail extends AbstractThumbnail {
     }
 
     return true;
+  }
+
+  /**
+   * Returns the quality setting.
+   */
+  public boolean isHighQuality() {
+    return highQuality;
+  }
+
+  /**
+   * Enables or disables better quality for image resizing.
+   */
+  public void setHighQuality(boolean highQuality) {
+    this.highQuality = highQuality;
   }
 }

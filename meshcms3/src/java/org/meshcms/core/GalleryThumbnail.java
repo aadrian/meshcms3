@@ -85,15 +85,8 @@ public class GalleryThumbnail extends AbstractThumbnail {
     
     w0 = Math.max(w0, 1);
     h0 = Math.max(h0, 1);
-
-    if (highQuality) {
-      BufferedImage resized = AbstractThumbnail.resize(image, w0, h0);
-      g.drawImage(resized, ix, iy, null);
-      resized.flush();
-    } else {
-      g.drawImage(image, ix, iy, w0, h0, null);
-    }
-
+    
+    AbstractThumbnail.drawResizedImage(g, image, ix, iy, w0, h0, highQuality);
     image.flush();
     g.setColor(DEFAULT_BORDER_COLOR);
     g.drawRect(0, 0, THUMB_SIZE - 1, THUMB_SIZE - 1);

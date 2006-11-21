@@ -65,6 +65,7 @@ public class Configuration implements Serializable {
   private boolean alwaysDenyDirectoryListings;
   private boolean hideExceptions;
   private boolean editorModulesCollapsed;
+  private boolean highQualityThumbnails;
   private int backupLife;
   private int statsLength;
   private int updateInterval;
@@ -87,6 +88,7 @@ public class Configuration implements Serializable {
     setAlwaysDenyDirectoryListings(true);
     setHideExceptions(true);
     setEditorModulesCollapsed(false);
+    setHighQualityThumbnails(false);
     
     setBackupLife(90);
     setStatsLength(3);
@@ -445,5 +447,13 @@ public class Configuration implements Serializable {
    */
   public void setEditorModulesCollapsed(boolean editorModulesCollapsed) {
     this.editorModulesCollapsed = editorModulesCollapsed;
+  }
+
+  public boolean isHighQualityThumbnails() {
+    return highQualityThumbnails;
+  }
+
+  public void setHighQualityThumbnails(boolean highQualityThumbnails) {
+    this.highQualityThumbnails = highQualityThumbnails;
   }
 }

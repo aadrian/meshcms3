@@ -63,7 +63,8 @@
 <table<%= md.getFullCSSAttribute("css") %> width="100" align="center" border="0" cellspacing="20" cellpadding="0">
 <%
     GalleryThumbnail thumbMaker = new GalleryThumbnail();
-    thumbMaker.setHighQuality(!"low".equals(md.getAdvancedParam("quality", "high")));
+    thumbMaker.setHighQuality(!"low".equals(md.getAdvancedParam("quality",
+        webSite.getConfiguration().isHighQualityThumbnails() ? "high" : "low")));
     String thumbName = thumbMaker.getSuggestedFileName();
     
     for (int i = 0; i < files.length; i++) {

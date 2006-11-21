@@ -149,6 +149,12 @@
        value="true"<%= configuration.isPreventHotlinking() ? " checked='checked'" : "" %> />
       <label for="preventHotlinking"><fmt:message key="configHotlinking" /></label>
     </div>
+
+    <div class="meshcmscheckbox">
+      <input type="checkbox" id="highQualityThumbnails" name="highQualityThumbnails"
+       value="true"<%= configuration.isHighQualityThumbnails() ? " checked='checked'" : "" %> />
+      <label for="highQualityThumbnails"><fmt:message key="configThumbnailQuality" /></label>
+    </div>
   </fieldset>
   
   <fieldset class="meshcmseditor">
