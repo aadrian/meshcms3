@@ -2,7 +2,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <%@ taglib uri="meshcms-taglib" prefix="cms" %>
-<cms:setlocale defaultValue="en" /> 
+<cms:setlocale defaultValue="en" redirectRoot="true" /> 
 
 <html>
 <head>
@@ -30,8 +30,7 @@
       <h1>Navigation</h1>
       <cms:listmenu items="onpath,lastlevel,children" style="linklist" />
 
-      <h1>Languages</h1>
-      <ul class="linklist"><li><cms:switchlang separator="</li><li>" /></li></ul>
+      <cms:langmenu separator="</li><li>" pre="<h1>Languages</h1><ul class='linklist'><li>" post="</li></ul>" />
 
       <cms:module location="right" alt="" />
 	  
