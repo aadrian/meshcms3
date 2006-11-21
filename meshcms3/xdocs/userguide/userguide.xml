@@ -2080,7 +2080,7 @@ submit</programlisting>
           <title>A module that can be configured while editing the
           page</title>
 
-          <programlisting>&lt;cms:module location="afterbody" /&gt;</programlisting>
+          <programlisting>&lt;cms:module location="bottom" /&gt;</programlisting>
         </example>
 
         <example>
@@ -2093,8 +2093,8 @@ submit</programlisting>
 
         <para>A note about locations: suppose to edit some pages using a theme
         that contains two configurable modules, whose locations are left and
-        afterbody. Modules will be saved in the page with those location
-        names. If you change theme, those modules will appear if the new theme
+        bottom. Modules will be saved in the page with those location names.
+        If you change theme, those modules will appear if the new theme
         contains configurable modules with the same location names. So it
         suggested to use common names for module locations. This is a possible
         convention:</para>
@@ -2679,9 +2679,9 @@ submit</programlisting>
         <example>
           <title>Adding some HTML around a module</title>
 
-          <programlisting>&lt;cms:ifmodule location="afterbody"&gt;
+          <programlisting>&lt;cms:ifmodule location="bottom"&gt;
  &lt;div align="center"&gt;Module title&lt;/div&gt;
- &lt;cms:module location="afterbody" /&gt;
+ &lt;cms:module location="bottom" /&gt;
  &lt;div align="center"&gt;End of module&lt;/div&gt;
 &lt;/cms:ifmodule&gt;</programlisting>
         </example>
