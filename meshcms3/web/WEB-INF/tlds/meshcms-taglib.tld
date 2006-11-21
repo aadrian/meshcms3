@@ -380,6 +380,11 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>
+    <attribute>
+      <name>redirectRoot</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
   </tag>
   <tag>
     <name>alibmenu</name>
@@ -396,7 +401,7 @@
       <rtexprvalue>true</rtexprvalue>
     </attribute>
     <attribute>
-      <name>path</name>
+      <name>redirectRoot</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>
@@ -417,11 +422,21 @@
     </attribute>
   </tag>
   <tag>
-    <name>switchlang</name>
-    <tag-class>org.meshcms.taglib.SwitchLang</tag-class>
+    <name>langmenu</name>
+    <tag-class>org.meshcms.taglib.LangMenu</tag-class>
     <body-content>JSP</body-content>
     <attribute>
       <name>separator</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>pre</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>post</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>

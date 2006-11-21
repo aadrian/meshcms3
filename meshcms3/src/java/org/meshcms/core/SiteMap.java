@@ -619,10 +619,12 @@ public class SiteMap extends DirectoryParser {
   public class CodeLocalePair {
     private String code;
     private Locale locale;
+    private String name;
 
     public CodeLocalePair(String code, Locale locale) {
       this.code = code;
       this.locale = locale;
+      name = Utils.toTitleCase(locale.getDisplayName(locale));
     }
 
     public String getCode() {
@@ -631,6 +633,10 @@ public class SiteMap extends DirectoryParser {
 
     public Locale getLocale() {
       return locale;
+    }
+
+    public String getName() {
+      return name;
     }
   }
 }

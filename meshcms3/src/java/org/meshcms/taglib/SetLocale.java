@@ -24,6 +24,7 @@ package org.meshcms.taglib;
 
 import java.io.*;
 import java.util.*;
+import javax.servlet.http.*;
 import javax.servlet.jsp.*;
 import org.meshcms.core.*;
 import org.meshcms.util.*;
@@ -33,10 +34,21 @@ import org.meshcms.util.*;
  * <code>HttpServletRequest.getContextPath()</code>.
  */
 public final class SetLocale extends AbstractTag {
+  public static final String REDIRECT_ATTRIBUTE = "meshcms-redirect";
+
   private String value;
   private String defaultValue;
+  private String redirectRoot;
   
   public void writeTag() throws IOException {
+    if (Utils.isTrue(redirectRoot) &&
+        webSite.getSiteMap().getPathInMenu(pagePath).isRoot()) {
+      if (setRedirectToLanguage(request,
+          (HttpServletResponse) pageContext.getResponse())) {
+        return;
+      }
+    }
+    
     Locale locale = null;
 
     if (value != null) {
@@ -71,5 +83,53 @@ public final class SetLocale extends AbstractTag {
 
   public void setDefaultValue(String defaultValue) {
     this.defaultValue = defaultValue;
+  }
+
+  public String getRedirectRoot() {
+    return redirectRoot;
+  }
+
+  public void setRedirectRoot(String redirectRoot) {
+    this.redirectRoot = redirectRoot;
+  }
+  
+  public static boolean setRedirectToLanguage(HttpServletRequest request,
+      HttpServletResponse response) throws IOException {
+    if (response.isCommitted()) {
+      return false;
+    }
+    
+    WebSite webSite = (WebSite) request.getAttribute(HitFilter.WEBSITE_ATTRIBUTE);
+    List available = webSite.getSiteMap().getLangList();
+    
+    if (available.size() > 1) {
+      String[] accepted = WebUtils.getAcceptedLanguages(request);
+      SiteMap.CodeLocalePair chosen = null;
+
+      if (available != null && available.size() > 0) {
+        for (int i = 0; chosen == null && i < accepted.length; i++) {
+          Iterator iter = available.iterator();
+
+          while (chosen == null && iter.hasNext()) {
+            SiteMap.CodeLocalePair clp = (SiteMap.CodeLocalePair) iter.next();
+
+            if (clp.getCode().equalsIgnoreCase(accepted[i])) {
+              chosen = clp;
+            }
+          }
+        }
+
+        if (chosen == null) {
+          chosen = (SiteMap.CodeLocalePair) available.get(0);
+        }
+
+        WebUtils.setBlockCache(request);
+        request.setAttribute(REDIRECT_ATTRIBUTE, request.getContextPath() + '/' +
+            chosen.getCode() + '/');
+        return true;
+      }
+    }
+      
+    return false;
   }
 }

@@ -58,6 +58,8 @@ public final class HitFilter implements Filter {
   public static final String LAST_MODIFIED_ATTRIBUTE = "meshcmslastmodified";
 
   public static final String BLOCK_CACHE_ATTRIBUTE = "meshcmsnocache";
+  
+  public static final String WEBSITE_ATTRIBUTE = "webSite";
 
   /**
    * Name of the session attribute that allows hotlinking within the session
@@ -106,7 +108,7 @@ public final class HitFilter implements Filter {
         return;
       }
       
-      request.setAttribute("webSite", webSite);
+      request.setAttribute(WEBSITE_ATTRIBUTE, webSite);
       HttpServletRequest httpReq = webSite.wrapRequest(request);
       Path pagePath = webSite.getRequestedPath(httpReq);
 

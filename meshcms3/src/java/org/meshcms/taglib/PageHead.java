@@ -44,6 +44,20 @@ public class PageHead extends AbstractTag {
     if (locale != null) {
       w.write("\n<meta http-equiv=\"Content-Language\" content=\"" + locale + "\" />");
     }
+    
+    String redir = (String) request.getAttribute(SetLocale.REDIRECT_ATTRIBUTE);
+    
+    if (redir != null) {
+      if (userInfo == null || userInfo.isGuest()) {
+        w.write("\n<meta http-equiv=\"refresh\" content=\"0; url=" + redir + "\" />");
+      } else {
+        Locale pl = WebUtils.getPageLocale(pageContext);
+        ResourceBundle bundle = 
+            ResourceBundle.getBundle("org/meshcms/webui/Locales", pl);
+        w.write("\n<script type='text/javascript'>alert(\"" +
+            bundle.getString("pageRedirectionAlert") + "\");</script>");
+      }
+    }
   }
 
   public void writeEditTag() throws IOException {
