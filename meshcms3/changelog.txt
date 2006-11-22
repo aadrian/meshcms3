@@ -1,5 +1,21 @@
 ________________________________
 --------------------------------
+2006-11-22: 3.0.1 released
+--------------------------------
+
+- IMPORTANT FIX: the page manager was deleting the whole dir instead of the page only.
+- Added Diary module - similar to Headlines, but allows filtering & sorting by date
+- Make Gallery capable of sorting files by date as well as by name
+- Allow site admins to specify a default for thumbnail quality
+- Added a simple module to display a URL in an IFrame.
+- Basic multilanguage support by allowing users to 
+- TinyMCE now includes all plugins and translations
+- Upgrade to SiteMesh 2.3
+- File Manager now highlights items that have a theme associated to
+- Fix: SiteInfo is no longer cleaned up
+
+________________________________
+--------------------------------
 2006-11-06: 3.0 released
 --------------------------------
 

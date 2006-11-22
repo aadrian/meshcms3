@@ -33,7 +33,7 @@ import com.thoughtworks.xstream.*;
 import com.thoughtworks.xstream.io.xml.*;
 
 public class WebSite {
-  public static final String VERSION_ID = "3.0";
+  public static final String VERSION_ID = "3.0.1";
   public static final String SYSTEM_CHARSET;
   public static final boolean IS_MULTIBYTE_SYSTEM_CHARSET;
 
