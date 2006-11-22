@@ -269,6 +269,20 @@
 %>
     </td>
   </tr>
+  
+ <%--
+ <tr>
+  <td colspan="2">
+   <form name="fmfm" method="post" action="process.jsp">
+    <input type="text" name="f_action" id="f_action" />
+    <input type="text" name="f_dir" id="f_dir" value="<%= folderPath %>" />
+    <input type="text" name="f_files" id="f_files" />
+    <input type="text" name="s_thumbs" id="s_thumbs" value="<%= thumbnails %>" />
+    <input type="text" name="s_field" id="s_field" value="<%= field %>" />
+   </form>
+  </td>
+ </tr>
+ --%>
  </table> 
 
  <form name="fmfm" method="post" action="process.jsp">

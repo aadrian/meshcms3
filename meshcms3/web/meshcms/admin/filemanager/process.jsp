@@ -64,7 +64,7 @@
 
     if (action.equals("delete")) {
       for (int i = 0; i < fileNames.length; i++) {
-        if (webSite.delete(userInfo, path.add(fileNames[i]))) {
+        if (webSite.delete(userInfo, path.add(fileNames[i]), true)) {
           needsUpdate = true;
         } else {
           Object[] args = { fileNames[i] };

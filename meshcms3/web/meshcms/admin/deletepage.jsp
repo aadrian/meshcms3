@@ -50,10 +50,10 @@
 
 <p align='center'>
 <% Path path = webSite.getSiteMap().getServedPath(new Path(request.getParameter("path")));
-boolean deleted = webSite.delete(userInfo, path);
+boolean deleted = webSite.delete(userInfo, path, false);
 
 if (deleted) {
-  webSite.delete(userInfo, path.getParent());
+  webSite.delete(userInfo, path.getParent(), false);
   webSite.updateSiteMap(true);
   %><script type='text/javascript'>window.opener.location.reload(true);window.close();</script><%
 } else {

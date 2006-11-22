@@ -269,7 +269,7 @@ public class Path implements Comparable, Serializable, Cloneable {
     }
 
     if (root.isRelative()) {
-      throw new IllegalArgumentException("Root path can't be negative");
+      throw new IllegalArgumentException("Root path can't be relative");
     }
 
     int level = root.getElementCount();

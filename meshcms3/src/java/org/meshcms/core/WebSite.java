@@ -389,15 +389,36 @@ public class WebSite {
   }
 
   /**
-   * Deletes a file.
+   * Deletes a file or directory.
+   *
+   * @deprecated use {@link #delete(UserInfo, Path, boolean)} so you are
+   * explicitly requested to allow deletion of non-empty directories
+   */ 
+  public boolean delete(UserInfo user, Path filePath) {
+    return delete(user, filePath, true);
+  }
+  
+  /**
+   * Deletes a file or directory.
    *
    * @param user the user that requests the operation
    * @param filePath the path of the file
+   * @param deleteNonEmptyDirectories if true, non-empty directories will be
+   * deleted too
    *
    * @return true if the file has been deleted, false otherwise
    */
-  public boolean delete(UserInfo user, Path filePath) {
+  public boolean delete(UserInfo user, Path filePath,
+      boolean deleteNonEmptyDirectories) {
     if (user == null || !user.canWrite(this, filePath)) {
+      return false;
+    }
+
+    // avoid deletion of mandatory CMS items
+    if (cmsPath.isContainedIn(filePath) ||
+        filePath.isChildOf(cmsPath) ||
+        filePath.isContainedIn(adminPath) ||
+        filePath.isChildOf(privatePath)) {
       return false;
     }
 
@@ -408,9 +429,10 @@ public class WebSite {
     }
 
     if (file.isDirectory()) {
-      /* First try to delete a directory as if it were empty. If not,
-         backup and delete with backupDir */
-      return file.delete() || backupDir(user, filePath);
+      /* First try to delete a directory as if it were empty. If not, and if
+         deletion of non-empty directories is allowed, backup and delete with backupDir */
+      return file.delete() ||
+          (deleteNonEmptyDirectories && backupDir(user, filePath));
     } else {
       return backupFile(user, filePath);
     }
@@ -561,9 +583,9 @@ public class WebSite {
    * <code>fileName = tmp.html</code>.
    */
   public File getRepositoryFile(Path filePath, String fileName) {
-    File backupDir = getFile(repositoryPath.add(filePath));
-    backupDir.mkdirs();
-    return new File(backupDir, fileName);
+    File repoDir = getFile(repositoryPath.add(filePath));
+    repoDir.mkdirs();
+    return new File(repoDir, fileName);
   }
 
   private boolean backupFile(UserInfo user, Path filePath) {
@@ -592,7 +614,7 @@ public class WebSite {
 
   private boolean backupDir(UserInfo user, Path dirPath) {
     /* permissions to be checked by the caller */
-
+    
     File dir = getFile(dirPath);
     File backFile = getRepositoryFile(dirPath, BACKUP_PREFIX +
         user.getUsername() + "_" +
