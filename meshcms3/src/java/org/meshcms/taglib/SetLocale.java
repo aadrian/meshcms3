@@ -101,33 +101,30 @@ public final class SetLocale extends AbstractTag {
     
     WebSite webSite = (WebSite) request.getAttribute(HitFilter.WEBSITE_ATTRIBUTE);
     List available = webSite.getSiteMap().getLangList();
-    
-    if (available.size() > 1) {
-      String[] accepted = WebUtils.getAcceptedLanguages(request);
-      SiteMap.CodeLocalePair chosen = null;
+    String[] accepted = WebUtils.getAcceptedLanguages(request);
+    SiteMap.CodeLocalePair chosen = null;
 
-      if (available != null && available.size() > 0) {
-        for (int i = 0; chosen == null && i < accepted.length; i++) {
-          Iterator iter = available.iterator();
+    if (available != null && available.size() > 0) {
+      for (int i = 0; chosen == null && i < accepted.length; i++) {
+        Iterator iter = available.iterator();
 
-          while (chosen == null && iter.hasNext()) {
-            SiteMap.CodeLocalePair clp = (SiteMap.CodeLocalePair) iter.next();
+        while (chosen == null && iter.hasNext()) {
+          SiteMap.CodeLocalePair clp = (SiteMap.CodeLocalePair) iter.next();
 
-            if (clp.getCode().equalsIgnoreCase(accepted[i])) {
-              chosen = clp;
-            }
+          if (clp.getCode().equalsIgnoreCase(accepted[i])) {
+            chosen = clp;
           }
         }
-
-        if (chosen == null) {
-          chosen = (SiteMap.CodeLocalePair) available.get(0);
-        }
-
-        WebUtils.setBlockCache(request);
-        request.setAttribute(REDIRECT_ATTRIBUTE, request.getContextPath() + '/' +
-            chosen.getCode() + '/');
-        return true;
       }
+
+      if (chosen == null) {
+        chosen = (SiteMap.CodeLocalePair) available.get(0);
+      }
+
+      WebUtils.setBlockCache(request);
+      request.setAttribute(REDIRECT_ATTRIBUTE, request.getContextPath() + '/' +
+          chosen.getCode() + '/');
+      return true;
     }
       
     return false;
