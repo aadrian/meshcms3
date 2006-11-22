@@ -32,6 +32,8 @@
   - columns = n (default 3)
   - css = (name of a css class)
   - quality = "low" | "high" (default)
+  - order = "name" (default) | "date" (same as date_fwd) | "date_fwd" | "date_rev"
+  
 --%>
 
 <%

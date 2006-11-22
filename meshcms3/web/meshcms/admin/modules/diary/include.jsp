@@ -37,13 +37,13 @@
   Advanced parameters for this module:
   - css = name of a css class, for display.
   - date = none (default) | normal | full - date format to use for output
-  - start = start date in "normal" format or offset from today as [+-]NNN[dwmy],
+  - start = start date in "normal" format or offset from today as [+-]NN[dwmy],
     default is today.
   - period = period to display entries for - "+" - all future, "-" - all past,
     "+-" - all, sorted new to old, "-+" = all, sorted old to new,
-    [+-]NNN[dwmy] = period, default - all past ("-").
+    [+-]NN[dwmy] = period, default - all past ("-").
   - date-style = css id of date to use for sorting, default = diary-date.
-  - words = number of words to display for each item.
+  - words = number of words to display for each item.  Default = 50.
   - items = maximum number of items to display.  -1 = all, default = 5.
 --%>
 

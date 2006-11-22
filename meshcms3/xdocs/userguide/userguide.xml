@@ -1370,6 +1370,135 @@
         </itemizedlist>
       </section>
 
+      <section>
+        <title>Diary</title>
+
+        <para>The diary module creates a page showing the first words of a
+        list of pages with links to the full pages, in a similar fashion to
+        the <link linkend="module_headlines">headlines</link> module. The
+        Diary module allows you to filter and sort the summarized pages by
+        date. The date used for sorting can be specified in two
+        ways:<itemizedlist>
+            <listitem>
+              <para>By including the date in the page, and surrounding it in a
+              CSS style, either in a <code>&lt;div&gt;</code> or
+              <code>&lt;span&gt;</code> element. The default style is
+              <option>diary-date</option>. The date itself must be in the
+              <option>normal</option> date format, for example as output by
+              the <link
+              linkend="tag_lastmodified">&lt;cms:lastmodified&gt;</link> tag.
+              If you add the <option>diary-date</option> style to your theme
+              stylesheet, you can use the page editor to easily tag the date
+              in a page.</para>
+            </listitem>
+
+            <listitem>
+              <para>If the date is not specified in the page, the last
+              modified date of the file is used. This can be set using the
+              <link linkend="file_manager">File Manager</link> if
+              required.</para>
+            </listitem>
+          </itemizedlist></para>
+
+        <para>Argument: path to a directory. If not provided, the module does
+        nothing.</para>
+
+        <para>Advanced parameters:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>css</parameter>: The name of a css class, for
+            displaying the generated list;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>date</parameter>: The date format to be used for
+            labelling the list entries. <option>none</option> (default),
+            <option>normal</option> (date only) or <option>full</option> (date
+            and time);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>start:</parameter> The date to start the listing
+            from, either in <option>normal</option> format or as an offset
+            from today of the form <option>[+-]NN[dwmy]</option>, where [dwmy]
+            is the unit type - days, weeks, months, years and NN is the number
+            of days, weeks, months or years. The default is the current
+            date;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>period</parameter>: The period for which entries
+            are to be displayed (default is all past entries);</para>
+
+            <itemizedlist>
+              <listitem>
+                <para><option>+</option> all future entries</para>
+              </listitem>
+
+              <listitem>
+                <para><option>-</option> all past entries</para>
+              </listitem>
+
+              <listitem>
+                <para><option>+-</option> all entries, sorted new to
+                old</para>
+              </listitem>
+
+              <listitem>
+                <para><option>-+</option> all entries, sorted old to
+                new</para>
+              </listitem>
+
+              <listitem>
+                <para><option>[+-]NN[dwmy]</option> entries within a specified
+                period, in the same format as the <parameter>start</parameter>
+                parameter</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+
+          <listitem>
+            <para><parameter>date-style</parameter>: CSS style used to tag the
+            date used for sorting (default =
+            <option>diary-date</option>);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>words</parameter>: The number of words to display
+            for each item (default = 50);</para>
+          </listitem>
+
+          <listitem>
+            <para>items: The maximum number of entries to display in the list,
+            where -1 means all entries, default = 5;</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>An example of tagging a date so that it is used to sort the
+        page. Be sure to format the date appropriately for the locale you are
+        using:</para>
+
+        <para><programlisting>&lt;h1&gt;Date: &lt;span class="diary-date"&gt;01-Dec-2006&lt;/span&gt;&lt;/h2&gt;</programlisting></para>
+
+        <para>An example using advanced parameters to display all future
+        entries:</para>
+
+        <para><programlisting>period=+, items=-1</programlisting></para>
+
+        <para>An example using advanced parameters to display entries starting
+        at a specified date, for a specified period. Again, the date needs to
+        be formatted appropriately for the locale you are using:</para>
+
+        <para><programlisting>start=01-Jan-2006, period=-6m, items=-1</programlisting></para>
+
+        <para>An example of diary entries starting 1 year ago, forwards for a
+        period of 1 month. If there are more than 10 entries only the first 10
+        would be shown:</para>
+
+        <para><programlisting>start=-1y, period=+1m, items=10</programlisting></para>
+      </section>
+
       <section id="module_downloads">
         <title>Downloads</title>
 
@@ -1427,7 +1556,15 @@
             <para><parameter>quality</parameter>: defines the algorithm used
             to create the thumbnails. Values are <option>low</option> and
             <option>high</option> (default). High quality requires more CPU
-            and RAM (thumbnails are cached anyway).</para>
+            and RAM (thumbnails are cached anyway);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>order</parameter>: defines the sort order of the
+            thumbnails. Values are <option>name</option> (default),
+            <option>date</option> or <option>date_fwd</option> (sort forwards
+            by date), <option>date_rev</option> (sort reversed by
+            date);</para>
           </listitem>
         </itemizedlist>
       </section>
