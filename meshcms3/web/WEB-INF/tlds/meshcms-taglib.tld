@@ -401,7 +401,7 @@
       <rtexprvalue>true</rtexprvalue>
     </attribute>
     <attribute>
-      <name>redirectRoot</name>
+      <name>path</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>
