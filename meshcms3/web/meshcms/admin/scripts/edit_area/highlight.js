@@ -38,6 +38,8 @@
 			var new_class= old_class.replace("hidden","");
 			parent.setAttribute(this.textarea, "class", new_class);
 		}
+	
+		this.textarea.style.backgroundColor="transparent";	// needed in order to see the bracket finders
 		
 		//var icon= document.getElementById("highlight");
 		//setAttribute(icon, "class", getAttribute(icon, "class").replace(/ selected/g, "") );
@@ -53,6 +55,7 @@
 			this.change_smooth_selection_mode(false);
 		}
 		
+	//	this.textarea.style.backgroundColor="#FFFFFF";
 	};
 
 	EditArea.prototype.enable_highlight= function(){
@@ -76,6 +79,9 @@
 		contain.style.visibility="visible";
 		var new_class=parent.getAttribute(this.textarea,"class")+" hidden";
 		parent.setAttribute(this.textarea, "class", new_class);
+		
+		if(this.nav['isIE'])
+			this.textarea.style.backgroundColor="#FFFFFF";	// IE can't manage mouse click outside text range without this
 
 		//var icon= document.getElementById("highlight");
 		//setAttribute(icon, "class", getAttribute(icon, "class") + " selected");
@@ -120,8 +126,7 @@
 		// for optimisation process
 		var start_line_pb=-1;	
 		var end_line_pb=-1;		
-		/*var stay_begin_array=new Array();	
-		var stay_end_array=new Array();*/	
+		
 		var stay_begin="";	
 		var stay_end="";
 		

@@ -20,7 +20,7 @@
 		
 		var elem_font=document.getElementById("area_font_size");	
 		if(elem_font){	
-			for(var i=0; i < elem_font.length; i++){
+			for(var i=0; i<elem_font.length; i++){
 				if(elem_font.options[i].value && elem_font.options[i].value == this.settings["font_size"])
 						elem_font.options[i].selected=true;
 			}
@@ -34,7 +34,7 @@
 		this.lineHeight= document.getElementById("test_font_size").offsetHeight;
 
 		
-		for( var i in elems){
+		for(var i=0; i<elems.length; i++){
 			var elem=	document.getElementById(elems[i]);	
 			document.getElementById(elems[i]).style.fontFamily= ""+this.settings["font_family"];
 			document.getElementById(elems[i]).style.fontSize= this.settings["font_size"]+"pt";
@@ -44,11 +44,8 @@
 		if(this.nav['isOpera']){	// opera doesn't update font change to the textarea
 			var start=this.textarea.selectionStart;
 			var end= this.textarea.selectionEnd;
-			
-			var n = this.textarea.cloneNode(false);
-			this.textarea.parentNode.replaceChild(n, this.textarea);
-							
-			this.textarea=document.getElementById("textarea");
+			var parNod = this.textarea.parentNode, nxtSib = this.textarea.nextSibling;
+			parNod.removeChild(this.textarea); parNod.insertBefore(this.textarea, nxtSib);
 			this.area_select(start, end-start);
 		}
 		
@@ -84,7 +81,7 @@
 		var editor= document.getElementById("editor");
 		
 		// search matching icon
-		for(var i in this.inlinePopup){
+		for(var i=0; i<this.inlinePopup.length; i++){
 			if(this.inlinePopup[i]["popup_id"]==popup_id){
 				var icon= document.getElementById(this.inlinePopup[i]["icon_id"]);
 				if(icon){
@@ -120,7 +117,7 @@
 	EditArea.prototype.close_inline_popup= function(popup_id){
 		var popup= document.getElementById(popup_id);		
 		// search matching icon
-		for(var i in this.inlinePopup){
+		for(var i=0; i<this.inlinePopup.length; i++){
 			if(this.inlinePopup[i]["popup_id"]==popup_id){
 				var icon= document.getElementById(this.inlinePopup[i]["icon_id"]);
 				if(icon){
@@ -134,7 +131,7 @@
 	};
 	
 	EditArea.prototype.close_all_inline_popup= function(e){
-		for(var i in this.inlinePopup){
+		for(var i=0; i<this.inlinePopup.length; i++){
 			this.close_inline_popup(this.inlinePopup[i]["popup_id"]);		
 		}
 		this.textarea.focus();
@@ -156,34 +153,38 @@
 		var results= parent.getChildren(area, "div", "class", "area_toolbar", "all", "0");	// search only direct children
 		//results= results.concat(getChildren(area, "table", "class", "area_toolbar", "all", "0"));
 		var height=0;
-		for(var i in results){			
+		for(var i=0; i<results.length; i++){			
 			height+= results[i].offsetHeight;
 		}
 		//alert("toolbar height: "+height);
 		return height;
 	};
 	
-	EditArea.prototype.go_to_line= function(){		
-		var icon= document.getElementById("go_to_line");
-		if(icon != null){
-			this.restoreClass(icon);
-			this.switchClassSticky(icon, 'editAreaButtonSelected', true);
+	EditArea.prototype.go_to_line= function(line){	
+		if(!line)
+		{	
+			var icon= document.getElementById("go_to_line");
+			if(icon != null){
+				this.restoreClass(icon);
+				this.switchClassSticky(icon, 'editAreaButtonSelected', true);
+			}
+			
+			line= prompt(this.get_translation("go_to_line_prompt"));
+			if(icon != null)
+				this.switchClassSticky(icon, 'editAreaButtonNormal', false);
 		}
-		
-		var line= prompt(this.get_translation("go_to_line_prompt"));
 		if(line && line!=null && line.search(/^[0-9]+$/)!=-1){
 			var start=0;
 			var lines= this.textarea.value.split("\n");
 			if(line > lines.length)
 				start= this.textarea.value.length;
 			else{
-				for(var i=0; i< Math.min(line-1, lines.length); i++)
+				for(var i=0; i<Math.min(line-1, lines.length); i++)
 					start+= lines[i].length + 1;
 			}
 			this.area_select(start, 0);
 		}
-		if(icon != null)
-			this.switchClassSticky(icon, 'editAreaButtonNormal', false);
+		
 		
 	};
 	
@@ -498,5 +499,3 @@
 		/*parent.editAreaLoader.resize["frame_left"]= parent.calculeOffsetLeft(parent.frames[editArea.id]);*/
 		parent.editAreaLoader.start_resize_area();
 	};
-	
-		

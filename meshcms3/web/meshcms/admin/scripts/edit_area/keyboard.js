@@ -1,4 +1,4 @@
-var clavier_cds=new Array(146);
+var clavier_cds=new Object(146);
 	clavier_cds[8]="Retour arriere";
 	clavier_cds[9]="Tabulation";
 	clavier_cds[12]="Milieu (pave numerique)";
@@ -8,7 +8,7 @@ var clavier_cds=new Array(146);
 	clavier_cds[18]="Alt";
 	clavier_cds[19]="Pause";
 	clavier_cds[20]="Verr Maj";
-	clavier_cds[27]="Echap";
+	clavier_cds[27]="Esc";
 	clavier_cds[32]="Espace";
 	clavier_cds[33]="Page up";
 	clavier_cds[34]="Page down";
@@ -88,6 +88,9 @@ var clavier_cds=new Array(146);
 			use=true;
 		}else if(letter=="Page down" && !editArea.nav['isOpera']){
 			editArea.execCommand("scroll_page", {"dir": "down", "shift": ShiftPressed(e)});
+			use=true;
+		}else if(letter=="Esc"){
+			editArea.execCommand("close_all_inline_popup", e);
 			use=true;
 		}else if(CtrlPressed(e)){
 			//alert(letter+" | "+low_letter);

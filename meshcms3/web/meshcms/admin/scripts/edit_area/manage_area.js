@@ -113,7 +113,7 @@
 			return this.last_selection;
 			
 		
-		var selections=new Array();
+		var selections=new Object();
 		selections["selectionStart"]= start;
 		selections["selectionEnd"]= end;		
 		selections["full_text"]= this.textarea.value;

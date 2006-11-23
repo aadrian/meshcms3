@@ -6,18 +6,19 @@
  *
 ******/
 
+
 	function EditArea(){
 		this.error= false;	// to know if load is interrrupt
 		
 		this.inlinePopup= new Array({popup_id: "area_search_replace", icon_id: "search"},
 									{popup_id: "edit_area_help", icon_id: "help"});
-		this.plugins= new Array();
+		this.plugins= new Object();
 	
 		this.line_number=0;
 		
 		this.nav=parent.editAreaLoader.nav; 	// navigator identification
 		
-		this.last_selection=new Array();		
+		this.last_selection=new Object();		
 		this.last_text_to_highlight="";
 		this.last_hightlighted_text= "";
 		
@@ -26,8 +27,8 @@
 		this.next= new Array();
 		this.last_undo="";
 		//this.loaded= false;
-		this.assocBracket=new Array();
-		this.revertAssocBracket= new Array();		
+		this.assocBracket=new Object();
+		this.revertAssocBracket= new Object();		
 		// bracket selection init 
 		this.assocBracket["("]=")";
 		this.assocBracket["{"]="}";
@@ -81,20 +82,21 @@
 		
 		// add plugins buttons in the toolbar
 		spans= parent.getChildren(document.getElementById("toolbar_1"), "span", "", "", "all", -1);
+		
 		for(var i=0; i<spans.length; i++){
+		
 			id=spans[i].id.replace(/tmp_tool_(.*)/, "$1");
 			if(id!= spans[i].id){
-				var found= false;
 				for(var j in this.plugins){
-					if(found==false && typeof(this.plugins[j].init)=="function" ){
+					if(typeof(this.plugins[j].get_control_html)=="function" ){
 						html=this.plugins[j].get_control_html(id);
 						if(html!=false){
-							found=true;
 							html= parent.editAreaLoader.translate(html, this.settings["language"], "template");
 							var new_span= document.createElement("span");
 							new_span.innerHTML= html;				
 							var father= spans[i].parentNode;
-							spans[i].parentNode.replaceChild(new_span, spans[i]);						
+							spans[i].parentNode.replaceChild(new_span, spans[i]);	
+							break; // exit the for loop					
 						}
 					}
 				}
@@ -153,14 +155,14 @@
 			this.textarea.onkeydown= keyDown;
 		else if
 			this.textarea.onkeypress= keyDown;*/
-		for(var i in this.inlinePopup){
+		for(var i=0; i<this.inlinePopup.length; i++){
 			if(this.nav['isIE'] || this.nav['isFirefox'])
 				document.getElementById(this.inlinePopup[i]["popup_id"]).onkeydown= keyDown;
 			else
 				document.getElementById(this.inlinePopup[i]["popup_id"]).onkeypress= keyDown;
 		}
 		
-		if(this.settings["allow_resize"]!="no")
+		if(this.settings["allow_resize"]=="both" || this.settings["allow_resize"]=="x" || this.settings["allow_resize"]=="y")
 		{
 			document.getElementById("resize_area").style.visibility="visible";
 			document.getElementById("resize_area").onmouseup= editArea.start_resize;
@@ -178,7 +180,7 @@
 		
 		// set unselectable text
 		children= parent.getChildren(document.body, "", "selec", "none", "all", -1);
-		for(var i in children){
+		for(var i=0; i<children.length; i++){
 			if(this.nav['isIE'])
 				children[i].unselectable = true; // IE
 			else
@@ -199,10 +201,6 @@
 			document.getElementById("end_bracket").style.marginTop= "-1pt";
 			document.getElementById("content_highlight").style.marginTop= "-1pt";
 			/*document.getElementById("end_bracket").style.marginTop="1px";*/
-		}
-		if(this.nav['isIE']>=7){
-			/*document.getElementById("editor").style.marginTop="-2px";
-			document.getElementById("editor").style.marginLeft="-2px";*/
 		}
 		
 		setTimeout("editArea.manage_size();", 10);		
@@ -317,12 +315,16 @@
 		switch(cmd){
 			case "save":
 				if(this.settings["save_callback"].length>0)
-					eval("parent."+this.settings["save_callback"]+"(editArea.textarea.value);");
+					eval("parent."+this.settings["save_callback"]+"('"+ this.id +"', editArea.textarea.value);");
 				break;
 			case "load":
 				if(this.settings["load_callback"].length>0)
-					eval("parent."+this.settings["load_callback"]+"(editArea.textarea);");
-				break;			
+					eval("parent."+this.settings["load_callback"]+"('"+ this.id +"');");
+				break;
+			case "onchange":
+				if(this.settings["change_callback"].length>0)
+					eval("parent."+this.settings["change_callback"]+"('"+ this.id +"');");
+				break;		
 			case "re_sync":
 				if(!this.do_highlight)
 					break;
@@ -341,7 +343,7 @@
 	};
 	
 	EditArea.prototype.add_plugin= function(plug_name, plug_obj){
-		for(var i in this.settings["plugins"]){
+		for(var i=0; i<this.settings["plugins"].length; i++){
 			if(this.settings["plugins"][i]==plug_name){
 				this.plugins[plug_name]=plug_obj;
 				plug_obj.baseURL=parent.editAreaLoader.baseURL + "plugins/" + plug_name + "/";
@@ -380,8 +382,8 @@
 	// add plugin translation to language translation array
 	EditArea.prototype.add_lang= function(language, values){
 		if(!parent.editAreaLoader.lang[language])
-			parent.editAreaLoader.lang[language]=new Array();
-		for( var i in values)
+			parent.editAreaLoader.lang[language]=new Object();
+		for(var i in values)
 			parent.editAreaLoader.lang[language][i]= values[i];
 	};
 	

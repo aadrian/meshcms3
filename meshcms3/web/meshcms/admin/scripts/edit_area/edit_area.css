@@ -44,12 +44,13 @@ body, html, table, form, textarea{
 	overflow: hidden;  
 	z-index: 7; 
 	border: solid green 0px;
-	background-color: transparent;
+/*	background: none;
+	background-color: transparent;*/
 }
 
 #content_highlight{
 	white-space: pre;
-	/*background-color: #DDDDDD;*/ 
+	/*background-color: #FFFFFF;*/
 	padding: 1px 0 0 45px; 
 	position : absolute; 
 	z-index: 4; 
@@ -90,7 +91,7 @@ body, html, table, form, textarea{
 
 .hidden{
 	opacity: 0.2; 
-	moz-opacity: 0.2;
+	-moz-opacity: 0.2;
 	filter:alpha(opacity=20);
 }
 

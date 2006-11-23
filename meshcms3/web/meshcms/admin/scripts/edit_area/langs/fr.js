@@ -39,5 +39,6 @@ accesskey: "Accesskey",
 tab: "Tab",
 shift: "Maj",
 ctrl: "Ctrl",
+esc: "Esc",
 processing: "chargement..."
 };

@@ -39,5 +39,6 @@ accesskey: "アクセスキー",
 tab: "Tab",
 shift: "Shift",
 ctrl: "Ctrl",
+esc: "Esc",
 processing: "処理中です..."
 };

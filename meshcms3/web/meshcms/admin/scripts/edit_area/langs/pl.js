@@ -1,4 +1,4 @@
-﻿editAreaLoader.lang["pl"]={
+editAreaLoader.lang["pl"]={
 new_document: "nowy dokument",
 search_button: "znajdź i zamień",
 search_command: "znajdź następny",
@@ -39,5 +39,6 @@ accesskey: "Alt+",
 tab: "Tab",
 shift: "Shift",
 ctrl: "Ctrl",
+esc: "Esc",
 processing: "Przetwarzanie..."
 };

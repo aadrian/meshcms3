@@ -39,5 +39,6 @@ accesskey: "Accesskey",
 tab: "Tab",
 shift: "Skift",
 ctrl: "Ctrl",
+esc: "Esc",
 processing: "Processing..."
 };

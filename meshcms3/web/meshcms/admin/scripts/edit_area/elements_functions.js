@@ -165,6 +165,8 @@
 		/*move_current_element.onmousemove= move_element;
 		move_current_element.onmouseup= end_move_element;*/
 		
+		//alert(move_current_element.frame.document.body.offsetHeight);
+		
 		mouse_x= getMouseX(e);
 		mouse_y= getMouseY(e);
 		//window.status=frame+ " elem: "+elem_id+" elem: "+ move_current_element + " mouse_x: "+mouse_x;
@@ -188,6 +190,13 @@
 		var mouse_y=getMouseY(e);
 		var new_top= mouse_y - move_current_element.start_pos_y;
 		var new_left= mouse_x - move_current_element.start_pos_x;
+		
+		var max_left= move_current_element.frame.document.body.offsetWidth- move_current_element.offsetWidth;
+		max_top= move_current_element.frame.document.body.offsetHeight- move_current_element.offsetHeight;
+		if(navigator.appName == "Microsoft Internet Explorer")
+			max_top-=2;
+		new_top= Math.min(Math.max(0, new_top), max_top);
+		new_left= Math.min(Math.max(0, new_left), max_left);
 		
 		move_current_element.style.top= new_top+"px";
 		move_current_element.style.left= new_left+"px";		
@@ -256,5 +265,6 @@
 		range.moveEnd('character', textarea.selectionEnd - nbLineEnd - (textarea.selectionStart - nbLineStart)  );
 		range.select();
 	};
+	
 	
 	editAreaLoader.waiting_loading["elements_functions.js"]= "loaded";
