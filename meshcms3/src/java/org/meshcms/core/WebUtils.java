@@ -654,7 +654,7 @@ public final class WebUtils {
   
   public static String[] getAcceptedLanguages(HttpServletRequest request) {
     Enumeration alEnum = request.getHeaders("Accept-Language");
-    ArrayList list = new ArrayList();
+    List list = new ArrayList();
     
     while (alEnum.hasMoreElements()) {
       String s = (String) alEnum.nextElement();
@@ -669,7 +669,25 @@ public final class WebUtils {
         }
         
         token = token.trim();
+        token = Utils.replace(token, '-', "_");
         
+        if (!list.contains(token)) {
+          list.add(token);
+        }
+      }
+    }
+    
+    // add main language codes as fallback (e.g. it_IT, en, en_US becomes
+    // it_IT, en, en_US, it
+    int n = list.size();
+
+    for (int i = 0; i < n; i++) {
+      String token = (String) list.get(i);
+      int us = token.indexOf('_');
+      
+      if (us >= 0) {
+        token = token.substring(0, us);
+
         if (!list.contains(token)) {
           list.add(token);
         }

@@ -74,7 +74,7 @@ public class LangMenu extends AbstractTag {
         String link = null;
         String msg = null;
 
-        if (!langCode.equals(pagePath.getElementAt(0))) {
+        if (!langCode.equalsIgnoreCase(pagePath.getElementAt(0))) {
           Path path = siteMap.getServedPath(pagePath.replace(0, langCode));
 
           if (!webSite.getFile(path).isFile()) {
