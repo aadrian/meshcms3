@@ -1471,32 +1471,41 @@
 
           <listitem>
             <para>items: The maximum number of entries to display in the list,
-            where -1 means all entries, default = 5;</para>
+            where -1 means all entries, default = 5.</para>
           </listitem>
         </itemizedlist>
 
-        <para>An example of tagging a date so that it is used to sort the
-        page. Be sure to format the date appropriately for the locale you are
-        using:</para>
+        <example>
+          <title>An example of tagging a date so that it is used to sort the
+          page. Be sure to format the date appropriately for the locale you
+          are using:</title>
 
-        <para><programlisting>&lt;h1&gt;Date: &lt;span class="diary-date"&gt;01-Dec-2006&lt;/span&gt;&lt;/h2&gt;</programlisting></para>
+          <para><programlisting>&lt;h1&gt;Date: &lt;span class="diary-date"&gt;01-Dec-2006&lt;/span&gt;&lt;/h2&gt;</programlisting></para>
+        </example>
 
-        <para>An example using advanced parameters to display all future
-        entries:</para>
+        <example>
+          <title>An example using advanced parameters to display all future
+          entries:</title>
 
-        <para><programlisting>period=+, items=-1</programlisting></para>
+          <para><programlisting>period=+, items=-1</programlisting></para>
+        </example>
 
-        <para>An example using advanced parameters to display entries starting
-        at a specified date, for a specified period. Again, the date needs to
-        be formatted appropriately for the locale you are using:</para>
+        <example>
+          <title>An example using advanced parameters to display entries
+          starting at a specified date, for a specified period. Again, the
+          date needs to be formatted appropriately for the locale you are
+          using:</title>
 
-        <para><programlisting>start=01-Jan-2006, period=-6m, items=-1</programlisting></para>
+          <para><programlisting>start=01-Jan-2006, period=-6m, items=-1</programlisting></para>
+        </example>
 
-        <para>An example of diary entries starting 1 year ago, forwards for a
-        period of 1 month. If there are more than 10 entries only the first 10
-        would be shown:</para>
+        <example>
+          <title>An example of diary entries starting 1 year ago, forwards for
+          a period of 1 month. If there are more than 10 entries only the
+          first 10 would be shown:</title>
 
-        <para><programlisting>start=-1y, period=+1m, items=10</programlisting></para>
+          <para><programlisting>start=-1y, period=+1m, items=10</programlisting></para>
+        </example>
       </section>
 
       <section id="module_downloads">
@@ -1564,7 +1573,7 @@
             thumbnails. Values are <option>name</option> (default),
             <option>date</option> or <option>date_fwd</option> (sort forwards
             by date), <option>date_rev</option> (sort reversed by
-            date);</para>
+            date).</para>
           </listitem>
         </itemizedlist>
       </section>
