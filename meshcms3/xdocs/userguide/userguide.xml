@@ -894,6 +894,15 @@
       will use it). If you choose <option>No Theme</option>, nothing will be
       applied to that file, which will be shown "as is".</para>
 
+      <note>
+        <para>Since the file manager is a web application, operations are not
+        executed immediately. Commands are sent to the server the usual
+        request-execution-response cycle must happen. While much care has been
+        taken to ensure that command are interpreted correctly, please try to
+        execute one task at a time, making sure you wait it to complete before
+        doing another thing.</para>
+      </note>
+
       <section id="upload">
         <title>Upload</title>
 
@@ -2087,7 +2096,21 @@ submit</programlisting>
             <uri>http://www.site.com/web/en/products/index.html</uri>, the
             locale will be set to
             <parameter><parameter>en</parameter></parameter>. If no valid
-            locale is found in the page path, no locale will be set.</para>
+            locale is found in the page path, no locale will be set;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>defaultValue</parameter>: same as
+            <parameter>value</parameter>, but will be set only if not found in
+            the URL;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>redirectRoot</parameter>: if
+            <option>true</option>, and if at least a language is available in
+            the site (see <xref linkend="multilingual" />), a request for the
+            site root page will be redirected to one of the language based on
+            browser settings (default <option>false</option>).</para>
           </listitem>
         </itemizedlist>
       </section>
@@ -2132,8 +2155,6 @@ submit</programlisting>
 
     <section id="tags_page_elements">
       <title>Page Elements Tags</title>
-
-      <para></para>
 
       <section id="tag_pagetitle">
         <title>&lt;cms:pagetitle&gt;</title>
@@ -2653,6 +2674,39 @@ submit</programlisting>
           </listitem>
         </itemizedlist>
       </section>
+
+      <section id="tag_langmenu">
+        <title>&lt;cms:langmenu&gt;</title>
+
+        <para>Creates a list of links to available languages in the site.
+        Please note that this feature only works if the site has a specific
+        structure (see <xref linkend="multilingual" />). That menu will allow
+        site visitors to jump to the same page in another language or, if that
+        page is not available, to the home page of the other language. In the
+        last case, if the user has logged in and has required permissions, he
+        will be offered to create the translation on the fly.</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>separator</parameter>: the text between elements
+            (default is a space);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>pre</parameter>: a text to be added before the
+            first element. It won't be added if there are no elements at
+            all;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>post</parameter>: a text to be added after the
+            last element. It won't be added if there are no elements at
+            all.</para>
+          </listitem>
+        </itemizedlist>
+      </section>
     </section>
 
     <section id="tags_information">
@@ -2890,7 +2944,7 @@ submit</programlisting>
       be lost when upgrading to a new MeshCMS version.</para>
     </section>
 
-    <section>
+    <section id="multilingual">
       <title>Multilingual sites</title>
 
       <para>Since MeshCMS pages are simple HTML files, a page cannot contain
@@ -2902,8 +2956,8 @@ submit</programlisting>
       <orderedlist>
         <listitem>
           <para>start with a welcome page that offers a language choice, or
-          redirects to one of the available languages according to browser
-          settings for example;</para>
+          use <code>&lt;cms:setlocale redirectRoot="true" /&gt;</code> in your
+          theme (see <xref linkend="tag_setlocale" />);</para>
         </listitem>
 
         <listitem>
@@ -2917,8 +2971,9 @@ submit</programlisting>
           linkend="tag_setlocale">&lt;cms:setlocale&gt;</link> tag without
           specifying the <parameter>value</parameter> attribute. This way the
           locale code will be taken from the url, and will be <code>en</code>
-          or <code>it</code> according to the page that is currently
-          displayed;</para>
+          or <code>it</code> according to the page that is currently displayed
+          (you can use the <option>defaultValue</option> attribute to set a
+          default);</para>
 
           <screenshot>
             <screeninfo>A directory for each language has been
@@ -2933,9 +2988,8 @@ submit</programlisting>
         </listitem>
 
         <listitem>
-          <para>finally, apply the theme to both home pages, so navigation
-          menus will start from the language root instead of the site
-          root.</para>
+          <para>apply the theme to both home pages, so navigation menus will
+          start from the language root instead of the site root;</para>
 
           <screenshot>
             <screeninfo>The site theme has been applied to both English and
@@ -2949,6 +3003,14 @@ submit</programlisting>
             </mediaobject>
           </screenshot>
         </listitem>
+
+        <listitem>
+          <para>finally, use the <link
+          linkend="tag_langmenu">&lt;cms:langmenu&gt;</link> tag to add a menu
+          of languages to your theme (you could also use a customized one, but
+          this tool is handy since it points directly to the translated page
+          if available).</para>
+        </listitem>
       </orderedlist>
 
       <para>This way you get a site that separates languages correctly. You
@@ -2957,8 +3019,7 @@ submit</programlisting>
 
       <screenshot>
         <screeninfo>Navigation menus in the English site don't show Italian
-        pages. The theme should provide a way to go to other
-        languages.</screeninfo>
+        pages.</screeninfo>
 
         <mediaobject>
           <imageobject>
@@ -2966,11 +3027,6 @@ submit</programlisting>
           </imageobject>
         </mediaobject>
       </screenshot>
-
-      <para>With a bit of code in the theme, you can implement a language menu
-      that sends to other versions of the same page or to the home page in
-      other languages, depending on how you prefer to let visitors change
-      language.</para>
     </section>
   </chapter>
 </book>
