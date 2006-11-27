@@ -33,7 +33,7 @@ import com.thoughtworks.xstream.*;
 import com.thoughtworks.xstream.io.xml.*;
 
 public class WebSite {
-  public static final String VERSION_ID = "3.0.1";
+  public static final String VERSION_ID = "3.0.2";
   public static final String SYSTEM_CHARSET;
   public static final boolean IS_MULTIBYTE_SYSTEM_CHARSET;
 
@@ -372,12 +372,12 @@ public class WebSite {
       return false;
     }
 
-    File newFile = getFile(newPath);
-
     if (user == null ||
         !(user.canWrite(this, oldPath) && user.canWrite(this, newPath))) {
       return false;
     }
+
+    File newFile = getFile(newPath);
 
     if (Utils.forceRenameTo(oldFile, newFile, false)) {
       return true;
@@ -634,6 +634,7 @@ public class WebSite {
       os.close();
     } catch (IOException ex) {
       sc.log("Can't close file " + backFile, ex);
+      return false;
     }
 
     DirectoryRemover dr = new DirectoryRemover(dir);
@@ -874,7 +875,11 @@ public class WebSite {
     String text = Utils.readFully(getFile(getAdminPath().add("template.html")));
 
     if (pageTitle != null) {
-      text = text.replaceFirst("New Page", pageTitle);
+      int idx = text.indexOf("New Page");
+      
+      if (idx >= 0) {
+        text = text.substring(0, idx) + pageTitle + text.substring(idx + 8);
+      }
     }
 
     return text;

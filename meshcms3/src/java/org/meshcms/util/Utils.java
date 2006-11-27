@@ -252,9 +252,9 @@ public final class Utils {
         case '\"':
           sb.append("&quot;");
           break;
-        case '&':
+        /* case '&':
           sb.append("&amp;");
-          break;
+          break; */
         case '\'':
           sb.append("&#39;");
           break;
@@ -1228,14 +1228,19 @@ public final class Utils {
     if (!file.exists()) {
       return true;
     }
+    
+    /* do not force on directories */
+    if (file.isDirectory()) {
+      return file.delete();
+    }
 
-    for (int i = 0; i < 20; i++) {
+    for (int i = 1; i < 20; i++) {
       if (file.delete()) {
         return true;
       }
 
       try {
-        Thread.sleep(200L);
+        Thread.sleep(i * 100);
       } catch (InterruptedException ex) {}
     }
 
@@ -1269,7 +1274,7 @@ public final class Utils {
       }
 
       try {
-        Thread.sleep(200L);
+        Thread.sleep(i * 100);
       } catch (InterruptedException ex) {}
     }
 

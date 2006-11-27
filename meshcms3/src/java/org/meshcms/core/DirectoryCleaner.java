@@ -69,7 +69,7 @@ public class DirectoryCleaner extends DirectoryParser {
     if (us >= 0) {
       try {
         if (currentTime - WebUtils.numericDateFormatter.parse(name.substring(us + 1, us + 15)).getTime() > maxLife) {
-          file.delete();
+          Utils.forceDelete(file);
         }
         
         return;
@@ -78,7 +78,7 @@ public class DirectoryCleaner extends DirectoryParser {
     
     // other files are deleted when too old based on last modified date.
     if (currentTime - file.lastModified() > (long) (maxLife * (1.0 + Math.random() / 2.0))) {
-      file.delete();
+      Utils.forceDelete(file);
     }
   }
 }

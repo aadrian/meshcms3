@@ -85,7 +85,7 @@
       File delFile = new File(commentsDir, delId);
       
       if (delFile.exists()) {
-        delFile.delete();
+        Utils.forceDelete(delFile);
       }
     }
     

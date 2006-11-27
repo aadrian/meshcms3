@@ -166,7 +166,7 @@ public final class WebUtils {
         } else {
           sb.append('&').append(ent).append(';');
         }
-      } else if (encodeTags && (n == 34 || n == 38 || n == 39 || n == 60 || n == 62)) {
+      } else if (encodeTags && (n == 34 || /* n == 38 || */ n == 39 || n == 60 || n == 62)) {
         sb.append('&').append(NUMBER_TO_ENTITY.getProperty(Integer.toString(c))).append(';');
       } else {
         sb.append(c);
@@ -495,8 +495,12 @@ public final class WebUtils {
       }
     }
     
-    while(sb.charAt(sb.length() - 1) == '.') {
+    while(sb.length() > 0 && sb.charAt(sb.length() - 1) == '.') {
       sb.deleteCharAt(sb.length() - 1);
+    }
+    
+    if (sb.length() == 0) {
+      sb.append(spacer);
     }
 
     return sb.toString();
@@ -636,7 +640,7 @@ public final class WebUtils {
       File cacheFile = getCacheFile(webSite, siteMap, pagePath);
 
       if (cacheFile != null && cacheFile.exists()) {
-        cacheFile.delete();
+        Utils.forceDelete(cacheFile);
       }
     }
   }

@@ -2,6 +2,12 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <%@ taglib uri="meshcms-taglib" prefix="cms" %>
+
+<%--
+  This tag allows to set a locale for pages outside language branches
+  and to redirect the requests for the home page to one of the available
+  languages, possibly according to browser settings.
+--%>
 <cms:setlocale defaultValue="en" redirectRoot="true" /> 
 
 <html>
@@ -30,6 +36,7 @@
       <h1>Navigation</h1>
       <cms:listmenu items="onpath,lastlevel,children" style="linklist" />
 
+      <%-- Display a languages menu --%>
       <cms:langmenu separator="</li><li>" pre="<h1>Languages</h1><ul class='linklist'><li>" post="</li></ul>" />
 
       <cms:module location="right" alt="" />
