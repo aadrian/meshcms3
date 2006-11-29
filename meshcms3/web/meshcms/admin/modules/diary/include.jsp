@@ -170,6 +170,16 @@
   ResourceBundle pageBundle = ResourceBundle.getBundle
       ("org/meshcms/webui/Locales", locale);
 
+  // Get the path information.
+  Path argPath = md.getModuleArgumentPath(false);
+  Path dirPath = webSite.getDirectory(md.getPagePath());
+
+  // Get the list of files to display.
+  File[] files = md.getModuleFiles(webSite, false);
+  if (files == null) {
+    return;
+  }
+
   // Current date.
   Calendar today = Calendar.getInstance(locale);
   today.set(Calendar.HOUR_OF_DAY, 0);
@@ -232,15 +242,6 @@
   // Maximum items to display.
   int items = Utils.parseInt(md.getAdvancedParam("items", null), 5);
 
-  // Get the path information.
-  Path argPath = md.getModuleArgumentPath(false);
-  Path dirPath = webSite.getDirectory(md.getPagePath());
-
-  // Get the list of files to display.
-  File[] files = md.getModuleFiles(webSite, true);
-  if (files == null) {
-    return;
-  }
   List diary = new ArrayList();
   HTMLPageParser hpp = new HTMLPageParser();
 
