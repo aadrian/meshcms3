@@ -94,7 +94,7 @@ editAreaLoader.init({
     <div class="meshcmsbuttons">
       <input type="submit" value="<fmt:message key="genericSave" />">
     </div>
-  </div>
+  </fieldset>
 </form>
 
 </body>
