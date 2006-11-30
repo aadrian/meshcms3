@@ -191,7 +191,6 @@ public class SiteMap extends DirectoryParser {
   protected void postProcess() {
     pagesMap = Collections.unmodifiableSortedMap(pagesMap);
     oldSiteMap = null;
-    setLastModified();
 
     pagesList = new ArrayList(pagesMap.values());
     Collections.sort(pagesList, new PageInfoComparator(this, webSite.getSiteInfo()));
@@ -213,6 +212,7 @@ public class SiteMap extends DirectoryParser {
     }
 
     langList = Collections.unmodifiableList(langList);
+    setLastModified();
     webSite.setSiteMap(this);
     // webSite.getSiteInfo().cleanupSiteInfo(); // deprecated
   }
