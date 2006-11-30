@@ -280,9 +280,8 @@ public final class HitFilter implements Filter {
         mimeType = "text/html";
       }
       
-      if (pageCharset != null) {
-        httpRes.setContentType(mimeType + "; charset=" + pageCharset);
-      }
+      httpRes.setContentType(mimeType + "; charset=" +
+          Utils.noNull(pageCharset, WebSite.SYSTEM_CHARSET));
       
       try {
         // Cache management
@@ -295,7 +294,6 @@ public final class HitFilter implements Filter {
           // Let's see if the browser supports GZIP
           String ae = httpReq.getHeader("Accept-Encoding");
           boolean gzip = ae != null && ae.toLowerCase().indexOf("gzip") > -1;
-
           InputStream in = null;
 
           if (cacheType == Configuration.IN_MEMORY_CACHE) {
