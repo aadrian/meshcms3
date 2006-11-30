@@ -24,6 +24,8 @@
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
 <%@ page import="org.apache.commons.fileupload.*" %>
+<%@ page import="org.apache.commons.fileupload.disk.*" %>
+<%@ page import="org.apache.commons.fileupload.servlet.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 <jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
@@ -59,7 +61,7 @@
 
   try {
     FileItem upItem = null;
-    DiskFileUpload upload = new DiskFileUpload();
+    ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
     List items = upload.parseRequest(request);
     Iterator iter = items.iterator();
 
