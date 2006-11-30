@@ -168,7 +168,7 @@
   // Get the locale-specific information.
   Locale locale = WebUtils.getPageLocale(pageContext);
   ResourceBundle pageBundle = ResourceBundle.getBundle
-      ("org/meshcms/webui/Locales", locale);
+   ("org/meshcms/webui/Locales", locale);
 
   // Get the path information.
   Path argPath = md.getModuleArgumentPath(false);
@@ -261,6 +261,12 @@
       pg = (HTMLPage) hpp.parse(Utils.readAllChars(reader));
       reader.close();
     } catch (IOException e) {
+      continue;
+    }
+
+    // Skip any pages that use the Diary module.
+    String modules = pg.getProperty(PageAssembler.MODULES_PARAM);
+    if (modules != null && modules.contains("m_tpl=diary")) {
       continue;
     }
     String body = pg.getBody();
