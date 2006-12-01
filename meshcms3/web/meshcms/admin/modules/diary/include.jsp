@@ -266,7 +266,7 @@
 
     // Skip any pages that use the Diary module.
     String modules = pg.getProperty(PageAssembler.MODULES_PARAM);
-    if (modules != null && modules.contains("m_tpl=diary")) {
+    if (modules != null && modules.indexOf("m_tpl=diary") >= 0) {
       continue;
     }
     String body = pg.getBody();
