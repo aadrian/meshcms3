@@ -1119,7 +1119,7 @@
         <listitem>
           <para><emphasis role="bold">Visually editable types</emphasis>: a
           comma-separated list of file types that can be edited using the
-          wysiwyg editor.</para>
+          wysiwyg editor;</para>
         </listitem>
 
         <listitem>
@@ -1128,7 +1128,7 @@
           control panel and for all other administrative pages. While it is
           preferable to use the same theme as the rest of the site, it is
           recommended to turn this option on while editing themes, so admin
-          pages are always available without errors.</para>
+          pages are always available without errors;</para>
         </listitem>
 
         <listitem>
@@ -1136,7 +1136,13 @@
           selected, others are not allowed to link to your images and files
           directly: they must link to pages on your site. A simple window will
           be shown to state that the file comes from your site. That page
-          won't mention that you're using MeshCMS.</para>
+          won't mention that you're using MeshCMS;</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Use high quality thumbnails by
+          default</emphasis>: if selected, the file manager and the gallery
+          module will create thumbnails with a better quality.</para>
         </listitem>
       </itemizedlist>
 
@@ -1170,14 +1176,14 @@
           of a page is a quite expensive task. If you have much memory (or few
           pages), you can store cached pages in memory, otherwise save them on
           disk. Pages are saved in GZIP format and are sent compressed when
-          the browser supports that (always true with modern browsers).</para>
+          the browser supports that (always true with modern browsers);</para>
         </listitem>
 
         <listitem>
           <para><emphasis role="bold">Site map update interval
           (hours)</emphasis>: the validity of the site map. After the
           specified amount of hours, the site map is recreated and the page
-          cache is emptied.</para>
+          cache is emptied;</para>
         </listitem>
 
         <listitem>
@@ -1186,14 +1192,14 @@
           While there is no interface to manage them at the moment, they are
           still available in the file system so a deleted file can be
           recovered in case of mistake using an FTP client or some other
-          shell.</para>
+          shell;</para>
         </listitem>
 
         <listitem>
           <para><emphasis role="bold">Hits counting period (days)</emphasis>:
           page hits are counted for some days to allow to sort pages when no
           other criteria is available. If you change this value, the new one
-          will be used after a restart of the web application.</para>
+          will be used after a restart of the web application;</para>
         </listitem>
 
         <listitem>
@@ -1540,6 +1546,15 @@
             (date and time).</para>
           </listitem>
         </itemizedlist>
+      </section>
+
+      <section id="module_frame">
+        <title>Frame</title>
+
+        <para>The frame module allows to display an external page in an
+        IFrame.</para>
+
+        <para>Argument: path or URL of the page.</para>
       </section>
 
       <section id="module_gallery">
