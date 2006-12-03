@@ -33,6 +33,7 @@ import com.thoughtworks.xstream.*;
 import com.thoughtworks.xstream.io.xml.*;
 
 public class WebSite {
+  public static final String APP_NAME = "MeshCMS";
   public static final String VERSION_ID = "3.0.2";
   public static final String SYSTEM_CHARSET;
   public static final boolean IS_MULTIBYTE_SYSTEM_CHARSET;
@@ -41,6 +42,11 @@ public class WebSite {
    * A prefix to be used for every backup file.
    */
   public static final String BACKUP_PREFIX = "_bak_";
+
+  /**
+   * A prefix to be used for every backup dir.
+   */
+  public static final String BACKUP_DIR_PREFIX = "_dirbak_";
 
   /**
    * A prefix to be used for every temporary file created in the repository.
@@ -616,15 +622,15 @@ public class WebSite {
     /* permissions to be checked by the caller */
     
     File dir = getFile(dirPath);
-    File backFile = getRepositoryFile(dirPath, BACKUP_PREFIX +
+    File bakFile = getRepositoryFile(dirPath, BACKUP_DIR_PREFIX +
         user.getUsername() + "_" +
         WebUtils.numericDateFormatter.format(new Date()) + ".zip");
     OutputStream os;
 
     try {
-      os = new BufferedOutputStream(new FileOutputStream(backFile));
+      os = new BufferedOutputStream(new FileOutputStream(bakFile));
     } catch (FileNotFoundException ex) {
-      sc.log("can't create stream on " + backFile, ex);
+      sc.log("can't create stream on " + bakFile, ex);
       return false;
     }
 
@@ -633,7 +639,7 @@ public class WebSite {
     try {
       os.close();
     } catch (IOException ex) {
-      sc.log("Can't close file " + backFile, ex);
+      sc.log("Can't close file " + bakFile, ex);
       return false;
     }
 
