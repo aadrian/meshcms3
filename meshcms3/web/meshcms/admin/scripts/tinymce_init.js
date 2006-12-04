@@ -22,7 +22,7 @@ tinyMCE.init({
   entity_encoding : 'raw',
   auto_cleanup_word : true,
   fix_list_elements : true,
-  apply_source_formatting : true,
+  // apply_source_formatting : true,
   plugins : 'contextmenu,directionality,iespell,searchreplace,table,xhtmlxtras,inlinepopups,paste',
   theme_advanced_buttons1_add : 'separator,cite,ins,del,abbr,acronym,separator,ltr,rtl',
   theme_advanced_buttons2_add_before : 'cut,copy,paste,pastetext,pasteword,selectall,separator',
