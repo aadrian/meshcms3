@@ -30,6 +30,12 @@
 <%@ page import="javax.mail.internet.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 
+<%--
+  Advanced parameters for this module:
+  - css = (name of a css class)
+  - width = (width of fields, defaults to 98%)
+--%>
+
 <%
   String moduleCode = request.getParameter("modulecode");
   ModuleDescriptor md = null;
@@ -45,9 +51,14 @@
     
     return;
   }
+%>
 
+<div<%= md.getFullCSSAttribute("css") %>>
+
+<%
   Path pagePath = webSite.getRequestedPath(request);
   String cp = request.getContextPath();
+  String width = md.getAdvancedParam("width", "98%");
 
   Locale locale = WebUtils.getPageLocale(pageContext);
   ResourceBundle pageBundle = ResourceBundle.getBundle
@@ -268,11 +279,11 @@
               %><input type="text" name="<%= field.getCode() %>"
                  id="mcmf_<%= field.getCode() %>"
                  value="<%= Utils.noNull(field.getValue()) %>"
-                 style="width: 98%;" /><%
+                 style="width: <%= width %>;" /><%
             } else {
               %><textarea name="<%= field.getCode() %>"
                  id="mcmf_<%= field.getCode() %>"
-                 style="width: 98%; height: <%= field.getRows()
+                 style="width: <%= width %>; height: <%= field.getRows()
                  %>em;"><%= Utils.encodeHTML(field.getValue()) %></textarea><%
             }
           } else if (type == FormField.SELECT_OPTION) {
@@ -315,3 +326,5 @@
     }
   }
 %>
+
+</div>
