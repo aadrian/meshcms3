@@ -36,7 +36,7 @@
   Advanced parameters for this module:
   - css = (name of a css class)
   - date = none (default) | normal | full
-  - width = (width of fields, defaults to 98%)
+  - width = (width of fields, defaults to 40em)
   - notify = (e-mail address to send notifications of new comments)
 --%>
 
@@ -231,7 +231,7 @@
     }
   }
   
-  String width = md.getAdvancedParam("width", "98%");
+  String width = md.getAdvancedParam("width", "40em");
 %>
 
  <div class="includeitem">

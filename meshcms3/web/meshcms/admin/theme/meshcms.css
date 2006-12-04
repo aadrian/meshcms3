@@ -1,4 +1,4 @@
-/* Applied to mail forms */
+/* Applied to mail forms -- no longer used */
 .mailform {
  width: 400px;
 }
@@ -16,8 +16,10 @@
 
 /* Applied to the DIV that contains fields in mail form */
 .formfields {
+ /* These styles cause problems with textareas in IE6 
  padding-left: 10%;
  padding-right: 10%;
+ */
 }
 
 /* Applied to the DIV that contains buttons in mail form */
@@ -94,11 +96,13 @@ div.meshcmsbuttons {
  text-align: center;
 }
 
+/* This style causes issue with IE6
 fieldset.meshcmseditor {
  margin: 0 0.5em 1em 0.5em;
  padding: 0.2em 1em 1em 1em;
 }
+*/
 
 fieldset.meshcmseditor legend {
- margin-bottom: 1em;
+ margin-bottom: 0.5em;
 }

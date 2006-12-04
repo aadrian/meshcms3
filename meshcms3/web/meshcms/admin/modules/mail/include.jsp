@@ -33,7 +33,7 @@
 <%--
   Advanced parameters for this module:
   - css = (name of a css class)
-  - width = (width of fields, defaults to 98%)
+  - width = (width of fields, defaults to 40em)
 --%>
 
 <%
@@ -58,7 +58,7 @@
 <%
   Path pagePath = webSite.getRequestedPath(request);
   String cp = request.getContextPath();
-  String width = md.getAdvancedParam("width", "98%");
+  String width = md.getAdvancedParam("width", "40em");
 
   Locale locale = WebUtils.getPageLocale(pageContext);
   ResourceBundle pageBundle = ResourceBundle.getBundle
@@ -278,7 +278,7 @@
             if (field.getRows() == 1) {
               %><input type="text" name="<%= field.getCode() %>"
                  id="mcmf_<%= field.getCode() %>"
-                 value="<%= Utils.noNull(field.getValue()) %>"
+                 value="<%= Utils.encodeHTML(field.getValue()) %>"
                  style="width: <%= width %>;" /><%
             } else {
               %><textarea name="<%= field.getCode() %>"
@@ -306,7 +306,7 @@
         }
       }
       %></div>
-      <div class="fieldbuttons"><%
+      <div class="fieldbuttons" style="width: <%= width %>;"><%
       iterator = fields.iterator();
 
       while (iterator.hasNext()) {
