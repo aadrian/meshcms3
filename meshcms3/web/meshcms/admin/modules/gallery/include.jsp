@@ -33,13 +33,57 @@
   - css = (name of a css class)
   - quality = "low" | "high" (default)
   - order = "name" (default) | "date" (same as date_fwd) | "date_fwd" | "date_rev"
-  
+
 --%>
+
+<%!
+  private Map readCaptionFile(File captionFile) {
+    try {
+      BufferedReader reader = new BufferedReader(new FileReader(captionFile));
+      Map captionMap = new HashMap();
+      StringBuffer caption = new StringBuffer();
+      String file = null;
+      String line;
+      while ((line = reader.readLine()) != null) {
+        line = line.trim();
+
+        // Is it a blank line?
+        if (line.length() == 0) {
+          // Save any existing caption block.
+          if (file != null && caption.length() > 0) {
+            captionMap.put(file, caption.toString());
+          }
+          file = null;
+          caption.setLength(0);
+
+        // Otherwise it's a normal line
+        } else {
+          // Is it the first line of a caption block?
+          if (file == null) {
+            file = line;
+          } else {
+            if (caption.length() > 0) {
+              caption.append(' ');
+            }
+            caption.append(line);
+          }
+        }
+      }
+      if (file != null && caption.length() > 0) {
+        captionMap.put(file, caption.toString());
+      }
+      reader.close();
+      return captionMap;
+    } catch (IOException e) {
+      return null;
+    }
+  }
+%>
 
 <%
   String moduleCode = request.getParameter("modulecode");
   ModuleDescriptor md = null;
-  
+
   if (moduleCode != null) {
     md = (ModuleDescriptor) request.getAttribute(moduleCode);
   }
@@ -48,7 +92,7 @@
     if (!response.isCommitted()) {
       response.sendError(HttpServletResponse.SC_NOT_FOUND);
     }
-    
+
     return;
   }
 
@@ -69,7 +113,16 @@
     int col = 0;
     int cols = Utils.parseInt(md.getAdvancedParam("columns", null), Math.min(3, files.length));
     boolean captions = Utils.isTrue(md.getAdvancedParam("captions", "true"));
-%>
+    Map captionMap = null;
+    if (captions) {
+      File captionFile = webSite.getFile(
+       md.getModuleArgumentDirectoryPath(webSite, true).add("gallery.captions"));
+      if (captionFile.exists()) {
+        WebUtils.updateLastModifiedTime(request, captionFile);
+        captionMap = readCaptionFile(captionFile);
+      }
+    }
+    %>
 
 <table<%= md.getFullCSSAttribute("css") %> width="100" align="center" border="0" cellspacing="20" cellpadding="0">
 <%
@@ -77,26 +130,33 @@
     thumbMaker.setHighQuality(!"low".equals(md.getAdvancedParam("quality",
         webSite.getConfiguration().isHighQualityThumbnails() ? "high" : "low")));
     String thumbName = thumbMaker.getSuggestedFileName();
-    
+
     for (int i = 0; i < files.length; i++) {
       if (!files[i].isDirectory() && FileTypes.isLike(files[i].getName(), "jpg")) {
         Path path = webSite.getPath(files[i]);
         Path thumbPath = thumbMaker.checkAndCreate(webSite, path, thumbName);
-        
+
         if (thumbPath != null) {
           WebUtils.updateLastModifiedTime(request, files[i]);
-          
+
           if (col == 0) {
             %><tr><%
           }
-
+          String caption = null;
+          if (captions) {
+            if (captionMap != null) {
+              caption = (String) captionMap.get(path.getLastElement());
+            }
+            if (caption == null) {
+              caption = Utils.beautify(Utils.removeExtension(path), true);
+            }
+          }
           %><td align="center" valign="top">
            <a href="<%= cp + '/' + path %>" target="meshcms_image"><img
-            src="<%= cp + '/' + thumbPath %>" alt=""/><% if (captions) { 
-              %><br /><%= Utils.beautify(Utils.removeExtension(path), true) %><%
-            } %></a>
+            src="<%= cp + '/' + thumbPath %>" alt=""/><% if (caption != null) {
+              %><br /><%= caption %><% } %></a>
           </td><%
-          
+
           out.flush();
 
           if (col == cols - 1) {

@@ -43,7 +43,7 @@
 
   String moduleCode = request.getParameter("modulecode");
   ModuleDescriptor md = null;
-  
+
   if (moduleCode != null) {
     md = (ModuleDescriptor) request.getAttribute(moduleCode);
   }
@@ -52,13 +52,12 @@
     if (!response.isCommitted()) {
       response.sendError(HttpServletResponse.SC_NOT_FOUND);
     }
-    
+
     return;
   }
-
-  Path argPath = md.getModuleArgumentPath(false);
+  Path argPath = md.getModuleArgumentDirectoryPath(webSite, true);
   Path dirPath = webSite.getDirectory(md.getPagePath());
-  File[] files = md.getModuleFiles(webSite, false);
+  File[] files = md.getModuleFiles(webSite, true);
   int words = Utils.parseInt(md.getAdvancedParam("words", null), 50);
 
   if (files != null && files.length > 0) {
@@ -76,6 +75,13 @@
         try {
           Reader reader = new BufferedReader(new FileReader(files[i]));
           HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
+
+          // Skip any pages that use the Headlines module.
+          String modules = pg.getProperty(PageAssembler.MODULES_PARAM);
+          if (modules != null && modules.indexOf("m_tpl=headlines") >= 0) {
+            continue;
+          }
+
           String title = pg.getTitle();
 %>
  <div class="includeitem">

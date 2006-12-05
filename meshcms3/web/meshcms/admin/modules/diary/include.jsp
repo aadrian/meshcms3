@@ -171,11 +171,11 @@
    ("org/meshcms/webui/Locales", locale);
 
   // Get the path information.
-  Path argPath = md.getModuleArgumentPath(false);
+  Path argPath = md.getModuleArgumentDirectoryPath(webSite, true);
   Path dirPath = webSite.getDirectory(md.getPagePath());
 
   // Get the list of files to display.
-  File[] files = md.getModuleFiles(webSite, false);
+  File[] files = md.getModuleFiles(webSite, true);
   if (files == null) {
     return;
   }

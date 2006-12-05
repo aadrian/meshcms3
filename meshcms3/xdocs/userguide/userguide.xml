@@ -1413,10 +1413,16 @@
               <link linkend="file_manager">File Manager</link> if
               required.</para>
             </listitem>
+
+            <listitem>
+              <para>If the date us set to the string <code>IGNORE_FILE</code>,
+              the file will be ignored and will not be indexed by the Diary
+              module.</para>
+            </listitem>
           </itemizedlist></para>
 
-        <para>Argument: path to a directory. If not provided, the module does
-        nothing.</para>
+        <para>Argument: path to a directory. If not provided, defaults to the
+        directory that contains the current page.</para>
 
         <para>Advanced parameters:</para>
 
@@ -1496,6 +1502,14 @@
           are using:</title>
 
           <para><programlisting>&lt;h1&gt;Date: &lt;span class="diary-date"&gt;01-Dec-2006&lt;/span&gt;&lt;/h2&gt;</programlisting></para>
+        </example>
+
+        <example>
+          <title>An example showing how to use IGNORE_FILE to skip the
+          indexing a file. The 'hide' style is used to stop the IGNORE_FILE
+          string from being displayed.</title>
+
+          <para><programlisting>&lt;span class="diary-date hide"&gt;IGNORE_FILE&lt;/span&gt;</programlisting></para>
         </example>
 
         <example>
@@ -1600,6 +1614,53 @@
             date).</para>
           </listitem>
         </itemizedlist>
+
+        <para>By default, the labels which are displayed under the thumbnails
+        are generated from the image filenames, using the following
+        steps:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>The file suffix is removed;</para>
+          </listitem>
+
+          <listitem>
+            <para>All underscores are replaced with spaces;</para>
+          </listitem>
+
+          <listitem>
+            <para>The first character of each resulting word is converted to
+            title (upper) case.</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>So by formatting the image filenames appropriately you can
+        specify the thumbnail label. If this proves inconvenient, for example
+        if you want to order the files by name but want to use different
+        thumbnail labels, or if you want to use characters that are not valid
+        as part of a filename, you can specify the thumbnail labels in a
+        seperate text file. This file is called
+        <option>gallery.captions</option> and must be in the same directory as
+        the image files to which it refers. The format of this file is simple:
+        it must contain a block for each required thumbnail caption. Blocks
+        are seperated by a blank line, and each block consists of single image
+        filename on a line, followed by one or more lines of caption text. An
+        example is given below.</para>
+
+        <example>
+          <title>An example gallery.captions file, containing thumbnail
+          captions for three files:</title>
+
+          <programlisting>image_01.jpg
+This is the first image
+
+image_02.jpg
+This is the
+second image
+
+image_03.jpg
+This is the third image</programlisting>
+        </example>
       </section>
 
       <section id="module_headlines">
@@ -1608,8 +1669,8 @@
         <para>The headlines module shows the first words of a list of pages,
         adding links to go to the full pages.</para>
 
-        <para>Argument: path to a directory. If not provided, the module does
-        nothing.</para>
+        <para>Argument: path to a directory. If not provided, defaults to the
+        directory that contains the current page.</para>
 
         <para>Advanced parameters:</para>
 
