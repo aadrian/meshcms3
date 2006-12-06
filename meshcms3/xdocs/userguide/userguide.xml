@@ -1569,6 +1569,15 @@
         IFrame.</para>
 
         <para>Argument: path or URL of the page.</para>
+
+        <para>Advanced parameters:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>height</parameter>: the height of the IFrame
+            (default <option>40em</option>).</para>
+          </listitem>
+        </itemizedlist>
       </section>
 
       <section id="module_gallery">
@@ -1792,8 +1801,39 @@ This is the third image</programlisting>
       <section id="module_mail">
         <title>Mail</title>
 
-        <para>The mail module creates a mail form. It can be used in two
-        ways:</para>
+        <para>The mail module creates a mail form. This allows visitors to
+        your site to send you mail without you having to expose your email
+        addresses on your site.</para>
+
+        <para>Argument: email address or path to mail form definition file
+        (see below).</para>
+
+        <para>Advanced parameters:</para>
+
+        <para><itemizedlist>
+            <listitem>
+              <para><parameter>form_css</parameter>: the ccs class of the
+              <option>div</option> that contains the entire form. The default
+              value is <option>mailform</option>;</para>
+            </listitem>
+
+            <listitem>
+              <para><parameter>field_css</parameter>: the css class of the
+              individual form fields. The default value is
+              <option>formfields</option>.</para>
+            </listitem>
+          </itemizedlist><remark>Note</remark>: There is a bug in Internet
+        Explorer 6 that affects the display of the <option>textarea</option>
+        form component. This results in the <option>textarea</option> being
+        resized inappropriately as soon as text is entered into it. The
+        workaround is to explicitly set the width of the <option>div</option>
+        containing the form, and to set the width of the contained fields to
+        <option>100%</option>. The default ccs for the
+        <option>mailform</option> and <option>formfields</option> styles does
+        this to avoid the bug, be aware of this if you choose to modify or
+        override these styles.</para>
+
+        <para>The mail module can be used in one of two ways:</para>
 
         <orderedlist>
           <listitem>
@@ -1808,20 +1848,20 @@ This is the third image</programlisting>
             <para>you can specify the name of a text file as argument. In this
             case, the form will be created accorded to the instructions
             contained in that file. This method offers more options and will
-            be described in the rest of this section, since it requires to
-            learn the syntax to be used in the text file.</para>
+            be described in the rest of this section, since it requires you to
+            learn the syntax used in the text file.</para>
           </listitem>
         </orderedlist>
 
-        <para>In both cases, messages sent through that form will be delivered
-        to an address you specify (which will not be visible to anyone, since
-        it's not displayed in the page and not included in its source
-        code).</para>
+        <para>In both cases, messages sent through a mail form will be
+        delivered to an address you specify (which will not be visible to
+        anyone viewing your site, since it's not displayed in the page and not
+        included in its source).</para>
 
         <para>To create a form using the second method, you must write a text
-        file following a specific syntax. As a first example, let's create the
-        simplest form you could use (similar to the one provided by the first
-        method):</para>
+        file that adheres to a specific syntax. As a first example, let's
+        create the simplest form you could use (similar to the one provided by
+        method 1, above):</para>
 
         <programlisting>recipient:name@site.com
 
@@ -1838,8 +1878,8 @@ Send
 submit</programlisting>
 
         <para>Field definition blocks are separated by empty lines. The first
-        line of each block indicates the field name. Let's look at each block
-        separately:</para>
+        line of each block ia a field name on the resulting form. Let's look
+        at each block separately:</para>
 
         <orderedlist>
           <listitem>
@@ -1908,25 +1948,31 @@ submit</programlisting>
           </listitem>
 
           <listitem>
-            <para>buttons are inserted at the end of the form, regardless of
-            the field order;</para>
-          </listitem>
-
-          <listitem>
-            <para>the <option>textarea</option> field type is a synonym of
+            <para>the <option>textarea</option> field type is a synonym for
             <option>text:12</option>;</para>
           </listitem>
 
           <listitem>
-            <para>the <option>value</option>: line can be used for all fields
-            of type <option>text</option>, <option>email</option>,
-            <option>number</option> and <option>textarea</option> to provide a
-            default value;</para>
+            <para>the <option>value</option>: line can be used to provide a
+            default value for all fields of type <option>text</option>,
+            <option>email</option>, <option>number</option> and
+            <option>textarea</option>;</para>
+          </listitem>
+
+          <listitem>
+            <para>the <option>options</option>: line can be used to provide a
+            list of values for a drop-down box;</para>
           </listitem>
 
           <listitem>
             <para>the <option>sendername</option> attribute indicates that the
-            field value must be used as name of the sender;</para>
+            field value is to be used as name of the sender;</para>
+          </listitem>
+
+          <listitem>
+            <para>the <option>sender</option> attribute indicates that the
+            field value is to be used as the email address of the
+            sender;</para>
           </listitem>
 
           <listitem>
@@ -1936,13 +1982,34 @@ submit</programlisting>
 
           <listitem>
             <para>the <option>message</option> attribute will insert the field
-            value "as is", i.e. without specifying the field name;</para>
+            value "as is", i.e. without specifying a field name;</para>
           </listitem>
 
           <listitem>
-            <para>you can't insert a new line while defining a parameter. Each
-            parameter (field name, field type, options, etc.) goes on its own
-            line.</para>
+            <para>the <option>required</option> attribute may be specified to
+            make a field mandatory. Required fields are shown in bold by
+            default;</para>
+          </listitem>
+
+          <listitem>
+            <para>the <option>hidden</option> attribute can be used to include
+            a non-displaying value in the form;</para>
+          </listitem>
+
+          <listitem>
+            <para>the <option>messagebody</option> attribute can be used to
+            identify the field to be used as the body of the generated
+            email;</para>
+          </listitem>
+
+          <listitem>
+            <para>buttons are inserted at the end of the form, regardless of
+            the field order;</para>
+          </listitem>
+
+          <listitem>
+            <para>each parameter (field name, field type, options, etc.) must
+            be on a single line.</para>
           </listitem>
         </itemizedlist>
 
@@ -1994,8 +2061,9 @@ reset</programlisting>
           </mediaobject>
         </screenshot>
 
-        <para>Finally, this is the default MeshCMS form in English (recipient
-        is not specified since it is added in the page editor):</para>
+        <para>Finally, this is the default MeshCMS form in English (the
+        recipient is not specified, since it is added in the page
+        editor):</para>
 
         <programlisting>Name
 sendername
@@ -2011,7 +2079,7 @@ messagebody
 Send Now
 submit</programlisting>
 
-        <para>Required fields are shown in bold by default.</para>
+        <para></para>
       </section>
 
       <section id="module_most_visited">
