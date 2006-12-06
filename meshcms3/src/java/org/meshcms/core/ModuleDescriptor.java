@@ -205,7 +205,8 @@ public class ModuleDescriptor {
    * Returns the value of the requested advanced parameter.
    */
   public String getAdvancedParam(String paramName, String defaultValue) {
-    return advancedParams.getProperty(paramName, defaultValue);
+    return advancedParams == null ? defaultValue :
+     advancedParams.getProperty(paramName, defaultValue);
   }
 
   /**

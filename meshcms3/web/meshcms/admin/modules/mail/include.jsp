@@ -32,8 +32,8 @@
 
 <%--
   Advanced parameters for this module:
-  - css = (name of a css class)
-  - width = (width of fields, defaults to 40em)
+  - form_css = (name of a css class for full form)
+  - field_css = (name of a css class for input fields)
 --%>
 
 <%
@@ -53,12 +53,11 @@
   }
 %>
 
-<div<%= md.getFullCSSAttribute("css") %>>
+<div class="<%= md.getAdvancedParam("form_css", "mailform") %>">
 
 <%
   Path pagePath = webSite.getRequestedPath(request);
   String cp = request.getContextPath();
-  String width = md.getAdvancedParam("width", "40em");
 
   Locale locale = WebUtils.getPageLocale(pageContext);
   ResourceBundle pageBundle = ResourceBundle.getBundle
@@ -259,6 +258,7 @@
 <%
       Iterator iterator = fields.iterator();
       FormField field;
+      String fieldStyle = md.getAdvancedParam("field_css", "formfields");
 
       while (iterator.hasNext()) {
         field = (FormField) iterator.next();
@@ -277,14 +277,13 @@
 
             if (field.getRows() == 1) {
               %><input type="text" name="<%= field.getCode() %>"
-                 id="mcmf_<%= field.getCode() %>"
-                 value="<%= Utils.encodeHTML(field.getValue()) %>"
-                 style="width: <%= width %>;" /><%
+                 id="mcmf_<%= field.getCode() %>" class="<%= fieldStyle %>"
+                 value="<%= Utils.encodeHTML(field.getValue()) %>" /><%
             } else {
               %><textarea name="<%= field.getCode() %>"
-                 id="mcmf_<%= field.getCode() %>"
-                 style="width: <%= width %>; height: <%= field.getRows()
-                 %>em;"><%= Utils.encodeHTML(field.getValue()) %></textarea><%
+                 id="mcmf_<%= field.getCode() %>" class="<%= fieldStyle %>"
+                 rows="<%= field.getRows()%>"
+                 ><%= Utils.encodeHTML(field.getValue()) %></textarea><%
             }
           } else if (type == FormField.SELECT_OPTION) {
             %><div class="<%= field.isRequired() ? "requiredfieldname" :
@@ -306,7 +305,7 @@
         }
       }
       %></div>
-      <div class="fieldbuttons" style="width: <%= width %>;"><%
+      <div class="fieldbuttons"><%
       iterator = fields.iterator();
 
       while (iterator.hasNext()) {

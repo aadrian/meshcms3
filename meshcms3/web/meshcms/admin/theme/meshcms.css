@@ -1,6 +1,8 @@
-/* Applied to mail forms -- no longer used */
+/* Entire mail form. Be very explicit with sizes to avoid IE6 textfield bug. */
 .mailform {
- width: 400px;
+ width: 80%;
+ padding-left: 10%;
+ padding-right: 10%;
 }
 
 /* Field name in mail forms */
@@ -14,12 +16,9 @@
  font-weight: bold;
 }
 
-/* Applied to the DIV that contains fields in mail form */
+/* Applied to the fields in mail form */
 .formfields {
- /* These styles cause problems with textareas in IE6 
- padding-left: 10%;
- padding-right: 10%;
- */
+ width: 100%;
 }
 
 /* Applied to the DIV that contains buttons in mail form */
