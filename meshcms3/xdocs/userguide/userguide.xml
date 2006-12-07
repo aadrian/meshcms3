@@ -1363,10 +1363,6 @@
 
         <itemizedlist>
           <listitem>
-            <para><parameter>css</parameter>: the name of a css class;</para>
-          </listitem>
-
-          <listitem>
             <para><parameter>date</parameter>: the type of file date to be
             shown. Possible values are <option>none</option> (default),
             <option>normal</option> (date only) and <option>full</option>
@@ -1374,8 +1370,15 @@
           </listitem>
 
           <listitem>
-            <para><parameter>width</parameter>: relative width of fields
-            (defaults to 98%);</para>
+            <para><parameter>form_css</parameter>: the ccs class of the
+            <option>div</option> that contains the entire form. The default
+            value is <option>mailform</option>;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>field_css</parameter>: the css class of the
+            individual form fields. The default value is
+            <option>formfields</option>;</para>
           </listitem>
 
           <listitem>
@@ -2078,8 +2081,6 @@ messagebody
 
 Send Now
 submit</programlisting>
-
-        <para></para>
       </section>
 
       <section id="module_most_visited">

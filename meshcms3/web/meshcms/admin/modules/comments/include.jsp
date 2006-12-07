@@ -34,10 +34,10 @@
 
 <%--
   Advanced parameters for this module:
-  - css = (name of a css class)
   - date = none (default) | normal | full
-  - width = (width of fields, defaults to 40em)
   - notify = (e-mail address to send notifications of new comments)
+  - form_css = (name of a css class for full form)
+  - field_css = (name of a css class for input fields)
 --%>
 
 <%
@@ -175,9 +175,9 @@
   }
   
   tinyMCE.init({
-    mode : "specific_textareas",
+    mode : "exact",
     theme : "simple",
-    editor_selector : "mceEditor",
+    elements : "mcc_text",
     language : "<%= langCode %>"
   });
 </script>
@@ -185,9 +185,10 @@
 <form name="mcc_<%= md.getLocation() %>" method="post">
 <input type="hidden" name="post_modulecode" value="<%= moduleCode %>" />
 <input type="hidden" name="delId" value="" />
-<div<%= md.getFullCSSAttribute("css") %>>
+<div class="<%= md.getAdvancedParam("form_css", "mailform") %>">
 
 <%
+  String fieldStyle = md.getAdvancedParam("field_css", "formfields");
   File[] files = commentsDir.listFiles();
 
   if (files != null && files.length > 0) {
@@ -230,23 +231,21 @@
       }
     }
   }
-  
-  String width = md.getAdvancedParam("width", "40em");
 %>
 
  <div class="includeitem">
   <div class="includetext">
     <div><label for="mcc_name"><%= pageBundle.getString("commentsName") %></label></div>
-    <div><input type="text" name="name" id="mcc_name" style="width: <%= width %>;" /></div>
+    <div><input type="text" name="name" id="mcc_name" class="<%= fieldStyle %>" /></div>
   </div>
   <div class="includetext">
     <div><label for="mcc_text"><%= pageBundle.getString("commentsText") %></label></div>
-    <div><textarea name="text" id="mcc_text" class="mceEditor" style="width: <%= width %>; height: 12em;"></textarea></div>
+    <div><textarea name="text" id="mcc_text" class="<%= fieldStyle %>" style="height: 12em;"></textarea></div>
   </div>
   <div class="includetext">
     <div>
       <label for="mcc_sum"><%= n1 %> + <%= n2 %> =</label>
-      <input type="text" name="sum" id="mcc_sum" style="width: 3em;" />
+      <input type="text" name="sum" id="mcc_sum" class="<%= fieldStyle %>" style="width: 3em;" />
       <input type="hidden" name="n1" value="<%= n1 * (WebSite.SYSTEM_CHARSET.hashCode() >>> 8) %>" />
       <input type="hidden" name="n2" value="<%= n2 * (WebSite.VERSION_ID.hashCode() >>> 8) %>" />
     </div>
