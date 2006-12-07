@@ -236,9 +236,19 @@ public final class Utils {
 
   /**
    * Replaces some characters with their HTML entities. Only replaces &quot;,
-   * &amp;, &#39;, &lt; and &gt;.
+   * &#39;, &lt; and &gt;.
    */
   public static String encodeHTML(String s) {
+    return encodeHTML(s, false);
+  }
+  
+  /**
+   * Replaces some characters with their HTML entities. Only replaces &quot;,
+   * &#39;, &lt; and &gt;.
+   *
+   * #param encodeAmpersands if true replaces &amp; too
+   */
+  public static String encodeHTML(String s, boolean encodeAmpersands) {
     if (isNullOrEmpty(s)) {
       return "";
     }
@@ -252,9 +262,14 @@ public final class Utils {
         case '\"':
           sb.append("&quot;");
           break;
-        /* case '&':
-          sb.append("&amp;");
-          break; */
+        case '&':
+          if (encodeAmpersands) {
+            sb.append("&amp;");
+          } else {
+            sb.append(c);
+          }
+          
+          break;
         case '\'':
           sb.append("&#39;");
           break;
