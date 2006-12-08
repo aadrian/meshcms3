@@ -1,5 +1,17 @@
 ________________________________
 --------------------------------
+2006-11-22: 3.0.2 released
+--------------------------------
+
+- EditArea upgraded to 0.6.2
+- JavaMail upgraded to 1.4 (activation 1.1)
+- Commons-FileUpload upgraded to 1.1.1 (Commons-IO 1.2)
+- XStream upgraded to 1.2.1
+- Browser compatibility improved for some modules (i.e. Mail and Comments)
+- Guide documents features added in 3.0.1
+
+________________________________
+--------------------------------
 2006-11-22: 3.0.1 released
 --------------------------------
 
