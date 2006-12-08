@@ -295,10 +295,10 @@
         <% }
 
         String theme = siteInfo.getPageTheme(pagePath);
-        String tCode = siteInfo.getTitleCode(pagePath);
-        String dCode = siteInfo.getThemeCode(pagePath);
-        String sCode = siteInfo.getScoreCode(pagePath);
-        String hCode = siteInfo.getHideSubmenuCode(pagePath);
+        String tCode = SiteInfo.getTitleCode(pagePath);
+        String dCode = SiteInfo.getThemeCode(pagePath);
+        String sCode = SiteInfo.getScoreCode(pagePath);
+        String hCode = SiteInfo.getHideSubmenuCode(pagePath);
         boolean hideMenu = siteInfo.getHideSubmenu(pagePath);
         boolean userOk = userInfo.canWrite(webSite, pagePath);
         Path servedPath = siteMap.getServedPath(pagePath);

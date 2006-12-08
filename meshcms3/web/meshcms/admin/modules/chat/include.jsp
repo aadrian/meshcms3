@@ -31,13 +31,8 @@
  * Whatever you want to add...
 --%>
 
-<%@ page import="java.io.*" %>
-<%@ page import="java.text.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="org.meshcms.core.*" %>
-<%@ page import="org.meshcms.util.*" %>
-<%@ page import="com.opensymphony.module.sitemesh.parser.*" %>
-<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 
 <%--
   Advanced parameters for this module:

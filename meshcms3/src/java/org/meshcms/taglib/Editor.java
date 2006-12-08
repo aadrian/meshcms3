@@ -25,7 +25,6 @@ package org.meshcms.taglib;
 import java.io.*;
 import org.meshcms.core.*;
 import com.opensymphony.module.sitemesh.*;
-import com.opensymphony.module.sitemesh.parser.*;
 
 /**
  * This tag must include all others in a theme file. This is required to enclose

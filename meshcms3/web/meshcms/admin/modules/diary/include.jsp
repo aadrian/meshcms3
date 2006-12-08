@@ -27,7 +27,6 @@
 <%@ page import="java.util.*" %>
 <%@ page import="java.util.regex.*" %>
 <%@ page import="org.meshcms.core.*" %>
-<%@ page import="org.meshcms.taglib.*" %>
 <%@ page import="org.meshcms.util.*" %>
 <%@ page import="com.opensymphony.module.sitemesh.*" %>
 <%@ page import="com.opensymphony.module.sitemesh.parser.*" %>

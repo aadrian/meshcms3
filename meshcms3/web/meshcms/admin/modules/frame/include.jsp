@@ -20,11 +20,7 @@
  and at info@cromoteca.com
 --%>
 
-<%@ page import="java.io.*" %>
-<%@ page import="java.util.*" %>
 <%@ page import="org.meshcms.core.*" %>
-<%@ page import="org.meshcms.util.*" %>
-<jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 
 <%--
   Advanced parameters for this module:

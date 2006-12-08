@@ -23,7 +23,6 @@
 package org.meshcms.core;
 
 import java.io.*;
-import org.meshcms.util.*;
 
 /**
  * Manages the configuration parameters of a website.

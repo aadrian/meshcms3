@@ -52,6 +52,7 @@
 
   <div id="footer"><p>&copy; <a href="<cms:info id="authorurl" />"><cms:info id="author" /></a>
  | Design by <a href="http://andreasviklund.com">Andreas Viklund</a></p></div>
+</div>
 </cms:editor>
 </body>
 </html>

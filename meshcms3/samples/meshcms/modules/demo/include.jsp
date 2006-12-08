@@ -24,7 +24,6 @@
 <%@ page import="java.text.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="org.meshcms.core.*" %>
-<%@ page import="org.meshcms.util.*" %>
 
 <%-- get the website instance --%>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />

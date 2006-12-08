@@ -61,7 +61,6 @@
     fullSrc = pa.getPage();
   } else {
     filePath = new Path(request.getParameter("pagepath"));
-    PageInfo pageInfo = webSite.getSiteMap().getPageInfo(filePath);
   }
 
   if (!userInfo.canWrite(webSite, filePath)) {

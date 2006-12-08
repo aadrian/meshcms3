@@ -163,6 +163,7 @@ public class SiteMap extends DirectoryParser {
         pageInfo.setTitle(title);
         pageInfo.setLastModified(file.lastModified());
 
+        /*
         String[] pKeys = page.getPropertyKeys();
         String pageCharset = null;
 
@@ -171,6 +172,7 @@ public class SiteMap extends DirectoryParser {
             pageCharset = WebUtils.parseCharset(page.getProperty(pKeys[i]));
           }
         }
+        */
       } catch (Exception ex) {
         pageInfo.setTitle(Utils.beautify(path.getLastElement(), true));
         pageInfo.setLastModified(0L);

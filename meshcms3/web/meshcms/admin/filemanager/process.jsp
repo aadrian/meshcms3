@@ -104,7 +104,7 @@
         if (FileTypes.isPage(fileNames[i]) || 
             webSite.getFile(filePath).isDirectory()) {
           if (userInfo.canWrite(webSite, filePath)) {
-            siteInfo.setValue(siteInfo.getThemeCode(filePath), themeName);
+            siteInfo.setValue(SiteInfo.getThemeCode(filePath), themeName);
             needsUpdate = true;
           } else {
             Object[] args = { fileNames[i] };

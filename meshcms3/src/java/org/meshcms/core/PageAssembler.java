@@ -51,13 +51,11 @@ public final class PageAssembler {
   // private StringBuffer htmlTag = new StringBuffer();
   private StringBuffer bodyTag = new StringBuffer();
   private Properties mod_templates, mod_args, mod_params;
-  private boolean contentType;
 
   public PageAssembler() {
     mod_templates = new Properties();
     mod_args = new Properties();
     mod_params = new Properties();
-    contentType = false;
   }
   
   /**

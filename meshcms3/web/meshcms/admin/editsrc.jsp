@@ -41,7 +41,6 @@
   }
   
   File file = webSite.getFile(pagePath);
-  PageInfo pageInfo = webSite.getSiteMap().getPageInfo(pagePath);
   String full = Utils.readFully(file);
   // session.setAttribute("MeshCMSNowEditing", pagePath); // no longer needed
   

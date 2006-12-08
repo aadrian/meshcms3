@@ -69,7 +69,6 @@ public class LangMenu extends AbstractTag {
         putSeparator = true;
         SiteMap.CodeLocalePair lang = (SiteMap.CodeLocalePair) iter.next();
         String langCode = lang.getCode();
-        Locale locale = lang.getLocale();
         String localeName = WebUtils.encodeHTML(lang.getName());
         String link = null;
         String msg = null;

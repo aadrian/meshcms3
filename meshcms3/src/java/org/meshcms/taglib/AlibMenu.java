@@ -35,8 +35,6 @@ public final class AlibMenu extends AbstractTag {
   public static final String PART_BODY = "body";
   public static final String HORIZONTAL = "horizontal";
   public static final String VERTICAL = "vertical";
-  public static final String TEXT = "text";
-  public static final String LINK = "link";
   
   private String indentation = "  ";
   private String indentBuffer = "";
@@ -63,7 +61,6 @@ public final class AlibMenu extends AbstractTag {
       outWriter.write("<link type='text/css' href='" +
           WebUtils.getFullThemeFolder(request) + "/alib.css' rel='stylesheet' />\n");
     } else {
-      boolean linkCurrent = current != null && current.equalsIgnoreCase(LINK);
       boolean allowHiding = Utils.isTrue(this.allowHiding);
 
       SiteMap siteMap = webSite.getSiteMap();

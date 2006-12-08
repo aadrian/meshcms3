@@ -87,7 +87,6 @@ public class PageHead extends AbstractTag {
     w.write("<script language='javascript' type='text/javascript' src='" +
       cp + '/' + webSite.getAdminScriptsPath() + "/editor.js'></script>\n");
     
-    Path themePath = (Path) request.getAttribute(HitFilter.THEME_PATH_ATTRIBUTE);
     w.write("<script language='javascript' type='text/javascript' src='" + cp + '/' +
       (webSite.getFile(webSite.getCMSPath().add("tinymce_init.js")).exists() ?
       webSite.getCMSPath() : webSite.getAdminScriptsPath()) +
