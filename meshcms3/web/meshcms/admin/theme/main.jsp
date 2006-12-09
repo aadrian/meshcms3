@@ -88,7 +88,7 @@
 %>
     Used Memory: <%= (runtime.totalMemory() - runtime.freeMemory()) *
                       100 / runtime.maxMemory() %>% |
-    System charset: <%= webSite.SYSTEM_CHARSET %>
+    System charset: <%= WebSite.SYSTEM_CHARSET %>
     
     <br />
 <%
