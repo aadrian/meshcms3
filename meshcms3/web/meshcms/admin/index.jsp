@@ -119,6 +119,10 @@
     &nbsp;
    <% } %>
   </td>
+
+  <td align="center">
+    &nbsp;
+  </td>
  </tr>
 
  <tr>
@@ -139,11 +143,23 @@
   </td>
 
   <td align="center">
+   <% if (userInfo.canDo(UserInfo.CAN_BROWSE_FILES)) { %>
+    <a href="<%= cp + '/' + webSite.getAdminPath() %>/staticexport1.jsp"><img src="images/button_export.gif" vspace="12" alt=""/><br /><fmt:message key="homeExport" /></a>
+   <% } else { %>
+    &nbsp;
+   <% } %>
+  </td>
+
+  <td align="center">
    <% if (!webSite.isVirtual() && userInfo.canDo(UserInfo.CAN_DO_ADMINTASKS)) { %>
     <a href="<%= cp + '/' + webSite.getAdminPath() %>/editsites1.jsp"><img src="images/button_sites.gif" vspace="12" alt=""/><br /><fmt:message key="homeSites" /></a>
    <% } else { %>
     &nbsp;
    <% } %>
+  </td>
+
+  <td align="center">
+    &nbsp;
   </td>
  </tr>
 </table>

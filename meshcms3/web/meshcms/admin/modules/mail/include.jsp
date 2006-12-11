@@ -250,7 +250,7 @@
       }
     }
 
-    if (hasRecipient) {
+    if (hasRecipient && !org.meshcms.extra.StaticExporter.isExportRequest(request)) {
 %>
     <form method="post">
     <input type="hidden" name="post_modulecode" value="<%= moduleCode %>" />

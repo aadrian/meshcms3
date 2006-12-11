@@ -233,6 +233,9 @@
   }
 %>
 
+<%
+  if (!org.meshcms.extra.StaticExporter.isExportRequest(request)) {
+%>
  <div class="includeitem">
   <div class="includetext">
     <div><label for="mcc_name"><%= pageBundle.getString("commentsName") %></label></div>
@@ -254,6 +257,9 @@
     </div>
   </div>
  </div>
+<%
+  }
+%>
 
 </div>
 </form>

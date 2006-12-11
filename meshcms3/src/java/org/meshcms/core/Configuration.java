@@ -65,6 +65,7 @@ public class Configuration implements Serializable {
   private boolean hideExceptions;
   private boolean editorModulesCollapsed;
   private boolean highQualityThumbnails;
+  private boolean exportCheckDates;
   private int backupLife;
   private int statsLength;
   private int updateInterval;
@@ -78,6 +79,9 @@ public class Configuration implements Serializable {
   private String siteKeywords;
   private String siteAuthor;
   private String siteAuthorURL;
+  private String exportBaseURL;
+  private String exportDir;
+  private String exportCommand;
   private String[] visualExtensions;
   
   private Configuration() {
@@ -88,6 +92,7 @@ public class Configuration implements Serializable {
     setHideExceptions(true);
     setEditorModulesCollapsed(false);
     setHighQualityThumbnails(false);
+    setExportCheckDates(true);
     
     setBackupLife(90);
     setStatsLength(3);
@@ -97,7 +102,6 @@ public class Configuration implements Serializable {
     setMailServer("localhost");
     setSmtpUsername("");
     setSmtpPassword("");
-    
     setSiteAuthor("Luciano Vernaschi");
     setSiteAuthorURL("http://www.cromoteca.com/");
     setSiteDescription("MeshCMS is a Content Management System designed to be" +
@@ -107,6 +111,9 @@ public class Configuration implements Serializable {
     setSiteHost("www.meshcms.org");
     setSiteKeywords("meshcms, cms, java, jsp, servlet, content management system");
     setSiteName("MeshCMS - Open Source Content Management System");
+    setExportBaseURL("");
+    setExportDir("");
+    setExportCommand("");
 
     setVisualExtensions(DEFAULT_VISUAL_EXTENSIONS);
   }
@@ -454,5 +461,37 @@ public class Configuration implements Serializable {
 
   public void setHighQualityThumbnails(boolean highQualityThumbnails) {
     this.highQualityThumbnails = highQualityThumbnails;
+  }
+
+  public boolean isExportCheckDates() {
+    return exportCheckDates;
+  }
+
+  public void setExportCheckDates(boolean exportCheckDates) {
+    this.exportCheckDates = exportCheckDates;
+  }
+
+  public String getExportBaseURL() {
+    return exportBaseURL;
+  }
+
+  public void setExportBaseURL(String exportBaseURL) {
+    this.exportBaseURL = exportBaseURL;
+  }
+
+  public String getExportDir() {
+    return exportDir;
+  }
+
+  public void setExportDir(String exportDir) {
+    this.exportDir = exportDir;
+  }
+
+  public String getExportCommand() {
+    return exportCommand;
+  }
+
+  public void setExportCommand(String exportCommand) {
+    this.exportCommand = exportCommand;
   }
 }
