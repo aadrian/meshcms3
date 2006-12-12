@@ -90,7 +90,7 @@ public class SiteMap extends DirectoryParser {
     return true;
   }
 
-  protected boolean processDirectory(File file, Path path) {
+  protected boolean preProcessDirectory(File file, Path path) {
     if (!webSite.isSystem(path)) {
       Path wPath = webSite.findCurrentWelcome(path);
 

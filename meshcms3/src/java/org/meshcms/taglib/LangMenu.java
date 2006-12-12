@@ -77,7 +77,7 @@ public class LangMenu extends AbstractTag {
           Path path = siteMap.getServedPath(pagePath.replace(0, langCode));
 
           if (!webSite.getFile(path).isFile()) {
-            if (userInfo.canWrite(webSite, path)) {
+            if (userInfo != null && userInfo.canWrite(webSite, path)) {
               PageInfo ppi = siteMap.getParentPageInfo(pagePath);
 
               if (ppi != null && ppi.getLevel() > 0) {

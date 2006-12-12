@@ -33,17 +33,14 @@ public class DirectoryRemover extends DirectoryParser {
   public DirectoryRemover(File dir) {
     setInitialDir(dir);
     setRecursive(true);
-    setProcessDirBeforeContent(false);
     setProcessStartDir(true);
     result = true;
   }
 
-  protected boolean processDirectory(File file, Path path) {
+  protected void postProcessDirectory(File file, Path path) {
     if (!Utils.forceDelete(file)) {
       result = false;
     }
-    
-    return true; // processDirBeforeContent is false, so the return value is useless
   }
   
   protected void processFile(File file, Path path) {

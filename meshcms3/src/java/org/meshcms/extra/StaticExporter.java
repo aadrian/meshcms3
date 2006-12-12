@@ -124,21 +124,51 @@ public class StaticExporter extends DirectoryParser {
   }
 
   protected void postProcess() {
+    MainWebSite mainWebSite = null;
+    
+    if (webSite instanceof VirtualWebSite) {
+      mainWebSite = ((VirtualWebSite) webSite).getMainWebSite();
+    }
+    
     write("");
     StaticExportCopier copier = new StaticExportCopier(staticDir);
     copier.setInitialDir(initialDir);
     copier.setWriter(writer);
     copier.setCheckDates(checkDates);
     copier.process();
-
+    
     write("");
     StaticExportCleaner cleaner = new StaticExportCleaner(initialDir);
     cleaner.setInitialDir(staticDir);
     cleaner.setWriter(writer);
+    
+    if (mainWebSite != null) {
+      cleaner.setProtectedPath(webSite.getAdminPath());
+    }
+    
     cleaner.process();
+
+    if (mainWebSite != null) {
+      File adminStaticDir = webSite.getAdminPath().getFile(staticDir);
+      File adminDir = mainWebSite.getFile(mainWebSite.getAdminPath());
+
+      write("");
+      StaticExportCopier adminCopier = new StaticExportCopier(adminStaticDir);
+      adminCopier.setMkDirs(true);
+      adminCopier.setInitialDir(adminDir);
+      adminCopier.setWriter(writer);
+      adminCopier.setCheckDates(checkDates);
+      adminCopier.process();
+      
+      write("");
+      StaticExportCleaner adminCleaner = new StaticExportCleaner(adminDir);
+      adminCleaner.setInitialDir(adminStaticDir);
+      adminCleaner.setWriter(writer);
+      adminCleaner.process();
+    }
   }
 
-  protected boolean processDirectory(File file, Path path) {
+  protected boolean preProcessDirectory(File file, Path path) {
     File dir = path.getFile(staticDir);
 
     if (isExportable(path)) {

@@ -34,6 +34,7 @@ import org.meshcms.util.*;
 public class StaticExportCopier extends DirectoryParser {
   File destinationRoot;
   private boolean checkDates;
+  private boolean mkDirs;
   Writer writer;
 
   /**
@@ -42,7 +43,6 @@ public class StaticExportCopier extends DirectoryParser {
   public StaticExportCopier(File destinationRoot) {
     super();
     this.destinationRoot = destinationRoot;
-    setProcessDirBeforeContent(true);
     setRecursive(true);
   }
 
@@ -60,8 +60,14 @@ public class StaticExportCopier extends DirectoryParser {
     return writer;
   }
 
-  protected boolean processDirectory(File file, Path path) {
-    return file.isDirectory();
+  protected boolean preProcessDirectory(File file, Path path) {
+    File destDir = path.getFile(destinationRoot);
+    
+    if (mkDirs) {
+      destDir.mkdirs();
+    }
+    
+    return destDir.isDirectory();
   }
 
   protected void processFile(File file, Path path) {
@@ -96,5 +102,13 @@ public class StaticExportCopier extends DirectoryParser {
 
   public void setCheckDates(boolean checkDates) {
     this.checkDates = checkDates;
+  }
+
+  public boolean isMkDirs() {
+    return mkDirs;
+  }
+
+  public void setMkDirs(boolean mkDirs) {
+    this.mkDirs = mkDirs;
   }
 }

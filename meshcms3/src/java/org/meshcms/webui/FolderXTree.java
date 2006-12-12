@@ -75,7 +75,7 @@ public class FolderXTree extends DirectoryParser {
     // nothing to do here
   }
 
-  protected boolean processDirectory(File file, Path path) {
+  protected boolean preProcessDirectory(File file, Path path) {
     if (path.equals(webSite.getRepositoryPath())) {
       return false;
     }

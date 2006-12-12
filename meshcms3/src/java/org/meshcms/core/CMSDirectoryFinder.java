@@ -51,7 +51,7 @@ public class CMSDirectoryFinder extends DirectoryParser {
     //
   }
 
-  protected boolean processDirectory(File file, Path path) {
+  protected boolean preProcessDirectory(File file, Path path) {
     if (cmsPath != null) {
       return false;
     }

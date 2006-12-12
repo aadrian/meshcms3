@@ -26,9 +26,10 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Abstract base class to perform operations on the contents of a directory.
+ * Base class to perform operations on the contents of a directory.
  *
- * <p>Override the abstract method <code>processDirectory</code> and
+ * <p>Override the method <code>preProcessDirectory</code>,
+ * <code>postProcessDirectory</code> and
  * <code>processFile</code> to define the actions to be taken for files and
  * directories included in the processed directory. You can also override
  * <code>preProcess</code> and <code>postProcess</code> to do additional
@@ -45,7 +46,7 @@ import java.util.*;
  *
  * @author Luciano Vernaschi
  */
-public abstract class DirectoryParser extends Thread {
+public class DirectoryParser extends Thread {
   protected File initialDir;
 
   protected boolean recursive = false;
@@ -76,6 +77,7 @@ public abstract class DirectoryParser extends Thread {
    * for a directory before processing its contents (default true).
    *
    * @see #processDirectory
+   * @deprecated implement {@link #preProcessDirectory} or {@link #postProcessDirectory} accordingly
    */
   public void setProcessDirBeforeContent(boolean processDirBeforeContent) {
     this.processDirBeforeContent = processDirBeforeContent;
@@ -107,6 +109,8 @@ public abstract class DirectoryParser extends Thread {
    *
    * @see #processDirectory
    * @see #setProcessDirBeforeContent
+   *
+   * @deprecated implement {@link #preProcessDirectory} or {@link #postProcessDirectory} accordingly
    */
   public boolean isProcessDirBeforeContent() {
     return processDirBeforeContent;
@@ -190,8 +194,13 @@ public abstract class DirectoryParser extends Thread {
       if (recursive || path.getElementCount() == 0) {
         boolean ok = true;
 
-        if (processDirBeforeContent) {
-          ok = processCurrentDir(file, path);
+        if (mustProcessDir(path)) {
+          ok = preProcessDirectory(file, path);
+          
+          // support deprecated processDirBeforeContent
+          if (processDirBeforeContent) {
+            ok &= processDirectory(file, path);
+          }
         }
 
         if (ok) {
@@ -207,16 +216,21 @@ public abstract class DirectoryParser extends Thread {
         }
       }
 
-      if (!processDirBeforeContent) {
-        processCurrentDir(file, path);
+      if (mustProcessDir(path)) {
+        postProcessDirectory(file, path);
+        
+        // support deprecated processDirBeforeContent
+        if (!processDirBeforeContent) {
+          processDirectory(file, path);
+        }
       }
     } else if (file.isFile()) {
       processFile(file, path);
     }
   }
 
-  private boolean processCurrentDir(File file, Path path) {
-    return (!(processStartDir || path.getElementCount() != 0)) || processDirectory(file, path);
+  private boolean mustProcessDir(Path path) {
+    return processStartDir || path.getElementCount() != 0;
   }
 
   /**
@@ -246,8 +260,19 @@ public abstract class DirectoryParser extends Thread {
    *
    * @param file the directory to be processed
    * @param path the path of the directory (relative to the base directory)
+   *
+   * @deprecated use {@link #preProcessDirectory} and {@link #postProcessDirectory} instead
    */
-  protected abstract boolean processDirectory(File file, Path path);
+  protected boolean processDirectory(File file, Path path) {
+    return true;
+  }
+
+  protected boolean preProcessDirectory(File file, Path path) {
+    return true;
+  }
+
+  protected void postProcessDirectory(File file, Path path) {
+  }
 
   /**
    * This method will be called for any file found while parsing the base
@@ -256,5 +281,6 @@ public abstract class DirectoryParser extends Thread {
    * @param file the file to be processed
    * @param path the path of the file (relative to the base directory)
    */
-  protected abstract void processFile(File file, Path path);
+  protected void processFile(File file, Path path) {
+  }
 }

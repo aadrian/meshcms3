@@ -42,7 +42,7 @@ public class ZipArchiver extends DirectoryParser {
     buf = new byte[Utils.BUFFER_SIZE];
   }
 
-  protected boolean processDirectory(File file, Path path) {
+  protected boolean preProcessDirectory(File file, Path path) {
     try {
       ZipEntry ze = new ZipEntry(path + "/");
       ze.setTime(file.lastModified());

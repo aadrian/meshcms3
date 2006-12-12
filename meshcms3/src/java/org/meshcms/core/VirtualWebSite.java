@@ -84,7 +84,7 @@ public class VirtualWebSite extends WebSite {
     return mainWebSite.getFile(getServedPath(path));
   }
 
-  protected MainWebSite getMainWebSite() {
+  public MainWebSite getMainWebSite() {
     return mainWebSite;
   }
 

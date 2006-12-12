@@ -47,7 +47,7 @@ public class DirectoryCopier extends DirectoryParser {
     return overwriteDir || !newDir.exists();
   }
 
-  protected boolean processDirectory(File file, Path path) {
+  protected boolean preProcessDirectory(File file, Path path) {
     File dir = path.getFile(newDir);
     dir.mkdirs();
     

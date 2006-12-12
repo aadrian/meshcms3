@@ -34,6 +34,7 @@ import org.meshcms.util.*;
 public class StaticExportCleaner extends DirectoryParser {
   File contextRoot;
   Writer writer;
+  private Path protectedPath;
 
   /**
    * Creates an instance for the given context root
@@ -41,7 +42,6 @@ public class StaticExportCleaner extends DirectoryParser {
   public StaticExportCleaner(File contextRoot) {
     super();
     this.contextRoot = contextRoot;
-    setProcessDirBeforeContent(false);
     setRecursive(true);
   }
 
@@ -63,12 +63,14 @@ public class StaticExportCleaner extends DirectoryParser {
     return contextRoot != null && contextRoot.exists();
   }
 
-  protected boolean processDirectory(File file, Path path) {
+  protected boolean preProcessDirectory(File file, Path path) {
+    return !path.equals(protectedPath);
+  }
+
+  protected void postProcessDirectory(File file, Path path) {
     if (file.delete()) {
       write("empty " + path + " directory deleted");
     }
-
-    return true;
   }
 
   protected void processFile(File file, Path path) {
@@ -90,5 +92,13 @@ public class StaticExportCleaner extends DirectoryParser {
         writer.flush();
       } catch (IOException ex) {}
     }
+  }
+
+  public Path getProtectedPath() {
+    return protectedPath;
+  }
+
+  public void setProtectedPath(Path protectedPath) {
+    this.protectedPath = protectedPath;
   }
 }

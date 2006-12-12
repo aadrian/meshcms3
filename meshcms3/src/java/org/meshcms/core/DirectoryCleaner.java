@@ -39,8 +39,6 @@ public class DirectoryCleaner extends DirectoryParser {
     setInitialDir(directory);
     maxLife = maxLifeMillis;
     setRecursive(true);
-    // the folder is processed after contents so we can delete empty folders
-    setProcessDirBeforeContent(false);
     setDaemon(true);
     setName("DirectoryCleaner for \"" + Utils.getFilePath(directory) + '"');
     setPriority(Thread.MIN_PRIORITY);
@@ -51,11 +49,10 @@ public class DirectoryCleaner extends DirectoryParser {
     return true;
   }
 
-  protected boolean processDirectory(File file, Path path) {
+  protected void postProcessDirectory(File file, Path path) {
     // try to delete the folder: this will succeed if the folder is empty
     // so we can get rid of useless folders.
     file.delete();
-    return true;
   }
 
   protected void processFile(File file, Path path) {
