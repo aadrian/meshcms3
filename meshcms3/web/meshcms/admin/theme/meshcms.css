@@ -1,8 +1,10 @@
 /* Entire mail form. Be very explicit with sizes to avoid IE6 textfield bug. */
 .mailform {
  width: 80%;
+ /* removed again due to issues with IE6 and 7
  padding-left: 10%;
  padding-right: 10%;
+ */
 }
 
 /* Field name in mail forms */
