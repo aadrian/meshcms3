@@ -71,7 +71,9 @@ public class StaticExportCopier extends DirectoryParser {
   }
 
   protected void processFile(File file, Path path) {
-    if (!FileTypes.isPage(file.getName())) {
+    if (!(FileTypes.isPage(file.getName()) || 
+        file.getName().equals(WebSite.CMS_ID_FILE) ||
+        file.getName().equals(WebSite.ADMIN_ID_FILE))) {
       File copy = path.getFile(destinationRoot);
       
       if (!(checkDates && copy.exists() &&

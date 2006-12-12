@@ -231,12 +231,23 @@ public class StaticExporter extends DirectoryParser {
   }
 
   public void process() {
+    // Avoid to store generated pages in cache
+    Configuration conf = webSite.getConfiguration();
+    int cacheType = conf.getCacheType();
+    conf.setCacheType(Configuration.NO_CACHE);
+    
+    write("base url: " + contextURL);
+
+    // Update the site map to make sure everything is up to date
     long time = System.currentTimeMillis();
     webSite.updateSiteMap(true);
     write("site map updated in " + (System.currentTimeMillis() - time) + " ms");
-    write("base url: " + contextURL);
+
     write("");
     super.process();
+    
+    // Restore cache
+    conf.setCacheType(cacheType);
   }
   
   public static boolean isExportRequest(HttpServletRequest request) {

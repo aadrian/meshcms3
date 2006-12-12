@@ -74,13 +74,12 @@ public class StaticExportCleaner extends DirectoryParser {
   }
 
   protected void processFile(File file, Path path) {
-    if (!path.getFile(contextRoot).exists()) {
+    if (!path.getFile(contextRoot).exists() ||
+        file.getName().equals(WebSite.CMS_ID_FILE) ||
+        file.getName().equals(WebSite.ADMIN_ID_FILE)) {
       if (file.delete()) {
         write(path + " file deleted");
       }
-    } else if (file.getName().equals(WebSite.CMS_ID_FILE) ||
-               file.getName().equals(WebSite.ADMIN_ID_FILE)) {
-      file.delete();
     }
   }
 
