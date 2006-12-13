@@ -26,6 +26,7 @@ import java.io.*;
 import java.text.*;
 import java.util.*;
 import org.meshcms.core.*;
+import org.meshcms.util.*;
 
 /**
  * Writes the date and time of last modification of the page.
@@ -35,11 +36,13 @@ public final class LastModified extends AbstractTag {
   public static final String DATE_FULL = "full";
   public static final String MODE_STATIC = "static";
   public static final String MODE_ALL = "all";
+  public static final String MODE_HIDDEN = "hidden";
 
   private String date;
   private String mode;
   private String pre;
   private String post;
+  private String update;
 
   public void setDate(String date) {
     this.date = date;
@@ -59,9 +62,11 @@ public final class LastModified extends AbstractTag {
 
   public void writeTag() throws IOException {
     Writer w = getOut();
+    mode = Utils.noNull(mode);
+    long time = WebUtils.getLastModifiedTime(request);
     
-    if ((mode != null && mode.equals(MODE_ALL)) ||
-        FileTypes.isLike(pagePath.getLastElement(), "html")) {
+    if (mode.equals(MODE_ALL) || (!mode.equals(MODE_HIDDEN) &&
+        FileTypes.isLike(pagePath.getLastElement(), "html"))) {
       Locale locale = WebUtils.getPageLocale(pageContext);
       DateFormat df;
 
@@ -76,13 +81,17 @@ public final class LastModified extends AbstractTag {
        w.write(pre);
       }
 
-      w.write(df.format(new Date(WebUtils.getLastModifiedTime(request))));
+      w.write(df.format(new Date(time)));
 
       if (post != null) {
         w.write(post);
       }
     } else {
       w.write("&nbsp;");
+    }
+    
+    if (Utils.isTrue(update)) {
+      webSite.getFile(pagePath).setLastModified(time);
     }
   }
 
@@ -100,5 +109,13 @@ public final class LastModified extends AbstractTag {
 
   public String getPost() {
     return post;
+  }
+
+  public String getUpdate() {
+    return update;
+  }
+
+  public void setUpdate(String update) {
+    this.update = update;
   }
 }
