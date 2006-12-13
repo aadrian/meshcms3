@@ -95,6 +95,11 @@
 %>
   <p><fmt:message key="saveView"><fmt:param value="<%= WebUtils.getPathInContext(request, filePath) %>" /></fmt:message></p>
 <%
+      if (webSite.getSiteMap().getPageInfo(filePath) != null) {
+%>
+  <script type="text/javascript">location.replace("<%= WebUtils.getPathInContext(request, filePath) %>")</script>
+<%        
+      }
     }
   } else {
 %>
