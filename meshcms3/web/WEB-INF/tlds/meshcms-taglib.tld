@@ -122,6 +122,21 @@
     <body-content>JSP</body-content>
   </tag>
   <tag>
+    <name>searchfile</name>
+    <tag-class>org.meshcms.taglib.SearchFile</tag-class>
+    <attribute>
+      <name>name</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>defaultName</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <body-content>JSP</body-content>
+  </tag>
+  <tag>
     <name>defaultcss</name>
     <tag-class>org.meshcms.taglib.DefaultCSS</tag-class>
     <body-content>JSP</body-content>
