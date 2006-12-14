@@ -69,7 +69,7 @@
 <head>
   <%= webSite.getAdminMetaThemeTag() %>
   <title><fmt:message key="<%= newUser ? "userNew" : "userEdit" %>" /></title>
-  <script language="javascript" type="text/javascript" src="scripts/editor.js"></script>
+  <script type="text/javascript" src="scripts/editor.js"></script>
 </head>
 
 <body>

@@ -67,7 +67,9 @@
 </div>
 
 <script type="text/javascript">
+// <![CDATA[
    var so = new SWFObject("<%= data %>", "xspfplayer", "400", "170", "7", "#FFFFFF");
    so.addParam("movie", "<%= data %>");
    so.write("flashcontent");
+// ]]>
 </script>

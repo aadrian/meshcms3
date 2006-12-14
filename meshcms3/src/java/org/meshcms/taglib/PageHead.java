@@ -73,21 +73,23 @@ public class PageHead extends AbstractTag {
 
     Writer w = getOut();
     ((HTMLPage) getPage()).writeHead(w);
-    w.write("\n<script language='javascript' type='text/javascript' src='" +
+    w.write("\n<script type='text/javascript' src='" +
       cp + '/' + (webSite.getFile(webSite.getCMSPath().add("tiny_mce")).exists() ?
       webSite.getCMSPath() : webSite.getAdminScriptsPath()) +
       "/tiny_mce/tiny_mce.js'></script>\n");
-    w.write("<script language='javascript' type='text/javascript'>\n");
+    w.write("<script type='text/javascript'>\n");
+    w.write("// <![CDATA[\n");
     w.write(" var contextPath = \"" + cp + "\";\n");
     w.write(" var adminPath = \"" + webSite.getAdminPath() + "\";\n");
     w.write(" var languageCode = \"" + langCode + "\";\n");
     w.write(" var linkListPath = \"" + linkListPath + "\";\n");
     w.write(" var cssPath = \"" + WebUtils.getFullThemeCSS(request) + "\";\n");
+    w.write("// ]]>\n");
     w.write("</script>\n");
-    w.write("<script language='javascript' type='text/javascript' src='" +
+    w.write("<script type='text/javascript' src='" +
       cp + '/' + webSite.getAdminScriptsPath() + "/editor.js'></script>\n");
     
-    w.write("<script language='javascript' type='text/javascript' src='" + cp + '/' +
+    w.write("<script type='text/javascript' src='" + cp + '/' +
       (webSite.getFile(webSite.getCMSPath().add("tinymce_init.js")).exists() ?
       webSite.getCMSPath() : webSite.getAdminScriptsPath()) +
       "/tinymce_init.js'></script>");

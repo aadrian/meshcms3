@@ -65,112 +65,114 @@
 %>
 
 <script type="text/javascript">
-/* Chat room id */
-var roomId = 'public';
+// <![CDATA[
+  /* Chat room id */
+  var roomId = 'public';
 
-/* Timer id */
-var timeoutID;
-/* Refresh rate of chat room */
-var waitTime = 0;
-/* Add 2s to every display refresh rate when the user doesn't participate in discussion */
-var waitInc = 2000;
+  /* Timer id */
+  var timeoutID;
+  /* Refresh rate of chat room */
+  var waitTime = 0;
+  /* Add 2s to every display refresh rate when the user doesn't participate in discussion */
+  var waitInc = 2000;
 
 
-/* Create and send a request with the url given, and call the callback function
-when the server answers. */
-function sendRequest(url, callback) {
-  var request = false;
-  if (window.XMLHttpRequest) {
-    request = new XMLHttpRequest();
-  } else if(window.ActiveXObject) {
-    try {
-	    request = new ActiveXObject('Msxml2.XMLHTTP');
-	  } catch (e) {
-	    try {
-	      request = new ActiveXObject('Microsoft.XMLHTTP');
-	    } catch (e) {
-	    }
-    }
-  }
-  if (!request) {
-    writeStatus('Your browser does not support XMLHTTP object; please upgrade to use Ajax Chat');
-    return;
-  }
-
-  request.onreadystatechange = function () {
-    if (request.readyState == 4) {
-      if (request.status == 200) {
-        callback(request.responseText);
-      } else {
-        writeStatus('HTTP error; Status=' + request.status);
+  /* Create and send a request with the url given, and call the callback function
+  when the server answers. */
+  function sendRequest(url, callback) {
+    var request = false;
+    if (window.XMLHttpRequest) {
+      request = new XMLHttpRequest();
+    } else if(window.ActiveXObject) {
+      try {
+              request = new ActiveXObject('Msxml2.XMLHTTP');
+            } catch (e) {
+              try {
+                request = new ActiveXObject('Microsoft.XMLHTTP');
+              } catch (e) {
+              }
       }
     }
-  };
-  request.open('GET', url, true);
-  request.send(null);
-}
+    if (!request) {
+      writeStatus('Your browser does not support XMLHTTP object; please upgrade to use Ajax Chat');
+      return;
+    }
 
-
-/* The more a user chats, the more often the display is refreshed. Users who don't
-participate in the discussion get slower and slower display refreshes to avoid
-to kill the server with the load. */
-function refreshChatRoom(reset) {
-  if (reset) {
-    waitTime = 2000;
-  } else if (waitTime < 30000) {
-    waitTime += waitInc;
+    request.onreadystatechange = function () {
+      if (request.readyState == 4) {
+        if (request.status == 200) {
+          callback(request.responseText);
+        } else {
+          writeStatus('HTTP error; Status=' + request.status);
+        }
+      }
+    };
+    request.open('GET', url, true);
+    request.send(null);
   }
-  clearTimeout(timeoutID);
-  timeoutID = window.setTimeout('getChatRoom()', waitTime);
-  writeStatus('Refresh in ' + (waitTime / 1000) + 's...');
-}
 
 
-/* Response acknowledge from server.jsp for a new message */
-function msgReceived(dummy) {
-}
-
-
-/* Send entered message */
-function submitMsg() {
-  var url = '<%= cp + '/' + md.getModulePath() %>/server.jsp?u=' + encodeURIComponent(document.getElementById('chatuser').value) + '&m=' + encodeURIComponent(document.getElementById('chatmsg').value);
-  sendRequest(url, msgReceived);
-  document.getElementById('chatmsg').value = '';
-  refreshChatRoom(true);
-}
-
-
-/* Response from server.jsp from the request for updated chat room content */
-function chatRoomReceived(content) {
-  if (content != '') {
-    //content = content.replace(/\n/g, '');
-    if (document.getElementById('chatwindow').value != content) {
-      document.getElementById('chatwindow').value = content;
-	  }
+  /* The more a user chats, the more often the display is refreshed. Users who don't
+  participate in the discussion get slower and slower display refreshes to avoid
+  to kill the server with the load. */
+  function refreshChatRoom(reset) {
+    if (reset) {
+      waitTime = 2000;
+    } else if (waitTime < 30000) {
+      waitTime += waitInc;
+    }
+    clearTimeout(timeoutID);
+    timeoutID = window.setTimeout('getChatRoom()', waitTime);
+    writeStatus('Refresh in ' + (waitTime / 1000) + 's...');
   }
-  refreshChatRoom(false);
-}
 
 
-/* Request updated chat room content from chat server */
-function getChatRoom() { 
-  var url = '<%= cp + '/' + md.getModulePath() %>/server.jsp?r=' + roomId;
-  sendRequest(url, chatRoomReceived);
-}
-
-
-/* Validate the message when the user presses [Enter] key */
-function keyup(keyCode) {
-  if (keyCode == 13 || keyCode == 3) {
-    submitMsg();
+  /* Response acknowledge from server.jsp for a new message */
+  function msgReceived(dummy) {
   }
-}
 
 
-/* Write a message to the chat status line */
-function writeStatus(msg) {
-  document.getElementById('chatstatus').innerHTML = msg;
-}
+  /* Send entered message */
+  function submitMsg() {
+    var url = '<%= cp + '/' + md.getModulePath() %>/server.jsp?u=' + encodeURIComponent(document.getElementById('chatuser').value) + '&m=' + encodeURIComponent(document.getElementById('chatmsg').value);
+    sendRequest(url, msgReceived);
+    document.getElementById('chatmsg').value = '';
+    refreshChatRoom(true);
+  }
+
+
+  /* Response from server.jsp from the request for updated chat room content */
+  function chatRoomReceived(content) {
+    if (content != '') {
+      //content = content.replace(/\n/g, '');
+      if (document.getElementById('chatwindow').value != content) {
+        document.getElementById('chatwindow').value = content;
+            }
+    }
+    refreshChatRoom(false);
+  }
+
+
+  /* Request updated chat room content from chat server */
+  function getChatRoom() { 
+    var url = '<%= cp + '/' + md.getModulePath() %>/server.jsp?r=' + roomId;
+    sendRequest(url, chatRoomReceived);
+  }
+
+
+  /* Validate the message when the user presses [Enter] key */
+  function keyup(keyCode) {
+    if (keyCode == 13 || keyCode == 3) {
+      submitMsg();
+    }
+  }
+
+
+  /* Write a message to the chat status line */
+  function writeStatus(msg) {
+    document.getElementById('chatstatus').innerHTML = msg;
+  }
+// ]]>
 </script>
 
 <textarea id="chatwindow" rows="10" cols="80" class="chatWindow" <%= style %> readonly></textarea>
@@ -183,8 +185,10 @@ function writeStatus(msg) {
 <br>
 
 <script type="text/javascript">
-/* Start access to chat server */
-writeStatus('Connecting to chat room...');
-timeoutID = window.setTimeout('getChatRoom()', waitTime);
+// <![CDATA[
+  /* Start access to chat server */
+  writeStatus('Connecting to chat room...');
+  timeoutID = window.setTimeout('getChatRoom()', waitTime);
+// ]]>
 </script>
 

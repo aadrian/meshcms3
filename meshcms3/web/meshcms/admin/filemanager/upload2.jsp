@@ -96,7 +96,9 @@
   <p align="center"><fmt:message key="fmUploadDone" /></p>
 
   <script type="text/javascript">
+  // <![CDATA[
     window.parent.fm_dummy();
+  // ]]>
   </script>
 <%
   } else {

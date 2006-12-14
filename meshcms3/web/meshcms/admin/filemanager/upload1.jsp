@@ -44,12 +44,14 @@
   <link type="text/css" rel="stylesheet" href="../theme/main.css">
 
   <script type="text/javascript">
+  // <![CDATA[
     function showWaiting() {
       document.getElementById("subBtn").disabled = true;
       document.getElementById("warningMsg").style.visibility = "hidden";
       document.getElementById("waitMsg").style.visibility = "visible";
       document.getElementById("waitImg").style.visibility = "visible";
     }
+  // ]]>
   </script>
 </head>
 
@@ -95,7 +97,9 @@
     </table>
   </form>
   <script type="text/javascript">
+  // <![CDATA[
     document.forms['upform'].dir.value = window.parent.document.forms['fmfm'].f_dir.value;
+  // ]]>
   </script>
 </body>
 </html>

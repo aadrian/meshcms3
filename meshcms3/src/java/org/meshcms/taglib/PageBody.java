@@ -67,12 +67,12 @@ public class PageBody extends AbstractTag {
     w.write("<div class='meshcmsfieldlabel'><img alt=\"\" src=\"" + afp +
       "/images/tree_plus.gif\" id='togglehead' onclick=\"javascript:editor_toggleHideShow('meshcmshead','togglehead');\" />\n");
     w.write("<label for='meshcmshead'>" + bundle.getString("editorPageHead") + "</label></div>\n");
-    w.write("<div class='meshcmsfield'><textarea id='meshcmshead' name='meshcmshead' style='height: 5em; width: 100%; display: none;'>" +
+    w.write("<div class='meshcmsfield'><textarea id='meshcmshead' name='meshcmshead' rows='5' cols='80' style='height: 5em; width: 100%; display: none;'>" +
       Utils.noNull(((HTMLPage) getPage()).getHead()) + "</textarea></div>\n");
 
     w.write("<div class='meshcmsfieldlabel'><label for='meshcmsbody'>" +
       bundle.getString("editorPageBody") + "</label></div>\n");
-    w.write("<div class='meshcmsfield'><textarea id='meshcmsbody' name='meshcmsbody' style='height: 30em; width: 100%;'>");
+    w.write("<div class='meshcmsfield'><textarea id='meshcmsbody' name='meshcmsbody' rows='25' cols='80' style='height: 30em; width: 100%;'>");
     w.write(Utils.encodeHTML(getPage().getBody(), true));
     w.write("</textarea></div>\n");
     w.write("<div class='meshcmsfield'><input type='checkbox' checked='checked' id='relch' \n");

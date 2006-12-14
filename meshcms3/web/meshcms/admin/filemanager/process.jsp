@@ -273,6 +273,7 @@
 %>
 
  <script type="text/javascript">
+ // <![CDATA[
 <%
   if (errMsgs.size() != 0) {
 %>
@@ -281,6 +282,12 @@
   }
 %>
   location.replace("<%= redirect %>");
-</script>
+ // ]]>
+ </script>
+</head>
 
-<a href="<%= redirect %>"><fmt:message key="genericContinue" /></a>
+<body>
+ <a href="<%= redirect %>"><fmt:message key="genericContinue" /></a>
+</body>
+
+</html>

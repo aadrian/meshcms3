@@ -76,6 +76,7 @@
   </style>
   
   <script type="text/javascript">
+  // <![CDATA[
     function msgConfirmDelete(path) {
       return "<fmt:message key="msgConfirmDelete"><fmt:param value="\" + path + \"" /></fmt:message>";
     }
@@ -107,6 +108,7 @@
     function msgSuggestedFolderName() {
       return "<fmt:message key="msgSuggestedFolderName" />";
     }
+  // ]]>
   </script>
   <script type="text/javascript" src="../scripts/xmenu/cssexpr.js"></script>
   <script type="text/javascript" src="../scripts/xmenu/xmenu.js"></script>
@@ -122,6 +124,7 @@
   <tr>
    <td colspan="2">
     <script type="text/javascript">
+    // <![CDATA[
       webfxMenuImagePath = "../scripts/xmenu/images/";
       webfxMenuUseHover = true;
       WebFXMenu.prototype.borderLeft = 2;
@@ -199,6 +202,7 @@
       toolBar.add(new WebFXMenuButton('<fmt:message key="fmThemes" />', null, null, themesMenu));
       toolBar.add(new WebFXMenuButton('<fmt:message key="fmClose" />', 'javascript:fm_closeFileManager()', null, null));
       document.write(toolBar);
+    // ]]>
     </script>  
    </td>
   </tr>
@@ -207,6 +211,7 @@
    <td width="240" valign="top">
     <div style="width: 240px; height: 100%; overflow:auto;">
       <script type="text/javascript">
+      // <![CDATA[
         webFXTreeConfig['usePersistence'] = false;
         
         webFXTreeConfig['rootIcon'] = '../scripts/xtree/images/foldericon.png';
@@ -225,6 +230,7 @@
         <% new FolderXTree(webSite, userInfo, pageContext.getOut(),
             thumbsParam, bundle.getString("fmSiteRoot")).process(); %>
         document.write(folder0);
+      // ]]>
       </script>
     </div>
    </td>
@@ -293,6 +299,7 @@
  </form>
 
  <script type="text/javascript">
+ // <![CDATA[
   Calendar.setup(
     {
       inputField : "f_action",
@@ -304,6 +311,7 @@
       align : "bR"
     }
   );
+ // ]]>
  </script>
 </body>
 </html>

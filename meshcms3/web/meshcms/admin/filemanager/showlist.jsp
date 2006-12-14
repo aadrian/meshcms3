@@ -69,6 +69,7 @@
   <%= webSite.getDummyMetaThemeTag() %>
   <title>List Files</title>
   <script type="text/javascript">
+  // <![CDATA[
     if (window.parent.document.forms['fmfm'].s_thumbs) {
       window.parent.document.forms['fmfm'].f_dir.value = "<%= folderPath %>";
       window.parent.document.forms['fmfm'].s_thumbs.value = '<%= showThumbs %>';
@@ -79,6 +80,7 @@
       var elm = document.getElementById(chkId);
       elm.checked = elm.checked ? "" : "checked";
     }
+  // ]]>
   </script>
   <link href="../theme/main.css" type="text/css" rel="stylesheet" />
   

@@ -44,13 +44,15 @@
 <head>
 <%= webSite.getAdminMetaThemeTag() %>
 <title><fmt:message key="homeExport" /></title>
-<script language="javascript" type="text/javascript" src="scripts/editor.js"></script>
+<script type="text/javascript" src="scripts/editor.js"></script>
 <script type="text/javascript">
+// <![CDATA[
   function showWaiting() {
     document.getElementById("subBtn").disabled = true;
     document.getElementById("waitMsg").style.visibility = "visible";
     document.getElementById("waitImg").style.visibility = "visible";
   }
+// ]]>
 </script>
 </head>
 

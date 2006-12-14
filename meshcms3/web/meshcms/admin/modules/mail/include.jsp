@@ -252,7 +252,7 @@
 
     if (hasRecipient && !org.meshcms.extra.StaticExporter.isExportRequest(request)) {
 %>
-    <form method="post">
+    <form method="post" action="">
     <input type="hidden" name="post_modulecode" value="<%= moduleCode %>" />
     <div class="formfields">
 <%
@@ -282,7 +282,7 @@
             } else {
               %><textarea name="<%= field.getCode() %>"
                  id="mcmf_<%= field.getCode() %>" class="<%= fieldStyle %>"
-                 rows="<%= field.getRows()%>"
+                 rows="<%= field.getRows()%>" cols="80"
                  ><%= Utils.encodeHTML(field.getValue()) %></textarea><%
             }
           } else if (type == FormField.SELECT_OPTION) {
@@ -313,9 +313,9 @@
         int type = field.getType();
 
         if (type == FormField.SUBMIT) {
-          %><input type="submit" value="<%= field.getName() %>"> <%
+          %><input type="submit" value="<%= field.getName() %>" /> <%
         } else if (type == FormField.RESET) {
-          %><input type="reset" value="<%= field.getName() %>"> <%
+          %><input type="reset" value="<%= field.getName() %>" /> <%
         }
       }
       %></div>

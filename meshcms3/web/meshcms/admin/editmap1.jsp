@@ -46,7 +46,8 @@
 <head>
 <%= webSite.getAdminMetaThemeTag() %>
 <title><fmt:message key="mapTitle" /></title>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
+// <![CDATA[
   /**
    * Closed folder
    */
@@ -93,7 +94,7 @@
    */
   function editMap_openChildren(code, pad, openAll) {
     var tr = document.getElementById("tr" + code); // the row
-    var pad0 = parseInt(tr.firstChild.style.paddingLeft); // padding in the 1st <td>
+    var pad0 = parseInt(tr.firstChild.style.paddingLeft); // padding in the 1st td
     tr.style.display = ""; // make this element visible
     var img0 = document.getElementById("img0"); // image of the root folder
 
@@ -108,7 +109,7 @@
         return;
       }
 
-      var pad1 = parseInt(tr.firstChild.style.paddingLeft); // padding in the 1st <td>
+      var pad1 = parseInt(tr.firstChild.style.paddingLeft); // padding in the 1st td
 
       if (pad1 <= pad0) { // same or higer level
         return;
@@ -199,6 +200,7 @@
       img.src = "filemanager/images/button_hidemenu.gif";
     }
   }
+// ]]>
 </script>
 
 <style type="text/css">
@@ -350,15 +352,16 @@
           <td>&nbsp;</td>
         <% } %>
 
+        <td align="center">
           <input type="hidden" name="<%= hCode %>" id="<%= hCode %>"
            value="<%= Boolean.toString(hideMenu) %>" />
         <% if (userOk && webSite.isDirectory(pagePath)) { %>
-          <td align="center"><img src="filemanager/images/<%= hideMenu ? "button_hidemenu.gif" : "button_showmenu.gif" %>"
+          <img src="filemanager/images/<%= hideMenu ? "button_hidemenu.gif" : "button_showmenu.gif" %>"
            alt="" id="img_<%= hCode %>" style='vertical-align:middle;'
            onclick="javascript:editMap_toggleMenuHiding('<%= hCode %>');"
            title="<fmt:message key="mapToggleMenuHiding" />" /></td>
         <% } else { %>
-          <td>&nbsp;</td>
+          &nbsp;</td>
         <% } %>
 
         <% if (userOk && webSite.isDirectory(pagePath)) { %>
@@ -387,9 +390,11 @@
 </form>
 
 <% if (pagesCount > 20) { %>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
+// <![CDATA[
   editMap_toggle(0, <%= padding %>);
   editMap_toggle(0, <%= padding %>);
+// ]]>
 </script>
 <% } %>
 

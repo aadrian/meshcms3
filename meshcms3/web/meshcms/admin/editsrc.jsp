@@ -65,13 +65,15 @@
 <%= webSite.getAdminMetaThemeTag() %>
 <title><fmt:message key="srcTitle" /></title>
 <script type="text/javascript" src="scripts/edit_area/edit_area_full.js"></script>
-<script language="javascript" type="text/javascript">
-editAreaLoader.init({
-  id : "fullsrc",
-  syntax: "<%= codeSyntax %>",
-  language: "<fmt:message key="editAreaLang" />",
-  start_highlight: true
-});
+<script type="text/javascript">
+// <![CDATA[
+  editAreaLoader.init({
+    id : "fullsrc",
+    syntax: "<%= codeSyntax %>",
+    language: "<fmt:message key="editAreaLang" />",
+    start_highlight: true
+  });
+// ]]>
 </script>
 </head>
 
@@ -87,7 +89,8 @@ editAreaLoader.init({
     </legend>
 
     <div class="meshcmsfield">
-      <textarea style="width: 100%; height: 25em;" id="fullsrc" name="fullsrc"><%= Utils.encodeHTML(full) %></textarea>
+      <textarea style="width: 100%; height: 25em;" id="fullsrc" name="fullsrc"
+       rows="25" cols="80"><%= Utils.encodeHTML(full) %></textarea>
     </div>
 
     <div class="meshcmsbuttons">

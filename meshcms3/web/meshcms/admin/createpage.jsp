@@ -54,7 +54,7 @@
     out.write(webSite.getAdminMetaThemeTag());
   }
 %>
-<script language="javascript" type="text/javascript" src="scripts/editor.js"></script>
+<script type="text/javascript" src="scripts/editor.js"></script>
 </head>
 
 <body>
@@ -142,6 +142,7 @@ if (title.equals("") && fullPath.isRoot()) { %>
     if (webSite.saveToFile(userInfo, text, path)) {
       webSite.updateSiteMap(true);
       %><script type="text/javascript">
+      // <![CDATA[
         var page = "<%= cp + '/' + path + '?' + HitFilter.ACTION_NAME + '=' + HitFilter.ACTION_EDIT %>";
         
         if (window.name && window.name == "smallpopup") { // it's a popup
@@ -150,6 +151,7 @@ if (title.equals("") && fullPath.isRoot()) { %>
         } else {
           window.location.href = page;
         }
+      // ]]>
       </script><%
     } else {
       %><fmt:message key="newpageError" /><%

@@ -68,7 +68,9 @@
 </div>
 
 <script type="text/javascript">
+// <![CDATA[
    var so = new SWFObject("<%= cp %><%= mp %>/flowplayer.swf", "FlowPlayer", "320", "325", "7", "#FFFFFF");
    so.addParam("flashvars", "configFileName=<%= URLEncoder.encode(fName, WebSite.SYSTEM_CHARSET) %>");
    so.write("flashcontent");
+// ]]>
 </script>

@@ -41,11 +41,13 @@
 <head>
 <%= webSite.getAdminMetaThemeTag() %>
 <title><fmt:message key="sitesTitle" /></title>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
+// <![CDATA[
  var contextPath = "<%= request.getContextPath() %>";
  var adminPath = "<%= webSite.getAdminPath() %>";
+// ]]>
 </script>
-<script language="javascript" type="text/javascript" src="scripts/editor.js"></script>
+<script type="text/javascript" src="scripts/editor.js"></script>
 </head>
 
 <body>

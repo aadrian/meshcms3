@@ -49,11 +49,13 @@
 <%= webSite.getAdminMetaThemeTag() %>
 <title><fmt:message key="configTitle" /></title>
 
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
+// <![CDATA[
  var contextPath = "<%= cp %>";
  var adminPath = "<%= webSite.getAdminPath() %>";
+// ]]>
 </script>
-<script language="javascript" type="text/javascript" src="scripts/editor.js"></script>
+<script type="text/javascript" src="scripts/editor.js"></script>
 </head>
 
 <body>

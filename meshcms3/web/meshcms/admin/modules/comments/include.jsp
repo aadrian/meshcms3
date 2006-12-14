@@ -137,9 +137,10 @@
   }
 %>
 
-<script language='javascript' type='text/javascript'
+<script type='text/javascript'
  src='<%= request.getContextPath() + '/' + webSite.getAdminScriptsPath() %>/tiny_mce/tiny_mce.js'></script>
 <script type="text/javascript">
+// <![CDATA[
   function deleteComment(id) {
     if (confirm("<%= pageBundle.getString("commentsConfirmDel") %>")) {
       var f = document.forms["mcc_<%= md.getLocation() %>"];
@@ -180,9 +181,10 @@
     elements : "mcc_text",
     language : "<%= langCode %>"
   });
+// ]]>
 </script>
 
-<form name="mcc_<%= md.getLocation() %>" method="post">
+<form name="mcc_<%= md.getLocation() %>" method="post" action="">
 <input type="hidden" name="post_modulecode" value="<%= moduleCode %>" />
 <input type="hidden" name="delId" value="" />
 <div class="<%= md.getAdvancedParam("form_css", "mailform") %>">
@@ -243,7 +245,8 @@
   </div>
   <div class="includetext">
     <div><label for="mcc_text"><%= pageBundle.getString("commentsText") %></label></div>
-    <div><textarea name="text" id="mcc_text" class="<%= fieldStyle %>" style="height: 12em;"></textarea></div>
+    <div><textarea name="text" id="mcc_text" class="<%= fieldStyle %>"
+      rows="12" cols="80" style="height: 12em;"></textarea></div>
   </div>
   <div class="includetext">
     <div>

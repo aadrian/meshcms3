@@ -56,7 +56,7 @@
       if (files[i].isFile()) {
         WebUtils.updateLastModifiedTime(request, files[i]);
         out.write("<pre" + md.getFullCSSAttribute("css") + ">");
-        out.write(Utils.encodeHTML(Utils.readFully(files[i])));
+        out.write(Utils.encodeHTML(Utils.readFully(files[i]), true));
         out.write("</pre>");
       }
     }
