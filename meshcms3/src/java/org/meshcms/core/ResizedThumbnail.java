@@ -25,65 +25,117 @@ package org.meshcms.core;
 import java.awt.*;
 import java.awt.image.*;
 import java.io.*;
+import java.util.regex.*;
 import javax.imageio.*;
 import org.meshcms.util.*;
 
 public class ResizedThumbnail extends AbstractThumbnail {
-  private boolean highQuality;
-
-  int reqW, reqH;
-
-  public ResizedThumbnail(String requestedWidth, String requestedHeight) {
-    reqW = Utils.parseInt(requestedWidth, -1);
-    reqH = Utils.parseInt(requestedHeight, -1);
+  public static final String MODE_SCALE = "scale";
+  public static final String MODE_CROP = "crop";
+  public static final String MODE_PADDING = "padding";
+  public static final String MODE_STRETCH = "stretch";
+  public static final String WHITE = "ffffff";
+  public static final int DEFAULT_SIZE = 100;
+  
+  private static Matcher hexColorMatcher =
+      Pattern.compile("[ABCDEFabcdef\\d]{6}").matcher("");
+  
+  private int width = -1;
+  private int height = -1;
+  private boolean highQuality = false;
+  private String mode = MODE_SCALE;
+  private String color = WHITE;
+  
+  public ResizedThumbnail() {
   }
-
+  
+  /**
+   * @deprecated use default constructor and setters instead
+   */
+  public ResizedThumbnail(String width, String height) {
+    this.width = Utils.parseInt(width, -1);
+    this.height = Utils.parseInt(height, -1);
+  }
+  
   public String getSuggestedFileName() {
-    return (reqW < 1 ? "" : Integer.toString(reqW)) + "x" +
-           (reqH < 1 ? "" : Integer.toString(reqH)) + 
-           (highQuality ? "_hq" : "") + ".jpg";
+    return "resized" + ("" + width + height + highQuality + mode +
+        color).hashCode() + ".jpg";
   }
-
+  
   protected boolean createThumbnail(File imageFile, File thumbnailFile) {
     BufferedImage image;
-
+    
     try {
       image = ImageIO.read(imageFile);
     } catch (Exception ex) {
       return false;
     }
-
-    if (image == null || image.getWidth() < 1) {
+    
+    if (image == null) {
       return false;
     }
-
+    
     int w = image.getWidth();
     int h = image.getHeight();
-    int w0, h0;
-
-    if (reqW < 1 && reqH < 1) {
-      w0 = h0 = 100;
-    } else if (reqW < 1) {
-      h0 = reqH;
-      w0 = w * h0 / h;
-    } else if (reqH < 1) {
-      w0 = reqW;
-      h0 = h * w0 / w;
-    } else {
-      w0 = reqW;
-      h0 = reqH;
+    
+    if (w <= 0 || h <= 0) {
+      return false;
     }
-
-    w0 = Math.max(w0, 1);
-    h0 = Math.max(h0, 1);
-
-    BufferedImage thumb = new BufferedImage(w0, h0, BufferedImage.TYPE_INT_RGB);
+    
+    int reqW = width;
+    int reqH = height;
+    int w0 = w;
+    int h0 = h;
+    
+    if (reqW < 1 && reqH < 1) {
+      reqW = reqH = DEFAULT_SIZE;
+    } else if (reqW < 1) {
+      reqW = w * reqH / h;
+    } else if (reqH < 1) {
+      reqH = h * reqW / w;
+    }
+    
+    if (reqW > w && reqH > h) {
+      reqW = w;
+      reqH = h;
+    }
+    
+    if (mode.equals(MODE_CROP)) {
+      if (w * reqH < h * reqW) {
+        w0 = reqW;
+        h0 = w0 * h / w;
+      } else {
+        h0 = reqH;
+        w0 = w * h0 / h;
+      }
+    } else if (mode.equals(MODE_STRETCH)) {
+      w0 = reqW;
+      h0 = reqH;
+    } else {
+      if (w * reqH < h * reqW) {
+        h0 = reqH;
+        w0 = w * h0 / h;
+      } else {
+        w0 = reqW;
+        h0 = w0 * h / w;
+      }
+      
+      if (!mode.equals(MODE_PADDING)) {
+        reqW = w0;
+        reqH = h0;
+      }
+    }
+    
+    BufferedImage thumb = new BufferedImage(reqW, reqH, BufferedImage.TYPE_INT_RGB);
     Graphics g = thumb.getGraphics();
-    AbstractThumbnail.drawResizedImage(g, image, 0, 0, w0, h0, highQuality);
+    g.setColor(new Color(Integer.parseInt(color, 16)));
+    g.fillRect(0, 0, reqW, reqH);
+    AbstractThumbnail.drawResizedImage(g, image, (reqW - w0) / 2,
+        (reqH - h0) / 2, w0, h0, highQuality);
     image.flush();
-
+    
     OutputStream os = null;
-
+    
     try {
       os = new BufferedOutputStream(new FileOutputStream(thumbnailFile));
       ImageIO.write(thumb, "jpeg", os);
@@ -93,28 +145,79 @@ public class ResizedThumbnail extends AbstractThumbnail {
     } finally {
       thumb.flush();
       g.dispose();
-
+      
       if (os != null) {
         try {
           os.close();
         } catch (IOException ex) {}
       }
     }
-
+    
     return true;
   }
-
+  
   /**
    * Returns the quality setting.
    */
   public boolean isHighQuality() {
     return highQuality;
   }
-
+  
   /**
    * Enables or disables better quality for image resizing.
    */
   public void setHighQuality(boolean highQuality) {
     this.highQuality = highQuality;
+  }
+  
+  public int getWidth() {
+    return width;
+  }
+  
+  public void setWidth(int width) {
+    this.width = width;
+  }
+  
+  public int getHeight() {
+    return height;
+  }
+  
+  public void setHeight(int height) {
+    this.height = height;
+  }
+  
+  public String getMode() {
+    return mode;
+  }
+  
+  public void setMode(String mode) {
+    if (mode == null) {
+      this.mode = MODE_SCALE;
+    } else {
+      mode = mode.trim().toLowerCase();
+      
+      if (mode.equals(MODE_CROP) || mode.equals(MODE_PADDING) ||
+          mode.equals(MODE_SCALE) || mode.equals(MODE_STRETCH)) {
+        this.mode = mode;
+      } else {
+        throw new IllegalArgumentException("Unknown mode: " + mode);
+      }
+    }
+  }
+  
+  public String getColor() {
+    return color;
+  }
+  
+  public void setColor(String color) {
+    if (color == null) {
+      this.color = WHITE;
+    } else {
+      if (hexColorMatcher.reset(color).find()) {
+        this.color = hexColorMatcher.group();
+      } else {
+        throw new IllegalArgumentException("Unknown color: " + color);
+      }
+    }
   }
 }
