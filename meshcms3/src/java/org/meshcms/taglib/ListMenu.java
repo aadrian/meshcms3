@@ -95,7 +95,6 @@ public final class ListMenu extends AbstractTag {
     Writer outWriter = getOut();
     int lastLevel = rootPath.getElementCount();
     Iterator iter = siteMap.getPagesList(rootPath).iterator();
-    boolean liUsed = false;
     boolean styleNotApplied = !Utils.isNullOrEmpty(style);
     int showLastLevel = -1;
 
@@ -135,6 +134,13 @@ public final class ListMenu extends AbstractTag {
       add = add && (! allowHiding || showLastLevel == -1 || current.getLevel() <= showLastLevel); 
       
       if (add) {
+      	// Close off any pending lower levels
+        for (int i = lastLevel - 1; i >= level; i--) {
+        	writeIndented(outWriter, "</li>", i + 1);
+        	writeIndented(outWriter, "</ul>", i);
+        }
+
+        // If we're a level deeper - then create new sub ul+li
         for (int i = lastLevel; i < level; i++) {
           if (styleNotApplied) {
             writeIndented(outWriter, "<ul class=\"" + style + "\">", i);
@@ -142,30 +148,13 @@ public final class ListMenu extends AbstractTag {
           } else {
             writeIndented(outWriter, "<ul>", i);
           }
-
           writeIndented(outWriter, "<li>", i + 1);
-          liUsed = false;
         }
 
-        for (int i = lastLevel - 1; i >= level; i--) {
-          if (liUsed) {
-            outWriter.write("</li>");
-            liUsed = false;
-          } else {
-            writeIndented(outWriter, "</li>", i + 1);
-          }
-
-          writeIndented(outWriter, "</ul>", i);
-        }
-
-        if (liUsed) {
-          outWriter.write("</li>");
-          writeIndented(outWriter, "<li>", level);
-        }
-
-        for ( int i = lastLevel - 1; i >= level; i--) {
-            writeIndented(outWriter, "</li>", i);
-            writeIndented(outWriter, "<li>", i);
+        // If we do not have an open li at the right level - then create one
+        if (level <= lastLevel) {
+            writeIndented(outWriter, "</li>", level);
+            writeIndented(outWriter, "<li>", level);
         }
 
         if ( current.getLevel() > 0 && pathInMenu.isContainedIn(currentPath)
@@ -197,7 +186,6 @@ public final class ListMenu extends AbstractTag {
             siteInfo.getPageTitle(current) + "</a>");
         }
 
-        liUsed = true;
         lastLevel = level;
       }
     }
