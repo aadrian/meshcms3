@@ -39,7 +39,7 @@ import org.meshcms.util.*;
  * A collection of utilities related to a web application.
  */
 public final class WebUtils {
-  public static SimpleDateFormat numericDateFormatter =
+  public static final SimpleDateFormat numericDateFormatter =
       new SimpleDateFormat("yyyyMMddHHmmss");
 
   /**

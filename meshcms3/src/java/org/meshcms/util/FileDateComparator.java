@@ -30,7 +30,7 @@ import java.util.*;
  *
  * @author Luciano Vernaschi
  */
-public final class FileDateComparator implements Comparator {
+public final class FileDateComparator implements Comparator, Serializable {
 
   private final boolean forwards;
 

@@ -1255,7 +1255,7 @@ public final class Utils {
       }
 
       try {
-        Thread.sleep(i * 100);
+        Thread.sleep(i * 100L);
       } catch (InterruptedException ex) {}
     }
 
@@ -1289,7 +1289,7 @@ public final class Utils {
       }
 
       try {
-        Thread.sleep(i * 100);
+        Thread.sleep(i * 100L);
       } catch (InterruptedException ex) {}
     }
 

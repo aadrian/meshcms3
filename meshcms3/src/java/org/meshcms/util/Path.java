@@ -72,7 +72,7 @@ public class Path implements Comparable, Serializable, Cloneable {
   protected String pathName;
   protected String[] elements;
 
-  public static Path ROOT = new Path();
+  public static final Path ROOT = new Path();
 
   /**
    * Creates an empty path.

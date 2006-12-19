@@ -50,7 +50,7 @@ public class SiteInfo {
   public static final String HIDESUBMENU = "hideSubmenu";
   
   private Properties data;
-  private transient WebSite webSite;
+  private WebSite webSite;
 
   protected SiteInfo() {
     data = new Properties();

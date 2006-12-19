@@ -167,7 +167,7 @@ public final class ListMenu extends AbstractTag {
           if (isEdit || linkCurrent) {
             if (! Utils.isNullOrEmpty(currentStyle) || ! Utils.isNullOrEmpty(currentPathStyle)) {
                 outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
-                        "\" class='" + new String(currentPathStyle+" "+currentStyle).trim() + "'>" +
+                        "\" class='" + (currentPathStyle+" "+currentStyle).trim() + "'>" +
                         siteInfo.getPageTitle(current) + "</a>");
             } else {
                 outWriter.write("<a href=\"" + cp + webSite.getLink(current) + "\">" +

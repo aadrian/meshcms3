@@ -22,13 +22,14 @@
 
 package org.meshcms.util;
 
+import java.io.*;
 import java.util.*;
 
 /**
  * Allows to sort in reversed ordering. If a Comparator is not supplied, the
  * order will be the reversed natural ordering.
  */
-public class ReverseComparator implements Comparator {
+public class ReverseComparator implements Comparator, Serializable {
   private Comparator comparator;
 
   /**

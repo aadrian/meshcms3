@@ -22,6 +22,7 @@
 
 package org.meshcms.core;
 
+import java.io.*;
 import java.util.*;
 import org.meshcms.util.*;
 
@@ -32,7 +33,7 @@ import org.meshcms.util.*;
  *
  * @see SiteMap
  */
-public final class PageInfoComparator implements Comparator {
+public final class PageInfoComparator implements Comparator, Serializable {
   private SiteMap siteMap;
   private SiteInfo siteInfo;
 

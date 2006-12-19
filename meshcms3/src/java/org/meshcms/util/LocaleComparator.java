@@ -22,12 +22,13 @@
 
 package org.meshcms.util;
 
+import java.io.*;
 import java.util.*;
 
 /**
  * Compares locales to sort them according to their display name.
  */
-public class LocaleComparator implements Comparator {
+public class LocaleComparator implements Comparator, Serializable {
   private Locale locale;
 
   /**

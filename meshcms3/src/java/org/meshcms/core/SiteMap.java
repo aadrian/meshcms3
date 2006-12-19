@@ -523,14 +523,16 @@ public class SiteMap extends DirectoryParser {
    * Returns an array of the names of all available themes.
    */
   public String[] getThemeNames() {
-    return (String[]) getThemesMap().keySet().toArray(new String[0]);
+    Set keys = getThemesMap().keySet();
+    return (String[]) keys.toArray(new String[keys.size()]);
   }
 
   /**
    * Returns an array of the names of all available modules.
    */
   public String[] getModuleNames() {
-    return (String[]) getModulesMap().keySet().toArray(new String[0]);
+    Set keys = getModulesMap().keySet();
+    return (String[]) keys.toArray(new String[keys.size()]);
   }
 
   /**
@@ -618,7 +620,7 @@ public class SiteMap extends DirectoryParser {
     this.obsolete = obsolete;
   }
   
-  public class CodeLocalePair {
+  public static class CodeLocalePair {
     private String code;
     private Locale locale;
     private String name;

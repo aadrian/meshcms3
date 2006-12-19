@@ -120,7 +120,7 @@ public final class Module extends AbstractTag {
   }
 
   public void writeEditTag() throws IOException, JspException {
-    String uniqueHash = new Integer(new Object().hashCode()).toString();
+    String uniqueHash = Integer.toString(new Object().hashCode());
     String tagIdPrefix = "meshcmsmodule_"+ location +"_"+ uniqueHash +"_";
     String idCont = tagIdPrefix +"cont";
     String idElem = tagIdPrefix +"elem";

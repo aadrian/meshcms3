@@ -32,17 +32,17 @@ public class FileManagerThumbnail extends AbstractThumbnail {
   /**
    * Width of the thumbnail.
    */
-  public static int THUMB_WIDTH = 108;
+  public static final int THUMB_WIDTH = 108;
 
   /**
    * Height of the thumbnail.
    */
-  public static int THUMB_HEIGHT = 120;
+  public static final int THUMB_HEIGHT = 120;
 
   /**
    * Width and height of the image in the thumbnail.
    */
-  public static int THUMB_SIZE = 100;
+  public static final int THUMB_SIZE = 100;
   
   private boolean highQuality;
   

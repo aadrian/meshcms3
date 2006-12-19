@@ -30,7 +30,7 @@ import java.util.*;
  *
  * @author Luciano Vernaschi
  */
-public final class FileNameComparator implements Comparator {
+public final class FileNameComparator implements Comparator, Serializable {
   private boolean caseSensitive = true;
   
   public int compare(Object o1, Object o2) {

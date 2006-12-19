@@ -256,7 +256,7 @@ public class StaticExporter extends DirectoryParser {
     
     if (bo == null) {
       String ua = Utils.noNull(request.getHeader(USER_AGENT_HEADER));
-      bo = new Boolean(ua.startsWith(WebSite.APP_NAME));
+      bo = Boolean.valueOf(ua.startsWith(WebSite.APP_NAME));
       request.setAttribute(REQUEST_ATTRIBUTE_CHECK, bo);
     }
     

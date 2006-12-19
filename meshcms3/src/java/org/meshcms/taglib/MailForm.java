@@ -61,7 +61,7 @@ public final class MailForm extends AbstractTag {
   }
 
   public void writeEditTag() throws IOException, JspException {
-    final String uniqueHash = new Integer(new Object().hashCode()).toString();
+    final String uniqueHash = Integer.toString(new Object().hashCode());
   	final String tagIdPrefix = "meshcmsmodule_mail_"+ uniqueHash +"_";
   	final String idCont = tagIdPrefix +"cont";
   	final String idElem = tagIdPrefix +"elem";

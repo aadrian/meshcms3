@@ -94,7 +94,7 @@ public class UserInfo implements Serializable {
   /**
    * Names for user detail fields.
    */
-  public static String[] DETAILS = {
+  public static final String[] DETAILS = {
     "salutation",
     "name",
     "surname",
@@ -112,9 +112,9 @@ public class UserInfo implements Serializable {
   /**
    * Characters allowed in a username.
    */
-  protected static String VALID_USERNAME_CHARS =
+  protected static final String VALID_USERNAME_CHARS =
     "abcdefghijklmnopqrstuvwxyz._0123456789";
-  protected static String SALT = "LV";
+  protected static final String SALT = "LV";
 
   protected Properties info;
   protected boolean global;

@@ -31,12 +31,12 @@ public class GalleryThumbnail extends AbstractThumbnail {
   /**
    * Width and height of the thumbnail.
    */
-  public static int THUMB_SIZE = 96;
+  public static final int THUMB_SIZE = 96;
 
   /**
    * Width and height of the image in the thumbnail.
    */
-  public static int THUMB_IMAGE_SIZE = 94;
+  public static final int THUMB_IMAGE_SIZE = 94;
 
   private boolean highQuality;
 
