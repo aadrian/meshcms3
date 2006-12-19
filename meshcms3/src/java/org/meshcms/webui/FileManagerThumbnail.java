@@ -145,7 +145,7 @@ public class FileManagerThumbnail extends AbstractThumbnail {
   }
 
   /**
-   * Returns the quality setting.
+   * @return the quality setting.
    */
   public boolean isHighQuality() {
     return highQuality;

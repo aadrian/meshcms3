@@ -109,7 +109,7 @@ public class FolderXTree extends DirectoryParser {
   }
   
   /**
-   * Returns info about a directory, based on path and permissions.
+   * @return info about a directory, based on path and permissions.
    */
   public static DirectoryInfo getDirectoryInfo(WebSite webSite,
       UserInfo userInfo, Path dirPath) {

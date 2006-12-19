@@ -172,7 +172,7 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * Returns the parent of the current path. The parent of the root path is
+   * @return the parent of the current path. The parent of the root path is
    * '..' (a <code>Path</code> with one element whose value is "..").
    */
   public Path getParent() {
@@ -180,7 +180,7 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * Returns a parent of the current path, whose element count is equal to the
+   * @return a parent of the current path, whose element count is equal to the
    * passed value.
    */
   public Path getPartial(int count) {
@@ -202,14 +202,14 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * Returns the common part between the two Paths.
+   * @return the common part between the two Paths.
    */
   public Path getCommonPath(Path other) {
     return commonPart(this, other);
   }
 
   /**
-   * Returns <code>true</code> when the first element of the current path is
+   * @return <code>true</code> when the first element of the current path is
    * "..".
    */
   public boolean isRelative() {
@@ -217,14 +217,14 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * Returns <code>true</code> if the path is empty.
+   * @return <code>true</code> if the path is empty.
    */
   public boolean isRoot() {
     return elements.length == 0;
   }
 
   /**
-   * Returns <code>true</code> if the path current path is contained in the
+   * @return <code>true</code> if the path current path is contained in the
    * given path directly. Example:
    * <pre>
    * Path myPath = new Path("home/user/myfile.txt");
@@ -254,7 +254,7 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * Returns <code>true</code> if the current path is contained in the
+   * @return <code>true</code> if the current path is contained in the
    * given path (at any depth). Example:
    * <pre>
    * Path myPath = new Path("home/user/myfile.txt");
@@ -288,7 +288,7 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * Returns the current path as relative to the given root. Example:
+   * @return the current path as relative to the given root. Example:
    * <pre>
    * Path myPath = new Path("home/user/myfile.txt");
    * myPath.getRelativeTo(new Path("home")); // returns "user/myfile.txt"
@@ -328,14 +328,14 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * Returns a <code>File</code> object relative to the given file.
+   * @return a <code>File</code> object relative to the given file.
    */
   public File getFile(File parent) {
     return elements.length == 0 ? parent : new File(parent, pathName);
   }
 
   /**
-   * Returns the number of elements of the current path. Example:
+   * @return the number of elements of the current path. Example:
    * <pre>
    * new Path().getElementCount(); // returns 0
    * new Path("home/user").getElementCount(); // returns 2
@@ -346,7 +346,7 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * Returns the element at the given index. There is no check for the index
+   * @return the element at the given index. There is no check for the index
    * value, so an <code>ArrayIndexOutOfBoundsException</code> might be thrown.
    */
   public String getElementAt(int index) {
@@ -354,7 +354,7 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * Returns the last element of the current path (usually the file name). For
+   * @return the last element of the current path (usually the file name). For
    * the root path the empty <code>String</code> is returned.
    */
   public String getLastElement() {
@@ -362,7 +362,7 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * Returns the <code>String</code> representation of the current path. The
+   * @return the <code>String</code> representation of the current path. The
    * separator between elements is always a slash, regardless of the platform.
    */
   public String toString() {
@@ -370,7 +370,7 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * Returns the path encoded As a link: if the path is not empty, adds a
+   * @return the path encoded As a link: if the path is not empty, adds a
    * slash at the beginning.
    */
   public String getAsLink() {
@@ -430,7 +430,7 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * Returns the common part between the two Paths.
+   * @return the common part between the two Paths.
    */
   public static Path commonPart(Path p1, Path p2) {
     int n = Math.min(p1.getElementCount(), p2.getElementCount());
@@ -445,7 +445,7 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * Returns the successor of this <code>Path</code>, as defined in the Javadoc
+   * @return the successor of this <code>Path</code>, as defined in the Javadoc
    * <code>of java.util.TreeMap.subMap(...)</code>. This is useful when you need
    * to use that method to get a <em>closed range</em> submap (or headmap, or
    * tailmap) of <code>Path</code>s.

@@ -45,7 +45,7 @@ public class ImageLoader implements ImageConsumer {
   }
 
   /**
-   * Returns true if the image has been loaded completely.
+   * @return true if the image has been loaded completely.
    */
   public boolean check() {
     if (notStarted) {
@@ -57,14 +57,14 @@ public class ImageLoader implements ImageConsumer {
   }
 
   /**
-   * Returns the width of the image.
+   * @return the width of the image.
    */
   public int getWidth() {
     return width;
   }
 
   /**
-   * Returns the height of the image.
+   * @return the height of the image.
    */
   public int getHeight() {
     return height;
@@ -137,7 +137,7 @@ public class ImageLoader implements ImageConsumer {
   }
 
   /**
-   * Returns the image.
+   * @return the image.
    */
   public Image getImage() {
     waitForImage();
@@ -148,7 +148,7 @@ public class ImageLoader implements ImageConsumer {
   }
 
   /**
-   * Returns the image as an array of ARGB pixels.
+   * @return the image as an array of ARGB pixels.
    */
   public int[] getPixels() {
     waitForImage();

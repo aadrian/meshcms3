@@ -122,7 +122,7 @@ public final class Utils {
   }
 
   /**
-   * Returns <code>s.trim()</code>, or null if <code>s</code> is null.
+   * @return <code>s.trim()</code>, or null if <code>s</code> is null.
    */
   public static String trim(String s) {
     return (s == null) ? null : s.trim();
@@ -695,7 +695,7 @@ public final class Utils {
   }
 
   /**
-   * Returns the sum of the numbers stored in the array.
+   * @return the sum of the numbers stored in the array.
    */
   public static int sum(int[] ints) {
     int s = 0;
@@ -708,7 +708,7 @@ public final class Utils {
   }
 
   /**
-   * Returns a file name similar to <code>fileName</code>, but different from
+   * @return a file name similar to <code>fileName</code>, but different from
    * the names of the files in the directory.
    */
   public static String generateUniqueName(String fileName, File directory) {
@@ -784,7 +784,7 @@ public final class Utils {
   }
 
   /**
-   * Returns a file name similar to <code>fileName</code>, but different from
+   * @return a file name similar to <code>fileName</code>, but different from
    * the strings in the <code>files</code> array.
    */
   public static String generateUniqueName(String fileName, String[] files) {
@@ -848,7 +848,7 @@ public final class Utils {
   }
 
   /**
-   * Returns the tokens of a string. The default delimiter characters of
+   * @return the tokens of a string. The default delimiter characters of
    * <code>java.util.StringTokenizer</code> are used.
    */
   public static String[] tokenize(String s) {
@@ -856,7 +856,7 @@ public final class Utils {
   }
 
   /**
-   * Returns the tokens of a string using the specified delimiter characters.
+   * @return the tokens of a string using the specified delimiter characters.
    */
   public static String[] tokenize(String s, String delim) {
     if (s == null) {
@@ -943,14 +943,14 @@ public final class Utils {
   }
 
   /**
-   * Returns the decimal part of a float, regardless of its sign.
+   * @return the decimal part of a float, regardless of its sign.
    */
   public static float decimalPart(float f) {
     return f - (int) f;
   }
 
   /**
-   * Returns the decimal part of a double, regardless of its sign.
+   * @return the decimal part of a double, regardless of its sign.
    */
   public static double decimalPart(double d) {
     return d - (long) d;
@@ -972,7 +972,7 @@ public final class Utils {
   }
 
   /**
-   * Returns the closest number to n that does not exceed the interval between
+   * @return the closest number to n that does not exceed the interval between
    * min and max.
    */
   public static int constrain(int min, int max, int n) {
@@ -1038,7 +1038,7 @@ public final class Utils {
   }
 
   /**
-   * Returns a relative path from folder to file using the separator provided.
+   * @return a relative path from folder to file using the separator provided.
    * In general, using {@link Path} provides better management of relative
    * paths.
    */
@@ -1047,7 +1047,7 @@ public final class Utils {
   }
 
   /**
-   * Returns a relative path from folder to file using the separator provided.
+   * @return a relative path from folder to file using the separator provided.
    * In general, using {@link Path} provides better management of relative
    * paths.
    */
@@ -1297,7 +1297,7 @@ public final class Utils {
   }
 
   /**
-   * Returns a nicer representation of the length of the file. The file length
+   * @return a nicer representation of the length of the file. The file length
    * is returned as bytes, kilobytes or megabytes, with the unit attached.
    */
   public static String formatFileLength(File file) {
@@ -1305,7 +1305,7 @@ public final class Utils {
   }
 
   /**
-   * Returns a nicer representation of the number as a file length. The number
+   * @return a nicer representation of the number as a file length. The number
    * is returned as bytes, kilobytes or megabytes, with the unit attached.
    */
   public static String formatFileLength(long length) {
@@ -1363,7 +1363,7 @@ public final class Utils {
   }
 
   /**
-   * Returns the java.util.Locale object for a given locale name (e.g. en_US).
+   * @return the java.util.Locale object for a given locale name (e.g. en_US).
    */
   public static Locale getLocale(String localeName) {
     if (!isNullOrEmpty(localeName)) {
@@ -1380,7 +1380,7 @@ public final class Utils {
   }
 
   /**
-   * Returns all the locales that have no country and no variant.
+   * @return all the locales that have no country and no variant.
    */
   public static Locale[] getLanguageLocales() {
     Locale[] all = Locale.getAvailableLocales();

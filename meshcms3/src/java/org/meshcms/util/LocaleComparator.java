@@ -54,7 +54,7 @@ public class LocaleComparator implements Comparator, Serializable {
   }
 
   /**
-   * Returns the locale used to get the display names.
+   * @return the locale used to get the display names.
    */
   public Locale getLocale() {
     return locale;

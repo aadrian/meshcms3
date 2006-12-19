@@ -308,7 +308,7 @@ public class FormField implements Serializable {
   }
 
   /**
-   * Returns a modified version of the passed string, such as it can be used as
+   * @return a modified version of the passed string, such as it can be used as
    * a field name.
    */
   public static String createCode(String s) {
@@ -328,7 +328,7 @@ public class FormField implements Serializable {
   }
 
   /**
-   * Returns a descriptive name of the field. This is generally the field name.
+   * @return a descriptive name of the field. This is generally the field name.
    */
   public String getDescription() {
     String desc = getValue();
@@ -358,7 +358,7 @@ public class FormField implements Serializable {
   }
 
   /**
-   * Returns the value of the sender name flag.
+   * @return the value of the sender name flag.
    */
   public boolean isSenderName() {
     return senderName;
@@ -373,7 +373,7 @@ public class FormField implements Serializable {
   }
 
   /**
-   * Returns the value of the subject flag.
+   * @return the value of the subject flag.
    */
   public boolean isSubject() {
     return subject;
@@ -388,7 +388,7 @@ public class FormField implements Serializable {
   }
 
   /**
-   * Returns the value of the message body flag.
+   * @return the value of the message body flag.
    */
   public boolean isMessageBody() {
     return messageBody;
