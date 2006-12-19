@@ -182,7 +182,7 @@ public class WebSite {
   }
 
   /**
-   * Returns the instance of the <code>SiteMap</code> that is currently manage
+   * @return the instance of the <code>SiteMap</code> that is currently manage
    * the site map. Since this object can be replaced with a new one at any
    * moment, a class that wants to use it should store it in a local variable
    * and use it for all the operation/method.
@@ -192,7 +192,7 @@ public class WebSite {
   }
 
   /**
-   * Returns the current configuration of the web application.
+   * @return the current configuration of the web application.
    */
   public Configuration getConfiguration() {
     return configuration;
@@ -206,7 +206,7 @@ public class WebSite {
   }
 
   /**
-   * Returns the instance of the <code>SiteInfo</code> class that is managing
+   * @return the instance of the <code>SiteInfo</code> class that is managing
    * the site information.
    *
    * @see SiteInfo
@@ -216,7 +216,7 @@ public class WebSite {
   }
 
   /**
-   * Returns the index of the current day in the array of stats included in any
+   * @return the index of the current day in the array of stats included in any
    * PageInfo instance.
    */
   public int getStatsIndex() {
@@ -232,7 +232,7 @@ public class WebSite {
   }
 
   /**
-   * Returns the length of stats (hit counts) measured in days.
+   * @return the length of stats (hit counts) measured in days.
    */
   public int getStatsLength() {
     return statsLength;
@@ -583,7 +583,7 @@ public class WebSite {
   }
 
   /**
-   * Returns the correct file in the repository. For example, if you need to
+   * @return the correct file in the repository. For example, if you need to
    * create a temporary copy of /somedir/index.html, you could use
    * <code>filePath = /somedir/index.html</code> and
    * <code>fileName = tmp.html</code>.
@@ -655,7 +655,7 @@ public class WebSite {
   }
 
   /**
-   * Returns the file object for a given path in the web application. The file
+   * @return the file object for a given path in the web application. The file
    * is not checked for existance.
    */
   public File getFile(Path path) {
@@ -668,14 +668,14 @@ public class WebSite {
   }
 
   /**
-   * Returns the site root path.
+   * @return the site root path.
    */
   public Path getRootPath() {
     return rootPath;
   }
 
   /**
-   * Returns the <code>Path</code> of a file in the context.
+   * @return the <code>Path</code> of a file in the context.
    *
    * @see #getFile
    */
@@ -703,7 +703,7 @@ public class WebSite {
   }
 
   /**
-   * Returns the directory that contains the given path. This is different from
+   * @return the directory that contains the given path. This is different from
    * {@link org.meshcms.util.Path#getParent}, since if the path is known to
    * be a directory in the web application, the path itself is returned.
    */
@@ -772,7 +772,7 @@ public class WebSite {
   }
 
   /**
-   * Returns an array of menu titles for the given pages.
+   * @return an array of menu titles for the given pages.
    * {@link SiteInfo} is used to get the titles.
    */
   public String[] getTitles(PageInfo[] pages) {
@@ -821,7 +821,7 @@ public class WebSite {
   }
 
   /**
-   * Returns true if the extension of the path is known to denote a type of
+   * @return true if the extension of the path is known to denote a type of
    * file that can be edited using the wysiwyg editor.
    */
   public boolean isVisuallyEditable(Path path) {
@@ -830,7 +830,7 @@ public class WebSite {
   }
 
   /**
-   * Returns the path of the module file with the given name.
+   * @return the path of the module file with the given name.
    */
   public Path getModulePath(String moduleName) {
     if (moduleName.endsWith(".jsp")) {
@@ -842,7 +842,7 @@ public class WebSite {
   }
 
   /**
-   * Returns the path of the admin directory.
+   * @return the path of the admin directory.
    */
   public Path getAdminPath() {
     return adminPath;
@@ -857,7 +857,7 @@ public class WebSite {
   }
 
   /**
-   * Returns the complete tag used by pages in the admin folder. This way those
+   * @return the complete tag used by pages in the admin folder. This way those
    * pages can set to be themed according to the site preferences (i.e. using
    * a custom theme or the default admin theme).
    */
@@ -872,7 +872,7 @@ public class WebSite {
   }
 
   /**
-   * Returns a string containing a basic HTML page.
+   * @return a string containing a basic HTML page.
    *
    * @param pageTitle the content of the &lt;title&gt; tag (if null, the title
    * will be &quot;New Page&quot;)
@@ -917,14 +917,14 @@ public class WebSite {
   }
 
   /**
-   * Returns true if the given file name is known to be a welcome file name.
+   * @return true if the given file name is known to be a welcome file name.
    */
   public boolean isWelcomeFileName(String fileName) {
     return Utils.searchString(welcomeFiles, fileName, false) != -1;
   }
 
   /**
-   * Returns an array of welcome file names for the current web application.
+   * @return an array of welcome file names for the current web application.
    * Values are fetched from the web.xml file.
    */
   public String[] getWelcomeFileNames() {
@@ -932,7 +932,7 @@ public class WebSite {
   }
 
   /**
-   * Returns the current welcome file path for the given folder. If there is no
+   * @return the current welcome file path for the given folder. If there is no
    * welcome file in that folder, this method returns null.
    */
   public Path findCurrentWelcome(Path dirPath) {
@@ -1025,7 +1025,7 @@ public class WebSite {
   }
 
   /**
-   * Returns the path of the theme to be applied to the given path. This depends
+   * @return the path of the theme to be applied to the given path. This depends
    * on the stored values and on the option to use the default theme for the
    * admin pages. This method returns null if no theme is found.
    */
