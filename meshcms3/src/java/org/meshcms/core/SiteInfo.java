@@ -85,7 +85,7 @@ public class SiteInfo {
   }
 
   /**
-   * Returns the theme to be applied to the given path.
+   * @return the theme to be applied to the given path.
    */
   public String getPageTheme(Path pagePath) {
     return Utils.noNull(data.getProperty(getThemeCode(pagePath)));
@@ -104,7 +104,7 @@ public class SiteInfo {
   }
 
   /**
-   * Returns the menu title for a page. If the menu configuration does not
+   * @return the menu title for a page. If the menu configuration does not
    * contain a value for this page, the page title itself is returned.
    */
   public String getPageTitle(PageInfo pageInfo) {
@@ -118,7 +118,7 @@ public class SiteInfo {
   }
 
   /**
-   * Returns the menu title for the given path (null if not available).
+   * @return the menu title for the given path (null if not available).
    */
   public String getPageTitle(Path pagePath) {
     return Utils.noNull(data.getProperty(getTitleCode(pagePath)));
@@ -137,14 +137,14 @@ public class SiteInfo {
   }
 
   /**
-   * Returns the page score for the given path (0 if not available).
+   * @return the page score for the given path (0 if not available).
    */
   public int getPageScore(Path pagePath) {
     return Utils.parseInt(data.getProperty(getScoreCode(pagePath)), 0);
   }
 
   /**
-   * Returns the page score as a string for the given path. An empty string
+   * @return the page score as a string for the given path. An empty string
    * is returned if the page score is 0.
    */
   public String getPageScoreAsString(Path pagePath) {
@@ -172,14 +172,14 @@ public class SiteInfo {
   }
 
   /**
-   * Returns the hide submenu for the given path (false if not available).
+   * @return the hide submenu for the given path (false if not available).
    */
   public boolean getHideSubmenu(Path pagePath) {
     return Utils.isTrue(data.getProperty(getHideSubmenuCode(pagePath)));
   }
 
   /**
-   * Returns the hide submenu as a string for the given path. An empty string
+   * @return the hide submenu as a string for the given path. An empty string
    * is returned if the hide submenu is false.
    */
   public String getHideSubmenuAsString(Path pagePath) {
@@ -207,7 +207,7 @@ public class SiteInfo {
   }
 
   /**
-   * Returns the code for the score field of the given path. This code is
+   * @return the code for the score field of the given path. This code is
    * used in the HTML configuration form and in the config file.
    */
   public static String getScoreCode(Path pagePath) {
@@ -215,7 +215,7 @@ public class SiteInfo {
   }
 
   /**
-   * Returns the code for the title field of the given path. This code is
+   * @return the code for the title field of the given path. This code is
    * used in the HTML configuration form and in the config file.
    */
   public static String getTitleCode(Path pagePath) {
@@ -223,7 +223,7 @@ public class SiteInfo {
   }
 
   /**
-   * Returns the code for the theme field of the given path. This code is
+   * @return the code for the theme field of the given path. This code is
    * used in the HTML configuration form and in the config file.
    */
   public static String getThemeCode(Path pagePath) {
@@ -231,7 +231,7 @@ public class SiteInfo {
   }
 
   /**
-   * Returns the code for the show submenu field of the given path. This code is
+   * @return the code for the show submenu field of the given path. This code is
    * used in the HTML configuration form and in the config file.
    */
   public static String getHideSubmenuCode(Path pagePath) {
@@ -324,7 +324,7 @@ public class SiteInfo {
   }
 
   /**
-   * Returns the path of the page whose theme is inherited.
+   * @return the path of the page whose theme is inherited.
    */
   public Path getThemeRoot(Path pagePath) {
     do {

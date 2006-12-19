@@ -102,7 +102,7 @@ public final class PageAssembler {
   }
 
   /**
-   * Returns the complete page.
+   * @return the complete page.
    */
   public String getPage() {
     StringBuffer sb = new StringBuffer("<html");

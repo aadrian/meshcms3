@@ -394,7 +394,7 @@ public final class HitFilter implements Filter {
   }
   
   /**
-   * Returns the main website instance. It will be created if not already done.
+   * @return the main website instance. It will be created if not already done.
    */
   public static WebSite getRootSite(ServletContext sc, boolean alwaysCreate) {
     WebSite rootSite = (WebSite) sc.getAttribute(ROOT_WEBSITE);

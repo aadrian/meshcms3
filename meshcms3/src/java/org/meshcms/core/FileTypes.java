@@ -293,7 +293,7 @@ public final class FileTypes {
   }
 
   /**
-   * Returns true if the type of the file is the same as the given extension.
+   * @return true if the type of the file is the same as the given extension.
    * For example, isLike("button.gif", "jpg") returns true
    * since gif and jpg are both images.
    */
@@ -302,21 +302,21 @@ public final class FileTypes {
   }
   
   /**
-   * Returns the description of the type of the file.
+   * @return the description of the type of the file.
    */
   public static String getDescription(String fileName) {
     return getInfo(Utils.getExtension(fileName, false)).description;
   }
   
   /**
-   * Returns the name of the icon file for the type of the given file.
+   * @return the name of the icon file for the type of the given file.
    */
   public static String getIconFile(String fileName) {
     return getInfo(Utils.getExtension(fileName, false)).iconFile;
   }
   
   /**
-   * Returns true if the file is supposed to be compressible. For example, text
+   * @return true if the file is supposed to be compressible. For example, text
    * files are compressible, while ZIP files are not.
    */
   public static boolean isCompressible(String fileName) {
@@ -324,14 +324,14 @@ public final class FileTypes {
   }
   
   /**
-   * Returns true if the file should be referred from a page to be accessed.
+   * @return true if the file should be referred from a page to be accessed.
    */
   public static boolean isPreventHotlinking(String fileName) {
     return getInfo(Utils.getExtension(fileName, false)).preventHotlinking;
   }
   
   /**
-   * Returns true if the file is a page (static or server-side).
+   * @return true if the file is a page (static or server-side).
    */
   public static boolean isPage(String fileName) {
     int id = getInfo(Utils.getExtension(fileName, false)).id;
