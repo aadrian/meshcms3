@@ -41,6 +41,8 @@ public class CacheResponseStream extends ServletOutputStream {
    *
    * @param response the original response
    * @param cacheOutput the output for the cache
+   *
+   * @throws IOException if an input or output exception occurred 
    */
   public CacheResponseStream(HttpServletResponse response,
       OutputStream cacheOutput) throws IOException {
@@ -51,6 +53,9 @@ public class CacheResponseStream extends ServletOutputStream {
   
   /**
    * Writes to both streams.
+   * 
+   * @param b the byte to write
+   * @throws IOException if an I/O error occurs 
    */
   public void write(int b) throws IOException {
     output.write(b);
@@ -62,6 +67,8 @@ public class CacheResponseStream extends ServletOutputStream {
 
   /**
    * Flushes both streams.
+   *
+   * @throws IOException if an I/O error occurs
    */
   public void flush() throws IOException {
     output.flush();
@@ -73,6 +80,8 @@ public class CacheResponseStream extends ServletOutputStream {
 
   /**
    * Closes both streams.
+   *
+   * @throws IOException if an I/O error occurs
    */
   public void close() throws IOException {
     output.close();

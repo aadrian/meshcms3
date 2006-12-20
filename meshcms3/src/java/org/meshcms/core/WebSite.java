@@ -108,7 +108,6 @@ public class WebSite {
   protected Path sitesFilePath;
 
   protected WebSite() {
-    //
   }
 
   protected static WebSite create(ServletContext sc,
@@ -163,6 +162,8 @@ public class WebSite {
    * is created only if the current one is too old. In this case, the site map
    * is created asynchronously and the method returns immediately. The
    * repository will be cleaned too.
+   *
+   * @param force it to force the SiteMap creation.
    */
   public void updateSiteMap(boolean force) {
     if (force) {
@@ -199,7 +200,7 @@ public class WebSite {
   }
 
   /**
-   * Sets the <code>SiteInfo</code> object related to this website.  
+   * Sets the <code>SiteInfo</code> object related to this website.
    */
   void setSiteInfo(SiteInfo siteInfo) {
     this.siteInfo = siteInfo;
@@ -799,6 +800,10 @@ public class WebSite {
    *  <li>the standard CGI-BIN directory (/cgi-bin)</li>
    *  <li>the MeshCMS admin directory (if <code>checkAdmin</code> is true</li>
    * </ul>
+   *
+   * @param path the given path(directory) to be checked
+   *
+   * @return true if it is a system directory, false otherwise 
    */
   public boolean isSystem(Path path) {
     if (path == null || path.isRoot()) {

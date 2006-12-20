@@ -37,6 +37,7 @@ public class CMSDirectoryFinder extends DirectoryParser {
    * Creates a new instance to search for the CMS directory using the
    * given root.
    *
+   * @param siteRoot initial directory to start the processing.
    * @param virtualSite used to determine what file to search (virtual sites
    * do not contain an admin directory, so a different file is searched).
    */
@@ -68,6 +69,8 @@ public class CMSDirectoryFinder extends DirectoryParser {
 
   /**
    * Performs the search and returns the result.
+   *
+   * @return the CMS Path
    */
   public Path getCMSPath() {
     if (cmsPath == null) {

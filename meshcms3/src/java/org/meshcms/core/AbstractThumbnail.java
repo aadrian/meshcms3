@@ -40,6 +40,10 @@ public abstract class AbstractThumbnail {
   
   /**
    * Creates the thumbnail.&nbsp;Called only if needed.
+   * @param imageFile source image file to create thumbnail from
+   * @param thumbnailFile destination file
+   *
+   * @return true if succeded to create the thumbnail and false if an error(exception) occured
    */
   protected abstract boolean createThumbnail(File imageFile, File thumbnailFile);
 

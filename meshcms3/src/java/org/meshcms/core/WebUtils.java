@@ -180,6 +180,9 @@ public final class WebUtils {
    * Parses the web.xml configuration file and returns an array of welcome file
    * names. If the names can't be found, {@link #DEFAULT_WELCOME_FILES} is
    * returned.
+   *
+   * @param sc ServletContext required to access the <code>web.xml</code> file
+   * @return an array of welcome file names 
    */
   public static String[] getWelcomeFiles(ServletContext sc) {
     File webXml = new File(sc.getRealPath("/WEB-INF/web.xml"));
