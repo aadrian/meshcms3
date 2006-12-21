@@ -234,6 +234,10 @@ public final class Utils {
 
   /**
    * Replaces ' with \' (useful for JavaScript).
+   *
+   * @param s the String to escape
+   *
+   * @return the escaped String 
    */
   public static String escapeSingleQuotes(String s) {
     return replace(s, '\'', "\\'");
@@ -442,7 +446,11 @@ public final class Utils {
    * Reads an <code>InputStream</code> and copy all data to an
    * <code>OutputStream</code>.
    *
+   * @param in the Input Stream
+   * @param out the Output Stream
    * @param closeOut if true, out is closed when the copy has finished
+   *
+   * @throws IOException if an I/O error occurs.
    */
   public static void copyStream(InputStream in, OutputStream out,
                                 boolean closeOut) throws IOException {
@@ -467,7 +475,11 @@ public final class Utils {
   /**
    * Copies the Reader to the Writer until there are no data left.
    *
+   * @param reader the Reader
+   * @param writer the Writer
    * @param closeWriter if true, closes the Writer at the end
+   *
+   * @throws IOException if an I/O error occurs 
    */
   public static void copyReaderToWriter(Reader reader, Writer writer,
       boolean closeWriter) throws IOException {
@@ -488,6 +500,11 @@ public final class Utils {
 
   /**
    * Writes the whole String to the File using a buffered FileWriter.
+   *
+   * @param file the destination file where to write
+   * @param s the String to be written.
+   *
+   * @throws IOException If an I/O error occurs
    */
   public static void writeFully(File file, String s) throws IOException {
     Writer writer = new BufferedWriter(new FileWriter(file));
@@ -497,6 +514,11 @@ public final class Utils {
   
   /**
    * Writes the whole byte array to the File using a FileOutputStream.
+   *
+   * @param file the destination file where to write
+   * @param b byte array to be written
+   *
+   * @throws IOException If an I/O error occurs
    */
   public static void writeFully(File file, byte[] b) throws IOException {
     FileOutputStream fos = new FileOutputStream(file);
@@ -506,6 +528,12 @@ public final class Utils {
 
   /**
    * Reads a file and puts all data into a String.
+   *
+   * @param file the file to read from.
+   *
+   * @return the content of the file as a string.
+   *
+   * @throws IOException If an I/O error occurs
    */
   public static String readFully(File file) throws IOException {
     Reader reader = new BufferedReader(new FileReader(file));
@@ -516,6 +544,12 @@ public final class Utils {
 
   /**
    * Reads from a Reader and puts all available data into a String.
+   *
+   * @param reader the reader to read from.
+   *
+   * @return the content of the <code>reader</code> as a string.
+   *
+   * @throws IOException If an I/O error occurs
    */
   public static String readFully(Reader reader) throws IOException {
     CharArrayWriter caw = new CharArrayWriter();
@@ -528,7 +562,16 @@ public final class Utils {
 
     return caw.toString();
   }
-  
+
+    /**
+     * Reads all characters from a reader.
+     *
+     * @param reader the reader to read from
+     *
+     * @return  an array of <code>Char</code>'s
+     *  
+     * @throws IOException If an I/O error occurs
+     */
   public static char[] readAllChars(Reader reader) throws IOException {
     CharArrayWriter caw = new CharArrayWriter();
     char[] cbuf = new char[BUFFER_SIZE];
@@ -544,6 +587,12 @@ public final class Utils {
   /**
    * Reads from an InputStream and puts all available data into an array of
    * bytes.
+   *
+   * @param in the Input Stream to read from
+   *
+   * @return an array of bytes 
+   *
+   * @throws IOException If an I/O error occurs
    */
   public static byte[] readFully(InputStream in) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -559,6 +608,12 @@ public final class Utils {
 
   /**
    * Reads a file and put all lines into an array of Strings.
+   *
+   * @param file the file to read from
+   *
+   * @return an array of Strings representing the lines of text from the file. 
+   *
+   * @throws IOException If an I/O error occurs 
    */
   public static String[] readAllLines(File file)
       throws FileNotFoundException, IOException {
@@ -576,6 +631,11 @@ public final class Utils {
 
   /**
    * A quick and dirty method to unzip an archive into a directory.
+   *
+   * @param zip source archive to be processed
+   * @pram dir destination directory where to unzip the archive.
+   *
+   * @throws IOException If an I/O error occurs
    */
   public static void unzip(File zip, File dir) throws IOException {
     dir.mkdirs();
@@ -1025,7 +1085,7 @@ public final class Utils {
    *
    * @param array the array of possible elements
    *
-   * @return the randomly selected element from the givven array.
+   * @return the randomly selected element from the given array.
    */
   public static Object getRandomElement(Object[] array) {
     if (array == null || array.length == 0) {
@@ -1040,7 +1100,7 @@ public final class Utils {
    *
    * @param f the <code>float</code> to be processed.
    *
-   * @return the decimal part of the givven float. 
+   * @return the decimal part of the given float.
    */
   public static float decimalPart(float f) {
     return f - (int) f;
@@ -1051,7 +1111,7 @@ public final class Utils {
    *
    * @param d the <code>double</code> to be processed.
    *
-   * @return the decimal part of the givven double. 
+   * @return the decimal part of the given double. 
    */
   public static double decimalPart(double d) {
     return d - (long) d;

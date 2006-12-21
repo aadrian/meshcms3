@@ -83,6 +83,8 @@ public class Path implements Comparable, Serializable, Cloneable {
 
   /**
    * Creates a path and adds an object to it.
+   *
+   * @param o the Object to be added to this new path
    */
   public Path(Object o) {
     this(o, null, null);
@@ -90,6 +92,9 @@ public class Path implements Comparable, Serializable, Cloneable {
 
   /**
    * Creates a path and adds two objects to it.
+   *
+   * @param o1 the Object 1 to be added
+   * @param o2 the Object 2 to be added
    */
   public Path(Object o1, Object o2) {
     this(o1, o2, null);
@@ -97,6 +102,10 @@ public class Path implements Comparable, Serializable, Cloneable {
 
   /**
    * Creates a path and adds three objects to it.
+   *
+   * @param o1 the Object 1 to be added
+   * @param o2 the Object 2 to be added
+   * @param o3 the Object 3 to be added
    */
   public Path(Object o1, Object o2, Object o3) {
     List list = new ArrayList();
@@ -154,6 +163,8 @@ public class Path implements Comparable, Serializable, Cloneable {
   /**
    * Adds an object to the current path.
    *
+   * @param o the Object to be added to the current path
+   *
    * @return a new <code>Path</code> which is the combination of the current
    * path and the added object
    */
@@ -164,6 +175,9 @@ public class Path implements Comparable, Serializable, Cloneable {
   /**
    * Adds two objects to the current path.
    *
+   * @param o1 Object 1 to add
+   * @param o2 Object 2 to add
+   *
    * @return a new <code>Path</code> which is the combination of the current
    * path and the added objects
    */
@@ -172,16 +186,22 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * @return the parent of the current path. The parent of the root path is
+   * Return the parent of the current path. The parent of the root path is
    * '..' (a <code>Path</code> with one element whose value is "..").
+   *
+   * @return the parent of the current path.
    */
   public Path getParent() {
     return new Path(this, "..");
   }
 
   /**
-   * @return a parent of the current path, whose element count is equal to the
+   * Returns a parent of the current path, whose element count is equal to the
    * passed value.
+   *
+   * @param count the count
+   *
+   * @return the parent of he current path
    */
   public Path getPartial(int count) {
     if (count < 0) {
@@ -202,13 +222,19 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * @return the common part between the two Paths.
+   * Returns the common part between the two Paths (between <code>this</code> path
+   * and the <code>other</code> path).
+   *
+   * @param other the second path
+   * @return the common path
    */
   public Path getCommonPath(Path other) {
     return commonPart(this, other);
   }
 
   /**
+   * Cheks if this path is relative (when the first element of this path is "..")
+   * 
    * @return <code>true</code> when the first element of the current path is
    * "..".
    */
@@ -217,6 +243,8 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
+   * Returns true if this path is a ROOT path (when the path is empty)
+   * 
    * @return <code>true</code> if the path is empty.
    */
   public boolean isRoot() {
@@ -224,6 +252,10 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
+   * Checks if <code>this</code> path is a child of the <code>parent</code> path.
+   *
+   * @param parent the parent path
+   * 
    * @return <code>true</code> if the path current path is contained in the
    * given path directly. Example:
    * <pre>
@@ -254,6 +286,10 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
+   * Checkes if the current path is contained in another path.
+   *
+   * @param root the othr path where to check if the current path is contained.
+   * 
    * @return <code>true</code> if the current path is contained in the
    * given path (at any depth). Example:
    * <pre>
@@ -288,11 +324,15 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * @return the current path as relative to the given root. Example:
+   * Returns the current path as relative to the given root. Example:
    * <pre>
    * Path myPath = new Path("home/user/myfile.txt");
    * myPath.getRelativeTo(new Path("home")); // returns "user/myfile.txt"
    * </pre>
+   *
+   * @param  root the root to relate this path to.
+   *
+   * @return the current path as relative to the given root.
    */
   public Path getRelativeTo(Object root) {
     Path rootPath = (root instanceof Path) ? (Path) root : new Path(root);
@@ -328,41 +368,53 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * @return a <code>File</code> object relative to the given file.
+   * Returns a <code>File</code> object relative to the given file.
+   *
+   * @param  parent the parent file as a relative base
+   *
+   * @return the new relative file. 
    */
   public File getFile(File parent) {
     return elements.length == 0 ? parent : new File(parent, pathName);
   }
 
   /**
-   * @return the number of elements of the current path. Example:
+   * Returns the number of elements of the current path. Example:
    * <pre>
    * new Path().getElementCount(); // returns 0
    * new Path("home/user").getElementCount(); // returns 2
    * new Path("../user").getElementCount(); // returns 2
+   *
+   * @return the number of elements the current path has.
    */
   public int getElementCount() {
     return elements.length;
   }
 
   /**
-   * @return the element at the given index. There is no check for the index
+   * Returns the element at the given index. There is no check for the index
    * value, so an <code>ArrayIndexOutOfBoundsException</code> might be thrown.
+   *
+   * @param index the index for the searched element. 
+   *
+   * @return element at the given <code>index</code> 
    */
   public String getElementAt(int index) {
     return elements[index];
   }
 
   /**
-   * @return the last element of the current path (usually the file name). For
+   * Returns the last element of the current path (usually the file name). For
    * the root path the empty <code>String</code> is returned.
+   *
+   * @return the last element of the Path
    */
   public String getLastElement() {
     return elements.length == 0 ? "" : elements[elements.length - 1];
   }
 
   /**
-   * @return the <code>String</code> representation of the current path. The
+   * Returns the <code>String</code> representation of the current path. The
    * separator between elements is always a slash, regardless of the platform.
    */
   public String toString() {
@@ -370,8 +422,10 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * @return the path encoded As a link: if the path is not empty, adds a
+   * Returns this path object encoded As a link: if the path is not empty, adds a
    * slash at the beginning.
+   *
+   * @return a link represenation of this path.
    */
   public String getAsLink() {
     return elements.length == 0 ? "" : '/' + pathName;
@@ -390,6 +444,10 @@ public class Path implements Comparable, Serializable, Cloneable {
    * is different from
    * <code>path1.toString().compareTo(path2.toString())</code>, since this
    * method compares the single elements of the paths.
+   *
+   * @param other the path to compare to this path
+   *
+   * @return -1, 0 or 1 as a compare result.
    */
   public int compareTo(Path other) {
     int level = other.getElementCount();
@@ -430,7 +488,12 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * @return the common part between the two Paths.
+   * Returns the common part between the two Paths.
+   *
+   * @param p1 the Path 1
+   * @param p2 the Path 2
+   *
+   * @return a Path representing the common part between <code>p1</code> and <code>p2</code>
    */
   public static Path commonPart(Path p1, Path p2) {
     int n = Math.min(p1.getElementCount(), p2.getElementCount());
@@ -445,10 +508,12 @@ public class Path implements Comparable, Serializable, Cloneable {
   }
 
   /**
-   * @return the successor of this <code>Path</code>, as defined in the Javadoc
+   * Returns the successor of this <code>Path</code>, as defined in the Javadoc
    * <code>of java.util.TreeMap.subMap(...)</code>. This is useful when you need
    * to use that method to get a <em>closed range</em> submap (or headmap, or
    * tailmap) of <code>Path</code>s.
+   *
+   * @return the successor path
    */
   public Path successor() {
     return (elements.length == 0) ? new Path("\0") : getParent().add(getLastElement() + '\0');
