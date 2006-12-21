@@ -183,10 +183,12 @@ public class WebSite {
   }
 
   /**
-   * @return the instance of the <code>SiteMap</code> that is currently manage
+   * Returns the instance of the <code>SiteMap</code> that is currently manage
    * the site map. Since this object can be replaced with a new one at any
    * moment, a class that wants to use it should store it in a local variable
    * and use it for all the operation/method.
+   *
+   * @return the current instance of SiteMap
    */
   public SiteMap getSiteMap() {
     return siteMap;
@@ -201,6 +203,8 @@ public class WebSite {
 
   /**
    * Sets the <code>SiteInfo</code> object related to this website.
+   *
+   * @param siteInfo the site info for this website
    */
   void setSiteInfo(SiteInfo siteInfo) {
     this.siteInfo = siteInfo;
@@ -584,10 +588,15 @@ public class WebSite {
   }
 
   /**
-   * @return the correct file in the repository. For example, if you need to
+   * Returns the correct file in the repository. For example, if you need to
    * create a temporary copy of /somedir/index.html, you could use
    * <code>filePath = /somedir/index.html</code> and
    * <code>fileName = tmp.html</code>.
+   *
+   * @param filePath the path where to search
+   * @param fileName the file name
+   *
+   * @return the searched file 
    */
   public File getRepositoryFile(Path filePath, String fileName) {
     File repoDir = getFile(repositoryPath.add(filePath));
@@ -656,8 +665,12 @@ public class WebSite {
   }
 
   /**
-   * @return the file object for a given path in the web application. The file
+   * Returns the file object for a given path in the web application. The file
    * is not checked for existance.
+   *
+   * @param path the path representation of the file
+   *
+   * @return the file object for this path, or null if it's not found
    */
   public File getFile(Path path) {
     return (path == null || path.isRelative()) ? null :
@@ -698,15 +711,23 @@ public class WebSite {
 
   /**
    * Checks if the given path is a directory in the file system.
+   *
+   * @param path the Path to check
+   *
+   * @return true if the path is a directory. 
    */
   public boolean isDirectory(Path path) {
     return getFile(path).isDirectory();
   }
 
   /**
-   * @return the directory that contains the given path. This is different from
+   * Returns the directory that contains the given path. This is different from
    * {@link org.meshcms.util.Path#getParent}, since if the path is known to
    * be a directory in the web application, the path itself is returned.
+   *
+   * @param path the Path to check
+   *
+   * @return a directory(that contains the given path) as a Path object.
    */
   public Path getDirectory(Path path) {
     // PageInfo pageInfo = getPageInfo(path);
@@ -773,8 +794,12 @@ public class WebSite {
   }
 
   /**
-   * @return an array of menu titles for the given pages.
+   * Returns an array of menu titles for the given pages.
    * {@link SiteInfo} is used to get the titles.
+   *
+   * @param pages an array of pages to be processed
+   *
+   * @return the array of titles for the given pages.
    */
   public String[] getTitles(PageInfo[] pages) {
     if (pages == null) {
@@ -862,7 +887,7 @@ public class WebSite {
   }
 
   /**
-   * @return the complete tag used by pages in the admin folder. This way those
+   * Returns the complete tag used by pages in the admin folder. This way those
    * pages can set to be themed according to the site preferences (i.e. using
    * a custom theme or the default admin theme).
    */
@@ -877,10 +902,12 @@ public class WebSite {
   }
 
   /**
-   * @return a string containing a basic HTML page.
+   * Returns a string containing a basic HTML page.
    *
    * @param pageTitle the content of the &lt;title&gt; tag (if null, the title
    * will be &quot;New Page&quot;)
+   *
+   * @return a basic "empty" HTML page
    */
   public String getHTMLTemplate(String pageTitle) throws IOException {
     String text = Utils.readFully(getFile(getAdminPath().add("template.html")));
@@ -922,6 +949,9 @@ public class WebSite {
   }
 
   /**
+   * Checks if the file name is one of the welcome files.
+   *
+   * @param fileName the file name to check
    * @return true if the given file name is known to be a welcome file name.
    */
   public boolean isWelcomeFileName(String fileName) {
@@ -929,6 +959,8 @@ public class WebSite {
   }
 
   /**
+   * Returns the array of welcome file names.
+   * 
    * @return an array of welcome file names for the current web application.
    * Values are fetched from the web.xml file.
    */
@@ -937,8 +969,12 @@ public class WebSite {
   }
 
   /**
-   * @return the current welcome file path for the given folder. If there is no
+   * Returns the current welcome file path for the given folder. If there is no
    * welcome file in that folder, this method returns null.
+   *
+   * @param dirPath the folder where to search the welcome file
+   *
+   * @return the welcome file as a Path object of null if not found.
    */
   public Path findCurrentWelcome(Path dirPath) {
     File dirFile = getFile(dirPath);
@@ -1030,9 +1066,13 @@ public class WebSite {
   }
 
   /**
-   * @return the path of the theme to be applied to the given path. This depends
+   * Returns the path of the theme to be applied to the given path. This depends
    * on the stored values and on the option to use the default theme for the
    * admin pages. This method returns null if no theme is found.
+   *
+   * @param pagePath the path of the page who's theme is searched.
+   *
+   * @return the theme of this page as a Path object
    */
   public Path getThemePath(Path pagePath) {
     Path themePath = siteInfo.getThemePath(pagePath);
