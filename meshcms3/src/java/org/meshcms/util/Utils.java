@@ -406,7 +406,7 @@ public final class Utils {
    * @return true if copied successfully, false otherwise
    * @throws IOException if the content can't be copied due to an I/O error
    */
-  public static boolean copqyFile(File file, File newFile, boolean overwrite,
+  public static boolean copyFile(File file, File newFile, boolean overwrite,
                                  boolean setLastModified) throws IOException {
     if (newFile.exists() && !overwrite) {
       return false;
