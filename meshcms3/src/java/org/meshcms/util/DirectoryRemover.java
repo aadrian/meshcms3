@@ -52,6 +52,8 @@ public class DirectoryRemover extends DirectoryParser {
   /**
    * This method can be called after processing to know whether the directory
    * has been fully deleted or not.
+   *
+   * @return <code>true</code> if the directory has been fully deleted, <code>false</code> otherwise.
    */
   public boolean getResult() {
     return result;

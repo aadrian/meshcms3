@@ -57,6 +57,8 @@ public class DirectoryParser extends Thread {
 
   /**
    * If true, directories will be processed recursively (default false).
+   *
+   * @param recursive it the directories will be processed recursively
    */
   public void setRecursive(boolean recursive) {
     this.recursive = recursive;
@@ -65,6 +67,8 @@ public class DirectoryParser extends Thread {
   /**
    * If true, <code>processDirectory</code> will be called for the
    * base directory too (default false).
+   *
+   * @param processStartDir if to process the base directory too. 
    *
    * @see #processDirectory
    */
@@ -238,6 +242,8 @@ public class DirectoryParser extends Thread {
    * processed. If it returns false, no processing will take place.
    *
    * <p>The base implementation does nothing and returns true.</p>
+   *
+   * @return always true
    */
   protected boolean preProcess() {
     return true;
@@ -260,6 +266,8 @@ public class DirectoryParser extends Thread {
    *
    * @param file the directory to be processed
    * @param path the path of the directory (relative to the base directory)
+   *
+   * @return always true
    *
    * @deprecated use {@link #preProcessDirectory} and {@link #postProcessDirectory} instead
    */

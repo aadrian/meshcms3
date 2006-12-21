@@ -39,12 +39,16 @@ public class ImageLoader implements ImageConsumer {
 
   /**
    * Creates an image loader for the given file path.
+   *
+   * @param imageFilePath the image file path
    */
   public ImageLoader(String imageFilePath) {
     imgImage = Toolkit.getDefaultToolkit().getImage(imageFilePath);
   }
 
   /**
+   * Checks if the images has loaded.
+   * 
    * @return true if the image has been loaded completely.
    */
   public boolean check() {
@@ -137,6 +141,8 @@ public class ImageLoader implements ImageConsumer {
   }
 
   /**
+   * Returns a new image.
+   * 
    * @return the image.
    */
   public Image getImage() {
@@ -148,7 +154,9 @@ public class ImageLoader implements ImageConsumer {
   }
 
   /**
-   * @return the image as an array of ARGB pixels.
+   * Returns the image as an array of ARGB pixels.
+   *
+   * @return an array of pixels
    */
   public int[] getPixels() {
     waitForImage();
