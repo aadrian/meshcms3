@@ -34,6 +34,9 @@ public class ZipArchiver extends DirectoryParser {
   
   /**
    * Instantiates the archiver for the given file and output stream.
+   *
+   * @param contents the file to be archieved
+   * @param out the OutputStream to write the archive to.
    */
   public ZipArchiver(File contents, OutputStream out) {
     zout = new ZipOutputStream(out);

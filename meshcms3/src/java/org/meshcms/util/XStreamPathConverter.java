@@ -52,6 +52,8 @@ public class XStreamPathConverter extends AbstractSingleValueConverter {
   /**
    * Defines the type of string that will be used to save (with or without
    * prepended slash).
+   *
+   * @param prependSlash if to prepend or not the slah
    */
   public void setPrependSlash(boolean prependSlash) {
     this.prependSlash = prependSlash;
