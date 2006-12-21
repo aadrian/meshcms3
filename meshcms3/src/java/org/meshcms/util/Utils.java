@@ -99,6 +99,9 @@ public final class Utils {
 
   /**
    * Checks if an object is null or if its string representation is empty.
+   *
+   * @param s the String to be checked
+   * @return <code>true</code> if the String is null or empty, <code>false</code> otherwise.
    */
   public static boolean isNullOrEmpty(String s) {
     return s == null || s.equals("");
@@ -106,6 +109,9 @@ public final class Utils {
 
   /**
    * Checks if a string is null, empty or made of whitespaces only.
+   *
+   * @param s the String to be checked
+   * @return <code>true</code> if the String is null or <i>whitespace</i>, <code>false</code> otherwise. 
    */
   public static boolean isNullOrWhitespace(String s) {
     if (s == null) {
@@ -122,6 +128,12 @@ public final class Utils {
   }
 
   /**
+   * Trim that handles <code>null</code> values too.
+   *
+   * @param s the String to be trimmed.
+   *
+   * @see String#trim()  
+   *
    * @return <code>s.trim()</code>, or null if <code>s</code> is null.
    */
   public static String trim(String s) {
@@ -130,6 +142,8 @@ public final class Utils {
 
   /**
    * Returns a non-null version of an object.
+   *
+   * @param s the String to be processed
    *
    * @return s.toString(), or the empty string if s is null
    */
@@ -140,6 +154,9 @@ public final class Utils {
   /**
    * Returns a non-null version of a string.
    *
+   * @param s the String to be processed
+   * @param def the default value, in case the String is null.
+   *
    * @return s.toString(), or the default string provided if s is null
    */
   public static String noNull(String s, String def) {
@@ -147,8 +164,12 @@ public final class Utils {
   }
 
   /**
-   * Compares two strings.&nbsp;Null values are accepted. If
+   * Compares two strings.&nbsp;<code>Null</code> values are accepted. If
    * <code>ignoreCase</code> is true, case is ignored.
+   *
+   * @param s1 the String 1 to be compared to
+   * @param s2 the String 2
+   * @param ignoreCase flag
    *
    * @return true if both strings are null or if they are equal, false
    * otherwise.
@@ -169,6 +190,8 @@ public final class Utils {
    * Checks if a string contains a value that is supposed to mean
    * &quot;true&quot;.
    *
+   * @param s the String to be checked
+   *
    * @return true if the string is "true", "1", "yes", "ok", "checked",
    * "selected" or "on" (case insensitive),
    * false otherwise (null included)
@@ -186,7 +209,12 @@ public final class Utils {
 
   /**
    * Shortens a string by cutting it and adding ellipses at the end. The string
-   * is returned unmodified if its length is less or equal than len.
+   * is returned unmodified if its length is less or equal than len. Handles <code>null</code> Strings too.
+   *
+   * @param s the source String to be shortened
+   * @param len the lenght
+   *
+   * @return the shortened String. 
    */
   public static String limitedLength(String s, int len) {
     String s1;
@@ -218,7 +246,7 @@ public final class Utils {
    * @param c the character to be replaced
    * @param n the string used in place of the character
    *
-   * Return the empty string if s is null; the modified string otherwise.
+   * @return the empty string if s is null; the modified string otherwise.
    */
   public static String replace(String s, char c, String n) {
     StringBuffer sb = new StringBuffer();
@@ -235,18 +263,33 @@ public final class Utils {
   }
 
   /**
-   * Replaces some characters with their HTML entities. Only replaces &quot;,
-   * &#39;, &lt; and &gt;.
+   * Replaces some characters with their HTML entities, like
+   * the method {@link #encodeHTML(String, boolean)} but without the ampersand.
+   *
+   * @see #encodeHTML(String, boolean)
+   *
+   * @param s the String to be encoded
+   *
+   * @return the HTML encoded String
    */
   public static String encodeHTML(String s) {
     return encodeHTML(s, false);
   }
   
   /**
-   * Replaces some characters with their HTML entities. Only replaces &quot;,
-   * &#39;, &lt; and &gt;.
+   * Replaces some characters with their HTML entities.
+   * Only replaces
+   * <ul>
+   *    <li>Quoutation: &quot;</li>
+   *    <li>Apostrophe: &#39;</li>
+   *    <li>Less Than: &lt;</li>
+   *    <li>Greater Than: &gt;</li>
+   * </ul>
    *
-   * #param encodeAmpersands if true replaces &amp; too
+   * @param s the String to be encoded
+   * @param encodeAmpersands if true replaces ampersand &amp; too
+   *
+   * @return the HTML encoded String
    */
   public static String encodeHTML(String s, boolean encodeAmpersands) {
     if (isNullOrEmpty(s)) {
@@ -289,7 +332,11 @@ public final class Utils {
 
   /**
    * Replaces some HTML entities with the corresponding characters. Only replaces
-   * &quot;, &amp;, &#39;, &lt; and &gt;.
+   * &quot;, &amp;, &#39;, &lt; and &gt;. This is the reverse of method {@link #encodeHTML(String, boolean)}
+   *
+   * @param s the HTML String
+   *
+   * @return the decoded String
    */
   public static String decodeHTML(String s) {
     if (isNullOrEmpty(s)) {
@@ -335,6 +382,10 @@ public final class Utils {
 
   /**
    * Strips the HTML tags from a string.
+   *
+   * @param s the HTML String to be processed
+   *
+   * @return the stripped String.
    */
   public static String stripHTMLTags(String s) {
     return (s!=null) ? s.replaceAll("</?\\S+?[\\s\\S+]*?>", " ") : null;
@@ -349,8 +400,9 @@ public final class Utils {
    * @param setLastModified if true, newFile gets the same date of file
    *
    * @return true if copied successfully, false otherwise
+   * @throws IOException if the content can't be copied due to an I/O error
    */
-  public static boolean copyFile(File file, File newFile, boolean overwrite,
+  public static boolean copqyFile(File file, File newFile, boolean overwrite,
                                  boolean setLastModified) throws IOException {
     if (newFile.exists() && !overwrite) {
       return false;
@@ -784,6 +836,13 @@ public final class Utils {
   }
 
   /**
+   * Generates a unique (but similar to the original) file name, based on an exclusion list.<p/>
+   * E.g. <code>product.html</code> would be <code>product1.html</code> if the
+   * exclusion list already contains <code>product.html</code>
+   *  
+   * @param fileName the source file name
+   * @param files exlusion list of file names. 
+   *
    * @return a file name similar to <code>fileName</code>, but different from
    * the strings in the <code>files</code> array.
    */
@@ -825,6 +884,12 @@ public final class Utils {
    * Parses the string argument as an integer, but without returning
    * exception. If that would be the case, the default value provided is
    * returned instead.
+   *
+   * @param s the string to be converted to <code>int<
+   * @param def default value in case the string is not parasble.
+   *
+   * @return a <code>int</code> representation of a String, or a default value if the string
+   * can't be parsed.
    */
   public static int parseInt(String s, int def) {
     try {
@@ -838,6 +903,12 @@ public final class Utils {
    * Parses the string argument as an long, but without returning
    * exception. If that would be the case, the default value provided is
    * returned instead.
+   *
+   * @param s the string to be converted to <code>long</code>
+   * @param def default value in case the string is not parasble.
+   * 
+   * @return a long representation of a String, or a default value if the string
+   * can't be parsed.
    */
   public static long parseLong(String s, long def) {
     try {
@@ -848,15 +919,25 @@ public final class Utils {
   }
 
   /**
-   * @return the tokens of a string. The default delimiter characters of
+   * Returns the tokens of a string. The default delimiter characters of
    * <code>java.util.StringTokenizer</code> are used.
+   * @see #tokenize(String, String) 
+   *
+   * @param s the string to be tokenized
+   * 
+   * @return an array of tokens 
    */
   public static String[] tokenize(String s) {
     return tokenize(s, null);
   }
 
   /**
-   * @return the tokens of a string using the specified delimiter characters.
+   * Tokenizes a string with a given delimiter.
+   *
+   * @param s the String to tokenized
+   * @param delim the delimiter
+   * 
+   * @return an array of okens of a string using the specified delimiter characters.
    */
   public static String[] tokenize(String s, String delim) {
     if (s == null) {
@@ -912,7 +993,11 @@ public final class Utils {
   }
 
   /**
-   * Tries to verify an e-mail address.
+   * Tries to verify(validate) an e-mail address.
+   *
+   * @param email the Email address to verify
+   *
+   * @return <code>true</code> if it's a valid email, <code>false</code>otherwise. 
    */
   public static boolean checkAddress(String email) {
     if (isNullOrEmpty(email) || email.indexOf(' ') >= 0) {
@@ -926,6 +1011,10 @@ public final class Utils {
 
   /**
    * Generates a random integer between 0 (included) and max (excluded).
+   *
+   * @param max the maximum value of the random generation domain.
+   *
+   * @return the randomly generated <code>int</code>
    */
   public static int getRandomInt(int max) {
     return (int) (Math.random() * max);
@@ -933,6 +1022,10 @@ public final class Utils {
 
   /**
    * Picks a random element from the array and returns it.
+   *
+   * @param array the array of possible elements
+   *
+   * @return the randomly selected element from the givven array.
    */
   public static Object getRandomElement(Object[] array) {
     if (array == null || array.length == 0) {
@@ -943,14 +1036,22 @@ public final class Utils {
   }
 
   /**
-   * @return the decimal part of a float, regardless of its sign.
+   * Returns the decimal part of a float, regardless of its sign.
+   *
+   * @param f the <code>float</code> to be processed.
+   *
+   * @return the decimal part of the givven float. 
    */
   public static float decimalPart(float f) {
     return f - (int) f;
   }
 
   /**
-   * @return the decimal part of a double, regardless of its sign.
+   * Returns the decimal part of a double, regardless of its sign.
+   *
+   * @param d the <code>double</code> to be processed.
+   *
+   * @return the decimal part of the givven double. 
    */
   public static double decimalPart(double d) {
     return d - (long) d;
@@ -958,6 +1059,8 @@ public final class Utils {
 
   /**
    * Returns the sign of an integer.
+   *
+   * @param n the <code>int</code> number who's sign is checked. 
    *
    * @return -1 if negative, 0 if zero, 1 if positive
    */
@@ -972,8 +1075,14 @@ public final class Utils {
   }
 
   /**
-   * @return the closest number to n that does not exceed the interval between
+   * Returns the closest number to n that does not exceed the interval between
    * min and max.
+   *
+   * @param min the minimum of the interval
+   * @param max the maximum of the interval
+   * @param n the number
+   *
+   * @return the closest number to <code>n</code> in the <code>[min...max]</code> interval
    */
   public static int constrain(int min, int max, int n) {
     if (n < min) {
@@ -988,6 +1097,12 @@ public final class Utils {
   /**
    * Adds a string at the end of another string, but only if the latter doesn't
    * end with the former.
+   *
+   * @param base the source String
+   * @param what suffix to append
+   *
+   * @return the processed String
+
    */
   public static String addAtEnd(String base, String what) {
     if (base == null) {
@@ -1002,6 +1117,11 @@ public final class Utils {
   /**
    * Removes a string at the end of another string, if latter ends with the
    * former.
+   *
+   * @param base the source String
+   * @param what suffix to remove
+   *
+   * @return the processed String
    */
   public static String removeAtEnd(String base, String what) {
     if (base != null && base.endsWith(what)) {
@@ -1013,7 +1133,12 @@ public final class Utils {
 
   /**
    * Adds a string at the beginning of another string, but only if the latter
-   * doesn't begin with the former.
+   * doesn't begin with the former
+   *
+   * @param base the source String
+   * @param what the prefix to add
+   *
+   * @return the processed String
    */
   public static String addAtBeginning(String base, String what) {
     if (base == null) {
@@ -1028,6 +1153,11 @@ public final class Utils {
   /**
    * Removes a string at the beginning of another string, if the latter
    * begin with the former.
+   *
+   * @param base the source String
+   * @param what prefix to remove
+   *
+   * @return the processed String
    */
   public static String removeAtBeginning(String base, String what) {
     if (base != null && base.startsWith(what)) {
@@ -1038,18 +1168,30 @@ public final class Utils {
   }
 
   /**
-   * @return a relative path from folder to file using the separator provided.
+   * Return a relative path from folder to file using the separator provided.
    * In general, using {@link Path} provides better management of relative
    * paths.
+   *
+   * @param folder the Folder
+   * @param file the File
+   * @param separator the File Separator
+   *  
+   * @return the relative combined path
    */
   public static String getRelativePath(File folder, File file, String separator) {
     return getRelativePath(getFilePath(folder), getFilePath(file), separator);
   }
 
   /**
-   * @return a relative path from folder to file using the separator provided.
+   * Returns a relative path from folder to file using the separator provided.
    * In general, using {@link Path} provides better management of relative
    * paths.
+   *
+   * @param folder the Folder path
+   * @param file the File path
+   * @param separator the File separator
+   * 
+   * @return the relative combined path
    */
   public static String getRelativePath(String folder, String file,
                                        String separator) {
@@ -1086,6 +1228,12 @@ public final class Utils {
    * <code>getCombinedPath("home/user/docs", "../myfile.txt", "/")</code>
    * returns "home/user/myfile.txt".
    * In general, using {@link Path} provides better management of paths.
+   *
+   * @param folder the Folder path
+   * @param file the File path
+   * @param separator the File separator
+   *
+   * @return the resulting combined path
    */
   public static String getCombinedPath(String folder, String file,
                                        String separator) {
@@ -1122,7 +1270,10 @@ public final class Utils {
   }
 
   /**
-   * Returns the full path of the file without having to catch exceptions.
+   * Returns the full path of the file without having to catch exceptions,
+   * using {@link java.io.File#getCanonicalPath()} or {@link java.io.File#getAbsoluteFile()}  
+   *
+   * @param f the File to be processed  
    *
    * @return <code>f.getCanonicalPath()</code>, or
    * <code>f.getAbsolutePath()</code> if an exception is thrown
@@ -1144,9 +1295,12 @@ public final class Utils {
   }
 
   /**
-   * Returns the extension of the given file name.
+   * Returns the extension of the given file name, with or without the dot.
    *
+   * @param fileName the name of the File to be processed
    * @param includeDot if true, the dot is returned with the extension
+   *
+   * @return the extension
    */
   public static String getExtension(String fileName, boolean includeDot) {
     if (fileName == null) {
@@ -1160,6 +1314,10 @@ public final class Utils {
 
   /**
    * Removes the extension from a file name. The dot is removed too.
+   *
+   * @param o the file Object <i>(as {@link java.io.File} or {@link org.meshcms.util.Path} )</i>
+   *
+   * @return the name without extension
    */
   public static String removeExtension(Object o) {
     String fileName = null;
@@ -1183,6 +1341,9 @@ public final class Utils {
   /**
    * Returns the common part at the beginning of two strings.
    *
+   * @param s1 the String 1
+   * @param s2 the String 2
+   *
    * @return null if at least one of the strings is null, otherwise the common
    * part is returned, that can be empty
    */
@@ -1205,6 +1366,11 @@ public final class Utils {
   /**
    * Converts the underscores to spaces and, if requested, applies the title case
    * to a string.
+   *
+   * @param s the String to be beautified
+   * @param titleCase flag if to title case. See {@link Character#toTitleCase(char)}
+   *
+   * @return the converted String. 
    */
   public static String beautify(String s, boolean titleCase) {
     StringBuffer sb = new StringBuffer(s.length());
@@ -1237,7 +1403,9 @@ public final class Utils {
    * another thread or application. This method simply tries again and again
    * for 20 seconds then gives up.
    *
-   * @return the result of the operation
+   * @param file the file to be deleted
+   *
+   * @return <code>true</code> if the delete operation succeded, and <code>false<code> otherwise.
    */
   public static boolean forceDelete(File file) {
     if (!file.exists()) {
@@ -1267,6 +1435,8 @@ public final class Utils {
    * another thread or application. This method simply tries again and again
    * for 20 seconds then gives up.
    *
+   * @param oldFile the old(source) File
+   * @param newFile the new(destination) File
    * @param overwrite if true, tries to delete newFile before renaming oldFile
    *
    * @return the result of the operation
@@ -1297,16 +1467,25 @@ public final class Utils {
   }
 
   /**
-   * @return a nicer representation of the length of the file. The file length
+   * Returns a nicer representation of the length of the file. The file length
    * is returned as bytes, kilobytes or megabytes, with the unit attached.
+   * @see #formatFileLength(long)
+   *
+   * @param file the File
+   *
+   * @return the nicely formatted length of this file 
    */
   public static String formatFileLength(File file) {
     return formatFileLength(file.length());
   }
 
   /**
-   * @return a nicer representation of the number as a file length. The number
+   * Returns a nicer representation of the number as a file length. The number
    * is returned as bytes, kilobytes or megabytes, with the unit attached.
+   *
+   * @param length the number<i>(file length or whatever)</i> to be formatted.
+   *
+   * @return the nicely formatted number as a String.
    */
   public static String formatFileLength(long length) {
     DecimalFormat format = new DecimalFormat("###0.##");
@@ -1331,13 +1510,23 @@ public final class Utils {
 
   /**
    * Encodes a path as a URL, using UTF-8.
+   * @see #encodeURL(String)
+   *
+   * @param path the Path to be encoded
+   *
+   * @return the encoded URL as String, or the original URL as String if an exception occures. 
    */
   public static String encodeURL(Path path) {
     return encodeURL(path.toString());
   }
 
   /**
-   * Encodes a URL using UTF-8.
+   * Encodes a URL using UTF-8 (by "ignoring" exceptions).
+   * @see java.net.URLEncoder#encode(String, String)
+   *
+   * @param url the URL to be encoded
+   *
+   * @return the encoded URL, or the original URL if an exception occures.
    */
   public static String encodeURL(String url) {
     try {
@@ -1350,7 +1539,12 @@ public final class Utils {
   }
 
   /**
-   * Decodes a URL using UTF-8.
+   * Decodes a URL using UTF-8 (by "ignoring" exceptions).
+   * @see java.net.URLDecoder#decode(String, String)
+   *
+   * @param url the URL to be decoded
+   *
+   * @return the decoded URL, or the original URL if an exception occures.
    */
   public static String decodeURL(String url) {
     try {
@@ -1363,7 +1557,12 @@ public final class Utils {
   }
 
   /**
-   * @return the java.util.Locale object for a given locale name (e.g. en_US).
+   * Returns the java.util.Locale object for a given locale name (e.g. en_US).
+   *
+   * @param localeName the locale name to be searched.
+   *
+   * @return the found {@link java.util.Locale} object for the given locale name, or null
+   * if not found.
    */
   public static Locale getLocale(String localeName) {
     if (!isNullOrEmpty(localeName)) {
@@ -1380,7 +1579,9 @@ public final class Utils {
   }
 
   /**
-   * @return all the locales that have no country and no variant.
+   * Returns all the locales that have no country and no variant.
+   *
+   * @return an array with all the locales without country and variant. 
    */
   public static Locale[] getLanguageLocales() {
     Locale[] all = Locale.getAvailableLocales();

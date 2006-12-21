@@ -6,7 +6,4 @@
     <!-- Example of suppressions. Use this file for the real exceptions-->
     <suppress checks="JavadocMethod"
               files="FormField.java" />
-    <suppress checks="LineLength"
-              files="FormField.java"
-              lines="432,434"/>
 </suppressions>
