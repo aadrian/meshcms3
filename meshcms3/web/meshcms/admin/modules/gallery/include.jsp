@@ -31,7 +31,7 @@
   - captions = "true" (default) | false
   - columns = n (default 3)
   - css = (name of a css class)
-  - quality = "low" | "high" (default)
+  - quality = "low" | "high" (the default depends on the site configuration)
   - order = "name" (default) | "date" (same as date_fwd) | "date_fwd" | "date_rev"
 
 --%>
