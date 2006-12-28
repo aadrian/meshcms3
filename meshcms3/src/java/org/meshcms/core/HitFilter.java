@@ -109,6 +109,7 @@ public final class HitFilter implements Filter {
       }
       
       request.setAttribute(WEBSITE_ATTRIBUTE, webSite);
+      request.setCharacterEncoding(WebSite.SYSTEM_CHARSET);
       HttpServletRequest httpReq = webSite.wrapRequest(request);
       Path pagePath = webSite.getRequestedPath(httpReq);
 
