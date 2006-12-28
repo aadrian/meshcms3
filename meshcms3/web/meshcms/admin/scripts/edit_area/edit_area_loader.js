@@ -1,12 +1,13 @@
 /******
  *
- *	EditArea v0.6.1
+ *	EditArea 
  * 	Developped by Christophe Dolivet
  *	Released under LGPL license
  *
 ******/
 
 	function EditAreaLoader(){
+		this.version= "0.6.3.1";
 		date= new Date();
 		this.start_time=date.getTime();
 		this.win= "loading";	// window loading state
@@ -25,21 +26,18 @@
 		this.sub_scripts_to_load= new Array("edit_area", "manage_area" ,"edit_area_functions", "keyboard", "search_replace", "highlight", "regexp");
 		
 		this.resize= new Array(); // contain resizing datas
-		this.hidden= new Array();	// store datas of the hidden textareas
+		this.hidden= new Object();	// store datas of the hidden textareas
 		
 		this.default_settings= {
 			//id: "src"	// id of the textarea to transform
 			debug: false
 			,smooth_selection: true
 			,font_size: "10"		// not for IE
-			,font_family: "monospace"	// don't change
+			,font_family: "monospace"	// can be "verdana,monospace". Allow non monospace font but Firefox get smaller tabulation with non monospace fonts. IE doesn't change the tabulation width and Opera doesn't take this option into account... 
 			,start_highlight: false	// if start with highlight			
-			,toolbar: "search, go_to_line, |, undo, redo, |, select_font,|, change_smooth_selection, highlight, reset_highlight, |, help"
+			,toolbar: "search, go_to_line, fullscreen, |, undo, redo, |, select_font,|, change_smooth_selection, highlight, reset_highlight, |, help"
 			,begin_toolbar: ""		//  "new_document, save, load, |"
 			,end_toolbar: ""		// or end_toolbar
-			,load_callback: ""		// function name
-			,save_callback: ""		// function name
-			,change_callback: ""	// function name
 			,allow_resize: "both"	// possible values: "no", "both", "x", "y"
 			,allow_toggle: true		// true or false
 			,language: "en"
@@ -49,6 +47,17 @@
 			,browsers: "known"	// all or known
 			,plugins: "" // comma separated plugin list
 			,gecko_spellcheck: false	// enable/disable by default the gecko_spellcheck
+			,fullscreen: false
+			,load_callback: ""		// click on load button (function name)
+			,save_callback: ""		// click on save button (function name)
+			,change_callback: ""	// textarea onchange trigger (function name)
+			,submit_callback: ""	// form submited (function name)
+			,EA_init_callback: ""	// EditArea initiliazed (function name)
+			,EA_delete_callback: ""	// EditArea deleted (function name)
+			,EA_load_callback: ""	// EditArea fully loaded and displayed (function name)
+			,EA_unload_callback: ""	// EditArea delete while being displayed (function name)
+			,EA_toggle_on_callback: ""	// EditArea toggled on (function name)
+			,EA_toggle_off_callback: ""	// EditArea toggled off (function name)
 		};
 		
 		this.advanced_buttons = [
@@ -63,9 +72,10 @@
 				['highlight', 'highlight.gif','change_highlight'],
 				['help', 'help.gif', 'show_help'],
 				['save', 'save.gif', 'save'],
-				['load', 'load.gif', 'load']
+				['load', 'load.gif', 'load'],
+				['fullscreen', 'fullscreen.gif', 'toggle_full_screen']
 			];
-		
+				
 		// navigator identification
 		ua= navigator.userAgent;
 		this.nav= new Object(); 
@@ -94,7 +104,6 @@
 				this.has_error();
 			this.nav['isIE']=false;			
 		}
-		
 		this.nav['isGecko'] = (ua.indexOf('Gecko') != -1);
 		
 		if(this.nav['isFirefox'] =(ua.indexOf('Firefox') != -1))
@@ -115,7 +124,7 @@
 			setTimeout("editAreaLoader.load_script('"+this.baseURL + this.scripts_to_load[i]+ ".js');", 1);	// let the time to Object editAreaLoader to be created before loading additionnal scripts
 			this.waiting_loading[this.scripts_to_load[i]+ ".js"]= false;
 		}				
-		this.addEvent(window, "load", EditAreaLoader.prototype.window_loaded);
+		this.add_event(window, "load", EditAreaLoader.prototype.window_loaded);
 	};
 	
 	EditAreaLoader.prototype.has_error= function(){
@@ -140,9 +149,30 @@
 					form.onsubmit="";
 				} catch (e) {// Do nothing
 				}
-				editAreaLoader.addEvent(form, "submit", EditAreaLoader.prototype.submit);
-				editAreaLoader.addEvent(form, "reset", EditAreaLoader.prototype.reset);
+				editAreaLoader.add_event(form, "submit", EditAreaLoader.prototype.submit);
+				editAreaLoader.add_event(form, "reset", EditAreaLoader.prototype.reset);
 			}
+		}
+		
+		
+		if(editAreaLoader.nav['isIE']){	// launch IE selection checkup
+			for(var i in editAreas){
+				editAreaLoader.init_ie_textarea(i);
+			}
+		}
+		editAreaLoader.add_event(window, "unload", function(){for(var i in editAreas){editAreaLoader.delete_instance(i);}});	// ini callback
+	};
+	
+	// init the checkup of the selection of the IE textarea
+	EditAreaLoader.prototype.init_ie_textarea= function(id){
+		textarea=document.getElementById(id);
+		if(textarea && typeof(textarea.focused)=="undefined"){
+			textarea.focus();
+			textarea.focused=true;
+			textarea.selectionStart= textarea.selectionEnd= 0;
+			get_IE_selection(textarea);
+			editAreaLoader.add_event(textarea, "focus", IE_textarea_focus);
+			editAreaLoader.add_event(textarea, "blur", IE_textarea_blur);
 		}
 	};
 		
@@ -164,6 +194,7 @@
 		}
 		
 		if(settings["browsers"]=="known" && this.nav['isValidBrowser']==false){
+		
 			return;
 		}
 		
@@ -199,12 +230,14 @@
 		
 		//if(settings["display"]=="onload")
 		editAreaLoader.start(settings["id"]);
-
 	};
 	
 	// delete an instance of an EditArea
 	EditAreaLoader.prototype.delete_instance= function(id){
-		editAreaLoader.toggle_off(id);
+		editAreaLoader.execCommand(id, "EA_delete");
+		if(window.frames["frame_"+id] && editAreas[id]["displayed"]) 
+			window.frames["frame_"+id].editArea.execCommand("EA_unload");
+		editAreaLoader.toggle(id, "off");
 		
 		// remove toggle infos and debug textarea
 		var span= document.getElementById("EditAreaArroundInfos_"+id);
@@ -275,26 +308,22 @@
 				father.insertBefore(span, next);
 		}
 		
-		if(editAreas[id]["settings"]["display"]=="later"){
-			editAreas[id]["settings"]["display"]="onload";
-			return
+		if(!editAreas[id]["initialized"])
+		{
+			this.execCommand(id, "EA_init");	// ini callback
+			if(editAreas[id]["settings"]["display"]=="later"){
+				editAreas[id]["initialized"]= true;
+				return;
+			}
 		}
 		
-	/*	if(editAreas[id]["settings"]["display"]=="onload")
-			editAreaLoader.start(id);*/
-
-		
+		if(this.nav['isIE']){	// launch IE selection checkup
+			editAreaLoader.init_ie_textarea(id);
+		}
+				
 		// get toolbar content
-		//alert("start: "+id);
 		var html_toolbar_content="";
 		area=editAreas[id];
-		//this.current_language=area["settings"]["language"];
-		
-	/*	// wait until language and syntax files are loaded
-		if(!this.lang[area["settings"]["language"]] || (area["settings"]["syntax"] && !this.load_syntax[area["settings"]["syntax"]]) ){
-			setTimeout("editAreaLoader.start('"+id+"');", 100);
-			return;
-		}*/
 		
 		for(var i=0; i<area["settings"]["tab_toolbar"].length; i++){
 		//	alert(this.tab_toolbar[i]+"\n"+ this.get_control_html(this.tab_toolbar[i]));
@@ -335,15 +364,22 @@
 		template= template.replace("[__CSSRULES__]", this.iframe_css);				
 		// add js_code
 		template= template.replace("[__JSCODE__]", this.iframe_script);
+		
+		// add version_code
+		template= template.replace("[__EA_VERSION__]", this.version);
 		//template=template.replace(/\{\$([^\}]+)\}/gm, this.traduc_template);
 		
 		//editAreas[area["settings"]["id"]]["template"]= template;
 		
 		area.textarea=document.getElementById(area["settings"]["id"]);
 		editAreas[area["settings"]["id"]]["textarea"]=area.textarea;
+	
 		
 		// insert template in the document after the textarea
 		var father= area.textarea.parentNode;
+	/*	var container= document.createElement("div");
+		container.id= "EditArea_frame_container_"+area["settings"]["id"];
+	*/	
 		var content= document.createElement("iframe");
 		content.name= "frame_"+area["settings"]["id"];
 		content.id= "frame_"+area["settings"]["id"];
@@ -352,13 +388,18 @@
 		content.style.overflow="hidden";
 		content.style.display="none";
 		
+	/*	container.appendChild(content);
 		var next= area.textarea.nextSibling;
-
+		if(next==null)
+			father.appendChild(container);
+		else
+			father.insertBefore(container, next) ;*/
+		
+		var next= area.textarea.nextSibling;
 		if(next==null)
 			father.appendChild(content);
 		else
-			father.insertBefore(content, next) ;
-			
+			father.insertBefore(content, next) ;		
 		var frame=window.frames["frame_"+area["settings"]["id"]];		
 		
 		frame.document.open();
@@ -374,32 +415,35 @@
 	};
 	
 	EditAreaLoader.prototype.toggle= function(id, toggle_to){
-		/*if(this.nav['isIE'])
-			this.getIESelection();
-		var pos_start= this.textarea.selectionStart;
-		var pos_end= this.textarea.selectionEnd;
-		*/
-		if((editAreas[id]["displayed"]==true  && toggle_to!="on") || toggle_to=="off"){
+
+	/*	if((editAreas[id]["displayed"]==true  && toggle_to!="on") || toggle_to=="off"){
 			this.toggle_off(id);
 		}else if((editAreas[id]["displayed"]==false  && toggle_to!="off") || toggle_to=="on"){
 			this.toggle_on(id);
+		}*/
+		if(!toggle_to)
+			toggle_to= (editAreas[id]["displayed"]==true)?"off":"on";
+		if(editAreas[id]["displayed"]==true  && toggle_to=="off"){
+			this.toggle_off(id);
+		}else if(editAreas[id]["displayed"]==false  && toggle_to=="on"){
+			this.toggle_on(id);
 		}
-		/*
-		this.textarea= document.getElementById(this.id);
-		this.textarea.focus();
-		this.textarea.selectionStart = pos_start;
-		this.textarea.selectionEnd = pos_end;
-		if(this.nav['isIE'])
-			this.setIESelection();*/
+	
 		return false;
 	};
 	
 	EditAreaLoader.prototype.toggle_off= function(id){
 		if(window.frames["frame_"+id])
-		{
-			
+		{	
 			var frame=window.frames["frame_"+id];
+			if(frame.editArea.fullscreen['isFull'])
+				frame.editArea.toggle_full_screen(false);
+			editAreas[id]["displayed"]=false;
+			
+			
+		
 			// set wrap to off to keep same display mode (some browser get problem with this, so it need more complex operation
+			
 			editAreas[id]["textarea"].wrap = "off";	// for IE
 			setAttribute(editAreas[id]["textarea"], "wrap", "off");	// for Firefox	
 			var parNod = editAreas[id]["textarea"].parentNode;
@@ -413,29 +457,29 @@
 			var selEnd= frame.editArea.last_selection["selectionEnd"];
 			var scrollTop= frame.document.getElementById("result").scrollTop;
 			var scrollLeft= frame.document.getElementById("result").scrollLeft;
-			frame.editArea.execCommand("toggle_off");
-/*
-			var selStart= window.frames["frame_"+id].editArea.textarea.selectionStart;
-			var selEnd= window.frames["frame_"+id].editArea.textarea.selectionEnd;
-			alert(selStart);*/
-			document.getElementById("frame_"+id).style.display="none";
 			
+			
+			document.getElementById("frame_"+id).style.display='none';
+		
 			editAreas[id]["textarea"].style.display="inline";
-			editAreas[id]["textarea"].focus();			
-			editAreas[id]["textarea"].selectionStart= selStart;
-			editAreas[id]["textarea"].selectionEnd= selEnd;
-			if(this.nav['isIE'])
+
+
+			editAreas[id]["textarea"].focus();	
+			if(this.nav['isIE']){
+				editAreas[id]["textarea"].selectionStart= selStart;
+				editAreas[id]["textarea"].selectionEnd= selEnd;
+				editAreas[id]["textarea"].focused=true;
 				set_IE_selection(editAreas[id]["textarea"]);
+			}else{
+				if(this.nav['isOpera']){	// Opera bug when moving selection start and selection end
+					editAreas[id]["textarea"].setSelectionRange(0, 0);
+				}
+				editAreas[id]["textarea"].setSelectionRange(selStart, selEnd);
+			}
 			editAreas[id]["textarea"].scrollTop= scrollTop;
 			editAreas[id]["textarea"].scrollLeft= scrollLeft;
-			
-			editAreas[id]["displayed"]=false;
-			/*// init to good size
-			var edit_area= document.getElementById("edit_area");
-		
-			previous_area.style.width= edit_area.offsetWidth+"px";
-			previous_area.style.height= edit_area.offsetHeight+"px";
-			previous_area.value= this.textarea.value;*/
+			frame.editArea.execCommand("toggle_off");
+
 		}
 	};	
 	
@@ -454,8 +498,7 @@
 			var selEnd= 0;
 			var scrollTop= 0;
 			var scrollLeft= 0;
-			if(this.nav['isIE'])
-				get_IE_selection(editAreas[id]["textarea"]);
+
 			if(editAreas[id]["textarea"].use_last==true)
 			{
 				var selStart= editAreas[id]["textarea"].last_selectionStart;
@@ -480,45 +523,58 @@
 			editAreas[id]["textarea"].style.display="none";			
 			document.getElementById("frame_"+id).style.display="inline";
 			area.execCommand("focus"); // without this focus opera doesn't manage well the iframe body height
-			area.execCommand("update_size");
-			area.execCommand("focus");	// without this focus after toggling off and on, firefox doesn't put the cursor in editarea
 			
-			area.execCommand("toggle_on");
 			
 			// restore display values
+			editAreas[id]["displayed"]=true;
+			area.execCommand("update_size");
+			
 			window.frames["frame_"+id].document.getElementById("result").scrollTop= scrollTop;
-			window.frames["frame_"+id].document.getElementById("result").scrollLeft= scrollLeft;	
-			area.textarea.selectionStart= selStart;
+			window.frames["frame_"+id].document.getElementById("result").scrollLeft= scrollLeft;
+			area.area_select(selStart, selEnd-selStart);
+			area.execCommand("toggle_on");
+			/*if(this.nav['isIE'])
+				set_IE_selection(area.textarea, document.getElementById("frame_"+id));*/
+			//window.frames['frame_'+ id].editArea.scroll_to_view();
+			/*if(this.nav['isOpera'])
+				setTimeout("area.area_select("+ selStart +","+ (selEnd-selStart) +");", 100);*/
+			/*area.textarea.selectionStart= selStart;
 			area.textarea.selectionEnd= selEnd;			
 			if(this.nav['isIE'])
-				set_IE_selection(area.textarea, document.getElementById("frame_"+id));
+				set_IE_selection(area.textarea, document.getElementById("frame_"+id));*/
 
 			/*date= new Date();
 			end_time=date.getTime();		
 			alert("load time: "+ (end_time-this.start_time));*/
 			
 			
-			editAreas[id]["displayed"]=true;
+			
 		}
 		else
 		{
-			if(this.nav['isIE'])
-				get_IE_selection(document.getElementById(id));			
-			document.getElementById(id).last_selectionStart= document.getElementById(id).selectionStart;
-			document.getElementById(id).last_selectionEnd= document.getElementById(id).selectionEnd;
-			document.getElementById(id).last_scrollTop= document.getElementById(id).scrollTop;
-			document.getElementById(id).last_scrollLeft= document.getElementById(id).scrollLeft;
-			document.getElementById(id).use_last=true;
+		/*	if(this.nav['isIE'])
+				get_IE_selection(document.getElementById(id));	*/	
+			var elem= document.getElementById(id);	
+			elem.last_selectionStart= elem.selectionStart;
+			elem.last_selectionEnd= elem.selectionEnd;
+			elem.last_scrollTop= elem.scrollTop;
+			elem.last_scrollLeft= elem.scrollLeft;
+			elem.use_last=true;
 			editAreaLoader.start(id);
 		}
 	};	
 	
 	EditAreaLoader.prototype.set_editarea_size_from_textarea= function(id, frame){	
-		var width= document.getElementById(id).offsetWidth;
-		var height= document.getElementById(id).offsetHeight;
+		var elem= document.getElementById(id);
+		var width= elem.offsetWidth+"px";
+		var height= elem.offsetHeight+"px";
+		if(elem.style.width.indexOf("%")!=-1)
+			width= elem.style.width;
+		if(elem.style.height.indexOf("%")!=-1)
+			height= elem.style.height;
 		//alert("h: "+height+" w: "+width);
-		frame.style.width= width+"px";
-		frame.style.height= height+"px";
+		frame.style.width= width;
+		frame.style.height= height;
 	};
 		
 	EditAreaLoader.prototype.set_base_url= function(){
@@ -660,12 +716,19 @@
 		this.loadedFiles[url] = true;
 	};
 	
-	EditAreaLoader.prototype.addEvent = function(obj, name, handler) {
-		if (this.nav['isIE']) {
+	EditAreaLoader.prototype.add_event = function(obj, name, handler) {
+		if (obj.attachEvent) {
 			obj.attachEvent("on" + name, handler);
 		} else{
 			obj.addEventListener(name, handler, false);
 		}
+	};
+	
+	EditAreaLoader.prototype.remove_event = function(obj, name, handler){
+		if (obj.detachEvent)
+			obj.detachEvent("on" + name, handler);
+		else
+			obj.removeEventListener(name, handler, false);
 	};
 
 
@@ -695,10 +758,11 @@
 			/*for(j in window.frames)
 				alert("frame: "+j)*/;
 				
-			if(isChildOf(document.getElementById(i), formObj) && window.frames["frame_"+i] && editAreas[i]["displayed"]==true ){
-				//alert(window.frames["frame_"+ i].editArea.textarea.value);
-				window.frames["frame_"+ i].editArea.execCommand("submit");
-				document.getElementById(i).value= window.frames["frame_"+ i].editArea.textarea.value;		
+			if(isChildOf(document.getElementById(i), formObj)){
+				if(window.frames["frame_"+i] && editAreas[i]["displayed"]==true)
+					document.getElementById(i).value= window.frames["frame_"+ i].editArea.textarea.value;
+				//window.frames["frame_"+ i].editArea.execCommand("onsubmit");
+				editAreaLoader.execCommand(i,"EA_submit");
 				//alert(document.getElementById(i).value);
 			}
 		}				
@@ -825,7 +889,7 @@
 	EditAreaLoader.prototype.hide= function(id){
 		if(document.getElementById(id) && !this.hidden[id])
 		{
-			this.hidden[id]= new Array();
+			this.hidden[id]= new Object();
 			this.hidden[id]["selectionRange"]= this.getSelectionRange(id);
 			if(document.getElementById(id).style.display!="none")
 			{
@@ -853,6 +917,7 @@
 				
 					
 			}
+			
 			// hide toggle button and debug box
 			var span= document.getElementById("EditAreaArroundInfos_"+id);
 			if(span){
@@ -866,11 +931,11 @@
 	
 	// restore hidden EditArea and normal textarea
 	EditAreaLoader.prototype.show= function(id){
-		if(document.getElementById(id) && this.hidden[id])
+		if((elem=document.getElementById(id)) && this.hidden[id])
 		{
-			document.getElementById(id).style.display= "inline";
-			document.getElementById(id).scrollTop= this.hidden[id]["scrollTop"];
-			document.getElementById(id).scrollLeft= this.hidden[id]["scrollLeft"];
+			elem.style.display= "inline";
+			elem.scrollTop= this.hidden[id]["scrollTop"];
+			elem.scrollLeft= this.hidden[id]["scrollLeft"];
 			var span= document.getElementById("EditAreaArroundInfos_"+id);
 			if(span){
 				span.style.display='inline';
@@ -883,7 +948,7 @@
 			
 				
 				// restore textarea
-				document.getElementById(id).style.display= "inline";
+				elem.style.display= "inline";
 				
 				// restore EditArea
 				if(this.hidden[id]["toggle"]==true)
@@ -896,8 +961,8 @@
 					window.frames["frame_"+ id].document.getElementById("result").scrollTop= scrollTop;
 					window.frames["frame_"+ id].document.getElementById("result").scrollLeft= scrollLeft;
 				}else{
-					document.getElementById(id).scrollTop= scrollTop;
-					document.getElementById(id).scrollLeft= scrollLeft;
+					elem.scrollTop= scrollTop;
+					elem.scrollLeft= scrollLeft;
 				}
 			
 			}
@@ -910,6 +975,20 @@
 
 	// allow to access to editarea functions and datas (for advanced users only)
 	EditAreaLoader.prototype.execCommand = function(id, cmd){
+		switch(cmd){
+			case "EA_init":
+				if(editAreas[id]['settings']["EA_init_callback"].length>0)
+					eval(editAreas[id]['settings']["EA_init_callback"]+"('"+ id +"');");
+				break;
+			case "EA_delete":
+				if(editAreas[id]['settings']["EA_delete_callback"].length>0)
+					eval(editAreas[id]['settings']["EA_delete_callback"]+"('"+ id +"');");
+				break;
+			case "EA_submit":
+				if(editAreas[id]['settings']["submit_callback"].length>0)
+					eval(editAreas[id]['settings']["submit_callback"]+"('"+ id +"');");
+				break;
+		}
         if(window.frames["frame_"+id]){
             return eval('window.frames["frame_'+ id +'"].editArea.'+ cmd +';');       
         }
@@ -919,3 +998,4 @@
 	
 	var editAreaLoader= new EditAreaLoader();
 	var editAreas= new Object();
+

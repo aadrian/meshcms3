@@ -11,7 +11,7 @@
 			this.once=1;
 		}*/
 		time=new Date;
-		t1= time.getTime();
+		t1=t2=t3= time.getTime();
 		
 		if(!this.smooth_selection && !this.do_highlight){
 			//formatArea();
@@ -26,11 +26,11 @@
 				
 				new_top=this.lineHeight * (infos["line_start"]-1);
 				new_height=Math.max(0, this.lineHeight * infos["line_nb"]);
-				new_width=Math.max(this.textarea.scrollWidth, document.getElementById("container").clientWidth -50);
+				new_width=Math.max(this.textarea.scrollWidth, this.container.clientWidth -50);
 				
-				document.getElementById("selection_field").style.top=new_top+"px";	
-				document.getElementById("selection_field").style.width=new_width+"px";
-				document.getElementById("selection_field").style.height=new_height+"px";	
+				this.selection_field.style.top=new_top+"px";	
+				this.selection_field.style.width=new_width+"px";
+				this.selection_field.style.height=new_height+"px";	
 				document.getElementById("cursor_pos").style.top=new_top+"px";	
 		
 				if(this.do_highlight==true){
@@ -52,17 +52,19 @@
 					content= content.replace(/>/g,"&gt;");
 					
 					if(this.nav['isIE'])
-						document.getElementById("selection_field").innerHTML= "<pre>" + content.replace("\n", "<br/>") + "</pre>";	
+						this.selection_field.innerHTML= "<pre>" + content.replace("\n", "<br/>") + "</pre>";	
 					else
-						document.getElementById("selection_field").innerHTML=content;
+						this.selection_field.innerHTML=content;
+						
 					if(this.reload_highlight || (infos["full_text"] != this.last_text_to_highlight && (this.last_selection["line_start"]!=infos["line_start"] || this.last_selection["line_nb"]!=infos["line_nb"] || this.last_selection["nb_line"]!=infos["nb_line"]) ) )
 						this.maj_highlight(infos);
 				}		
 			}
 			time=new Date;
 			t3= time.getTime();
-		
-			if(infos["line_start"] != this.last_selection["line_start"] || infos["curr_pos"] != this.last_selection["curr_pos"]){
+			
+			// manage bracket finding
+			if(infos["line_start"] != this.last_selection["line_start"] || infos["curr_pos"] != this.last_selection["curr_pos"] || infos["full_text"].length!=this.last_selection["full_text"].length || this.reload_highlight){
 				// move _cursor_pos
 				var selec_char= infos["curr_line"].charAt(infos["curr_pos"]-1);
 				var no_real_move=true;
@@ -85,7 +87,7 @@
 				}
 				//alert("move cursor");
 				this.displayToCursorPosition("cursor_pos", infos["line_start"], infos["curr_pos"]-1, infos["curr_line"], no_real_move);
-				if(infos["line_nb"]==1)
+				if(infos["line_nb"]==1 && infos["line_start"]!=this.last_selection["line_start"])
 					this.scroll_to_view();
 			}
 			this.last_selection=infos;
@@ -102,7 +104,7 @@
 		}
 	};
 
-	/* UNUSED */
+
 	EditArea.prototype.get_selection_infos= function(){
 		if(this.nav['isIE'])
 			this.getIESelection();
@@ -170,7 +172,6 @@
 	// set IE position in Firefox mode (textarea.selectionStart and textarea.selectionEnd)
 	EditArea.prototype.getIESelection= function(){	
 		var range = document.selection.createRange();
-		
 		var stored_range = range.duplicate();
 		stored_range.moveToElementText( this.textarea );
 		stored_range.setEndPoint( 'EndToEnd', range );
@@ -178,7 +179,7 @@
 			return;
 	
 		// the range don't take care of empty lines in the end of the selection
-		var scrollTop=document.getElementById("result").scrollTop + document.body.scrollTop;
+		var scrollTop= this.result.scrollTop + document.body.scrollTop;
 		
 		var relative_top= range.offsetTop - parent.calculeOffsetTop(this.textarea) + scrollTop;
 		
@@ -322,8 +323,8 @@
 			return false;
 		if(this.nav['isIE'])
 			this.getIESelection();
-		var scrollTop= document.getElementById("result").scrollTop;
-		var scrollLeft= document.getElementById("result").scrollLeft;
+		var scrollTop= this.result.scrollTop;
+		var scrollLeft= this.result.scrollLeft;
 		var start=this.textarea.selectionStart;
 		var end= this.textarea.selectionEnd;
 		var start_last_line= Math.max(0 , this.textarea.value.substring(0, start).lastIndexOf("\n") + 1 );
@@ -342,8 +343,8 @@
 		this.area_select(start+ begin_line.length ,0);
 		// during this process IE scroll back to the top of the textarea
 		if(this.nav['isIE']){
-			document.getElementById("result").scrollTop= scrollTop;
-			document.getElementById("result").scrollLeft= scrollLeft;
+			this.result.scrollTop= scrollTop;
+			this.result.scrollLeft= scrollLeft;
 		}
 		return true;
 		
@@ -396,34 +397,26 @@
 	};
 	
 	EditArea.prototype.displayToCursorPosition= function(id, start_line, cur_pos, lineContent, no_real_move){
-	
-		var elem=document.getElementById(id);
-		if(this.nav['isIE'])
-		{
-			elem= document.getElementById("test_font_size");
-			elem.innerHTML="<pre>"+lineContent.substr(0, cur_pos).replace(/</g,"&lt;")+"</pre>";
-			var posLeft= 45 + elem.offsetWidth;
+		var elem= document.getElementById("test_font_size");
+		var dest= document.getElementById(id);
+		var postLeft=0;
+		if(this.nav['isOpera']){
+			elem.innerHTML=this.replace_tab(lineContent.substr(0, cur_pos)).replace(/</g,"&lt;");
+			posLeft= 45 + elem.offsetWidth;
 		}else{
-		
-			var posLeft= 45 + this.replace_tab(lineContent.substr(0, cur_pos)).length* this.charWidth;
+			elem.innerHTML="<pre><span id='test_font_size_inner'>"+lineContent.substr(0, cur_pos).replace(/</g,"&lt;").replace(/&/g,"&amp;")+"</span></pre>";
+			posLeft= 45 + document.getElementById('test_font_size_inner').offsetWidth;
 		}
+
 		var posTop=this.lineHeight * (start_line-1);
-		/*if(this.nav['isIE'])
-			posTop++;*/
-		if(this.settings["debug"]){
-		/*	this.debug.value="line: "+start_line+ " carPos: "+cur_pos+" top: "+posTop+" left: "+posLeft+" \nlineStart: "+ lineContent;
-			this.debug.value+="\n  area_scrollTop: "+document.getElementById("result").scrollTop+"  area_scrollLeft: "+document.getElementById("result").scrollLeft+""
-													+"\n offset_w: "+document.getElementById("result").offsetWidth+" offset_h: "+document.getElementById("result").offsetHeight
-													+"\n client_w: "+document.getElementById("result").clientWidth+" client_h: "+document.getElementById("result").clientHeight;
-			
-		*/}
+	
 		if(no_real_move!=true){	// when the cursor is hidden no need to move him
-			document.getElementById(id).style.top=posTop+"px";
-			document.getElementById(id).style.left=posLeft+"px";		
+			dest.style.top=posTop+"px";
+			dest.style.left=posLeft+"px";		
 		}
 		// usefull for smarter scroll
-		document.getElementById(id).cursor_top=posTop;
-		document.getElementById(id).cursor_left=posLeft;
+		dest.cursor_top=posTop;
+		dest.cursor_left=posLeft;
 		
 	//	document.getElementById(id).style.marginLeft=posLeft+"px";
 		
@@ -435,22 +428,26 @@
 		
 		start= Math.max(0, Math.min(this.textarea.value.length, start));
 		end= Math.max(start, Math.min(this.textarea.value.length, start+length));
-	
-		if(this.nav['isOpera']){	// Opera bug when moving selection start and selection end
-			this.textarea.selectionEnd = 1;	
-			this.textarea.selectionStart = 0;			
-			this.textarea.selectionEnd = 1;	
-			this.textarea.selectionStart = 0;
-			this.textarea.selectionEnd = 0;	
-			this.textarea.selectionStart = 0;
-			this.textarea.selectionEnd = 0;	
-			this.textarea.selectionStart = 0;		
-		}
-		this.textarea.selectionStart = start;
-		this.textarea.selectionEnd = end;		
-		//this.textarea.setSelectionRange(start, end);
-		if(this.nav['isIE'])
+
+		if(this.nav['isIE']){
+			this.textarea.selectionStart = start;
+			this.textarea.selectionEnd = end;		
 			this.setIESelection();
+		}else{
+			if(this.nav['isOpera']){	// Opera bug when moving selection start and selection end
+				/*this.textarea.selectionEnd = 1;	
+				this.textarea.selectionStart = 0;			
+				this.textarea.selectionEnd = 1;	
+				this.textarea.selectionStart = 0;
+				this.textarea.selectionEnd = 0;	
+				this.textarea.selectionStart = 0;
+				this.textarea.selectionEnd = 0;	
+				this.textarea.selectionStart = 0;*/
+				this.textarea.setSelectionRange(0, 0);
+			}
+			this.textarea.setSelectionRange(start, end);
+		}
+		this.check_line_selection();
 	};
 	
 	

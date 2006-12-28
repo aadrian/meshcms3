@@ -6,7 +6,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	[__CSSRULES__]
 	[__JSCODE__]
-
 </head>
 <body>
 	<div class='editor' id='editor'>
@@ -18,9 +17,10 @@
 				<div id='selection_field' ></div>
 				<div id='line_number' selec='none'></div>
 				<div id='content_highlight' ></div>
+				<div id='test_font_size'></div>
 				<textarea id='textarea' wrap='off' onchange='editArea.execCommand("onchange");' onfocus='javascript:editArea.textareaFocused=true;' onblur='javascript:editArea.textareaFocused=false;'>
 				</textarea>
-				<span id='test_font_size'></span>
+				
 			</div>
 		</div>
 		<div class='area_toolbar' id='toolbar_2'>
@@ -72,9 +72,9 @@
 	</div>
 	<div id='edit_area_help' class='editarea_popup'>
 		<div class='close_popup'>
-			<a onclick='Javascript:editArea.execCommand("close_all_inline_popup")'><img src='[__BASEURL__]images/close.gif' alt='close' title='{$close}' /></a>
+			<a onclick='Javascript:editArea.execCommand("close_all_inline_popup")'><img src='[__BASEURL__]images/close.gif' alt='{$close_popup}' title='{$close_popup}' /></a>
 		</div>
-		<div><h2>Editarea</h2><br />
+		<div><h2>Editarea [__EA_VERSION__]</h2><br />
 			<h3>{$shortcuts}:</h3>
 				{$tab}: {$add_tab}<br />
 				{$shift}+{$tab}: {$remove_tab}<br />

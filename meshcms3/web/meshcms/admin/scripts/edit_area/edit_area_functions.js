@@ -9,7 +9,29 @@
 		return EditArea.prototype.smartTab.arguments[2] + EditArea.prototype.smartTab.arguments[3] + val.substr(0, editArea.tab_nb_char - (EditArea.prototype.smartTab.arguments[3].length)%editArea.tab_nb_char);
 	};
 	
-	
+	EditArea.prototype.add_style= function(styles){
+		if(styles.length>0){
+			newcss = document.createElement("style");
+			newcss.type="text/css";
+			newcss.media="all";
+			document.getElementsByTagName("head")[0].appendChild(newcss);
+			cssrules = styles.split("}");
+			newcss = document.styleSheets[0];
+			if(newcss.rules) { //IE
+				for(i=cssrules.length-2;i>=0;i--) {
+					newrule = cssrules[i].split("{");
+					newcss.addRule(newrule[0],newrule[1])
+				}
+			}
+			else if(newcss.cssRules) { //Firefox etc
+				for(i=cssrules.length-1;i>=0;i--) {
+					if(cssrules[i].indexOf("{")!=-1){
+						newcss.insertRule(cssrules[i]+"}",0);
+					}
+				}
+			}
+		}
+	};
 	
 	EditArea.prototype.set_font= function(family, size){
 		var elems= new Array("textarea", "content_highlight", "cursor_pos", "end_bracket", "selection_field", "line_number");
@@ -17,7 +39,8 @@
 			this.settings["font_family"]= family;
 		if(size && size>0)
 			this.settings["font_size"]=size;
-		
+		if(this.nav['isOpera'])	// opera can't manage non monospace font
+			this.settings['font_family']="monospace";
 		var elem_font=document.getElementById("area_font_size");	
 		if(elem_font){	
 			for(var i=0; i<elem_font.length; i++){
@@ -26,17 +49,16 @@
 			}
 		}
 		
-		// calc line height and char width
+		// calc line height
 		document.getElementById("test_font_size").style.fontFamily= ""+this.settings["font_family"];
 		document.getElementById("test_font_size").style.fontSize= this.settings["font_size"]+"pt";				
 		document.getElementById("test_font_size").innerHTML="0";		
-		this.charWidth= document.getElementById('test_font_size').offsetWidth;
 		this.lineHeight= document.getElementById("test_font_size").offsetHeight;
 
 		
 		for(var i=0; i<elems.length; i++){
-			var elem=	document.getElementById(elems[i]);	
-			document.getElementById(elems[i]).style.fontFamily= ""+this.settings["font_family"];
+			var elem= document.getElementById(elems[i]);	
+			document.getElementById(elems[i]).style.fontFamily= this.settings["font_family"];
 			document.getElementById(elems[i]).style.fontSize= this.settings["font_size"]+"pt";
 			document.getElementById(elems[i]).style.lineHeight= this.lineHeight+"px";
 
@@ -49,6 +71,8 @@
 			this.area_select(start, end-start);
 		}
 		
+		this.add_style("pre{font-family:"+this.settings["font_family"]+"}");
+		
 		//alert(	getAttribute(document.getElementById("edit_area_test_font_size"), "style"));
 		
 
@@ -56,8 +80,7 @@
 		// force update of selection field
 		this.last_line_selected=-1;
 		//if(this.state=="loaded"){
-	
-		
+		this.last_selection= new Array();
 		this.resync_highlight();
 		//}
 	/*	this.last_selection["indexOfCursor"]=-1;
@@ -65,7 +88,7 @@
 		this.last_selection["line_start"]=-1;
 		this.focus();*/
 		//this.check_line_selection(false);
-		//alert("line_h"+ this.lineHeight + " char width: "+this.charWidth+ " this.id: "+this.id+ "(size: "+size+")");
+		//alert("line_h"+ this.lineHeight + " this.id: "+this.id+ "(size: "+size+")");
 	};
 	
 	EditArea.prototype.change_font_size= function(){
@@ -230,7 +253,7 @@
 	EditArea.prototype.scroll_to_view= function(show){
 		if(!this.smooth_selection)
 			return;
-
+	
 		var zone= document.getElementById("result");
 		
 		//var cursor_pos_top= parseInt(document.getElementById("cursor_pos").style.top.replace("px",""));
@@ -251,7 +274,7 @@
 		//var cursor_pos_left= parseInt(document.getElementById("cursor_pos").style.left.replace("px",""));
 		var cursor_pos_left= document.getElementById("cursor_pos").cursor_left;
 		var max_width_visible= zone.clientWidth + zone.scrollLeft;
-		var miss_left= cursor_pos_left + this.charWidth - max_width_visible;
+		var miss_left= cursor_pos_left + 10 - max_width_visible;
 		if(miss_left>0){			
 			zone.scrollLeft= zone.scrollLeft + miss_left+ 50;
 		}else if( zone.scrollLeft > cursor_pos_left){
@@ -499,3 +522,118 @@
 		/*parent.editAreaLoader.resize["frame_left"]= parent.calculeOffsetLeft(parent.frames[editArea.id]);*/
 		parent.editAreaLoader.start_resize_area();
 	};
+	
+	
+	EditArea.prototype.toggle_full_screen= function(to){
+		if(typeof(to)=="undefined")
+			to= !this.fullscreen['isFull'];
+		var old= this.fullscreen['isFull'];
+		this.fullscreen['isFull']= to;
+		var icon= document.getElementById("fullscreen");
+		if(to && to!=old)
+		{	// toogle one fullscreen		
+			var selStart= this.textarea.selectionStart;
+			var selEnd= this.textarea.selectionEnd;
+				
+			var html=parent.document.getElementsByTagName("html")[0];
+			this.fullscreen['old_overflow']= parent.get_css_property(html, "overflow");
+			this.fullscreen['old_height']= parent.get_css_property(html, "height");
+			this.fullscreen['old_width']= parent.get_css_property(html, "width");
+			this.fullscreen['old_scrollTop']= html.scrollTop;
+			this.fullscreen['old_scrollLeft']= html.scrollLeft;
+			if(this.nav['isOpera']){
+				html.style.height= "100%";
+				html.style.width= "100%";	
+			}
+			html.style.overflow= "hidden";
+			html.scrollTop=0;
+			html.scrollLeft=0;
+//	alert(screen.height+"\n"+window.innerHeight+"\n"+html.clientHeight+"\n"+window.offsetHeight+"\n"+document.body.offsetHeight);
+			
+			var frame= parent.document.getElementById("frame_"+this.id);
+			
+		/*	if(this.nav['isOpera']){	// Opera doesn't manage correctly the width 100% for the iframe and allow to scroll with position absolute
+				frame.style.position="fixed";	// PB: Opera can't set position back to 'static'
+			}else{
+				frame.style.position="absolute";
+			}*/
+			frame.style.position="absolute";
+			frame.style.width= html.clientWidth+"px";
+			frame.style.height= html.clientHeight+"px";
+			frame.style.top="0px";
+			frame.style.left="0px";
+			frame.style.display="block";
+		//	parent.editAreaLoader.execCommand(this.id, "update_size();");
+		//	var body=parent.document.getElementsByTagName("body")[0];
+		//	body.appendChild(frame);
+			
+			this.switchClassSticky(icon, 'editAreaButtonSelected', false);
+			this.fullscreen['allow_resize']= this.resize_allowed;
+			this.allow_resize(false);
+	
+			//this.area_select(selStart, selEnd-selStart);
+			
+		
+			// opera can't manage to do a direct size update
+			if(this.nav['isFirefox']){
+				parent.editAreaLoader.execCommand(this.id, "update_size();");
+				this.area_select(selStart, selEnd-selStart);
+				this.scroll_to_view();
+				this.focus();
+			}else{
+				setTimeout("parent.editAreaLoader.execCommand('"+ this.id +"', 'update_size();');editArea.focus();", 10);
+			}	
+			
+	
+		}
+		else if(to!=old)
+		{	// toogle off fullscreen
+			var selStart= this.textarea.selectionStart;
+			var selEnd= this.textarea.selectionEnd;
+			
+			var frame= parent.document.getElementById("frame_"+this.id);	
+			frame.style.position="static";
+		
+			var html=parent.document.getElementsByTagName("html")[0];
+		//	html.style.overflow= this.fullscreen['old_overflow'];
+		
+			if(this.nav['isOpera']){
+				html.style.height= "auto"; //this.fullscreen['old_height'];
+				html.style.width= "auto"; //this.fullscreen['old_width'];
+				html.style.overflow= "auto";
+			}else
+				html.style.overflow= this.fullscreen['old_overflow'];
+						
+			html.scrollTop= this.fullscreen['old_scrollTop'];
+			html.scrollTop= this.fullscreen['old_scrollLeft'];
+			
+			parent.editAreaLoader.hide(this.id);
+			parent.editAreaLoader.show(this.id);
+			
+			this.switchClassSticky(icon, 'editAreaButtonNormal', false);
+			if(this.fullscreen['allow_resize'])
+				this.allow_resize(this.fullscreen['allow_resize']);
+			if(this.nav['isFirefox']){
+				this.area_select(selStart, selEnd-selStart);
+				setTimeout("editArea.scroll_to_view();", 10);
+			}			
+			
+			//parent.editAreaLoader.remove_event(parent.window, "resize", editArea.update_size);
+		}
+		
+	};
+	
+	EditArea.prototype.allow_resize= function(allow){
+		var resize= document.getElementById("resize_area");
+		if(allow){
+			
+			resize.style.visibility="visible";
+			parent.editAreaLoader.add_event(resize, "mouseup", editArea.start_resize);
+		}else{
+			resize.style.visibility="hidden";
+			parent.editAreaLoader.remove_event(resize, "mouseup", editArea.start_resize);
+		}
+		this.resize_allowed= allow;
+	};
+
+

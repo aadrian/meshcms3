@@ -17,6 +17,7 @@
 			width-=2;
 			height-=2;
 		}*/
+		
 		div.style.display="block";
 		div.style.width= width+"px";
 		div.style.height= height+"px";

@@ -44,11 +44,20 @@ editAreaLoader.load_syntax["php"] = {
 		]
 	}
 	,'OPERATORS' :[
-		'+', '-', '/', '*', '=', '<', '>', '%', '!'
+		'+', '-', '/', '*', '=', '<', '>', '%', '!', '&&', '||'
 	]
 	,'DELIMITERS' :[
 		'(', ')', '[', ']', '{', '}'
 	]
+/*	,'REGEXPS' : {
+		// highlight all variables ($...)
+		'variables' : {
+			'search' : '()(\\$\\w+)()'
+			,'class' : 'variables'
+			,'modifiers' : 'g'
+			,'execute' : 'before' // before or after
+		}
+	}*/
 	,'STYLES' : {
 		'COMMENTS': 'color: #AAAAAA;'
 		,'QUOTESMARKS': 'color: #879EFA;'
@@ -59,6 +68,8 @@ editAreaLoader.load_syntax["php"] = {
 			}
 		,'OPERATORS' : 'color: #FF00FF;'
 		,'DELIMITERS' : 'color: #2B60FF;'
-				
+		,'REGEXPS' : {
+			'variables' : 'color: #E0BD54;'
+		}		
 	}
 };

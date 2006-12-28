@@ -40,5 +40,6 @@ tab: "Tab",
 shift: "Skift",
 ctrl: "Ctrl",
 esc: "Esc",
-processing: "Processing..."
+processing: "Processing...",
+fullscreen: "fullscreen"
 };

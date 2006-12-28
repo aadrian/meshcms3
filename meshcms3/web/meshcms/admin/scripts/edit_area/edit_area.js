@@ -6,7 +6,6 @@
  *
 ******/
 
-
 	function EditArea(){
 		this.error= false;	// to know if load is interrrupt
 		
@@ -42,7 +41,6 @@
 		this.code = new Array(); // store highlight syntax for languagues*/
 		// font datas
 		this.lineHeight= 16;
-		this.charWidth=8;
 		/*this.default_font_family= "monospace";
 		this.default_font_size= 10;*/
 		this.tab_nb_char= 8;	//nb of white spaces corresponding to a tabulation
@@ -50,6 +48,7 @@
 			this.tab_nb_char= 6;
 		this.is_tabbing= false;
 		
+		this.fullscreen= {'isFull': false};
 		
 		this.isResizing=false;	// resize var
 		
@@ -61,23 +60,37 @@
 	
 	//called by the toggle_on
 	EditArea.prototype.update_size= function(){
-		var height= document.body.offsetHeight - this.get_all_toolbar_height() - 4;
-		document.getElementById("result").style.height= height +"px";
-		
-		//width=document.getElementById("editor").offsetWidth - 2;
-		//width=parent.document.getElementById("frame_"+this.id).offsetWidth - 2;
-		var width=document.body.offsetWidth -2;
-		document.getElementById("result").style.width= width+"px";
-		
-		//alert("result h: "+ height+" w: "+width+"\ntoolbar h: "+this.get_all_toolbar_height()+"\nbody_h: "+document.body.offsetHeight);		
+		if(editAreas[editArea.id]["displayed"]==true){
+			if(editArea.fullscreen['isFull']){	
+				parent.document.getElementById("frame_"+editArea.id).style.width= parent.document.getElementsByTagName("html")[0].clientWidth + "px";
+				parent.document.getElementById("frame_"+editArea.id).style.height= parent.document.getElementsByTagName("html")[0].clientHeight + "px";
+			}
+			var height= document.body.offsetHeight - editArea.get_all_toolbar_height() - 4;
+			editArea.result.style.height= height +"px";
+			
+			var width=document.body.offsetWidth -2;
+			editArea.result.style.width= width+"px";
+			//alert("result h: "+ height+" w: "+width+"\ntoolbar h: "+this.get_all_toolbar_height()+"\nbody_h: "+document.body.offsetHeight);
+			
+			// check that the popups don't get out of the screen
+			for(var i=0; i<editArea.inlinePopup.length; i++){
+				var popup= document.getElementById(editArea.inlinePopup[i]["popup_id"]);
+				var max_left= document.body.offsetWidth- popup.offsetWidth;
+				var max_top= document.body.offsetHeight- popup.offsetHeight;
+				if(popup.offsetTop>max_top)
+					popup.style.top= max_top+"px";
+				if(popup.offsetLeft>max_left)
+					popup.style.left= max_left+"px";
+			}
+		}		
 	};
 
 	EditArea.prototype.init= function(){
-		//alert("ini"+document.body.offsetWidth );
-		/*document.open();
-		document.write("bouh");
-		document.close();*/
 		this.textarea= document.getElementById("textarea");
+		this.container= document.getElementById("container");
+		this.result= document.getElementById("result");
+		this.content_highlight= document.getElementById("content_highlight");
+		this.selection_field= document.getElementById("selection_field");
 		
 		
 		// add plugins buttons in the toolbar
@@ -120,30 +133,7 @@
 		// insert css rules for highlight mode		
 		if(typeof(parent.editAreaLoader.syntax[this.settings["syntax"]])!="undefined"){
 			for(var i in parent.editAreaLoader.syntax){
-				var styles=parent.editAreaLoader.syntax[i]["styles"];
-				
-				if(styles.length>0){
-					newcss = document.createElement("style");
-					newcss.type="text/css";
-					newcss.media="all";
-					document.getElementsByTagName("head")[0].appendChild(newcss);
-					cssrules = styles.split("}");
-					newcss = document.styleSheets[0];
-					if(newcss.rules) { //IE
-						for(i=cssrules.length-2;i>=0;i--) {
-							newrule = cssrules[i].split("{");
-							newcss.addRule(newrule[0],newrule[1])
-						}
-					}
-					else if(newcss.cssRules) { //Firefox etc
-						for(i=cssrules.length-1;i>=0;i--) {
-							if(cssrules[i].indexOf("{")!=-1){
-								newcss.insertRule(cssrules[i]+"}",0);
-							}
-						}
-					}
-					//document.getElementsByTagName("head")[0].appendChild(newcss);
-				}
+				this.add_style(parent.editAreaLoader.syntax[i]["styles"]);
 			}
 		}
 		// init key events
@@ -163,10 +153,7 @@
 		}
 		
 		if(this.settings["allow_resize"]=="both" || this.settings["allow_resize"]=="x" || this.settings["allow_resize"]=="y")
-		{
-			document.getElementById("resize_area").style.visibility="visible";
-			document.getElementById("resize_area").onmouseup= editArea.start_resize;
-		}
+			this.allow_resize(true);
 		
 		parent.editAreaLoader.toggle(this.id, "on");
 		//this.textarea.focus();
@@ -203,7 +190,7 @@
 			/*document.getElementById("end_bracket").style.marginTop="1px";*/
 		}
 		
-		setTimeout("editArea.manage_size();", 10);		
+		setTimeout("editArea.manage_size();editArea.execCommand('EA_load');", 10);		
 		//start checkup routine
 		this.check_undo();
 		this.check_line_selection(true);
@@ -214,6 +201,12 @@
 			if(typeof(this.plugins[i].onload)=="function")
 				this.plugins[i].onload();
 		}
+		if(this.settings['fullscreen']==true)
+			this.toggle_full_screen(true);
+		
+		parent.editAreaLoader.add_event(parent.window, "resize", editArea.update_size);
+		parent.editAreaLoader.add_event(window, "unload", function(){if(editAreas[editArea.id]["displayed"]) editArea.execCommand("EA_unload");});
+		
 		/*date= new Date();
 		alert(date.getTime()- parent.editAreaLoader.start_time);*/
 	};
@@ -267,11 +260,11 @@
 				}
 				
 				if(this.nav['isGecko'] || this.nav['isOpera'])
-					document.getElementById("container").style.width= (area_width+45)+"px";
+					this.container.style.width= (area_width+45)+"px";
 				else
-					document.getElementById("container").style.width= area_width+"px";
-				document.getElementById("textarea").style.width= area_width+"px";
-				document.getElementById("content_highlight").style.width= area_width+"px";	
+					this.container.style.width= area_width+"px";
+				this.textarea.style.width= area_width+"px";
+				this.content_highlight.style.width= area_width+"px";	
 				this.textarea.previous_scrollWidth=area_width;
 				resized=true;
 			}		
@@ -280,9 +273,9 @@
 				/*container_height=area_height;
 				if(document.getElementById("container").style.height.replace("px", "")<=area_height)
 					container_height+=100;*/
-				document.getElementById("container").style.height= (area_height+2)+"px";
-				document.getElementById("textarea").style.height= area_height+"px";
-				document.getElementById("content_highlight").style.height= area_height+"px";	
+				this.container.style.height= (area_height+2)+"px";
+				this.textarea.style.height= area_height+"px";
+				this.content_highlight.style.height= area_height+"px";	
 				this.textarea.previous_scrollHeight=area_height;
 				//alert(area_height);
 				resized=true;
@@ -296,7 +289,7 @@
 		setTimeout("editArea.manage_size();", 100);
 	};
 	
-	EditArea.prototype.addEvent = function(obj, name, handler) {
+	EditArea.prototype.add_event = function(obj, name, handler) {
 		if (this.nav['isIE']) {
 			obj.attachEvent("on" + name, handler);
 		} else{
@@ -305,7 +298,7 @@
 	};
 	
 	EditArea.prototype.execCommand= function(cmd, param){
-			
+		
 		for(var i in this.plugins){
 			if(typeof(this.plugins[i].execCommand)=="function"){
 				if(!this.plugins[i].execCommand(cmd, param))
@@ -325,13 +318,29 @@
 				if(this.settings["change_callback"].length>0)
 					eval("parent."+this.settings["change_callback"]+"('"+ this.id +"');");
 				break;		
+			case "EA_load":
+				if(this.settings["EA_load_callback"].length>0)
+					eval("parent."+this.settings["EA_load_callback"]+"('"+ this.id +"');");
+				break;
+			case "EA_unload":
+				if(this.settings["EA_unload_callback"].length>0)
+					eval("parent."+this.settings["EA_unload_callback"]+"('"+ this.id +"');");
+				break;
+			case "toggle_on":
+				if(this.settings["EA_toggle_on_callback"].length>0)
+					eval("parent."+this.settings["EA_toggle_on_callback"]+"('"+ this.id +"');");
+				break;
+			case "toggle_off":
+				if(this.settings["EA_toggle_off_callback"].length>0)
+					eval("parent."+this.settings["EA_toggle_off_callback"]+"('"+ this.id +"');");
+				break;
 			case "re_sync":
 				if(!this.do_highlight)
 					break;
 			default:
 				//alert(cmd+"\n"+params);
 				if(typeof(eval("editArea."+cmd))=="function")
-					eval("editArea."+ cmd +"(param);");	
+					try{eval("editArea."+ cmd +"(param);");}catch(e){};	
 		}
 	};
 	
@@ -389,7 +398,7 @@
 	
 
 	var editArea = new EditArea();	
-	editArea.addEvent(window, "load", init);
+	editArea.add_event(window, "load", init);
 	
 	function init(){		
 		setTimeout("editArea.init();  ", 10);

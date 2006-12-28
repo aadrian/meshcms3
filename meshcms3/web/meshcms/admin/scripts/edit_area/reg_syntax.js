@@ -17,7 +17,7 @@
 	
 	
 	EditAreaLoader.prototype.get_escaped_regexp= function(str){
-		return str.replace(/(\.|\?|\*|\+|\\|\(|\)|\[|\]|\}|\{|\$|\^)/g, "\\$1");
+		return str.replace(/(\.|\?|\*|\+|\\|\(|\)|\[|\]|\}|\{|\$|\^|\|)/g, "\\$1");
 	};
 	
 	

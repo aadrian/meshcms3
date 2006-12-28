@@ -135,6 +135,27 @@
 	  return offset;
 	};
 	
+	/** return the computed style
+	 *	@param: elem: the reference to the element
+	 *	@param: prop: the name of the css property	 
+	 */
+	function get_css_property(elem, prop)
+	{
+		if(document.defaultView)
+		{
+			return document.defaultView.getComputedStyle(elem, null).getPropertyValue(prop);
+		}
+		else if(elem.currentStyle)
+		{
+			var prop = prop.replace(/-\D/gi, function(sMatch)
+			{
+				return sMatch.charAt(sMatch.length - 1).toUpperCase();
+			});
+			return elem.currentStyle[prop];
+		}
+		else return null;
+	}
+	
 /****
  * Moving an element 
  ***/  
@@ -193,8 +214,6 @@
 		
 		var max_left= move_current_element.frame.document.body.offsetWidth- move_current_element.offsetWidth;
 		max_top= move_current_element.frame.document.body.offsetHeight- move_current_element.offsetHeight;
-		if(navigator.appName == "Microsoft Internet Explorer")
-			max_top-=2;
 		new_top= Math.min(Math.max(0, new_top), max_top);
 		new_left= Math.min(Math.max(0, new_left), max_left);
 		
@@ -211,8 +230,8 @@
 	
 	// allow to get infos on the selection: array(start, end)
 	function getSelectionRange(textarea){
-		if(nav['isIE'])
-			get_IE_selection(textarea);
+		//if(nav['isIE'])
+		//	get_IE_selection(textarea);
 		return {"start": textarea.selectionStart, "end": textarea.selectionEnd};
 	};
 	
@@ -238,21 +257,65 @@
 	};
 	
 	
-	// set IE position in Firefox mode (textarea.selectionStart and textarea.selectionEnd)	THIS ONE IS VERY BUGGY DON'T USE
+	// set IE position in Firefox mode (textarea.selectionStart and textarea.selectionEnd). should work as a repeated task
 	function get_IE_selection(textarea){
-		textarea.focus();
-		var range = document.selection.createRange();			
-		var stored_range = range.duplicate();
-		stored_range.moveToElementText( textarea );
-		stored_range.setEndPoint( 'EndToEnd', range );
-		if(stored_range.parentElement() != textarea)
-			return;					
-		var range_start=stored_range.text.length - range.text.length;
-		textarea.selectionStart = range_start;		
-		var range_end=textarea.selectionStart + range.text.length;
-		textarea.selectionEnd = range_end;
-		//alert(textarea.selectionStart+" "+textarea.selectionEnd);
+		if(textarea.focused)
+		{	
+			if(!textarea.ea_line_height)
+			{	// calculate the lineHeight
+				var div= document.createElement("div");
+				div.style.fontFamily= get_css_property(textarea, "font-family");
+				div.style.fontSize= get_css_property(textarea, "font-size");
+				div.style.visibility= "hidden";			
+				div.innerHTML="0";
+				document.body.appendChild(div);
+				textarea.ea_line_height= div.offsetHeight;
+				document.body.removeChild(div);
+			}
+			//textarea.focus();
+			var range = document.selection.createRange();	
+			var stored_range = range.duplicate();
+			stored_range.moveToElementText( textarea );
+			stored_range.setEndPoint( 'EndToEnd', range );
+			if(stored_range.parentElement()==textarea){
+				// the range don't take care of empty lines in the end of the selection
+				var elem= textarea;
+				var scrollTop= 0;
+				while(elem.parentNode){
+					scrollTop+= elem.scrollTop;
+					elem= elem.parentNode;
+				}
+			//	var scrollTop= textarea.scrollTop + document.body.scrollTop;
+				
+			//	var relative_top= range.offsetTop - calculeOffsetTop(textarea) + scrollTop;
+				var relative_top= range.offsetTop - calculeOffsetTop(textarea)+ scrollTop;
+			//	alert("rangeoffset: "+ range.offsetTop +"\ncalcoffsetTop: "+ calculeOffsetTop(textarea) +"\nrelativeTop: "+ relative_top);
+				var line_start = Math.round((relative_top / textarea.ea_line_height) +1);
+				
+				var line_nb= Math.round(range.boundingHeight / textarea.ea_line_height);
+				
+		//		alert("store_range: "+ stored_range.text.length+"\nrange: "+range.text.length+"\nrange_text: "+ range.text);
+				var range_start= stored_range.text.length - range.text.length;
+				var tab= textarea.value.substr(0, range_start).split("\n");			
+				range_start+= (line_start - tab.length)*2;		// add missing empty lines to the selection
+				textarea.selectionStart = range_start;
+				
+				var range_end= textarea.selectionStart + range.text.length;
+				tab= textarea.value.substr(0, range_start + range.text.length).split("\n");			
+				range_end+= (line_start + line_nb - 1 - tab.length)*2;
+				textarea.selectionEnd = range_end;
+			}
+		}
+		setTimeout("get_IE_selection(document.getElementById('"+ textarea.id +"'));", 50);
 	};
+	
+	function IE_textarea_focus(){
+		event.srcElement.focused= true;
+	}
+	
+	function IE_textarea_blur(){
+		event.srcElement.focused= false;
+	}
 	
 	// select the text for IE (take into account the \r difference)
 	function set_IE_selection(textarea){

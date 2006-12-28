@@ -26,13 +26,13 @@
 	
 	EditArea.prototype.disable_highlight= function(displayOnly){		
 		document.getElementById("selection_field").innerHTML="";
-		var contain=document.getElementById("content_highlight");
-		contain.style.visibility="hidden";
+		this.content_highlight.style.visibility="hidden";
 		// replacing the node is far more faster than deleting it's content in firefox
-		var new_Obj= contain.cloneNode(false);
+		var new_Obj= this.content_highlight.cloneNode(false);
 		new_Obj.innerHTML= "";			
-		contain.parentNode.insertBefore(new_Obj, contain);
-		contain.parentNode.removeChild(contain);	
+		this.content_highlight.parentNode.insertBefore(new_Obj, this.content_highlight);
+		this.content_highlight.parentNode.removeChild(this.content_highlight);	
+		this.content_highlight= new_Obj;
 		var old_class= parent.getAttribute(this.textarea,"class");
 		if(old_class){
 			var new_class= old_class.replace("hidden","");
@@ -75,8 +75,7 @@
 		selec.style.visibility="visible";		*/
 			
 			
-		var contain=document.getElementById("content_highlight");
-		contain.style.visibility="visible";
+		this.content_highlight.style.visibility="visible";
 		var new_class=parent.getAttribute(this.textarea,"class")+" hidden";
 		parent.setAttribute(this.textarea, "class", new_class);
 		
@@ -113,10 +112,7 @@
 	EditArea.prototype.maj_highlight= function(infos){
 		if(this.last_highlight_base_text==infos["full_text"] && this.resync_highlight!==true)
 			return;
-		
-		/*if(this.should_display_processing_screen){
-			alert("bouh");
-		}*/
+					
 		//var infos= this.getSelectionInfos();
 		if(infos["full_text"].indexOf("\r")!=-1)
 			text_to_highlight= infos["full_text"].replace(/\r/g, "");
@@ -137,8 +133,6 @@
 		var date= new Date();
 		var tps_start=date.getTime();		
 		var tps_middle_opti=date.getTime();	
-		
-		/*var update_text=text;		*/
 		
 					
 		//  OPTIMISATION: will search to update only changed lines
@@ -213,8 +207,7 @@
 				if(stay_end.length>0)
 					stay_end= "\n"+stay_end;
 	
-				/*if(line_start_change==0 && pos_last_end_change==-1)
-					change_new_text_line+="\n";*/
+	
 				if(stay_begin.length==0 && pos_last_end_change==-1)
 					change_new_text_line+="\n";
 				text_to_highlight=change_new_text_line;
@@ -238,9 +231,7 @@
 				//debug_opti+="changed: "+ stay_begin.substr(stay_begin.length-200)+ "----------"+ text_to_highlight+"------------------"+ stay_end.substr(0,200) +"\n";
 				debug_opti+="\n";
 			}
-		/*	stay_end="";
-			stay_begin="";
-			text_to_highlight=infos["full_text"];*/
+	
 			
 			// END OPTIMISATION
 		}
@@ -251,8 +242,6 @@
 		var updated_highlight= this.colorize_text(text_to_highlight);		
 		
 		// get the new highlight content
-		/*var middle=new_text.split("\n");
-		var tab_text=stay_begin_array.concat(middle).concat(stay_end_array);		*/
 			
 		date= new Date();
 		tps2=date.getTime();
@@ -265,16 +254,15 @@
 		inner1=date.getTime();		
 					
 		// update the content of the highlight div by first updating a clone node (as there is no display in the same time for this node it's quite faster (5*))
-		var prev_Obj=document.getElementById("content_highlight");
-		var new_Obj= prev_Obj.cloneNode(false);
+		var new_Obj= this.content_highlight.cloneNode(false);
 		//new_Obj.innerHTML= "<div class='keywords'>"+hightlighted_text+"</div>";	
-		if(this.nav['isIE'])
+		if(this.nav['isIE'] || this.nav['isOpera'])
 			new_Obj.innerHTML= "<pre><span class='"+ this.settings["syntax"] +"'>" + hightlighted_text.replace("\n", "<br/>") + "</span></pre>";	
 		else
 			new_Obj.innerHTML= "<span class='"+ this.settings["syntax"] +"'>"+ hightlighted_text +"</span>";			
-		prev_Obj.parentNode.insertBefore(new_Obj,prev_Obj);
-		prev_Obj.parentNode.removeChild(prev_Obj);			
-		
+		this.content_highlight.parentNode.insertBefore(new_Obj, this.content_highlight);
+		this.content_highlight.parentNode.removeChild(this.content_highlight);			
+		this.content_highlight= new_Obj;
 		if(infos["full_text"].indexOf("\r")!=-1)
 			this.last_text_to_highlight= infos["full_text"].replace(/\r/g, "");
 		else
@@ -296,7 +284,7 @@
 			this.debug.value+=debug_opti;
 		//	this.debug.value+= "highlight\n"+hightlighted_text;
 		}
-		
+	
 		if(this.should_display_processing_screen){
 			this.should_display_processing_screen= false;
 			document.getElementById("processing").style.display="none";

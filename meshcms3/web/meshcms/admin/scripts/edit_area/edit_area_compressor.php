@@ -4,7 +4,7 @@
 	 *	EditArea PHP compressor
 	 * 	Developped by Christophe Dolivet
 	 *	Released under LGPL license
-	 *	v1.1 (2006/09/15)	 
+	 *	v1.1.2 (2006/12/21)	 
 	 *
 	******/
 
@@ -18,9 +18,7 @@
 	$compressor= new Compressor($param);
 	
 	class Compressor{
-		/*var $path= ""; // path of the script
-		var $datas= ""; // datas to be sent to user
-	*/
+	
 		
 		function compressor($param)
 		{
@@ -29,6 +27,8 @@
 		
 		function __construct($param)
 		{
+			$this->start_time= $this->get_microtime();
+			$this->file_loaded_size=0;
 			$this->param= $param;
 			$this->script_list="";
 			$this->path= dirname(__FILE__)."/";
@@ -160,6 +160,11 @@
 			$this->compress_javascript($this->datas);
 			//$this->datas= preg_replace('/(( |\t|\r)*\n( |\t)*)+/s', "", $this->datas);
 			$this->datas.="\n";
+		
+			// improved compression step 1/2	
+			$this->datas= preg_replace(array("/(\b)EditAreaLoader(\b)/", "/(\b)editAreaLoader(\b)/", "/(\b)editAreas(\b)/"), array("EAL", "eAL", "eAs"), $this->datas);
+			$this->datas.= "var editAreaLoader= eAL;var editAreas=eAs;EditAreaLoader=EAL;";
+		
 			
 			// load sub scripts
 			$sub_scripts="";
@@ -189,17 +194,22 @@
 				$sub_scripts.= $this->get_javascript_content($value);
 			}
 			
+			// improved compression step 2/2	
+			$sub_scripts= preg_replace(array("/(\b)editAreaLoader(\b)/", "/(\b)editAreas(\b)/", "/(\b)editArea(\b)/", "/(\b)EditArea(\b)/"), array("eAL", "eAs", "eA", "EA"), $sub_scripts);
+			$sub_scripts.= "var editArea= eA;EditArea=EA;";
+			
 			
 			// add the scripts
 			$this->datas.= sprintf("editAreaLoader.iframe_script= \"<script language='Javascript' type='text/javascript'>%s</script>\";\n", $sub_scripts);
 			if($this->load_all_plugins)
 				$this->datas.="editAreaLoader.all_plugins_loaded=true;\n";
-			
+		
 			
 			// load the template
 			$this->datas.= sprintf("editAreaLoader.template= \"%s\";\n", $this->get_html_content("template.html"));
 			// load the css
 			$this->datas.= sprintf("editAreaLoader.iframe_css= \"<style>%s</style>\";\n", $this->get_css_content("edit_area.css"));
+					
 		//	$this->datas= "function editArea(){};editArea.prototype.loader= function(){alert('bouhbouh');} var a= new editArea();a.loader();";		
 		}
 		
@@ -208,13 +218,16 @@
 			
 			if($this->param['debug']){
 				$header=sprintf("/* USE PHP COMPRESSION\n");
+				$header.=sprintf("javascript size: based files: %s => PHP COMPRESSION => %s ", $this->file_loaded_size, strlen($this->datas));
 				if($this->use_gzip){
 					$gzip_datas=  gzencode($this->datas, 9, FORCE_GZIP);				
-					$ratio = round(100 - strlen($gzip_datas) / strlen($this->datas) * 100.0);			
-					$header.=sprintf("javascript size: base= %s, gzip= %s, reduced by %s%%\n", strlen($this->datas), strlen($gzip_datas), $ratio);				
+					$header.=sprintf("=> GZIP COMPRESSION => %s", strlen($gzip_datas));
+					$ratio = round(100 - strlen($gzip_datas) / $this->file_loaded_size * 100.0);			
 				}else{
-					$header.=sprintf("javascript size: %s\n", strlen($this->datas));
+					$ratio = round(100 - strlen($this->datas) / $this->file_loaded_size * 100.0);
 				}
+				$header.=sprintf(", reduced by %s%%\n", $ratio);
+				$header.=sprintf("compression time: %s\n", $this->get_microtime()-$this->start_time); 
 				$header.=sprintf("%s\n", implode("\n", $this->infos));
 				$header.=sprintf("*/\n");
 				$this->datas= $header.$this->datas;	
@@ -270,14 +283,15 @@
 		function compress_javascript(&$code)
 		{
 			// remove all comments
-			//$code= preg_replace('/(\"(?:\\\{1,3,5,7}"|[^\"])*(?:\"|$))|' . "(\'(?:\\\{1,3,5,7}'|[^\'])*(?:\'|$))|(?:\/\/(?:.|\r|\t)*?(\n|$))|(?:\/\*(?:.|\n|\r|\t)*?(?:\*\/|$))/s", "$1$2$3", $code);
-				//		/("(?:[^"\\]*(\\\\)*(\\"?)?)*("|$))/g
-			//$code= preg_replace('/("(?:[^"\\]*(?:\\\\)*(?:\\"?)?)*(?:"|$))|' . "(\'(?:[\'\\]*(?:\\\\)*(?:\\\'?)?)*(?:\'|$))|(?:\/\/(?:.|\r|\t)*?(\n|$))|(?:\/\*(?:.|\n|\r|\t)*?(?:\*\/|$))/s", "$1$2$3", $code);
-			$code= preg_replace('/(\"(?:[^\"\\\\]*(?:\\\\\\\)*(?:\\\\"?)?)*(?:\"|$))|' . "(\'(?:[^\'\\\\]*(?:\\\\\\\)*(?:\\\\'?)?)*(?:\'|$))|(?:\/\/(?:.|\r|\t)*?(\n|$))|(?:\/\*(?:.|\n|\r|\t)*?(?:\*\/|$))/s", "$1$2$3", $code);
+		
+			//	(\"(?:[^\"\\]*(?:\\\\)*(?:\\\"?)?)*(?:\"|$))|(\'(?:[^\'\\]*(?:\\\\)*(?:\\'?)?)*(?:\'|$))|(?:\/\/(?:.|\r|\t)*?(\n|$))|(?:\/\*(?:.|\n|\r|\t)*?(?:\*\/|$))
+			$code= preg_replace("/(\"(?:[^\"\\\\]*(?:\\\\\\\\)*(?:\\\\\"?)?)*(?:\"|$))|(\'(?:[^\'\\\\]*(?:\\\\\\\\)*(?:\\\\\'?)?)*(?:\'|$))|(?:\/\/(?:.|\r|\t)*?(\n|$))|(?:\/\*(?:.|\n|\r|\t)*?(?:\*\/|$))/s", "$1$2$3", $code);
 			// remove line return, empty line and tabulation
 			$code= preg_replace('/(( |\t|\r)*\n( |\t)*)+/s', " ", $code);
 			// add line break before "else" otherwise navigators can't manage to parse the file
 			$code=preg_replace('/(\b(else)\b)/', "\n$1", $code);
+			// remove unnecessary spaces
+			$code=preg_replace('/( |\t|\r)?(;|\{|\}|=|==)( |\t|\r)+/', "$2", $code);
 		}
 		
 		function get_css_content($end_uri){
@@ -318,6 +332,7 @@
 			$fd = fopen($file, 'rb');
 			$content = fread($fd, filesize($file));
 			fclose($fd);
+			$this->file_loaded_size+= strlen($content);
 			return $content;				
 		}
 		
@@ -333,6 +348,12 @@
 				return true;
 			}
 			return false;
+		}
+		
+		function get_microtime()
+		{
+		   list($usec, $sec) = explode(" ", microtime());
+		   return ((float)$usec + (float)$sec);
 		}
 	}	
 ?>
