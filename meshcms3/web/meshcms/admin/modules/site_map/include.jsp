@@ -26,7 +26,8 @@
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 
 <%--
-  Advanced parameters for this module: none
+  Advanced parameters for this module:
+  - allowHiding = false (default) | true (honour "hide submenu" setting)
 --%>
 
 <%
@@ -54,24 +55,38 @@
     List pagesList = webSite.getSiteMap().getPagesList(argPath);
     
     if (pagesList != null) {
+    	boolean allowHiding = Utils.isTrue(md.getAdvancedParam("allowHiding", "false"));
+    	%><%=allowHiding%><%
+      int showLastLevel = -1;
+
       Iterator iter = pagesList.iterator();
 
       while (iter.hasNext()) {
         PageInfo pageInfo = (PageInfo) iter.next();
         int level = pageInfo.getLevel();
 
-        for (int i = lastLevel; i < level; i++) {
-          %><ul><%
+        if ( level <= showLastLevel ) {
+          showLastLevel = -1;
         }
 
-        for (int i = level; i < lastLevel; i++) {
-          %></ul><%
+        if ( siteInfo.getHideSubmenu(pageInfo.getPath()) && showLastLevel == -1 ) {
+          showLastLevel = level; 
         }
-  %>
-    <li><a href="<%= cp + webSite.getLink(pageInfo) %>"><%=
-      siteInfo.getPageTitle(pageInfo) %></a></li>
-  <%
-        lastLevel = level;
+
+        if (! allowHiding || showLastLevel == -1 || level <= showLastLevel) {
+          for (int i = lastLevel; i < level; i++) {
+            %><ul><%
+          }
+
+          for (int i = level; i < lastLevel; i++) {
+            %></ul><%
+          }
+          %>
+            <li><a href="<%= cp + webSite.getLink(pageInfo) %>"><%=
+              siteInfo.getPageTitle(pageInfo) %></a></li>
+          <%
+          lastLevel = level;
+        }
       }
 
       for (int i = argPath.getElementCount() - 1; i < lastLevel; i++) {

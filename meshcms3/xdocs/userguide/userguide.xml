@@ -2137,6 +2137,17 @@ submit</programlisting>
 
         <para>Argument: path to a directory. If not provided, the site map
         will start from the directory that contains the current page.</para>
+
+        <para>Advanced parameters:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>allowHiding</parameter>: defines if the module
+            honours the "hide submenu" option or not. Values are
+            <option>false</option> (default) and <option>true</option>;</para>
+          </listitem>
+        </itemizedlist>
+        
       </section>
 
       <section id="module_video_player">
