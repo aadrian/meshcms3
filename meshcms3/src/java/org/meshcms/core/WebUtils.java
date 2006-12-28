@@ -230,6 +230,8 @@ public final class WebUtils {
 
   /**
    * Reconstructs the full URL of the request.
+   *
+   * @deprecated with no replacement since it uses request.getRequestURL()
    */
   public static String getFullRequestURL(HttpServletRequest request) {
     StringBuffer sb = request.getRequestURL();
