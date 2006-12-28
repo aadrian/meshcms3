@@ -2684,6 +2684,12 @@ submit</programlisting>
             menu (by default it is <option>false</option> and only expands the
             first and last levels).</para>
           </listitem>
+
+          <listitem>
+            <para><parameter>allowHiding</parameter>: defines if the module
+            honours the "hide submenu" option or not. Values are
+            <option>false</option> (default) and <option>true</option>;</para>
+          </listitem>
         </itemizedlist>
       </section>
 
@@ -2720,6 +2726,12 @@ submit</programlisting>
             positioning as the script does. Default is <option>false</option>.
             Use this attribute olny when <parameter>part</parameter> has the
             <option>body</option> value.</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>allowHiding</parameter>: defines if the module
+            honours the "hide submenu" option or not. Values are
+            <option>false</option> (default) and <option>true</option>;</para>
           </listitem>
         </itemizedlist>
 

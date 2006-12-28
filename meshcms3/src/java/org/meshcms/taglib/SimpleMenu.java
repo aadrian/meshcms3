@@ -24,6 +24,7 @@ package org.meshcms.taglib;
 
 import java.io.*;
 import java.util.*;
+
 import org.meshcms.core.*;
 import org.meshcms.util.*;
 
@@ -36,6 +37,7 @@ public final class SimpleMenu extends AbstractTag {
   private String bullet = "&bull;";
   private String style;
   private String expand;
+  private boolean allowHiding = false;
 
   public void setPath(String path) {
     this.path = path;
@@ -58,8 +60,12 @@ public final class SimpleMenu extends AbstractTag {
     Path pathInMenu = webSite.getSiteMap().getPathInMenu(pagePath);
     int baseLevel = rootPath.getElementCount() + 1;
     int spc = Utils.parseInt(space, 8);
-    Iterator iter = siteMap.getPagesList(rootPath).iterator();
-
+    Iterator iter = null;
+    if (! allowHiding) {
+      iter = siteMap.getPagesList(rootPath).iterator();
+    } else {
+    	iter = siteMap.getPagesListNoHiddenSubmenus(rootPath).iterator();
+    }
     Writer outWriter = getOut();
 
     while (iter.hasNext()) {
@@ -124,5 +130,13 @@ public final class SimpleMenu extends AbstractTag {
 
   public void setExpand(String expand) {
     this.expand = expand;
+  }
+  
+  public boolean getAllowHiding() {
+    return allowHiding;
+  }
+
+  public void setAllowHiding(boolean allowHiding) {
+    this.allowHiding = allowHiding;
   }
 }

@@ -295,6 +295,24 @@ public class SiteMap extends DirectoryParser {
    * needed by those scripts
    */
   public String getTigraItems(String contextPath, Path path, boolean tree) {
+  	return this.getTigraItems(contextPath, path, tree);
+  }
+  
+  /**
+   * Returns the code needed to create a menu or a tree with the scripts
+   * created by <a href="http://www.softcomplex.com/">SoftComplex</a>.
+   *
+   * @param contextPath the context path as returned from
+   * <code>HttpServletRequest.getContextPath()</code>
+   * @param path the root path for the menu (if null, the root path is used)
+   * @param tree true to get the items for a tree, false to get
+   * the items for a menu
+   * @param allowHiding honours the "hide submenu" option
+   *
+   * @return a string that can be used as content for the menu_items.js file
+   * needed by those scripts
+   */
+  public String getTigraItems(String contextPath, Path path, boolean tree, boolean allowHiding) {
     if (path == null) {
       path = Path.ROOT;
     }
@@ -305,7 +323,12 @@ public class SiteMap extends DirectoryParser {
 
     int baseLevel = path.getElementCount() + 1;
     SiteInfo siteInfo = webSite.getSiteInfo();
-    Iterator iter = getPagesList(path).iterator();
+    Iterator iter = null;
+    if (! allowHiding) {
+      iter = getPagesList(path).iterator();
+    } else {
+    	iter = getPagesListNoHiddenSubmenus(path).iterator();
+    }
     PageInfo current;
     PageInfo previous = null;
     int level;
@@ -491,6 +514,34 @@ public class SiteMap extends DirectoryParser {
     return pagesList.subList(idx, pagesList.size());
   }
 
+  /**
+   * Returns the pages contained in the menu as a unmodifiable List, using the given path as
+   * root path. All members of the list are of type <code>PageInfo</code>.
+   * Pages are sorted using a {@link PageInfoComparator}.
+   * NB: This method excludes hidden submenus. 
+   */
+  public List getPagesListNoHiddenSubmenus(Path root) {
+    SiteInfo siteInfo = webSite.getSiteInfo();
+  	List pagesListHiddenSubmenus = new ArrayList(this.getPagesList(root));
+  	Path currentHiddenSubmenuPath = null;
+  	int i = 0;
+  	while (i < pagesListHiddenSubmenus.size()) {
+  		Path currentPath = ((PageInfo)pagesListHiddenSubmenus.get(i)).getPath();
+  		if (currentHiddenSubmenuPath != null) {
+  			if (currentPath.isContainedIn(currentHiddenSubmenuPath)) {
+  				pagesListHiddenSubmenus.remove(i);
+  			} else {
+  				currentHiddenSubmenuPath = null;
+  			}
+  		}
+  		if (currentHiddenSubmenuPath == null && siteInfo.getHideSubmenu(currentPath)) {
+  			currentHiddenSubmenuPath = currentPath;
+  		}
+  		i++;
+  	}
+  	return Collections.unmodifiableList(pagesListHiddenSubmenus);
+  }
+  
   /**
    * @return the breadcrumbs from the root path (included) to the given path
    * (<em>not</em> included).

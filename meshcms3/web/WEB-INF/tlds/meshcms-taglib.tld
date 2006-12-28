@@ -325,6 +325,11 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>
+    <attribute>
+      <name>allowHiding</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
   </tag>
   <tag>
     <name>tigramenu</name>
@@ -342,6 +347,11 @@
     </attribute>
     <attribute>
       <name>placeholder</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>allowHiding</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>

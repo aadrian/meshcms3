@@ -37,6 +37,7 @@ public final class TigraMenu extends AbstractTag {
   private String part;
   private String path;
   private String placeholder;
+  private boolean allowHiding = false;
 
   public void writeTag() throws IOException {
     Path rootPath = (path == null) ?
@@ -65,7 +66,7 @@ public final class TigraMenu extends AbstractTag {
       outWriter.write("<script language=\"JavaScript\" src=\"" + script +
                       "/menu.js\"></script>\n");
       outWriter.write("<script language=\"JavaScript\">\n");
-      outWriter.write(webSite.getSiteMap().getTigraItems(cp, rootPath, false));
+      outWriter.write(webSite.getSiteMap().getTigraItems(cp, rootPath, false, allowHiding));
       outWriter.write("\n</script>\n");
       outWriter.write("<script language=\"JavaScript\" src=\"" + script +
                       "/menu_tpl.js\"></script>\n");
@@ -95,5 +96,13 @@ public final class TigraMenu extends AbstractTag {
 
   public void setPlaceholder(String placeholder) {
     this.placeholder = placeholder;
+  }
+  
+  public boolean getAllowHiding() {
+    return allowHiding;
+  }
+
+  public void setAllowHiding(boolean allowHiding) {
+    this.allowHiding = allowHiding;
   }
 }
