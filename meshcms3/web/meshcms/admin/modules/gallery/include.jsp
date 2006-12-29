@@ -145,18 +145,18 @@
             %><tr><%
           }
           String caption = null;
-          if (captions) {
-            if (captionMap != null) {
-              caption = (String) captionMap.get(path.getLastElement());
-            }
-            if (caption == null) {
-              caption = Utils.beautify(Utils.removeExtension(path), true);
-            }
+          
+          if (captionMap != null) {
+            caption = (String) captionMap.get(path.getLastElement());
+          }
+          
+          if (caption == null) {
+            caption = Utils.beautify(Utils.removeExtension(path), true);
           }
           %><td align="center" valign="top">
            <a href="<%= cp + '/' + path %>"
             onclick="return popImageExtra(this.href, '<%= Utils.replace(caption, '\'', "\\'") %>', true);"><img
-            src="<%= cp + '/' + thumbPath %>" alt=""/><% if (caption != null) {
+            src="<%= cp + '/' + thumbPath %>" alt=""/><% if (captions) {
               %><br /><%= caption %><% } %></a>
           </td><%
 
