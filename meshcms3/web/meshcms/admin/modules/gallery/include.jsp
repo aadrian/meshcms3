@@ -124,6 +124,8 @@
     }
     %>
 
+<script type="text/javascript" src="<%= cp + '/' + md.getModulePath() %>/closePopImage.js"></script>
+    
 <table<%= md.getFullCSSAttribute("css") %> width="100" align="center" border="0" cellspacing="20" cellpadding="0">
 <%
     GalleryThumbnail thumbMaker = new GalleryThumbnail();
@@ -152,7 +154,8 @@
             }
           }
           %><td align="center" valign="top">
-           <a href="<%= cp + '/' + path %>" target="meshcms_image"><img
+           <a href="<%= cp + '/' + path %>"
+            onclick="return popImageExtra(this.href, '<%= Utils.replace(caption, '\'', "\\'") %>', true);"><img
             src="<%= cp + '/' + thumbPath %>" alt=""/><% if (caption != null) {
               %><br /><%= caption %><% } %></a>
           </td><%
