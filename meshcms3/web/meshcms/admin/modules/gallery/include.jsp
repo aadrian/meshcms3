@@ -156,7 +156,7 @@
           %><td align="center" valign="top">
            <a href="<%= cp + '/' + path %>"
             onclick="return popImageExtra(this.href, '<%= Utils.replace(caption, '\'', "\\'") %>', true);"><img
-            src="<%= cp + '/' + thumbPath %>" alt=""/><% if (captions) {
+            src="<%= cp + '/' + thumbPath %>" alt="<%= WebUtils.encodeHTML(caption) %>"/><% if (captions) {
               %><br /><%= caption %><% } %></a>
           </td><%
 
