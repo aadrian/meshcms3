@@ -126,7 +126,7 @@
     <tag-class>org.meshcms.taglib.SearchFile</tag-class>
     <attribute>
       <name>name</name>
-      <required>false</required>
+      <required>true</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>
     <attribute>
