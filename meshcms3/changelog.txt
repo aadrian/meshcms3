@@ -1,5 +1,20 @@
 ________________________________
 --------------------------------
+2007-01-04: 3.0.3 released
+--------------------------------
+
+- IMPORTANT FIX: multibyte charsets (i.e. UTF-8) can be used again
+- Added static export
+- Last modified tag enhanced to allow updating of the page modification time
+- After saving a page, the new version is now shown immediately
+- New tag: search file
+- Enhanced resized thumbnail class
+- EditArea upgraded to 0.6.3.1
+- SimpleMenu and TigraMenu tags and Site Map module now honor submenu hiding
+- Image Gallery improved: better popups
+
+________________________________
+--------------------------------
 2006-11-22: 3.0.2 released
 --------------------------------
 
