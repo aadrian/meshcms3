@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -67,7 +67,7 @@
 
     while (iter.hasNext()) {
       FileItem item = (FileItem) iter.next();
-      
+
       if (item.getFieldName().equals("dir")) {
         path = new Path(item.getString());
       } else if (item.getFieldName().equals("fixname")) {
@@ -79,12 +79,12 @@
 
     if (upItem != null && path != null) {
       String fileName = new Path(upItem.getName()).getLastElement();
-      
+
       if (fixName) {
         fileName = Utils.generateUniqueName
             (WebUtils.fixFileName(fileName, true), webSite.getFile(path));
       }
-      
+
       ok = webSite.saveToFile(userInfo, upItem, path.add(fileName));
     }
   } catch (Exception ex) {

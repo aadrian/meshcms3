@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -61,17 +61,17 @@ public class WebSite {
   public static final String CMS_ID_FILE = "meshcms_id";
 
   public static final String ADMIN_ID_FILE = "meshcms_admin_id";
-  
+
   static {
     String s = System.getProperty("file.encoding", "ISO-8859-1");
     boolean multibyte = true;
-    
+
     try {
       Charset c = Charset.forName(s);
       s = c.toString();
       multibyte = c.newEncoder().maxBytesPerChar() > 1.0F;
     } catch (Exception ex) {}
-    
+
     SYSTEM_CHARSET = s;
     IS_MULTIBYTE_SYSTEM_CHARSET = multibyte;
   }
@@ -404,11 +404,11 @@ public class WebSite {
    *
    * @deprecated use {@link #delete(UserInfo, Path, boolean)} so you are
    * explicitly requested to allow deletion of non-empty directories
-   */ 
+   */
   public boolean delete(UserInfo user, Path filePath) {
     return delete(user, filePath, true);
   }
-  
+
   /**
    * Deletes a file or directory.
    *
@@ -460,7 +460,7 @@ public class WebSite {
   public boolean touch(UserInfo user, Path filePath) {
     return setFileTime(user, filePath, System.currentTimeMillis());
   }
-  
+
   public boolean setFileTime(UserInfo user, Path filePath, long time) {
     if (user == null || !user.canWrite(this, filePath)) {
       return false;
@@ -596,7 +596,7 @@ public class WebSite {
    * @param filePath the path where to search
    * @param fileName the file name
    *
-   * @return the searched file 
+   * @return the searched file
    */
   public File getRepositoryFile(Path filePath, String fileName) {
     File repoDir = getFile(repositoryPath.add(filePath));
@@ -630,7 +630,7 @@ public class WebSite {
 
   private boolean backupDir(UserInfo user, Path dirPath) {
     /* permissions to be checked by the caller */
-    
+
     File dir = getFile(dirPath);
     File bakFile = getRepositoryFile(dirPath, BACKUP_DIR_PREFIX +
         user.getUsername() + "_" +
@@ -714,7 +714,7 @@ public class WebSite {
    *
    * @param path the Path to check
    *
-   * @return true if the path is a directory. 
+   * @return true if the path is a directory.
    */
   public boolean isDirectory(Path path) {
     return getFile(path).isDirectory();
@@ -828,13 +828,13 @@ public class WebSite {
    *
    * @param path the given path(directory) to be checked
    *
-   * @return true if it is a system directory, false otherwise 
+   * @return true if it is a system directory, false otherwise
    */
   public boolean isSystem(Path path) {
     if (path == null || path.isRoot()) {
       return false;
     }
-    
+
     if (path.isRelative()) {
       return true;
     }
@@ -914,7 +914,7 @@ public class WebSite {
 
     if (pageTitle != null) {
       int idx = text.indexOf("New Page");
-      
+
       if (idx >= 0) {
         text = text.substring(0, idx) + pageTitle + text.substring(idx + 8);
       }
@@ -960,7 +960,7 @@ public class WebSite {
 
   /**
    * Returns the array of welcome file names.
-   * 
+   *
    * @return an array of welcome file names for the current web application.
    * Values are fetched from the web.xml file.
    */
@@ -1095,7 +1095,7 @@ public class WebSite {
   public Path getAdminModulesPath() {
     return adminModulesPath;
   }
-  
+
   public Path getModuleDataPath() {
     return moduleDataPath;
   }

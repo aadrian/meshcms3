@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -64,7 +64,7 @@ public final class LastModified extends AbstractTag {
     Writer w = getOut();
     mode = Utils.noNull(mode);
     long time = WebUtils.getLastModifiedTime(request);
-    
+
     if (mode.equals(MODE_ALL) || (!mode.equals(MODE_HIDDEN) &&
         FileTypes.isLike(pagePath.getLastElement(), "html"))) {
       Locale locale = WebUtils.getPageLocale(pageContext);
@@ -89,7 +89,7 @@ public final class LastModified extends AbstractTag {
     } else {
       w.write("&nbsp;");
     }
-    
+
     if (Utils.isTrue(update)) {
       webSite.getFile(pagePath).setLastModified(time);
     }

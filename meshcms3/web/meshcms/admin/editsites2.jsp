@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -47,10 +47,10 @@
 
 <%
   String newSiteDir = Utils.noNull(request.getParameter("newsite_dirname")).trim();
-  
+
   if (!newSiteDir.equals("")) {
     File siteDirFile = webSite.getFile(webSite.getVirtualSitesPath().add(newSiteDir));
-    
+
     if (siteDirFile.exists()) {
       newSiteDir = "";
     } else {
@@ -68,11 +68,11 @@
       }
     }
   }
-  
+
   if (webSite instanceof MainWebSite) {
     MainWebSite mainWebSite = (MainWebSite) webSite;
     MultiSiteManager msm = mainWebSite.getMultiSiteManager();
-    
+
     msm.setUseDirsAsDomains(Utils.isTrue(request.getParameter("useDirsAsDomains")));
     msm.setManageTripleWs(Utils.isTrue(request.getParameter("manageTripleWs")));
     msm.setMainWebSiteDomains(request.getParameter("mainWebSiteDomains"));
@@ -81,13 +81,13 @@
     for (int i = 0; i < dirs.length; i++) {
       msm.setDomains(dirs[i], request.getParameter("aliases_" + dirs[i]));
     }
-    
+
     if (!newSiteDir.equals("")) {
       msm.setDomains(newSiteDir, request.getParameter("newsite_aliases"));
     }
-    
+
     msm.initDomainsMap();
-    
+
     if (msm.store(mainWebSite)) {
 %>
     <fmt:message key="sitesSaveOk" />

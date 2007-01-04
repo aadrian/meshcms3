@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,7 +30,7 @@ import org.meshcms.util.*;
  */
 public final class FileTypes {
   public static final SortedMap EXT_MAP = new TreeMap();
-  
+
   /**
    * Default icon for unknown file types.
    */
@@ -286,7 +286,7 @@ public final class FileTypes {
     info.iconFile = "icon_isaac.gif";
     EXT_MAP.put("isc", info);
   }
-  
+
   static TypeInfo getInfo(String extension) {
     TypeInfo info = (TypeInfo) EXT_MAP.get(extension);
     return (info == null) ? UNKNOWN : info;
@@ -300,21 +300,21 @@ public final class FileTypes {
   public static boolean isLike(String fileName, String extension) {
     return getInfo(Utils.getExtension(fileName, false)).id == getInfo(extension).id;
   }
-  
+
   /**
    * @return the description of the type of the file.
    */
   public static String getDescription(String fileName) {
     return getInfo(Utils.getExtension(fileName, false)).description;
   }
-  
+
   /**
    * @return the name of the icon file for the type of the given file.
    */
   public static String getIconFile(String fileName) {
     return getInfo(Utils.getExtension(fileName, false)).iconFile;
   }
-  
+
   /**
    * @return true if the file is supposed to be compressible. For example, text
    * files are compressible, while ZIP files are not.
@@ -322,14 +322,14 @@ public final class FileTypes {
   public static boolean isCompressible(String fileName) {
     return getInfo(Utils.getExtension(fileName, false)).compressible;
   }
-  
+
   /**
    * @return true if the file should be referred from a page to be accessed.
    */
   public static boolean isPreventHotlinking(String fileName) {
     return getInfo(Utils.getExtension(fileName, false)).preventHotlinking;
   }
-  
+
   /**
    * @return true if the file is a page (static or server-side).
    */
@@ -337,7 +337,7 @@ public final class FileTypes {
     int id = getInfo(Utils.getExtension(fileName, false)).id;
     return id == HTML_ID || id == SERVERSIDE_ID;
   }
-  
+
   static class TypeInfo {
     int id;
     String description;

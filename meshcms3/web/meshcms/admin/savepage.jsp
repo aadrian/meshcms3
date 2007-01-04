@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -84,7 +84,7 @@
 %>
   <p><% if (Utils.isNullOrEmpty(title)) { %>
       <fmt:message key="saveOkNoTitle" />
-  <% } else { %>    
+  <% } else { %>
       <fmt:message key="saveOk"><fmt:param value="<%= title %>" /></fmt:message>
   <% } %></p>
 
@@ -98,7 +98,7 @@
       if (webSite.getSiteMap().getPageInfo(filePath) != null) {
 %>
   <script type="text/javascript">location.replace("<%= WebUtils.getPathInContext(request, filePath) %>")</script>
-<%        
+<%
       }
     }
   } else {

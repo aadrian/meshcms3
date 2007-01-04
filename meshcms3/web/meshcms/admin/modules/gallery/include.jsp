@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -125,7 +125,7 @@
     %>
 
 <script type="text/javascript" src="<%= cp + '/' + md.getModulePath() %>/closePopImage.js"></script>
-    
+
 <table<%= md.getFullCSSAttribute("css") %> width="100" align="center" border="0" cellspacing="20" cellpadding="0">
 <%
     GalleryThumbnail thumbMaker = new GalleryThumbnail();
@@ -145,11 +145,11 @@
             %><tr><%
           }
           String caption = null;
-          
+
           if (captionMap != null) {
             caption = (String) captionMap.get(path.getLastElement());
           }
-          
+
           if (caption == null) {
             caption = Utils.beautify(Utils.removeExtension(path), true);
           }

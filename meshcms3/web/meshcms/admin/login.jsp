@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -40,15 +40,15 @@
   String username = Utils.encodeHTML(request.getParameter("username"));
   String password = Utils.encodeHTML(request.getParameter("password"));
   boolean loaded = false;
-  
+
   if (!username.equals("") && !password.equals("")) {
     loaded = userInfo.load(webSite, username, password);
-    
+
     if (!loaded) {
       %><ul><li><fmt:message key="loginError" /></li></ul><%
     }
   }
-  
+
   if (loaded) {
 %>
     <fmt:message key="loginOk" />
@@ -67,11 +67,11 @@
        <fmt:message key="loginUsername" />
       </label>
      </div>
-     
+
      <div class="meshcmsfield">
       <input type="text" id="username" name="username" value="<%= username %>" />
      </div>
-      
+
      <div class="meshcmsfieldlabel">
       <label for="password">
        <fmt:message key="loginPassword" />
@@ -81,7 +81,7 @@
      <div class="meshcmsfield">
       <input type="password" id="password" name="password" />
      </div>
-     
+
      <div class="meshcmsfield">
       <input type="submit" value="<fmt:message key="loginSubmit" />" />
      </div>

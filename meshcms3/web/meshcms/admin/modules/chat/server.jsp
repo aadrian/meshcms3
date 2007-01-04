@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -23,22 +23,22 @@
 <%
   final int MAX_MESSAGES = 100;
   final String RESET_CHAT_CMD = "clean room!";
-  
+
   List room = (List) application.getAttribute("chatRoom");
   if (room == null) {
     room = Collections.synchronizedList(new LinkedList());
 	  application.setAttribute("chatRoom", room);
   }
-  
+
   String msg = request.getParameter("m");
   String user = request.getParameter("u");
   String roomId = request.getParameter("r");
-  
+
   // Content requested
   if (roomId != null) {
     out.clear();
     String chatRoomText = (String) application.getAttribute("chatRoomCache");
-	
+
 	  // If we don't already have the content of the chat room in the cache, we
 	  // generate it. Old Javascript (namely Konqueror3) doesn't support to receive
 	  // raw Unicode characters (as sent by the HTTP stream), so we have to encode them...
@@ -64,21 +64,21 @@
     out.print(chatRoomText);
     out.flush();
   }
-  
+
   // Message posted
   else if (msg != null) {
 	  // Clear chat room cache
     application.setAttribute("chatRoomCache", null);
-	
+
     synchronized (room) {
 	    // Special command to clean room
       if (RESET_CHAT_CMD.equals(msg)) {
 	    room.clear();
-		
+
 	    // Else accept message, even empty ones
       } else {
         room.add(0, ((user == null || "".equals(user)) ? "Anonymous" : user) + "> " + msg);
-	  
+
         while (room.size() > MAX_MESSAGES) {
           room.remove(room.size() - 1);
         }

@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -35,7 +35,7 @@ public final class AlibMenu extends AbstractTag {
   public static final String PART_BODY = "body";
   public static final String HORIZONTAL = "horizontal";
   public static final String VERTICAL = "vertical";
-  
+
   private String indentation = "  ";
   private String indentBuffer = "";
 
@@ -81,9 +81,9 @@ public final class AlibMenu extends AbstractTag {
 
         if ( current.getLevel() <= showLastLevel )
         	showLastLevel = -1;
-        
+
         if ( siteInfo.getHideSubmenu(currentPath) && showLastLevel == -1 )
-        	showLastLevel = current.getLevel(); 
+        	showLastLevel = current.getLevel();
 
         boolean add = ! allowHiding || showLastLevel == -1 || current.getLevel() <= showLastLevel;
 
@@ -96,11 +96,11 @@ public final class AlibMenu extends AbstractTag {
 	          } else {
 	            writeIndented(outWriter, "<ul>", i);
 	          }
-	
+
 	          writeIndented(outWriter, "<li>", i + 1);
 	          liUsed = false;
 	        }
-	
+
 	        for (int i = lastLevel - 1; i >= level; i--) {
 	          if (liUsed) {
 	            outWriter.write("</li>");
@@ -108,23 +108,23 @@ public final class AlibMenu extends AbstractTag {
 	          } else {
 	            writeIndented(outWriter, "</li>", i + 1);
 	          }
-	
+
 	          writeIndented(outWriter, "</ul>", i);
 	        }
-	
+
 	        if (liUsed) {
 	          outWriter.write("</li>");
 	          writeIndented(outWriter, "<li>", level);
 	        }
-	
+
 	        for ( int i = lastLevel - 1; i >= level; i--) {
 	            writeIndented(outWriter, "</li>", i);
 	            writeIndented(outWriter, "<li>", i);
 	        }
-	
+
 	        if ( ! Utils.isNullOrEmpty(currentPathStyle)
 	        		&& ( current.getLevel() >= baseLevel
-	        		       && pathInMenu.isContainedIn(currentPath) 
+	        		       && pathInMenu.isContainedIn(currentPath)
 	                     || current.getPath().equals(pathInMenu)
 	                   ) ) {
 	          outWriter.write("<a href=\"" + cp + webSite.getLink(current) +

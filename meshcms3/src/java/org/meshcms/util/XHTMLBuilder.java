@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -112,14 +112,14 @@ public class XHTMLBuilder {
   public static final String TT = "tt";
   public static final String UL = "ul";
   public static final String VAR = "var";
-  
+
   Document xmlDocument;
   Element headElement;
   Element titleElement;
   Element bodyElement;
   Fragment headFragment;
   Fragment bodyFragment;
-  
+
   public XHTMLBuilder() {
     try {
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -137,62 +137,62 @@ public class XHTMLBuilder {
     } catch (Exception ex) {
       ex.printStackTrace();
     }
-    
+
     headFragment = new Fragment(headElement);
     bodyFragment = new Fragment(bodyElement);
   }
-  
+
   public Fragment getHead() {
     return headFragment;
   }
-  
+
   public Fragment getBody() {
     return bodyFragment;
   }
-  
+
   public Element getHeadElement() {
     return headElement;
   }
-  
+
   public Element getTitleElement() {
     return titleElement;
   }
-  
+
   public Element getBodyElement() {
     return bodyElement;
   }
-  
+
   public void setTitle(String title) {
     if (title == null) {
       throw new IllegalArgumentException("Provided title is null");
     }
-    
+
     Node node;
-    
+
     while((node = titleElement.getLastChild()) != null) {
       titleElement.removeChild(node);
     }
-    
+
     titleElement.appendChild(xmlDocument.createTextNode(title));
   }
-  
+
   public void normalize() {
     xmlDocument.normalize();
   }
-  
+
   public void writeFullDocument(Writer out, String charset) {
     write(xmlDocument, out, charset);
   }
-  
+
   public void writeBodyContent(Writer out, String charset) {
     Node n = bodyElement.getFirstChild();
-    
+
     while (n != null) {
       write(n, out, charset);
       n = n.getNextSibling();
     }
   }
-  
+
   private void write(Node node, Writer out, String charset) {
     try {
       DOMSource domSource = new DOMSource(node);
@@ -203,81 +203,81 @@ public class XHTMLBuilder {
       serializer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
       serializer.setOutputProperty(OutputKeys.DOCTYPE_PUBLIC, "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd");
       serializer.setOutputProperty(OutputKeys.INDENT, "yes");
-      
+
       if (charset != null) {
         serializer.setOutputProperty(OutputKeys.ENCODING, charset);
       }
-      
+
       serializer.transform(domSource, streamResult);
     } catch (Exception ex) {
       ex.printStackTrace();
     }
   }
-  
+
   public class Fragment {
     Element mainElement;
     Stack tagStack;
-    
+
     public Fragment(Element mainElement) {
       this.mainElement = mainElement;
       tagStack = new Stack();
     }
-    
+
     public Element getCurrentTag() {
       return tagStack.empty() ? mainElement : (Element) tagStack.peek();
     }
-    
+
     public Fragment openTag(String tagName) {
       Element tag = xmlDocument.createElement(tagName);
       getCurrentTag().appendChild(tag);
       tagStack.push(tag);
       return this;
     }
-    
+
     public Fragment setAttribute(String name, String value) {
       getCurrentTag().setAttribute(name, value);
       return this;
     }
-    
+
     public Fragment addText(String textData) {
       getCurrentTag().appendChild(xmlDocument.createTextNode(textData));
       return this;
     }
-    
+
     public Fragment addCDATA(String textData) {
       getCurrentTag().appendChild(xmlDocument.createCDATASection(textData));
       return this;
     }
-    
+
     public Element closeTag() {
       if (tagStack.empty()) {
         throw new IllegalStateException("No tag to close");
       }
-      
+
       return (Element) tagStack.pop();
     }
-    
+
     public Element closeTag(String tagName) {
       if (tagStack.empty()) {
         throw new IllegalStateException("No tag to close");
       }
-      
+
       Element current = (Element) tagStack.peek();
       String currentTagName = current.getTagName();
-      
+
       if (!currentTagName.equals(tagName)) {
         throw new IllegalStateException("Current tag is " + currentTagName +
             ", not " + tagName);
       }
-      
+
       return (Element) tagStack.pop();
     }
   }
-  
+
   public static void main(String[] args) {
     XHTMLBuilder doc = new XHTMLBuilder();
     Fragment f = doc.getBody();
-    
+
     f.openTag("form"); {
       f.setAttribute("action", "");
       f.setAttribute("method", "post");
@@ -313,7 +313,7 @@ public class XHTMLBuilder {
         } f.closeTag();
       } f.closeTag("fieldset"); // specify tag name just to check if correct
     } f.closeTag();
-    
+
     doc.writeBodyContent(new PrintWriter(System.out), "UTF-8");
   }
 }

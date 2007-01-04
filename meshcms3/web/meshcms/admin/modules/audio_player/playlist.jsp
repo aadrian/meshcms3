@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -28,16 +28,16 @@
 
 <playlist version="1" xmlns = "http://xspf.org/ns/0/">
   <title>Playlist loaded</title>
-  
+
   <trackList>
 
 <%
   File dir = webSite.getFile(path);
   String[] files = dir.list();
-  
+
   if (files != null) {
     Arrays.sort(files);
-  
+
     for (int i = 0; i < files.length; i++) {
       if (Utils.getExtension(files[i], false).equalsIgnoreCase("mp3")) {
         String base = WebUtils.getContextHomeURL(request).append('/').append(path).append('/').toString();

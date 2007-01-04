@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -57,17 +57,17 @@
 
 <%
   MultiSiteManager msm = null;
-  
+
   if (webSite instanceof MainWebSite) {
     msm = ((MainWebSite) webSite).getMultiSiteManager();
   }
 %>
 <form action="editsites2.jsp" method="post">
-  
+
 <% if (msm != null) { %>
   <fieldset class="meshcmseditor">
     <legend><fmt:message key="sitesGeneral" /></legend>
-    
+
     <div class="meshcmsfield">
       <input type="checkbox" id="useDirsAsDomains" name="useDirsAsDomains"
        value="true"<%= msm.isUseDirsAsDomains() ? " checked='checked'" : "" %> />
@@ -83,7 +83,7 @@
     <div class="meshcmsfieldlabel">
       <label for="mainWebSiteDomains"><fmt:message key="sitesMainWebSiteDomains" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('mainWebSiteDomains');" alt=""
        style="vertical-align:middle;" /><input type="text" id="mainWebSiteDomains" name="mainWebSiteDomains"
@@ -107,7 +107,7 @@
 <%
   if (msm != null) {
     String[] dirs = webSite.getFile(webSite.getVirtualSitesPath()).list();
-    
+
     for (int i = 0; i < dirs.length; i++) {
 %>
       <tr>

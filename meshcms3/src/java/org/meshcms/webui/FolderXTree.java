@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -36,7 +36,7 @@ public class FolderXTree extends DirectoryParser {
   Writer writer;
   String thumbsParam;
   String rootName;
-  
+
   /**
    * Creates a new instance.
    *
@@ -67,7 +67,7 @@ public class FolderXTree extends DirectoryParser {
     } catch (IOException ex) {
       return false;
     }
-    
+
     return true;
   }
 
@@ -79,7 +79,7 @@ public class FolderXTree extends DirectoryParser {
     if (path.equals(webSite.getRepositoryPath())) {
       return false;
     }
-    
+
     boolean include = true;
 
     try {
@@ -95,19 +95,19 @@ public class FolderXTree extends DirectoryParser {
               path + thumbsParam + "\";\n");
           writer.write("folder" + code + ".target='listframe';\n");
         if (di.iconName != null) {
-          writer.write("folder" + code + ".icon='images/" + di.iconName + 
+          writer.write("folder" + code + ".icon='images/" + di.iconName +
               ".gif';\n");
-          writer.write("folder" + code + ".openIcon='images/" + di.iconName + 
+          writer.write("folder" + code + ".openIcon='images/" + di.iconName +
               "open.gif';\n");
         }
       }
     } catch (IOException ex) {
       return false;
     }
-    
+
     return include;
   }
-  
+
   /**
    * @return info about a directory, based on path and permissions.
    */
@@ -144,7 +144,7 @@ public class FolderXTree extends DirectoryParser {
 
     return di;
   }
-  
+
   /**
    * Encapsulates inclusion flag and icon for a directory.
    */

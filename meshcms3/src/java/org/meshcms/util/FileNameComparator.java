@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,7 +32,7 @@ import java.util.*;
  */
 public final class FileNameComparator implements Comparator, Serializable {
   private boolean caseSensitive = true;
-  
+
   public int compare(Object o1, Object o2) {
     try {
       File f1 = (File) o1;

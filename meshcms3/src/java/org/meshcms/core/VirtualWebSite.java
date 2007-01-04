@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +29,7 @@ import org.meshcms.util.*;
 
 public class VirtualWebSite extends WebSite {
   private MainWebSite mainWebSite;
-  
+
   protected static WebSite create(ServletContext sc,
       String[] welcomeFiles, File rootFile, Path rootPath, Path cmsPath) {
     throw new UnsupportedOperationException
@@ -42,7 +42,7 @@ public class VirtualWebSite extends WebSite {
     virtualWebSite.init(mainWebSite, rootPath, cmsPath);
     return virtualWebSite;
   }
-  
+
   protected void init(MainWebSite mainWebSite, Path rootPath, Path cmsPath) {
     this.mainWebSite = mainWebSite;
     init(mainWebSite.getServletContext(), mainWebSite.getWelcomeFileNames(),
@@ -56,7 +56,7 @@ public class VirtualWebSite extends WebSite {
   public boolean isVirtual() {
     return true;
   }
-  
+
   public HttpServletRequest wrapRequest(ServletRequest request) {
     return new MultiSiteRequestWrapper((HttpServletRequest) request, this);
   }
@@ -64,11 +64,11 @@ public class VirtualWebSite extends WebSite {
   public String getTypeDescription() {
     return "virtual web site (" + rootPath.getLastElement() + ')';
   }
-  
+
   public Path getRequestedPath(HttpServletRequest request) {
     return ((MultiSiteRequestWrapper) request).getRequestedPath();
   }
-  
+
   public Path getServedPath(HttpServletRequest request) {
     return ((MultiSiteRequestWrapper) request).getServedPath();
   }
@@ -79,7 +79,7 @@ public class VirtualWebSite extends WebSite {
         mainWebSite.getAdminPath().add(requestedPath.getRelativeTo(adminPath)) :
         rootPath.add(requestedPath);
   }
-  
+
   public File getFile(Path path) {
     return mainWebSite.getFile(getServedPath(path));
   }

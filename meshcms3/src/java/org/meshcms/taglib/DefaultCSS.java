@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -31,9 +31,9 @@ import org.meshcms.core.*;
 public final class DefaultCSS extends AbstractTag {
   public void writeTag() throws IOException {
     Writer w = getOut();
-    w.write("<link type=\"text/css\" rel=\"stylesheet\" href=\"" + 
+    w.write("<link type=\"text/css\" rel=\"stylesheet\" href=\"" +
         WebUtils.getFullMeshCSS(webSite, request) + "\" />");
-    w.write("<link type=\"text/css\" rel=\"stylesheet\" href=\"" + 
+    w.write("<link type=\"text/css\" rel=\"stylesheet\" href=\"" +
         WebUtils.getFullThemeCSS(request) + "\" />\n");
   }
 }

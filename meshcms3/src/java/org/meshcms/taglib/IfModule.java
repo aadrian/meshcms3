@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -38,11 +38,11 @@ public class IfModule extends AbstractTag {
   public String getLocation() {
     return location;
   }
-  
+
   public void writeTag() throws IOException {
     // nothing to do here
   }
-  
+
   public int getStartTagReturnValue() {
     return (isEdit || getModuleDescriptor(location, null) != null) ?
         EVAL_BODY_INCLUDE : SKIP_BODY;

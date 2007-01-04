@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -60,7 +60,7 @@ public class UserInfo implements Serializable {
    * Permission to browse files.
    */
   public static final int CAN_BROWSE_FILES = 32;
-  
+
   /**
    * Permissions for guest user (non-logged in).
    */
@@ -229,7 +229,7 @@ public class UserInfo implements Serializable {
 
     return GUEST;
   }
-  
+
   /**
    * @return the preferred locale for the user, in a form like
    * <code>en_US</code>, <code>it</code> or similar.
@@ -237,7 +237,7 @@ public class UserInfo implements Serializable {
   public String getPreferredLocaleCode() {
     return getValue(LANGUAGE);
   }
-  
+
   /**
    * Sets the preferred locale for the user.
    */
@@ -267,21 +267,21 @@ public class UserInfo implements Serializable {
 
     boolean global = false;
     Path userPath = getUserPath(webSite, username);
-    
+
     if (!webSite.getFile(userPath).exists() &&
         webSite instanceof VirtualWebSite) {
       webSite = ((VirtualWebSite) webSite).getMainWebSite();
       userPath = getUserPath(webSite, username);
       global = true;
     }
-    
+
     if (webSite.getFile(userPath).exists()) {
       Properties p = (Properties) webSite.loadFromXML(userPath);
 
       if (p != null && p.getProperty(PASSWORD).equals(cryptPassword(password))) {
         Properties bak = info;
         info = p;
-        
+
         if (global) {
           if (canDo(CAN_DO_ADMINTASKS) && getHomePath().isRoot()) {
             this.global = true;
@@ -290,7 +290,7 @@ public class UserInfo implements Serializable {
             return false;
           }
         }
-        
+
         return true;
       }
     } else if (username.equals("admin") && password.equals("admin")) {
@@ -302,7 +302,7 @@ public class UserInfo implements Serializable {
       info.setProperty(LANGUAGE, "en_US");
       store(webSite);
       return true;
-    } 
+    }
 
     return false;
   }
@@ -415,15 +415,15 @@ public class UserInfo implements Serializable {
   public String getDetailValue(String name) {
     if (name != null) {
       name = name.toLowerCase();
-      
+
       if (Utils.searchString(DETAILS, name, false) != -1) {
         return getValue(name);
       }
     }
-    
+
     return null;
   }
-  
+
   /**
    * @return the name of the user detail at the given index.
    */
@@ -468,7 +468,7 @@ public class UserInfo implements Serializable {
   public boolean exists(WebSite webSite, String username) {
     return getUserFile(webSite, username).exists();
   }
-  
+
   public boolean isGlobal() {
     return global;
   }

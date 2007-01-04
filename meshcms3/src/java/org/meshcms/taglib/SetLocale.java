@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,7 +39,7 @@ public final class SetLocale extends AbstractTag {
   private String value;
   private String defaultValue;
   private String redirectRoot;
-  
+
   public void writeTag() throws IOException {
     if (Utils.isTrue(redirectRoot) &&
         webSite.getSiteMap().getPathInMenu(pagePath).isRoot()) {
@@ -48,7 +48,7 @@ public final class SetLocale extends AbstractTag {
         return;
       }
     }
-    
+
     Locale locale = null;
 
     if (value != null) {
@@ -58,11 +58,11 @@ public final class SetLocale extends AbstractTag {
         locale = Utils.getLocale(pagePath.getElementAt(i));
       }
     }
-    
+
     if (locale == null) {
       locale = Utils.getLocale(defaultValue);
     }
-    
+
     if (locale != null) {
       pageContext.setAttribute(HitFilter.LOCALE_ATTRIBUTE, locale,
           PageContext.REQUEST_SCOPE);
@@ -92,13 +92,13 @@ public final class SetLocale extends AbstractTag {
   public void setRedirectRoot(String redirectRoot) {
     this.redirectRoot = redirectRoot;
   }
-  
+
   public static boolean setRedirectToLanguage(HttpServletRequest request,
       HttpServletResponse response) throws IOException {
     if (response.isCommitted()) {
       return false;
     }
-    
+
     WebSite webSite = (WebSite) request.getAttribute(HitFilter.WEBSITE_ATTRIBUTE);
     List available = webSite.getSiteMap().getLangList();
     String[] accepted = WebUtils.getAcceptedLanguages(request);
@@ -126,7 +126,7 @@ public final class SetLocale extends AbstractTag {
           chosen.getCode() + '/');
       return true;
     }
-      
+
     return false;
   }
 }

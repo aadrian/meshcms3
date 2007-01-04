@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -61,7 +61,7 @@ public class SiteMap extends DirectoryParser {
   private SortedMap modulesMap;
   private List langList;
   private Map pageCache;
-  
+
   private boolean obsolete;
 
   /**
@@ -80,11 +80,11 @@ public class SiteMap extends DirectoryParser {
 
   protected boolean preProcess() {
     oldSiteMap = webSite.getSiteMap();
-    
+
     if (oldSiteMap != null && oldSiteMap.isObsolete()) {
       oldSiteMap = null;
     }
-    
+
     pagesMap = new TreeMap();
     currentWelcomes = new TreeMap();
     return true;
@@ -197,16 +197,16 @@ public class SiteMap extends DirectoryParser {
     pagesList = new ArrayList(pagesMap.values());
     Collections.sort(pagesList, new PageInfoComparator(this, webSite.getSiteInfo()));
     pagesList = Collections.unmodifiableList(pagesList);
-    
+
     langList = new ArrayList();
     Iterator iter = getPagesInDirectory(Path.ROOT, false).iterator();
 
     while (iter.hasNext()) {
       Path path = ((PageInfo) iter.next()).getPath();
-      
+
       if (path.getElementCount() == 1) {
         Locale locale = Utils.getLocale(path.getElementAt(0));
-        
+
         if (locale != null) {
           langList.add(new CodeLocalePair(path.getElementAt(0), locale));
         }
@@ -225,7 +225,7 @@ public class SiteMap extends DirectoryParser {
   public PageInfo getPageInfo(Path path) {
     return (PageInfo) pagesMap.get(getPathInMenu(path));
   }
-  
+
   /**
    * @return the <code>PageInfo</code> for parent of the page at the given path.
    */
@@ -297,7 +297,7 @@ public class SiteMap extends DirectoryParser {
   public String getTigraItems(String contextPath, Path path, boolean tree) {
   	return this.getTigraItems(contextPath, path, tree);
   }
-  
+
   /**
    * Returns the code needed to create a menu or a tree with the scripts
    * created by <a href="http://www.softcomplex.com/">SoftComplex</a>.
@@ -413,7 +413,7 @@ public class SiteMap extends DirectoryParser {
   public List getLangList() {
     return langList;
   }
-  
+
   /**
    * @return true if there is at least one page whose parent path is the
    * given one.
@@ -518,7 +518,7 @@ public class SiteMap extends DirectoryParser {
    * Returns the pages contained in the menu as a unmodifiable List, using the given path as
    * root path. All members of the list are of type <code>PageInfo</code>.
    * Pages are sorted using a {@link PageInfoComparator}.
-   * NB: This method excludes hidden submenus. 
+   * NB: This method excludes hidden submenus.
    */
   public List getPagesListNoHiddenSubmenus(Path root) {
     SiteInfo siteInfo = webSite.getSiteInfo();
@@ -541,7 +541,7 @@ public class SiteMap extends DirectoryParser {
   	}
   	return Collections.unmodifiableList(pagesListHiddenSubmenus);
   }
-  
+
   /**
    * @return the breadcrumbs from the root path (included) to the given path
    * (<em>not</em> included).
@@ -592,7 +592,7 @@ public class SiteMap extends DirectoryParser {
   public void cache(Path path, byte[] b) {
     pageCache.put(path, b);
   }
-  
+
   /**
    * Removes a page from the cache.
    */
@@ -670,7 +670,7 @@ public class SiteMap extends DirectoryParser {
   public void setObsolete(boolean obsolete) {
     this.obsolete = obsolete;
   }
-  
+
   public static class CodeLocalePair {
     private String code;
     private Locale locale;

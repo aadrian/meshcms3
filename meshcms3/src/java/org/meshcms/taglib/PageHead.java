@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -40,19 +40,19 @@ public class PageHead extends AbstractTag {
     ((HTMLPage) getPage()).writeHead(w);
     Locale locale = (Locale) pageContext.getAttribute(HitFilter.LOCALE_ATTRIBUTE,
         PageContext.REQUEST_SCOPE);
-    
+
     if (locale != null) {
       w.write("\n<meta http-equiv=\"Content-Language\" content=\"" + locale + "\" />");
     }
-    
+
     String redir = (String) request.getAttribute(SetLocale.REDIRECT_ATTRIBUTE);
-    
+
     if (redir != null) {
       if (userInfo == null || userInfo.isGuest()) {
         w.write("\n<meta http-equiv=\"refresh\" content=\"0; url=" + redir + "\" />");
       } else {
         Locale pl = WebUtils.getPageLocale(pageContext);
-        ResourceBundle bundle = 
+        ResourceBundle bundle =
             ResourceBundle.getBundle("org/meshcms/webui/Locales", pl);
         w.write("\n<script type='text/javascript'>alert(\"" +
             bundle.getString("pageRedirectionAlert") + "\");</script>");
@@ -66,7 +66,7 @@ public class PageHead extends AbstractTag {
     Locale locale = WebUtils.getPageLocale(pageContext);
     ResourceBundle bundle = ResourceBundle.getBundle("org/meshcms/webui/Locales", locale);
     String langCode = bundle.getString("TinyMCELangCode");
-      
+
     if (Utils.isNullOrEmpty(langCode)) {
       langCode = locale.getLanguage();
     }
@@ -88,7 +88,7 @@ public class PageHead extends AbstractTag {
     w.write("</script>\n");
     w.write("<script type='text/javascript' src='" +
       cp + '/' + webSite.getAdminScriptsPath() + "/editor.js'></script>\n");
-    
+
     w.write("<script type='text/javascript' src='" + cp + '/' +
       (webSite.getFile(webSite.getCMSPath().add("tinymce_init.js")).exists() ?
       webSite.getCMSPath() : webSite.getAdminScriptsPath()) +

@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -42,7 +42,7 @@ public class Configuration implements Serializable {
    * Contains the extensions of files that are visually editable by default.
    */
   public static final String[] DEFAULT_VISUAL_EXTENSIONS = {"html", "htm"};
-  
+
   /**
    * Value used to disable page caching.
    */
@@ -83,7 +83,7 @@ public class Configuration implements Serializable {
   private String exportDir;
   private String exportCommand;
   private String[] visualExtensions;
-  
+
   private Configuration() {
     setUseAdminTheme(false);
     setPreventHotlinking(false);
@@ -93,12 +93,12 @@ public class Configuration implements Serializable {
     setEditorModulesCollapsed(false);
     setHighQualityThumbnails(false);
     setExportCheckDates(true);
-    
+
     setBackupLife(90);
     setStatsLength(3);
     setUpdateInterval(4);
     setCacheType(ON_DISK_CACHE);
-    
+
     setMailServer("localhost");
     setSmtpUsername("");
     setSmtpPassword("");
@@ -262,18 +262,18 @@ public class Configuration implements Serializable {
    */
   public static Configuration load(WebSite webSite) {
     Configuration c = null;
-    
+
     try {
       c = (Configuration) webSite.loadFromXML(webSite.getConfigFilePath());
     } catch (Exception ex) {}
-    
+
     if (c == null) {
       c = new Configuration();
     }
-    
+
     return c;
   }
-  
+
   /**
    * Saves the current configuration to file.
    */
@@ -442,7 +442,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the state of whether modules are collapsed in the editor. 
+   * @return the state of whether modules are collapsed in the editor.
    */
   public boolean isEditorModulesCollapsed() {
     return editorModulesCollapsed;

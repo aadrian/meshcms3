@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -33,33 +33,33 @@ import org.meshcms.util.*;
 public final class SearchFile extends AbstractTag {
   private String name;
   private String defaultName;
-  
+
   public void writeTag() throws IOException {
     if (!Utils.isNullOrEmpty(name)) {
       Path found = null;
       Path currentPath = webSite.getDirectory(pagePath);
-      
+
       while (found == null && !currentPath.isRelative()) {
         Path p = currentPath.add(name);
         currentPath = currentPath.getParent();
-        
+
         if (webSite.getFile(p).exists()) {
           found = p;
         }
       }
-      
+
       if (found == null && defaultName != null) {
         Path themePath = (Path) request.getAttribute(HitFilter.THEME_PATH_ATTRIBUTE);
-        
+
         if (themePath != null) {
           themePath = themePath.add(defaultName);
-          
+
           if (webSite.getFile(themePath).exists()) {
             found = themePath;
           }
         }
       }
-      
+
       if (found != null) {
         getOut().write(cp + '/' + found);
       }

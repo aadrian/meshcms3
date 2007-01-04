@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -80,7 +80,7 @@ public abstract class AbstractTag extends TagSupport implements RequestConstants
 
     return getStartTagReturnValue();
   }
-  
+
   /**
    * Defines the return value of <code>doStartTag()</code>. This method can be
    * overridden by subclasses to change that value. The default implementation
@@ -108,7 +108,7 @@ public abstract class AbstractTag extends TagSupport implements RequestConstants
   }
 
   /**
-   * Copied from com.opensymphony.module.sitemesh.taglib.AbstactTag for 
+   * Copied from com.opensymphony.module.sitemesh.taglib.AbstactTag for
    * compatibility with SiteMesh
    */
   protected Page getPage() {
@@ -116,35 +116,35 @@ public abstract class AbstractTag extends TagSupport implements RequestConstants
 
     if (p == null) {
       p = (Page) pageContext.getAttribute(PAGE, PageContext.REQUEST_SCOPE);
-      
+
       if (p == null) {
         pageContext.removeAttribute(PAGE, PageContext.PAGE_SCOPE);
       } else {
         pageContext.setAttribute(PAGE, p, PageContext.PAGE_SCOPE);
       }
-      
+
       pageContext.removeAttribute(PAGE, PageContext.REQUEST_SCOPE);
     }
-    
+
     if (p == null) {
       // No page? Weird! Better to block the cache at least.
       WebUtils.setBlockCache(request);
     }
-    
+
     return p;
   }
 
   /**
-   * Copied from com.opensymphony.module.sitemesh.taglib.AbstactTag for 
+   * Copied from com.opensymphony.module.sitemesh.taglib.AbstactTag for
    * compatibility with SiteMesh
    */
   protected Writer getOut() {
     return OutputConverter.getWriter(pageContext.getOut());
   }
-  
+
   ModuleDescriptor getModuleDescriptor(String location, String name) {
     ModuleDescriptor md;
-    
+
     if (name == null) {
       Map pageModules = (Map) pageContext.getAttribute(PAGE_MODULES);
 
@@ -171,7 +171,7 @@ public abstract class AbstractTag extends TagSupport implements RequestConstants
       md = new ModuleDescriptor(name);
       md.setLocation(location);
     }
-    
+
     return md;
   }
 }

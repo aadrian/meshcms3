@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -78,14 +78,14 @@
 
 <form action="edituser2.jsp" method="post">
   <input type="hidden" name="new" value="<%= newUser %>" />
-  
+
   <fieldset class="meshcmseditor">
     <legend><fmt:message key="<%= newUser ? "userNew" : "userEdit" %>" /></legend>
 
     <div class="meshcmsfieldlabel">
       <label for="username"><fmt:message key="loginUsername" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <% if (newUser) { %>
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('username');" alt=""
@@ -100,7 +100,7 @@
     <div class="meshcmsfieldlabel">
       <label for="permissions"><fmt:message key="userType" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <% if (newUser) { %>
        <select name="permissions" id="permissions">
@@ -132,10 +132,10 @@
     <div class="meshcmsfieldlabel">
       <label for="homepath"><fmt:message key="userHome" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <% String hPath = "/" + edit.getHomePath();
-      
+
          if (newUser) { %>
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('homepath');" alt=""
        style="vertical-align:middle;" /><input type="text" name="homepath" id="homepath"
@@ -149,7 +149,7 @@
     <div class="meshcmsfieldlabel">
       <label for="email"><fmt:message key="userMail" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('email');" alt=""
        style="vertical-align:middle;" /><input type="text" name="email" id="email"
@@ -159,7 +159,7 @@
     <div class="meshcmsfieldlabel">
       <label for="language"><fmt:message key="userLanguage" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <select name="language" id="language"><% Locale[] locales = Locale.getAvailableLocales();
        Arrays.sort(locales, new LocaleComparator(Locale.ENGLISH));
@@ -173,11 +173,11 @@
 
   <fieldset class="meshcmseditor">
     <legend><fmt:message key="<%= newUser ? "userInitPwd" : "userChangePwd" %>" /></legend>
- 
+
     <div class="meshcmsfieldlabel">
       <label for="password1"><fmt:message key="loginPassword" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('password1');" alt=""
        style="vertical-align:middle;" /><input type="password" name="password1" id="password1"
@@ -187,7 +187,7 @@
     <div class="meshcmsfieldlabel">
       <label for="password2"><fmt:message key="userConfirmPwd" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('password2');" alt=""
        style="vertical-align:middle;" /><input type="password" name="password2" id="password2"
@@ -201,14 +201,14 @@
 
   <fieldset class="meshcmseditor">
     <legend><fmt:message key="userOpt" /></legend>
- 
+
 <%
   for (int i = 0; i < UserInfo.DETAILS.length; i++) {
 %>
     <div class="meshcmsfieldlabel">
       <label for="<%= UserInfo.DETAILS[i] %>"><fmt:message key="<%= "user_" + UserInfo.DETAILS[i] %>" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('<%= UserInfo.DETAILS[i] %>');" alt=""
        style="vertical-align:middle;" /><input type="text"

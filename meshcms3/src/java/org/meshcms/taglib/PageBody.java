@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,15 +37,15 @@ public class PageBody extends AbstractTag {
   public static final int MINIMUM_PAGE_SIZE = 32;
   public void writeTag() throws IOException {
     String body = getPage().getBody();
-    
+
     // Let's prevent caching of pages with a "small body"
     if (body.length() < MINIMUM_PAGE_SIZE) {
       WebUtils.setBlockCache(request);
     }
-    
+
     getOut().write(body);
   }
-  
+
   public void writeEditTag() throws IOException {
     UserInfo userInfo = (UserInfo) pageContext.getAttribute("userInfo",
       PageContext.SESSION_SCOPE);
@@ -61,9 +61,9 @@ public class PageBody extends AbstractTag {
     w.write("<div class='meshcmsfieldlabel'><label for='pagetitle'>" +
       bundle.getString("editorPageTitle") + "</label></div>\n");
     w.write("<div class='meshcmsfield'><input type='text' id='pagetitle' name='pagetitle' value=\"" +
-      Utils.noNull(getPage().getTitle()) + 
+      Utils.noNull(getPage().getTitle()) +
       "\" style='width: 100%;' /></div>\n");
-    
+
     w.write("<div class='meshcmsfieldlabel'><img alt=\"\" src=\"" + afp +
       "/images/tree_plus.gif\" id='togglehead' onclick=\"javascript:editor_toggleHideShow('meshcmshead','togglehead');\" />\n");
     w.write("<label for='meshcmshead'>" + bundle.getString("editorPageHead") + "</label></div>\n");

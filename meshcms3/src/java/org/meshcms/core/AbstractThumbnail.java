@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,7 +37,7 @@ public abstract class AbstractThumbnail {
    * @return the recommended file name for the current thumbnail.
    */
   public abstract String getSuggestedFileName();
-  
+
   /**
    * Creates the thumbnail.&nbsp;Called only if needed.
    * @param imageFile source image file to create thumbnail from
@@ -73,7 +73,7 @@ public abstract class AbstractThumbnail {
 
     return thumbnailPath;
   }
-  
+
   public static void drawResizedImage(Graphics g, BufferedImage image, int x, int y,
       int width, int height, boolean highQuality) {
     if (highQuality) {
@@ -214,12 +214,12 @@ public abstract class AbstractThumbnail {
     out.setRGB(0, 0, width, height, outPixels, 0, width);
     return out;
   }
-  
+
   private static void checkImageSize(int width, int height) {
     if (width < 1) {
       throw new IllegalArgumentException("Invalid width: " + width + " pixels");
     }
-    
+
     if (height < 1) {
       throw new IllegalArgumentException("Invalid height: " + height + " pixels");
     }

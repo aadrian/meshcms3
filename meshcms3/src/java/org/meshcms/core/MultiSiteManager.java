@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,12 +28,12 @@ import java.util.*;
 public class MultiSiteManager implements Serializable {
   private transient MainWebSite mainWebSite;
   private transient SortedMap domainsMap;
-  
+
   private boolean manageTripleWs;
   private boolean useDirsAsDomains;
   private String mainWebSiteDomains;
   private Properties domains;
-  
+
   private MultiSiteManager() {
     domains = new Properties();
     manageTripleWs = true;
@@ -55,27 +55,27 @@ public class MultiSiteManager implements Serializable {
   public void setUseDirsAsDomains(boolean useDirsAsDomains) {
     this.useDirsAsDomains = useDirsAsDomains;
   }
-  
+
   public void setDomains(String dir, String domainNames) {
     if (domainNames != null) {
       domains.setProperty(dir, domainNames);
     }
   }
-  
+
   public String getDomains(String dir) {
     return domains.getProperty(dir.toLowerCase());
   }
-  
+
   public int initDomainsMap() {
     domainsMap = new TreeMap();
     File[] dirs = mainWebSite.getFile(mainWebSite.getVirtualSitesPath()).listFiles();
-    
+
     for (int i = 0; i < dirs.length; i++) {
       if (dirs[i].isDirectory()) {
         String dirName = dirs[i].getName().toLowerCase();
         VirtualWebSite webSite = mainWebSite.getVirtualSite(dirName);
         parseDomains(domainsMap, webSite, getDomains(dirName));
-        
+
         if (useDirsAsDomains) {
           parseDomains(domainsMap, webSite, dirName);
         }
@@ -87,13 +87,13 @@ public class MultiSiteManager implements Serializable {
          getWebSite() to work correctly */
       mainWebSiteDomains = null;
     }
-    
+
     return domainsMap.size();
   }
-  
+
   private boolean parseDomains(SortedMap map, WebSite webSite, String domainNames) {
     boolean result = false;
-    
+
     if (domainNames != null) {
       StringTokenizer st = new StringTokenizer(domainNames, ";:, \t");
 
@@ -107,17 +107,17 @@ public class MultiSiteManager implements Serializable {
         }
       }
     }
-    
+
     return result;
   }
-  
+
   public WebSite getWebSite(String domain) {
     WebSite webSite = (WebSite) domainsMap.get(domain.toLowerCase());
-    
+
     if (webSite == null && mainWebSiteDomains == null) {
       webSite = mainWebSite;
     }
-    
+
     return webSite;
   }
 
@@ -131,18 +131,18 @@ public class MultiSiteManager implements Serializable {
 
   public static MultiSiteManager load(MainWebSite mainWebSite) {
     MultiSiteManager m = null;
-    
+
     try {
       m = (MultiSiteManager) mainWebSite.loadFromXML
           (mainWebSite.getSitesFilePath());
       m.setMainWebSite(mainWebSite);
     } catch (Exception ex) {}
-    
+
     if (m == null) {
       m = new MultiSiteManager();
       m.setMainWebSite(mainWebSite);
     }
-    
+
     return m;
   }
 

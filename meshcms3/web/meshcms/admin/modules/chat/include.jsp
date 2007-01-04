@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -18,7 +18,7 @@
 
  You can contact the author at http://www.cromoteca.com
  and at info@cromoteca.com
- 
+
  Ajax Chat Module inspired by http://www.linuxuser.at/index.php?title=Most_Simple_Ajax_Chat_Ever
  Pierre Metras - 20060222
  See admin/chatserv.jsp for the server side.
@@ -42,7 +42,7 @@
 <%
   String moduleCode = request.getParameter("modulecode");
   ModuleDescriptor md = null;
-  
+
   if (moduleCode != null) {
     md = (ModuleDescriptor) request.getAttribute(moduleCode);
   }
@@ -51,7 +51,7 @@
     if (!response.isCommitted()) {
       response.sendError(HttpServletResponse.SC_NOT_FOUND);
     }
-    
+
     return;
   }
 
@@ -154,7 +154,7 @@
 
 
   /* Request updated chat room content from chat server */
-  function getChatRoom() { 
+  function getChatRoom() {
     var url = '<%= cp + '/' + md.getModulePath() %>/server.jsp?r=' + roomId;
     sendRequest(url, chatRoomReceived);
   }

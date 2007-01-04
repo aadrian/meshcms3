@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -61,15 +61,15 @@ public final class Links extends AbstractTag {
   }
 
   public void writeTag() throws IOException {
-    List list = webSite.getSiteMap().getPagesInDirectory(pagePath, 
+    List list = webSite.getSiteMap().getPagesInDirectory(pagePath,
         Utils.isTrue(current));
-    
+
     if (list != null) {
       Writer w = getOut();
       PageInfo[] pages = (PageInfo[]) list.toArray(new PageInfo[list.size()]);
       String[] outs = webSite.getLinkList(pages, request.getContextPath(),
           target, style);
-      
+
       if (outs != null && outs.length > 0) {
         if (pre != null) {
           w.write(pre);

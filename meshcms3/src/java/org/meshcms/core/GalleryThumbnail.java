@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -82,10 +82,10 @@ public class GalleryThumbnail extends AbstractThumbnail {
       w0 = h0 * w / h;
       ix += (THUMB_IMAGE_SIZE - w0) / 2;
     }
-    
+
     w0 = Math.max(w0, 1);
     h0 = Math.max(h0, 1);
-    
+
     AbstractThumbnail.drawResizedImage(g, image, ix, iy, w0, h0, highQuality);
     image.flush();
     g.setColor(DEFAULT_BORDER_COLOR);

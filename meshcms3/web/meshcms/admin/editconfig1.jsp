@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -69,7 +69,7 @@
     <div class="meshcmsfieldlabel">
       <label for="siteName"><fmt:message key="configSiteName" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteName');" alt=""
        style="vertical-align:middle;" /><input type="text" id="siteName" name="siteName"
@@ -79,7 +79,7 @@
     <div class="meshcmsfieldlabel">
       <label for="siteHost"><fmt:message key="configSiteHost" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteHost');" alt=""
        style="vertical-align:middle;" /><input type="text" id="siteHost" name="siteHost"
@@ -89,7 +89,7 @@
     <div class="meshcmsfieldlabel">
       <label for="siteDescription"><fmt:message key="configSiteDescription" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteDescription');" alt=""
        style="vertical-align:middle;" /><input type="text" id="siteDescription" name="siteDescription"
@@ -99,7 +99,7 @@
     <div class="meshcmsfieldlabel">
       <label for="siteKeywords"><fmt:message key="configSiteKeywords" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteKeywords');" alt=""
        style="vertical-align:middle;" /><input type="text" id="siteKeywords" name="siteKeywords"
@@ -109,31 +109,31 @@
     <div class="meshcmsfieldlabel">
       <label for="siteAuthor"><fmt:message key="configSiteAuthor" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteAuthor');" alt=""
        style="vertical-align:middle;" /><input type="text" id="siteAuthor" name="siteAuthor"
        style="width: 90%;" value="<%= Utils.noNull(configuration.getSiteAuthor()) %>" />
     </div>
-    
+
     <div class="meshcmsfieldlabel">
       <label for="siteAuthorURL"><fmt:message key="configSiteAuthorURL" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteAuthorURL');" alt=""
        style="vertical-align:middle;" /><input type="text" id="siteAuthorURL" name="siteAuthorURL"
        style="width: 90%;" value="<%= Utils.noNull(configuration.getSiteAuthorURL()) %>" />
     </div>
   </fieldset>
-  
+
   <fieldset class="meshcmseditor">
     <legend><fmt:message key="configInterface" /></legend>
 
     <div class="meshcmsfieldlabel">
       <label for="visualTypes"><fmt:message key="configVisual" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('visualTypes');" alt=""
        style="vertical-align:middle;" /><input type="text" id="visualTypes" name="visualTypes"
@@ -158,14 +158,14 @@
       <label for="highQualityThumbnails"><fmt:message key="configThumbnailQuality" /></label>
     </div>
   </fieldset>
-  
+
   <fieldset class="meshcmseditor">
     <legend><fmt:message key="configMailParams" /></legend>
 
     <div class="meshcmsfieldlabel">
       <label for="mailServer"><fmt:message key="configMail" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('mailServer');" alt=""
        style="vertical-align:middle;" /><input type="text" id="mailServer" name="mailServer"
@@ -175,7 +175,7 @@
     <div class="meshcmsfieldlabel">
       <label for="smtpUsername"><fmt:message key="configSmtpUsername" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('smtpUsername');" alt=""
        style="vertical-align:middle;" /><input type="text" id="smtpUsername" name="smtpUsername"
@@ -185,21 +185,21 @@
     <div class="meshcmsfieldlabel">
       <label for="smtpPassword"><fmt:message key="configSmtpPassword" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('smtpPassword');" alt=""
        style="vertical-align:middle;" /><input type="text" id="smtpPassword" name="smtpPassword"
        style="width: 90%;" value="<%= configuration.getSmtpPassword() %>" />
     </div>
   </fieldset>
-  
+
   <fieldset class="meshcmseditor">
     <legend><fmt:message key="configSystem" /></legend>
 
     <div class="meshcmsfieldlabel">
       <label for="cacheType"><fmt:message key="configCache" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <select name="cacheType" id="cacheType">
        <option value="<%= Configuration.NO_CACHE %>"
@@ -214,7 +214,7 @@
     <div class="meshcmsfieldlabel">
       <label for="updateInterval"><fmt:message key="configMap" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('updateInterval');" alt=""
        style="vertical-align:middle;" /><input type="text" id="updateInterval" name="updateInterval"
@@ -224,7 +224,7 @@
     <div class="meshcmsfieldlabel">
       <label for="backupLife"><fmt:message key="configBackup" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('backupLife');" alt=""
        style="vertical-align:middle;" /><input type="text" id="backupLife" name="backupLife"
@@ -234,7 +234,7 @@
     <div class="meshcmsfieldlabel">
       <label for="statsLength"><fmt:message key="configHits" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('statsLength');" alt=""
        style="vertical-align:middle;" /><input type="text" id="statsLength" name="statsLength"

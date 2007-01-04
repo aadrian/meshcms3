@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -48,7 +48,7 @@
 <p>
 <%
   Configuration c = webSite.getConfiguration();
-  
+
   c.setVisualExtensions(Utils.tokenize(request.getParameter("visualTypes"), ":;,. "));
   c.setUseAdminTheme(Utils.isTrue(request.getParameter("useAdminTheme")));
   c.setPreventHotlinking(Utils.isTrue(request.getParameter("preventHotlinking")));
@@ -66,7 +66,7 @@
   c.setAlwaysDenyDirectoryListings(Utils.isTrue(request.getParameter("alwaysDenyDirectoryListings")));
   c.setHideExceptions(Utils.isTrue(request.getParameter("hideExceptions")));
   c.setEditorModulesCollapsed(Utils.isTrue(request.getParameter("editorModulesCollapsed")));
-  
+
   c.setSiteName(request.getParameter("siteName"));
   c.setSiteHost(request.getParameter("siteHost"));
   c.setSiteDescription(request.getParameter("siteDescription"));
@@ -76,7 +76,7 @@
 
   webSite.setLastAdminThemeBlock(0L); // re-enable the ability to use a custom admin theme
   webSite.updateSiteMap(true); // needed to re-init the cache
-  
+
   if (c.store(webSite)) {
 %>
     <fmt:message key="configSaveOk" />

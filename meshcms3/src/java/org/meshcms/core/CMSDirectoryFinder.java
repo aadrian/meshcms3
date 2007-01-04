@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,7 +32,7 @@ public class CMSDirectoryFinder extends DirectoryParser {
   private Path cmsPath;
   private boolean virtualSite;
   private String idFileName;
-  
+
   /**
    * Creates a new instance to search for the CMS directory using the
    * given root.
@@ -56,14 +56,14 @@ public class CMSDirectoryFinder extends DirectoryParser {
     if (cmsPath != null) {
       return false;
     }
-    
+
     File vFile = new File(file, idFileName);
-    
+
     if (vFile.exists()) {
       cmsPath = virtualSite ? path : path.getParent();
       return false;
     }
-    
+
     return true;
   }
 
@@ -76,7 +76,7 @@ public class CMSDirectoryFinder extends DirectoryParser {
     if (cmsPath == null) {
       process();
     }
-    
+
     return cmsPath;
   }
 }

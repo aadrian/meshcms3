@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -48,15 +48,15 @@ public class MainWebSite extends WebSite {
   protected void init(ServletContext sc, String[] welcomeFiles, File rootFile,
       Path rootPath, Path cmsPath) {
     super.init(sc, welcomeFiles, rootFile, rootPath, cmsPath);
-    
+
     if (virtualSitesMap == null) {
       virtualSitesMap = new TreeMap();
     }
-    
+
     if (multiSiteManager == null) {
       multiSiteManager = MultiSiteManager.load(this);
     }
-    
+
     multiSiteManager.initDomainsMap();
   }
 
@@ -80,7 +80,7 @@ public class MainWebSite extends WebSite {
    */
   public VirtualWebSite getVirtualSite(String dirName) {
     VirtualWebSite vws = (VirtualWebSite) virtualSitesMap.get(dirName);
-    
+
     if (vws == null) {
       Path sitePath = virtualSitesPath.add(dirName);
       File rootFile = getFile(sitePath);
@@ -88,7 +88,7 @@ public class MainWebSite extends WebSite {
       vws = VirtualWebSite.create(this, sitePath, cmsPath);
       virtualSitesMap.put(dirName, vws);
     }
-    
+
     return vws;
   }
 
@@ -101,7 +101,7 @@ public class MainWebSite extends WebSite {
 
   public void updateSiteMap(boolean force) {
     super.updateSiteMap(force);
-    
+
     if (multiSiteManager != null) {
       multiSiteManager.initDomainsMap();
     }
@@ -109,27 +109,27 @@ public class MainWebSite extends WebSite {
 
   /* public String getHost(String dirName) {
     WebSite site = multiSiteManager.getWebSite(dirName);
-    
+
     if (site != null) {
       String host = site.getConfiguration().getSiteHost();
-      
+
       if (!Utils.isNullOrEmpty(host) &&
           multiSiteManager.getWebSite(host).equals(site)) {
         return host;
       }
-      
+
       if (multiSiteManager.isUseDirsAsDomains()) {
         return dirName;
       }
-      
+
       StringTokenizer st =
           new StringTokenizer(multiSiteManager.getDomains(dirName), ";:, \t");
-      
+
       if (st.hasMoreTokens()) {
         return st.nextToken();
       }
     }
-    
+
     return null;
   } */
 }

@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -58,7 +58,7 @@
     DateFormat df = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, locale);
     File[] list = folder.listFiles();
     Arrays.sort(list, fileNameComparator);
-    
+
     Path welcomePath = webSite.findCurrentWelcome(folderPath);
     String welcome = (welcomePath == null) ? null : welcomePath.getLastElement();
 %>
@@ -75,7 +75,7 @@
       window.parent.document.forms['fmfm'].s_thumbs.value = '<%= showThumbs %>';
       // window.parent.fm_xTreeExpandTo(window.parent.folder<%= WebUtils.getMenuCode(folderPath) %>);
     }
-    
+
     function toggleSelection(chkId) {
       var elm = document.getElementById(chkId);
       elm.checked = elm.checked ? "" : "checked";
@@ -83,7 +83,7 @@
   // ]]>
   </script>
   <link href="../theme/main.css" type="text/css" rel="stylesheet" />
-  
+
   <style type="text/css">
     body {
       margin: 0px;
@@ -110,11 +110,11 @@
 
 <body>
 <form name="filelist">
-<% 
+<%
     if (!showThumbs) {
 %>
 <table cellspacing="0">
- <thead> 
+ <thead>
   <tr>
    <th>&nbsp;</th>
    <th>&nbsp;</th>
@@ -131,7 +131,7 @@
    </th>
   </tr>
  </thead>
- 
+
  <tbody>
 <%
     } else {
@@ -139,13 +139,13 @@
 <div align="right" style="background-color: #D4D0C8;"><%= Help.icon(webSite, cp, Help.FILE_MANAGER, userInfo) %></div>
 <%
     }
-  
+
     for (int i = 0; i < list.length; i++) {
       String name = list[i].getName();
       Path filePath = folderPath.add(name);
       FolderXTree.DirectoryInfo di =
           FolderXTree.getDirectoryInfo(webSite, userInfo, filePath);
-      
+
       if (di.include) {
         String color = "";
 
@@ -153,7 +153,7 @@
           color = name.equals(welcome) ? "ffff99" : "eaeaea";
           color = " bgcolor='" + color + "'";
         }
-        
+
         String id = "fs_" + WebUtils.getMenuCode(name);
 
         if (showThumbs) {
@@ -167,30 +167,30 @@
    <tr>
     <td onclick="javascript:toggleSelection('<%= id %>');"><% if (thumbPath != null) {
       %><img src="<%= cp + '/' + thumbPath %>" alt=""/><%
-      } else { 
+      } else {
         %><div style="border: 1px solid #D8CECB; padding: 51px 45px;"><img
            src="images/<%= list[i].isDirectory() ? FileTypes.DIR_ICON : FileTypes.getIconFile(name) %>" alt=""/></div><%
       } %></td>
    </tr>
- 
+
    <tr<%= color %>>
     <td><div class="miniblock"><input type="checkbox" id="<%= id %>"
      name="<%= name %>" value="<%= name %>" />
      <label for="<%= id %>"><%= name %></label></div></td>
    </tr>
-  </table> 
-<% 
+  </table>
+<%
         } else {
 %>
   <tr<%= color %>>
    <td onclick="javascript:toggleSelection('<%= id %>');"><img class="icon" src="images/<%= list[i].isDirectory() ? FileTypes.DIR_ICON :
      FileTypes.getIconFile(name) %>" vspace="2" title="<%= FileTypes.getDescription(name) %>" alt=""></td>
    <td><input type="checkbox" id="<%= id %>"
-    name="<%= name %>" value="<%= name %>" /></td>  
+    name="<%= name %>" value="<%= name %>" /></td>
    <td><label for="<%= id %>"><%= name %></label>
      <%
           String theme = siteInfo.getPageTheme(filePath);
-          
+
           if (!Utils.isNullOrEmpty(theme)) {
             Object[] args = { theme };
             theme = MessageFormat.format(bundle.getString("fmUsedTheme"), args);
@@ -199,13 +199,13 @@
      <%
           }
      %>
-   </td>  
+   </td>
    <td>&nbsp;</td>
    <td align="right"><%= list[i].isDirectory() ? "&nbsp;" : WebUtils.formatFileLength(list[i].length(), locale, bundle) %></td>
    <td>&nbsp;</td>
    <td><%= df.format(new Date(list[i].lastModified())) %></td>
    <td>&nbsp;</td>
-  </tr> 
+  </tr>
 <%
         }
       }

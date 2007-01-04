@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -53,7 +53,7 @@
   boolean thumbnails = (thumbsParam == null) ?
     "image".equals(request.getParameter("type")) : Utils.isTrue(thumbsParam);
   thumbsParam = "&thumbnails=" + thumbnails;
-  
+
   String folderParam = request.getParameter("folder");
   Path folderPath = (folderParam == null) ? userInfo.getHomePath() :
     new Path(folderParam);
@@ -74,13 +74,13 @@
     .full { width: 100%; height: 100%; }
     .menuicon { vertical-align: middle; margin-right: 12px; }
   </style>
-  
+
   <script type="text/javascript">
   // <![CDATA[
     function msgConfirmDelete(path) {
       return "<fmt:message key="msgConfirmDelete"><fmt:param value="\" + path + \"" /></fmt:message>";
     }
-    
+
     function msgSelectFolder() {
       return "<fmt:message key="msgSelectFolder" />";
     }
@@ -88,23 +88,23 @@
     function msgSingleFile() {
       return "<fmt:message key="msgSingleFile" />";
     }
-    
+
     function msgNewName() {
       return "<fmt:message key="msgNewName" />";
     }
-    
+
     function msgCopyName() {
       return "<fmt:message key="msgCopyName" />";
     }
-    
+
     function msgNewFile() {
       return "<fmt:message key="msgNewFile" />";
     }
-    
+
     function msgNewFolder() {
       return "<fmt:message key="msgNewFolder" />";
     }
-    
+
     function msgSuggestedFolderName() {
       return "<fmt:message key="msgSuggestedFolderName" />";
     }
@@ -139,7 +139,7 @@
       WebFXMenu.prototype.shadowRight = 0;
       WebFXMenu.prototype.shadowTop = 0;
       WebFXMenu.prototype.shadowBottom = 0;
-      
+
       var fileMenu = new WebFXMenu;
       fileMenu.width = 200;
       fileMenu.add(new WebFXMenuItem('<img src=\'images/button_open.gif\' class=\'menuicon\'><fmt:message key="fmViewFile" />', 'javascript:fm_viewFile()'));
@@ -154,7 +154,7 @@
       fileMenu.add(new WebFXMenuItem('<img src=\'images/button_fixname.gif\' class=\'menuicon\'><fmt:message key="fmFixFileNames" />', 'javascript:fm_fixFileNames()'));
       fileMenu.add(new WebFXMenuItem('<img src=\'images/button_touch.gif\' class=\'menuicon\'><fmt:message key="fmTouch" />', 'javascript:fm_touchFiles()'));
       fileMenu.add(new WebFXMenuItem('<img src=\'images/button_changedate.gif\' class=\'menuicon\'><fmt:message key="fmChangeDate" />', null));
-    
+
       var editMenu = new WebFXMenu;
       editMenu.width = 200;
       editMenu.add(new WebFXMenuItem('<img src=\'images/button_cut.gif\' class=\'menuicon\'><fmt:message key="fmCut" />', 'javascript:fm_clipboardCut()'));
@@ -172,7 +172,7 @@
       viewMenu.add(new WebFXMenuItem('<img src=\'images/button_thumbs.gif\' class=\'menuicon\'><fmt:message key="fmThumbs" />', 'javascript:fm_viewThumbnails(true)'));
       viewMenu.add(new WebFXMenuSeparator());
       viewMenu.add(new WebFXMenuItem('<img src=\'images/button_refresh.gif\' class=\'menuicon\'><fmt:message key="fmRefresh" />', 'javascript:fm_dummy()'));
-      
+
       var toolsMenu = new WebFXMenu;
       toolsMenu.width = 200;
       toolsMenu.add(new WebFXMenuItem('<img src=\'images/button_upload.gif\' class=\'menuicon\'><fmt:message key="fmUpload" />', 'javascript:fm_uploadFile()'));
@@ -186,14 +186,14 @@
       themesMenu.add(new WebFXMenuItem('<img src=\'../theme/tx1x1.gif\' width=\'16\' height=\'16\' class=\'menuicon\'><fmt:message key="fmInherit" />', 'javascript:fm_changeTheme()'));
       themesMenu.add(new WebFXMenuItem('<img src=\'../theme/tx1x1.gif\' width=\'16\' height=\'16\' class=\'menuicon\'><fmt:message key="fmNoTheme" />', 'javascript:fm_changeTheme(\'<%= PageAssembler.EMPTY %>\')'));
       themesMenu.add(new WebFXMenuSeparator());
-      
+
       <% String[] themes = webSite.getSiteMap().getThemeNames();
 
       for (int i = 0; i < themes.length; i++) { %>
         themesMenu.add(new WebFXMenuItem('<img src=\'../theme/tx1x1.gif\' width=\'16\' height=\'16\' class=\'menuicon\'><%=
             Utils.escapeSingleQuotes(Utils.beautify(themes[i], true)) %>', 'javascript:fm_changeTheme(\'<%= Utils.escapeSingleQuotes(themes[i]) %>\')'));
       <% } %>
-      
+
       var toolBar = new WebFXMenuBar;
       toolBar.add(new WebFXMenuButton('<fmt:message key="fmFile" />', null, null, fileMenu));
       toolBar.add(new WebFXMenuButton('<fmt:message key="fmEdit" />', null, null, editMenu));
@@ -203,7 +203,7 @@
       toolBar.add(new WebFXMenuButton('<fmt:message key="fmClose" />', 'javascript:fm_closeFileManager()', null, null));
       document.write(toolBar);
     // ]]>
-    </script>  
+    </script>
    </td>
   </tr>
 
@@ -213,7 +213,7 @@
       <script type="text/javascript">
       // <![CDATA[
         webFXTreeConfig['usePersistence'] = false;
-        
+
         webFXTreeConfig['rootIcon'] = '../scripts/xtree/images/foldericon.png';
         webFXTreeConfig['openRootIcon'] = '../scripts/xtree/images/openfoldericon.png';
         webFXTreeConfig['folderIcon'] = '../scripts/xtree/images/foldericon.png';
@@ -234,11 +234,11 @@
       </script>
     </div>
    </td>
-   
+
    <td width="100%"><iframe src="showlist.jsp?folder=<%= folderPath %><%= thumbsParam %>"
     class="full" id="listframe" name="listframe"></iframe></td>
   </tr>
-  
+
   <tr>
     <td colspan="2" bgcolor="#D4D0C8"
      style="border: 1px inset #D4D0C8; padding: 1px 6px 1px 6px;">
@@ -262,7 +262,7 @@
         fileClipboard.getDirPath().getAsLink(), new Integer(n) };
     out.write(formatter.format(args));
   }
-  
+
   if (!field.equals("")) {
 %>
      <div align="right"><input type="button" value="<fmt:message key="genericSelect" />"
@@ -288,7 +288,7 @@
   </td>
  </tr>
  --%>
- </table> 
+ </table>
 
  <form name="fmfm" method="post" action="process.jsp">
   <input type="hidden" name="f_action" id="f_action" />

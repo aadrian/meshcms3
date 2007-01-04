@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -29,7 +29,7 @@ import com.thoughtworks.xstream.converters.basic.*;
  */
 public class XStreamPathConverter extends AbstractSingleValueConverter {
   private boolean prependSlash;
-  
+
   public Object fromString(String string) {
     return new Path(string);
   }

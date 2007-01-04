@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -37,14 +37,14 @@ public class LocaleComparator implements Comparator, Serializable {
   public LocaleComparator() {
     locale = null;
   }
-  
+
   /**
    * Creates a new instance using the given locale to get display names.
    */
   public LocaleComparator(Locale locale) {
     setLocale(locale);
   }
-  
+
   /**
    * Sets the locale used to get the display names, so one can sort the locales
    * according to a specific language.
@@ -67,14 +67,14 @@ public class LocaleComparator implements Comparator, Serializable {
     try {
       Locale l1 = (Locale) o1;
       Locale l2 = (Locale) o2;
-      
+
       if (locale == null) {
         return l1.getDisplayName().compareTo(l2.getDisplayName());
       } else {
         return l1.getDisplayName(locale).compareTo(l2.getDisplayName(locale));
       }
     } catch (Exception ex) {}
-    
+
     return 0;
   }
 }

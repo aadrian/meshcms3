@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -234,7 +234,7 @@ public class Path implements Comparable, Serializable, Cloneable {
 
   /**
    * Cheks if this path is relative (when the first element of this path is "..")
-   * 
+   *
    * @return <code>true</code> when the first element of the current path is
    * "..".
    */
@@ -244,7 +244,7 @@ public class Path implements Comparable, Serializable, Cloneable {
 
   /**
    * Returns true if this path is a ROOT path (when the path is empty)
-   * 
+   *
    * @return <code>true</code> if the path is empty.
    */
   public boolean isRoot() {
@@ -255,7 +255,7 @@ public class Path implements Comparable, Serializable, Cloneable {
    * Checks if <code>this</code> path is a child of the <code>parent</code> path.
    *
    * @param parent the parent path
-   * 
+   *
    * @return <code>true</code> if the path current path is contained in the
    * given path directly. Example:
    * <pre>
@@ -289,7 +289,7 @@ public class Path implements Comparable, Serializable, Cloneable {
    * Checkes if the current path is contained in another path.
    *
    * @param root the othr path where to check if the current path is contained.
-   * 
+   *
    * @return <code>true</code> if the current path is contained in the
    * given path (at any depth). Example:
    * <pre>
@@ -372,7 +372,7 @@ public class Path implements Comparable, Serializable, Cloneable {
    *
    * @param  parent the parent file as a relative base
    *
-   * @return the new relative file. 
+   * @return the new relative file.
    */
   public File getFile(File parent) {
     return elements.length == 0 ? parent : new File(parent, pathName);
@@ -395,9 +395,9 @@ public class Path implements Comparable, Serializable, Cloneable {
    * Returns the element at the given index. There is no check for the index
    * value, so an <code>ArrayIndexOutOfBoundsException</code> might be thrown.
    *
-   * @param index the index for the searched element. 
+   * @param index the index for the searched element.
    *
-   * @return element at the given <code>index</code> 
+   * @return element at the given <code>index</code>
    */
   public String getElementAt(int index) {
     return elements[index];
@@ -523,18 +523,18 @@ public class Path implements Comparable, Serializable, Cloneable {
     //return super.clone();
     return new Path(this);
   }
-  
+
   public Path replace(int index, String element) {
     int n = elements.length;
 
     if (index < 0 || index >= n) {
       throw new IllegalArgumentException("index out of range");
     }
-    
+
     if (Utils.isNullOrEmpty(element)) {
       throw new IllegalArgumentException("element value is missing or empty");
     }
-    
+
     String[] elms = new String[n];
     System.arraycopy(elements, 0, elms, 0, n);
     elms[index] = element;

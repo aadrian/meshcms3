@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -43,9 +43,9 @@ public class FileManagerThumbnail extends AbstractThumbnail {
    * Width and height of the image in the thumbnail.
    */
   public static final int THUMB_SIZE = 100;
-  
+
   private boolean highQuality;
-  
+
   public String getSuggestedFileName() {
     return highQuality ? "filemanager_hq.jpg" : "filemanager.jpg";
   }

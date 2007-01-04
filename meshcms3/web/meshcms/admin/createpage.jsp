@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -66,7 +66,7 @@ Path path = new Path(request.getParameter("path"));
 
 if (title.equals("") && fullPath.isRoot()) { %>
   <p align="right"><%= Help.icon(webSite, cp, Help.NEW_PAGE, userInfo) %></p>
-  
+
   <form action='createpage.jsp' method='post' id='createpage' name='createpage'>
     <input type="hidden" name="popup" value="<%= popup %>" />
     <input type='hidden' name='path' value='<%= path %>' />
@@ -76,16 +76,16 @@ if (title.equals("") && fullPath.isRoot()) { %>
       <div class="meshcmsfieldlabel">
         <label for="titlefld"><fmt:message key="newpageTitle" /></label>
       </div>
-      
+
       <div class="meshcmsfield">
         <img src="images/clear_field.gif" onclick="javascript:editor_clr('titlefld');"
          alt="" style="vertical-align:middle;" /><input type='text' name='title'
          id='titlefld' style="width: 90%;" />
       </div>
-      
+
       <%--
       <select name="fileext">
-          <% 
+          <%
             String[] exts = webSite.getConfiguration().getVisualExtensions();
             for (int i = 0; i < exts.length; i++) {
           %>
@@ -95,12 +95,12 @@ if (title.equals("") && fullPath.isRoot()) { %>
           %>
       </select>
       --%>
-      
+
       <div class="meshcmscheckbox">
         <input type='checkbox' name='newdir' checked='checked' value='true' id='newdirch' />
         <label for="newdirch"><fmt:message key="newpageFolder" /></label>
       </div>
-      
+
       <div class="meshcmsbuttons">
         <input type='submit' value='<fmt:message key="newpageCreate" />' />
         <input type='button' value='<fmt:message key="genericCancel" />'
@@ -126,16 +126,16 @@ if (title.equals("") && fullPath.isRoot()) { %>
     fileName = fullPath.getLastElement();
     title = "";
   }
-  
+
   if (fileName == null) {
     %><fmt:message key="newpageError" /><br /><%
   } else {
     path = path.add(fileName);
-    
+
     if (newDir) {
       path = path.add(webSite.getWelcomeFileNames()[0]);
     }
-    
+
     title = WebUtils.encodeHTML(title);
     String text = webSite.getHTMLTemplate(title);
 
@@ -144,7 +144,7 @@ if (title.equals("") && fullPath.isRoot()) { %>
       %><script type="text/javascript">
       // <![CDATA[
         var page = "<%= cp + '/' + path + '?' + HitFilter.ACTION_NAME + '=' + HitFilter.ACTION_EDIT %>";
-        
+
         if (window.name && window.name == "smallpopup") { // it's a popup
           window.opener.location.href = page;
           window.close();

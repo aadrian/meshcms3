@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -45,7 +45,7 @@ public class Help {
   public static final String MODULES = "modules";
 
   private static Properties args;
-  
+
   static {
     args = new Properties();
     args.setProperty(EDIT_PAGE, "ch04s02.html");
@@ -62,7 +62,7 @@ public class Help {
     args.setProperty(SITE_MANAGER, "ch05s07.html");
     args.setProperty(MODULES, "ch06s01.html");
   }
-  
+
   /**
    * Creates the HTML used to display the help icon in the admin pages.
    */
@@ -70,7 +70,7 @@ public class Help {
       String argument, UserInfo userInfo) {
     return icon(webSite, contextPath, argument, userInfo, null, false);
   }
-  
+
   public static String icon(WebSite webSite, String contextPath,
       String argument, UserInfo userInfo, String anchor, boolean grayIcon) {
     String lang = getHelpLang(webSite, userInfo);
@@ -84,7 +84,7 @@ public class Help {
         (Utils.isNullOrEmpty(anchor) ? "" : "#" + anchor) +
         "', 'meshcmshelp', 'width=740,height=560,menubar=no,status=yes,toolbar=no,resizable=yes,scrollbars=yes').focus();\" />";
   }
-  
+
   public static String getHelpLang(WebSite webSite, UserInfo userInfo) {
     String lang = "en";
 
@@ -95,7 +95,7 @@ public class Help {
         lang = otherLang;
       }
     }
-    
+
     return lang;
   }
 }

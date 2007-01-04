@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -39,7 +39,7 @@
 <%
   String moduleCode = request.getParameter("modulecode");
   ModuleDescriptor md = null;
-  
+
   if (moduleCode != null) {
     md = (ModuleDescriptor) request.getAttribute(moduleCode);
   }
@@ -48,7 +48,7 @@
     if (!response.isCommitted()) {
       response.sendError(HttpServletResponse.SC_NOT_FOUND);
     }
-    
+
     return;
   }
 %>
@@ -70,7 +70,7 @@
   webSite.getFile(cachePath).mkdirs();
   cachePath = cachePath.add(moduleCode + ".xml");
   File cacheFile = webSite.getFile(cachePath);
-  
+
   if (request.getMethod().equalsIgnoreCase("post") &&
       moduleCode.equals(request.getParameter("post_modulecode"))) {
     WebUtils.setBlockCache(request);
@@ -154,7 +154,7 @@
     }
 
     out.println("<p>");
-    
+
     if (errMsgs.size() == 0) {
       out.println(pageBundle.getString("sendOk"));
     } else {
@@ -231,12 +231,12 @@
         fields.add(field);
       }
     }
-  
+
     if (!webSite.storeToXML(fields, cachePath)) {
       WebUtils.setBlockCache(request);
     }
   }
-  
+
   if (!sent) {
     Iterator iter = fields.iterator();
     boolean hasRecipient = false;

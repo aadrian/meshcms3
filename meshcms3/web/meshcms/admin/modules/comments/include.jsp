@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -43,7 +43,7 @@
 <%
   String moduleCode = request.getParameter("modulecode");
   ModuleDescriptor md = null;
-  
+
   if (moduleCode != null) {
     md = (ModuleDescriptor) request.getAttribute(moduleCode);
   }
@@ -52,19 +52,19 @@
     if (!response.isCommitted()) {
       response.sendError(HttpServletResponse.SC_NOT_FOUND);
     }
-    
+
     return;
   }
-  
+
   Path commentsPath = md.getModuleArgumentPath(false);
-  
+
   if (commentsPath == null) {
     commentsPath = md.getModuleDataPath(webSite).add(md.getPagePath(), md.getLocation());
   }
-  
+
   File commentsDir = webSite.getFile(commentsPath);
   commentsDir.mkdirs();
-  
+
   if (!commentsDir.isDirectory()) {
     throw new IllegalStateException(Utils.getFilePath(commentsDir) +
         " is not a directory");
@@ -79,16 +79,16 @@
     WebUtils.setBlockCache(request);
     WebUtils.removeFromCache(webSite, null, md.getPagePath());
     String delId = request.getParameter("delId");
-    
+
     if (!Utils.isNullOrEmpty(delId) &&
         userInfo.canWrite(webSite, md.getPagePath())) {
       File delFile = new File(commentsDir, delId);
-      
+
       if (delFile.exists()) {
         Utils.forceDelete(delFile);
       }
     }
-    
+
     String name = request.getParameter("name");
     String text = request.getParameter("text");
     int sum = Utils.parseInt(request.getParameter("sum"), -1);
@@ -96,7 +96,7 @@
         (WebSite.SYSTEM_CHARSET.hashCode() >>> 8);
     int n2 = Utils.parseInt(request.getParameter("n2"), 0) /
         (WebSite.VERSION_ID.hashCode() >>> 8);
-    
+
     if (!(Utils.isNullOrEmpty(name) || Utils.isNullOrEmpty(text)) &&
         sum == n1 + n2) {
       PageAssembler pa = new PageAssembler();
@@ -105,9 +105,9 @@
       File commentFile = new File(commentsDir, "mcc_" +
           WebUtils.numericDateFormatter.format(new Date()) + ".html");
       Utils.writeFully(commentFile, pa.getPage());
-      
+
       String email = md.getAdvancedParam("notify", null);
-      
+
       if (Utils.checkAddress(email)) {
         InternetAddress address = new InternetAddress(email);
         Session mailSession = WebUtils.getMailSession(webSite);
@@ -148,16 +148,16 @@
       f.submit();
     }
   }
-  
+
   function submitComment() {
     var f = document.forms["mcc_<%= md.getLocation() %>"];
-    
+
     if (f.name.value == "") {
       alert("<%= pageBundle.getString("commentsNoName") %>");
       f.name.focus();
       return;
     }
-    
+
     tinyMCE.triggerSave();
 
     if (f.text.value == "") {
@@ -165,16 +165,16 @@
       f.text.focus();
       return;
     }
-    
+
     if (isNaN(f.sum.value) || f.sum.value != <%= n1 + n2 %>) {
       alert("<%= pageBundle.getString("commentsWrongSum") %>");
       f.sum.focus();
       return;
     }
-    
+
     f.submit();
   }
-  
+
   tinyMCE.init({
     mode : "exact",
     theme : "simple",

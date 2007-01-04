@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -68,7 +68,7 @@ public class DirectoryParser extends Thread {
    * If true, <code>processDirectory</code> will be called for the
    * base directory too (default false).
    *
-   * @param processStartDir if to process the base directory too. 
+   * @param processStartDir if to process the base directory too.
    *
    * @see #processDirectory
    */
@@ -200,7 +200,7 @@ public class DirectoryParser extends Thread {
 
         if (mustProcessDir(path)) {
           ok = preProcessDirectory(file, path);
-          
+
           // support deprecated processDirBeforeContent
           if (processDirBeforeContent) {
             ok &= processDirectory(file, path);
@@ -222,7 +222,7 @@ public class DirectoryParser extends Thread {
 
       if (mustProcessDir(path)) {
         postProcessDirectory(file, path);
-        
+
         // support deprecated processDirBeforeContent
         if (!processDirBeforeContent) {
           processDirectory(file, path);

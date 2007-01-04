@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -89,13 +89,13 @@
     Used Memory: <%= (runtime.totalMemory() - runtime.freeMemory()) *
                       100 / runtime.maxMemory() %>% |
     System charset: <%= WebSite.SYSTEM_CHARSET %>
-    
+
     <br />
 <%
   }
 %>
     Powered by <a href="http://www.cromoteca.com/meshcms/" target="blank">MeshCMS</a>
-    <%= WebSite.VERSION_ID %> | Copyright &copy; 2004-2006
+    <%= WebSite.VERSION_ID %> | Copyright &copy; 2004-2007
     <a href="http://www.cromoteca.com/" target="blank">Luciano Vernaschi</a>
   </td>
  </tr>

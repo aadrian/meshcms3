@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -62,17 +62,17 @@ public class DirectoryCleaner extends DirectoryParser {
     // something_lastmodified.extension
     // for example _bak_admin_20060128093159.html is a backup of a page
     int us = name.lastIndexOf('_');
-    
+
     if (us >= 0) {
       try {
         if (currentTime - WebUtils.numericDateFormatter.parse(name.substring(us + 1, us + 15)).getTime() > maxLife) {
           Utils.forceDelete(file);
         }
-        
+
         return;
       } catch (Exception ex) {}
     }
-    
+
     // other files are deleted when too old based on last modified date.
     if (currentTime - file.lastModified() > (long) (maxLife * (1.0 + Math.random() / 2.0))) {
       Utils.forceDelete(file);

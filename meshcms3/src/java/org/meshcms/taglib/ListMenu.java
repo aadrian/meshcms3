@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -107,7 +107,7 @@ public final class ListMenu extends AbstractTag {
       	showLastLevel = -1;
 
       if ( siteInfo.getHideSubmenu(currentPath) && showLastLevel == -1 )
-      	showLastLevel = current.getLevel(); 
+      	showLastLevel = current.getLevel();
 
       boolean add = false;
 
@@ -131,8 +131,8 @@ public final class ListMenu extends AbstractTag {
         }
       }
 
-      add = add && (! allowHiding || showLastLevel == -1 || current.getLevel() <= showLastLevel); 
-      
+      add = add && (! allowHiding || showLastLevel == -1 || current.getLevel() <= showLastLevel);
+
       if (add) {
       	// Close off any pending lower levels
         for (int i = lastLevel - 1; i >= level; i--) {

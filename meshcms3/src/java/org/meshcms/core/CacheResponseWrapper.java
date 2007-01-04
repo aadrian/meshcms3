@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -39,7 +39,7 @@ public class CacheResponseWrapper extends HttpServletResponseWrapper {
   ServletOutputStream stream;
   PrintWriter writer;
   OutputStream cacheOutput;
-  
+
   /**
    * Creates a new wrapper.
    *
@@ -62,7 +62,7 @@ public class CacheResponseWrapper extends HttpServletResponseWrapper {
   public ServletOutputStream createOutputStream() throws IOException {
     return new CacheResponseStream(response, cacheOutput);
   }
-  
+
   /**
    * Closes the stream.
    */
@@ -84,23 +84,23 @@ public class CacheResponseWrapper extends HttpServletResponseWrapper {
     if (writer != null) {
       throw new IllegalStateException("getWriter() has already been called!");
     }
-    
+
     if (stream == null) {
       stream = createOutputStream();
     }
-    
+
     return stream;
   }
-  
+
   public PrintWriter getWriter() throws IOException {
     if (writer != null) {
       return writer;
     }
-    
+
     if (stream != null) {
       throw new IllegalStateException("getOutputStream() has already been called!");
     }
-    
+
     stream = createOutputStream();
     writer = new PrintWriter(stream);
     return writer;

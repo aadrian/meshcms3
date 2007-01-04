@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -32,10 +32,10 @@ import java.io.*;
 public final class User extends AbstractTag {
   public void writeTag() throws IOException {
     String result = null;
-    
+
     if (id != null) {
       id = id.toLowerCase();
-      
+
       if (id.equals("username")) {
         result = userInfo.getUsername();
       } else if (id.equals("email") || id.equals("e-mail")) {
@@ -44,11 +44,11 @@ public final class User extends AbstractTag {
         result = userInfo.getValue(id);
       }
     }
-    
+
     if (result == null) {
       result = userInfo.getDisplayName();
     }
-    
+
     getOut().write(result);
   }
 }

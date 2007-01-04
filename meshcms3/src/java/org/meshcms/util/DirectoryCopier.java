@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -30,7 +30,7 @@ public class DirectoryCopier extends DirectoryParser {
   private boolean overwriteFiles;
   private boolean setLastModified;
   private boolean result;
-  
+
   public DirectoryCopier(File dir, File newDir, boolean overwriteDir,
       boolean overwriteFiles, boolean setLastModified) {
     setInitialDir(dir);
@@ -50,14 +50,14 @@ public class DirectoryCopier extends DirectoryParser {
   protected boolean preProcessDirectory(File file, Path path) {
     File dir = path.getFile(newDir);
     dir.mkdirs();
-    
+
     if (!dir.isDirectory()) {
       return result = false;
     }
-    
+
     return true;
   }
-  
+
   protected void processFile(File file, Path path) {
     try {
       Utils.copyFile(file, path.getFile(newDir), overwriteFiles,

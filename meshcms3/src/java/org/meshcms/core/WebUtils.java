@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -141,7 +141,7 @@ public final class WebUtils {
       "8225", "Dagger", "8240", "permil", "8249", "lsaquo", "8250", "rsaquo",
       "8364", "euro"
     };
-    
+
     NUMBER_TO_ENTITY = new Properties();
     ENTITY_TO_NUMBER = new Properties();
 
@@ -153,11 +153,11 @@ public final class WebUtils {
 
   public static String convertToHTMLEntities(String s, boolean encodeTags) {
     StringBuffer sb = new StringBuffer(s.length());
-    
+
     for (int i = 0; i < s.length(); i++) {
       char c = s.charAt(i);
       int n = ((int) c) & 0xFFFF;
-        
+
       if (n > 127) {
         String ent = NUMBER_TO_ENTITY.getProperty(Integer.toString(c));
 
@@ -182,7 +182,7 @@ public final class WebUtils {
    * returned.
    *
    * @param sc ServletContext required to access the <code>web.xml</code> file
-   * @return an array of welcome file names 
+   * @return an array of welcome file names
    */
   public static String[] getWelcomeFiles(ServletContext sc) {
     File webXml = new File(sc.getRealPath("/WEB-INF/web.xml"));
@@ -499,11 +499,11 @@ public final class WebUtils {
         addSpacer = true; // it's a spacer, will be added next if needed
       }
     }
-    
+
     while(sb.length() > 0 && sb.charAt(sb.length() - 1) == '.') {
       sb.deleteCharAt(sb.length() - 1);
     }
-    
+
     if (sb.length() == 0) {
       sb.append(spacer);
     }
@@ -577,7 +577,7 @@ public final class WebUtils {
 
     return time;
   }
-  
+
   public static javax.mail.Session getMailSession(WebSite webSite) {
     Properties props = new Properties();
     props.put("mail.smtp.host", webSite.getConfiguration().getMailServer());
@@ -594,15 +594,15 @@ public final class WebUtils {
         return new javax.mail.PasswordAuthentication(smtpUsername, smtpPassword);
       }
     });
-    
+
     return mailSession;
   }
-  
+
   public static File getCacheFile(WebSite webSite, SiteMap siteMap, Path pagePath) {
     if (siteMap == null) {
       siteMap = webSite.getSiteMap();
     }
-    
+
     pagePath = siteMap.getServedPath(pagePath);
     File cacheFile = webSite.getRepositoryFile(pagePath, HitFilter.CACHE_FILE_NAME);
     // a cached page too small is suspicious
@@ -610,35 +610,35 @@ public final class WebUtils {
         cacheFile.lastModified() > siteMap.getLastModified()) {
       return cacheFile;
     }
-    
+
     return null;
   }
-  
+
   public static boolean isCached(WebSite webSite, SiteMap siteMap, Path pagePath) {
     if (siteMap == null) {
       siteMap = webSite.getSiteMap();
     }
-    
+
     int cacheType = webSite.getConfiguration().getCacheType();
     pagePath = siteMap.getServedPath(pagePath);
-    
+
     if (cacheType == Configuration.IN_MEMORY_CACHE) {
       return siteMap.isCached(pagePath);
     } else if (cacheType == Configuration.ON_DISK_CACHE) {
       return getCacheFile(webSite, siteMap, pagePath) != null;
     }
-    
+
     return false;
   }
-  
+
   public static void removeFromCache(WebSite webSite, SiteMap siteMap, Path pagePath) {
     if (siteMap == null) {
       siteMap = webSite.getSiteMap();
     }
-    
+
     int cacheType = webSite.getConfiguration().getCacheType();
     pagePath = siteMap.getServedPath(pagePath);
-    
+
     if (cacheType == Configuration.IN_MEMORY_CACHE) {
       siteMap.removeFromCache(pagePath);
     } else if (cacheType == Configuration.ON_DISK_CACHE) {
@@ -649,43 +649,43 @@ public final class WebUtils {
       }
     }
   }
-  
+
   public static String encodeHTML(String html) {
     return WebSite.IS_MULTIBYTE_SYSTEM_CHARSET ?
         Utils.encodeHTML(html) : WebUtils.convertToHTMLEntities(html, true);
   }
-  
+
   public static Path getCorrespondingPath(WebSite webSite, Path path,
       String otherRoot) {
     Path cPath = path.replace(0, otherRoot);
     return webSite.getFile(cPath).exists() ? cPath : new Path(otherRoot);
   }
-  
+
   public static String[] getAcceptedLanguages(HttpServletRequest request) {
     Enumeration alEnum = request.getHeaders("Accept-Language");
     List list = new ArrayList();
-    
+
     while (alEnum.hasMoreElements()) {
       String s = (String) alEnum.nextElement();
       StringTokenizer st = new StringTokenizer(s, ",");
-      
+
       while (st.hasMoreTokens()) {
         String token = st.nextToken();
         int sc = token.indexOf(';');
-        
+
         if (sc >= 0) {
           token = token.substring(0, sc);
         }
-        
+
         token = token.trim();
         token = Utils.replace(token, '-', "_");
-        
+
         if (!list.contains(token)) {
           list.add(token);
         }
       }
     }
-    
+
     // add main language codes as fallback (e.g. it_IT, en, en_US becomes
     // it_IT, en, en_US, it
     int n = list.size();
@@ -693,7 +693,7 @@ public final class WebUtils {
     for (int i = 0; i < n; i++) {
       String token = (String) list.get(i);
       int us = token.indexOf('_');
-      
+
       if (us >= 0) {
         token = token.substring(0, us);
 
@@ -702,7 +702,7 @@ public final class WebUtils {
         }
       }
     }
-    
+
     return (String[]) list.toArray(new String[list.size()]);
   }
 }

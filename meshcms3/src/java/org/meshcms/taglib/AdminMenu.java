@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -96,16 +96,16 @@ public final class AdminMenu extends AbstractTag {
             l.add(a1 + afp + "/editsrc.jsp?path=" + pagePath + a2 +
                 bundle.getString("adminEditText") + a3);
             Path pathInMenu = webSite.getSiteMap().getPathInMenu(pagePath);
-            
+
             if (!pathInMenu.isRoot()) {
               Path parentPath = pathInMenu.getParent();
-              
+
               if (userInfo.canWrite(webSite, parentPath)) {
                 l.add(a1 + afp + "/createpage.jsp?popup=false&amp;path=" +
                     parentPath + a2 + bundle.getString("adminNewPage") + a3);
               }
             }
-            
+
             if (webSite.isDirectory(pathInMenu)) {
               l.add(a1 + afp + "/createpage.jsp?popup=false&amp;path=" +
                   pathInMenu + a2 + bundle.getString("adminNewChildPage") + a3);
@@ -114,7 +114,7 @@ public final class AdminMenu extends AbstractTag {
         }
       }
     }
-    
+
     getOut().write(l.size() > 0 ? Utils.generateList(l, separator) : "&nbsp;");
   }
 

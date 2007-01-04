@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -49,9 +49,9 @@ public class LangMenu extends AbstractTag {
     if (pagePath.isRoot() || siteMap.getPageInfo(pagePath) == null) {
       return;
     }
-    
+
     List langList = siteMap.getLangList();
-    
+
     if (langList.size() > 1) {
       Iterator iter = langList.iterator();
       boolean putSeparator = false;
@@ -85,18 +85,18 @@ public class LangMenu extends AbstractTag {
 
                 if (siteMap.getPageInfo(pPath) != null) {
                   if (msg == null) {
-                    ResourceBundle bundle = 
+                    ResourceBundle bundle =
                         ResourceBundle.getBundle("org/meshcms/webui/Locales",
                         WebUtils.getPageLocale(pageContext));
                     msg = Utils.replace(bundle.getString("confirmTranslation"),
                         '\'', "\\'");
                   }
-                  link = "javascript:if (confirm('" + msg +"')) location.href='" + 
+                  link = "javascript:if (confirm('" + msg +"')) location.href='" +
                       afp + "/createpage.jsp?popup=false&newdir=false&fullpath=" +
                       path + "';";
                 }
               }
-            } 
+            }
 
             if (link == null) {
               path = new Path(langCode);

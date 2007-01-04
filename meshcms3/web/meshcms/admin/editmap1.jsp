@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -57,7 +57,7 @@
    * Open folder
    */
   var imgOpenFolder = "filemanager/images/icon_folderopen.gif";
-  
+
   /**
    * Clears a field
    */
@@ -184,14 +184,14 @@
       "width=360,height=220,menubar=no,status=no,toolbar=no,resizable=yes");
     popup.focus();
   }
-  
+
   /**
    * Toggles the value of menu hiding and changes the related image
    */
   function editMap_toggleMenuHiding(code) {
     var fld = document.getElementById(code);
     var img = document.getElementById("img_" + code);
-    
+
     if (fld.value == "true") {
       fld.value = false;
       img.src = "filemanager/images/button_showmenu.gif";
@@ -228,18 +228,18 @@
 <p style="padding-left: 5px; padding-right: 5px;">
  <fmt:message key="mapTotal" /> <%= pagesCount %>
 </p>
- 
+
 <%
   Path userHome = userInfo.getHomePath();
   String[] welcomes = webSite.getWelcomeFileNames();
   boolean userHomePage = false;
-  
+
   for (int i = 0; i < welcomes.length; i++) {
     if (webSite.getFile(userHome.add(welcomes[i])).exists()) {
       userHomePage = true;
     }
   }
-  
+
   if (!userHomePage) {
     webSite.getFile(userHome).mkdirs();
 %>
@@ -265,7 +265,7 @@
     </tr>
 <%
   Iterator iter = pagesList.iterator();
-  
+
   while (iter.hasNext()) {
     PageInfo pageInfo = (PageInfo) iter.next();
     Path pagePath = pageInfo.getPath();
@@ -288,7 +288,7 @@
         </td>
 
         <td align="right"><%= pageInfo.getTotalHits() %></td>
-        
+
         <% if (WebUtils.isCached(webSite, siteMap, pagePath)) { %>
           <td align="center"><img src="filemanager/images/button_yes.gif" alt=""
            style='vertical-align:middle;' title="<fmt:message key="mapInCache" />" /></td>
@@ -372,14 +372,14 @@
           <td>&nbsp;</td>
         <% } %>
 
-        <% if (userOk && !hasChildren && pageInfo.getLevel() > 0) { %>          
+        <% if (userOk && !hasChildren && pageInfo.getLevel() > 0) { %>
           <td align="center"><img src="filemanager/images/button_deletepage.gif" alt=""
            onclick="javascript:editMap_deletePage('<%= Utils.escapeSingleQuotes(pagePath.toString()) %>');" style='vertical-align:middle;'
            title="<fmt:message key="mapDelete" />" /></td>
         <% } else { %>
           <td>&nbsp;</td>
         <% } %>
-        
+
     </tr><% } %> <%-- IMPORTANT: no spaces after <tr>! --%>
     <tr>
       <th align="center" colspan="11">

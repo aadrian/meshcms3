@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -67,7 +67,7 @@
     <div class="meshcmsfieldlabel">
       <label for="exportBaseURL"><fmt:message key="exportBaseURL" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('exportBaseURL');" alt=""
        style="vertical-align: middle;" /><input type="text" id="exportBaseURL" name="exportBaseURL"
@@ -77,7 +77,7 @@
     <div class="meshcmsfieldlabel">
       <label for="exportDir"><fmt:message key="exportDir" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('exportDir');" alt=""
        style="vertical-align: middle;" /><input type="text" id="exportDir" name="exportDir"
@@ -93,7 +93,7 @@
     <div class="meshcmsfieldlabel">
       <label for="exportCommand"><fmt:message key="exportCommand" /></label>
     </div>
-    
+
     <div class="meshcmsfield">
       <img src="images/clear_field.gif" onclick="javascript:editor_clr('exportCommand');" alt=""
        style="vertical-align: middle;" /><input type="text" id="exportCommand" name="exportCommand"
@@ -105,7 +105,7 @@
     <input type="checkbox" id="exportSaveConfig" name="exportSaveConfig" value="true" checked="checked" />
     <label for="exportSaveConfig"><fmt:message key="exportSaveConfig" /></label>
   </div>
-  
+
   <div class="meshcmsbuttons">
     <input type="submit" value="<fmt:message key="exportDo" />" id="subBtn" />
     <div id="waitImg" style="visibility:hidden;">

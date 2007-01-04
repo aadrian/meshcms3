@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -58,7 +58,7 @@ public final class HitFilter implements Filter {
   public static final String LAST_MODIFIED_ATTRIBUTE = "meshcmslastmodified";
 
   public static final String BLOCK_CACHE_ATTRIBUTE = "meshcmsnocache";
-  
+
   public static final String WEBSITE_ATTRIBUTE = "webSite";
 
   /**
@@ -79,7 +79,7 @@ public final class HitFilter implements Filter {
    * must be edited.
    */
   public static final String ACTION_EDIT = "edit";
-  
+
   public static final String ROOT_WEBSITE = "meshcmsrootsite";
 
   private FilterConfig filterConfig = null;
@@ -102,12 +102,12 @@ public final class HitFilter implements Filter {
       HttpServletResponse httpRes = (HttpServletResponse) response;
       WebSite rootSite = getRootSite(sc, false);
       WebSite webSite = rootSite.getWebSite(request);
-      
+
       if (webSite == null) {
         httpRes.sendError(HttpServletResponse.SC_FORBIDDEN, "Site not found");
         return;
       }
-      
+
       request.setAttribute(WEBSITE_ATTRIBUTE, webSite);
       request.setCharacterEncoding(WebSite.SYSTEM_CHARSET);
       HttpServletRequest httpReq = webSite.wrapRequest(request);
@@ -142,7 +142,7 @@ public final class HitFilter implements Filter {
           return;
         }
       }
-      
+
       SiteMap siteMap = null;
       PageInfo pageInfo = null;
       boolean isAdminPage = false;
@@ -155,7 +155,7 @@ public final class HitFilter implements Filter {
           httpRes.sendError(HttpServletResponse.SC_NOT_FOUND);
           return;
         }
-        
+
         siteMap = webSite.getSiteMap();
         isAdminPage = pagePath.isContainedIn(webSite.getAdminPath());
         HttpSession session = httpReq.getSession();
@@ -241,7 +241,7 @@ public final class HitFilter implements Filter {
           if (isGuest) {
             pageInfo.addHit();
           }
-          
+
           if (pageInfo.getCharset() != null) {
             pageCharset = pageInfo.getCharset();
           }
@@ -250,13 +250,13 @@ public final class HitFilter implements Filter {
           if (isAdminPage && pagePath.getLastElement().endsWith(".js") &&
               userInfo != null && userInfo.canDo(UserInfo.CAN_BROWSE_FILES)) {
             String script = null;
-            
+
             if (pagePath.isContainedIn(webSite.getAdminScriptsPath().add("tiny_mce"))) {
               script = "TinyMCE";
             } else if (pagePath.isContainedIn(webSite.getAdminScriptsPath().add("jscalendar"))) {
               script = "DHTMLCalendar";
             }
-            
+
             if (script != null) {
               Locale locale = Utils.getLocale(userInfo.getPreferredLocaleCode());
               ResourceBundle bundle =
@@ -274,16 +274,16 @@ public final class HitFilter implements Filter {
           } // end of JavaScript stuff
         }
       } // end of CMS stuff
-      
+
       String mimeType = sc.getMimeType(pagePath.getLastElement());
-      
+
       if (mimeType == null) {
         mimeType = "text/html";
       }
-      
+
       httpRes.setContentType(mimeType + "; charset=" +
           Utils.noNull(pageCharset, WebSite.SYSTEM_CHARSET));
-      
+
       try {
         // Cache management
         if (isGuest && pageInfo != null &&
@@ -349,7 +349,7 @@ public final class HitFilter implements Filter {
                 Utils.writeFully(cacheFile, baos.toByteArray());
               }
             }
-            
+
             return;
           }
         } // end of cache management
@@ -360,7 +360,7 @@ public final class HitFilter implements Filter {
         if (isAdminPage) {
           webSite.setLastAdminThemeBlock(System.currentTimeMillis());
         }
-        
+
         Path wPath = webSite.findCurrentWelcome(pagePath);
 
         if (wPath != null) {
@@ -374,26 +374,26 @@ public final class HitFilter implements Filter {
 
           return;
         }
-        
+
         sc.log("--------\n\nIMPORTANT: an exception has been caught while serving " +
             httpReq.getRequestURI(), ex);
-        
+
         Configuration c = webSite.getConfiguration();
-        
+
         if (c == null || c.isHideExceptions()) {
           httpRes.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } else {
           throw new ServletException(ex);
         }
       }
-      
+
       return;
     }
 
     // should never be reached
     chain.doFilter(request, response);
   }
-  
+
   /**
    * @return the main website instance. It will be created if not already done.
    */
@@ -423,10 +423,10 @@ public final class HitFilter implements Filter {
               Path.ROOT, cmsPath);
       sc.setAttribute(ROOT_WEBSITE, rootSite);
     }
-    
+
     return rootSite;
   }
-  
+
   /**
    * Sets some headers to discourage remote caching of pages.
    */

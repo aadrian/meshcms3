@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -58,14 +58,14 @@ public class Editor extends AbstractTag {
         pageContext.getServletContext().log("Can't write", ex);
       }
     }
-    
+
     return EVAL_PAGE;
   }
 
   public void writeTag() throws IOException {
     // nothing to do here
   }
-  
+
   public void writeEditTag() throws IOException {
     Writer w = getOut();
     w.write("<form id='editor' name='editor' action=\"" + afp +
@@ -78,12 +78,12 @@ public class Editor extends AbstractTag {
       if (!keys[i].equals(PageAssembler.EMAIL_PARAM) &&
           !keys[i].equals(PageAssembler.MODULES_PARAM) &&
           !keys[i].equals("title")) {
-        w.write("<input type='hidden' name='" + keys[i] + "' value=\"" + 
+        w.write("<input type='hidden' name='" + keys[i] + "' value=\"" +
             htmlPage.getProperty(keys[i]) + "\" />\n");
       }
     }
 
-    w.write("<input type='hidden' name='pagepath' value=\"" + 
+    w.write("<input type='hidden' name='pagepath' value=\"" +
       pagePath + "\" />");
   }
 

@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -95,21 +95,21 @@ public final class Module extends AbstractTag {
         } catch (ServletException ex) {
           WebUtils.setBlockCache(request);
           webSite.log("Exception while including module " + modulePath, ex);
-          
+
           if (!webSite.getConfiguration().isHideExceptions()) {
             Writer w = getOut();
             PrintWriter pw = new PrintWriter(w);
             w.write("<pre class='meshcmserror'>\n");
             ex.printStackTrace(pw);
-            
+
             if (ex instanceof ServletException) {
               Throwable t = ((ServletException) ex).getRootCause();
-              
+
               if (t != null) {
                 t.printStackTrace(pw);
               }
             }
-            
+
             w.write("</pre>");
           }
         }
@@ -132,7 +132,7 @@ public final class Module extends AbstractTag {
     String advParms = null;
 
     ModuleDescriptor md = getModuleDescriptor(location, name);
-    
+
     if (md != null) {
       template = md.getTemplate();
       argPath  = md.getArgument();
@@ -142,7 +142,7 @@ public final class Module extends AbstractTag {
     Locale locale = WebUtils.getPageLocale(pageContext);
     ResourceBundle bundle = ResourceBundle.getBundle("org/meshcms/webui/Locales", locale);
     MessageFormat formatter = new MessageFormat("", locale);
-    
+
     Writer w = getOut();
 
     Object[] args = {

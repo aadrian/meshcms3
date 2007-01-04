@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -58,7 +58,7 @@
   ResourceBundle bundle = WebUtils.getPageResourceBundle(pageContext);
   Locale locale = WebUtils.getPageLocale(pageContext);
   MessageFormat formatter = new MessageFormat("", locale);
-  
+
   if (!Utils.isNullOrEmpty(action)) {
     String[] fileNames = Utils.tokenize(request.getParameter("f_files"), ",");
 
@@ -97,11 +97,11 @@
     } else if (action.startsWith("theme")) {
       SiteInfo siteInfo = webSite.getSiteInfo();
       String themeName = (action.length() == 5) ? "" : action.substring(5);
-      
+
       for (int i = 0; i < fileNames.length; i++) {
         Path filePath = path.add(fileNames[i]);
-        
-        if (FileTypes.isPage(fileNames[i]) || 
+
+        if (FileTypes.isPage(fileNames[i]) ||
             webSite.getFile(filePath).isDirectory()) {
           if (userInfo.canWrite(webSite, filePath)) {
             siteInfo.setValue(SiteInfo.getThemeCode(filePath), themeName);
@@ -117,7 +117,7 @@
           errMsgs.add(formatter.format(args));
         }
       }
-      
+
       if (needsUpdate) {
         if (!siteInfo.store()) {
           errMsgs.add(bundle.getString("fmErrorNotSaved"));
@@ -136,7 +136,7 @@
     } else if (action.equals("fixnames")) {
       for (int i = 0; i < fileNames.length; i++) {
         String name = WebUtils.fixFileName(fileNames[i], true);
-        
+
         if (!name.equals(fileNames[i])) {
           if (webSite.move(userInfo, path.add(fileNames[i]), path.add(name))) {
             needsUpdate = true;
@@ -180,7 +180,7 @@
     } else if (action.startsWith("unzip")) {
       File zipFile = webSite.getFile(path.add(fileNames[0]));
       File unzipDir = webSite.getFile(path);
-      
+
       if (action.length() > 5) {
         unzipDir = new File(unzipDir, action.substring(5));
         unzipDir.mkdir();
@@ -191,7 +191,7 @@
       } catch (IOException ex) {
         errMsgs.add(bundle.getString("fmErrorGeneric"));
       }
-      
+
       needsUpdate = true;
     } else if (action.equals("view")) {
       Path pp = new Path(path, fileNames[0]);
@@ -261,12 +261,12 @@
       needsUpdate = true;
     }
   }
-  
+
   if (redirect == null) {
-    redirect = "index.jsp?folder=" + path + "&thumbnails=" + 
+    redirect = "index.jsp?folder=" + path + "&thumbnails=" +
     request.getParameter("s_thumbs") + "&field=" + Utils.noNull(request.getParameter("s_field"));
   }
-  
+
   if (needsUpdate) {
     webSite.updateSiteMap(true);
   }

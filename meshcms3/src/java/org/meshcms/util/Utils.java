@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -111,7 +111,7 @@ public final class Utils {
    * Checks if a string is null, empty or made of whitespaces only.
    *
    * @param s the String to be checked
-   * @return <code>true</code> if the String is null or <i>whitespace</i>, <code>false</code> otherwise. 
+   * @return <code>true</code> if the String is null or <i>whitespace</i>, <code>false</code> otherwise.
    */
   public static boolean isNullOrWhitespace(String s) {
     if (s == null) {
@@ -132,7 +132,7 @@ public final class Utils {
    *
    * @param s the String to be trimmed.
    *
-   * @see String#trim()  
+   * @see String#trim()
    *
    * @return <code>s.trim()</code>, or null if <code>s</code> is null.
    */
@@ -214,7 +214,7 @@ public final class Utils {
    * @param s the source String to be shortened
    * @param len the lenght
    *
-   * @return the shortened String. 
+   * @return the shortened String.
    */
   public static String limitedLength(String s, int len) {
     String s1;
@@ -237,7 +237,7 @@ public final class Utils {
    *
    * @param s the String to escape
    *
-   * @return the escaped String 
+   * @return the escaped String
    */
   public static String escapeSingleQuotes(String s) {
     return replace(s, '\'', "\\'");
@@ -279,7 +279,7 @@ public final class Utils {
   public static String encodeHTML(String s) {
     return encodeHTML(s, false);
   }
-  
+
   /**
    * Replaces some characters with their HTML entities.
    * Only replaces
@@ -315,7 +315,7 @@ public final class Utils {
           } else {
             sb.append(c);
           }
-          
+
           break;
         case '\'':
           sb.append("&#39;");
@@ -479,7 +479,7 @@ public final class Utils {
    * @param writer the Writer
    * @param closeWriter if true, closes the Writer at the end
    *
-   * @throws IOException if an I/O error occurs 
+   * @throws IOException if an I/O error occurs
    */
   public static void copyReaderToWriter(Reader reader, Writer writer,
       boolean closeWriter) throws IOException {
@@ -511,7 +511,7 @@ public final class Utils {
     writer.write(s);
     writer.close();
   }
-  
+
   /**
    * Writes the whole byte array to the File using a FileOutputStream.
    *
@@ -569,7 +569,7 @@ public final class Utils {
      * @param reader the reader to read from
      *
      * @return  an array of <code>Char</code>'s
-     *  
+     *
      * @throws IOException If an I/O error occurs
      */
   public static char[] readAllChars(Reader reader) throws IOException {
@@ -590,7 +590,7 @@ public final class Utils {
    *
    * @param in the Input Stream to read from
    *
-   * @return an array of bytes 
+   * @return an array of bytes
    *
    * @throws IOException If an I/O error occurs
    */
@@ -611,9 +611,9 @@ public final class Utils {
    *
    * @param file the file to read from
    *
-   * @return an array of Strings representing the lines of text from the file. 
+   * @return an array of Strings representing the lines of text from the file.
    *
-   * @throws IOException If an I/O error occurs 
+   * @throws IOException If an I/O error occurs
    */
   public static String[] readAllLines(File file)
       throws FileNotFoundException, IOException {
@@ -899,9 +899,9 @@ public final class Utils {
    * Generates a unique (but similar to the original) file name, based on an exclusion list.<p/>
    * E.g. <code>product.html</code> would be <code>product1.html</code> if the
    * exclusion list already contains <code>product.html</code>
-   *  
+   *
    * @param fileName the source file name
-   * @param files exlusion list of file names. 
+   * @param files exlusion list of file names.
    *
    * @return a file name similar to <code>fileName</code>, but different from
    * the strings in the <code>files</code> array.
@@ -966,7 +966,7 @@ public final class Utils {
    *
    * @param s the string to be converted to <code>long</code>
    * @param def default value in case the string is not parasble.
-   * 
+   *
    * @return a long representation of a String, or a default value if the string
    * can't be parsed.
    */
@@ -981,11 +981,11 @@ public final class Utils {
   /**
    * Returns the tokens of a string. The default delimiter characters of
    * <code>java.util.StringTokenizer</code> are used.
-   * @see #tokenize(String, String) 
+   * @see #tokenize(String, String)
    *
    * @param s the string to be tokenized
-   * 
-   * @return an array of tokens 
+   *
+   * @return an array of tokens
    */
   public static String[] tokenize(String s) {
     return tokenize(s, null);
@@ -996,7 +996,7 @@ public final class Utils {
    *
    * @param s the String to tokenized
    * @param delim the delimiter
-   * 
+   *
    * @return an array of okens of a string using the specified delimiter characters.
    */
   public static String[] tokenize(String s, String delim) {
@@ -1057,7 +1057,7 @@ public final class Utils {
    *
    * @param email the Email address to verify
    *
-   * @return <code>true</code> if it's a valid email, <code>false</code>otherwise. 
+   * @return <code>true</code> if it's a valid email, <code>false</code>otherwise.
    */
   public static boolean checkAddress(String email) {
     if (isNullOrEmpty(email) || email.indexOf(' ') >= 0) {
@@ -1111,7 +1111,7 @@ public final class Utils {
    *
    * @param d the <code>double</code> to be processed.
    *
-   * @return the decimal part of the given double. 
+   * @return the decimal part of the given double.
    */
   public static double decimalPart(double d) {
     return d - (long) d;
@@ -1120,7 +1120,7 @@ public final class Utils {
   /**
    * Returns the sign of an integer.
    *
-   * @param n the <code>int</code> number who's sign is checked. 
+   * @param n the <code>int</code> number who's sign is checked.
    *
    * @return -1 if negative, 0 if zero, 1 if positive
    */
@@ -1235,7 +1235,7 @@ public final class Utils {
    * @param folder the Folder
    * @param file the File
    * @param separator the File Separator
-   *  
+   *
    * @return the relative combined path
    */
   public static String getRelativePath(File folder, File file, String separator) {
@@ -1250,7 +1250,7 @@ public final class Utils {
    * @param folder the Folder path
    * @param file the File path
    * @param separator the File separator
-   * 
+   *
    * @return the relative combined path
    */
   public static String getRelativePath(String folder, String file,
@@ -1331,9 +1331,9 @@ public final class Utils {
 
   /**
    * Returns the full path of the file without having to catch exceptions,
-   * using {@link java.io.File#getCanonicalPath()} or {@link java.io.File#getAbsoluteFile()}  
+   * using {@link java.io.File#getCanonicalPath()} or {@link java.io.File#getAbsoluteFile()}
    *
-   * @param f the File to be processed  
+   * @param f the File to be processed
    *
    * @return <code>f.getCanonicalPath()</code>, or
    * <code>f.getAbsolutePath()</code> if an exception is thrown
@@ -1345,7 +1345,7 @@ public final class Utils {
 
     return f.getAbsolutePath();
   }
-  
+
   public static String getExtension(File file, boolean includeDot) {
     return getExtension(file.getName(), includeDot);
   }
@@ -1430,7 +1430,7 @@ public final class Utils {
    * @param s the String to be beautified
    * @param titleCase flag if to title case. See {@link Character#toTitleCase(char)}
    *
-   * @return the converted String. 
+   * @return the converted String.
    */
   public static String beautify(String s, boolean titleCase) {
     StringBuffer sb = new StringBuffer(s.length());
@@ -1471,7 +1471,7 @@ public final class Utils {
     if (!file.exists()) {
       return true;
     }
-    
+
     /* do not force on directories */
     if (file.isDirectory()) {
       return file.delete();
@@ -1533,7 +1533,7 @@ public final class Utils {
    *
    * @param file the File
    *
-   * @return the nicely formatted length of this file 
+   * @return the nicely formatted length of this file
    */
   public static String formatFileLength(File file) {
     return formatFileLength(file.length());
@@ -1574,7 +1574,7 @@ public final class Utils {
    *
    * @param path the Path to be encoded
    *
-   * @return the encoded URL as String, or the original URL as String if an exception occures. 
+   * @return the encoded URL as String, or the original URL as String if an exception occures.
    */
   public static String encodeURL(Path path) {
     return encodeURL(path.toString());
@@ -1641,7 +1641,7 @@ public final class Utils {
   /**
    * Returns all the locales that have no country and no variant.
    *
-   * @return an array with all the locales without country and variant. 
+   * @return an array with all the locales without country and variant.
    */
   public static Locale[] getLanguageLocales() {
     Locale[] all = Locale.getAvailableLocales();
@@ -1659,7 +1659,7 @@ public final class Utils {
   public static String toTitleCase(String s) {
     char[] chars = s.trim().toLowerCase().toCharArray();
     boolean found = false;
-    
+
     for (int i = 0; i < chars.length; i++) {
       if (!found && Character.isLetter(chars[i])) {
         chars[i] = Character.toUpperCase(chars[i]);
@@ -1668,7 +1668,7 @@ public final class Utils {
         found = false;
       }
     }
-    
+
     return String.valueOf(chars);
   }
 }

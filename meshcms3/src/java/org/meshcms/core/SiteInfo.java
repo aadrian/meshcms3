@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -48,7 +48,7 @@ public class SiteInfo {
    * Prefix of the submenu codes.
    */
   public static final String HIDESUBMENU = "hideSubmenu";
-  
+
   private Properties data;
   private WebSite webSite;
 
@@ -297,7 +297,7 @@ public class SiteInfo {
 
         return true;
     }
-    
+
     return false;
   }
 
@@ -363,7 +363,7 @@ public class SiteInfo {
     SiteInfo newSiteInfo = new SiteInfo();
     newSiteInfo.setWebSite(webSite);
     List pagesList = webSite.getSiteMap().getPagesList();
-    
+
     if (pagesList != null) {
       Iterator iter = pagesList.iterator();
 
@@ -374,13 +374,13 @@ public class SiteInfo {
         newSiteInfo.setPageScore(pagePath, getPageScore(pagePath));
         newSiteInfo.setHideSubmenu(pagePath, getHideSubmenu(pagePath));
       }
-  
+
       if (this.data.size() != newSiteInfo.data.size()) {
         success = newSiteInfo.store();
         webSite.setSiteInfo(newSiteInfo);
       }
     }
-  
+
     return success;
   }
 }

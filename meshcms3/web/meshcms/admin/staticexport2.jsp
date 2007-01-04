@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -53,18 +53,18 @@
   String exportDir = Utils.noNull(request.getParameter("exportDir"));
   boolean exportCheckDates = Utils.isTrue(request.getParameter("exportCheckDates"));
   String exportCommand = Utils.noNull(request.getParameter("exportCommand"));
-  
+
   if (!exportDir.equals("")) {
     exportDestination = new File(exportDir);
     exportDestination.mkdirs();
   }
-  
+
   if (exportDestination == null || !exportDestination.isDirectory()) {
     %><fmt:message key="exportErrorNoDir" /><%
   } else {
-    
+
   URL contextURL = null;
-  
+
   try {
     contextURL = new URL(Utils.addAtEnd(exportBaseURL, "/"));
   } catch (Exception ex) {
@@ -78,7 +78,7 @@
     exporter.setWriter(out);
     exporter.setCheckDates(exportCheckDates);
     exporter.process();
-    
+
     if (!exportCommand.equals("")) {
       out.println("\nexecuting: " + exportCommand);
       Process process = Runtime.getRuntime().exec(exportCommand);

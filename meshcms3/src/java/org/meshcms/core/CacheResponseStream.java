@@ -1,6 +1,6 @@
 /*
  * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2006 Luciano Vernaschi
+ * Copyright (C) 2004-2007 Luciano Vernaschi
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -42,7 +42,7 @@ public class CacheResponseStream extends ServletOutputStream {
    * @param response the original response
    * @param cacheOutput the output for the cache
    *
-   * @throws IOException if an input or output exception occurred 
+   * @throws IOException if an input or output exception occurred
    */
   public CacheResponseStream(HttpServletResponse response,
       OutputStream cacheOutput) throws IOException {
@@ -50,16 +50,16 @@ public class CacheResponseStream extends ServletOutputStream {
     this.cacheOutput = cacheOutput;
     output = response.getOutputStream();
   }
-  
+
   /**
    * Writes to both streams.
-   * 
+   *
    * @param b the byte to write
-   * @throws IOException if an I/O error occurs 
+   * @throws IOException if an I/O error occurs
    */
   public void write(int b) throws IOException {
     output.write(b);
-    
+
     try {
       cacheOutput.write(b);
     } catch (IOException ex) {}
@@ -72,7 +72,7 @@ public class CacheResponseStream extends ServletOutputStream {
    */
   public void flush() throws IOException {
     output.flush();
-    
+
     try {
       cacheOutput.flush();
     } catch (IOException ex) {}
@@ -85,7 +85,7 @@ public class CacheResponseStream extends ServletOutputStream {
    */
   public void close() throws IOException {
     output.close();
-    
+
     try {
       cacheOutput.close();
     } catch (IOException ex) {}

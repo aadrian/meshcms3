@@ -1,6 +1,6 @@
 <%--
  MeshCMS - A simple CMS based on SiteMesh
- Copyright (C) 2004-2006 Luciano Vernaschi
+ Copyright (C) 2004-2007 Luciano Vernaschi
 
  This program is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License
@@ -63,7 +63,7 @@
                        "You don't have enough privileges");
     return;
   }
-  
+
   if (edit != null) {
     try {
       edit.setPermissions(Integer.parseInt(request.getParameter("permissions")));
@@ -119,7 +119,7 @@
       edit.setDetail(n, request.getParameter(n));
     }
   }
-  
+
   if (errMsgs.size() == 0) {
     if (!edit.store(webSite)) {
       errMsgs.add(bundle.getString("userFileError"));
