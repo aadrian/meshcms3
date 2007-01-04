@@ -867,85 +867,6 @@
     <para>Other functions are more complex and are described in separate
     sections.</para>
 
-    <section id="file_manager">
-      <title>File Manager</title>
-
-      <para>The MeshCMS file manager is a web-based version of the file
-      manager you probably use daily on your computer. It allows to manage the
-      file system of your website.</para>
-
-      <para>The look &amp; feel of the file manager window should be familiar
-      to everyone. On the left there is the directory tree, while the contents
-      of the currently opened directory are shown on the right. There you can
-      select some items and choose an action from the menu at the top of the
-      window.</para>
-
-      <para>Most of the menu items are easy to understand. Probably the
-      <property>Themes</property> menu is the most <quote>obscure</quote>, in
-      fact it is rarely used. This menu allows to specify what theme should be
-      applied to a page or directory. Normally it's easier to apply themes
-      using the <link linkend="page_manager">Page Manager</link> feature of
-      the Control Panel, but using the file manager you can apply themes even
-      to files not included in the site map. Simply select the desired items
-      and then pick a theme for them. If you choose <option>Don't
-      Specify</option>, the theme will be inherited from the parent directory
-      (this is the default for all items that don't have an associated theme,
-      in fact if you only select a theme for the home page, all other pages
-      will use it). If you choose <option>No Theme</option>, nothing will be
-      applied to that file, which will be shown "as is".</para>
-
-      <note>
-        <para>Since the file manager is a web application, operations are not
-        executed immediately. Commands are sent to the server the usual
-        request-execution-response cycle must happen. While much care has been
-        taken to ensure that command are interpreted correctly, please try to
-        execute one task at a time, making sure you wait it to complete before
-        doing another thing.</para>
-      </note>
-
-      <section id="upload">
-        <title>Upload</title>
-
-        <para>The upload tool is essential, since it is used to add new files.
-        You can upload one file at a time, so if you need to upload many
-        files, you better create a ZIP archive, upload it and finally <link
-        linkend="unzip">unzip</link> it.</para>
-
-        <para>To upload a file, navigate to the desired directory and select
-        <command>Upload</command> from the <option>Tools</option> menu. Then
-        select the file from your computer and start uploading.</para>
-
-        <important>
-          <para>a file with the same name will be overwritten without
-          confirmation.</para>
-        </important>
-      </section>
-
-      <section id="unzip">
-        <title>Unzip</title>
-
-        <para>You can unpack a ZIP archive from within the file manager. It
-        will be unpacked in the same directory or in a subdirectory, so make
-        sure to put it in the right place before unzipping (you can always
-        move the unpacked items later).</para>
-
-        <para>Select the ZIP file (it can have any extension) and choose
-        <command>Unzip</command> from the <option>Tools</option> menu. You'll
-        see a list of the files that are packed into the archive. If you
-        prefer, you can check the flag to unzip the files in a new directory
-        and edit its name. Note that many archives already put all files in a
-        directory: you can verify if this is the case by looking at the list
-        of files.</para>
-
-        <important>
-          <para>this operation is quite dangerous, since it will overwrite
-          files if needed, without backing them up. So it is highly
-          recommended to unzip files in a new directory as described above.
-          Then you can move them safely.</para>
-        </important>
-      </section>
-    </section>
-
     <section id="page_manager">
       <title>Page Manager</title>
 
@@ -1027,47 +948,6 @@
           </itemizedlist>
         </listitem>
       </itemizedlist>
-    </section>
-
-    <section id="edit_profile">
-      <title>Edit Profile</title>
-
-      <para>The purpose of this page is simple: you can change your password
-      and edit your profile. Details are optional. The e-mail is optional too,
-      but is located between the required elements since there's the plan to
-      add a simple message board in future.</para>
-    </section>
-
-    <section id="new_user">
-      <title>New User</title>
-
-      <para>To create a new user, you need to specify these info:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para><emphasis role="bold">username</emphasis>;</para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">user type</emphasis>:
-          <option>Administrator</option> has all privileges,
-          <option>Editor</option> can edit pages but can't do admin stuff and
-          <option>Member</option> can browse files and not much more (in fact
-          it is rarely used);</para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">home directory</emphasis>: the directory
-          in which the user can edit files;</para>
-        </listitem>
-
-        <listitem>
-          <para><emphasis role="bold">password</emphasis>: an initial password
-          that can be changed later by the user himself.</para>
-        </listitem>
-      </itemizedlist>
-
-      <para>All other fields are optional.</para>
     </section>
 
     <section id="configure">
@@ -1239,6 +1119,188 @@
       </itemizedlist>
     </section>
 
+    <section id="edit_profile">
+      <title>Edit Profile</title>
+
+      <para>The purpose of this page is simple: you can change your password
+      and edit your profile. Details are optional. The e-mail is optional too,
+      but is located between the required elements since there's the plan to
+      add a simple message board in future.</para>
+    </section>
+
+    <section id="new_user">
+      <title>New User</title>
+
+      <para>To create a new user, you need to specify these info:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><emphasis role="bold">username</emphasis>;</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">user type</emphasis>:
+          <option>Administrator</option> has all privileges,
+          <option>Editor</option> can edit pages but can't do admin stuff and
+          <option>Member</option> can browse files and not much more (in fact
+          it is rarely used);</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">home directory</emphasis>: the directory
+          in which the user can edit files;</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">password</emphasis>: an initial password
+          that can be changed later by the user himself.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>All other fields are optional.</para>
+    </section>
+
+    <section id="file_manager">
+      <title>File Manager</title>
+
+      <para>The MeshCMS file manager is a web-based version of the file
+      manager you probably use daily on your computer. It allows to manage the
+      file system of your website.</para>
+
+      <para>The look &amp; feel of the file manager window should be familiar
+      to everyone. On the left there is the directory tree, while the contents
+      of the currently opened directory are shown on the right. There you can
+      select some items and choose an action from the menu at the top of the
+      window.</para>
+
+      <para>Most of the menu items are easy to understand. Probably the
+      <property>Themes</property> menu is the most <quote>obscure</quote>, in
+      fact it is rarely used. This menu allows to specify what theme should be
+      applied to a page or directory. Normally it's easier to apply themes
+      using the <link linkend="page_manager">Page Manager</link> feature of
+      the Control Panel, but using the file manager you can apply themes even
+      to files not included in the site map. Simply select the desired items
+      and then pick a theme for them. If you choose <option>Don't
+      Specify</option>, the theme will be inherited from the parent directory
+      (this is the default for all items that don't have an associated theme,
+      in fact if you only select a theme for the home page, all other pages
+      will use it). If you choose <option>No Theme</option>, nothing will be
+      applied to that file, which will be shown "as is".</para>
+
+      <note>
+        <para>Since the file manager is a web application, operations are not
+        executed immediately. Commands are sent to the server the usual
+        request-execution-response cycle must happen. While much care has been
+        taken to ensure that command are interpreted correctly, please try to
+        execute one task at a time, making sure you wait it to complete before
+        doing another thing.</para>
+      </note>
+
+      <section id="upload">
+        <title>Upload</title>
+
+        <para>The upload tool is essential, since it is used to add new files.
+        You can upload one file at a time, so if you need to upload many
+        files, you better create a ZIP archive, upload it and finally <link
+        linkend="unzip">unzip</link> it.</para>
+
+        <para>To upload a file, navigate to the desired directory and select
+        <command>Upload</command> from the <option>Tools</option> menu. Then
+        select the file from your computer and start uploading.</para>
+
+        <important>
+          <para>a file with the same name will be overwritten without
+          confirmation.</para>
+        </important>
+      </section>
+
+      <section id="unzip">
+        <title>Unzip</title>
+
+        <para>You can unpack a ZIP archive from within the file manager. It
+        will be unpacked in the same directory or in a subdirectory, so make
+        sure to put it in the right place before unzipping (you can always
+        move the unpacked items later).</para>
+
+        <para>Select the ZIP file (it can have any extension) and choose
+        <command>Unzip</command> from the <option>Tools</option> menu. You'll
+        see a list of the files that are packed into the archive. If you
+        prefer, you can check the flag to unzip the files in a new directory
+        and edit its name. Note that many archives already put all files in a
+        directory: you can verify if this is the case by looking at the list
+        of files.</para>
+
+        <important>
+          <para>this operation is quite dangerous, since it will overwrite
+          files if needed, without backing them up. So it is highly
+          recommended to unzip files in a new directory as described above.
+          Then you can move them safely.</para>
+        </important>
+      </section>
+    </section>
+
+    <section id="static_export">
+      <title>Static Export</title>
+
+      <para>MeshCMS offers an option to export a static copy of the site. That
+      copy can be served by any HTTP server (e.g. Apache) without the need of
+      a Java Servlet container. For example, you could use static export to
+      edit a site in the Intranet using a local Tomcat, then publishing the
+      site on an external server at any time.</para>
+
+      <para>Please note that the lack of a servlet container means that
+      modules that require server interaction (like <link
+      linkend="module_mail">Mail</link> and <link
+      linkend="module_comments">Comments</link>) won't work as expected. All
+      others will work since their content (e.g. gallery thumbnails) will be
+      generated while exporting.</para>
+
+      <para>To perform a static export, some parameters must be
+      specified:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><emphasis role="bold">URL to get the home page</emphasis>:
+          needs to be explicitly set when the local URL is different from the
+          external one. For example, suppose that your Tomcat is running on a
+          machine named <emphasis>localserver</emphasis>, and that its
+          firewall redirects connections to port 80 to Tomcat, which is
+          running on port 8080. In such a situation, you will access Tomcat
+          externally at <uri>http://localserver/</uri>, while the static
+          export (which accesses pages from the server itself) must use
+          <uri>http://localserver:8080/</uri>, or
+          <uri>http://localhost:8080/</uri>. In this case, the local URL must
+          be specified;</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Destination directory</emphasis>: the
+          local path of the exported copy, i.e. where the site will be
+          exported (required);</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Check for files that do not need to be
+          updated</emphasis>: if checked, files already exported are not
+          copied again. This works for files whose modification time is newer
+          in the target directory. Please note that pages are always
+          re-exported, since changes could be in generated parts, like menus
+          or modules;</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Command to be executed after
+          export</emphasis>: an optional command that can be run when the
+          export is completed. This is a shell command to be executed in a
+          process and could be used to sync the exported site on a FTP
+          connection. As a trivial example, you could use <command>sh -c 'ls
+          -R /my/exporting/dir'</command> or <command>cmd /c "dir /s
+          C:\my\exporting\dir"</command> to get a list of exported
+          files.</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
     <section id="site_manager">
       <title>Site Manager</title>
 
@@ -1388,7 +1450,7 @@
         </itemizedlist>
       </section>
 
-      <section>
+      <section id="module_diary">
         <title>Diary</title>
 
         <para>The diary module creates a page showing the first words of a
@@ -2147,7 +2209,6 @@ submit</programlisting>
             <option>false</option> (default) and <option>true</option>;</para>
           </listitem>
         </itemizedlist>
-        
       </section>
 
       <section id="module_video_player">
@@ -2306,6 +2367,28 @@ submit</programlisting>
 
           <programlisting>&lt;img src="&lt;cms:themepath /&gt;/logo.jpg"&gt;</programlisting>
         </example>
+      </section>
+
+      <section id="tag_searchfile">
+        <title>&lt;cms:searchfile&gt;</title>
+
+        <para>Finds a file by name in the page directory, going up to the root
+        until the file is found.</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>name</parameter>: the file name
+            (required);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>defaultName</parameter>: a default file to be
+            used if the searched file is not found. This default file is
+            supposed to exist in the theme directory.</para>
+          </listitem>
+        </itemizedlist>
       </section>
     </section>
 
@@ -2966,7 +3049,13 @@ submit</programlisting>
 
           <listitem>
             <para><parameter>post</parameter>: a text to be added after the
-            date. It won't be added if the date is not shown.</para>
+            date. It won't be added if the date is not shown;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>update</parameter>: if <option>true</option>, the
+            last modification time of the page file will be modified according
+            to the displayed value (default <option>false</option>).</para>
           </listitem>
         </itemizedlist>
       </section>

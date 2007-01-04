@@ -39,6 +39,7 @@ public class Help {
   public static final String NEW_PAGE = "create_new_page";
   public static final String NEW_USER = "new_user";
   public static final String SITE_MANAGER = "site_manager";
+  public static final String STATIC_EXPORT = "static_export";
   public static final String UNZIP = "unzip";
   public static final String UPLOAD = "upload";
   public static final String MODULES = "modules";
@@ -47,17 +48,18 @@ public class Help {
   
   static {
     args = new Properties();
-    args.setProperty(CONFIGURE, "ch05s05.html");
-    args.setProperty(CONTROL_PANEL, "ch05.html");
     args.setProperty(EDIT_PAGE, "ch04s02.html");
-    args.setProperty(EDIT_PROFILE, "ch05s03.html");
-    args.setProperty(FILE_MANAGER, "ch05s01.html");
-    args.setProperty(PAGE_MANAGER, "ch05s02.html");
     args.setProperty(NEW_PAGE, "ch04s03.html");
+    args.setProperty(CONTROL_PANEL, "ch05.html");
+    args.setProperty(PAGE_MANAGER, "ch05s01.html");
+    args.setProperty(CONFIGURE, "ch05s02.html");
+    args.setProperty(EDIT_PROFILE, "ch05s03.html");
     args.setProperty(NEW_USER, "ch05s04.html");
-    args.setProperty(SITE_MANAGER, "ch05s06.html");
-    args.setProperty(UNZIP, "ch05s01.html#unzip");
-    args.setProperty(UPLOAD, "ch05s01.html#upload");
+    args.setProperty(FILE_MANAGER, "ch05s05.html");
+    args.setProperty(UPLOAD, "ch05s05.html#upload");
+    args.setProperty(UNZIP, "ch05s05.html#unzip");
+    args.setProperty(STATIC_EXPORT, "ch05s06.html");
+    args.setProperty(SITE_MANAGER, "ch05s07.html");
     args.setProperty(MODULES, "ch06s01.html");
   }
   
