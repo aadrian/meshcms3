@@ -633,7 +633,7 @@ public final class Utils {
    * A quick and dirty method to unzip an archive into a directory.
    *
    * @param zip source archive to be processed
-   * @pram dir destination directory where to unzip the archive.
+   * @param dir destination directory where to unzip the archive.
    *
    * @throws IOException If an I/O error occurs
    */

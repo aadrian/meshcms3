@@ -29,12 +29,40 @@ import java.util.regex.*;
 import javax.imageio.*;
 import org.meshcms.util.*;
 
+/**
+ * Creates a thumbnail by simply resizing the image. The way the thumbnail is
+ * created can be controlled with some parameters (see the various setters
+ * for details).
+ */
 public class ResizedThumbnail extends AbstractThumbnail {
+  /**
+   * Used to scale the image maintaining proportions.
+   */
   public static final String MODE_SCALE = "scale";
+  
+  /**
+   * Used to scale the image and crop it to have a thumbnail of the required size.
+   */
   public static final String MODE_CROP = "crop";
+  
+  /**
+   * Like {@link #MODE_SCALE}, but adds a padding to reach the required size.
+   */
   public static final String MODE_PADDING = "padding";
+  
+  /**
+   * Used to resize the image without maintaining proportions.
+   */
   public static final String MODE_STRETCH = "stretch";
+  
+  /**
+   * Default padding color.
+   */
   public static final String WHITE = "ffffff";
+  
+  /**
+   * Default thumbnail size.
+   */
   public static final int DEFAULT_SIZE = 100;
   
   private static Matcher hexColorMatcher =
@@ -46,6 +74,10 @@ public class ResizedThumbnail extends AbstractThumbnail {
   private String mode = MODE_SCALE;
   private String color = WHITE;
   
+  /**
+   * Creates a new instance with a default configuration. By default, the image
+   * is scaled to fit into a square of 100x100 pixels.
+   */
   public ResizedThumbnail() {
   }
   
@@ -174,6 +206,9 @@ public class ResizedThumbnail extends AbstractThumbnail {
     return width;
   }
   
+  /**
+   * Sets the maximum image width.
+   */
   public void setWidth(int width) {
     this.width = width;
   }
@@ -182,6 +217,9 @@ public class ResizedThumbnail extends AbstractThumbnail {
     return height;
   }
   
+  /**
+   * Sets the maximum image height.
+   */
   public void setHeight(int height) {
     this.height = height;
   }
@@ -190,6 +228,10 @@ public class ResizedThumbnail extends AbstractThumbnail {
     return mode;
   }
   
+  /**
+   * Sets the scaling mode. Possible values are {@link #MODE_SCALE} (default),
+   * {@link #MODE_CROP}, {@link #MODE_PADDING} and {@link #MODE_STRETCH}.
+   */
   public void setMode(String mode) {
     if (mode == null) {
       this.mode = MODE_SCALE;
@@ -209,6 +251,11 @@ public class ResizedThumbnail extends AbstractThumbnail {
     return color;
   }
   
+  /**
+   * Sets the padding color (used only when mode is {@link #MODE_PADDING}).
+   * The color must be supplied in hexadecimal format, with or without a #
+   * sign (e.g. #ffcc00 or 123ABC).
+   */
   public void setColor(String color) {
     if (color == null) {
       this.color = WHITE;
