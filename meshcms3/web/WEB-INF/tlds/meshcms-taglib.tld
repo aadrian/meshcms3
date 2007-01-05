@@ -124,6 +124,7 @@
   <tag>
     <name>searchfile</name>
     <tag-class>org.meshcms.taglib.SearchFile</tag-class>
+    <body-content>JSP</body-content>
     <attribute>
       <name>name</name>
       <required>true</required>
@@ -134,7 +135,6 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>
-    <body-content>JSP</body-content>
   </tag>
   <tag>
     <name>defaultcss</name>
