@@ -50,43 +50,32 @@
   Path argPath = md.getModuleArgumentDirectoryPath(webSite, true);
 
   if (argPath != null) {
+    SiteMap siteMap = webSite.getSiteMap();
     SiteInfo siteInfo = webSite.getSiteInfo();
     int lastLevel = argPath.getElementCount() - 1;
-    List pagesList = webSite.getSiteMap().getPagesList(argPath);
 
-    if (pagesList != null) {
-    	boolean allowHiding = Utils.isTrue(md.getAdvancedParam("allowHiding", "false"));
-    	%><%=allowHiding%><%
-      int showLastLevel = -1;
+    if (siteMap.getPageInfo(argPath) != null) {
+      boolean allowHiding = Utils.isTrue(md.getAdvancedParam("allowHiding", "false"));
+      SiteMapIterator iter = new SiteMapIterator(webSite, argPath);
+      iter.setSkipHiddenSubPages(allowHiding);
+      PageInfo pageInfo;
 
-      Iterator iter = pagesList.iterator();
-
-      while (iter.hasNext()) {
-        PageInfo pageInfo = (PageInfo) iter.next();
+      while ((pageInfo = iter.getNextPage()) != null) {
         int level = pageInfo.getLevel();
 
-        if ( level <= showLastLevel ) {
-          showLastLevel = -1;
+        for (int i = lastLevel; i < level; i++) {
+          %><ul><%
         }
 
-        if ( siteInfo.getHideSubmenu(pageInfo.getPath()) && showLastLevel == -1 ) {
-          showLastLevel = level;
+        for (int i = level; i < lastLevel; i++) {
+          %></ul><%
         }
-
-        if (! allowHiding || showLastLevel == -1 || level <= showLastLevel) {
-          for (int i = lastLevel; i < level; i++) {
-            %><ul><%
-          }
-
-          for (int i = level; i < lastLevel; i++) {
-            %></ul><%
-          }
-          %>
+        
+        %>
             <li><a href="<%= cp + webSite.getLink(pageInfo) %>"><%=
               siteInfo.getPageTitle(pageInfo) %></a></li>
-          <%
-          lastLevel = level;
-        }
+        <%
+        lastLevel = level;
       }
 
       for (int i = argPath.getElementCount() - 1; i < lastLevel; i++) {
