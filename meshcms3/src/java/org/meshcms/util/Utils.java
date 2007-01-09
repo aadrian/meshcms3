@@ -197,14 +197,32 @@ public final class Utils {
    * false otherwise (null included)
    */
   public static boolean isTrue(String s) {
-    if (s == null) {
-      return false;
-    }
+    return isTrue(s, false);
+  }
 
-    s = s.trim().toLowerCase();
-    return s.equals("true") || s.equals("1") || s.equals("yes") ||
-        s.equals("ok") || s.equals("checked") || s.equals("selected") ||
-        s.equals("on");
+  public static boolean isTrue(String s, boolean checkFalse) {
+    boolean result = false;
+    
+    if (s == null) {
+      if (checkFalse) {
+        throw new IllegalArgumentException();
+      }
+    } else {
+      s = s.trim().toLowerCase();
+
+      if (s.equals("true") || s.equals("1") || s.equals("yes") ||
+          s.equals("ok") || s.equals("checked") || s.equals("selected") ||
+          s.equals("on")) {
+        result = true;
+      } else if (checkFalse) {
+        if (!(s.equals("false") || s.equals("0") || s.equals("no") ||
+            s.equals("off"))) {
+          throw new IllegalArgumentException();
+        }
+      }
+    }
+    
+    return result;
   }
 
   /**
@@ -1670,5 +1688,29 @@ public final class Utils {
     }
 
     return String.valueOf(chars);
+  }
+  
+  public static String[] commonPart(String[] sa1, String[] sa2, boolean fromEnd) {
+    int len1 = sa1.length;
+    int len2 = sa2.length;
+    int cnt = Math.min(len1, len2);
+    
+    if (fromEnd) {
+      for (int i = 1; i <= cnt; i++) {
+        if (!sa1[len1 - i].equals(sa2[len2 - i])) {
+          cnt = i - 1;
+        }
+      }
+    } else {
+      for (int i = 0; i < cnt; i++) {
+        if (!sa1[i].equals(sa2[i])) {
+          cnt = i;
+        }
+      }
+    }
+    
+    String[] result = new String[cnt];
+    System.arraycopy(sa1, fromEnd ? len1 - cnt : 0, result, 0, cnt);
+    return result;
   }
 }
