@@ -295,7 +295,7 @@ public class SiteMap extends DirectoryParser {
    * needed by those scripts
    */
   public String getTigraItems(String contextPath, Path path, boolean tree) {
-  	return this.getTigraItems(contextPath, path, tree);
+  	return getTigraItems(contextPath, path, tree, false);
   }
 
   /**
@@ -323,12 +323,8 @@ public class SiteMap extends DirectoryParser {
 
     int baseLevel = path.getElementCount() + 1;
     SiteInfo siteInfo = webSite.getSiteInfo();
-    Iterator iter = null;
-    if (! allowHiding) {
-      iter = getPagesList(path).iterator();
-    } else {
-    	iter = getPagesListNoHiddenSubmenus(path).iterator();
-    }
+    SiteMapIterator iter = new SiteMapIterator(webSite, path);
+    iter.setSkipHiddenSubPages(allowHiding);
     PageInfo current;
     PageInfo previous = null;
     int level;
@@ -519,6 +515,10 @@ public class SiteMap extends DirectoryParser {
    * root path. All members of the list are of type <code>PageInfo</code>.
    * Pages are sorted using a {@link PageInfoComparator}.
    * NB: This method excludes hidden submenus.
+   *
+   * @deprecated use a {@link org.meshcms.core.SiteMapIterator} and set
+   * {@link org.meshcms.core.SiteMapIterator.setSkipHiddenSubPages} to
+   * <code>true</code> instead.
    */
   public List getPagesListNoHiddenSubmenus(Path root) {
     SiteInfo siteInfo = webSite.getSiteInfo();

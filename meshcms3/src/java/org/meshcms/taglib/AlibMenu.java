@@ -61,83 +61,71 @@ public final class AlibMenu extends AbstractTag {
       outWriter.write("<link type='text/css' href='" +
           WebUtils.getFullThemeFolder(request) + "/alib.css' rel='stylesheet' />\n");
     } else {
-      boolean allowHiding = Utils.isTrue(this.allowHiding);
-
       SiteMap siteMap = webSite.getSiteMap();
       SiteInfo siteInfo = webSite.getSiteInfo();
       Path rootPath = (path == null) ? siteInfo.getThemeRoot(pagePath) : new Path(path);
       Path pathInMenu = webSite.getSiteMap().getPathInMenu(pagePath);
       int baseLevel = rootPath.getElementCount() + 1;
       int lastLevel = rootPath.getElementCount();
-      Iterator iter = siteMap.getPagesList(rootPath).iterator();
+      SiteMapIterator iter = new SiteMapIterator(webSite, rootPath);
+      iter.setSkipHiddenSubPages(Utils.isTrue(allowHiding));
       boolean liUsed = false;
       boolean firstUl = true;
-      int showLastLevel = -1;
 
       while (iter.hasNext()) {
         PageInfo current = (PageInfo) iter.next();
         Path currentPath = current.getPath();
         int level = Math.max(baseLevel, current.getLevel());
 
-        if ( current.getLevel() <= showLastLevel )
-        	showLastLevel = -1;
+        for (int i = lastLevel; i < level; i++) {
+          if (firstUl) {
+            writeIndented(outWriter, "<ul class=\"" +
+                (horizontal ? "hmenu" : "vmenu") + "\">", i);
+            firstUl = false;
+          } else {
+            writeIndented(outWriter, "<ul>", i);
+          }
 
-        if ( siteInfo.getHideSubmenu(currentPath) && showLastLevel == -1 )
-        	showLastLevel = current.getLevel();
-
-        boolean add = ! allowHiding || showLastLevel == -1 || current.getLevel() <= showLastLevel;
-
-        if (add) {
-	        for (int i = lastLevel; i < level; i++) {
-	          if (firstUl) {
-	            writeIndented(outWriter, "<ul class=\"" +
-	                (horizontal ? "hmenu" : "vmenu") + "\">", i);
-	            firstUl = false;
-	          } else {
-	            writeIndented(outWriter, "<ul>", i);
-	          }
-
-	          writeIndented(outWriter, "<li>", i + 1);
-	          liUsed = false;
-	        }
-
-	        for (int i = lastLevel - 1; i >= level; i--) {
-	          if (liUsed) {
-	            outWriter.write("</li>");
-	            liUsed = false;
-	          } else {
-	            writeIndented(outWriter, "</li>", i + 1);
-	          }
-
-	          writeIndented(outWriter, "</ul>", i);
-	        }
-
-	        if (liUsed) {
-	          outWriter.write("</li>");
-	          writeIndented(outWriter, "<li>", level);
-	        }
-
-	        for ( int i = lastLevel - 1; i >= level; i--) {
-	            writeIndented(outWriter, "</li>", i);
-	            writeIndented(outWriter, "<li>", i);
-	        }
-
-	        if ( ! Utils.isNullOrEmpty(currentPathStyle)
-	        		&& ( current.getLevel() >= baseLevel
-	        		       && pathInMenu.isContainedIn(currentPath)
-	                     || current.getPath().equals(pathInMenu)
-	                   ) ) {
-	          outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
-	            "\" class='" + currentPathStyle + "'>" +
-	            siteInfo.getPageTitle(current) + "</a>");
-	        } else {
-	          outWriter.write("<a href=\"" + cp + webSite.getLink(current) +"\">" +
-	            siteInfo.getPageTitle(current) + "</a>");
-	        }
-
-	        liUsed = true;
-	        lastLevel = level;
+          writeIndented(outWriter, "<li>", i + 1);
+          liUsed = false;
         }
+
+        for (int i = lastLevel - 1; i >= level; i--) {
+          if (liUsed) {
+            outWriter.write("</li>");
+            liUsed = false;
+          } else {
+            writeIndented(outWriter, "</li>", i + 1);
+          }
+
+          writeIndented(outWriter, "</ul>", i);
+        }
+
+        if (liUsed) {
+          outWriter.write("</li>");
+          writeIndented(outWriter, "<li>", level);
+        }
+
+        for ( int i = lastLevel - 1; i >= level; i--) {
+            writeIndented(outWriter, "</li>", i);
+            writeIndented(outWriter, "<li>", i);
+        }
+
+        if ( ! Utils.isNullOrEmpty(currentPathStyle)
+                        && ( current.getLevel() >= baseLevel
+                               && pathInMenu.isContainedIn(currentPath)
+                     || current.getPath().equals(pathInMenu)
+                   ) ) {
+          outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
+            "\" class='" + currentPathStyle + "'>" +
+            siteInfo.getPageTitle(current) + "</a>");
+        } else {
+          outWriter.write("<a href=\"" + cp + webSite.getLink(current) +"\">" +
+            siteInfo.getPageTitle(current) + "</a>");
+        }
+
+        liUsed = true;
+        lastLevel = level;
       }
 
       for (int i = lastLevel - 1; i >= rootPath.getElementCount(); i--) {

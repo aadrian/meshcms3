@@ -60,12 +60,8 @@ public final class SimpleMenu extends AbstractTag {
     Path pathInMenu = webSite.getSiteMap().getPathInMenu(pagePath);
     int baseLevel = rootPath.getElementCount() + 1;
     int spc = Utils.parseInt(space, 8);
-    Iterator iter = null;
-    if (! allowHiding) {
-      iter = siteMap.getPagesList(rootPath).iterator();
-    } else {
-    	iter = siteMap.getPagesListNoHiddenSubmenus(rootPath).iterator();
-    }
+    SiteMapIterator iter = new SiteMapIterator(webSite, rootPath);
+    iter.setSkipHiddenSubPages(allowHiding);
     Writer outWriter = getOut();
 
     while (iter.hasNext()) {

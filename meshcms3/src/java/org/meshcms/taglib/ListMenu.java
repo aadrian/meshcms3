@@ -85,7 +85,6 @@ public final class ListMenu extends AbstractTag {
     }
 
     boolean linkCurrent = current != null && current.equalsIgnoreCase(LINK);
-    boolean allowHiding = Utils.isTrue(this.allowHiding);
 
     SiteMap siteMap = webSite.getSiteMap();
     SiteInfo siteInfo = webSite.getSiteInfo();
@@ -94,7 +93,8 @@ public final class ListMenu extends AbstractTag {
     int baseLevel = rootPath.getElementCount() + 1;
     Writer outWriter = getOut();
     int lastLevel = rootPath.getElementCount();
-    Iterator iter = siteMap.getPagesList(rootPath).iterator();
+    SiteMapIterator iter = new SiteMapIterator(webSite, rootPath);
+    iter.setSkipHiddenSubPages(Utils.isTrue(allowHiding));
     boolean styleNotApplied = !Utils.isNullOrEmpty(style);
     int showLastLevel = -1;
 
@@ -131,62 +131,60 @@ public final class ListMenu extends AbstractTag {
         }
       }
 
-      add = add && (! allowHiding || showLastLevel == -1 || current.getLevel() <= showLastLevel);
-
       if (add) {
-      	// Close off any pending lower levels
-        for (int i = lastLevel - 1; i >= level; i--) {
-        	writeIndented(outWriter, "</li>", i + 1);
-        	writeIndented(outWriter, "</ul>", i);
-        }
+      // Close off any pending lower levels
+      for (int i = lastLevel - 1; i >= level; i--) {
+              writeIndented(outWriter, "</li>", i + 1);
+              writeIndented(outWriter, "</ul>", i);
+      }
 
-        // If we're a level deeper - then create new sub ul+li
-        for (int i = lastLevel; i < level; i++) {
-          if (styleNotApplied) {
-            writeIndented(outWriter, "<ul class=\"" + style + "\">", i);
-            styleNotApplied = false;
+      // If we're a level deeper - then create new sub ul+li
+      for (int i = lastLevel; i < level; i++) {
+        if (styleNotApplied) {
+          writeIndented(outWriter, "<ul class=\"" + style + "\">", i);
+          styleNotApplied = false;
+        } else {
+          writeIndented(outWriter, "<ul>", i);
+        }
+        writeIndented(outWriter, "<li>", i + 1);
+      }
+
+      // If we do not have an open li at the right level - then create one
+      if (level <= lastLevel) {
+          writeIndented(outWriter, "</li>", level);
+          writeIndented(outWriter, "<li>", level);
+      }
+
+      if ( current.getLevel() > 0 && pathInMenu.isContainedIn(currentPath)
+              && ! current.getPath().equals(pathInMenu)
+              && ! Utils.isNullOrEmpty(currentPathStyle)) {
+          outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
+                  "\" class='" + currentPathStyle + "'>" +
+                  siteInfo.getPageTitle(current) + "</a>");
+      } else if (current.getPath().equals(pathInMenu)) {
+        if (isEdit || linkCurrent) {
+          if (! Utils.isNullOrEmpty(currentStyle) || ! Utils.isNullOrEmpty(currentPathStyle)) {
+              outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
+                      "\" class='" + (currentPathStyle+" "+currentStyle).trim() + "'>" +
+                      siteInfo.getPageTitle(current) + "</a>");
           } else {
-            writeIndented(outWriter, "<ul>", i);
-          }
-          writeIndented(outWriter, "<li>", i + 1);
-        }
-
-        // If we do not have an open li at the right level - then create one
-        if (level <= lastLevel) {
-            writeIndented(outWriter, "</li>", level);
-            writeIndented(outWriter, "<li>", level);
-        }
-
-        if ( current.getLevel() > 0 && pathInMenu.isContainedIn(currentPath)
-                && ! current.getPath().equals(pathInMenu)
-                && ! Utils.isNullOrEmpty(currentPathStyle)) {
-            outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
-                    "\" class='" + currentPathStyle + "'>" +
-                    siteInfo.getPageTitle(current) + "</a>");
-        } else if (current.getPath().equals(pathInMenu)) {
-          if (isEdit || linkCurrent) {
-            if (! Utils.isNullOrEmpty(currentStyle) || ! Utils.isNullOrEmpty(currentPathStyle)) {
-                outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
-                        "\" class='" + (currentPathStyle+" "+currentStyle).trim() + "'>" +
-                        siteInfo.getPageTitle(current) + "</a>");
-            } else {
-                outWriter.write("<a href=\"" + cp + webSite.getLink(current) + "\">" +
-                        siteInfo.getPageTitle(current) + "</a>");
-            }
-          } else {
-            if (Utils.isNullOrEmpty(currentStyle)) {
-              outWriter.write(siteInfo.getPageTitle(current));
-            } else {
-              outWriter.write("<span class='" + currentStyle + "'>" +
-                siteInfo.getPageTitle(current) + "</span>");
-            }
+              outWriter.write("<a href=\"" + cp + webSite.getLink(current) + "\">" +
+                      siteInfo.getPageTitle(current) + "</a>");
           }
         } else {
-          outWriter.write("<a href=\"" + cp + webSite.getLink(current) + "\">" +
-            siteInfo.getPageTitle(current) + "</a>");
+          if (Utils.isNullOrEmpty(currentStyle)) {
+            outWriter.write(siteInfo.getPageTitle(current));
+          } else {
+            outWriter.write("<span class='" + currentStyle + "'>" +
+              siteInfo.getPageTitle(current) + "</span>");
+          }
         }
+      } else {
+        outWriter.write("<a href=\"" + cp + webSite.getLink(current) + "\">" +
+          siteInfo.getPageTitle(current) + "</a>");
+      }
 
-        lastLevel = level;
+      lastLevel = level;
       }
     }
 
