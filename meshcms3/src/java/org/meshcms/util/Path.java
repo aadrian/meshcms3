@@ -540,4 +540,13 @@ public class Path implements Comparable, Serializable, Cloneable {
     elms[index] = element;
     return new Path(elms);
   }
+  
+  /**
+   * Returns a copy of the elements array.
+   */
+  public String[] getElements() {
+    String[] result = new String[elements.length];
+    System.arraycopy(elements, 0, result, 0, elements.length);
+    return result;
+  }
 }

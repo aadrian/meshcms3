@@ -63,6 +63,7 @@
   c.setBackupLife(Utils.parseInt(request.getParameter("backupLife"), c.getBackupLife()));
   c.setStatsLength(Utils.parseInt(request.getParameter("statsLength"), c.getStatsLength()));
   c.setAlwaysRedirectWelcomes(Utils.isTrue(request.getParameter("alwaysRedirectWelcomes")));
+  c.setSearchMovedPages(Utils.isTrue(request.getParameter("searchMovedPages")));
   c.setAlwaysDenyDirectoryListings(Utils.isTrue(request.getParameter("alwaysDenyDirectoryListings")));
   c.setHideExceptions(Utils.isTrue(request.getParameter("hideExceptions")));
   c.setEditorModulesCollapsed(Utils.isTrue(request.getParameter("editorModulesCollapsed")));

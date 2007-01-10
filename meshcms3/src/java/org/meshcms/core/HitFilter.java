@@ -119,7 +119,7 @@ public final class HitFilter implements Filter {
         httpRes.sendError(HttpServletResponse.SC_NOT_FOUND);
         return;
       }
-
+      
       if (webSite.isDirectory(pagePath)) {
         Path wPath = webSite.findCurrentWelcome(pagePath);
         Configuration conf = webSite.getConfiguration();
@@ -159,6 +159,24 @@ public final class HitFilter implements Filter {
         siteMap = webSite.getSiteMap();
         isAdminPage = pagePath.isContainedIn(webSite.getAdminPath());
         HttpSession session = httpReq.getSession();
+
+        if (webSite.getConfiguration().isSearchMovedPages() &&
+            !(isAdminPage || webSite.getFile(pagePath).exists())) {
+          Path redirPath = siteMap.getRedirMatch(pagePath);
+          
+          if (redirPath != null) {
+            blockRemoteCaching(httpRes);
+            String q = httpReq.getQueryString();
+
+            if (Utils.isNullOrEmpty(q)) {
+              httpRes.sendRedirect(httpReq.getContextPath() + "/" + redirPath);
+            } else {
+              httpRes.sendRedirect(httpReq.getContextPath() + "/" + redirPath + '?' + q);
+            }
+            
+            return;
+          }
+        }
 
         UserInfo userInfo = (session == null) ? null :
             (UserInfo) session.getAttribute("userInfo");

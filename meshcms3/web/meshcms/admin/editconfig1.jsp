@@ -248,6 +248,12 @@
     </div>
 
     <div class="meshcmscheckbox">
+      <input type="checkbox" id="searchMovedPages" name="searchMovedPages"
+       value="true"<%= configuration.isSearchMovedPages() ? " checked='checked'" : "" %> />
+      <label for="searchMovedPages"><fmt:message key="configSearchMovedPages" /></label>
+    </div>
+
+    <div class="meshcmscheckbox">
       <input type="checkbox" id="alwaysDenyDirectoryListings" name="alwaysDenyDirectoryListings"
        value="true"<%= configuration.isAlwaysDenyDirectoryListings() ? " checked='checked'" : "" %> />
       <label for="alwaysDenyDirectoryListings"><fmt:message key="configAlwaysDenyDirList" /></label>

@@ -66,6 +66,7 @@ public class Configuration implements Serializable {
   private boolean editorModulesCollapsed;
   private boolean highQualityThumbnails;
   private boolean exportCheckDates;
+  private boolean searchMovedPages;
   private int backupLife;
   private int statsLength;
   private int updateInterval;
@@ -93,6 +94,7 @@ public class Configuration implements Serializable {
     setEditorModulesCollapsed(false);
     setHighQualityThumbnails(false);
     setExportCheckDates(true);
+    setSearchMovedPages(false);
 
     setBackupLife(90);
     setStatsLength(3);
@@ -493,5 +495,13 @@ public class Configuration implements Serializable {
 
   public void setExportCommand(String exportCommand) {
     this.exportCommand = exportCommand;
+  }
+
+  public boolean isSearchMovedPages() {
+    return searchMovedPages;
+  }
+
+  public void setSearchMovedPages(boolean searchMovedPages) {
+    this.searchMovedPages = searchMovedPages;
   }
 }
