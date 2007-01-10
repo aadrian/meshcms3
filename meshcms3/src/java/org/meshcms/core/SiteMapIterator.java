@@ -51,7 +51,7 @@ public class SiteMapIterator implements Iterator {
   public SiteMapIterator(WebSite webSite, Path root) {
     siteMap = webSite.getSiteMap();
     siteInfo = webSite.getSiteInfo();
-    iter = siteMap.getPagesMap(root).values().iterator();
+    iter = siteMap.getPagesList(root).iterator();
   }
   
   public boolean hasNext() {
