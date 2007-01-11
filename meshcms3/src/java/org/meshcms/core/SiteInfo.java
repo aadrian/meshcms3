@@ -258,7 +258,7 @@ public class SiteInfo {
       if (Utils.isNullOrEmpty(value)) {
         data.remove(fieldName);
       } else {
-        data.setProperty(fieldName, WebUtils.encodeHTML(value));
+        data.setProperty(fieldName, Utils.encodeHTML(value));
       }
 
       return true;

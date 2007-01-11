@@ -650,9 +650,11 @@ public final class WebUtils {
     }
   }
 
+  /**
+   * @deprecated use {@link Utils.encodeHTML(java.lang.String)} instead.
+   */
   public static String encodeHTML(String html) {
-    return WebSite.IS_MULTIBYTE_SYSTEM_CHARSET ?
-        Utils.encodeHTML(html) : WebUtils.convertToHTMLEntities(html, true);
+    return Utils.encodeHTML(html);
   }
 
   public static Path getCorrespondingPath(WebSite webSite, Path path,

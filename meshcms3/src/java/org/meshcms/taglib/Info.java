@@ -53,7 +53,7 @@ public final class Info extends AbstractTag {
     }
 
     if (result == null) {
-      result = Utils.noNull(WebUtils.encodeHTML(c.getSiteName()));
+      result = Utils.encodeHTML(Utils.noNull(c.getSiteName()));
     }
 
     getOut().write(result);

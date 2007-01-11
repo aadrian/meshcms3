@@ -136,7 +136,7 @@ if (title.equals("") && fullPath.isRoot()) { %>
       path = path.add(webSite.getWelcomeFileNames()[0]);
     }
 
-    title = WebUtils.encodeHTML(title);
+    title = Utils.encodeHTML(title);
     String text = webSite.getHTMLTemplate(title);
 
     if (webSite.saveToFile(userInfo, text, path)) {
