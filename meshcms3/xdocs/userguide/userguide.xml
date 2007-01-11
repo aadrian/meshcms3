@@ -167,6 +167,23 @@
 &lt;/Server&gt;</programlisting>
     </section>
 
+    <section id="charsets">
+      <title>Choosing a Charset</title>
+
+      <para>MeshCMS is file-based, so it needs to pick up a charset to read
+      and write files. Files are written by MeshCMS itself, but they are read
+      by the servlet container (e.g. Tomcat) and processed by SiteMesh. For
+      this reason, MeshCMS will use the system charset to ensure
+      compatibility. If the charset encoding of the platform is not good for
+      you, you can override it using the
+      <code>-Dfile.encoding=<replaceable>charsetname</replaceable></code>
+      option in the command that launches the Java VM to run the servlet
+      container.</para>
+
+      <para>MeshCMS is developed on UTF-8 and ISO-8859-1 machines, but many
+      users have different charsets and use them successfully.</para>
+    </section>
+
     <section id="upgrade">
       <title>Upgrade</title>
 
@@ -1091,6 +1108,17 @@
           this option to true allows to achieve a uniform behavior and offers
           better safety if virtual sites are used (the servlet container is
           not aware of MeshCMS virtual sites);</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Redirect moved pages if
+          possible</emphasis>: if this option is enabled, MeshCMS tries to
+          redirect not found pages to other ones based on file path. Similar
+          paths are matched starting from the end and going up recursively: a
+          page like
+          <uri>www.site.com/products/someproductline/productname</uri> will be
+          successfully redirected to
+          <uri>www.site.com/somedivision/products/someproductline/productname</uri>;</para>
         </listitem>
 
         <listitem>
