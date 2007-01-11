@@ -7,7 +7,7 @@
 ******/
 
 	function EditAreaLoader(){
-		this.version= "0.6.3.1";
+		this.version= "0.6.4";
 		date= new Date();
 		this.start_time=date.getTime();
 		this.win= "loading";	// window loading state
@@ -20,7 +20,6 @@
 		this.syntax= new Object();	// array of initilized syntax language for highlight mode
 		this.loadedFiles= new Array();
 		this.waiting_loading= new Object(); 	// files that must be loaded in order to allow the script to really start
-		this.min_area_size= {"x": 400, "y": 100};
 		// scripts that must be loaded in the iframe
 		this.scripts_to_load= new Array("elements_functions", "resize_area", "reg_syntax");
 		this.sub_scripts_to_load= new Array("edit_area", "manage_area" ,"edit_area_functions", "keyboard", "search_replace", "highlight", "regexp");
@@ -39,6 +38,9 @@
 			,begin_toolbar: ""		//  "new_document, save, load, |"
 			,end_toolbar: ""		// or end_toolbar
 			,allow_resize: "both"	// possible values: "no", "both", "x", "y"
+			,min_width: 400
+			,min_height: 100
+			,replace_tab_by_spaces: false
 			,allow_toggle: true		// true or false
 			,language: "en"
 			,syntax: ""
@@ -194,7 +196,6 @@
 		}
 		
 		if(settings["browsers"]=="known" && this.nav['isValidBrowser']==false){
-		
 			return;
 		}
 		
@@ -440,8 +441,6 @@
 				frame.editArea.toggle_full_screen(false);
 			editAreas[id]["displayed"]=false;
 			
-			
-		
 			// set wrap to off to keep same display mode (some browser get problem with this, so it need more complex operation
 			
 			editAreas[id]["textarea"].wrap = "off";	// for IE
@@ -566,8 +565,10 @@
 	
 	EditAreaLoader.prototype.set_editarea_size_from_textarea= function(id, frame){	
 		var elem= document.getElementById(id);
-		var width= elem.offsetWidth+"px";
-		var height= elem.offsetHeight+"px";
+		//var width= elem.offsetWidth+"px";
+		//var height= elem.offsetHeight+"px";
+		var width=Math.max(editAreas[id]["settings"]["min_width"], elem.offsetWidth)+"px";
+		var height=Math.max(editAreas[id]["settings"]["min_height"], elem.offsetHeight)+"px";
 		if(elem.style.width.indexOf("%")!=-1)
 			width= elem.style.width;
 		if(elem.style.height.indexOf("%")!=-1)

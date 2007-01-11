@@ -45,7 +45,7 @@
 						content+= curr_text[i]+"\n";	
 					}
 					
-					if(this.nav['isOpera'])
+					if(this.nav['isdOpera'])
 						content= this.replace_tab(content);					
 					content= content.replace(/&/g,"&amp;");
 					content= content.replace(/</g,"&lt;");
@@ -114,7 +114,13 @@
 		if(this.last_selection["selectionStart"]==start && this.last_selection["selectionEnd"]==end && this.last_selection["full_text"]==this.textarea.value)
 			return this.last_selection;
 			
-		
+		if(this.tabulation!="\t" && this.textarea.value.indexOf("\t")!=-1) 
+		{	// can append only after copy/paste 
+			var len= this.textarea.value.length;
+			this.textarea.value=this.replace_tab(this.textarea.value);
+			start=end= start+(this.textarea.value.length-len);
+			this.area_select(start, 0);
+		}
 		var selections=new Object();
 		selections["selectionStart"]= start;
 		selections["selectionEnd"]= end;		
@@ -228,19 +234,19 @@
 		var insText = this.textarea.value.substring(start, end);
 		
 		/* Insert tabulation and ajust cursor position */
-		var pos_start=0;
-		var pos_end=0;
+		var pos_start=start;
+		var pos_end=end;
 		if (insText.length == 0) {
 			// if only one line selected
-			this.textarea.value = this.textarea.value.substr(0, start) + "\t" + insText + this.textarea.value.substr(end);
-			pos_start = start + 1;
+			this.textarea.value = this.textarea.value.substr(0, start) + this.tabulation + this.textarea.value.substr(end);
+			pos_start = start + this.tabulation.length;
 			pos_end=pos_start;
 		} else {
 			start= Math.max(0, this.textarea.value.substr(0, start).lastIndexOf("\n")+1);
 			endText=this.textarea.value.substr(end);
 			startText=this.textarea.value.substr(0, start);
 			tmp= this.textarea.value.substring(start, end).split("\n");
-			insText= "\t"+tmp.join("\n\t");
+			insText= this.tabulation+tmp.join("\n"+this.tabulation);
 			this.textarea.value = startText + insText + endText;
 			pos_start = start;
 			pos_end= this.textarea.value.indexOf("\n", startText.length + insText.length);
@@ -273,13 +279,20 @@
 		var end = this.textarea.selectionEnd;
 		var insText = this.textarea.value.substring(start, end);
 		
-		/* Tab remove and sorsor selecitona djust */
-		var pos_start=0;
-		var pos_end=0;
+		/* Tab remove and cursor seleciton adjust */
+		var pos_start=start;
+		var pos_end=end;
 		if (insText.length == 0) {
-			this.textarea.value = this.textarea.value.substr(0, start) + "\t" + insText + this.textarea.value.substr(end);
-			pos_start = start + 1;
-			pos_end=pos_start;
+			if(this.textarea.value.substring(start-this.tabulation.length, start)==this.tabulation)
+			{
+				this.textarea.value = this.textarea.value.substr(0, start-this.tabulation.length) + this.textarea.value.substr(end);
+				pos_start= Math.max(0, start-this.tabulation.length);
+				pos_end=pos_start;
+			}	
+			/*
+			this.textarea.value = this.textarea.value.substr(0, start) + this.tabulation + insText + this.textarea.value.substr(end);
+			pos_start = start + this.tabulation.length;
+			pos_end=pos_start;*/
 		} else {
 			start= this.textarea.value.substr(0, start).lastIndexOf("\n")+1;
 			endText=this.textarea.value.substr(end);

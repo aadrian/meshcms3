@@ -1,3 +1,9 @@
+/**
+ * Python syntax v 1.1 
+ * 
+ * v1.1 by Andre Roberge (2006/12/27)
+ *   
+**/
 editAreaLoader.load_syntax["python"] = {
 	'COMMENT_SINGLE' : {1 : '#'}
 	,'COMMENT_MULTI' : {}
@@ -7,11 +13,15 @@ editAreaLoader.load_syntax["python"] = {
 		/*
 		** Set 1: reserved words
 		** http://python.org/doc/current/ref/keywords.html
+		** Note: 'as' and 'with' have been added starting with Python 2.5
 		*/
 		'reserved' : [
-			'and', 'del', 'for', 'is', 'raise', 'assert', 'elif', 'from', 'lambda', 'return', 'break',
-			'else', 'global', 'not', 'try', 'class', 'except', 'if', 'or', 'while', 'continue', 'exec',
-			'import', 'pass', 'yield', 'def', 'finally', 'in', 'print'
+			'and', 'as', 'assert', 'break', 'class', 'continue', 'def', 'del', 'elif',
+			'else', 'except', 'exec', 'finally', 'for', 'from', 'global', 'if', 
+			'import', 'is', 'in', 'lambda', 'not', 'or', 'pass', 'print', 'raise',
+			'return', 'try', 'while', 'with', 'yield'
+			//the following are *almost* reserved; we'll treat them as such
+			, 'False', 'True', 'None'
 		]
 		/*
 		** Set 2: builtins
@@ -26,8 +36,9 @@ editAreaLoader.load_syntax["python"] = {
 			'raw_input', 'reduce', 'reload', 'repr', 'reversed', 'round', 'set', 'setattr', 'slice',
 			'sorted', 'staticmethod', 'str', 'sum', 'super', 'tuple', 'type', 'unichr', 'unicode', 
 			'vars', 'xrange', 'zip',
-			// Built-in constants: http://python.org/doc/current/lib/node35.html
-			'False', 'True', 'None', 'NotImplemented', 'Ellipsis',
+			// Built-in constants: http://www.python.org/doc/2.4.1/lib/node35.html
+			//'False', 'True', 'None' have been included in 'reserved'
+			'NotImplemented', 'Ellipsis',
 			// Built-in Exceptions: http://python.org/doc/current/lib/module-exceptions.html
 			'Exception', 'StandardError', 'ArithmeticError', 'LookupError', 'EnvironmentError',
 			'AssertionError', 'AttributeError', 'EOFError', 'FloatingPointError', 'IOError',
@@ -37,16 +48,20 @@ editAreaLoader.load_syntax["python"] = {
 			'UnboundlocalError', 'UnicodeError', 'UnicodeEncodeError', 'UnicodeDecodeError',
 			'UnicodeTranslateError', 'ValueError', 'WindowsError', 'ZeroDivisionError', 'Warning',
 			'UserWarning', 'DeprecationWarning', 'PendingDeprecationWarning', 'SyntaxWarning',
-			'RuntimeWarning', 'FutureWarning',
-			// self: this is a common python convention (but not a reserved word)
-			'self'
-			
+			'RuntimeWarning', 'FutureWarning',		
+			// we will include the string methods as well
+			// http://python.org/doc/current/lib/string-methods.html
+			'capitalize', 'center', 'count', 'decode', 'encode', 'endswith', 'expandtabs',
+			'find', 'index', 'isalnum', 'isaplpha', 'isdigit', 'islower', 'isspace', 'istitle',
+			'isupper', 'join', 'ljust', 'lower', 'lstrip', 'replace', 'rfind', 'rindex', 'rjust',
+			'rsplit', 'rstrip', 'split', 'splitlines', 'startswith', 'strip', 'swapcase', 'title',
+			'translate', 'upper', 'zfill'
 		]
 		/*
 		** Set 3: standard library
 		** http://python.org/doc/current/lib/modindex.html
 		*/
-		,'standards' : [
+		,'stdlib' : [
 			'__builtin__', '__future__', '__main__', '_winreg', 'aifc', 'AL', 'al', 'anydbm',
 			'array', 'asynchat', 'asyncore', 'atexit', 'audioop', 'base64', 'BaseHTTPServer',
 			'Bastion', 'binascii', 'binhex', 'bisect', 'bsddb', 'bz2', 'calendar', 'cd', 'cgi',
@@ -83,17 +98,7 @@ editAreaLoader.load_syntax["python"] = {
 		** Set 4: special methods
 		** http://python.org/doc/current/ref/specialnames.html
 		*/
-		,'specials' : [
-			/*
-			// Iterator types: http://python.org/doc/current/lib/typeiter.html
-			'__iter__', 'next',
-			// String types: http://python.org/doc/current/lib/string-methods.html
-			'capitalize', 'center', 'count', 'decode', 'encode', 'endswith', 'expandtabs',
-			'find', 'index', 'isalnum', 'isaplpha', 'isdigit', 'islower', 'isspace', 'istitle',
-			'isupper', 'join', 'ljust', 'lower', 'lstrip', 'replace', 'rfind', 'rindex', 'rjust',
-			'rsplit', 'rstrip', 'split', 'splitlines', 'startswith', 'strip', 'swapcase', 'title',
-			'translate', 'upper', 'zfill',
-			*/
+		,'special' : [
 			// Basic customization: http://python.org/doc/current/ref/customization.html
 			'__new__', '__init__', '__del__', '__repr__', '__str__', 
 			'__lt__', '__le__', '__eq__', '__ne__', '__gt__', '__ge__', '__cmp__', '__rcmp__',
@@ -118,22 +123,22 @@ editAreaLoader.load_syntax["python"] = {
 		]
 	}
 	,'OPERATORS' :[
-		'+', '-', '/', '*', '=', '<', '>', '%', '!', '&', ';', '?', '`'
+		'+', '-', '/', '*', '=', '<', '>', '%', '!', '&', ';', '?', '`', ':', ','
 	]
 	,'DELIMITERS' :[
 		'(', ')', '[', ']', '{', '}'
 	]
 	,'STYLES' : {
 		'COMMENTS': 'color: #AAAAAA;'
-		,'QUOTESMARKS': 'color: #879EFA;'
+		,'QUOTESMARKS': 'color: #660066;'
 		,'KEYWORDS' : {
-			'reserved' : 'color: #48BDDF;'
-			,'builtins' : 'color: #0040FD;'
-			,'standards' : 'color: #60CA00;'
-			,'specials': 'color: #0000CD;'
+			'reserved' : 'color: #0000FF;'
+			,'builtins' : 'color: #009900;'
+			,'stdlib' : 'color: #009900;'
+			,'special': 'color: #006666;'
 			}
-		,'OPERATORS' : 'color: #FF00FF;'
-		,'DELIMITERS' : 'color: #2B60FF;'
+		,'OPERATORS' : 'color: #993300;'
+		,'DELIMITERS' : 'color: #993300;'
 				
 	}
 };

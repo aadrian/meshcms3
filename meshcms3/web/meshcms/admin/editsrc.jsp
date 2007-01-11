@@ -69,6 +69,7 @@
 // <![CDATA[
   editAreaLoader.init({
     id : "fullsrc",
+    display : "later",
     syntax: "<%= codeSyntax %>",
     language: "<fmt:message key="editAreaLang" />",
     start_highlight: true

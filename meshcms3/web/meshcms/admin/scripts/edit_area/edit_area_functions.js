@@ -253,7 +253,6 @@
 	EditArea.prototype.scroll_to_view= function(show){
 		if(!this.smooth_selection)
 			return;
-	
 		var zone= document.getElementById("result");
 		
 		//var cursor_pos_top= parseInt(document.getElementById("cursor_pos").style.top.replace("px",""));
@@ -523,7 +522,6 @@
 		parent.editAreaLoader.start_resize_area();
 	};
 	
-	
 	EditArea.prototype.toggle_full_screen= function(to){
 		if(typeof(to)=="undefined")
 			to= !this.fullscreen['isFull'];
@@ -531,16 +529,18 @@
 		this.fullscreen['isFull']= to;
 		var icon= document.getElementById("fullscreen");
 		if(to && to!=old)
-		{	// toogle one fullscreen		
+		{	// toogle on fullscreen		
 			var selStart= this.textarea.selectionStart;
 			var selEnd= this.textarea.selectionEnd;
-				
-			var html=parent.document.getElementsByTagName("html")[0];
+			var html= parent.document.getElementsByTagName("html")[0];
+			var frame= parent.document.getElementById("frame_"+this.id);
+
 			this.fullscreen['old_overflow']= parent.get_css_property(html, "overflow");
 			this.fullscreen['old_height']= parent.get_css_property(html, "height");
 			this.fullscreen['old_width']= parent.get_css_property(html, "width");
 			this.fullscreen['old_scrollTop']= html.scrollTop;
 			this.fullscreen['old_scrollLeft']= html.scrollLeft;
+			this.fullscreen['old_zIndex']= parent.get_css_property(frame, "z-index");
 			if(this.nav['isOpera']){
 				html.style.height= "100%";
 				html.style.width= "100%";	
@@ -548,21 +548,25 @@
 			html.style.overflow= "hidden";
 			html.scrollTop=0;
 			html.scrollLeft=0;
+			
+		
+			//html.style.backgroundColor= "#FF0000"; 
 //	alert(screen.height+"\n"+window.innerHeight+"\n"+html.clientHeight+"\n"+window.offsetHeight+"\n"+document.body.offsetHeight);
 			
-			var frame= parent.document.getElementById("frame_"+this.id);
 			
-		/*	if(this.nav['isOpera']){	// Opera doesn't manage correctly the width 100% for the iframe and allow to scroll with position absolute
-				frame.style.position="fixed";	// PB: Opera can't set position back to 'static'
-			}else{
-				frame.style.position="absolute";
-			}*/
 			frame.style.position="absolute";
 			frame.style.width= html.clientWidth+"px";
 			frame.style.height= html.clientHeight+"px";
+			frame.style.display="block";
+			frame.style.zIndex="9999";
 			frame.style.top="0px";
 			frame.style.left="0px";
-			frame.style.display="block";
+			
+			// if the iframe was in a div with position absolute, the top and left are the one of the div, 
+			// so I fix it by seeing at witch position the iframe start and correcting it
+			frame.style.top= "-"+parent.calculeOffsetTop(frame)+"px";
+			frame.style.left= "-"+parent.calculeOffsetLeft(frame)+"px";
+			
 		//	parent.editAreaLoader.execCommand(this.id, "update_size();");
 		//	var body=parent.document.getElementsByTagName("body")[0];
 		//	body.appendChild(frame);
@@ -593,8 +597,9 @@
 			
 			var frame= parent.document.getElementById("frame_"+this.id);	
 			frame.style.position="static";
+			frame.style.zIndex= this.fullscreen['old_zIndex'];
 		
-			var html=parent.document.getElementsByTagName("html")[0];
+			var html= top.document.getElementsByTagName("html")[0];
 		//	html.style.overflow= this.fullscreen['old_overflow'];
 		
 			if(this.nav['isOpera']){

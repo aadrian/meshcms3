@@ -55,6 +55,15 @@
 		// init with settings and ID
 		this.id= area_id;
 		this.settings= editAreas[this.id]["settings"];
+		
+		if((""+this.settings['replace_tab_by_spaces']).match(/^[0-9]+$/))
+		{
+			this.tab_nb_char= this.settings['replace_tab_by_spaces'];
+			this.tabulation="";
+			for(var i=0; i<this.tab_nb_char; i++)
+				this.tabulation+=" ";
+		}else
+			this.tabulation="\t";
 	};
 	
 	
@@ -248,17 +257,19 @@
 				document.getElementById("line_number").appendChild(span);				
 			}
 			//alert(area_height);
+				
 			if(this.textarea.previous_scrollWidth!=area_width)
 			{	// need width resizing
 				if(this.nav['isOpera']){
 					/*if(this.textarea.style.width.replace("px","")-0+50 < area_width)
 						area_width+=50;*/
 				}else{
-					if(this.textarea.style.width.replace("px","") < area_width){
+					if(this.textarea.style.width && (this.textarea.style.width.replace("px","") < area_width)){
 						area_width+=50;
 					}
 				}
-				
+				//window.status= "width: "+this.textarea.offsetWidth+" scroll-width: "+this.textarea.scrollWidth+" area_width: "+area_width+" container: "+this.container.offsetWidth+" result: "+this.result.offsetWidth;
+		
 				if(this.nav['isGecko'] || this.nav['isOpera'])
 					this.container.style.width= (area_width+45)+"px";
 				else

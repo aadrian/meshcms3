@@ -44,8 +44,8 @@
 		
 		var div= document.getElementById("edit_area_resize");		
 		var textarea= editAreas[editAreaLoader.resize["id"]]["textarea"];
-		var width= Math.max(editAreaLoader.min_area_size["x"], div.offsetWidth-4);
-		var height= Math.max(editAreaLoader.min_area_size["y"], div.offsetHeight-4);
+		var width= Math.max(editAreas[editAreaLoader.resize["id"]]["settings"]["min_width"], div.offsetWidth-4);
+		var height= Math.max(editAreas[editAreaLoader.resize["id"]]["settings"]["min_height"], div.offsetHeight-4);
 		if(editAreaLoader.nav['isIE']==6){
 			width-=2;
 			height-=2;	
