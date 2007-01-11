@@ -126,14 +126,7 @@ public final class HitFilter implements Filter {
 
         if (conf == null || conf.isAlwaysDenyDirectoryListings()) {
           if (wPath != null) {
-            blockRemoteCaching(httpRes);
-            String q = httpReq.getQueryString();
-
-            if (Utils.isNullOrEmpty(q)) {
-              httpRes.sendRedirect(httpReq.getContextPath() + "/" + wPath);
-            } else {
-              httpRes.sendRedirect(httpReq.getContextPath() + "/" + wPath + '?' + q);
-            }
+            redirect(httpReq, httpRes, wPath);
           } else {
             httpRes.sendError(HttpServletResponse.SC_FORBIDDEN,
                 "Directory listing denied");
@@ -165,15 +158,7 @@ public final class HitFilter implements Filter {
           Path redirPath = siteMap.getRedirMatch(pagePath);
           
           if (redirPath != null) {
-            blockRemoteCaching(httpRes);
-            String q = httpReq.getQueryString();
-
-            if (Utils.isNullOrEmpty(q)) {
-              httpRes.sendRedirect(httpReq.getContextPath() + "/" + redirPath);
-            } else {
-              httpRes.sendRedirect(httpReq.getContextPath() + "/" + redirPath + '?' + q);
-            }
-            
+            redirect(httpReq, httpRes, redirPath);
             return;
           }
         }
@@ -382,14 +367,7 @@ public final class HitFilter implements Filter {
         Path wPath = webSite.findCurrentWelcome(pagePath);
 
         if (wPath != null) {
-          String q = httpReq.getQueryString();
-
-          if (Utils.isNullOrEmpty(q)) {
-            httpRes.sendRedirect(httpReq.getContextPath() + "/" + wPath);
-          } else {
-            httpRes.sendRedirect(httpReq.getContextPath() + "/" + wPath + '?' + q);
-          }
-
+          redirect(httpReq, httpRes, wPath);
           return;
         }
 
@@ -410,6 +388,18 @@ public final class HitFilter implements Filter {
 
     // should never be reached
     chain.doFilter(request, response);
+  }
+
+  private static void redirect(HttpServletRequest httpReq,
+      HttpServletResponse httpRes, Path redirPath) throws IOException {
+    blockRemoteCaching(httpRes);
+    String q = httpReq.getQueryString();
+
+    if (Utils.isNullOrEmpty(q)) {
+      httpRes.sendRedirect(httpReq.getContextPath() + "/" + redirPath);
+    } else {
+      httpRes.sendRedirect(httpReq.getContextPath() + "/" + redirPath + '?' + q);
+    }
   }
 
   /**
