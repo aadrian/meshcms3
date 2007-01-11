@@ -1,7 +1,7 @@
-// UK lang variables
+// JA lang variables
 
 tinyMCE.addToLang('',{
-iespell_desc : 'Run spell checking',
-iespell_download : "ieSpell not detected. Click OK to go to download page."
+iespell_desc : 'スペルチェックを行う',
+iespell_download : "ieSpellが検出できませんでした。OKボタンを押してダウンロードページを表示してください"
 });
 
