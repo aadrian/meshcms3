@@ -1,5 +1,16 @@
 ________________________________
 --------------------------------
+2007-01-15: 3.0.4 released
+--------------------------------
+
+- Fix: wrong format of the tag library descriptor
+- Added a site map iterator to ease creation of menus
+- TinyMCE upgraded to 2.0.9
+- New system theme (enabled by default)
+- XStream always uses UTF-8
+
+________________________________
+--------------------------------
 2007-01-04: 3.0.3 released
 --------------------------------
 
