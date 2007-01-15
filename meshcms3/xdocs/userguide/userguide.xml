@@ -182,6 +182,13 @@
 
       <para>MeshCMS is developed on UTF-8 and ISO-8859-1 machines, but many
       users have different charsets and use them successfully.</para>
+
+      <para>A complete charset like UTF-8 is always preferable, even if you
+      plan to use English characters only: the default charset is used
+      extensively across all the CMS, even for mail messages sent through mail
+      forms. If someone sends you a message in another language, it would be
+      unreadable since the browser will translate all unknown characters to
+      HTML entities.</para>
     </section>
 
     <section id="upgrade">
