@@ -30,6 +30,7 @@ import javax.servlet.http.*;
 import org.apache.commons.fileupload.*;
 import org.meshcms.util.*;
 import com.thoughtworks.xstream.*;
+import com.thoughtworks.xstream.io.StreamException;
 import com.thoughtworks.xstream.io.xml.*;
 
 public class WebSite {
@@ -1021,7 +1022,12 @@ public class WebSite {
         XStreamPathConverter pConv = new XStreamPathConverter();
         pConv.setPrependSlash(true);
         xStream.registerConverter(pConv);
-        return xStream.fromXML(is);
+        
+        try {
+          return xStream.fromXML(new InputStreamReader(is, "UTF-8"));
+        } catch (StreamException ex) {
+          return xStream.fromXML(is);
+        }
       } catch (IOException ex) {
         ex.printStackTrace();
       } finally {
@@ -1040,22 +1046,23 @@ public class WebSite {
 
   public boolean storeToXML(Object o, Path path) {
     File file = getFile(path);
-    OutputStream os = null;
+    OutputStreamWriter osw = null;
 
     try {
-      os = new BufferedOutputStream(new FileOutputStream(file));
+      osw = new OutputStreamWriter
+          (new BufferedOutputStream(new FileOutputStream(file)), "UTF-8");
       XStream xStream = new XStream(new DomDriver());
       XStreamPathConverter pConv = new XStreamPathConverter();
       pConv.setPrependSlash(true);
       xStream.registerConverter(pConv);
-      xStream.toXML(o, os);
+      xStream.toXML(o, osw);
       return true;
     } catch (IOException ex) {
       ex.printStackTrace();
     } finally {
-      if (os != null) {
+      if (osw != null) {
         try {
-          os.close();
+          osw.close();
         } catch (IOException ex) {
           sc.log("Can't close file " + file, ex);
         }
