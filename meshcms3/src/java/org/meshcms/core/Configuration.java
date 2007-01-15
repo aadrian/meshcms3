@@ -86,7 +86,7 @@ public class Configuration implements Serializable {
   private String[] visualExtensions;
 
   private Configuration() {
-    setUseAdminTheme(false);
+    setUseAdminTheme(true);
     setPreventHotlinking(false);
     setAlwaysRedirectWelcomes(true);
     setAlwaysDenyDirectoryListings(true);

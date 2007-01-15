@@ -52,7 +52,7 @@
   }
 %>
 
-<table width="512" align="center" border="0" cellspacing="3" cellpadding="0">
+<table width="512" border="0" cellspacing="3" cellpadding="0">
  <tr>
   <th colspan="4"><fmt:message key="homeSite" /></th>
  </tr>
