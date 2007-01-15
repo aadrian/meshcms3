@@ -520,7 +520,7 @@ public class SiteMap extends DirectoryParser {
    * NB: This method excludes hidden submenus.
    *
    * @deprecated use a {@link org.meshcms.core.SiteMapIterator} and set
-   * {@link org.meshcms.core.SiteMapIterator.setSkipHiddenSubPages} to
+   * {@link org.meshcms.core.SiteMapIterator#setSkipHiddenSubPages} to
    * <code>true</code> instead.
    */
   public List getPagesListNoHiddenSubmenus(Path root) {

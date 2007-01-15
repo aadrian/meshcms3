@@ -651,7 +651,7 @@ public final class WebUtils {
   }
 
   /**
-   * @deprecated use {@link Utils.encodeHTML(java.lang.String)} instead.
+   * @deprecated use {@link Utils#encodeHTML(java.lang.String)} instead.
    */
   public static String encodeHTML(String html) {
     return Utils.encodeHTML(html);
