@@ -46,7 +46,7 @@
 <head>
  <%= webSite.getDummyMetaThemeTag() %>
  <title><fmt:message key="homeFile" /></title>
- <link href="../theme/main.css" type="text/css" rel="stylesheet" />
+ <link href="filemanager.css" type="text/css" rel="stylesheet" />
 
 <%
   String cp = request.getContextPath();

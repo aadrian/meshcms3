@@ -45,7 +45,7 @@
 <head>
 <%= webSite.getDummyMetaThemeTag() %>
 <title><fmt:message key="fmUploadTitle" /></title>
-<link href="../theme/main.css" type="text/css" rel="stylesheet" />
+<link href="filemanager.css" type="text/css" rel="stylesheet" />
 </head>
 
 <body>

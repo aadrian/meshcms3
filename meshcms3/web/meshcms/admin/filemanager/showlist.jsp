@@ -82,7 +82,7 @@
     }
   // ]]>
   </script>
-  <link href="../theme/main.css" type="text/css" rel="stylesheet" />
+  <link href="filemanager.css" type="text/css" rel="stylesheet" />
 
   <style type="text/css">
     body {

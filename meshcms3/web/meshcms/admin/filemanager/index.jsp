@@ -63,17 +63,11 @@
 <head>
   <%= webSite.getDummyMetaThemeTag() %>
   <title><fmt:message key="homeFile" /></title>
-  <link href="../theme/main.css" type="text/css" rel="stylesheet" />
+  <link href="filemanager.css" type="text/css" rel="stylesheet" />
   <link href="../scripts/xmenu/xmenu.css" type="text/css" rel="stylesheet" />
   <link href="../scripts/xmenu/xmenu.windows.css" type="text/css" rel="stylesheet" />
   <link href="../scripts/xtree/xtree.css" type="text/css" rel="stylesheet">
   <link href="../scripts/jscalendar/calendar-win2k-1.css" type="text/css" rel="stylesheet">
-
-  <style type="text/css">
-    body { margin: 0px; overflow: hidden; }
-    .full { width: 100%; height: 100%; }
-    .menuicon { vertical-align: middle; margin-right: 12px; }
-  </style>
 
   <script type="text/javascript">
   // <![CDATA[

@@ -41,7 +41,7 @@
 <head>
   <%= webSite.getDummyMetaThemeTag() %>
   <title><fmt:message key="fmUploadTitle" /></title>
-  <link type="text/css" rel="stylesheet" href="../theme/main.css">
+  <link href="filemanager.css" type="text/css" rel="stylesheet" />
 
   <script type="text/javascript">
   // <![CDATA[

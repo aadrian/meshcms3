@@ -44,7 +44,7 @@
 <head>
  <%= webSite.getDummyMetaThemeTag() %>
  <title><fmt:message key="fmUnzipTitle" /></title>
- <link href="../theme/main.css" type="text/css" rel="stylesheet" />
+ <link href="filemanager.css" type="text/css" rel="stylesheet" />
 
  <style type="text/css">
   td { white-space: nowrap; }
