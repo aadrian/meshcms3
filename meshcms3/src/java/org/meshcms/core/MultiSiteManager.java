@@ -33,6 +33,7 @@ public class MultiSiteManager implements Serializable {
   private boolean useDirsAsDomains;
   private String mainWebSiteDomains;
   private Properties domains;
+  private int siteCount;
 
   private MultiSiteManager() {
     domains = new Properties();
@@ -69,9 +70,11 @@ public class MultiSiteManager implements Serializable {
   public int initDomainsMap() {
     domainsMap = new TreeMap();
     File[] dirs = mainWebSite.getFile(mainWebSite.getVirtualSitesPath()).listFiles();
+    siteCount = 0;
 
     for (int i = 0; i < dirs.length; i++) {
       if (dirs[i].isDirectory()) {
+        siteCount++;
         String dirName = dirs[i].getName().toLowerCase();
         VirtualWebSite webSite = mainWebSite.getVirtualSite(dirName);
         parseDomains(domainsMap, webSite, getDomains(dirName));
@@ -119,6 +122,10 @@ public class MultiSiteManager implements Serializable {
     }
 
     return webSite;
+  }
+  
+  public int getSiteCount() {
+    return siteCount;
   }
 
   public String getMainWebSiteDomains() {

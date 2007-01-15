@@ -6,6 +6,9 @@
 <jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
 <%@ taglib uri="sitemesh-decorator" prefix="decorator" %>
+<%@ taglib prefix="fmt" uri="standard-fmt-rt" %>
+<fmt:setLocale value="<%= userInfo.getPreferredLocaleCode() %>" scope="request" />
+<fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
 
 <!--
      MeshCMS | open source web content management system
@@ -51,17 +54,41 @@
         <% if (userInfo.canDo(UserInfo.CAN_DO_ADMINTASKS)) {
           Runtime runtime = Runtime.getRuntime();
         %>
-          <h4>System information</h4>
-          <div class="sysinfo">Used Memory: <%= (runtime.totalMemory() - runtime.freeMemory()) * 100 / runtime.maxMemory() %>%</div>
-          <div class="sysinfo">System charset: <%= WebSite.SYSTEM_CHARSET %></div>
+          <h4><fmt:message key="sysTitle" /></h4>
+          <div class="sysinfo">
+            <fmt:message key="sysVersion" />
+            <%= WebSite.VERSION_ID %>
+          </div>
+          
+          <div class="sysinfo">
+            <fmt:message key="sysCharset" />
+            <%= WebSite.SYSTEM_CHARSET %>
+          </div>
+          
+          <div class="sysinfo">
+            <fmt:message key="sysMemory" />
+            <%= (runtime.totalMemory() - runtime.freeMemory()) * 100 / runtime.maxMemory() %>%
+          </div>
+          
+          <% if (webSite instanceof MainWebSite) { %>
+            <div class="sysinfo">
+              <fmt:message key="sysVirtuals" />
+              <%= ((MainWebSite) webSite).getMultiSiteManager().getSiteCount() %>
+            </div>
+          <% } %>
+
+          <div class="sysinfo">
+            <fmt:message key="sysUser" />
+            <%= userInfo.getDisplayName() %>
+          </div>
         <% } %>
       </div>
     </div>
 
     <div id="footer">
+      Copyright &copy; 2004-2007
+      <a href="http://www.cromoteca.com/" target="blank">Luciano Vernaschi</a> |
       Powered by <a href="http://www.cromoteca.com/meshcms/" target="blank">MeshCMS</a>
-      <%= WebSite.VERSION_ID %> | Copyright &copy; 2004-2007
-      <a href="http://www.cromoteca.com/" target="blank">Luciano Vernaschi</a>
     </div>
   </body>
 </html>
