@@ -35,7 +35,7 @@ import com.thoughtworks.xstream.io.xml.*;
 
 public class WebSite {
   public static final String APP_NAME = "MeshCMS";
-  public static final String VERSION_ID = "3.0.3";
+  public static final String VERSION_ID = "3.0.4";
   public static final String SYSTEM_CHARSET;
   public static final boolean IS_MULTIBYTE_SYSTEM_CHARSET;
 

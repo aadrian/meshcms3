@@ -452,11 +452,10 @@
         <listitem>
           <para>the theme CSS: a CSS file named <filename>main.css</filename>
           that has the only special feature of being automatically linked from
-          the page if the <link
-          linkend="tag_defaultcss">&lt;cms:defaultcss&gt;</link> custom tag is
-          used. This should always be done, since using that syntax, the CSS
-          will also be sent to the wysiwyg editor to display the page body
-          being edited;</para>
+          the page if the <link linkend="tag_defaultcss">defaultcss</link>
+          custom tag is used. This should always be done, since using that
+          syntax, the CSS will also be sent to the wysiwyg editor to display
+          the page body being edited;</para>
         </listitem>
 
         <listitem>
@@ -471,9 +470,9 @@
         <listitem>
           <para>any other file needed by the theme: other CSS files, images,
           javascripts and so on. You can then use these files in your main
-          file by inserting the <link
-          linkend="tag_themepath">&lt;cms:themepath&gt;</link> tag that will
-          be replaced with the right path to the theme directory.</para>
+          file by inserting the <link linkend="tag_themepath">themepath</link>
+          tag that will be replaced with the right path to the theme
+          directory.</para>
         </listitem>
       </itemizedlist>
 
@@ -491,19 +490,19 @@
         <para>The main file of a theme is a JSP file that will include
         component of the page being shown:</para>
 
-        <programlisting>&lt;%@ taglib uri="meshcms-taglib" prefix="cms" %&gt;
+        <programlisting>&lt;%@ taglib uri="meshcms-taglib" prefix="mesh" %&gt;
 
 &lt;html&gt;
  &lt;head&gt;
-  &lt;title&gt;&lt;cms:pagetitle /&gt;&lt;/title&gt;
-  &lt;cms:defaultcss /&gt;
-  &lt;cms:pagehead /&gt;
+  &lt;title&gt;&lt;mesh:pagetitle /&gt;&lt;/title&gt;
+  &lt;mesh:defaultcss /&gt;
+  &lt;mesh:pagehead /&gt;
  &lt;/head&gt;
 
  &lt;body&gt;
-  &lt;cms:editor&gt;
-   &lt;cms:pagebody /&gt;
-  &lt;/cms:editor&gt;
+  &lt;mesh:editor&gt;
+   &lt;mesh:pagebody /&gt;
+  &lt;/mesh:editor&gt;
  &lt;/body&gt;
 &lt;/html&gt;</programlisting>
 
@@ -618,37 +617,37 @@
 
         <itemizedlist>
           <listitem>
-            <para>[TITLE] with <code>&lt;cms:pagetitle /&gt;</code></para>
+            <para>[TITLE] with <code>&lt;mesh:pagetitle /&gt;</code></para>
           </listitem>
 
           <listitem>
-            <para>[SITE MENU] with <code>&lt;cms:simplemenu
+            <para>[SITE MENU] with <code>&lt;mesh:simplemenu
             /&gt;</code></para>
           </listitem>
 
           <listitem>
-            <para>[MESHCMS MENU] with <code>&lt;cms:adminmenu
+            <para>[MESHCMS MENU] with <code>&lt;mesh:adminmenu
             /&gt;</code></para>
           </listitem>
 
           <listitem>
-            <para>[BREADCRUMBS] with <code>&lt;cms:breadcrumbs
+            <para>[BREADCRUMBS] with <code>&lt;mesh:breadcrumbs
             /&gt;</code></para>
           </listitem>
 
           <listitem>
-            <para>[BODY] with <code>&lt;cms:pagebody /&gt;</code></para>
+            <para>[BODY] with <code>&lt;mesh:pagebody /&gt;</code></para>
           </listitem>
         </itemizedlist>
 
         <para>There is a link to an image in the file: you must add
-        <code>&lt;cms:themepath /&gt;</code> before the image path so it will
+        <code>&lt;mesh:themepath /&gt;</code> before the image path so it will
         be found correctly. <code>url(flowers.jpg)</code> becomes
-        <code>url(&lt;cms:themepath /&gt;/flowers.jpg)</code>.</para>
+        <code>url(&lt;mesh:themepath /&gt;/flowers.jpg)</code>.</para>
 
         <para>Then add this line at the beginning of your file:</para>
 
-        <programlisting>&lt;%@ taglib uri="meshcms-taglib" prefix="cms" %&gt;</programlisting>
+        <programlisting>&lt;%@ taglib uri="meshcms-taglib" prefix="mesh" %&gt;</programlisting>
 
         <para>Save your file and name it <filename>main.jsp</filename>. The
         CSS must be named <filename>main.css</filename> and must be located in
@@ -658,7 +657,7 @@
         images and other files must be located in the same directory. You can
         use subdirectories, but then you need to write paths accordingly: for
         example, if you put all images in a subdirectory called
-        <filename>images</filename>, you will use <code>url(&lt;cms:themepath
+        <filename>images</filename>, you will use <code>url(&lt;mesh:themepath
         /&gt;/images/flowers.jpg)</code> in the example above.</para>
 
         <para>When your brand new decorator is available, reopen the home page
@@ -675,33 +674,33 @@
           </mediaobject>
         </screenshot>
 
-        <programlisting><emphasis role="bold">&lt;%@ taglib uri="meshcms-taglib" prefix="cms" %&gt;</emphasis>
+        <programlisting><emphasis role="bold">&lt;%@ taglib uri="meshcms-taglib" prefix="mesh" %&gt;</emphasis>
 
 &lt;html&gt;
 
 &lt;head&gt;
-  &lt;title&gt;<emphasis role="bold">&lt;cms:pagetitle /&gt;</emphasis>&lt;/title&gt;
+  &lt;title&gt;<emphasis role="bold">&lt;mesh:pagetitle /&gt;</emphasis>&lt;/title&gt;
 &lt;/head&gt;
 
 &lt;body style="margin: 0px;"&gt;
 &lt;table width="770" border="0" cellspacing="0" cellpadding="0"&gt;
   &lt;tr&gt;
     &lt;td colspan="2" valign="bottom" style="background: ¶
-     url(<emphasis role="bold">&lt;cms:themepath /&gt;</emphasis>/flowers.jpg) no-repeat; height: 120px; ¶
-     padding: 10px; font-size: 22px;"&gt;<emphasis role="bold">&lt;cms:pagetitle /&gt;</emphasis>&lt;/td&gt;
+     url(<emphasis role="bold">&lt;mesh:themepath /&gt;</emphasis>/flowers.jpg) no-repeat; height: 120px; ¶
+     padding: 10px; font-size: 22px;"&gt;<emphasis role="bold">&lt;mesh:pagetitle /&gt;</emphasis>&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
     &lt;td bgcolor="#E2E0C9"&gt;
     &lt;table border="0" align="center"cellpadding="3" cellspacing="0"&gt;
       &lt;tr&gt;&lt;th&gt;Site Menu:&lt;/th&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td&gt;<emphasis role="bold">&lt;cms:simplemenu /&gt;</emphasis>&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;td&gt;<emphasis role="bold">&lt;mesh:simplemenu /&gt;</emphasis>&lt;/td&gt;&lt;/tr&gt;
       &lt;tr&gt;&lt;th&gt;MeshCMS Menu:&lt;/th&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td&gt;<emphasis role="bold">&lt;cms:adminmenu separator="&lt;br /&gt;" /&gt;</emphasis>&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;td&gt;<emphasis role="bold">&lt;mesh:adminmenu separator="&lt;br /&gt;" /&gt;</emphasis>&lt;/td&gt;&lt;/tr&gt;
     &lt;/table&gt;
     &lt;/td&gt;
     &lt;td&gt;&lt;table border="0" cellspacing="0" cellpadding="5"&gt;
-      &lt;tr&gt;&lt;td&gt;<emphasis role="bold">&lt;cms:breadcrumbs /&gt;</emphasis>&lt;/td&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td&gt;<emphasis role="bold">&lt;cms:pagebody /&gt;</emphasis>&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;td&gt;<emphasis role="bold">&lt;mesh:breadcrumbs /&gt;</emphasis>&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;td&gt;<emphasis role="bold">&lt;mesh:pagebody /&gt;</emphasis>&lt;/td&gt;&lt;/tr&gt;
     &lt;/table&gt;&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr align="center"&gt;
@@ -718,21 +717,21 @@
 
         <itemizedlist>
           <listitem>
-            <para><code>&lt;cms:pagehead /&gt;</code> and
-            <code>&lt;cms:defaultcss /&gt;</code> go inside the
+            <para><code>&lt;mesh:pagehead /&gt;</code> and
+            <code>&lt;mesh:defaultcss /&gt;</code> go inside the
             <code>&lt;head&gt;</code> tag of your file to include headers and
             CSS;</para>
           </listitem>
 
           <listitem>
-            <para><code>&lt;cms:editor&gt;...&lt;/cms:editor&gt;</code> must
+            <para><code>&lt;mesh:editor&gt;...&lt;/mesh:editor&gt;</code> must
             enclose all the contents of the <code>&lt;body&gt;</code>
             tag;</para>
           </listitem>
 
           <listitem>
-            <para><code>&lt;cms:setlocale /&gt;</code> to define the locale of
-            the pages that will use the theme (optional);</para>
+            <para><code>&lt;mesh:setlocale /&gt;</code> to define the locale
+            of the pages that will use the theme (optional);</para>
           </listitem>
 
           <listitem>
@@ -750,38 +749,38 @@
         <para>After these other modifications, you should get this source
         code:</para>
 
-        <programlisting>&lt;%@ taglib uri="meshcms-taglib" prefix="cms" %&gt;
-<emphasis role="bold">&lt;cms:setlocale value="en" /&gt;</emphasis>
+        <programlisting>&lt;%@ taglib uri="meshcms-taglib" prefix="mesh" %&gt;
+<emphasis role="bold">&lt;mesh:setlocale value="en" /&gt;</emphasis>
 
 &lt;html&gt;
 
 &lt;head&gt;
   &lt;title&gt;
-    &lt;cms:pagetitle /&gt;
-    <emphasis role="bold">&lt;cms:pagehead /&gt;</emphasis>
-    <emphasis role="bold">&lt;cms:defaultcss /&gt;</emphasis>
+    &lt;mesh:pagetitle /&gt;
+    <emphasis role="bold">&lt;mesh:pagehead /&gt;</emphasis>
+    <emphasis role="bold">&lt;mesh:defaultcss /&gt;</emphasis>
   &lt;/title&gt;
 &lt;/head&gt;
 
-&lt;body style="margin: 0px;"&gt;<emphasis role="bold">&lt;cms:editor&gt;</emphasis>
+&lt;body style="margin: 0px;"&gt;<emphasis role="bold">&lt;mesh:editor&gt;</emphasis>
 &lt;table width="770" border="0" cellspacing="0" cellpadding="0"&gt;
   &lt;tr&gt;
     &lt;td colspan="2" valign="bottom" style="background: ¶
-     url(&lt;cms:themepath /&gt;/flowers.jpg) no-repeat; height: 120px; ¶
-     padding: 10px; font-size: 22px;"&gt;&lt;cms:pagetitle /&gt;&lt;/td&gt;
+     url(&lt;mesh:themepath /&gt;/flowers.jpg) no-repeat; height: 120px; ¶
+     padding: 10px; font-size: 22px;"&gt;&lt;mesh:pagetitle /&gt;&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
     &lt;td bgcolor="#E2E0C9"&gt;
     &lt;table border="0" align="center" cellpadding="3" cellspacing="0"&gt;
       &lt;tr&gt;&lt;th&gt;Site Menu:&lt;/th&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td&gt;&lt;cms:simplemenu /&gt;&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;td&gt;&lt;mesh:simplemenu /&gt;&lt;/td&gt;&lt;/tr&gt;
       &lt;tr&gt;&lt;th&gt;MeshCMS Menu:&lt;/th&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td&gt;&lt;cms:adminmenu separator="&lt;br /&gt;" /&gt;&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;td&gt;&lt;mesh:adminmenu separator="&lt;br /&gt;" /&gt;&lt;/td&gt;&lt;/tr&gt;
     &lt;/table&gt;
     &lt;/td&gt;
     &lt;td&gt;&lt;table border="0" cellspacing="0" cellpadding="5"&gt;
-      &lt;tr&gt;&lt;td&gt;&lt;cms:breadcrumbs /&gt;&lt;/td&gt;&lt;/tr&gt;
-      &lt;tr&gt;&lt;td&gt;&lt;cms:pagebody /&gt;&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;td&gt;&lt;mesh:breadcrumbs /&gt;&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;td&gt;&lt;mesh:pagebody /&gt;&lt;/td&gt;&lt;/tr&gt;
     &lt;/table&gt;&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr align="center"&gt;
@@ -790,7 +789,7 @@
     &lt;/td&gt;
   &lt;/tr&gt;
 &lt;/table&gt;
-<emphasis role="bold">&lt;/cms:editor&gt;</emphasis>&lt;/body&gt;
+<emphasis role="bold">&lt;/mesh:editor&gt;</emphasis>&lt;/body&gt;
 
 &lt;/html&gt;</programlisting>
       </section>
@@ -982,8 +981,7 @@
 
       <para>The first section allows to define some values for the site, which
       can be useful or not according to the theme used. The theme can display
-      them using the <link linkend="tag_info">&lt;cms:info&gt;</link>
-      tag.</para>
+      them using the <link linkend="tag_info">info</link> tag.</para>
 
       <itemizedlist>
         <listitem>
@@ -1500,9 +1498,8 @@
               <code>&lt;span&gt;</code> element. The default style is
               <option>diary-date</option>. The date itself must be in the
               <option>normal</option> date format, for example as output by
-              the <link
-              linkend="tag_lastmodified">&lt;cms:lastmodified&gt;</link> tag.
-              If you add the <option>diary-date</option> style to your theme
+              the <link linkend="tag_lastmodified">lastmodified</link> tag. If
+              you add the <option>diary-date</option> style to your theme
               stylesheet, you can use the page editor to easily tag the date
               in a page.</para>
             </listitem>
@@ -2267,15 +2264,14 @@ submit</programlisting>
     <para>MeshCMS provides a library of custom tags to ease the creation of
     themes. Some are mandatory, others can be useful in many situations. The
     following sections explain each tag separately. As an example, the
-    <code>&lt;cms:tagname&gt;</code> format is used, which implies the
+    <code>&lt;mesh:tagname&gt;</code> format is used, which implies the
     following declaration at the beginning of the theme file:</para>
 
-    <programlisting>&lt;%@ taglib uri="meshcms-taglib" prefix="cms" %&gt;</programlisting>
+    <programlisting>&lt;%@ taglib uri="meshcms-taglib" prefix="mesh" %&gt;</programlisting>
 
-    <para>Mandatory tags are: <link
-    linkend="tag_editor">&lt;cms:editor&gt;</link>, <link
-    linkend="tag_pagehead">&lt;cms:pagehead&gt;</link> and <link
-    linkend="tag_pagebody">&lt;cms:pagebody&gt;</link>.</para>
+    <para>Mandatory tags are: <link linkend="tag_editor">editor</link>, <link
+    linkend="tag_pagehead">pagehead</link> and <link
+    linkend="tag_pagebody">pagebody</link>.</para>
 
     <section id="tags_mandatory">
       <title>Mandatory Tags</title>
@@ -2283,32 +2279,31 @@ submit</programlisting>
       <para>These tags must be included in all themes.</para>
 
       <section id="tag_editor">
-        <title>&lt;cms:editor&gt;</title>
+        <title>editor</title>
 
         <para>This tag is <emphasis>mandatory</emphasis> and must enclose all
-        tags of type <code>&lt;cms:pagebody&gt;</code>,
-        <code>&lt;cms:module&gt;</code> and <code>&lt;cms:mailform&gt;</code>
-        in the theme file. Since these three tags are always used inside the
-        HTML <code>&lt;body&gt;</code> tag, usually the
-        <code>&lt;cms:editor&gt;</code> is inserted immediately after the
+        tags of type <code>pagebody</code>, <code>module</code> and
+        <code>mailform</code> in the theme file. Since these three tags are
+        always used inside the HTML <code>&lt;body&gt;</code> tag, usually the
+        <code>editor</code> is inserted immediately after the
         <code>&lt;body&gt;</code>:</para>
 
         <programlisting>&lt;html&gt;
 ...
-&lt;body&gt;&lt;cms:editor&gt;
+&lt;body&gt;&lt;mesh:editor&gt;
 ... body content...
-&lt;/cms:editor&gt;&lt;/body&gt;
+&lt;/mesh:editor&gt;&lt;/body&gt;
 &lt;/html&gt;</programlisting>
 
         <para>The purpose of this tag is to insert a <code>&lt;form&gt;</code>
         element when the page is being edited. For that reason, you must also
         enclose any other <code>&lt;form&gt;</code> tag into a
-        <code>&lt;cms:ifnotediting&gt;</code> tag, so your forms won't be
-        shown during page editing (HTML does not allow nested forms).</para>
+        <code>ifnotediting</code> tag, so your forms won't be shown during
+        page editing (HTML does not allow nested forms).</para>
       </section>
 
       <section id="tag_pagehead">
-        <title>&lt;cms:pagehead&gt;</title>
+        <title>pagehead</title>
 
         <para>Inserts some headers found in the page. This tag is
         <emphasis>mandatory</emphasis> since it is needed when editing pages.
@@ -2316,7 +2311,7 @@ submit</programlisting>
       </section>
 
       <section id="tag_pagebody">
-        <title>&lt;cms:pagebody&gt;</title>
+        <title>pagebody</title>
 
         <para>Inserts the body of the page. This tag is
         <emphasis>mandatory</emphasis> since it is needed when editing pages
@@ -2331,7 +2326,7 @@ submit</programlisting>
       <para></para>
 
       <section id="tag_setlocale">
-        <title>&lt;cms:setlocale&gt;</title>
+        <title>setlocale</title>
 
         <para>Sets a locale that will be used in the page. Other MeshCMS
         components will refer to that locale to display some string such as
@@ -2368,7 +2363,7 @@ submit</programlisting>
       </section>
 
       <section id="tag_defaultcss">
-        <title>&lt;cms:defaultcss&gt;</title>
+        <title>defaultcss</title>
 
         <para>Creates a link to the default style sheets for that page and for
         the additional. You can use it (recommended) or import/link styles as
@@ -2376,7 +2371,7 @@ submit</programlisting>
       </section>
 
       <section id="tag_contextpath">
-        <title>&lt;cms:contextpath&gt;</title>
+        <title>contextpath</title>
 
         <para>Inserts the context path, i.e. the value of
         <code>HttpServletRequest.getContextPath()</code>. Useful for absolute
@@ -2386,12 +2381,12 @@ submit</programlisting>
         <example>
           <title>An absolute link</title>
 
-          <programlisting>&lt;a href="&lt;cms:contextpath /&gt;/dir/page.html"&gt;An absolute link&lt;/a&gt;</programlisting>
+          <programlisting>&lt;a href="&lt;mesh:contextpath /&gt;/dir/page.html"&gt;An absolute link&lt;/a&gt;</programlisting>
         </example>
       </section>
 
       <section id="tag_themepath">
-        <title>&lt;cms:themepath&gt;</title>
+        <title>themepath</title>
 
         <para>Inserts the complete path of the directory that contains the
         current theme. Very useful to insert files of the theme itself. This
@@ -2400,12 +2395,12 @@ submit</programlisting>
         <example>
           <title>Insert an image located in the theme directory</title>
 
-          <programlisting>&lt;img src="&lt;cms:themepath /&gt;/logo.jpg"&gt;</programlisting>
+          <programlisting>&lt;img src="&lt;mesh:themepath /&gt;/logo.jpg"&gt;</programlisting>
         </example>
       </section>
 
       <section id="tag_searchfile">
-        <title>&lt;cms:searchfile&gt;</title>
+        <title>searchfile</title>
 
         <para>Finds a file by name in the page directory, going up to the root
         until the file is found.</para>
@@ -2431,7 +2426,7 @@ submit</programlisting>
       <title>Page Elements Tags</title>
 
       <section id="tag_pagetitle">
-        <title>&lt;cms:pagetitle&gt;</title>
+        <title>pagetitle</title>
 
         <para>This tag prints the title of the page. It has one
         attribute:</para>
@@ -2447,19 +2442,19 @@ submit</programlisting>
         <example>
           <title>A simple title</title>
 
-          <programlisting>&lt;title&gt;My Site: &lt;cms:pagetitle /&gt;&lt;/title&gt;</programlisting>
+          <programlisting>&lt;title&gt;My Site: &lt;mesh:pagetitle /&gt;&lt;/title&gt;</programlisting>
         </example>
 
         <note>
-          <para>the use of <code>&lt;cms:pagetitle&gt;</code> is not limited
-          to the HTML <code>&lt;title&gt;</code> tag: you can use it elsewhere
-          to repeat the title of the page, and you can use anything else
-          within the HTML <code>&lt;title&gt;</code> tag.</para>
+          <para>the use of <code>pagetitle</code> is not limited to the HTML
+          <code>&lt;title&gt;</code> tag: you can use it elsewhere to repeat
+          the title of the page, and you can use anything else within the HTML
+          <code>&lt;title&gt;</code> tag.</para>
         </note>
       </section>
 
       <section id="tag_module">
-        <title>&lt;cms:module&gt;</title>
+        <title>module</title>
 
         <para>This tag allows to include a <link
         linkend="modules">module</link> in the place where it is located in
@@ -2514,14 +2509,14 @@ submit</programlisting>
           <title>A fixed module that includes some files located in the
           <filename>/include/news</filename> directory</title>
 
-          <programlisting>&lt;cms:module location="news" name="includes/news" date="normal" style="news" /&gt;</programlisting>
+          <programlisting>&lt;mesh:module location="news" name="includes/news" date="normal" style="news" /&gt;</programlisting>
         </example>
 
         <example>
           <title>A module that can be configured while editing the
           page</title>
 
-          <programlisting>&lt;cms:module location="bottom" /&gt;</programlisting>
+          <programlisting>&lt;mesh:module location="bottom" /&gt;</programlisting>
         </example>
 
         <example>
@@ -2529,7 +2524,7 @@ submit</programlisting>
           the page, using <code>(none)</code> to pass an empty
           argument:</title>
 
-          <programlisting>&lt;cms:module location="sitemap" name="site_map:(none)" /&gt;</programlisting>
+          <programlisting>&lt;mesh:module location="sitemap" name="site_map:(none)" /&gt;</programlisting>
         </example>
 
         <para>A note about locations: suppose to edit some pages using a theme
@@ -2572,7 +2567,7 @@ submit</programlisting>
       </section>
 
       <section id="tag_adminmenu">
-        <title>&lt;cms:adminmenu&gt;</title>
+        <title>adminmenu</title>
 
         <para>This tag inserts a menu to access some specific MeshCMS
         functions when the user has logged in:</para>
@@ -2633,12 +2628,12 @@ submit</programlisting>
         <example>
           <title>A vertical admin menu</title>
 
-          <programlisting>&lt;cms:adminmenu separator="&lt;br /&gt;" /&gt;</programlisting>
+          <programlisting>&lt;mesh:adminmenu separator="&lt;br /&gt;" /&gt;</programlisting>
         </example>
       </section>
 
       <section id="tag_mailform">
-        <title>&lt;cms:mailform&gt;</title>
+        <title>mailform</title>
 
         <para>Creates a standard form to send e-mail messages. This can be
         used to receive a feedback from visitors. The form will only appear in
@@ -2658,7 +2653,7 @@ submit</programlisting>
       <para></para>
 
       <section id="tag_listmenu">
-        <title>&lt;cms:listmenu&gt;</title>
+        <title>listmenu</title>
 
         <para>Creates a navigation menu using an HTML unordered list.</para>
 
@@ -2716,12 +2711,12 @@ submit</programlisting>
       </section>
 
       <section id="tag_alibmenu">
-        <title>&lt;cms:alibmenu&gt;</title>
+        <title>alibmenu</title>
 
         <para>Creates a navigation menu using an HTML unordered list and the
         ALIB script. The same result could be achieved by including the script
-        in the theme and using &lt;cms:listmenu&gt; with appropriate
-        parameters, but this solution is more straightforward.</para>
+        in the theme and using listmenu with appropriate parameters, but this
+        solution is more straightforward.</para>
 
         <para>Attributes:</para>
 
@@ -2767,7 +2762,7 @@ submit</programlisting>
       </section>
 
       <section id="tag_simplemenu">
-        <title>&lt;cms:simplemenu&gt;</title>
+        <title>simplemenu</title>
 
         <para>Creates a simple textual menu, similar to a typical CMS menu
         (first level + path to current level + current level).</para>
@@ -2812,7 +2807,7 @@ submit</programlisting>
       </section>
 
       <section id="tag_tigramenu">
-        <title>&lt;cms:tigramenu&gt;</title>
+        <title>tigramenu</title>
 
         <para>Creates a JavaScript menu (using <ulink
         url="http://www.softcomplex.com/products/tigra_menu/">this free
@@ -2863,7 +2858,7 @@ submit</programlisting>
       </section>
 
       <section id="tag_breadcrumbs">
-        <title>&lt;cms:breadcrumbs&gt;</title>
+        <title>breadcrumbs</title>
 
         <para>Creates a list of titles/links for all the pages from the site
         root (included) to the current page (can be excluded).
@@ -2913,12 +2908,12 @@ submit</programlisting>
         <example>
           <title>The most common breadcrumbs</title>
 
-          <programlisting>&lt;cms:breadcrumbs mode="links" pre="You are viewing: " separator=" &amp;raquo; " /&gt;</programlisting>
+          <programlisting>&lt;mesh:breadcrumbs mode="links" pre="You are viewing: " separator=" &amp;raquo; " /&gt;</programlisting>
         </example>
       </section>
 
       <section id="tag_links">
-        <title>&lt;cms:links&gt;</title>
+        <title>links</title>
 
         <para>Creates a list of links to pages in the same level (i.e.
         directory).</para>
@@ -2962,7 +2957,7 @@ submit</programlisting>
       </section>
 
       <section id="tag_langmenu">
-        <title>&lt;cms:langmenu&gt;</title>
+        <title>langmenu</title>
 
         <para>Creates a list of links to available languages in the site.
         Please note that this feature only works if the site has a specific
@@ -3001,7 +2996,7 @@ submit</programlisting>
       <para></para>
 
       <section id="tag_info">
-        <title>&lt;cms:info&gt;</title>
+        <title>info</title>
 
         <para>This tag shows some info about the website. Values are defined
         in the Configuration page.</para>
@@ -3020,7 +3015,7 @@ submit</programlisting>
       </section>
 
       <section id="tag_user">
-        <title>&lt;cms:user&gt;</title>
+        <title>user</title>
 
         <para>This tag shows some info about the current user.</para>
 
@@ -3045,12 +3040,12 @@ submit</programlisting>
         <example>
           <title>Welcoming a user when he has logged in</title>
 
-          <programlisting>&lt;cms:ifuser&gt;Welcome &lt;cms:user /&gt;!&lt;/cms:ifuser&gt;</programlisting>
+          <programlisting>&lt;mesh:ifuser&gt;Welcome &lt;mesh:user /&gt;!&lt;/mesh:ifuser&gt;</programlisting>
         </example>
       </section>
 
       <section id="tag_lastmodified">
-        <title>&lt;cms:lastmodified&gt;</title>
+        <title>lastmodified</title>
 
         <para>Writes the date of the last modification of the current page.
         Usually this is the last modification time of the HTML file, but some
@@ -3102,7 +3097,7 @@ submit</programlisting>
       <para></para>
 
       <section id="tag_ifuser">
-        <title>&lt;cms:ifuser&gt;, &lt;cms:ifnotuser&gt;</title>
+        <title>ifuser, ifnotuser</title>
 
         <para>These tags mark a part of the page that must be shown only when
         a user has logged in or not.</para>
@@ -3112,28 +3107,27 @@ submit</programlisting>
         <example>
           <title>Displaying a message to a user</title>
 
-          <programlisting>&lt;cms:ifuser&gt;Welcome &lt;cms:user /&gt;!&lt;/cms:ifuser&gt;
-&lt;cms:ifnotuser&gt;You are not logged in&lt;/cms:ifnotuser&gt;</programlisting>
+          <programlisting>&lt;mesh:ifuser&gt;Welcome &lt;mesh:user /&gt;!&lt;/mesh:ifuser&gt;
+&lt;mesh:ifnotuser&gt;You are not logged in&lt;/mesh:ifnotuser&gt;</programlisting>
         </example>
       </section>
 
       <section id="tag_ifediting">
-        <title>&lt;cms:ifediting&gt;, &lt;cms:ifnotediting&gt;</title>
+        <title>ifediting, ifnotediting</title>
 
         <para>These tags are used to mark a part of the page that must be
         shown only when editing or viewing a page.</para>
 
         <para>These tags have no attributes.</para>
 
-        <para>The <code>&lt;cms:ifnotediting&gt;</code> tag is mainly used to
-        enclose forms that would otherwise conflict with the main editing
-        form.</para>
+        <para>The <code>ifnotediting</code> tag is mainly used to enclose
+        forms that would otherwise conflict with the main editing form.</para>
 
         <example>
           <title>Inserting a search form without conflicting with the MeshCMS
           editor</title>
 
-          <programlisting>&lt;cms:ifnotediting&gt;
+          <programlisting>&lt;mesh:ifnotediting&gt;
  &lt;!-- Search Google --&gt;
   &lt;center&gt;
    &lt;FORM method=GET action="http://www.google.com/search"&gt;
@@ -3149,12 +3143,12 @@ submit</programlisting>
    &lt;/FORM&gt;
   &lt;/center&gt;
  &lt;!-- Search Google --&gt;
-&lt;/cms:ifnotediting&gt;</programlisting>
+&lt;/mesh:ifnotediting&gt;</programlisting>
         </example>
       </section>
 
       <section id="tag_ifmodule">
-        <title>&lt;cms:ifmodule&gt;, &lt;cms:ifnotmodule&gt;</title>
+        <title>ifmodule, ifnotmodule</title>
 
         <para>These tags are used to display a part of the page only when the
         specified module is active or not.</para>
@@ -3171,16 +3165,16 @@ submit</programlisting>
         <example>
           <title>Adding some HTML around a module</title>
 
-          <programlisting>&lt;cms:ifmodule location="bottom"&gt;
+          <programlisting>&lt;mesh:ifmodule location="bottom"&gt;
  &lt;div align="center"&gt;Module title&lt;/div&gt;
- &lt;cms:module location="bottom" /&gt;
+ &lt;mesh:module location="bottom" /&gt;
  &lt;div align="center"&gt;End of module&lt;/div&gt;
-&lt;/cms:ifmodule&gt;</programlisting>
+&lt;/mesh:ifmodule&gt;</programlisting>
         </example>
       </section>
 
       <section id="tag_ifmailform">
-        <title>&lt;cms:ifmailform&gt;, &lt;cms:ifnotmailform&gt;</title>
+        <title>ifmailform, ifnotmailform</title>
 
         <para>These tags are used to display a part of the page only if a
         recipient has been specified to receive messages from that
@@ -3191,10 +3185,10 @@ submit</programlisting>
         <example>
           <title>Adding some HTML around a mail form</title>
 
-          <programlisting>&lt;cms:ifmailform&gt;
+          <programlisting>&lt;mesh:ifmailform&gt;
  &lt;div align="center"&gt;Send a message&lt;/div&gt;
- &lt;cms:mailform /&gt;
-&lt;/cms:ifmailform&gt;</programlisting>
+ &lt;mesh:mailform /&gt;
+&lt;/mesh:ifmailform&gt;</programlisting>
         </example>
       </section>
     </section>
@@ -3248,8 +3242,8 @@ submit</programlisting>
       <orderedlist>
         <listitem>
           <para>start with a welcome page that offers a language choice, or
-          use <code>&lt;cms:setlocale redirectRoot="true" /&gt;</code> in your
-          theme (see <xref linkend="tag_setlocale" />);</para>
+          use <code>&lt;mesh:setlocale redirectRoot="true" /&gt;</code> in
+          your theme (see <xref linkend="tag_setlocale" />);</para>
         </listitem>
 
         <listitem>
@@ -3260,10 +3254,10 @@ submit</programlisting>
 
         <listitem>
           <para>in your theme, use the <link
-          linkend="tag_setlocale">&lt;cms:setlocale&gt;</link> tag without
-          specifying the <parameter>value</parameter> attribute. This way the
-          locale code will be taken from the url, and will be <code>en</code>
-          or <code>it</code> according to the page that is currently displayed
+          linkend="tag_setlocale">setlocale</link> tag without specifying the
+          <parameter>value</parameter> attribute. This way the locale code
+          will be taken from the url, and will be <code>en</code> or
+          <code>it</code> according to the page that is currently displayed
           (you can use the <option>defaultValue</option> attribute to set a
           default);</para>
 
@@ -3297,11 +3291,10 @@ submit</programlisting>
         </listitem>
 
         <listitem>
-          <para>finally, use the <link
-          linkend="tag_langmenu">&lt;cms:langmenu&gt;</link> tag to add a menu
-          of languages to your theme (you could also use a customized one, but
-          this tool is handy since it points directly to the translated page
-          if available).</para>
+          <para>finally, use the <link linkend="tag_langmenu">langmenu</link>
+          tag to add a menu of languages to your theme (you could also use a
+          customized one, but this tool is handy since it points directly to
+          the translated page if available).</para>
         </listitem>
       </orderedlist>
 
