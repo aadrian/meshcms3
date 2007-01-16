@@ -180,6 +180,17 @@ public final class Module extends AbstractTag {
       }
     } else {
       w.write(" <div class='meshcmsfieldlabel'><label for='" +
+        ModuleDescriptor.TITLE_ID + location + "'>" +
+        bundle.getString("editorModuleTitle") + "</label></div>\n");
+      w.write(" <div class='meshcmsfield'><img alt=\"\" src='" + afp +
+        "/images/clear_field.gif' onclick=\"javascript:editor_clr('" +
+        ModuleDescriptor.TITLE_ID + location + "');\" style='vertical-align:middle;' /><input type='text' id='" +
+        ModuleDescriptor.TITLE_ID + location + "' name='" +
+        ModuleDescriptor.TITLE_ID + location + "' value=\"" +
+        (md == null ? "" : Utils.noNull(md.getTitle())) +
+        "\" style='width: 80%;' /></div>\n");
+
+      w.write(" <div class='meshcmsfieldlabel'><label for='" +
         ModuleDescriptor.TEMPLATE_ID + location + "'>" +
         bundle.getString("editorModuleTemplate") + "</label></div>\n");
       w.write(" <div class='meshcmsfield'>\n  <select name='" +

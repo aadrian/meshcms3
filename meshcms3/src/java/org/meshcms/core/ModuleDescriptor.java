@@ -51,10 +51,13 @@ public class ModuleDescriptor {
    * Advanced parameters.
    */
   public static final String PARAMETERS_ID = "m_apm";
+  
+  public static final String TITLE_ID = "m_ttl";
 
   private String location;
   private String template;
   private String argument;
+  private String title;
   private Properties advancedParams;
 
   private Path pagePath;
@@ -129,6 +132,8 @@ public class ModuleDescriptor {
           setTemplate(value);
         } else if (param.equals(ARGUMENT_ID)) {
           setArgument(value);
+        } else if (param.equals(TITLE_ID)) {
+          setTitle(value);
         } else {
           advancedParams.setProperty(param, value);
         }
@@ -367,5 +372,13 @@ public class ModuleDescriptor {
     }
 
     return df;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = PageAssembler.EMPTY.equals(title) ? null : title;
   }
 }

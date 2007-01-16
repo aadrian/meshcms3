@@ -50,12 +50,13 @@ public final class PageAssembler {
   private String email;
   // private StringBuffer htmlTag = new StringBuffer();
   private StringBuffer bodyTag = new StringBuffer();
-  private Properties mod_templates, mod_args, mod_params;
+  private Properties mod_templates, mod_args, mod_params, mod_titles;
 
   public PageAssembler() {
     mod_templates = new Properties();
     mod_args = new Properties();
     mod_params = new Properties();
+    mod_titles = new Properties();
   }
 
   /**
@@ -86,6 +87,8 @@ public final class PageAssembler {
       }
     } else if (name.startsWith(ModuleDescriptor.PARAMETERS_ID)) {
         mod_params.setProperty(name.substring(ModuleDescriptor.PARAMETERS_ID.length()), value);
+    } else if (name.startsWith(ModuleDescriptor.TITLE_ID)) {
+        mod_titles.setProperty(name.substring(ModuleDescriptor.TITLE_ID.length()), value);
     } else if (name.startsWith("body.")) {
       bodyTag.append(' ').append(name.substring(5)).append("=\"").append(value).append('\"');
     /*
@@ -123,11 +126,18 @@ public final class PageAssembler {
           argument = EMPTY;
         }
 
+        String mTitle = mod_titles.getProperty(loc);
+
+        if (Utils.isNullOrEmpty(mTitle)) {
+          mTitle = EMPTY;
+        }
+
         String params = mod_params.getProperty(loc);
         modules.add(
             ModuleDescriptor.LOCATION_ID + '=' + loc + ',' +
             ModuleDescriptor.TEMPLATE_ID + '=' + template + ',' +
-            ModuleDescriptor.ARGUMENT_ID + '=' + argument +
+            ModuleDescriptor.ARGUMENT_ID + '=' + argument + ',' +
+            ModuleDescriptor.TITLE_ID + '=' + mTitle + ',' +
             (Utils.isNullOrEmpty(params) ? "" : ',' + params)
         );
       }

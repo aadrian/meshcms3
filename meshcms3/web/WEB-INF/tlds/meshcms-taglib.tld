@@ -257,6 +257,16 @@
     </attribute>
   </tag>
   <tag>
+    <name>moduletitle</name>
+    <tag-class>org.meshcms.taglib.ModuleTitle</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+      <name>location</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+  <tag>
     <name>ifmodule</name>
     <tag-class>org.meshcms.taglib.IfModule</tag-class>
     <body-content>JSP</body-content>
