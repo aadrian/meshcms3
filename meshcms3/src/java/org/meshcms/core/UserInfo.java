@@ -117,7 +117,7 @@ public class UserInfo implements Serializable {
   protected static final String SALT = "LV";
 
   protected Properties info;
-  protected boolean global;
+  protected transient boolean global;
 
   /**
    * Creates a new empty instance. Use {@link #load} to load a defined user.
