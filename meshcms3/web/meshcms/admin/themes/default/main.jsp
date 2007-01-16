@@ -29,6 +29,7 @@
       <h1>Navigation</h1>
       <cms:listmenu items="onpath,lastlevel,children" style="linklist" />
 
+      <h1><cms:moduletitle location="right" /></h1>
       <cms:module location="right" alt="" />
 	  
       <h1>User Menu</h1>
@@ -45,8 +46,10 @@
       --%>
     </div>
     <div id="contentalt" >
+      <h2><cms:moduletitle location="top" /></h2>
       <cms:module location="top" alt="" />
       <cms:pagebody /> 
+      <h2><cms:moduletitle location="bottom" /></h2>
       <cms:module location="bottom" alt="" />
       <cms:mailform /> 
       <p style="text-align: right;"><cms:lastmodified pre="Last modified: " /></p>
