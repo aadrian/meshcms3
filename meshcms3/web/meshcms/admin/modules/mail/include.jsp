@@ -68,88 +68,105 @@
   List fields = null;
   Path cachePath = webSite.getRepositoryPath().add(pagePath);
   webSite.getFile(cachePath).mkdirs();
-  cachePath = cachePath.add(moduleCode + ".xml");
+  cachePath = cachePath.add(moduleCode + ".ser");
   File cacheFile = webSite.getFile(cachePath);
 
   if (request.getMethod().equalsIgnoreCase("post") &&
       moduleCode.equals(request.getParameter("post_modulecode"))) {
     WebUtils.setBlockCache(request);
     List errMsgs = new ArrayList();
-    fields = (List) webSite.loadFromXML(cachePath);
-    Iterator iterator = fields.iterator();
-    String sender = null;
-    String senderName = null;
-    String subject = null;
-    String recipient = null;
-    StringBuffer textMsg = new StringBuffer();
-
-    while (iterator.hasNext()) {
-      FormField field = (FormField) iterator.next();
-      String code = field.getCode();
-
-      if (!Utils.isNullOrEmpty(code)) {
-        String newValue = request.getParameter(code);
-
-        if (newValue != null) {
-          field.setValue(newValue);
-        }
-      }
-
-      if (!field.checkValue()) {
-        Object[] args = { field.getName() };
-        formatter.applyPattern(pageBundle.getString("sendCheck"));
-        errMsgs.add(formatter.format(args));
-      }
-
-      if (field.isSender()) {
-        sender = field.getValue();
-      } else if (field.isRecipient()) {
-        recipient = field.getValue();
-      } else if (field.isSenderName()) {
-        senderName = field.getValue();
-      } else if (field.isSubject()) {
-        subject = field.getValue();
-      } else if (field.isMessageBody()) {
-        textMsg.append(field.getValue()).append("\n\n");
-      } else if (!Utils.isNullOrEmpty(field.getValue())) {
-        textMsg.append(field.getName()).append(":\n").append(field.getValue()).append("\n\n\n");
-      }
-    }
-
-    String textMsgString = textMsg.toString();
-
-    if (!Utils.checkAddress(recipient)) {
-      errMsgs.add(pageBundle.getString("sendNoRecipient"));
-    }
-
-    if (!Utils.checkAddress(sender)) {
-      errMsgs.add(pageBundle.getString("sendNoSender"));
-    }
-
-    if (errMsgs.size() == 0) {
+    ObjectInputStream ois = null;
+    
+    try {
+      ois = new ObjectInputStream(new FileInputStream(cacheFile));
+      fields = (List) ois.readObject();
+    } catch (IOException ex) {
+      webSite.log("can't read serialized fields", ex);
+      errMsgs.add(pageBundle.getString("sendFailed"));
+    } finally {
       try {
-        InternetAddress senderAddress = new InternetAddress(sender);
+        ois.close();
+      } catch (IOException ex) {
+        webSite.log("can't close object input stream", ex);
+      }
+    }
+    
+    if (fields != null) {
+      Iterator iterator = fields.iterator();
+      String sender = null;
+      String senderName = null;
+      String subject = null;
+      String recipient = null;
+      StringBuffer textMsg = new StringBuffer();
 
-        if (!Utils.isNullOrEmpty(senderName)) {
-          senderAddress.setPersonal(senderName);
+      while (iterator.hasNext()) {
+        FormField field = (FormField) iterator.next();
+        String code = field.getCode();
+
+        if (!Utils.isNullOrEmpty(code)) {
+          String newValue = request.getParameter(code);
+
+          if (newValue != null) {
+            field.setValue(newValue);
+          }
         }
 
-        InternetAddress recipientAddress = new InternetAddress(recipient);
-        Session mailSession = WebUtils.getMailSession(webSite);
-        MimeMessage outMsg = new MimeMessage(mailSession);
-        outMsg.setFrom(senderAddress);
-        outMsg.addRecipient(Message.RecipientType.TO, recipientAddress);
-        outMsg.setSubject(Utils.isNullOrEmpty(subject) ?
-          "Message from " + request.getServerName() : subject);
-        outMsg.setHeader("Content-Transfer-Encoding", "8bit");
-        outMsg.setHeader("X-MeshCMS-Log", "Sent from " + request.getRemoteAddr() +
-            " at " + new Date() + " using page /" + pagePath);
-        outMsg.setText(textMsgString);
-        Transport.send(outMsg);
-        sent = true;
-      } catch (Exception ex) {
-        webSite.log("send failed", ex);
-        errMsgs.add(pageBundle.getString("sendFailed"));
+        if (!field.checkValue()) {
+          Object[] args = { field.getName() };
+          formatter.applyPattern(pageBundle.getString("sendCheck"));
+          errMsgs.add(formatter.format(args));
+        }
+
+        if (field.isSender()) {
+          sender = field.getValue();
+        } else if (field.isRecipient()) {
+          recipient = field.getValue();
+        } else if (field.isSenderName()) {
+          senderName = field.getValue();
+        } else if (field.isSubject()) {
+          subject = field.getValue();
+        } else if (field.isMessageBody()) {
+          textMsg.append(field.getValue()).append("\n\n");
+        } else if (!Utils.isNullOrEmpty(field.getValue())) {
+          textMsg.append(field.getName()).append(":\n").append(field.getValue()).append("\n\n\n");
+        }
+      }
+
+      String textMsgString = textMsg.toString();
+
+      if (!Utils.checkAddress(recipient)) {
+        errMsgs.add(pageBundle.getString("sendNoRecipient"));
+      }
+
+      if (!Utils.checkAddress(sender)) {
+        errMsgs.add(pageBundle.getString("sendNoSender"));
+      }
+
+      if (errMsgs.size() == 0) {
+        try {
+          InternetAddress senderAddress = new InternetAddress(sender);
+
+          if (!Utils.isNullOrEmpty(senderName)) {
+            senderAddress.setPersonal(senderName);
+          }
+
+          InternetAddress recipientAddress = new InternetAddress(recipient);
+          Session mailSession = WebUtils.getMailSession(webSite);
+          MimeMessage outMsg = new MimeMessage(mailSession);
+          outMsg.setFrom(senderAddress);
+          outMsg.addRecipient(Message.RecipientType.TO, recipientAddress);
+          outMsg.setSubject(Utils.isNullOrEmpty(subject) ?
+            "Message from " + request.getServerName() : subject);
+          outMsg.setHeader("Content-Transfer-Encoding", "8bit");
+          outMsg.setHeader("X-MeshCMS-Log", "Sent from " + request.getRemoteAddr() +
+              " at " + new Date() + " using page /" + pagePath);
+          outMsg.setText(textMsgString);
+          Transport.send(outMsg);
+          sent = true;
+        } catch (Exception ex) {
+          webSite.log("send failed", ex);
+          errMsgs.add(pageBundle.getString("sendFailed"));
+        }
       }
     }
 
@@ -232,8 +249,19 @@
       }
     }
 
-    if (!webSite.storeToXML(fields, cachePath)) {
+    ObjectOutputStream oos = null;
+    
+    try {
+      oos = new ObjectOutputStream(new FileOutputStream(cacheFile));
+      oos.writeObject(fields);
+    } catch (IOException ex) {
       WebUtils.setBlockCache(request);
+    } finally {
+      try {
+        oos.close();
+      } catch (IOException ex) {
+        WebUtils.setBlockCache(request);
+      }
     }
   }
 
