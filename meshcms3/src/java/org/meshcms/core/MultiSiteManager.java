@@ -28,12 +28,12 @@ import java.util.*;
 public class MultiSiteManager implements Serializable {
   private transient MainWebSite mainWebSite;
   private transient SortedMap domainsMap;
+  private transient int siteCount;
 
   private boolean manageTripleWs;
   private boolean useDirsAsDomains;
   private String mainWebSiteDomains;
   private Properties domains;
-  private int siteCount;
 
   private MultiSiteManager() {
     domains = new Properties();
