@@ -91,7 +91,7 @@
 
     <div class="meshcmsfield">
       <textarea style="width: 100%; height: 25em;" id="fullsrc" name="fullsrc"
-       rows="25" cols="80"><%= Utils.encodeHTML(full) %></textarea>
+       rows="25" cols="80"><%= Utils.encodeHTML(full, true) %></textarea>
     </div>
 
     <div class="meshcmsbuttons">
