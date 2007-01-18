@@ -23,6 +23,8 @@
 package org.meshcms.taglib;
 
 import java.io.*;
+import javax.servlet.*;
+import javax.servlet.jsp.*;
 import org.meshcms.core.*;
 import org.meshcms.util.*;
 
@@ -33,8 +35,9 @@ import org.meshcms.util.*;
 public final class SearchFile extends AbstractTag {
   private String name;
   private String defaultName;
+  private String include;
 
-  public void writeTag() throws IOException {
+  public void writeTag() throws IOException, JspException {
     if (!Utils.isNullOrEmpty(name)) {
       Path found = null;
       Path currentPath = webSite.getDirectory(pagePath);
@@ -61,7 +64,18 @@ public final class SearchFile extends AbstractTag {
       }
 
       if (found != null) {
-        getOut().write(cp + '/' + found);
+        if (Utils.isTrue(include)) {
+          File f = webSite.getFile(found);
+          
+          try {
+            pageContext.include("/" + webSite.getServedPath(webSite.getPath(f)));
+            WebUtils.updateLastModifiedTime(request, f);
+          } catch (ServletException ex) {
+            throw new JspException(ex);
+          }
+        } else {
+          getOut().write(cp + '/' + found);
+        }
       }
     }
   }
@@ -80,5 +94,13 @@ public final class SearchFile extends AbstractTag {
 
   public void setDefaultName(String defaultName) {
     this.defaultName = defaultName;
+  }
+
+  public String getInclude() {
+    return include;
+  }
+
+  public void setInclude(String include) {
+    this.include = include;
   }
 }
