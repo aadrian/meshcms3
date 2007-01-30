@@ -300,18 +300,30 @@ public final class HitFilter implements Filter {
           boolean gzip = ae != null && ae.toLowerCase().indexOf("gzip") > -1;
           InputStream in = null;
 
-          if (cacheType == Configuration.IN_MEMORY_CACHE) {
+          if (cacheType == Configuration.IN_MEMORY_CACHE ||
+              cacheType == Configuration.MIXED_CACHE) {
             byte[] pageBytes = siteMap.getCached(pageInfo.getPath());
 
             // a cached page too small is suspicious
             if (pageBytes != null && pageBytes.length > 256) {
               in = new ByteArrayInputStream(pageBytes);
             }
-          } else if (cacheType == Configuration.ON_DISK_CACHE) {
+          }
+          
+          if (cacheType == Configuration.ON_DISK_CACHE ||
+              (in == null && cacheType == Configuration.MIXED_CACHE)) {
             File cacheFile = WebUtils.getCacheFile(webSite, siteMap, pagePath);
 
             if (cacheFile != null) {
               in = new FileInputStream(cacheFile);
+              
+              if (cacheType == Configuration.MIXED_CACHE) {
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                Utils.copyStream(in, baos, true);
+                byte[] b = baos.toByteArray();
+                siteMap.cache(pageInfo.getPath(), b);
+                in = new ByteArrayInputStream(b);
+              }
             }
           }
 
@@ -343,9 +355,13 @@ public final class HitFilter implements Filter {
             /* If WebUtils.setBlockCache has not been called while creating
                the page, it can be cached */
             if (!WebUtils.isCacheBlocked(httpReq)) {
-              if (cacheType == Configuration.IN_MEMORY_CACHE) {
+              if (cacheType == Configuration.IN_MEMORY_CACHE ||
+                  cacheType == Configuration.MIXED_CACHE) {
                 siteMap.cache(pageInfo.getPath(), baos.toByteArray());
-              } else if (cacheType == Configuration.ON_DISK_CACHE) {
+              }
+              
+              if (cacheType == Configuration.ON_DISK_CACHE ||
+                  cacheType == Configuration.MIXED_CACHE) {
                 File cacheFile = webSite.getRepositoryFile
                     (siteMap.getServedPath(pagePath), CACHE_FILE_NAME);
                 cacheFile.getParentFile().mkdirs();

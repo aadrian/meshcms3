@@ -78,7 +78,14 @@ public class SiteMap extends DirectoryParser {
     setInitialDir(webSite.getRootFile());
     setDaemon(true);
     setName("Site map parser for \"" + webSite.getTypeDescription() + '"');
-    pageCache = new HashMap();
+    
+    int cacheType = webSite.getConfiguration().getCacheType();
+    
+    if (cacheType == Configuration.IN_MEMORY_CACHE) {
+      pageCache = new HashMap();
+    } else if (cacheType == Configuration.MIXED_CACHE) {
+      pageCache = new WeakHashMap();
+    }
   }
   
   protected boolean preProcess() {
@@ -593,28 +600,32 @@ public class SiteMap extends DirectoryParser {
    * Caches a page.
    */
   public void cache(Path path, byte[] b) {
-    pageCache.put(path, b);
+    if (pageCache != null) {
+      pageCache.put(new Path(path), b);
+    }
   }
   
   /**
    * Removes a page from the cache.
    */
   public void removeFromCache(Path path) {
-    pageCache.remove(path);
+    if (pageCache != null) {
+      pageCache.remove(path);
+    }
   }
   
   /**
    * Gets a page from the cache.
    */
   public byte[] getCached(Path path) {
-    return (byte[]) pageCache.get(path);
+    return pageCache == null ? null : (byte[]) pageCache.get(path);
   }
   
   /**
    * Check if a page is available in the cache.
    */
   public boolean isCached(Path path) {
-    return pageCache.containsKey(path);
+    return pageCache == null ? false : pageCache.containsKey(path);
   }
   
   public SortedMap getThemesMap() {

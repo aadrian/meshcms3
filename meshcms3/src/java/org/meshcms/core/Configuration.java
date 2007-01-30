@@ -58,6 +58,11 @@ public class Configuration implements Serializable {
    */
   public static final int ON_DISK_CACHE = 2;
 
+  /**
+   * Value used to cache pages on disk and, if possible, in memory.
+   */
+  public static final int MIXED_CACHE = IN_MEMORY_CACHE | ON_DISK_CACHE;
+
   private boolean useAdminTheme;
   private boolean preventHotlinking;
   private boolean alwaysRedirectWelcomes;
@@ -99,7 +104,7 @@ public class Configuration implements Serializable {
     setBackupLife(90);
     setStatsLength(3);
     setUpdateInterval(4);
-    setCacheType(ON_DISK_CACHE);
+    setCacheType(MIXED_CACHE);
 
     setMailServer("localhost");
     setSmtpUsername("");

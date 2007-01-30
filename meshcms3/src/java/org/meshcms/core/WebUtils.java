@@ -605,6 +605,7 @@ public final class WebUtils {
 
     pagePath = siteMap.getServedPath(pagePath);
     File cacheFile = webSite.getRepositoryFile(pagePath, HitFilter.CACHE_FILE_NAME);
+    
     // a cached page too small is suspicious
     if (cacheFile.exists() && cacheFile.length() > 256 &&
         cacheFile.lastModified() > siteMap.getLastModified()) {
@@ -624,7 +625,8 @@ public final class WebUtils {
 
     if (cacheType == Configuration.IN_MEMORY_CACHE) {
       return siteMap.isCached(pagePath);
-    } else if (cacheType == Configuration.ON_DISK_CACHE) {
+    } else if (cacheType == Configuration.ON_DISK_CACHE ||
+        cacheType == Configuration.MIXED_CACHE) {
       return getCacheFile(webSite, siteMap, pagePath) != null;
     }
 
@@ -639,9 +641,13 @@ public final class WebUtils {
     int cacheType = webSite.getConfiguration().getCacheType();
     pagePath = siteMap.getServedPath(pagePath);
 
-    if (cacheType == Configuration.IN_MEMORY_CACHE) {
+    if (cacheType == Configuration.IN_MEMORY_CACHE ||
+        cacheType == Configuration.MIXED_CACHE) {
       siteMap.removeFromCache(pagePath);
-    } else if (cacheType == Configuration.ON_DISK_CACHE) {
+    }
+    
+    if (cacheType == Configuration.ON_DISK_CACHE ||
+        cacheType == Configuration.MIXED_CACHE) {
       File cacheFile = getCacheFile(webSite, siteMap, pagePath);
 
       if (cacheFile != null && cacheFile.exists()) {

@@ -208,6 +208,8 @@
         <%= cacheType == Configuration.IN_MEMORY_CACHE ? " selected='selected'" : "" %>><fmt:message key="configCacheMemory" /></option>
        <option value="<%= Configuration.ON_DISK_CACHE %>"
         <%= cacheType == Configuration.ON_DISK_CACHE ? " selected='selected'" : "" %>><fmt:message key="configCacheDisk" /></option>
+       <option value="<%= Configuration.MIXED_CACHE %>"
+        <%= cacheType == Configuration.MIXED_CACHE ? " selected='selected'" : "" %>><fmt:message key="configCacheMixed" /></option>
       </select>
     </div>
 
