@@ -66,6 +66,12 @@ MeshCMS uses free software from other companies/developers:
 - SWFObject
     http://blog.deconcept.com/swfobject/
 
+- XSPF Web Music Player
+    http://musicplayer.sourceforge.net/
+
+- FlowPlayer
+    http://flowplayer.sourceforge.net/
+
 - Tigra Menu & Tigra Tree Menu (not included, but supported)
     http://www.softcomplex.com/
 
