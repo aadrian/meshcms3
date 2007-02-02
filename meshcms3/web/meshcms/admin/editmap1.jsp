@@ -38,8 +38,6 @@
                        "You don't have enough privileges");
     return;
   }
-
-  int padding = 13;
 %>
 
 <html>
@@ -219,6 +217,7 @@
   String[] themes = siteMap.getThemeNames();
   List pagesList = siteMap.getPagesList();
   int pagesCount = pagesList.size();
+  int padding = 5;
 %>
 
 <div style="text-align: right; padding-left: 5px; padding-right: 5px;">
@@ -284,7 +283,7 @@
           <a href="<%= cp + webSite.getLink(pageInfo) %>"
            title="<fmt:message key="mapOpen">
              <fmt:param value="<%= webSite.getLink(pageInfo) %>" />
-           </fmt:message>"><%= pageInfo.getTitle() %></a>
+           </fmt:message>"><%= Utils.limitedLength(pageInfo.getTitle(), 25) %></a>
         </td>
 
         <td align="right"><%= pageInfo.getTotalHits() %></td>
@@ -308,7 +307,7 @@
         if (userOk) { %>
           <td><img src="images/clear_field.gif" onclick="javascript:editMap_clr('<%= tCode %>');" alt=""
            style='vertical-align:middle;' /><input type="text" name="<%= tCode %>"
-           id="<%= tCode %>" size="24"
+           id="<%= tCode %>" style="width: 10em;"
            value="<%= siteInfo.getPageTitle(pagePath) %>" /></td>
         <% } else { %>
           <td>&nbsp;<%= siteInfo.getPageTitle(pagePath) %></td>
@@ -332,7 +331,7 @@
         <% if (userOk) { %>
           <td><img src="images/clear_field.gif" onclick="javascript:editMap_clr('<%= sCode %>');" alt=""
            style='vertical-align:middle;' /><input type="text" name="<%= sCode %>"
-           id="<%= sCode %>" size="6" value="<%= siteInfo.getPageScoreAsString(pagePath) %>" /></td>
+           id="<%= sCode %>" style="width: 2.5em;" value="<%= siteInfo.getPageScoreAsString(pagePath) %>" /></td>
         <% } else { %>
           <td>&nbsp;<%= siteInfo.getPageScoreAsString(pagePath) %></td>
         <% } %>

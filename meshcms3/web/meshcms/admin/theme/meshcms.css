@@ -69,6 +69,10 @@ table.meshcmseditor th {
  text-align: center;
 }
 
+table.meshcmseditor tr:hover {
+  background-color: #edeeef;
+}
+
 /* Editing DIVs */
 div.meshcmseditor {
  padding: 1em;
