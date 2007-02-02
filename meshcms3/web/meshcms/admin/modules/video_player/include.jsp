@@ -22,6 +22,7 @@
 
 <%@ page import="java.net.*" %>
 <%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 
 <%--
@@ -56,7 +57,7 @@
     <param name="movie" value="<%= cp %><%= mp %>/flowplayer.swf" />
     <param name="quality" value="high" />
     <param name="scale" value="noScale" />
-    <param name="flashvars" value="configFileName=<%= URLEncoder.encode(fName, WebSite.SYSTEM_CHARSET) %>" />
+    <param name="flashvars" value="configFileName=<%= URLEncoder.encode(fName, Utils.SYSTEM_CHARSET) %>" />
   </object>
 </div>
 --%>
@@ -70,7 +71,7 @@
 <script type="text/javascript">
 // <![CDATA[
    var so = new SWFObject("<%= cp %><%= mp %>/flowplayer.swf", "FlowPlayer", "320", "325", "7", "#FFFFFF");
-   so.addParam("flashvars", "configFileName=<%= URLEncoder.encode(fName, WebSite.SYSTEM_CHARSET) %>");
+   so.addParam("flashvars", "configFileName=<%= URLEncoder.encode(fName, Utils.SYSTEM_CHARSET) %>");
    so.write("flashcontent");
 // ]]>
 </script>

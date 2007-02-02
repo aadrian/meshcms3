@@ -24,6 +24,7 @@ package org.meshcms.util;
 
 import java.io.*;
 import java.net.*;
+import java.nio.charset.*;
 import java.text.*;
 import java.util.*;
 import java.util.zip.*;
@@ -72,6 +73,23 @@ public final class Utils {
    * The number of bytes in a gigabyte (2^30).
    */
   public static final int GBYTE = MBYTE * KBYTE;
+
+  public static final String SYSTEM_CHARSET;
+  public static final boolean IS_MULTIBYTE_SYSTEM_CHARSET;
+
+  static {
+    String s = System.getProperty("file.encoding", "ISO-8859-1");
+    boolean multibyte = true;
+
+    try {
+      Charset c = Charset.forName(s);
+      s = c.toString();
+      multibyte = c.newEncoder().maxBytesPerChar() > 1.0F;
+    } catch (Exception ex) {}
+
+    SYSTEM_CHARSET = s;
+    IS_MULTIBYTE_SYSTEM_CHARSET = multibyte;
+  }
 
   /**
    * Repeatedly adds a character to the beginning of a number until the desired
@@ -554,7 +572,8 @@ public final class Utils {
    * @throws IOException If an I/O error occurs
    */
   public static String readFully(File file) throws IOException {
-    Reader reader = new BufferedReader(new FileReader(file));
+    Reader reader = new InputStreamReader(new FileInputStream(file),
+        SYSTEM_CHARSET);
     String s = readFully(reader);
     reader.close();
     return s;
@@ -635,7 +654,8 @@ public final class Utils {
    */
   public static String[] readAllLines(File file)
       throws FileNotFoundException, IOException {
-    BufferedReader reader = new BufferedReader(new FileReader(file));
+    BufferedReader reader = new BufferedReader(new InputStreamReader
+        (new FileInputStream(file), SYSTEM_CHARSET));
     List list = new ArrayList();
     String line;
 

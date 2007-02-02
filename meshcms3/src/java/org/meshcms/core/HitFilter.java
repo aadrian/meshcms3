@@ -109,7 +109,7 @@ public final class HitFilter implements Filter {
       }
 
       request.setAttribute(WEBSITE_ATTRIBUTE, webSite);
-      request.setCharacterEncoding(WebSite.SYSTEM_CHARSET);
+      request.setCharacterEncoding(Utils.SYSTEM_CHARSET);
       HttpServletRequest httpReq = webSite.wrapRequest(request);
       Path pagePath = webSite.getRequestedPath(httpReq);
 
@@ -285,7 +285,7 @@ public final class HitFilter implements Filter {
       }
 
       httpRes.setContentType(mimeType + "; charset=" +
-          Utils.noNull(pageCharset, WebSite.SYSTEM_CHARSET));
+          Utils.noNull(pageCharset, Utils.SYSTEM_CHARSET));
 
       try {
         // Cache management

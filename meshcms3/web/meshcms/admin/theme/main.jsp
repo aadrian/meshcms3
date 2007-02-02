@@ -2,6 +2,7 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 <jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
@@ -62,7 +63,7 @@
           
           <div class="sysinfo">
             <fmt:message key="sysCharset" />
-            <%= WebSite.SYSTEM_CHARSET %>
+            <%= Utils.SYSTEM_CHARSET %>
           </div>
           
           <div class="sysinfo">

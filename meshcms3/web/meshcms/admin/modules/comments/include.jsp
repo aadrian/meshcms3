@@ -93,7 +93,7 @@
     String text = request.getParameter("text");
     int sum = Utils.parseInt(request.getParameter("sum"), -1);
     int n1 = Utils.parseInt(request.getParameter("n1"), 0) /
-        (WebSite.SYSTEM_CHARSET.hashCode() >>> 8);
+        (Utils.SYSTEM_CHARSET.hashCode() >>> 8);
     int n2 = Utils.parseInt(request.getParameter("n2"), 0) /
         (WebSite.VERSION_ID.hashCode() >>> 8);
 
@@ -203,7 +203,8 @@
         HTMLPageParser fpp = new HTMLPageParser();
 
         try {
-          Reader reader = new BufferedReader(new FileReader(files[i]));
+          Reader reader = new InputStreamReader(new FileInputStream(files[i]),
+              Utils.SYSTEM_CHARSET);
           HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
           String title = pg.getTitle();
 %>
@@ -252,7 +253,7 @@
     <div>
       <label for="mcc_sum"><%= n1 %> + <%= n2 %> =</label>
       <input type="text" name="sum" id="mcc_sum" class="<%= fieldStyle %>" style="width: 3em;" />
-      <input type="hidden" name="n1" value="<%= n1 * (WebSite.SYSTEM_CHARSET.hashCode() >>> 8) %>" />
+      <input type="hidden" name="n1" value="<%= n1 * (Utils.SYSTEM_CHARSET.hashCode() >>> 8) %>" />
       <input type="hidden" name="n2" value="<%= n2 * (WebSite.VERSION_ID.hashCode() >>> 8) %>" />
     </div>
     <div style="margin-top: 1em;">

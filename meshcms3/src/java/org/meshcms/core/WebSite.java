@@ -23,21 +23,29 @@
 package org.meshcms.core;
 
 import java.io.*;
-import java.nio.charset.*;
 import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.apache.commons.fileupload.*;
 import org.meshcms.util.*;
 import com.thoughtworks.xstream.*;
-import com.thoughtworks.xstream.io.StreamException;
+import com.thoughtworks.xstream.io.*;
 import com.thoughtworks.xstream.io.xml.*;
 
 public class WebSite {
   public static final String APP_NAME = "MeshCMS";
   public static final String VERSION_ID = "3.0.4";
-  public static final String SYSTEM_CHARSET;
-  public static final boolean IS_MULTIBYTE_SYSTEM_CHARSET;
+  
+  /**
+   * @deprecated use {@link Utils#SYSTEM_CHARSET}
+   */
+  public static final String SYSTEM_CHARSET = Utils.SYSTEM_CHARSET;
+  
+  /**
+   * @deprecated use {@link Utils#IS_MULTIBYTE_SYSTEM_CHARSET}
+   */
+  public static final boolean IS_MULTIBYTE_SYSTEM_CHARSET =
+      Utils.IS_MULTIBYTE_SYSTEM_CHARSET;
 
   /**
    * A prefix to be used for every backup file.
@@ -62,20 +70,6 @@ public class WebSite {
   public static final String CMS_ID_FILE = "meshcms_id";
 
   public static final String ADMIN_ID_FILE = "meshcms_admin_id";
-
-  static {
-    String s = System.getProperty("file.encoding", "ISO-8859-1");
-    boolean multibyte = true;
-
-    try {
-      Charset c = Charset.forName(s);
-      s = c.toString();
-      multibyte = c.newEncoder().maxBytesPerChar() > 1.0F;
-    } catch (Exception ex) {}
-
-    SYSTEM_CHARSET = s;
-    IS_MULTIBYTE_SYSTEM_CHARSET = multibyte;
-  }
 
   protected ServletContext sc;
   protected String[] welcomeFiles;

@@ -18,7 +18,7 @@
 
  You can contact the author at http://www.cromoteca.com
  and at info@cromoteca.com
---%><%@ page contentType="text/xml" import="java.io.*,java.util.*,org.meshcms.core.*,org.meshcms.util.*" %><jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" /><?xml version="1.0" encoding="<%= WebSite.SYSTEM_CHARSET %>" ?>
+--%><%@ page contentType="text/xml" import="java.io.*,java.util.*,org.meshcms.core.*,org.meshcms.util.*" %><jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" /><?xml version="1.0" encoding="<%= Utils.SYSTEM_CHARSET %>" ?>
 
 <%
   Path path = new Path(request.getParameter("path"));

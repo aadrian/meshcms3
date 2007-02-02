@@ -39,7 +39,8 @@
 <%!
   private Map readCaptionFile(File captionFile) {
     try {
-      BufferedReader reader = new BufferedReader(new FileReader(captionFile));
+      BufferedReader reader = new BufferedReader(new InputStreamReader
+          (new FileInputStream(captionFile), Utils.SYSTEM_CHARSET));
       Map captionMap = new HashMap();
       StringBuffer caption = new StringBuffer();
       String file = null;

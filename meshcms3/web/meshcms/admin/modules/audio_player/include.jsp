@@ -22,6 +22,7 @@
 
 <%@ page import="java.net.*" %>
 <%@ page import="org.meshcms.core.*" %>
+<%@ page import="org.meshcms.util.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 
 <%--
@@ -48,7 +49,7 @@
   String data = mp + "/xspf_player.swf?playlist_url=" +
       URLEncoder.encode(mp + "/playlist.jsp?path=" +
       md.getModuleArgumentDirectoryPath(webSite, true) +
-      "&modulepath=" + md.getModulePath(), WebSite.SYSTEM_CHARSET) +
+      "&modulepath=" + md.getModulePath(), Utils.SYSTEM_CHARSET) +
       "&autoload=false&info_button_text=download";
 %>
 

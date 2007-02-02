@@ -256,7 +256,7 @@
     // Read in the file, skip if can't be read.
     HTMLPage pg;
     try {
-      Reader reader = new BufferedReader(new FileReader(f));
+      Reader reader = new InputStreamReader(new FileInputStream(f), Utils.SYSTEM_CHARSET);
       pg = (HTMLPage) hpp.parse(Utils.readAllChars(reader));
       reader.close();
     } catch (IOException e) {

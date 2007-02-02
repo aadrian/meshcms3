@@ -97,8 +97,8 @@
         HTMLPageParser fpp = new HTMLPageParser();
 
         try {
-          Reader reader = new BufferedReader(new FileReader(webSite.getFile
-              (siteMap.getServedPath(pages[i].getPath()))));
+          Reader reader = new InputStreamReader(new FileInputStream(webSite.getFile
+              (siteMap.getServedPath(pages[i].getPath()))), Utils.SYSTEM_CHARSET);
           HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
           String title = pg.getTitle();
 %>
