@@ -340,6 +340,10 @@ public class Path implements Comparable, Serializable, Cloneable {
     if (rootPath.isRelative()) {
       throw new IllegalArgumentException("Root path can't be negative");
     }
+    
+    if (isRelative()) {
+      return this;
+    }
 
     int i0 = 0;
     int i1 = 0;
@@ -428,7 +432,15 @@ public class Path implements Comparable, Serializable, Cloneable {
    * @return a link represenation of this path.
    */
   public String getAsLink() {
-    return elements.length == 0 ? "" : '/' + pathName;
+    String s = pathName;
+    
+    if (elements.length == 0) {
+      s = "";
+    } else if (!isRelative()) {
+      s =  '/' + s;
+    }
+    
+    return s;
   }
 
   /**
