@@ -715,20 +715,16 @@ public final class WebUtils {
     return (String[]) list.toArray(new String[list.size()]);
   }
   
-  public static String fixRelativeURLs(String html, Path root) {
-    Pattern p = Pattern.compile("(<(?:a|img)(?:[^>]*?)(?:src|href)=\")([^\"]*)(\"[^>]*?>)",
+  public static String fixRelativeURLs(String html, Path root, boolean relative) {
+    Pattern p = Pattern.compile("(<(?:a|img)(?:[^>]*?)(?:src|href)=\")([^\":?]*)(\"[^>]*?>)",
         Pattern.CASE_INSENSITIVE);
     Matcher m = p.matcher(html);
     StringBuffer sb = new StringBuffer(html.length());
     
     while(m.find()) {
-      String s = m.group(2);
-      
-      if (s.indexOf(':') < 0) {
-        s = new Path(s).getRelativeTo(root).getAsLink();
-      }
-      
-      m.appendReplacement(sb, m.group(1) + s + m.group(3));
+      Path path = relative ? new Path(m.group(2)).getRelativeTo(root) :
+          new Path(root, m.group(2));
+      m.appendReplacement(sb, m.group(1) + path.getAsLink() + m.group(3));
     }
     
     m.appendTail(sb);
