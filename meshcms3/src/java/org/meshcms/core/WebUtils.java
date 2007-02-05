@@ -27,6 +27,7 @@ import java.nio.charset.*;
 import java.net.*;
 import java.text.*;
 import java.util.*;
+import java.util.regex.*;
 import javax.activation.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -712,5 +713,25 @@ public final class WebUtils {
     }
 
     return (String[]) list.toArray(new String[list.size()]);
+  }
+  
+  public static String fixRelativeURLs(String html, Path root) {
+    Pattern p = Pattern.compile("(<(?:a|img)(?:[^>]*?)(?:src|href)=\")([^\"]*)(\"[^>]*?>)",
+        Pattern.CASE_INSENSITIVE);
+    Matcher m = p.matcher(html);
+    StringBuffer sb = new StringBuffer(html.length());
+    
+    while(m.find()) {
+      String s = m.group(2);
+      
+      if (s.indexOf(':') < 0) {
+        s = new Path(s).getRelativeTo(root).getAsLink();
+      }
+      
+      m.appendReplacement(sb, m.group(1) + s + m.group(3));
+    }
+    
+    m.appendTail(sb);
+    return sb.toString();
   }
 }
