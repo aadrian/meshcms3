@@ -1,5 +1,5 @@
-// JA lang variables
+// UK lang variables
 
 tinyMCE.addToLang('',{
-preview_desc : 'プレビュー'
+preview_desc : 'Preview'
 });

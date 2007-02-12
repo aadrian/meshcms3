@@ -1,8 +1,8 @@
 /**
- * $Id: editor_plugin_src.js 162 2007-01-03 16:16:52Z spocke $
+ * $Id: editor_plugin_src.js 126 2006-10-22 16:19:55Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 var TinyMCE_NonEditablePlugin = {
@@ -29,18 +29,17 @@ var TinyMCE_NonEditablePlugin = {
 	},
 
 	cleanup : function(type, content, inst) {
+		// Pass through Gecko
+		if (tinyMCE.isGecko)
+			return content;
+
 		switch (type) {
 			case "insert_to_editor_dom":
-				// Pass through Gecko
-				if (tinyMCE.isGecko)
-					return content;
+				var nodes = tinyMCE.getNodeTree(content, new Array(), 1);
+				var editClass = tinyMCE.getParam("noneditable_editable_class", "mceItemEditable");
+				var nonEditClass = tinyMCE.getParam("noneditable_noneditable_class", "mceItemNonEditable");
 
-				var nodes = tinyMCE.getNodeTree(content, new Array(), 1), i, editClass, nonEditClass;
-
-				editClass = tinyMCE.getParam("noneditable_editable_class", "mceEditable");
-				nonEditClass = tinyMCE.getParam("noneditable_noneditable_class", "mceNonEditable");
-
-				for (i=0; i<nodes.length; i++) {
+				for (var i=0; i<nodes.length; i++) {
 					var elm = nodes[i];
 
 					// Convert contenteditable to classes
@@ -62,14 +61,10 @@ var TinyMCE_NonEditablePlugin = {
 				break;
 
 			case "insert_to_editor":
-				var editClass = tinyMCE.getParam("noneditable_editable_class", "mceEditable");
-				var nonEditClass = tinyMCE.getParam("noneditable_noneditable_class", "mceNonEditable");
+				if (tinyMCE.isMSIE) {
+					var editClass = tinyMCE.getParam("noneditable_editable_class", "mceItemEditable");
+					var nonEditClass = tinyMCE.getParam("noneditable_noneditable_class", "mceItemNonEditable");
 
-				// Replace mceItem to new school
-				content = content.replace(/mceItemEditable/g, editClass);
-				content = content.replace(/mceItemNonEditable/g, nonEditClass);
-
-				if (tinyMCE.isIE) {
 					content = content.replace(new RegExp("class=\"(.*)(" + editClass + ")([^\"]*)\"", "gi"), 'class="$1$2$3" contenteditable="true"');
 					content = content.replace(new RegExp("class=\"(.*)(" + nonEditClass + ")([^\"]*)\"", "gi"), 'class="$1$2$3" contenteditable="false"');
 				}
@@ -77,10 +72,6 @@ var TinyMCE_NonEditablePlugin = {
 				break;
 
 			case "get_from_editor_dom":
-				// Pass through Gecko
-				if (tinyMCE.isGecko)
-					return content;
-
 				if (tinyMCE.getParam("noneditable_leave_contenteditable", false)) {
 					var nodes = tinyMCE.getNodeTree(content, new Array(), 1);
 
@@ -95,7 +86,7 @@ var TinyMCE_NonEditablePlugin = {
 	},
 
 	_moveSelection : function(e, inst) {
-		var s, r, sc, ec, el, c = tinyMCE.getParam('noneditable_editable_class', 'mceNonEditable');
+		var s, r, sc, ec, el, c = tinyMCE.getParam('noneditable_editable_class', 'mceItemNonEditable');
 
 		if (!inst)
 			return true;
@@ -128,8 +119,8 @@ var TinyMCE_NonEditablePlugin = {
 	},
 
 	_setEditable : function(elm, state) {
-		var editClass = tinyMCE.getParam("noneditable_editable_class", "mceEditable");
-		var nonEditClass = tinyMCE.getParam("noneditable_noneditable_class", "mceNonEditable");
+		var editClass = tinyMCE.getParam("noneditable_editable_class", "mceItemEditable");
+		var nonEditClass = tinyMCE.getParam("noneditable_noneditable_class", "mceItemNonEditable");
 
 		var className = elm.className ? elm.className : "";
 

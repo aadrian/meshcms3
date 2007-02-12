@@ -2,8 +2,8 @@
  * IT lang variables
  * 
  * Author : Luciano Vernaschi <luciano@virgilio.it>
- * Last Updated : Oct. 17th, 2006
- * TinyMCE Version : 2.0.7
+ * Last Updated : Oct. 24th, 2006
+ * TinyMCE Version : 2.0.8
  */
 
 tinyMCE.addToLang('',{
@@ -11,8 +11,8 @@ theme_style_select : '-- Stili --',
 theme_code_desc : 'Modifica codice HTML',
 theme_code_title : 'Editor HTML',
 theme_code_wordwrap : 'A capo',
-theme_sub_desc : 'Apice',
-theme_sup_desc : 'Pedice',
+theme_sub_desc : 'Pedice',
+theme_sup_desc : 'Apice',
 theme_hr_desc : 'Inserisci riga orizzontale',
 theme_removeformat_desc : 'Rimuovi formattazione',
 theme_custom1_desc : 'La tua descrizione personalizzata',

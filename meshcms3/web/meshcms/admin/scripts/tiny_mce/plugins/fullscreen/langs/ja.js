@@ -1,5 +1,6 @@
-// JA lang variables
+// UK lang variables
 
 tinyMCE.addToLang('',{
-fullscreen_desc : 'フルスクリーンモードを切り替える'
+fullscreen_title : 'Fullscreen mode',
+fullscreen_desc : 'Toggle fullscreen mode'
 });

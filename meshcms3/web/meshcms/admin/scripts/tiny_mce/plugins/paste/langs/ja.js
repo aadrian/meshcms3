@@ -1,10 +1,10 @@
-// JA lang variables
+// UK lang variables
 
 tinyMCE.addToLang('',{
-paste_text_desc : 'テキストとして貼り付け',
-paste_text_title : 'キーボードからCTRL+Vを押下してテキストを貼り付けます。',
-paste_text_linebreaks : '改行を保持したまま',
-paste_word_desc : 'Word文書として貼り付け',
-paste_word_title : 'キーボードからCTRL+Vを押下してテキストを貼り付けます。',
-selectall_desc : 'すべて選択する'
+paste_text_desc : 'Paste as Plain Text',
+paste_text_title : 'Use CTRL+V on your keyboard to paste the text into the window.',
+paste_text_linebreaks : 'Keep linebreaks',
+paste_word_desc : 'Paste from Word',
+paste_word_title : 'Use CTRL+V on your keyboard to paste the text into the window.',
+selectall_desc : 'Select All'
 });

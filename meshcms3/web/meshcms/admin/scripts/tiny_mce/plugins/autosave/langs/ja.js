@@ -1,5 +1,5 @@
-// JAlang variables
+// EN lang variables
 
 tinyMCE.addToLang('',{
-autosave_unload_msg : 'ページを移動すると編集中の文章は失われます。'
+autosave_unload_msg : 'The changes you made will be lost if you navigate away from this page.'
 });

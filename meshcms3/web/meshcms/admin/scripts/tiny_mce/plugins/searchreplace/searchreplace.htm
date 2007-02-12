@@ -90,15 +90,12 @@
 	</div>
 
 	<div class="mceActionPanel">
-		<div style="float: left">
+		<div style="text-align: center;">
 			<input type="button" id="insert" name="insert" value="{$lang_searchreplace_findnext}" onclick="searchNext('none');" />
 			<span id="replace_buttons">
 				<input type="button" id="replaceBtn" name="replaceBtn" value="{$lang_searchreplace_replace}" onclick="searchNext('current');" />
 				<input type="button" id="replaceAllBtn" name="replaceAllBtn" value="{$lang_searchreplace_replaceall}" onclick="searchNext('all');;" />
 			</span>
-		</div>
-
-		<div style="float: right">	
 			<input type="button" id="cancel" name="cancel" value="{$lang_searchreplace_cancel}" onclick="tinyMCEPopup.close();" />
 		</div>
 	</div>

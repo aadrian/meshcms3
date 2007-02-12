@@ -1,8 +1,8 @@
 /**
- * $Id: editor_plugin_src.js 164 2007-01-04 17:17:58Z spocke $
+ * $Id: editor_plugin_src.js 126 2006-10-22 16:19:55Z spocke $
  *
  * @author Moxiecode
- * @copyright Copyright © 2004-2007, Moxiecode Systems AB, All rights reserved.
+ * @copyright Copyright © 2004-2006, Moxiecode Systems AB, All rights reserved.
  */
 
 tinyMCE.importPluginLanguagePack('searchreplace');
@@ -43,12 +43,7 @@ var TinyMCE_SearchReplacePlugin = {
 		}
 
 		function replaceSel(search_str, str, back) {
-			if (!inst.selection.isCollapsed()) {
-				if (tinyMCE.isRealIE)
-					inst.selection.getRng().duplicate().pasteHTML(str); // Needs to be duplicated due to selection bug in IE
-				else
-					inst.execCommand('mceInsertContent', false, str);
-			}
+			inst.execCommand('mceInsertContent', false, str);
 		}
 
 		if (!value)
@@ -66,6 +61,10 @@ var TinyMCE_SearchReplacePlugin = {
 		defValue("resizable", "no");
 
 		switch (command) {
+			case "mceResetSearch" :
+				tinyMCE.lastSearchRng = null;
+				return true;
+
 			case "mceSearch" :
 				if (user_interface) {
 					var template = new Array();
@@ -76,31 +75,34 @@ var TinyMCE_SearchReplacePlugin = {
 					template['width'] += tinyMCE.getLang('lang_searchreplace_delta_width', 0);
 					template['height'] += tinyMCE.getLang('lang_searchreplace_delta_height', 0);
 
-					inst.selection.collapse(true);
+					inst.execCommand('SelectAll');
+
+					if (tinyMCE.isMSIE) {
+						var r = inst.selection.getRng();
+						r.collapse(true);
+						r.select();
+					} else
+						inst.selection.getSel().collapseToStart();
 
 					tinyMCE.openWindow(template, value);
 				} else {
 					var win = tinyMCE.getInstanceById(editor_id).contentWindow;
 					var doc = tinyMCE.getInstanceById(editor_id).contentWindow.document;
 					var body = tinyMCE.getInstanceById(editor_id).contentWindow.document.body;
-					var awin = value.win, found;
-
 					if (body.innerHTML == "") {
-						awin.alert(tinyMCE.getLang('lang_searchreplace_notfound'));
+						alert(tinyMCE.getLang('lang_searchreplace_notfound'));
 						return true;
 					}
 
 					if (value['replacemode'] == "current") {
 						replaceSel(value['string'], value['replacestring'], value['backwards']);
 						value['replacemode'] = "none";
-						//tinyMCE.execInstanceCommand(editor_id, 'mceSearch', user_interface, value);
-						//return true;
+						tinyMCE.execInstanceCommand(editor_id, 'mceSearch', user_interface, value, false);
+						return true;
 					}
 
-					inst.selection.collapse(value['backwards']);
-
 					if (tinyMCE.isMSIE) {
-						var rng = inst.selection.getRng();
+						var rng = tinyMCE.lastSearchRng ? tinyMCE.lastSearchRng : doc.selection.createRange();
 						var flags = 0;
 						if (value['wholeword'])
 							flags = flags | 2;
@@ -109,52 +111,41 @@ var TinyMCE_SearchReplacePlugin = {
 							flags = flags | 4;
 
 						if (!rng.findText) {
-							awin.alert('This operation is currently not supported by this browser.');
+							alert('This operation is currently not supported by this browser.');
 							return true;
 						}
 
 						if (value['replacemode'] == "all") {
-							found = false;
-
 							while (rng.findText(value['string'], value['backwards'] ? -1 : 1, flags)) {
-								found = true;
 								rng.scrollIntoView();
 								rng.select();
+								rng.collapse(false);
 								replaceSel(value['string'], value['replacestring'], value['backwards']);
 							}
 
-							if (found)
-								awin.alert(tinyMCE.getLang('lang_searchreplace_allreplaced'));
-							else
-								awin.alert(tinyMCE.getLang('lang_searchreplace_notfound'));
-
+							alert(tinyMCE.getLang('lang_searchreplace_allreplaced'));
 							return true;
 						}
 
 						if (rng.findText(value['string'], value['backwards'] ? -1 : 1, flags)) {
 							rng.scrollIntoView();
 							rng.select();
+							rng.collapse(value['backwards']);
+							tinyMCE.lastSearchRng = rng;
 						} else
-							awin.alert(tinyMCE.getLang('lang_searchreplace_notfound'));
+							alert(tinyMCE.getLang('lang_searchreplace_notfound'));
+
 					} else {
 						if (value['replacemode'] == "all") {
-							found = false;
-
-							while (win.find(value['string'], value['casesensitive'], value['backwards'], value['wrap'], value['wholeword'], false, false)) {
-								found = true;
+							while (win.find(value['string'], value['casesensitive'], value['backwards'], value['wrap'], value['wholeword'], false, false))
 								replaceSel(value['string'], value['replacestring'], value['backwards']);
-							}
 
-							if (found)
-								awin.alert(tinyMCE.getLang('lang_searchreplace_allreplaced'));
-							else
-								awin.alert(tinyMCE.getLang('lang_searchreplace_notfound'));
-
+							alert(tinyMCE.getLang('lang_searchreplace_allreplaced'));
 							return true;
 						}
 
 						if (!win.find(value['string'], value['casesensitive'], value['backwards'], value['wrap'], value['wholeword'], false, false))
-							awin.alert(tinyMCE.getLang('lang_searchreplace_notfound'));
+							alert(tinyMCE.getLang('lang_searchreplace_notfound'));
 					}
 				}
 

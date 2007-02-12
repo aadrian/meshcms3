@@ -1,5 +1,5 @@
-// JA lang variables
+// UK lang variables
 
 tinyMCE.addToLang('',{
-print_desc : '印刷'
+print_desc : 'Print'
 });
