@@ -29,17 +29,18 @@ import javax.xml.transform.*;
 import javax.xml.transform.stream.*;
 import javax.xml.transform.sax.*;
 
-public class XHTMLFastBuilder extends XHTMLTagStack {
+public class XMLFastBuilder extends XMLTagStack {
   TransformerHandler hd;
   AttributesImpl atts;
   String nextTag;
   
-  public XHTMLFastBuilder(Writer out, String charset) throws TransformerConfigurationException {
+  public XMLFastBuilder(Writer out, String charset, boolean xhtml) throws
+      TransformerConfigurationException {
     StreamResult streamResult = new StreamResult(out);
     SAXTransformerFactory tf = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
     hd = tf.newTransformerHandler();
     Transformer serializer = hd.getTransformer();
-    configureTransformer(serializer, charset);
+    configureTransformer(serializer, charset, xhtml);
     hd.setResult(streamResult);
     
     try {
@@ -68,19 +69,19 @@ public class XHTMLFastBuilder extends XHTMLTagStack {
     return tagStack.empty() ? null : (String) tagStack.peek();
   }
   
-  public XHTMLTagStack openTag(String tagName) {
+  public XMLTagStack startTag(String tagName) {
     openPendingTag();
     nextTag = tagName;
     tagStack.push(tagName);
     return this;
   }
   
-  public XHTMLTagStack setAttribute(String name, String value) {
+  public XMLTagStack addAttribute(String name, String value) {
     atts.addAttribute("", "", name, "CDATA", value);
     return this;
   }
   
-  public XHTMLTagStack addText(String textData) {
+  public XMLTagStack addText(String textData) {
     openPendingTag();
     
     try {
@@ -92,7 +93,7 @@ public class XHTMLFastBuilder extends XHTMLTagStack {
     return this;
   }
   
-  public XHTMLTagStack addCDATA(String textData) {
+  public XMLTagStack addCDATA(String textData) {
     openPendingTag();
     
     try {
@@ -106,7 +107,7 @@ public class XHTMLFastBuilder extends XHTMLTagStack {
     return this;
   }
   
-  protected void performCloseTag() {
+  protected void performEndTag() {
     openPendingTag();
     
     try {
@@ -126,11 +127,5 @@ public class XHTMLFastBuilder extends XHTMLTagStack {
 
   private void manageSAXExceptions(SAXException ex) {
     ex.printStackTrace();
-  }
-  
-  public static void main(String[] args) throws Exception {
-    XHTMLFastBuilder doc = new XHTMLFastBuilder(new PrintWriter(System.out), "UTF-8");
-    doc.test();
-    doc.flush();
   }
 }

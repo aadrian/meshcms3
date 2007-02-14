@@ -116,14 +116,14 @@ public class XHTMLBuilder {
       StreamResult streamResult = new StreamResult(out);
       TransformerFactory tf = TransformerFactory.newInstance();
       Transformer serializer = tf.newTransformer();
-      XHTMLTagStack.configureTransformer(serializer, charset);
+      XMLTagStack.configureTransformer(serializer, charset, true);
       serializer.transform(domSource, streamResult);
     } catch (Exception ex) {
       ex.printStackTrace();
     }
   }
   
-  public class Fragment extends XHTMLTagStack {
+  public class Fragment extends XMLTagStack {
     Element mainElement;
     
     public Fragment(Element mainElement) {
@@ -138,36 +138,30 @@ public class XHTMLBuilder {
       return tagStack.empty() ? null : ((Element) tagStack.peek()).getTagName();
     }
     
-    public XHTMLTagStack openTag(String tagName) {
+    public XMLTagStack startTag(String tagName) {
       Element tag = xmlDocument.createElement(tagName);
       getCurrentTag().appendChild(tag);
       tagStack.push(tag);
       return this;
     }
     
-    public XHTMLTagStack setAttribute(String name, String value) {
+    public XMLTagStack addAttribute(String name, String value) {
       getCurrentTag().setAttribute(name, value);
       return this;
     }
     
-    public XHTMLTagStack addText(String textData) {
+    public XMLTagStack addText(String textData) {
       getCurrentTag().appendChild(xmlDocument.createTextNode(textData));
       return this;
     }
     
-    public XHTMLTagStack addCDATA(String textData) {
+    public XMLTagStack addCDATA(String textData) {
       getCurrentTag().appendChild(xmlDocument.createCDATASection(textData));
       return this;
     }
     
-    protected void performCloseTag() {
+    protected void performEndTag() {
       tagStack.pop();
     }
-  }
-  
-  public static void main(String[] args) {
-    XHTMLBuilder doc = new XHTMLBuilder();
-    doc.getBody().test();
-    doc.writeBodyContent(new PrintWriter(System.out), "UTF-8");
   }
 }
