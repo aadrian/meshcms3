@@ -49,10 +49,6 @@
         if (name.equals("pagetitle")) {
           value = Utils.encodeHTML(value);
           title = value;
-        } else if (name.equals("meshcmsbody")) {
-          value = WebUtils.fixRelativeURLs(value, new Path(request.getContextPath(),
-              webSite.getDirectory(new Path(request.getParameter("pagepath")))),
-              Utils.isTrue(request.getParameter("relch")));
         }
 
         pa.addProperty(name, value);
