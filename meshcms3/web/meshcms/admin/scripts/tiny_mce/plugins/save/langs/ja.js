@@ -1,5 +1,5 @@
-// UK lang variables
+// JA lang variables
 
 tinyMCE.addToLang('',{
-save_desc : 'Save'
+save_desc : '保存（フォームの送信）'
 });

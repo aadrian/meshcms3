@@ -1,10 +1,10 @@
-// UK lang variables
+// CA lang variables by Marc Folch
 
 tinyMCE.addToLang('',{
-paste_text_desc : 'Paste as Plain Text',
-paste_text_title : 'Use CTRL+V on your keyboard to paste the text into the window.',
-paste_text_linebreaks : 'Keep linebreaks',
-paste_word_desc : 'Paste from Word',
-paste_word_title : 'Use CTRL+V on your keyboard to paste the text into the window.',
-selectall_desc : 'Select All'
+paste_text_desc : 'Enganxa com a text sense format',
+paste_text_title : 'Utilitza la combinaci&oacute; de tecles CTRL+V per enganxar un text.',
+paste_text_linebreaks : 'Mant&eacute; els salts de l&iacute;nia',
+paste_word_desc : 'Enganxa amb format (des del Word)',
+paste_word_title : 'Utilitza la combinaci&oacute; de tecles CTRL+V per enganxar un text.',
+selectall_desc : 'Selecciona-ho tot'
 });

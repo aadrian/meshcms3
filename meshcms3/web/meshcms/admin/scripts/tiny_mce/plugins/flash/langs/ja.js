@@ -1,11 +1,11 @@
-// UK lang variables
+// JA lang variables
 
 tinyMCE.addToLang('flash',{
-title : 'Insert / edit Flash Movie',
-desc : 'Insert / edit Flash Movie',
-file : 'Flash-File (.swf)',
-size : 'Size',
-list : 'Flash files',
-props : 'Flash properties',
-general : 'General'
+title : 'Flashの挿入',
+desc : 'Flashの挿入',
+file : 'Flashファイル(.swf)',
+size : 'サイズ',
+list : 'Flashファイル',
+props : 'Flashの設定',
+general : '全般'
 });
