@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/plain; charset=UTF-8" pageEncoding="ISO-8859-1" %>
 <%--
  MeshCMS - A simple CMS based on SiteMesh
  Copyright (C) 2004-2007 Luciano Vernaschi
@@ -18,57 +19,58 @@
 
  You can contact the author at http://www.cromoteca.com
  and at info@cromoteca.com
+
+ Look at the chat client for usage.
+
+ The server expects 3 types of parameters:
+ - r: room identifier
+ - m: message to add to the chat room
+ - u: name of the user posting the message
+ 
 --%>
 <%@ page import="java.util.*" %>
+<%@ page import="java.io.*" %>
 <%
   final int MAX_MESSAGES = 100;
   final String RESET_CHAT_CMD = "clean room!";
 
-  List room = (List) application.getAttribute("chatRoom");
+  // Select the chat room
+  String roomId = request.getParameter("r");
+  if (roomId == null) {
+    roomId = "";
+  }
+
+  List room = (List) application.getAttribute("chatRoom_" + roomId);
   if (room == null) {
     room = Collections.synchronizedList(new LinkedList());
-	  application.setAttribute("chatRoom", room);
+    application.setAttribute("chatRoom_" + roomId, room);
   }
 
+  // We have to UTF-8 decode parameters because they are sent
+  // using encodeURIComponent().
   String msg = request.getParameter("m");
-  String user = request.getParameter("u");
-  String roomId = request.getParameter("r");
-
-  // Content requested
-  if (roomId != null) {
-    out.clear();
-    String chatRoomText = (String) application.getAttribute("chatRoomCache");
-
-	  // If we don't already have the content of the chat room in the cache, we
-	  // generate it. Old Javascript (namely Konqueror3) doesn't support to receive
-	  // raw Unicode characters (as sent by the HTTP stream), so we have to encode them...
-    if (chatRoomText == null) {
-      synchronized (room) {
-        final StringBuffer sb = new StringBuffer(MAX_MESSAGES * 30);
-	      int i = 0;
-        for (final Iterator it = room.iterator(); it.hasNext() && i < MAX_MESSAGES; i++) {
-                sb.append((String) it.next()).append('\n');
-		      /* final String s = (String) it.next();
-		      final int length = s.length();
-		      for (int j = 0; j < length; j++) {
-		        final String hex = "0000" + Integer.toHexString((int) s.charAt(j));
-		        sb.append("\\u");
-		        sb.append(hex.substring(hex.length() - 4, hex.length()));
-		      }
-		      sb.append("\\u000A"); */
-        }
-		    chatRoomText = sb.toString();
-        application.setAttribute("chatRoomCache", chatRoomText);
+  if (msg != null) {
+    try {
+      msg = new String(msg.getBytes(), "UTF-8");
+    } catch (UnsupportedEncodingException uee) {
+      msg = "(EncodingException)" + msg;
 	    }
     }
-    out.print(chatRoomText);
-    out.flush();
+
+  String user = request.getParameter("u");
+  if (user != null) {
+    try {
+      user = new String(user.getBytes(), "UTF-8");
+    } catch (UnsupportedEncodingException uee) {
+      user = "(EncodingException)" + user;
+    }
   }
 
-  // Message posted
-  else if (msg != null) {
+
+  // Message posted: add it to the chat room
+  if (msg != null) {
 	  // Clear chat room cache
-    application.setAttribute("chatRoomCache", null);
+    application.setAttribute("chatRoomCache_" + roomId, null);
 
     synchronized (room) {
 	    // Special command to clean room
@@ -84,6 +86,39 @@
         }
       }
     }
+  }
+
+  // Content requested
+  if (!"".equals(roomId)) {
+    out.clear();
+    String chatRoomText = (String) application.getAttribute("chatRoomCache_" + roomId);
+  
+    // If we don't already have the content of the chat room in the cache, we
+    // generate it. Old Javascript (namely Konqueror3) doesn't support to receive
+    // raw Unicode characters (as sent by the HTTP stream), so we have to encode them...
+    if (chatRoomText == null) {
+      synchronized (room) {
+        final StringBuffer sb = new StringBuffer(MAX_MESSAGES * 30);
+        int i = 0;
+        for (final Iterator it = room.iterator(); it.hasNext() && i < MAX_MESSAGES; i++) {
+          sb.append((String) it.next()).append('\n');
+	  /** DEBUG - Print Unicode values
+          final String s = (String) it.next();
+          final int length = s.length();
+          for (int j = 0; j < length; j++) {
+            final String hex = "0000" + Integer.toHexString((int) s.charAt(j));
+            sb.append("\\u");
+            sb.append(hex.substring(hex.length() - 4, hex.length()));
+          }
+          sb.append("\\u000A");
+	  */
+        }
+        chatRoomText = sb.toString();
+        application.setAttribute("chatRoomCache_" + roomId, chatRoomText);
+      }
+    }
+    out.print(chatRoomText);
+    out.flush();
   }
 %>
 
