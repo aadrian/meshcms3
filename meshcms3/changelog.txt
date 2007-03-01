@@ -1,5 +1,14 @@
 ________________________________
 --------------------------------
+2007-03-01: 3.0.5 released
+--------------------------------
+
+- Added an option to specify a title for each module
+- Added mixed cache strategy (on disk and, when possible, in memory)
+- TinyMCE upgraded to 2.1.0
+
+________________________________
+--------------------------------
 2007-01-15: 3.0.4 released
 --------------------------------
 
