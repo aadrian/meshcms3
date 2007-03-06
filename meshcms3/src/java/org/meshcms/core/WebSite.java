@@ -190,7 +190,7 @@ public class WebSite {
   }
 
   /**
-   * @return the current configuration of the web application.
+   * Returns the current configuration of the web application.
    */
   public Configuration getConfiguration() {
     return configuration;
@@ -206,7 +206,7 @@ public class WebSite {
   }
 
   /**
-   * @return the instance of the <code>SiteInfo</code> class that is managing
+   * Returns the instance of the <code>SiteInfo</code> class that is managing
    * the site information.
    *
    * @see SiteInfo
@@ -216,7 +216,7 @@ public class WebSite {
   }
 
   /**
-   * @return the index of the current day in the array of stats included in any
+   * Returns the index of the current day in the array of stats included in any
    * PageInfo instance.
    */
   public int getStatsIndex() {
@@ -232,7 +232,7 @@ public class WebSite {
   }
 
   /**
-   * @return the length of stats (hit counts) measured in days.
+   * Returns the length of stats (hit counts) measured in days.
    */
   public int getStatsLength() {
     return statsLength;
@@ -677,14 +677,14 @@ public class WebSite {
   }
 
   /**
-   * @return the site root path.
+   * Returns the site root path.
    */
   public Path getRootPath() {
     return rootPath;
   }
 
   /**
-   * @return the <code>Path</code> of a file in the context.
+   * Returns the <code>Path</code> of a file in the context.
    *
    * @see #getFile
    */
@@ -846,7 +846,7 @@ public class WebSite {
   }
 
   /**
-   * @return true if the extension of the path is known to denote a type of
+   * Returns true if the extension of the path is known to denote a type of
    * file that can be edited using the wysiwyg editor.
    */
   public boolean isVisuallyEditable(Path path) {
@@ -855,7 +855,7 @@ public class WebSite {
   }
 
   /**
-   * @return the path of the module file with the given name.
+   * Returns the path of the module file with the given name.
    */
   public Path getModulePath(String moduleName) {
     if (moduleName.endsWith(".jsp")) {
@@ -867,7 +867,7 @@ public class WebSite {
   }
 
   /**
-   * @return the path of the admin directory.
+   * Returns the path of the admin directory.
    */
   public Path getAdminPath() {
     return adminPath;

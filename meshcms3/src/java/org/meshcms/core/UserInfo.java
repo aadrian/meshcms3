@@ -136,7 +136,7 @@ public class UserInfo implements Serializable {
   }
 
   /**
-   * @return the user's username.
+   * Returns the user's username.
    */
   public String getUsername() {
     return getValue(USERNAME);
@@ -165,7 +165,7 @@ public class UserInfo implements Serializable {
   }
 
   /**
-   * @return the user's (encrypted) password.
+   * Returns the user's (encrypted) password.
    */
   public String getPassword() {
     return getValue(PASSWORD);
@@ -188,7 +188,7 @@ public class UserInfo implements Serializable {
   }
 
   /**
-   * @return the user's e-mail address.
+   * Returns the user's e-mail address.
    */
   public String getEmail() {
     return getValue(E_MAIL);
@@ -205,7 +205,7 @@ public class UserInfo implements Serializable {
   }
 
   /**
-   * @return the user's home path.
+   * Returns the user's home path.
    */
   public Path getHomePath() {
     return new Path(getValue(HOME_PATH));
@@ -220,7 +220,7 @@ public class UserInfo implements Serializable {
   }
 
   /**
-   * @return the user's permissions.
+   * Returns the user's permissions.
    */
   public int getPermissions() {
     try {
@@ -231,7 +231,7 @@ public class UserInfo implements Serializable {
   }
 
   /**
-   * @return the preferred locale for the user, in a form like
+   * Returns the preferred locale for the user, in a form like
    * <code>en_US</code>, <code>it</code> or similar.
    */
   public String getPreferredLocaleCode() {
@@ -400,7 +400,7 @@ public class UserInfo implements Serializable {
   }
 
   /**
-   * @return the value of a specific property. It is used internally, but can
+   * Returns the value of a specific property. It is used internally, but can
    * be use to retrieve the value of user's details.
    *
    * @see #setDetail
@@ -410,7 +410,7 @@ public class UserInfo implements Serializable {
   }
 
   /**
-   * @return the value of the given user detail.
+   * Returns the value of the given user detail.
    */
   public String getDetailValue(String name) {
     if (name != null) {
@@ -425,14 +425,14 @@ public class UserInfo implements Serializable {
   }
 
   /**
-   * @return the name of the user detail at the given index.
+   * Returns the name of the user detail at the given index.
    */
   public String getDetailName(int index) {
     return DETAILS[index];
   }
 
   /**
-   * @return a string suitable to describe the user. It can be his full name,
+   * Returns a string suitable to describe the user. It can be his full name,
    * partial name or username, according to the available data.
    */
   public String getDisplayName() {

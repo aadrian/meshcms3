@@ -88,7 +88,7 @@ public class DirectoryParser extends Thread {
   }
 
   /**
-   * @return whether directories will be processed recursively or not.
+   * Returns whether directories will be processed recursively or not.
    *
    * @see #setRecursive
    */
@@ -97,7 +97,7 @@ public class DirectoryParser extends Thread {
   }
 
   /**
-   * @return whether <code>processDirectory</code> will be called for the
+   * Returns whether <code>processDirectory</code> will be called for the
    * base directory too.
    *
    * @see #processDirectory
@@ -108,7 +108,7 @@ public class DirectoryParser extends Thread {
   }
 
   /**
-   * @return whether <code>processDirectory</code> will be called
+   * Returns whether <code>processDirectory</code> will be called
    * for a directory before processing its contents.
    *
    * @see #processDirectory
@@ -135,7 +135,7 @@ public class DirectoryParser extends Thread {
   }
 
   /**
-   * @return whether files and directories will be sorted used a
+   * Returns whether files and directories will be sorted used a
    * <code>FileNameComparator</code> or not.
    *
    * @see FileNameComparator
@@ -165,7 +165,7 @@ public class DirectoryParser extends Thread {
   }
 
   /**
-   * @return the directory to be processed.
+   * Returns the directory to be processed.
    */
   public File getInitialDir() {
     return initialDir;

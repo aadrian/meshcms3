@@ -845,7 +845,7 @@ public final class Utils {
   }
 
   /**
-   * @return the sum of the numbers stored in the array.
+   * Returns the sum of the numbers stored in the array.
    */
   public static int sum(int[] ints) {
     int s = 0;
@@ -858,7 +858,7 @@ public final class Utils {
   }
 
   /**
-   * @return a file name similar to <code>fileName</code>, but different from
+   * Returns a file name similar to <code>fileName</code>, but different from
    * the names of the files in the directory.
    */
   public static String generateUniqueName(String fileName, File directory) {

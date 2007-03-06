@@ -214,7 +214,7 @@ public final class WebUtils {
   }
 
   /**
-   * @return a request parameter in the form <code>&name=value</code>. Returns
+   * Returns a request parameter in the form <code>&name=value</code>. Returns
    * null if the value has not been found.
    */
   public static String getFullParameter(HttpServletRequest request, String name) {
@@ -223,7 +223,7 @@ public final class WebUtils {
   }
 
   /**
-   * @return the full context path of the given path.
+   * Returns the full context path of the given path.
    */
   public static String getPathInContext(HttpServletRequest request, Path path) {
     return request.getContextPath() + "/" + path;
@@ -265,7 +265,7 @@ public final class WebUtils {
   }
 
   /**
-   * @return the complete path of the folder of current theme (context
+   * Returns the complete path of the folder of current theme (context
    * path included).
    *
    * @param request used to get the theme name
@@ -278,7 +278,7 @@ public final class WebUtils {
   }
 
   /**
-   * @return the complete path of the <code>main.jsp</code> file (context
+   * Returns the complete path of the <code>main.jsp</code> file (context
    * path included).
    *
    * @param request used to get the theme name
@@ -288,7 +288,7 @@ public final class WebUtils {
   }
 
   /**
-   * @return the complete path of the <code>main.css</code> file (context
+   * Returns the complete path of the <code>main.css</code> file (context
    * path included).
    *
    * @param request used to get the theme name
@@ -298,7 +298,7 @@ public final class WebUtils {
   }
 
   /**
-   * @return the complete path of the <code>meshcms.css</code> file (context
+   * Returns the complete path of the <code>meshcms.css</code> file (context
    * path included). If <code>meshcms.css</code> is not found in the theme
    * folder, the default from the admin theme is returned.
    *
@@ -316,7 +316,7 @@ public final class WebUtils {
   }
 
   /**
-   * @return a numeric code for an object. This code is used in the menu, but
+   * Returns a numeric code for an object. This code is used in the menu, but
    * can be used elsewhere if needed. It is equal to the hash code of the
    * object, but never negative, since the minus sign creates problems when
    * converted to a string and used as part of a variable name in JavaScript.
@@ -326,14 +326,14 @@ public final class WebUtils {
   }
 
   /**
-   * @return the 2nd level domain from which the request comes.
+   * Returns the 2nd level domain from which the request comes.
    */
   public static String get2ndLevelDomain(HttpServletRequest request) {
     return get2ndLevelDomain(request.getRequestURL().toString());
   }
 
   /**
-   * @return the 2nd level domain from the URL.
+   * Returns the 2nd level domain from the URL.
    */
   public static String get2ndLevelDomain(String urlString) {
     try {
@@ -467,7 +467,7 @@ public final class WebUtils {
   }
 
   /**
-   * @return a modified name that does not contain characters not recommended
+   * Returns a modified name that does not contain characters not recommended
    * in a file name.
    */
   public static String fixFileName(String name, boolean useSpacers) {
@@ -513,7 +513,7 @@ public final class WebUtils {
   }
 
   /**
-   * @return a nicer representation of the number as a file length. The number
+   * Returns a nicer representation of the number as a file length. The number
    * is returned as bytes, kilobytes or megabytes, with the unit attached.
    */
   public static String formatFileLength(long length, Locale locale,

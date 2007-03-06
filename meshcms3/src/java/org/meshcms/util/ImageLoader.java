@@ -61,14 +61,14 @@ public class ImageLoader implements ImageConsumer {
   }
 
   /**
-   * @return the width of the image.
+   * Returns the width of the image.
    */
   public int getWidth() {
     return width;
   }
 
   /**
-   * @return the height of the image.
+   * Returns the height of the image.
    */
   public int getHeight() {
     return height;

@@ -150,7 +150,7 @@ public class ModuleDescriptor {
   }
 
   /**
-   * @return the name of the module location.
+   * Returns the name of the module location.
    *
    * @see #setLocation
    */
@@ -167,7 +167,7 @@ public class ModuleDescriptor {
   }
 
   /**
-   * @return the name of the module template.
+   * Returns the name of the module template.
    */
   public String getTemplate() {
     return template;
@@ -183,7 +183,7 @@ public class ModuleDescriptor {
   }
 
   /**
-   * @return the name of the module argument.
+   * Returns the name of the module argument.
    *
    * @see #setArgument(String)
    */
@@ -200,14 +200,14 @@ public class ModuleDescriptor {
   }
 
   /**
-   * @return the advanced parameters as a <code>Properties</code> object.
+   * Returns the advanced parameters as a <code>Properties</code> object.
    */
   public Properties getAdvancedParams() {
     return advancedParams;
   }
 
   /**
-   * @return the value of the requested advanced parameter.
+   * Returns the value of the requested advanced parameter.
    */
   public String getAdvancedParam(String paramName, String defaultValue) {
     return advancedParams == null ? defaultValue :
@@ -222,7 +222,7 @@ public class ModuleDescriptor {
   }
 
   /**
-   * @return the path of the page that contains the module.
+   * Returns the path of the page that contains the module.
    */
   public Path getPagePath() {
     return pagePath;
@@ -236,7 +236,7 @@ public class ModuleDescriptor {
   }
 
   /**
-   * @return the path of the module.
+   * Returns the path of the module.
    */
   public Path getModulePath() {
     return modulePath;
@@ -254,7 +254,7 @@ public class ModuleDescriptor {
   }
 
   /**
-   * @return the date format of the module.
+   * Returns the date format of the module.
    */
   public String getDateFormat() {
     return dateFormat;
@@ -268,7 +268,7 @@ public class ModuleDescriptor {
   }
 
   /**
-   * @return the CSS style to be applied to the module.
+   * Returns the CSS style to be applied to the module.
    */
   public String getStyle() {
     return style;
@@ -282,7 +282,7 @@ public class ModuleDescriptor {
   }
 
   /**
-   * @return the files to be passed to the module.
+   * Returns the files to be passed to the module.
    *
    * @param allowCurrentDir if true and the argument parameter is null, the
    * files included in the same folder of the page are returned
@@ -312,7 +312,7 @@ public class ModuleDescriptor {
   }
 
   /**
-   * @return the path passed as argument.
+   * Returns the path passed as argument.
    *
    * @param allowCurrentPath if true and the argument parameter is null, the
    * page path is returned
@@ -330,7 +330,7 @@ public class ModuleDescriptor {
   }
 
   /**
-   * @return the folder path to be used as argument for the module.
+   * Returns the folder path to be used as argument for the module.
    *
    * @param allowCurrentPath if true and the argument parameter is null, the
    * path of the page is returned
@@ -355,7 +355,7 @@ public class ModuleDescriptor {
   }
 
   /**
-   * @return format to be used to display the date. The value is searched in the
+   * Returns format to be used to display the date. The value is searched in the
    * given advanced parameter or, alternatively, in the
    * value of the &quot;date&quot; tag attribute. If both are unavailable,
    * null is returned.

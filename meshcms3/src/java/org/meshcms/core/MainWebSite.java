@@ -93,7 +93,7 @@ public class MainWebSite extends WebSite {
   }
 
   /**
-   * @return the MultiSiteManager instance.
+   * Returns the MultiSiteManager instance.
    */
   public MultiSiteManager getMultiSiteManager() {
     return multiSiteManager;

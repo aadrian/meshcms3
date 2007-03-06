@@ -126,7 +126,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return true if the default MeshCMS theme is always used for the pages
+   * Returns true if the default MeshCMS theme is always used for the pages
    * of the control panel.
    */
   public boolean isUseAdminTheme() {
@@ -142,7 +142,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return true if the option to prevent hotlinking is enabled.
+   * Returns true if the option to prevent hotlinking is enabled.
    */
   public boolean isPreventHotlinking() {
     return preventHotlinking;
@@ -156,7 +156,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the minimum time before deleting a backup file,
+   * Returns the minimum time before deleting a backup file,
    * measured in days.
    */
   public int getBackupLife() {
@@ -172,7 +172,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the length of stats (hit counts) measured in days.
+   * Returns the length of stats (hit counts) measured in days.
    */
   public int getStatsLength() {
     return statsLength;
@@ -189,7 +189,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the minimum interval between two updates of the site map,
+   * Returns the minimum interval between two updates of the site map,
    * measured in hours.
    */
   public int getUpdateInterval() {
@@ -205,7 +205,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the type of cache to be used for pages.
+   * Returns the type of cache to be used for pages.
    *
    * @see #setCacheType
    */
@@ -222,7 +222,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the name of the mail server (SMTP).
+   * Returns the name of the mail server (SMTP).
    */
   public String getMailServer() {
     return mailServer;
@@ -236,7 +236,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the SMTP username.
+   * Returns the SMTP username.
    */
   public String getSmtpUsername() {
     return smtpUsername;
@@ -250,7 +250,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the SMTP password.
+   * Returns the SMTP password.
    */
   public String getSmtpPassword() {
     return smtpPassword;
@@ -289,7 +289,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the minimum interval between two updates of the site map,
+   * Returns the minimum interval between two updates of the site map,
    * measured in milliseconds.
    */
   public long getUpdateIntervalMillis() {
@@ -297,7 +297,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the minimum time before deleting a backup file,
+   * Returns the minimum time before deleting a backup file,
    * measured in milliseconds.
    */
   public long getBackupLifeMillis() {
@@ -305,7 +305,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the extensions that denote file types that can be edited
+   * Returns the extensions that denote file types that can be edited
    * using the wysiwyg editor.
    */
   public String[] getVisualExtensions() {
@@ -321,7 +321,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the state of the automatic redirection to welcome files.
+   * Returns the state of the automatic redirection to welcome files.
    */
   public boolean isAlwaysRedirectWelcomes() {
     return alwaysRedirectWelcomes;
@@ -335,7 +335,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the state of directory list blocking.
+   * Returns the state of directory list blocking.
    */
   public boolean isAlwaysDenyDirectoryListings() {
     return alwaysDenyDirectoryListings;
@@ -349,7 +349,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the main host name of this website.
+   * Returns the main host name of this website.
    */
   public String getSiteHost() {
     return siteHost;
@@ -363,7 +363,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the website description.
+   * Returns the website description.
    */
   public String getSiteDescription() {
     return siteDescription;
@@ -377,7 +377,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the keywords related to the website.
+   * Returns the keywords related to the website.
    */
   public String getSiteKeywords() {
     return siteKeywords;
@@ -391,7 +391,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the author name.
+   * Returns the author name.
    */
   public String getSiteAuthor() {
     return siteAuthor;
@@ -405,7 +405,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the site name.
+   * Returns the site name.
    */
   public String getSiteName() {
     return siteName;
@@ -419,7 +419,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the author's URL.
+   * Returns the author's URL.
    */
   public String getSiteAuthorURL() {
     return siteAuthorURL;
@@ -434,7 +434,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the state of exception hiding.
+   * Returns the state of exception hiding.
    */
   public boolean isHideExceptions() {
     return hideExceptions;
@@ -449,7 +449,7 @@ public class Configuration implements Serializable {
   }
 
   /**
-   * @return the state of whether modules are collapsed in the editor.
+   * Returns the state of whether modules are collapsed in the editor.
    */
   public boolean isEditorModulesCollapsed() {
     return editorModulesCollapsed;

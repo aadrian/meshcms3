@@ -43,7 +43,7 @@ public class XStreamPathConverter extends AbstractSingleValueConverter {
   }
 
   /**
-   * @return the current type of string (with or without prepended slash).
+   * Returns the current type of string (with or without prepended slash).
    */
   public boolean isPrependSlash() {
     return prependSlash;

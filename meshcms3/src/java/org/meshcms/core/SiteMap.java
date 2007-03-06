@@ -231,14 +231,14 @@ public class SiteMap extends DirectoryParser {
   }
   
   /**
-   * @return the <code>PageInfo</code> for the given path.
+   * Returns the <code>PageInfo</code> for the given path.
    */
   public PageInfo getPageInfo(Path path) {
     return (PageInfo) pagesMap.get(getPathInMenu(path));
   }
   
   /**
-   * @return the <code>PageInfo</code> for parent of the page at the given path.
+   * Returns the <code>PageInfo</code> for parent of the page at the given path.
    */
   public PageInfo getParentPageInfo(Path path) {
     path = getPathInMenu(path).getParent();
@@ -246,7 +246,7 @@ public class SiteMap extends DirectoryParser {
   }
   
   /**
-   * @return the given path unless it is the current welcome file in its
+   * Returns the given path unless it is the current welcome file in its
    * folder; in this case the folder path is returned.
    */
   public Path getPathInMenu(Path path) {
@@ -254,7 +254,7 @@ public class SiteMap extends DirectoryParser {
   }
   
   /**
-   * @return the given path unless it is a folder with a welcome file; in this
+   * Returns the given path unless it is a folder with a welcome file; in this
    * case the welcome file path is returned.
    */
   public Path getServedPath(Path path) {
@@ -263,7 +263,7 @@ public class SiteMap extends DirectoryParser {
   }
   
   /**
-   * @return the path of the welcome file for the given directory path. This
+   * Returns the path of the welcome file for the given directory path. This
    * method returns null if the path is not a directory or if there is no
    * welcome file into it.
    */
@@ -286,7 +286,7 @@ public class SiteMap extends DirectoryParser {
   }
   
   /**
-   * @return the last modification time.
+   * Returns the last modification time.
    */
   public long getLastModified() {
     return lastModified;
@@ -402,7 +402,7 @@ public class SiteMap extends DirectoryParser {
   }
   
   /**
-   * @return the pages contained in the menu as a SortedMap, using the given
+   * Returns the pages contained in the menu as a SortedMap, using the given
    * path as root. All keys are of type <code>Path</code> and all values are of
    * type <code>PageInfo</code>. Note that the ordering of the map is the
    * natural order of <code>Path</code>.
@@ -422,7 +422,7 @@ public class SiteMap extends DirectoryParser {
   }
   
   /**
-   * @return true if there is at least one page whose parent path is the
+   * Returns true if there is at least one page whose parent path is the
    * given one.
    */
   public boolean hasChildrenPages(Path path) {
@@ -449,7 +449,7 @@ public class SiteMap extends DirectoryParser {
   }
   
   /**
-   * @return a list of pages contained in the directory that contains the given
+   * Returns a list of pages contained in the directory that contains the given
    * path; if the path denotes a directory, its contents are returned.
    *
    * @param includeDir if true, the directory itself is included in the list
@@ -483,7 +483,7 @@ public class SiteMap extends DirectoryParser {
   }
   
   /**
-   * @return the pages contained in the menu as a unmodifiable List.
+   * Returns the pages contained in the menu as a unmodifiable List.
    * All members of the list are of type <code>PageInfo</code>.
    * Pages are sorted using a {@link PageInfoComparator}.
    */
@@ -492,7 +492,7 @@ public class SiteMap extends DirectoryParser {
   }
   
   /**
-   * @return the pages contained in the menu as a unmodifiable List, using the given path as
+   * Returns the pages contained in the menu as a unmodifiable List, using the given path as
    * root path. All members of the list are of type <code>PageInfo</code>.
    * Pages are sorted using a {@link PageInfoComparator}.
    */
@@ -554,7 +554,7 @@ public class SiteMap extends DirectoryParser {
   }
   
   /**
-   * @return the breadcrumbs from the root path (included) to the given path
+   * Returns the breadcrumbs from the root path (included) to the given path
    * (<em>not</em> included).
    */
   public PageInfo[] getBreadcrumbs(Path path) {
@@ -582,7 +582,7 @@ public class SiteMap extends DirectoryParser {
   }
   
   /**
-   * @return an array of the names of all available themes.
+   * Returns an array of the names of all available themes.
    */
   public String[] getThemeNames() {
     Set keys = getThemesMap().keySet();
@@ -590,7 +590,7 @@ public class SiteMap extends DirectoryParser {
   }
   
   /**
-   * @return an array of the names of all available modules.
+   * Returns an array of the names of all available modules.
    */
   public String[] getModuleNames() {
     Set keys = getModulesMap().keySet();

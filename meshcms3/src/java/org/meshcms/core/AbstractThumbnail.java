@@ -34,7 +34,7 @@ public abstract class AbstractThumbnail {
   public static final Color DEFAULT_BORDER_COLOR = new Color(216, 206, 203);
 
   /**
-   * @return the recommended file name for the current thumbnail.
+   * Returns the recommended file name for the current thumbnail.
    */
   public abstract String getSuggestedFileName();
 

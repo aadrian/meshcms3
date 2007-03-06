@@ -49,7 +49,7 @@ public final class PageInfo {
   }
 
   /**
-   * @return the path of the page.
+   * Returns the path of the page.
    */
   public Path getPath() {
     return path;
@@ -63,14 +63,14 @@ public final class PageInfo {
   }
 
   /**
-   * @return the title of the page.
+   * Returns the title of the page.
    */
   public String getTitle() {
     return title;
   }
 
   /**
-   * @return the file name of the page.
+   * Returns the file name of the page.
    */
   public String getName() {
     return path.getLastElement();
@@ -85,14 +85,14 @@ public final class PageInfo {
   }
 
   /**
-   * @return the hit count for the last day.
+   * Returns the hit count for the last day.
    */
   public synchronized int getHits() {
     return stats[getIndex()];
   }
 
   /**
-   * @return the hit count for a previous day.
+   * Returns the hit count for a previous day.
    */
   public synchronized int getHits(int daysBefore) {
     int index = getIndex() - daysBefore;
@@ -100,7 +100,7 @@ public final class PageInfo {
   }
 
   /**
-   * @return the total hit count.
+   * Returns the total hit count.
    */
   public synchronized int getTotalHits() {
     getIndex(); // to update index before sum
@@ -135,21 +135,21 @@ public final class PageInfo {
   }
 
   /**
-   * @return the depth level of the page.
+   * Returns the depth level of the page.
    */
   public int getLevel() {
     return path.getElementCount();
   }
 
   /**
-   * @return the title of the page (same as {@link #getTitle}).
+   * Returns the title of the page (same as {@link #getTitle}).
    */
   public String toString() {
     return title;
   }
 
   /**
-   * @return the time of the last modification made to the page.
+   * Returns the time of the last modification made to the page.
    */
   public long getLastModified() {
     return lastModified;

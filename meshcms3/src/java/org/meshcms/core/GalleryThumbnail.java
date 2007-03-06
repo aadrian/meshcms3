@@ -114,7 +114,7 @@ public class GalleryThumbnail extends AbstractThumbnail {
   }
 
   /**
-   * @return the quality setting.
+   * Returns the quality setting.
    */
   public boolean isHighQuality() {
     return highQuality;

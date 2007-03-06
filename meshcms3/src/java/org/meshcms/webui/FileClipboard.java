@@ -81,28 +81,28 @@ public class FileClipboard {
   }
 
   /**
-   * @return the number of files in the clipboard.
+   * Returns the number of files in the clipboard.
    */
   public int countFiles() {
     return fileNames == null ? 0 : fileNames.length;
   }
 
   /**
-   * @return the path of the directory where the files are located
+   * Returns the path of the directory where the files are located
    */
   public Path getDirPath() {
     return dirPath;
   }
 
   /**
-   * @return the file names.
+   * Returns the file names.
    */
   public String[] getFileNames() {
     return fileNames;
   }
 
   /**
-   * @return true for the "cut" operation, false for the "copy"
+   * Returns true for the "cut" operation, false for the "copy"
    */
   public boolean isCut() {
     return cut;
