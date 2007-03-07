@@ -117,7 +117,7 @@ public class UserInfo implements Serializable {
   protected static final String SALT = "LV";
 
   protected Properties info;
-  protected transient boolean global;
+  protected boolean global; // should NOT be transient
 
   /**
    * Creates a new empty instance. Use {@link #load} to load a defined user.
@@ -278,7 +278,8 @@ public class UserInfo implements Serializable {
     if (webSite.getFile(userPath).exists()) {
       Properties p = (Properties) webSite.loadFromXML(userPath);
 
-      if (p != null && p.getProperty(PASSWORD).equals(cryptPassword(password))) {
+      if (p != null && (password == null ||
+          p.getProperty(PASSWORD).equals(cryptPassword(password)))) {
         Properties bak = info;
         info = p;
 
@@ -301,6 +302,7 @@ public class UserInfo implements Serializable {
       info.setProperty(PERMISSIONS, Integer.toHexString(ADMIN));
       info.setProperty(LANGUAGE, "en_US");
       store(webSite);
+      this.global = global;
       return true;
     }
 
@@ -311,6 +313,10 @@ public class UserInfo implements Serializable {
    * Stores the user's profile in a file.
    */
   public boolean store(WebSite webSite) {
+    if (global) {
+      webSite = ((VirtualWebSite) webSite).getMainWebSite();
+    }
+    
     return webSite.storeToXML(info, getUserPath(webSite, getUsername()));
   }
 

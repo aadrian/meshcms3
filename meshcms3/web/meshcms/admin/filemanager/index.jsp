@@ -48,7 +48,7 @@
   String field = Utils.noNull(request.getParameter("field"));
 
   String thumbsParam = request.getParameter("thumbnails");
-  // "type" is "image" when the file manages is called from within TinyMCE to
+  // "type" is "image" when the file manager is called from within TinyMCE to
   // select an image
   boolean thumbnails = (thumbsParam == null) ?
     "image".equals(request.getParameter("type")) : Utils.isTrue(thumbsParam);

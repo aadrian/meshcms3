@@ -138,14 +138,14 @@ public class XHTMLBuilder {
       return tagStack.empty() ? null : ((Element) tagStack.peek()).getTagName();
     }
     
-    public XMLTagStack startTag(String tagName) {
+    public XMLTagStack performOpenTag(String tagName) {
       Element tag = xmlDocument.createElement(tagName);
       getCurrentTag().appendChild(tag);
       tagStack.push(tag);
       return this;
     }
     
-    public XMLTagStack addAttribute(String name, String value) {
+    public XMLTagStack setAttribute(String name, String value) {
       getCurrentTag().setAttribute(name, value);
       return this;
     }
@@ -160,7 +160,7 @@ public class XHTMLBuilder {
       return this;
     }
     
-    protected void performEndTag() {
+    protected void performCloseTag() {
       tagStack.pop();
     }
   }

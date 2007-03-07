@@ -69,14 +69,14 @@ public class XMLFastBuilder extends XMLTagStack {
     return tagStack.empty() ? null : (String) tagStack.peek();
   }
   
-  public XMLTagStack startTag(String tagName) {
+  public XMLTagStack performOpenTag(String tagName) {
     openPendingTag();
     nextTag = tagName;
     tagStack.push(tagName);
     return this;
   }
   
-  public XMLTagStack addAttribute(String name, String value) {
+  public XMLTagStack setAttribute(String name, String value) {
     atts.addAttribute("", "", name, "CDATA", value);
     return this;
   }
@@ -107,7 +107,7 @@ public class XMLFastBuilder extends XMLTagStack {
     return this;
   }
   
-  protected void performEndTag() {
+  protected void performCloseTag() {
     openPendingTag();
     
     try {

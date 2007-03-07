@@ -22,11 +22,14 @@
 
 package org.meshcms.util;
 
-import java.util.*;
-import javax.xml.transform.*;
+import java.util.Stack;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
 
 public abstract class XMLTagStack {
   protected Stack tagStack;
+  protected StringBuffer textBuffer;
+  protected boolean newTag;
   
   public XMLTagStack() {
     tagStack = new Stack();
@@ -38,17 +41,22 @@ public abstract class XMLTagStack {
   
   public abstract String getCurrentTagName();
   
-  public abstract XMLTagStack startTag(String tagName);
+  public abstract XMLTagStack performOpenTag(String tagName);
   
-  public abstract XMLTagStack addAttribute(String name, String value);
+  public abstract XMLTagStack setAttribute(String name, String value);
   
-  protected abstract void performEndTag();
+  protected abstract void performCloseTag();
   
-  public XMLTagStack endTag() {
-    return endTag(null);
+  public XMLTagStack openTag(String tagName) {
+    newTag = true;
+    return performOpenTag(tagName);
   }
   
-  public XMLTagStack endTag(String tagName) {
+  public XMLTagStack closeTag() {
+    return closeTag(null);
+  }
+  
+  public XMLTagStack closeTag(String tagName) {
     if (tagStack.empty()) {
       throw new IllegalStateException("No tag to close");
     }
@@ -62,7 +70,50 @@ public abstract class XMLTagStack {
       }
     }
     
-    performEndTag();
+    newTag = false;
+    performCloseTag();
+    return this;
+  }
+  
+  public boolean isNewTag() {
+    return newTag;
+  }
+  
+  public StringBuffer openTextBuffer() {
+    if (textBuffer != null) {
+      throw new IllegalStateException("Another CDATA or text buffer seems to be open");
+    }
+    
+    textBuffer = new StringBuffer();
+    return textBuffer;
+  }
+  
+  public XMLTagStack endTextBuffer() {
+    if (textBuffer == null) {
+      throw new IllegalStateException("Text buffer not opened");
+    }
+    
+    addText(textBuffer.toString());
+    textBuffer = null;
+    return this;
+  }
+  
+  public StringBuffer openCDATABuffer() {
+    if (textBuffer != null) {
+      throw new IllegalStateException("Another CDATA or text buffer seems to be open");
+    }
+    
+    textBuffer = new StringBuffer();
+    return textBuffer;
+  }
+  
+  public XMLTagStack endCDATABuffer() {
+    if (textBuffer == null) {
+      throw new IllegalStateException("CDATA buffer not opened");
+    }
+    
+    addCDATA(textBuffer.toString());
+    textBuffer = null;
     return this;
   }
   

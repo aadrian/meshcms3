@@ -1090,6 +1090,20 @@ public final class Utils {
     return -1;
   }
 
+  public static int searchInt(int[] array, int n) {
+    if (array == null || array.length == 0) {
+      return -1;
+    }
+    
+    for (int i = 0; i < array.length; i++) {
+      if (n == array[i]) {
+        return i;
+      }
+    }
+    
+    return -1;
+  }
+  
   /**
    * Tries to verify(validate) an e-mail address.
    *
@@ -1200,7 +1214,6 @@ public final class Utils {
    * @param what suffix to append
    *
    * @return the processed String
-
    */
   public static String addAtEnd(String base, String what) {
     if (base == null) {
