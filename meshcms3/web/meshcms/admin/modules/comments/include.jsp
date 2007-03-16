@@ -127,8 +127,8 @@
   }
 
   // numbers to verify submitted post
-  int n1 = Utils.getRandomInt(30);
-  int n2 = Utils.getRandomInt(30);
+  int n1 = Utils.getRandomInt(30) + 1;
+  int n2 = Utils.getRandomInt(30) + 1;
 
   String langCode = pageBundle.getString("TinyMCELangCode");
 
