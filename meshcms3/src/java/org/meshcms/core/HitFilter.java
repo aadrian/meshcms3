@@ -202,17 +202,17 @@ public final class HitFilter implements Filter {
             }
           }
 
-          /* Since a true page has been requested, disable hotlinking prevention
-             for this session */
+          /* Since a real page has been requested, disable hotlinking prevention
+             for this session
           if (session != null && webSite.getConfiguration().isPreventHotlinking() &&
               session.getAttribute(HOTLINKING_ALLOWED) == null && !isAdminPage) {
             session.setAttribute(HOTLINKING_ALLOWED, HOTLINKING_ALLOWED);
-          }
+          } */
         }
 
         if (webSite.getConfiguration().isPreventHotlinking() &&
-            FileTypes.isPreventHotlinking(pagePath.getLastElement()) &&
-            (session == null || session.getAttribute(HOTLINKING_ALLOWED) == null)) {
+            FileTypes.isPreventHotlinking(pagePath.getLastElement()) /*&&
+            (session == null || session.getAttribute(HOTLINKING_ALLOWED) == null)*/) {
           String agent = httpReq.getHeader("user-agent");
 
           if (agent == null || agent.toLowerCase().indexOf("java") < 0) {
