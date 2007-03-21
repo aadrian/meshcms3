@@ -85,7 +85,7 @@
       File delFile = new File(commentsDir, delId);
 
       if (delFile.exists()) {
-        Utils.forceDelete(delFile);
+        webSite.delete(userInfo, webSite.getPath(delFile), false);
       }
     }
 
@@ -120,7 +120,7 @@
             " at " + new Date() + " using page /" + md.getPagePath());
         outMsg.setText("A comment has been added to " +
             WebUtils.getContextHomeURL(request) + md.getPagePath().getAsLink() +
-            " by " + name + ":\n\n" + text);
+            " by " + name + " (" + request.getRemoteAddr() + "):\n\n" + text);
         Transport.send(outMsg);
       }
     }
