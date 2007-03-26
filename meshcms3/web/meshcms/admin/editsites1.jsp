@@ -20,6 +20,7 @@
  and at info@cromoteca.com
 --%>
 
+<%@ page import="java.util.*" %>
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
 <%@ page import="org.meshcms.webui.*" %>
@@ -103,10 +104,12 @@
         <th><fmt:message key="sitesHeaderName" /></th>
         <th><fmt:message key="sitesHeaderAliases" /></th>
         <th><fmt:message key="sitesHeaderCMS" /></th>
+        <th><fmt:message key="sitesHeaderBlockJSP" /></th>
       </tr>
 <%
   if (msm != null) {
     String[] dirs = webSite.getFile(webSite.getVirtualSitesPath()).list();
+    List jspBlocks = msm.getJSPBlocks();
 
     for (int i = 0; i < dirs.length; i++) {
 %>
@@ -126,25 +129,32 @@
           &nbsp;
         <% } %>
         </td>
+        <td style="text-align: center;">
+          <input type="checkbox" name="blockjsp_<%= dirs[i] %>" value="true"
+           <%= jspBlocks.contains(dirs[i]) ? "checked='checked'" : "" %> />
+        </td>
       </tr>
 <%
     }
   }
 %>
       <tr>
-        <td style="width: 30%;">
+        <td style="width: 25%;">
           <img src="images/clear_field.gif" onclick="javascript:editor_clr('newsite_dirname');" alt=""
            style="vertical-align:middle;" /><input type="text" id="newsite_dirname"
            style="width: 90%;" name="newsite_dirname" />
         </td>
-        <td style="width: 50%;">
+        <td style="width: 45%;">
           <img src="images/clear_field.gif" onclick="javascript:editor_clr('newsite_aliases');" alt=""
            style="vertical-align:middle;" /><input type="text" id="newsite_aliases"
            style="width: 90%;" name="newsite_aliases" />
         </td>
-        <td style="width: 20%; text-align: center;">
+        <td style="width: 15%; text-align: center;">
           <input type="checkbox" id="newsite_cms" name="newsite_cms" value="true"
            checked="checked" />
+        </td>
+        <td style="width: 15%; text-align: center;">
+          <input type="checkbox" name="newsite_blockjsp" value="true" />
         </td>
       </tr>
 

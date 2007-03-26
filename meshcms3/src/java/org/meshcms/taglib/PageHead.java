@@ -49,7 +49,11 @@ public class PageHead extends AbstractTag {
 
     if (redir != null) {
       if (userInfo == null || userInfo.isGuest()) {
-        w.write("\n<meta http-equiv=\"refresh\" content=\"0; url=" + redir + "\" />");
+        w.write("\n<script type='text/javascript'>location.replace(\"" + redir +
+            "\")</script>");
+        w.write("\n<meta http-equiv=\"refresh\" content=\"0; url=" + redir +
+            "\" />");
+        w.flush();
       } else {
         Locale pl = WebUtils.getPageLocale(pageContext);
         ResourceBundle bundle =

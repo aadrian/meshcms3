@@ -34,11 +34,25 @@ public class MultiSiteManager implements Serializable {
   private boolean useDirsAsDomains;
   private String mainWebSiteDomains;
   private Properties domains;
+  private List jspBlocks;
 
   private MultiSiteManager() {
     domains = new Properties();
+    jspBlocks = new ArrayList();
     manageTripleWs = true;
     useDirsAsDomains = true;
+  }
+  
+  public List getJSPBlocks() {
+    if (jspBlocks == null) {
+      jspBlocks = new ArrayList();
+    }
+    
+    return jspBlocks;
+  }
+  
+  public boolean isJSPBlocked(VirtualWebSite webSite) {
+    return jspBlocks != null && jspBlocks.contains(webSite.getDirName());
   }
 
   public boolean isManageTripleWs() {

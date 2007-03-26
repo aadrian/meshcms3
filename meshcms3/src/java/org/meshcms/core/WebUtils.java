@@ -42,13 +42,13 @@ import org.meshcms.util.*;
 public final class WebUtils {
   public static final SimpleDateFormat numericDateFormatter =
       new SimpleDateFormat("yyyyMMddHHmmss");
-
+  
   /**
    * Characters allowed in a file name.
    */
   public static final String FN_CHARS =
       "'()-.0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz";
-
+  
   /**
    * Mapping of the ISO-8859-1 characters to characters included in FN_CHARS.
    */
@@ -61,22 +61,22 @@ public final class WebUtils {
       "__cL.Y_P_Ca(__R-o-23'mP._10)423_" +
       "AAAAAAACEEEEIIIIENOOOOOxOUUUUYTS" +
       "aaaaaaaceeeeiiiienooooo-ouuuuyty";
-
+  
   /**
    * Characters that are considered spacers in a file name.
    */
   public static final String FN_SPACERS = "_!'()-";
-
+  
   /**
    * The default array of welcome file names. This array is used if the welcome
    * file names can't be found in the web.xml configuration file.
    */
   public static final String[] DEFAULT_WELCOME_FILES =
-    {"index.html", "index.htm", "index.jsp"};
-
+  {"index.html", "index.htm", "index.jsp"};
+  
   public static Properties NUMBER_TO_ENTITY;
   public static Properties ENTITY_TO_NUMBER;
-
+  
   static {
     String[] entities = {
       "39", "#39", "160", "nbsp", "161", "iexcl", "162", "cent", "163", "pound",
@@ -142,26 +142,26 @@ public final class WebUtils {
       "8225", "Dagger", "8240", "permil", "8249", "lsaquo", "8250", "rsaquo",
       "8364", "euro"
     };
-
+    
     NUMBER_TO_ENTITY = new Properties();
     ENTITY_TO_NUMBER = new Properties();
-
+    
     for (int i = 0; i < entities.length; i += 2) {
       NUMBER_TO_ENTITY.setProperty(entities[i], entities[i + 1]);
       ENTITY_TO_NUMBER.setProperty(entities[i + 1], entities[i]);
     }
   }
-
+  
   public static String convertToHTMLEntities(String s, boolean encodeTags) {
     StringBuffer sb = new StringBuffer(s.length());
-
+    
     for (int i = 0; i < s.length(); i++) {
       char c = s.charAt(i);
       int n = ((int) c) & 0xFFFF;
-
+      
       if (n > 127) {
         String ent = NUMBER_TO_ENTITY.getProperty(Integer.toString(c));
-
+        
         if (ent == null) {
           sb.append("&#").append(n).append(';');
         } else {
@@ -173,10 +173,10 @@ public final class WebUtils {
         sb.append(c);
       }
     }
-
+    
     return sb.toString();
   }
-
+  
   /**
    * Parses the web.xml configuration file and returns an array of welcome file
    * names. If the names can't be found, {@link #DEFAULT_WELCOME_FILES} is
@@ -188,31 +188,31 @@ public final class WebUtils {
   public static String[] getWelcomeFiles(ServletContext sc) {
     File webXml = new File(sc.getRealPath("/WEB-INF/web.xml"));
     String[] welcomeFiles = null;
-
+    
     try {
       DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
       DocumentBuilder parser = factory.newDocumentBuilder();
       Document document = parser.parse(webXml);
       Element root = document.getDocumentElement();
       Element wfl = (Element)
-        (root.getElementsByTagName("welcome-file-list").item(0));
+      (root.getElementsByTagName("welcome-file-list").item(0));
       NodeList wfnl = wfl.getElementsByTagName("welcome-file");
       welcomeFiles = new String[wfnl.getLength()];
-
+      
       for (int i = 0; i < welcomeFiles.length; i++) {
         welcomeFiles[i] = wfnl.item(i).getFirstChild().getNodeValue();
       }
     } catch (Exception ex) {
       ex.printStackTrace();
     }
-
+    
     if (welcomeFiles == null || welcomeFiles.length == 0) {
       welcomeFiles = DEFAULT_WELCOME_FILES;
     }
-
+    
     return welcomeFiles;
   }
-
+  
   /**
    * Returns a request parameter in the form <code>&name=value</code>. Returns
    * null if the value has not been found.
@@ -221,14 +221,14 @@ public final class WebUtils {
     String value = request.getParameter(name);
     return (value == null) ? "" : "&" + name + "=" + value;
   }
-
+  
   /**
    * Returns the full context path of the given path.
    */
   public static String getPathInContext(HttpServletRequest request, Path path) {
     return request.getContextPath() + "/" + path;
   }
-
+  
   /**
    * Reconstructs the full URL of the request.
    *
@@ -237,14 +237,14 @@ public final class WebUtils {
   public static String getFullRequestURL(HttpServletRequest request) {
     StringBuffer sb = request.getRequestURL();
     String qs = request.getQueryString();
-
+    
     if (!Utils.isNullOrEmpty(qs)) {
       sb.append('?').append(qs);
     }
-
+    
     return sb.toString();
   }
-
+  
   /**
    * Reconstructs the full URL of the context home. The URL is returned as a
    * StringBuffer so other elements can be added easily.
@@ -255,15 +255,15 @@ public final class WebUtils {
     sb.append(scheme).append("://");
     sb.append(request.getServerName());
     int port = request.getServerPort();
-
+    
     if (!(("http".equals(scheme) && port == 80) ||
-          ("https".equals(scheme) && port == 443))) {
+        ("https".equals(scheme) && port == 443))) {
       sb.append(':').append(port);
     }
-
+    
     return sb.append(request.getContextPath());
   }
-
+  
   /**
    * Returns the complete path of the folder of current theme (context
    * path included).
@@ -272,11 +272,11 @@ public final class WebUtils {
    */
   public static String getFullThemeFolder(HttpServletRequest request) {
     Path themePath = (Path) request.getAttribute(HitFilter.THEME_PATH_ATTRIBUTE);
-
+    
     return (themePath == null) ? "" :
-        request.getContextPath() + "/" + themePath;
+      request.getContextPath() + "/" + themePath;
   }
-
+  
   /**
    * Returns the complete path of the <code>main.jsp</code> file (context
    * path included).
@@ -286,7 +286,7 @@ public final class WebUtils {
   public static String getFullThemeFile(HttpServletRequest request) {
     return getFullThemeFolder(request) + "/" + SiteMap.THEME_DECORATOR;
   }
-
+  
   /**
    * Returns the complete path of the <code>main.css</code> file (context
    * path included).
@@ -296,7 +296,7 @@ public final class WebUtils {
   public static String getFullThemeCSS(HttpServletRequest request) {
     return getFullThemeFolder(request) + "/" + SiteMap.THEME_CSS;
   }
-
+  
   /**
    * Returns the complete path of the <code>meshcms.css</code> file (context
    * path included). If <code>meshcms.css</code> is not found in the theme
@@ -307,14 +307,14 @@ public final class WebUtils {
   public static String getFullMeshCSS(WebSite webSite, HttpServletRequest request) {
     Path themePath = (Path) request.getAttribute(HitFilter.THEME_PATH_ATTRIBUTE);
     Path cssPath = themePath.add(SiteMap.MESHCMS_CSS);
-
+    
     if (!webSite.getFile(cssPath).exists()) {
       cssPath = webSite.getAdminThemePath().add(SiteMap.MESHCMS_CSS);
     }
-
+    
     return request.getContextPath() + "/" + cssPath;
   }
-
+  
   /**
    * Returns a numeric code for an object. This code is used in the menu, but
    * can be used elsewhere if needed. It is equal to the hash code of the
@@ -324,14 +324,14 @@ public final class WebUtils {
   public static int getMenuCode(Object o) {
     return o.hashCode() & 0x7FFFFFFF;
   }
-
+  
   /**
    * Returns the 2nd level domain from which the request comes.
    */
   public static String get2ndLevelDomain(HttpServletRequest request) {
     return get2ndLevelDomain(request.getRequestURL().toString());
   }
-
+  
   /**
    * Returns the 2nd level domain from the URL.
    */
@@ -340,22 +340,22 @@ public final class WebUtils {
       URL url = new URL(urlString);
       String host = url.getHost();
       int dot = host.lastIndexOf('.');
-
+      
       if (dot != -1) {
         String partial = host.substring(0, dot);
         dot = partial.lastIndexOf('.');
-
+        
         if (dot != -1) {
           host = host.substring(dot + 1);
         }
-
+        
         return host;
       }
     } catch (Exception ex) {}
-
+    
     return null;
   }
-
+  
   /**
    * This method must be called to avoid the current page to be cached. For
    * example, some modules will call this method to be sure that they
@@ -365,7 +365,7 @@ public final class WebUtils {
     request.setAttribute(HitFilter.BLOCK_CACHE_ATTRIBUTE,
         HitFilter.BLOCK_CACHE_ATTRIBUTE);
   }
-
+  
   /**
    * Checks the current Request scope to see if some class has called the
    * {@link #setBlockCache} method.
@@ -373,7 +373,7 @@ public final class WebUtils {
   public static boolean isCacheBlocked(HttpServletRequest request) {
     return request.getAttribute(HitFilter.BLOCK_CACHE_ATTRIBUTE) != null;
   }
-
+  
   /**
    * Tries to locate a Locale stored in the Page scope or in the Request scope.
    * If none is found, returns the Locale of the request, or at least the
@@ -381,56 +381,56 @@ public final class WebUtils {
    */
   public static Locale getPageLocale(PageContext pageContext) {
     Locale locale = null;
-
+    
     UserInfo userInfo = (UserInfo) pageContext.getAttribute("userInfo",
-      PageContext.SESSION_SCOPE);
-
+        PageContext.SESSION_SCOPE);
+    
     if (userInfo != null) {
       locale = Utils.getLocale(userInfo.getPreferredLocaleCode());
     }
-
+    
     if (locale == null) {
       locale = (Locale) pageContext.getAttribute(HitFilter.LOCALE_ATTRIBUTE,
           PageContext.PAGE_SCOPE);
     }
-
+    
     Enumeration en = pageContext.getAttributeNamesInScope(PageContext.PAGE_SCOPE);
-
+    
     while (locale == null && en.hasMoreElements()) {
       Object obj = pageContext.getAttribute((String) en.nextElement());
-
+      
       if (obj instanceof Locale) {
         locale = (Locale) obj;
       }
     }
-
+    
     if (locale == null) {
       locale = (Locale) pageContext.getAttribute(HitFilter.LOCALE_ATTRIBUTE,
           PageContext.REQUEST_SCOPE);
     }
-
+    
     en = pageContext.getAttributeNamesInScope(PageContext.REQUEST_SCOPE);
-
+    
     while (locale == null && en.hasMoreElements()) {
       Object obj = pageContext.getAttribute((String) en.nextElement(),
           PageContext.REQUEST_SCOPE);
-
+      
       if (obj instanceof Locale) {
         locale = (Locale) obj;
       }
     }
-
+    
     if (locale == null) {
       locale = pageContext.getRequest().getLocale();
     }
-
+    
     if (locale == null) {
       locale = Locale.getDefault();
     }
-
+    
     return locale;
   }
-
+  
   /**
    * Tries to locate a ResourceBundle stored in the Page scope or in the Request
    * scope using the JSTL.
@@ -439,33 +439,33 @@ public final class WebUtils {
    */
   public static ResourceBundle getPageResourceBundle(PageContext pageContext) {
     Enumeration en = pageContext.getAttributeNamesInScope(PageContext.PAGE_SCOPE);
-
+    
     while (en.hasMoreElements()) {
       Object obj = pageContext.getAttribute((String) en.nextElement());
-
+      
       if (obj instanceof ResourceBundle) {
         return (ResourceBundle) obj;
       } else if (obj instanceof javax.servlet.jsp.jstl.fmt.LocalizationContext) {
         return ((javax.servlet.jsp.jstl.fmt.LocalizationContext) obj).getResourceBundle();
       }
     }
-
+    
     en = pageContext.getAttributeNamesInScope(PageContext.REQUEST_SCOPE);
-
+    
     while (en.hasMoreElements()) {
       Object obj = pageContext.getAttribute((String) en.nextElement(),
           PageContext.REQUEST_SCOPE);
-
+      
       if (obj instanceof ResourceBundle) {
         return (ResourceBundle) obj;
       } else if (obj instanceof javax.servlet.jsp.jstl.fmt.LocalizationContext) {
         return ((javax.servlet.jsp.jstl.fmt.LocalizationContext) obj).getResourceBundle();
       }
     }
-
+    
     return null;
   }
-
+  
   /**
    * Returns a modified name that does not contain characters not recommended
    * in a file name.
@@ -476,42 +476,42 @@ public final class WebUtils {
     boolean addSpacer = false;
     char spacer = FN_SPACERS.charAt(0);
     char c;
-
+    
     for (int i = 0; i < name.length(); i++) {
       c = name.charAt(i);
-
+      
       if (c < 256) {
         c = FN_CHARMAP.charAt(c);
       } else {
         c = spacer;
       }
-
+      
       if (FN_SPACERS.indexOf(c) < 0) { // not a spacer
         if (addSpacer) { // needs to add a spacer due to previous characters
           if (useSpacers && sb.length() > 0) { // add a spacer only if not as first char
             sb.append(spacer);
           }
-
+          
           addSpacer = false;
         }
-
+        
         sb.append(c);
       } else {
         addSpacer = true; // it's a spacer, will be added next if needed
       }
     }
-
+    
     while(sb.length() > 0 && sb.charAt(sb.length() - 1) == '.') {
       sb.deleteCharAt(sb.length() - 1);
     }
-
+    
     if (sb.length() == 0) {
       sb.append(spacer);
     }
-
+    
     return sb.toString();
   }
-
+  
   /**
    * Returns a nicer representation of the number as a file length. The number
    * is returned as bytes, kilobytes or megabytes, with the unit attached.
@@ -523,7 +523,7 @@ public final class WebUtils {
     format.applyPattern("###0.##");
     double num = length;
     String unit;
-
+    
     if (length < Utils.KBYTE) {
       unit = "genericUnitBytes";
     } else if (length < Utils.MBYTE) {
@@ -536,21 +536,21 @@ public final class WebUtils {
       num /= Utils.GBYTE;
       unit = "genericUnitGigabytes";
     }
-
+    
     return format.format(num) + bundle.getString(unit);
   }
-
+  
   public static String getCharsetCanonicalName(String charsetName) {
     Charset suggestedCharset;
-
+    
     try {
       suggestedCharset = Charset.forName(charsetName);
       charsetName = suggestedCharset.name();
     } catch (Exception ex) {}
-
+    
     return charsetName;
   }
-
+  
   public static String parseCharset(String fullValue) {
     try {
       return new MimeType(fullValue).getParameter("charset");
@@ -558,52 +558,52 @@ public final class WebUtils {
       return null;
     }
   }
-
+  
   public static void updateLastModifiedTime(HttpServletRequest request, File file) {
     updateLastModifiedTime(request, file.lastModified());
   }
-
+  
   public static void updateLastModifiedTime(HttpServletRequest request, long time) {
     if (time > getLastModifiedTime(request)) {
       request.setAttribute(HitFilter.LAST_MODIFIED_ATTRIBUTE, new Long(time));
     }
   }
-
+  
   public static long getLastModifiedTime(HttpServletRequest request) {
     long time = 0L;
-
+    
     try {
       time = ((Long) request.getAttribute(HitFilter.LAST_MODIFIED_ATTRIBUTE)).longValue();
     } catch (Exception ex) {}
-
+    
     return time;
   }
-
+  
   public static javax.mail.Session getMailSession(WebSite webSite) {
     Properties props = new Properties();
     props.put("mail.smtp.host", webSite.getConfiguration().getMailServer());
     final String smtpUsername = webSite.getConfiguration().getSmtpUsername();
     final String smtpPassword = webSite.getConfiguration().getSmtpPassword();
-
+    
     if (!Utils.isNullOrWhitespace(smtpUsername)) {
       props.put("mail.smtp.auth", "true");
     }
-
+    
     javax.mail.Session mailSession = javax.mail.Session.getInstance(props,
         new javax.mail.Authenticator() {
       protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
         return new javax.mail.PasswordAuthentication(smtpUsername, smtpPassword);
       }
     });
-
+    
     return mailSession;
   }
-
+  
   public static File getCacheFile(WebSite webSite, SiteMap siteMap, Path pagePath) {
     if (siteMap == null) {
       siteMap = webSite.getSiteMap();
     }
-
+    
     pagePath = siteMap.getServedPath(pagePath);
     File cacheFile = webSite.getRepositoryFile(pagePath, HitFilter.CACHE_FILE_NAME);
     
@@ -612,36 +612,36 @@ public final class WebUtils {
         cacheFile.lastModified() > siteMap.getLastModified()) {
       return cacheFile;
     }
-
+    
     return null;
   }
-
+  
   public static boolean isCached(WebSite webSite, SiteMap siteMap, Path pagePath) {
     if (siteMap == null) {
       siteMap = webSite.getSiteMap();
     }
-
+    
     int cacheType = webSite.getConfiguration().getCacheType();
     pagePath = siteMap.getServedPath(pagePath);
-
+    
     if (cacheType == Configuration.IN_MEMORY_CACHE) {
       return siteMap.isCached(pagePath);
     } else if (cacheType == Configuration.ON_DISK_CACHE ||
         cacheType == Configuration.MIXED_CACHE) {
       return getCacheFile(webSite, siteMap, pagePath) != null;
     }
-
+    
     return false;
   }
-
+  
   public static void removeFromCache(WebSite webSite, SiteMap siteMap, Path pagePath) {
     if (siteMap == null) {
       siteMap = webSite.getSiteMap();
     }
-
+    
     int cacheType = webSite.getConfiguration().getCacheType();
     pagePath = siteMap.getServedPath(pagePath);
-
+    
     if (cacheType == Configuration.IN_MEMORY_CACHE ||
         cacheType == Configuration.MIXED_CACHE) {
       siteMap.removeFromCache(pagePath);
@@ -650,68 +650,68 @@ public final class WebUtils {
     if (cacheType == Configuration.ON_DISK_CACHE ||
         cacheType == Configuration.MIXED_CACHE) {
       File cacheFile = getCacheFile(webSite, siteMap, pagePath);
-
+      
       if (cacheFile != null && cacheFile.exists()) {
         Utils.forceDelete(cacheFile);
       }
     }
   }
-
+  
   /**
    * @deprecated use {@link Utils#encodeHTML(java.lang.String)} instead.
    */
   public static String encodeHTML(String html) {
     return Utils.encodeHTML(html);
   }
-
+  
   public static Path getCorrespondingPath(WebSite webSite, Path path,
       String otherRoot) {
     Path cPath = path.replace(0, otherRoot);
     return webSite.getFile(cPath).exists() ? cPath : new Path(otherRoot);
   }
-
+  
   public static String[] getAcceptedLanguages(HttpServletRequest request) {
     Enumeration alEnum = request.getHeaders("Accept-Language");
     List list = new ArrayList();
-
+    
     while (alEnum.hasMoreElements()) {
       String s = (String) alEnum.nextElement();
       StringTokenizer st = new StringTokenizer(s, ",");
-
+      
       while (st.hasMoreTokens()) {
         String token = st.nextToken();
         int sc = token.indexOf(';');
-
+        
         if (sc >= 0) {
           token = token.substring(0, sc);
         }
-
+        
         token = token.trim();
         token = Utils.replace(token, '-', "_");
-
+        
         if (!list.contains(token)) {
           list.add(token);
         }
       }
     }
-
+    
     // add main language codes as fallback (e.g. it_IT, en, en_US becomes
     // it_IT, en, en_US, it
     int n = list.size();
-
+    
     for (int i = 0; i < n; i++) {
       String token = (String) list.get(i);
       int us = token.indexOf('_');
-
+      
       if (us >= 0) {
         token = token.substring(0, us);
-
+        
         if (!list.contains(token)) {
           list.add(token);
         }
       }
     }
-
+    
     return (String[]) list.toArray(new String[list.size()]);
   }
   
@@ -723,11 +723,45 @@ public final class WebUtils {
     
     while(m.find()) {
       Path path = relative ? new Path(m.group(2)).getRelativeTo(root) :
-          new Path(root, m.group(2));
+        new Path(root, m.group(2));
       m.appendReplacement(sb, m.group(1) + path.getAsLink() + m.group(3));
     }
     
     m.appendTail(sb);
     return sb.toString();
+  }
+  
+  private static Pattern jspBlockPattern;
+  
+  public static Pattern getJSPBlockPattern() {
+    if (jspBlockPattern == null) {
+      jspBlockPattern = Pattern.compile("<(?!%@\\s*taglib[^>]*\\buri\\s*=\\s*\"" +
+          "meshcms-taglib\"[^>]*\\bprefix\\s*=\\s*\"cms\"|%@\\s*page|%--|" +
+          "/?cms:|/?\\w+(?!:)\\W|!--|!DOCTYPE)([^>]*)>");
+    }
+    
+    return jspBlockPattern;
+  }
+  
+  public static boolean verifyJSP(WebSite webSite, Path jspPath) {
+    if (webSite instanceof VirtualWebSite) {
+      VirtualWebSite vws = (VirtualWebSite) webSite;
+      MainWebSite mws = vws.getMainWebSite();
+      
+      if (mws.getMultiSiteManager().isJSPBlocked(vws) &&
+          !jspPath.isContainedIn(vws.getAdminPath())) {
+        Pattern p = getJSPBlockPattern();
+        
+        try {
+          Matcher m = p.matcher(Utils.readFully(vws.getFile(jspPath)));
+          return !m.find();
+        } catch (IOException ex) {
+          vws.log("Error while verifying /" + jspPath + " in " +
+              vws.getDirName(), ex);
+        }
+      }
+    }
+    
+    return true;
   }
 }

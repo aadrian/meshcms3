@@ -8,7 +8,7 @@
   <body>
     <h1>Testing a simple JSP file</h1>
 
-    <p>Printing the current time is enough to show that JSP work fine here:
+    <p>Printing the current time is enough to show that JSPs work fine here:
     <strong><%= new java.util.Date() %></strong></p>
   </body>
 </html>

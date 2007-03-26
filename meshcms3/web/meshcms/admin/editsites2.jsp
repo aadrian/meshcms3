@@ -21,6 +21,7 @@
 --%>
 
 <%@ page import="java.io.*" %>
+<%@ page import="java.util.*" %>
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
@@ -77,13 +78,23 @@
     msm.setManageTripleWs(Utils.isTrue(request.getParameter("manageTripleWs")));
     msm.setMainWebSiteDomains(request.getParameter("mainWebSiteDomains"));
     String[] dirs = mainWebSite.getFile(mainWebSite.getVirtualSitesPath()).list();
+    List jspBlocks = msm.getJSPBlocks();
+    jspBlocks.clear();
 
     for (int i = 0; i < dirs.length; i++) {
       msm.setDomains(dirs[i], request.getParameter("aliases_" + dirs[i]));
+      
+      if (Utils.isTrue(request.getParameter("blockjsp_" + dirs[i]))) {
+        jspBlocks.add(dirs[i]);
+      }
     }
 
     if (!newSiteDir.equals("")) {
       msm.setDomains(newSiteDir, request.getParameter("newsite_aliases"));
+      
+      if (Utils.isTrue(request.getParameter("newsite_blockjsp"))) {
+        jspBlocks.add(newSiteDir);
+      }
     }
 
     msm.initDomainsMap();
