@@ -38,6 +38,7 @@
   - notify = (e-mail address to send notifications of new comments)
   - form_css = (name of a css class for full form)
   - field_css = (name of a css class for input fields)
+  - max_age = (max number of days after which comments are not shown)
 --%>
 
 <%
@@ -191,6 +192,11 @@
 
 <%
   String fieldStyle = md.getAdvancedParam("field_css", "formfields");
+  
+  int maxAge = Utils.parseInt(md.getAdvancedParam("max_age", ""), 0);
+  long start = (maxAge > 0) ? System.currentTimeMillis() - maxAge *
+      Configuration.LENGTH_OF_DAY : 0L;
+  
   File[] files = commentsDir.listFiles();
 
   if (files != null && files.length > 0) {
@@ -198,7 +204,7 @@
     DateFormat df = md.getDateFormat(locale, "date");
 
     for (int i = 0; i < files.length; i++) {
-      if (FileTypes.isPage(files[i].getName())) {
+      if (FileTypes.isPage(files[i].getName()) && files[i].lastModified() > start) {
         WebUtils.updateLastModifiedTime(request, files[i]);
         HTMLPageParser fpp = new HTMLPageParser();
 
