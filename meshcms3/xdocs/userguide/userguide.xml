@@ -827,6 +827,10 @@
         <para>TinyMCE comes pre-configured in MeshCMS, but you can change that
         configuration, for example to use other features and plugins.</para>
       </note>
+
+      <para>Other than editing the main page text, MeshCMS supports modules to
+      automate some common page components. See <xref
+      linkend="standard_modules" /> for details.</para>
     </section>
 
     <section id="create_new_page">
@@ -1077,8 +1081,10 @@
           the page caching. This is highly recommended since the "decoration"
           of a page is a quite expensive task. If you have much memory (or few
           pages), you can store cached pages in memory, otherwise save them on
-          disk. Pages are saved in GZIP format and are sent compressed when
-          the browser supports that (always true with modern browsers);</para>
+          disk. By default, a mixed strategy is used: memory storage with
+          fallback to disk. Pages are saved in GZIP format and are sent
+          compressed when the browser supports that (always true with modern
+          browsers);</para>
         </listitem>
 
         <listitem>
@@ -1365,7 +1371,45 @@
           point to the main website. If no domain names are specified, all
           domain names that are not mapped to other sites will point to the
           main site. If at least a domain is specified and an unlisted domain
-          is requested, MeshCMS will send a server error as response.</para>
+          is requested, MeshCMS will send a server error as response;</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">CMS enabled</emphasis>: a flag that
+          indicates that the CMS is active in that website (otherwise it is
+          just a static website);</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Block JSPs</emphasis>: allows to limit
+          the usage of JSP pages in that site for security reasons. It relies
+          on a code filter that should allow harmless operations only
+          Currently, it allows to:</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>use the MeshCMS taglib with the <code>cms</code>
+              prefix;</para>
+            </listitem>
+
+            <listitem>
+              <para>use the <code>page</code> JSP directive;</para>
+            </listitem>
+
+            <listitem>
+              <para>use JSP comments;</para>
+            </listitem>
+
+            <listitem>
+              <para>use HTML (tags, doctypes and comments).</para>
+            </listitem>
+          </itemizedlist>
+
+          <note>
+            <para>This block may result in a strong limit for the website,
+            since themes can only use the taglib and legal custom modules are
+            nearly useless.</para>
+          </note>
         </listitem>
       </itemizedlist>
 
@@ -1409,7 +1453,12 @@
 
       <para>When you edit a page, you will have the chance to configure as
       many modules as the page theme specifies. Normally all themes should
-      contain a module at least.</para>
+      contain a module at least. For each module you can also set a title and
+      some advanced parameters. The former can be displayed in the page or
+      not, according to the theme used. The latters depend on the module used
+      and allow to customize it further, although modules are expected to
+      provide an adequate default behavior when no parameters are
+      specified.</para>
 
       <para>MeshCMS provides some modules, and others can be created by
       everyone that is able to write a JSP page. Details about available
@@ -2564,6 +2613,22 @@ submit</programlisting>
 
         <para>There's no limit to the number of modules that can be specified
         in a theme.</para>
+      </section>
+
+      <section id="tag_moduletitle">
+        <title>moduletitle</title>
+
+        <para>This tag displays the title of a <link
+        linkend="modules">module</link>.</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>location</parameter> (required): the name of the
+            module location.</para>
+          </listitem>
+        </itemizedlist>
       </section>
 
       <section id="tag_adminmenu">
