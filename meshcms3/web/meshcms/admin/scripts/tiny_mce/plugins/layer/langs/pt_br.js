@@ -10,7 +10,7 @@
 tinyMCE.addToLang('layer',{
 insertlayer_desc : 'Inserir novo layer',
 forward_desc : 'Mover para frente',
-backward_desc : 'Mover para tr&aacute;s',
-absolute_desc : 'Alterar posi&ccedil;&atilde;o absoluta',
+backward_desc : 'Mover para trás',
+absolute_desc : 'Alterar posição absoluta',
 content : 'Novo layer...'
 });

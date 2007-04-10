@@ -1,4 +1,4 @@
-// RU lang variables cp1251
+// RU lang variables
 
 tinyMCE.addToLang('flash',{
 title : 'Вставить / Редактировать флеш-ролик',

@@ -1,4 +1,4 @@
-// RU lang variables cp1251
+// RU lang variables
 
 tinyMCE.addToLang('',{
 preview_desc : 'Предварительный просмотр'

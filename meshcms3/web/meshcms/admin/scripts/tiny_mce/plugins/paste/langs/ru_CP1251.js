@@ -1,4 +1,4 @@
-// RU lang variables cp1251
+// RU lang variables
 
 tinyMCE.addToLang('',{
 paste_text_desc : 'Вставить как простой текст',

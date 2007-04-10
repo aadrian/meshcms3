@@ -87,7 +87,7 @@ swstretchvalign : 'Stretch V-Align',
 sound : 'Suono',
 progress : 'Progresso',
 qtsrc : 'QT Src',
-qt_stream_warn : 'Le risorse &quot;Streamed RTSP&quot; devono essere aggiunte al campo &quot;QT Src&quot; nelle funzioni avanzate.\n&Egrave; meglio aggiungere anche una versione non in streaming nel campo Src.'
+qt_stream_warn : 'Le risorse &quot;Streamed RTSP&quot; devono essere aggiunte al campo &quot;QT Src&quot; nelle funzioni avanzate.\n&Egrave; meglio aggiungere anche una versione non in streaming nel campo Src.',
 align_top : 'In Alto',
 align_right : 'A destra',
 align_bottom : 'In basso',

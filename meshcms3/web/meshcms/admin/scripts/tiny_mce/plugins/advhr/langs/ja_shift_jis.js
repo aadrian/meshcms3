@@ -1,8 +1,8 @@
-// UK lang variables
+// “ú–{Œê shift-jis lang variables
 
 tinyMCE.addToLang('',{
-insert_advhr_desc : 'Horizontale rule',
-insert_advhr_width : 'Width',
-insert_advhr_size : 'Height',
-insert_advhr_noshade : 'No shadow'
+insert_advhr_desc : '•½–Ê‚Ìü‚ğ‘}“üE•ÒW',
+insert_advhr_width : '•',
+insert_advhr_size : '‚‚³',
+insert_advhr_noshade : '‰e‚È‚µ'
 });

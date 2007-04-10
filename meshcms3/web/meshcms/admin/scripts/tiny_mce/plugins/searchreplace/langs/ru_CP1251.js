@@ -1,4 +1,4 @@
-// RU lang variables cp1251
+// RU lang variables
 
 tinyMCE.addToLang('',{
 searchreplace_search_desc : 'Найти',
