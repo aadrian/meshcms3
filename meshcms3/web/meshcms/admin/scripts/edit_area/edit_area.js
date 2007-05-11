@@ -46,6 +46,7 @@
 		this.tab_nb_char= 8;	//nb of white spaces corresponding to a tabulation
 		if(this.nav['isOpera'])
 			this.tab_nb_char= 6;
+
 		this.is_tabbing= false;
 		
 		this.fullscreen= {'isFull': false};
@@ -69,7 +70,8 @@
 	
 	//called by the toggle_on
 	EditArea.prototype.update_size= function(){
-		if(editAreas[editArea.id]["displayed"]==true){
+		
+		if(editAreas[editArea.id] && editAreas[editArea.id]["displayed"]==true){
 			if(editArea.fullscreen['isFull']){	
 				parent.document.getElementById("frame_"+editArea.id).style.width= parent.document.getElementsByTagName("html")[0].clientWidth + "px";
 				parent.document.getElementById("frame_"+editArea.id).style.height= parent.document.getElementsByTagName("html")[0].clientHeight + "px";
@@ -199,6 +201,9 @@
 			/*document.getElementById("end_bracket").style.marginTop="1px";*/
 		}
 		
+		// si le textarea n'est pas grand, un click sous le textarea doit provoquer un focus sur le textarea
+		parent.editAreaLoader.add_event(this.result, "click", function(e){ if((e.target || e.srcElement)==editArea.result) { editArea.area_select(editArea.textarea.value.length, 0);}  });
+		
 		setTimeout("editArea.manage_size();editArea.execCommand('EA_load');", 10);		
 		//start checkup routine
 		this.check_undo();
@@ -213,14 +218,18 @@
 		if(this.settings['fullscreen']==true)
 			this.toggle_full_screen(true);
 		
+		parent.editAreaLoader.add_event(window, "resize", editArea.update_size);
 		parent.editAreaLoader.add_event(parent.window, "resize", editArea.update_size);
-		parent.editAreaLoader.add_event(window, "unload", function(){if(editAreas[editArea.id]["displayed"]) editArea.execCommand("EA_unload");});
+		parent.editAreaLoader.add_event(top.window, "resize", editArea.update_size);
+		parent.editAreaLoader.add_event(window, "unload", function(){if(editAreas[editArea.id] && editAreas[editArea.id]["displayed"]) editArea.execCommand("EA_unload");});
 		
 		/*date= new Date();
 		alert(date.getTime()- parent.editAreaLoader.start_time);*/
 	};
 	
 	EditArea.prototype.manage_size= function(){
+		if(!editAreas[this.id])
+			return false;
 		if(editAreas[this.id]["displayed"]==true)
 		{
 			var resized= false;

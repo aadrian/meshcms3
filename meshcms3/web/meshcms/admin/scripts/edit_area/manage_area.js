@@ -10,6 +10,9 @@
 			alert("ONCE a"+ this.isResizing);
 			this.once=1;
 		}*/
+		if(!editAreas[this.id])
+			return false;
+		
 		time=new Date;
 		t1=t2=t3= time.getTime();
 		
@@ -45,13 +48,11 @@
 						content+= curr_text[i]+"\n";	
 					}
 					
-					if(this.nav['isdOpera'])
-						content= this.replace_tab(content);					
 					content= content.replace(/&/g,"&amp;");
 					content= content.replace(/</g,"&lt;");
 					content= content.replace(/>/g,"&gt;");
 					
-					if(this.nav['isIE'])
+					if(this.nav['isIE'] || this.nav['isOpera'])
 						this.selection_field.innerHTML= "<pre>" + content.replace("\n", "<br/>") + "</pre>";	
 					else
 						this.selection_field.innerHTML=content;
@@ -413,13 +414,8 @@
 		var elem= document.getElementById("test_font_size");
 		var dest= document.getElementById(id);
 		var postLeft=0;
-		if(this.nav['isOpera']){
-			elem.innerHTML=this.replace_tab(lineContent.substr(0, cur_pos)).replace(/</g,"&lt;");
-			posLeft= 45 + elem.offsetWidth;
-		}else{
-			elem.innerHTML="<pre><span id='test_font_size_inner'>"+lineContent.substr(0, cur_pos).replace(/</g,"&lt;").replace(/&/g,"&amp;")+"</span></pre>";
-			posLeft= 45 + document.getElementById('test_font_size_inner').offsetWidth;
-		}
+		elem.innerHTML="<pre><span id='test_font_size_inner'>"+lineContent.substr(0, cur_pos).replace(/</g,"&lt;").replace(/&/g,"&amp;")+"</span></pre>";
+		posLeft= 45 + document.getElementById('test_font_size_inner').offsetWidth;
 
 		var posTop=this.lineHeight * (start_line-1);
 	

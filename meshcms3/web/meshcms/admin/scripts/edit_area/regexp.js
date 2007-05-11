@@ -75,12 +75,11 @@
 		
 	EditArea.prototype.colorize_text= function(text){
 		//text="<div id='result' class='area' style='position: relative; z-index: 4; height: 500px; overflow: scroll;border: solid black 1px;'> ";
-	  		
+	  /*		
 		if(this.nav['isOpera']){	
-			/* opera can't use pre element tabulation cause a tab=6 chars in the textarea 
-				and 8 chars in the pre */
+			// opera can't use pre element tabulation cause a tab=6 chars in the textarea and 8 chars in the pre 
 			text= this.replace_tab(text);
-		}
+		}*/
 		
 		text= " "+text; // for easier regExp
 		

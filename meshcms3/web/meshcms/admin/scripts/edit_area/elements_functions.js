@@ -255,11 +255,12 @@
 		if(nav['isIE'])
 			set_IE_selection(textarea);
 	};
-	
+
 	
 	// set IE position in Firefox mode (textarea.selectionStart and textarea.selectionEnd). should work as a repeated task
 	function get_IE_selection(textarea){
-		if(textarea.focused)
+			
+		if(textarea && textarea.focused)
 		{	
 			if(!textarea.ea_line_height)
 			{	// calculate the lineHeight
@@ -285,6 +286,7 @@
 					scrollTop+= elem.scrollTop;
 					elem= elem.parentNode;
 				}
+			
 			//	var scrollTop= textarea.scrollTop + document.body.scrollTop;
 				
 			//	var relative_top= range.offsetTop - calculeOffsetTop(textarea) + scrollTop;

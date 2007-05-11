@@ -49,7 +49,7 @@ editAreaLoader.load_syntax["php"] = {
 	,'DELIMITERS' :[
 		'(', ')', '[', ']', '{', '}'
 	]
-/*	,'REGEXPS' : {
+	,'REGEXPS' : {
 		// highlight all variables ($...)
 		'variables' : {
 			'search' : '()(\\$\\w+)()'
@@ -57,7 +57,7 @@ editAreaLoader.load_syntax["php"] = {
 			,'modifiers' : 'g'
 			,'execute' : 'before' // before or after
 		}
-	}*/
+	}
 	,'STYLES' : {
 		'COMMENTS': 'color: #AAAAAA;'
 		,'QUOTESMARKS': 'color: #879EFA;'

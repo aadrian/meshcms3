@@ -84,18 +84,6 @@ var EditArea_charmap= {
 		return true;
 	}
 	
-	/**
-	 * This is just an internal plugin method, prefix all internal methods with a _ character.
-	 * The prefix is needed so they doesn't collide with future EditArea callback functions.
-	 *
-	 * @param {string} a Some arg1.
-	 * @param {string} b Some arg2.
-	 * @return Some return.
-	 * @type unknown
-	 */
-	,_someInternalFunction : function(a, b) {
-		return a+b;
-	}
 };
 
 // Adds the plugin class to the list of available EditArea plugins

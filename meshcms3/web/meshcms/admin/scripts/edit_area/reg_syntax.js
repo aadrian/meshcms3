@@ -20,10 +20,8 @@
 		return str.replace(/(\.|\?|\*|\+|\\|\(|\)|\[|\]|\}|\{|\$|\^|\|)/g, "\\$1");
 	};
 	
-	
 	EditAreaLoader.prototype.init_syntax_regexp= function(){
 		var lang_style= new Object();	
-					
 		for(var lang in this.load_syntax){
 			if(!this.syntax[lang])	// init the regexp if not already initialized
 			{

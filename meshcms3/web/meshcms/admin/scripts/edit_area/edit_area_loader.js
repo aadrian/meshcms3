@@ -7,7 +7,7 @@
 ******/
 
 	function EditAreaLoader(){
-		this.version= "0.6.4";
+		this.version= "0.6.7";
 		date= new Date();
 		this.start_time=date.getTime();
 		this.win= "loading";	// window loading state
@@ -80,6 +80,7 @@
 				
 		// navigator identification
 		ua= navigator.userAgent;
+		
 		this.nav= new Object(); 
 		this.nav['isIE'] = (navigator.appName == "Microsoft Internet Explorer");
 		if(this.nav['isIE']){
@@ -110,12 +111,18 @@
 		
 		if(this.nav['isFirefox'] =(ua.indexOf('Firefox') != -1))
 			this.nav['isFirefox'] = ua.replace(/^.*?Firefox.*?([0-9\.]+).*$/i, "$1");
+		// Iceweasel is a clone of Firefox 	
+		if(this.nav['isIceweasel'] =(ua.indexOf('Iceweasel') != -1))
+			this.nav['isFirefox']= this.nav['isIceweasel'] = ua.replace(/^.*?Iceweasel.*?([0-9\.]+).*$/i, "$1");
+		
+		if(this.nav['isCamino'] =(ua.indexOf('Camino') != -1))
+			this.nav['isCamino'] = ua.replace(/^.*?Camino.*?([0-9\.]+).*$/i, "$1");
 		
 		this.nav['isSafari'] = (ua.indexOf('Safari') != -1);
-		if(this.nav['isSafari'])
-			this.has_error();
-			
-		if(this.nav['isIE']>=6 || this.nav['isOpera']>=9 || this.nav['isFirefox'])
+	/*	if(this.nav['isSafari'])
+			this.has_error();*/
+		
+		if(this.nav['isIE']>=6 || this.nav['isOpera']>=9 || this.nav['isFirefox'] || this.nav['isCamino'])
 			this.nav['isValidBrowser']=true;
 		else
 			this.nav['isValidBrowser']=false;
@@ -157,11 +164,11 @@
 		}
 		
 		
-		if(editAreaLoader.nav['isIE']){	// launch IE selection checkup
+	/*	if(editAreaLoader.nav['isIE']){	// launch IE selection checkup
 			for(var i in editAreas){
 				editAreaLoader.init_ie_textarea(i);
 			}
-		}
+		}*/
 		editAreaLoader.add_event(window, "unload", function(){for(var i in editAreas){editAreaLoader.delete_instance(i);}});	// ini callback
 	};
 	
@@ -171,10 +178,11 @@
 		if(textarea && typeof(textarea.focused)=="undefined"){
 			textarea.focus();
 			textarea.focused=true;
-			textarea.selectionStart= textarea.selectionEnd= 0;
+			textarea.selectionStart= textarea.selectionEnd= 0;			
 			get_IE_selection(textarea);
 			editAreaLoader.add_event(textarea, "focus", IE_textarea_focus);
 			editAreaLoader.add_event(textarea, "blur", IE_textarea_blur);
+			
 		}
 	};
 		
@@ -239,13 +247,13 @@
 		if(window.frames["frame_"+id] && editAreas[id]["displayed"]) 
 			window.frames["frame_"+id].editArea.execCommand("EA_unload");
 		editAreaLoader.toggle(id, "off");
-		
+
 		// remove toggle infos and debug textarea
 		var span= document.getElementById("EditAreaArroundInfos_"+id);
 		if(span){
 			span.parentNode.removeChild(span);
 		}
-		
+
 		// remove the iframe
 		var iframe= document.getElementById("frame_"+id);
 		if(iframe){
@@ -256,7 +264,9 @@
 			} catch (e) {// Do nothing
 			}
 		}	
+
 		delete editAreas[id];
+
 	};
 
 	
@@ -473,7 +483,10 @@
 				if(this.nav['isOpera']){	// Opera bug when moving selection start and selection end
 					editAreas[id]["textarea"].setSelectionRange(0, 0);
 				}
-				editAreas[id]["textarea"].setSelectionRange(selStart, selEnd);
+				try{
+					editAreas[id]["textarea"].setSelectionRange(selStart, selEnd);
+				} catch(e) {
+				};
 			}
 			editAreas[id]["textarea"].scrollTop= scrollTop;
 			editAreas[id]["textarea"].scrollLeft= scrollLeft;
@@ -532,21 +545,10 @@
 			window.frames["frame_"+id].document.getElementById("result").scrollLeft= scrollLeft;
 			area.area_select(selStart, selEnd-selStart);
 			area.execCommand("toggle_on");
-			/*if(this.nav['isIE'])
-				set_IE_selection(area.textarea, document.getElementById("frame_"+id));*/
-			//window.frames['frame_'+ id].editArea.scroll_to_view();
-			/*if(this.nav['isOpera'])
-				setTimeout("area.area_select("+ selStart +","+ (selEnd-selStart) +");", 100);*/
-			/*area.textarea.selectionStart= selStart;
-			area.textarea.selectionEnd= selEnd;			
-			if(this.nav['isIE'])
-				set_IE_selection(area.textarea, document.getElementById("frame_"+id));*/
 
 			/*date= new Date();
 			end_time=date.getTime();		
 			alert("load time: "+ (end_time-this.start_time));*/
-			
-			
 			
 		}
 		else
@@ -574,6 +576,7 @@
 		if(elem.style.height.indexOf("%")!=-1)
 			height= elem.style.height;
 		//alert("h: "+height+" w: "+width);
+	
 		frame.style.width= width;
 		frame.style.height= height;
 	};
@@ -699,16 +702,14 @@
 	};
 	
 	EditAreaLoader.prototype.load_script= function(url){
-		
 		if (this.loadedFiles[url])
 			return;	
-	//	alert("laod: "+url);
-	//alert(url);
+		//alert("load: "+url);
 		try{
-			script= document.createElement("script");
+			var script= document.createElement("script");
 			script.type= "text/javascript";
 			script.src= url;
-			head= document.getElementsByTagName("head");
+			var head= document.getElementsByTagName("head");
 			head[0].appendChild(script);
 		}catch(e){
 			document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + url + '"></sc'+'ript>');
@@ -738,7 +739,13 @@
 		
 		var formObj = editAreaLoader.nav['isIE'] ? window.event.srcElement : e.target;
 		for(var i in editAreas){			
-			if(window.frames["frame_"+i] && isChildOf(document.getElementById(i), formObj) && editAreas[i]["displayed"]==true){
+			var is_child= false;
+			for (var x=0;x<formObj.elements.length;x++) {
+				if(formObj.elements[x].id == i)
+					is_child=true;
+			}
+			
+			if(window.frames["frame_"+i] && is_child && editAreas[i]["displayed"]==true){
 			
 				var exec= 'window.frames["frame_'+ i +'"].editArea.textarea.value= document.getElementById("'+ i +'").value;';
 				exec+= 'window.frames["frame_'+ i +'"].editArea.execCommand("focus");';
@@ -754,17 +761,19 @@
 	// prepare all the textarea replaced by an editarea to be submited
 	EditAreaLoader.prototype.submit= function(e){		
 		var formObj = editAreaLoader.nav['isIE'] ? window.event.srcElement : e.target;
+
 		for(var i in editAreas){
-			//alert(formObj);
-			/*for(j in window.frames)
-				alert("frame: "+j)*/;
-				
-			if(isChildOf(document.getElementById(i), formObj)){
+			var is_child= false;
+			for (var x=0;x<formObj.elements.length;x++) {
+				if(formObj.elements[x].id == i)
+					is_child=true;
+			}
+		
+			if(is_child)
+			{
 				if(window.frames["frame_"+i] && editAreas[i]["displayed"]==true)
 					document.getElementById(i).value= window.frames["frame_"+ i].editArea.textarea.value;
-				//window.frames["frame_"+ i].editArea.execCommand("onsubmit");
 				editAreaLoader.execCommand(i,"EA_submit");
-				//alert(document.getElementById(i).value);
 			}
 		}				
 		if(typeof(formObj.edit_area_replaced_submit) == "function"){
@@ -912,11 +921,8 @@
 				this.hidden[id]["scrollTop"]= scrollTop;
 				this.hidden[id]["scrollLeft"]= scrollLeft;
 				
-				
 				if(editAreas[id]["displayed"]==true)
 					editAreaLoader.toggle_off(id);
-				
-					
 			}
 			
 			// hide toggle button and debug box

@@ -4,7 +4,7 @@
 	 *	EditArea PHP compressor
 	 * 	Developped by Christophe Dolivet
 	 *	Released under LGPL license
-	 *	v1.1.2 (2006/12/21)	 
+	 *	v1.1.3 (2007/01/18)	 
 	 *
 	******/
 
@@ -61,12 +61,21 @@
 		
 		function check_gzip_use()
 		{
-			$encodings = array();		
+			$encodings = array();
+			$desactivate_gzip=false;
+					
 			if (isset($_SERVER['HTTP_ACCEPT_ENCODING']))
 				$encodings = explode(',', strtolower(preg_replace("/\s+/", "", $_SERVER['HTTP_ACCEPT_ENCODING'])));
-		
+			
+			// desactivate gzip for IE version < 7
+			if(preg_match("/(?:msie )([0-9.]+)/i", $_SERVER['HTTP_USER_AGENT'], $ie))
+			{
+				if($ie[1]<7)
+					$desactivate_gzip=true;	
+			}
+			
 			// Check for gzip header or northon internet securities
-			if (!preg_match("/msie/i", $_SERVER['HTTP_USER_AGENT']) && $this->param['use_gzip'] && (in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------'])) && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression')) {
+			if (!$desactivate_gzip && $this->param['use_gzip'] && (in_array('gzip', $encodings) || in_array('x-gzip', $encodings) || isset($_SERVER['---------------'])) && function_exists('ob_gzhandler') && !ini_get('zlib.output_compression')) {
 				$this->gzip_enc_header= in_array('x-gzip', $encodings) ? "x-gzip" : "gzip";
 				$this->use_gzip=true;
 				$this->cache_file=$this->gzip_cache_file;
@@ -215,7 +224,6 @@
 		
 		function send_datas()
 		{
-			
 			if($this->param['debug']){
 				$header=sprintf("/* USE PHP COMPRESSION\n");
 				$header.=sprintf("javascript size: based files: %s => PHP COMPRESSION => %s ", $this->file_loaded_size, strlen($this->datas));
@@ -296,9 +304,11 @@
 		
 		function get_css_content($end_uri){
 			$code=$this->get_content($end_uri);
-			$code= preg_replace('/(\"(?:\\\"|[^\"])*(?:\"|$))|' . "(\'(?:\\\'|[^\'])*(?:\'|$))|(?:\/\/(?:.|\r|\t)*?(\n|$))|(?:\/\*(?:.|\n|\r|\t)*?(?:\*\/|$))/s", "$1$2$3", $code);
+			// remove comments
+			$code= preg_replace("/(?:\/\*(?:.|\n|\r|\t)*?(?:\*\/|$))/s", "", $code);
+			// remove spaces
 			$code= preg_replace('/(( |\t|\r)*\n( |\t)*)+/s', "", $code);
-			//$code= preg_replace('/}/', '}\n', $code);
+		
 			$this->prepare_string_for_quotes($code);
 			return $code;
 		}

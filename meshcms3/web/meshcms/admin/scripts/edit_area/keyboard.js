@@ -42,7 +42,6 @@ var clavier_cds=new Object(146);
 
 
 	function keyDown(e){
-		//alert("keydown");
 		if(!e){	// if IE
 			e=event;
 		}
@@ -58,11 +57,8 @@ var clavier_cds=new Object(146);
 			}
 		}
 
-		
 		var target_id=(e.target || e.srcElement).id;
 		var use=false;
-		/*if((e.keyCode<=40 && e.keyCode!=32) || (e.keyCode>90 && e.keyCode!=113))
-			return true;*/
 		if (clavier_cds[e.keyCode])
 			letter=clavier_cds[e.keyCode];
 		else
@@ -70,7 +66,7 @@ var clavier_cds=new Object(146);
 		
 		var low_letter= letter.toLowerCase();
 				
-		if(letter=="Tabulation" && target_id=="textarea"){	
+		if(letter=="Tabulation" && target_id=="textarea" && !CtrlPressed(e) && !AltPressed(e)){	
 			if(ShiftPressed(e))
 				editArea.execCommand("invert_tab_selection");
 			else
@@ -80,9 +76,11 @@ var clavier_cds=new Object(146);
 			if(editArea.nav['isOpera'])	// opera can't cancel tabulation events...
 				setTimeout("editArea.execCommand('focus');", 1);
 		}else if(letter=="Entrer" && target_id=="textarea"){
-			//alert("enter");
 			if(editArea.press_enter())
 				use=true;
+		}else if(letter=="Entrer" && target_id=="area_search"){
+			editArea.execCommand("area_search");
+			use=true;
 		}else if(letter=="Page up" && !editArea.nav['isOpera']){
 			editArea.execCommand("scroll_page", {"dir": "up", "shift": ShiftPressed(e)});
 			use=true;
@@ -92,8 +90,7 @@ var clavier_cds=new Object(146);
 		}else if(letter=="Esc"){
 			editArea.execCommand("close_all_inline_popup", e);
 			use=true;
-		}else if(CtrlPressed(e)){
-			//alert(letter+" | "+low_letter);
+		}else if(CtrlPressed(e) && !AltPressed(e) && !ShiftPressed(e)){
 			switch(low_letter){
 				case "f":				
 					editArea.execCommand("area_search");
@@ -108,7 +105,6 @@ var clavier_cds=new Object(146);
 					use=true;
 					break;
 				case "h":
-					date= new Date();
 					editArea.execCommand("change_highlight");			
 					use=true;
 					break;
@@ -139,14 +135,9 @@ var clavier_cds=new Object(146);
 		}
 		
 		if(use){
-			//alert(letter);
 			// in case of a control that sould'nt be used by IE but that is used => THROW a javascript error that will stop key action
 			if(editArea.nav['isIE'])
 				e.keyCode=0;
-			/*e.returnValue = false;
-			e.cancelBubble=true;
-			if(e.preventDefault)
-				e.preventDefault();*/
 			return false;
 		}
 		//alert("Test: "+ letter + " ("+e.keyCode+") ALT: "+ AltPressed(e) + " CTRL "+ CtrlPressed(e) + " SHIFT "+ ShiftPressed(e));
@@ -158,32 +149,32 @@ var clavier_cds=new Object(146);
 
 	// return true if Alt key is pressed
 	function AltPressed(e) {
-	  if (window.event) {
-	    return (window.event.altKey);
-	  } else {
-	  	if(e.modifiers)
-	    	return (e.altKey || (e.modifiers % 2));
-	    else
-	    	return e.altKey;
-	  }
+		if (window.event) {
+			return (window.event.altKey);
+		} else {
+			if(e.modifiers)
+				return (e.altKey || (e.modifiers % 2));
+			else
+				return e.altKey;
+		}
 	};
 
 	// return true if Ctrl key is pressed
 	function CtrlPressed(e) {
-	  if (window.event) {
-	    return (window.event.ctrlKey);
-	  } else {
-	    return (e.ctrlKey || (e.modifiers==2) || (e.modifiers==3) || (e.modifiers>5));
-	  }
+		if (window.event) {
+			return (window.event.ctrlKey);
+		} else {
+			return (e.ctrlKey || (e.modifiers==2) || (e.modifiers==3) || (e.modifiers>5));
+		}
 	};
 
 	// return true if Shift key is pressed
 	function ShiftPressed(e) {
-	  if (window.event) {
-	    return (window.event.shiftKey);
-	  } else {
-	    return (e.shiftKey || (e.modifiers>3));
-	  }
+		if (window.event) {
+			return (window.event.shiftKey);
+		} else {
+			return (e.shiftKey || (e.modifiers>3));
+		}
 	};
 
 	

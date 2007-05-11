@@ -122,7 +122,7 @@
 			popup.style.overflow= "auto";
 		}
 		
-		if(!popup.postionned){
+		if(!popup.positionned){
 			var new_left= editor.offsetWidth /2 - popup.offsetWidth /2;
 			var new_top= editor.offsetHeight /2 - popup.offsetHeight /2;
 			//var new_top= area.offsetHeight /2 - popup.offsetHeight /2;
@@ -130,7 +130,7 @@
 			//alert("new_top: ("+new_top+") = calculeOffsetTop(area) ("+calculeOffsetTop(area)+") + area.offsetHeight /2("+ area.offsetHeight /2+") - popup.offsetHeight /2("+popup.offsetHeight /2+") - scrollTop: "+document.body.scrollTop);
 			popup.style.left= new_left+"px";
 			popup.style.top= new_top+"px";
-			popup.postionned=true;
+			popup.positionned=true;
 		}
 		popup.style.visibility="visible";
 		
@@ -249,7 +249,7 @@
 	};
 	
 	// the auto scroll of the textarea has some lacks when it have to show cursor in the visible area when the textarea size change
-	// show spécifiy whereas it is the "top" or "bottom" of the selection that is showned
+	// show spÃ©cifiy whereas it is the "top" or "bottom" of the selection that is showned
 	EditArea.prototype.scroll_to_view= function(show){
 		if(!this.smooth_selection)
 			return;
@@ -287,6 +287,8 @@
 	};
 	
 	EditArea.prototype.check_undo= function(){
+		if(!editAreas[this.id])
+			return false;
 		if(this.textareaFocused && editAreas[this.id]["displayed"]==true){
 			var text=this.textarea.value;
 			if(this.previous.length<=1)
@@ -558,7 +560,7 @@
 			frame.style.width= html.clientWidth+"px";
 			frame.style.height= html.clientHeight+"px";
 			frame.style.display="block";
-			frame.style.zIndex="9999";
+			frame.style.zIndex="999999";
 			frame.style.top="0px";
 			frame.style.left="0px";
 			
@@ -599,19 +601,21 @@
 			frame.style.position="static";
 			frame.style.zIndex= this.fullscreen['old_zIndex'];
 		
-			var html= top.document.getElementsByTagName("html")[0];
+			var html= parent.document.getElementsByTagName("html")[0];
 		//	html.style.overflow= this.fullscreen['old_overflow'];
 		
 			if(this.nav['isOpera']){
-				html.style.height= "auto"; //this.fullscreen['old_height'];
-				html.style.width= "auto"; //this.fullscreen['old_width'];
+				html.style.height= "auto"; 
+				html.style.width= "auto";
 				html.style.overflow= "auto";
-			}else
+			}else if(this.nav['isIE'] && parent!=top){	// IE doesn't manage html overflow in frames like in normal page... 
+				html.style.overflow= "auto";
+			}
+			else
 				html.style.overflow= this.fullscreen['old_overflow'];
-						
 			html.scrollTop= this.fullscreen['old_scrollTop'];
 			html.scrollTop= this.fullscreen['old_scrollLeft'];
-			
+		
 			parent.editAreaLoader.hide(this.id);
 			parent.editAreaLoader.show(this.id);
 			
