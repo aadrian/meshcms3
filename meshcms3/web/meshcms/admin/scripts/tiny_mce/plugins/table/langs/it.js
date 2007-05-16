@@ -1,9 +1,9 @@
 /**
  * IT lang variables
- * 
+ *
  * Author : Luciano Vernaschi <luciano@virgilio.it>
- * Last Updated : Mar. 1st, 2007
- * TinyMCE Version : 2.1.0
+ * Last Updated : May 16th, 2007
+ * TinyMCE Version : 2.1.1.1
  */
 
 tinyMCE.addToLang('table',{
@@ -44,7 +44,7 @@ props_desc : 'Propriet&agrave; di tabella',
 bordercolor : 'Colore del bordo',
 bgcolor : 'Colore di sfondo',
 merge_cells_title : 'Unisci celle',
-split_cells_desc : 'Dividi celle',
+split_cells_desc : 'Dividi celle unite',
 merge_cells_desc : 'Unisci celle',
 cut_row_desc : 'Taglia riga',
 copy_row_desc : 'Copia riga',

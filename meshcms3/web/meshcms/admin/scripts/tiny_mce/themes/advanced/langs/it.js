@@ -1,9 +1,9 @@
 /**
  * IT lang variables
- * 
+ *
  * Author : Luciano Vernaschi <luciano@virgilio.it>
- * Last Updated : Mar. 1st, 2007
- * TinyMCE Version : 2.1.0
+ * Last Updated : May 16th, 2007
+ * TinyMCE Version : 2.1.1.1
  */
 
 tinyMCE.addToLang('',{
@@ -88,11 +88,13 @@ invalid_data : 'Errore: introdotti valori non validi (sono indicati in rosso).',
 more_colors : 'Pi&ugrave; colori',
 color_picker_tab : 'Selettore',
 color_picker : 'Selettore di colori',
-web_colors_tab : 'Web safe',
-web_colors : 'Colori web safe',
+web_colors_tab : 'Tavolozza',
+web_colors : 'Colori della tavolozza',
 named_colors_tab : 'Per nome',
 named_colors : 'Colori per nome',
 color : 'Colore:',
 color_name : 'Nome:',
+is_email : 'La URL inserita sembra essere un indirizzo e-mail: vuoi aggiungere il prefisso mailto:?',
+is_external : 'La URL inserita sembra essere un indirizzo web: vuoi aggiungere il prefisso http://?',
 theme_advanced_anchor_delta_width : 25
 });

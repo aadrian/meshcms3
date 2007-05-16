@@ -1,9 +1,9 @@
 /**
  * IT lang variables
- * 
+ *
  * Author : Luciano Vernaschi <luciano@virgilio.it>
- * Last Updated : Mar. 1st, 2007
- * TinyMCE Version : 2.1.0
+ * Last Updated : May 16th, 2007
+ * TinyMCE Version : 2.1.1.1
  */
 
 tinyMCE.addToLang('media',{
@@ -11,7 +11,7 @@ title : 'Inserisci o modifica file multimediali',
 desc : 'Inserisci o modifica file multimediali',
 general : 'Generale',
 advanced : 'Avanzate',
-file : 'File',
+file : 'File/URL',
 list : 'Lista',
 size : 'Dimensioni',
 preview : 'Anteprima',

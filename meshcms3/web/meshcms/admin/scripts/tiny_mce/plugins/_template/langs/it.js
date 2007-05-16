@@ -1,9 +1,9 @@
 /**
  * IT lang variables
- * 
+ *
  * Author : Luciano Vernaschi <luciano@virgilio.it>
- * Last Updated : Oct. 17th, 2006
- * TinyMCE Version : 2.0.7
+ * Last Updated : May 16th, 2007
+ * TinyMCE Version : 2.1.1.1
  */
 
 /* Remember to namespace the language parameters lang_<your plugin>_<some name> */
