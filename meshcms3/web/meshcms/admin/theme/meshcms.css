@@ -111,3 +111,23 @@ fieldset.meshcmseditor {
 fieldset.meshcmseditor legend {
  margin-bottom: 0.5em;
 }
+
+a.meshcmspanelicon {
+ width: 12em;
+ display: block;
+ float: left;
+ margin: 0.5em;
+ padding: 6px;
+ border: 0;
+}
+
+a.meshcmspanelicon img {
+ float: left;
+ margin-right: 0.5em;
+}
+
+a.meshcmspanelicon:hover {
+ text-decoration: none;
+ padding: 4px;
+ border: 2px solid silver;
+}
