@@ -3,7 +3,7 @@
 
 <%@ taglib uri="meshcms-taglib" prefix="cms" %>
 
-<cms:setlocale redirectRoot="true"/>
+<cms:setlocale />
 
 <html>
 <head>

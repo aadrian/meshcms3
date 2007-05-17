@@ -3,12 +3,7 @@
 
 <%@ taglib uri="meshcms-taglib" prefix="cms" %>
 
-<%--
-  This tag allows to set a locale for pages outside language branches
-  and to redirect the requests for the home page to one of the available
-  languages, possibly according to browser settings.
---%>
-<cms:setlocale defaultValue="en" redirectRoot="true" /> 
+<cms:setlocale defaultValue="en" /> 
 
 <html>
 <head>

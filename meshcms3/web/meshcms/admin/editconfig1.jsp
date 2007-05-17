@@ -157,6 +157,12 @@
        value="true"<%= configuration.isHighQualityThumbnails() ? " checked='checked'" : "" %> />
       <label for="highQualityThumbnails"><fmt:message key="configThumbnailQuality" /></label>
     </div>
+
+    <div class="meshcmscheckbox">
+      <input type="checkbox" id="editorModulesCollapsed" name="editorModulesCollapsed"
+       value="true"<%= configuration.isEditorModulesCollapsed() ? " checked='checked'" : "" %> />
+      <label for="editorModulesCollapsed"><fmt:message key="configEditorModulesCollapsed" /></label>
+    </div>
   </fieldset>
 
   <fieldset class="meshcmseditor">
@@ -268,9 +274,9 @@
     </div>
 
     <div class="meshcmscheckbox">
-      <input type="checkbox" id="editorModulesCollapsed" name="editorModulesCollapsed"
-       value="true"<%= configuration.isEditorModulesCollapsed() ? " checked='checked'" : "" %> />
-      <label for="editorModulesCollapsed"><fmt:message key="configEditorModulesCollapsed" /></label>
+      <input type="checkbox" id="redirectRoot" name="redirectRoot"
+       value="true"<%= configuration.isRedirectRoot() ? " checked='checked'" : "" %> />
+      <label for="redirectRoot"><fmt:message key="configRedirectRoot" /></label>
     </div>
   </fieldset>
 

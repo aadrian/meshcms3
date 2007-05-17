@@ -45,22 +45,14 @@ public class PageHead extends AbstractTag {
       w.write("\n<meta http-equiv=\"Content-Language\" content=\"" + locale + "\" />");
     }
 
-    String redir = (String) request.getAttribute(SetLocale.REDIRECT_ATTRIBUTE);
-
-    if (redir != null) {
-      if (userInfo == null || userInfo.isGuest()) {
-        w.write("\n<script type='text/javascript'>location.replace(\"" + redir +
-            "\")</script>");
-        w.write("\n<meta http-equiv=\"refresh\" content=\"0; url=" + redir +
-            "\" />");
-        w.flush();
-      } else {
-        Locale pl = WebUtils.getPageLocale(pageContext);
-        ResourceBundle bundle =
-            ResourceBundle.getBundle("org/meshcms/webui/Locales", pl);
-        w.write("\n<script type='text/javascript'>alert(\"" +
-            bundle.getString("pageRedirectionAlert") + "\");</script>");
-      }
+    if (!(userInfo == null || userInfo.isGuest()) &&
+        webSite.getConfiguration().isRedirectRoot() &&
+        webSite.getSiteMap().getPathInMenu(pagePath).isRoot()) {
+      Locale pl = WebUtils.getPageLocale(pageContext);
+      ResourceBundle bundle =
+          ResourceBundle.getBundle("org/meshcms/webui/Locales", pl);
+      w.write("\n<script type='text/javascript'>alert(\"" +
+          bundle.getString("pageRedirectionAlert") + "\");</script>");
     }
   }
 

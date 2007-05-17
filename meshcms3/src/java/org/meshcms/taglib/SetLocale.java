@@ -34,6 +34,9 @@ import org.meshcms.util.*;
  * <code>HttpServletRequest.getContextPath()</code>.
  */
 public final class SetLocale extends AbstractTag {
+  /**
+   * @deprecated no longer used
+   */
   public static final String REDIRECT_ATTRIBUTE = "meshcms-redirect";
 
   private String value;
@@ -41,13 +44,13 @@ public final class SetLocale extends AbstractTag {
   private String redirectRoot;
 
   public void writeTag() throws IOException {
-    if (Utils.isTrue(redirectRoot) &&
+    /* if (Utils.isTrue(redirectRoot) &&
         webSite.getSiteMap().getPathInMenu(pagePath).isRoot()) {
       if (setRedirectToLanguage(request,
           (HttpServletResponse) pageContext.getResponse())) {
         return;
       }
-    }
+    } */
 
     Locale locale = null;
 
@@ -85,14 +88,23 @@ public final class SetLocale extends AbstractTag {
     this.defaultValue = defaultValue;
   }
 
+  /**
+   * @deprecated parameter no longer used
+   */
   public String getRedirectRoot() {
     return redirectRoot;
   }
 
+  /**
+   * @deprecated parameter no longer used
+   */
   public void setRedirectRoot(String redirectRoot) {
     this.redirectRoot = redirectRoot;
   }
 
+  /**
+   * @deprecated moved to HitFilter
+   */
   public static boolean setRedirectToLanguage(HttpServletRequest request,
       HttpServletResponse response) throws IOException {
     if (response.isCommitted()) {

@@ -177,6 +177,17 @@ public final class HitFilter implements Filter {
         UserInfo userInfo = (session == null) ? null :
           (UserInfo) session.getAttribute("userInfo");
         isGuest = userInfo == null || userInfo.isGuest();
+
+        // See if should redirect to one of the available languages
+        if (isGuest && webSite.getConfiguration().isRedirectRoot() &&
+            siteMap.getPathInMenu(pagePath).isRoot()) {
+          Path redirPath = getPreferredLanguage(httpReq, httpRes);
+
+          if (redirPath != null) {
+            redirect(httpReq, httpRes, redirPath);
+            return;
+          }
+        }
         
         // Deal with all pages
         if (FileTypes.isPage(pagePath.getLastElement())) {
@@ -483,5 +494,36 @@ public final class HitFilter implements Filter {
     httpRes.setHeader("Pragma", "no-cache");
     // prevents caching at the proxy server
     httpRes.setDateHeader("Expires", -1);
+  }
+
+  private static Path getPreferredLanguage(HttpServletRequest request,
+      HttpServletResponse response) throws IOException {
+    WebSite webSite = (WebSite) request.getAttribute(HitFilter.WEBSITE_ATTRIBUTE);
+    List available = webSite.getSiteMap().getLangList();
+    String[] accepted = WebUtils.getAcceptedLanguages(request);
+    SiteMap.CodeLocalePair chosen = null;
+
+    if (available != null && available.size() > 0) {
+      for (int i = 0; chosen == null && i < accepted.length; i++) {
+        Iterator iter = available.iterator();
+
+        while (chosen == null && iter.hasNext()) {
+          SiteMap.CodeLocalePair clp = (SiteMap.CodeLocalePair) iter.next();
+
+          if (clp.getCode().equalsIgnoreCase(accepted[i])) {
+            chosen = clp;
+          }
+        }
+      }
+
+      if (chosen == null) {
+        chosen = (SiteMap.CodeLocalePair) available.get(0);
+      }
+
+      WebUtils.setBlockCache(request);
+      return new Path(chosen.getCode());
+    }
+    
+    return null;
   }
 }

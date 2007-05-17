@@ -72,6 +72,7 @@ public class Configuration implements Serializable {
   private boolean highQualityThumbnails;
   private boolean exportCheckDates;
   private boolean searchMovedPages;
+  private boolean redirectRoot;
   private int backupLife;
   private int statsLength;
   private int updateInterval;
@@ -100,6 +101,7 @@ public class Configuration implements Serializable {
     setHighQualityThumbnails(false);
     setExportCheckDates(true);
     setSearchMovedPages(false);
+    setRedirectRoot(false);
 
     setBackupLife(90);
     setStatsLength(3);
@@ -508,5 +510,13 @@ public class Configuration implements Serializable {
 
   public void setSearchMovedPages(boolean searchMovedPages) {
     this.searchMovedPages = searchMovedPages;
+  }
+
+  public boolean isRedirectRoot() {
+    return redirectRoot;
+  }
+
+  public void setRedirectRoot(boolean redirectRoot) {
+    this.redirectRoot = redirectRoot;
   }
 }

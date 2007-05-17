@@ -1050,6 +1050,14 @@
           default</emphasis>: if selected, the file manager and the gallery
           module will create thumbnails with a better quality.</para>
         </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Modules are collapsed initially in the
+          editor</emphasis>: if this option is checked, you will need to click
+          on a module caption in the editor to modify the module. This has
+          been done to make the editor interface less cluttered when a theme
+          has many modules.</para>
+        </listitem>
       </itemizedlist>
 
       <para>The third section configures the SMTP server used to send mail
@@ -1149,11 +1157,12 @@
         </listitem>
 
         <listitem>
-          <para><emphasis role="bold">Modules are collapsed initially in the
-          editor</emphasis>: if this option is checked, you will need to click
-          on a module caption in the editor to modify the module. This has
-          been done to make the editor interface less cluttered when a theme
-          has many modules.</para>
+          <para><emphasis role="bold">Redirect the home page to one of the
+          available languages</emphasis>: if this option is checked and there
+          is at least a page whose path is equal to a language code (e.g. /en,
+          /it), requests for the home page will be redirected to the language
+          that matches browser preferences (see <xref
+          linkend="multilingual" />).</para>
         </listitem>
       </itemizedlist>
     </section>
@@ -2398,15 +2407,7 @@ submit</programlisting>
           <listitem>
             <para><parameter>defaultValue</parameter>: same as
             <parameter>value</parameter>, but will be set only if not found in
-            the URL;</para>
-          </listitem>
-
-          <listitem>
-            <para><parameter>redirectRoot</parameter>: if
-            <option>true</option>, and if at least a language is available in
-            the site (see <xref linkend="multilingual" />), a request for the
-            site root page will be redirected to one of the language based on
-            browser settings (default <option>false</option>).</para>
+            the URL.</para>
           </listitem>
         </itemizedlist>
       </section>
@@ -3307,8 +3308,8 @@ submit</programlisting>
       <orderedlist>
         <listitem>
           <para>start with a welcome page that offers a language choice, or
-          use <code>&lt;mesh:setlocale redirectRoot="true" /&gt;</code> in
-          your theme (see <xref linkend="tag_setlocale" />);</para>
+          enable automatic home page redirection in the <link
+          linkend="configure">configuration</link>;</para>
         </listitem>
 
         <listitem>
