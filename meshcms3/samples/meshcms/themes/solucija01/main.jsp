@@ -9,7 +9,7 @@
 <head>
 	<title><cms:info id="name" /> - <cms:pagetitle /></title>
 	<cms:defaultcss />
-	<cms:pagehead /> 
+	<cms:pagehead />
 	<meta name="description" content="<cms:info id="description" />" />
 	<meta name="keywords" content="<cms:info id="keywords" />" />
 	<meta name="author" content="<cms:info id="author" /> (<cms:info id="authorurl" />)" />
@@ -17,8 +17,8 @@
 
 
 <body id="realbody">
-<cms:editor> 
-<div id="container"> 
+<cms:editor>
+<div id="container">
 
 <div id="header" style="">
 	<p id="top_info">
@@ -54,13 +54,13 @@
 
 	<%-- cms search is not available at the moment
 	<cms:ifnotediting>
-		<p class="searchform"> 
+		<p class="searchform">
 			<input type="text" alt="Search" class="searchbox" />
 			<input type="submit" value="Go!" class="searchbutton" />
 		</p>
 	</cms:ifnotediting>
 	--%>
-	
+
 </div>
 
 <div class="gboxtop">&nbsp;</div>
@@ -72,7 +72,7 @@
 	<h3 class="title maintitle"><span><cms:pagetitle /></span></h3>
 	<h3><cms:moduletitle location="top" /></h3>
 	<cms:module location="top" alt="" />
-	<cms:pagebody /> 
+	<cms:pagebody />
 	<h3><cms:moduletitle location="bottom" /></h3>
 	<cms:module location="bottom" alt="" />
 	<p class="right lastmodified">Last modified: <cms:lastmodified/></p>
@@ -107,7 +107,7 @@
 	<div class="boxtop">&nbsp;</div>
 	<div class="box">
 		<h1>Ask quick question</h1>
-		<cms:mailform /> 
+		<cms:mailform />
 	</div>
 </cms:ifmailform>
 
@@ -128,7 +128,7 @@
         title="Information Architecture and Web Design">Luka Cvrk</a> &middot;
         MeshCMS integrated by <a href="http://www.palivoda.id.lv/"
         title="Palivoda IT Solutions - Make your next move in e-business with our solution!">
-        Rostislav Palivoda</a>        
+        Rostislav Palivoda</a>
 </p>
 </div>
 
