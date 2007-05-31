@@ -70,6 +70,7 @@ public class Configuration implements Serializable {
   private boolean hideExceptions;
   private boolean editorModulesCollapsed;
   private boolean highQualityThumbnails;
+  private boolean replaceThumbnails;
   private boolean exportCheckDates;
   private boolean searchMovedPages;
   private boolean redirectRoot;
@@ -99,6 +100,7 @@ public class Configuration implements Serializable {
     setHideExceptions(true);
     setEditorModulesCollapsed(false);
     setHighQualityThumbnails(false);
+    setReplaceThumbnails(false);
     setExportCheckDates(true);
     setSearchMovedPages(false);
     setRedirectRoot(false);
@@ -518,5 +520,13 @@ public class Configuration implements Serializable {
 
   public void setRedirectRoot(boolean redirectRoot) {
     this.redirectRoot = redirectRoot;
+  }
+
+  public boolean isReplaceThumbnails() {
+    return replaceThumbnails;
+  }
+
+  public void setReplaceThumbnails(boolean replaceThumbnails) {
+    this.replaceThumbnails = replaceThumbnails;
   }
 }

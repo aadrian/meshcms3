@@ -159,6 +159,12 @@
     </div>
 
     <div class="meshcmscheckbox">
+      <input type="checkbox" id="replaceThumbnails" name="replaceThumbnails"
+       value="true"<%= configuration.isReplaceThumbnails() ? " checked='checked'" : "" %> />
+      <label for="replaceThumbnails"><fmt:message key="configReplaceThumbnails" /></label>
+    </div>
+
+    <div class="meshcmscheckbox">
       <input type="checkbox" id="editorModulesCollapsed" name="editorModulesCollapsed"
        value="true"<%= configuration.isEditorModulesCollapsed() ? " checked='checked'" : "" %> />
       <label for="editorModulesCollapsed"><fmt:message key="configEditorModulesCollapsed" /></label>

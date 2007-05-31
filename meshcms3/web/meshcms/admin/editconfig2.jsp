@@ -53,6 +53,7 @@
   c.setUseAdminTheme(Utils.isTrue(request.getParameter("useAdminTheme")));
   c.setPreventHotlinking(Utils.isTrue(request.getParameter("preventHotlinking")));
   c.setHighQualityThumbnails(Utils.isTrue(request.getParameter("highQualityThumbnails")));
+  c.setReplaceThumbnails(Utils.isTrue(request.getParameter("replaceThumbnails")));
 
   c.setCacheType(Utils.parseInt(request.getParameter("cacheType"), Configuration.NO_CACHE));
   c.setMailServer(request.getParameter("mailServer"));
