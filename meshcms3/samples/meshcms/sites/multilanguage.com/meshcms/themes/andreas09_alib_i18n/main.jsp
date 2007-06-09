@@ -32,7 +32,8 @@
       <cms:listmenu items="onpath,lastlevel,children" style="linklist" />
 
       <%-- Display a languages menu --%>
-      <cms:langmenu separator="</li><li>" pre="<h1>Languages</h1><ul class='linklist'><li>" post="</li></ul>" />
+      <cms:langmenu separator="</li><li>" pre="<h1>Languages</h1><ul class='linklist'><li>"
+       post="</li></ul>" flags="true" />
 
       <cms:module location="right" alt="" />
 	  

@@ -29,60 +29,65 @@ import org.meshcms.core.*;
 import org.meshcms.util.*;
 
 public class LangMenu extends AbstractTag {
+  private static ResourceBundle flagsBundle;
+  
   private String separator = " ";
   private String pre;
   private String post;
-
+  private String flags;
+  
   public void setSeparator(String separator) {
     if (separator != null) {
       this.separator = separator;
     }
   }
-
+  
   public String getSeparator() {
     return separator;
   }
-
+  
   public void writeTag() throws IOException, JspException {
     SiteMap siteMap = webSite.getSiteMap();
-
+    
     if (pagePath.isRoot() || siteMap.getPageInfo(pagePath) == null) {
       return;
     }
-
+    
     List langList = siteMap.getLangList();
-
+    
     if (langList.size() > 1) {
       Iterator iter = langList.iterator();
       boolean putSeparator = false;
       Writer w = getOut();
-
+      
       if (pre != null) {
-       w.write(pre);
+        w.write(pre);
       }
-
+      
+      Path baseIconPath = Utils.isTrue(flags) ? webSite.getAdminPath().add("flags") : null;
+      
       while (iter.hasNext()) {
         if (putSeparator) {
           w.write(separator);
         }
-
+        
         putSeparator = true;
         SiteMap.CodeLocalePair lang = (SiteMap.CodeLocalePair) iter.next();
         String langCode = lang.getCode();
         String localeName = Utils.encodeHTML(lang.getName());
         String link = null;
         String msg = null;
-
+        
         if (!langCode.equalsIgnoreCase(pagePath.getElementAt(0))) {
           Path path = siteMap.getServedPath(pagePath.replace(0, langCode));
-
+          
           if (!webSite.getFile(path).isFile()) {
             if (userInfo != null && userInfo.canWrite(webSite, path)) {
               PageInfo ppi = siteMap.getParentPageInfo(pagePath);
-
+              
               if (ppi != null && ppi.getLevel() > 0) {
                 Path pPath = ppi.getPath().replace(0, langCode);
-
+                
                 if (siteMap.getPageInfo(pPath) != null) {
                   if (msg == null) {
                     ResourceBundle bundle =
@@ -97,43 +102,68 @@ public class LangMenu extends AbstractTag {
                 }
               }
             }
-
+            
             if (link == null) {
               path = new Path(langCode);
             }
           }
-
+          
           if (link == null) {
             link = cp + webSite.getLink(path);
           }
         }
-
-        if (link == null) {
-          w.write(localeName);
-        } else {
-          w.write("<a href=\"" + link + "\">" + localeName + "</a>");
+        
+        if (link != null) {
+          w.write("<a href=\"" + link + "\">");
+        }
+        
+        if (Utils.isTrue(flags)) {
+          if (flagsBundle == null) {
+            flagsBundle = ResourceBundle.getBundle("org/meshcms/webui/Flags");
+          }
+          
+          try {
+            Path iconPath = baseIconPath.add(flagsBundle.getString(langCode) + ".png");
+            w.write("<img src='" + cp + webSite.getLink(iconPath) + "' /> ");
+          } catch (Exception ex) {
+            ex.printStackTrace();
+          }
+        }
+        
+        w.write(localeName);
+        
+        if (link != null) {
+          w.write("</a>");
         }
       }
-
+      
       if (post != null) {
         w.write(post);
       }
     }
   }
-
+  
   public String getPre() {
     return pre;
   }
-
+  
   public void setPre(String pre) {
     this.pre = pre;
   }
-
+  
   public String getPost() {
     return post;
   }
-
+  
   public void setPost(String post) {
     this.post = post;
+  }
+  
+  public String isFlags() {
+    return flags;
+  }
+  
+  public void setFlags(String flags) {
+    this.flags = flags;
   }
 }
