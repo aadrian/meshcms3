@@ -49,12 +49,12 @@
   /**
    * Closed folder
    */
-  var imgClosedFolder = "filemanager/images/icon_folder.gif";
+  var imgClosedFolder = "filemanager/images/page.png";
 
   /**
    * Open folder
    */
-  var imgOpenFolder = "filemanager/images/icon_folderopen.gif";
+  var imgOpenFolder = "filemanager/images/page_go.png";
 
   /**
    * Clears a field
@@ -192,10 +192,10 @@
 
     if (fld.value == "true") {
       fld.value = false;
-      img.src = "filemanager/images/button_showmenu.gif";
+      img.src = "filemanager/images/chart_organisation.png";
     } else {
       fld.value = true;
-      img.src = "filemanager/images/button_hidemenu.gif";
+      img.src = "filemanager/images/chart_organisation_delete.png";
     }
   }
 // ]]>
@@ -252,7 +252,7 @@
 <form action="editmap2.jsp" method="post" name="sitemapform">
   <table class="meshcmseditor" border="0" cellspacing="0" cellpadding="0">
     <tr>
-      <th><img src="filemanager/images/icon_folderopen.gif" align="left" alt=""
+      <th><img src="filemanager/images/page_go.png" align="left" alt=""
            onclick="javascript:editMap_openChildren(0, <%= padding %>, true);"
            title="<fmt:message key="mapClickExpandAll" />" />&nbsp;<fmt:message key="mapPageTitle" /></th>
       <th><fmt:message key="mapHits" /></th>
@@ -273,11 +273,11 @@
                             // IMPORTANT: no spaces between <tr> and <td> below!
     %><tr id="tr<%= code %>"><td style="padding-left: <%= (pagePath.getElementCount() + 1) * padding %>px;">
         <% if (hasChildren) { %>
-          <img src="filemanager/images/icon_folderopen.gif" id="img<%= code %>" alt=""
+          <img src="filemanager/images/page_go.png" id="img<%= code %>" alt=""
            title="<fmt:message key="mapClickExpand" />"
            onclick="javascript:editMap_toggle(<%= code %>, <%= padding %>);" />
         <% } else { %>
-          <img src="filemanager/images/icon_file.gif" alt=""
+          <img src="filemanager/images/page_red.png" alt=""
            title="<fmt:message key="mapNoClick" />" />
         <% } %>
           <a href="<%= cp + webSite.getLink(pageInfo) %>"
@@ -289,7 +289,7 @@
         <td align="right"><%= pageInfo.getTotalHits() %></td>
 
         <% if (WebUtils.isCached(webSite, siteMap, pagePath)) { %>
-          <td align="center"><img src="filemanager/images/button_yes.gif" alt=""
+          <td align="center"><img src="filemanager/images/bullet_star.png" alt=""
            style='vertical-align:middle;' title="<fmt:message key="mapInCache" />" /></td>
         <% } else { %>
           <td>&nbsp;</td>
@@ -305,7 +305,7 @@
         Path servedPath = siteMap.getServedPath(pagePath);
 
         if (userOk) { %>
-          <td><img src="images/clear_field.gif" onclick="javascript:editMap_clr('<%= tCode %>');" alt=""
+          <td><img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editMap_clr('<%= tCode %>');" alt=""
            style='vertical-align:middle;' /><input type="text" name="<%= tCode %>"
            id="<%= tCode %>" style="width: 10em;"
            value="<%= siteInfo.getPageTitle(pagePath) %>" /></td>
@@ -329,19 +329,19 @@
         <% } %>
 
         <% if (userOk) { %>
-          <td><img src="images/clear_field.gif" onclick="javascript:editMap_clr('<%= sCode %>');" alt=""
+          <td><img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editMap_clr('<%= sCode %>');" alt=""
            style='vertical-align:middle;' /><input type="text" name="<%= sCode %>"
            id="<%= sCode %>" style="width: 2.5em;" value="<%= siteInfo.getPageScoreAsString(pagePath) %>" /></td>
         <% } else { %>
           <td>&nbsp;<%= siteInfo.getPageScoreAsString(pagePath) %></td>
         <% } %>
 
-          <td align="center"><img src="filemanager/images/button_viewpage.gif" alt=""
+          <td align="center"><img src="filemanager/images/page_world.png" alt=""
            onclick="javascript:location.href='<%= cp + webSite.getLink(pageInfo) %>';" style='vertical-align:middle;'
            title="<fmt:message key="mapViewPage" />" /></td>
 
         <% if (userOk) { %>
-          <td align="center"><img src="filemanager/images/button_editpage.gif" alt=""
+          <td align="center"><img src="filemanager/images/page_edit.png" alt=""
            onclick="javascript:location.href='<%= webSite.isVisuallyEditable(servedPath) ?
                cp + webSite.getLink(pageInfo) + "?meshcmsaction=edit" :
                cp + '/' + webSite.getAdminPath() + "/editsrc.jsp?path=" + servedPath
@@ -351,20 +351,8 @@
           <td>&nbsp;</td>
         <% } %>
 
-        <td align="center">
-          <input type="hidden" name="<%= hCode %>" id="<%= hCode %>"
-           value="<%= Boolean.toString(hideMenu) %>" />
         <% if (userOk && webSite.isDirectory(pagePath)) { %>
-          <img src="filemanager/images/<%= hideMenu ? "button_hidemenu.gif" : "button_showmenu.gif" %>"
-           alt="" id="img_<%= hCode %>" style='vertical-align:middle;'
-           onclick="javascript:editMap_toggleMenuHiding('<%= hCode %>');"
-           title="<fmt:message key="mapToggleMenuHiding" />" /></td>
-        <% } else { %>
-          &nbsp;</td>
-        <% } %>
-
-        <% if (userOk && webSite.isDirectory(pagePath)) { %>
-          <td align="center"><img src="filemanager/images/button_newchild.gif" alt=""
+          <td align="center"><img src="filemanager/images/page_add.png" alt=""
            onclick="javascript:editMap_createPage('<%= Utils.escapeSingleQuotes(pagePath.toString()) %>');" style='vertical-align:middle;'
            title="<fmt:message key="mapNewChild" />" /></td>
         <% } else { %>
@@ -372,11 +360,23 @@
         <% } %>
 
         <% if (userOk && !hasChildren && pageInfo.getLevel() > 0) { %>
-          <td align="center"><img src="filemanager/images/button_deletepage.gif" alt=""
+          <td align="center"><img src="filemanager/images/page_delete.png" alt=""
            onclick="javascript:editMap_deletePage('<%= Utils.escapeSingleQuotes(pagePath.toString()) %>');" style='vertical-align:middle;'
            title="<fmt:message key="mapDelete" />" /></td>
         <% } else { %>
           <td>&nbsp;</td>
+        <% } %>
+
+        <td align="center">
+          <input type="hidden" name="<%= hCode %>" id="<%= hCode %>"
+           value="<%= Boolean.toString(hideMenu) %>" />
+        <% if (userOk && webSite.isDirectory(pagePath)) { %>
+          <img src="filemanager/images/<%= hideMenu ? "chart_organisation_delete.png" : "chart_organisation.png" %>"
+           alt="" id="img_<%= hCode %>" style='vertical-align:middle;'
+           onclick="javascript:editMap_toggleMenuHiding('<%= hCode %>');"
+           title="<fmt:message key="mapToggleMenuHiding" />" /></td>
+        <% } else { %>
+          &nbsp;</td>
         <% } %>
 
     </tr><% } %> <%-- IMPORTANT: no spaces after <tr>! --%>

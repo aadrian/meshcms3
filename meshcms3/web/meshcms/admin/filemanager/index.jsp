@@ -136,44 +136,44 @@
 
       var fileMenu = new WebFXMenu;
       fileMenu.width = 200;
-      fileMenu.add(new WebFXMenuItem('<img src=\'images/button_open.gif\' class=\'menuicon\'><fmt:message key="fmViewFile" />', 'javascript:fm_viewFile()'));
-      fileMenu.add(new WebFXMenuItem('<img src=\'images/button_wysiwyg.gif\' class=\'menuicon\'><fmt:message key="fmEditVisually" />', 'javascript:fm_editPage()'));
-      fileMenu.add(new WebFXMenuItem('<img src=\'images/button_edit.gif\' class=\'menuicon\'><fmt:message key="fmEditSrc" />', 'javascript:fm_editFile()'));
+      fileMenu.add(new WebFXMenuItem('<img src=\'images/folder_page_white.png\' class=\'menuicon\'><fmt:message key="fmViewFile" />', 'javascript:fm_viewFile()'));
+      fileMenu.add(new WebFXMenuItem('<img src=\'images/page_edit.png\' class=\'menuicon\'><fmt:message key="fmEditVisually" />', 'javascript:fm_editPage()'));
+      fileMenu.add(new WebFXMenuItem('<img src=\'images/page_white_edit.png\' class=\'menuicon\'><fmt:message key="fmEditSrc" />', 'javascript:fm_editFile()'));
       fileMenu.add(new WebFXMenuSeparator());
-      fileMenu.add(new WebFXMenuItem('<img src=\'images/button_newdir.gif\' class=\'menuicon\'><fmt:message key="fmNewFolder" />', 'javascript:fm_createDir()'));
-      fileMenu.add(new WebFXMenuItem('<img src=\'images/button_new.gif\' class=\'menuicon\'><fmt:message key="fmNewFile" />', 'javascript:fm_createFile()'));
+      fileMenu.add(new WebFXMenuItem('<img src=\'images/folder_add.png\' class=\'menuicon\'><fmt:message key="fmNewFolder" />', 'javascript:fm_createDir()'));
+      fileMenu.add(new WebFXMenuItem('<img src=\'images/page_add.png\' class=\'menuicon\'><fmt:message key="fmNewFile" />', 'javascript:fm_createFile()'));
       fileMenu.add(new WebFXMenuSeparator());
-      fileMenu.add(new WebFXMenuItem('<img src=\'images/button_delete.gif\' class=\'menuicon\'><fmt:message key="fmDelete" />', 'javascript:fm_deleteFiles()'));
-      fileMenu.add(new WebFXMenuItem('<img src=\'images/button_rename.gif\' class=\'menuicon\'><fmt:message key="fmRename" />', 'javascript:fm_renameFile()'));
-      fileMenu.add(new WebFXMenuItem('<img src=\'images/button_fixname.gif\' class=\'menuicon\'><fmt:message key="fmFixFileNames" />', 'javascript:fm_fixFileNames()'));
-      fileMenu.add(new WebFXMenuItem('<img src=\'images/button_touch.gif\' class=\'menuicon\'><fmt:message key="fmTouch" />', 'javascript:fm_touchFiles()'));
-      fileMenu.add(new WebFXMenuItem('<img src=\'images/button_changedate.gif\' class=\'menuicon\'><fmt:message key="fmChangeDate" />', null));
+      fileMenu.add(new WebFXMenuItem('<img src=\'images/cross.png\' class=\'menuicon\'><fmt:message key="fmDelete" />', 'javascript:fm_deleteFiles()'));
+      fileMenu.add(new WebFXMenuItem('<img src=\'images/textfield_rename.png\' class=\'menuicon\'><fmt:message key="fmRename" />', 'javascript:fm_renameFile()'));
+      fileMenu.add(new WebFXMenuItem('<img src=\'images/tick.png\' class=\'menuicon\'><fmt:message key="fmFixFileNames" />', 'javascript:fm_fixFileNames()'));
+      fileMenu.add(new WebFXMenuItem('<img src=\'images/date.png\' class=\'menuicon\'><fmt:message key="fmTouch" />', 'javascript:fm_touchFiles()'));
+      fileMenu.add(new WebFXMenuItem('<img src=\'images/date_edit.png\' class=\'menuicon\'><fmt:message key="fmChangeDate" />', null));
 
       var editMenu = new WebFXMenu;
       editMenu.width = 200;
-      editMenu.add(new WebFXMenuItem('<img src=\'images/button_cut.gif\' class=\'menuicon\'><fmt:message key="fmCut" />', 'javascript:fm_clipboardCut()'));
-      editMenu.add(new WebFXMenuItem('<img src=\'images/button_copy.gif\' class=\'menuicon\'><fmt:message key="fmCopy" />', 'javascript:fm_clipboardCopy()'));
-      editMenu.add(new WebFXMenuItem('<img src=\'images/button_paste.gif\' class=\'menuicon\'><fmt:message key="fmPaste" />', 'javascript:fm_clipboardPaste()'));
-      editMenu.add(new WebFXMenuItem('<img src=\'images/button_duplicate.gif\' class=\'menuicon\'><fmt:message key="fmDuplicate" />', 'javascript:fm_duplicateFile()'));
+      editMenu.add(new WebFXMenuItem('<img src=\'images/cut.png\' class=\'menuicon\'><fmt:message key="fmCut" />', 'javascript:fm_clipboardCut()'));
+      editMenu.add(new WebFXMenuItem('<img src=\'images/page_copy.png\' class=\'menuicon\'><fmt:message key="fmCopy" />', 'javascript:fm_clipboardCopy()'));
+      editMenu.add(new WebFXMenuItem('<img src=\'images/paste_plain.png\' class=\'menuicon\'><fmt:message key="fmPaste" />', 'javascript:fm_clipboardPaste()'));
+      editMenu.add(new WebFXMenuItem('<img src=\'images/application_double.png\' class=\'menuicon\'><fmt:message key="fmDuplicate" />', 'javascript:fm_duplicateFile()'));
       editMenu.add(new WebFXMenuSeparator());
-      editMenu.add(new WebFXMenuItem('<img src=\'images/button_selall.gif\' class=\'menuicon\'><fmt:message key="fmSelAll" />', 'javascript:fm_selectAll(true)'));
-      editMenu.add(new WebFXMenuItem('<img src=\'images/button_selnone.gif\' class=\'menuicon\'><fmt:message key="fmSelNone" />', 'javascript:fm_selectAll(false)'));
-      editMenu.add(new WebFXMenuItem('<img src=\'images/button_toggle.gif\' class=\'menuicon\'><fmt:message key="fmSelInv" />', 'javascript:fm_toggleAll()'));
+      editMenu.add(new WebFXMenuItem('<img src=\'images/tag_blue_add.png\' class=\'menuicon\'><fmt:message key="fmSelAll" />', 'javascript:fm_selectAll(true)'));
+      editMenu.add(new WebFXMenuItem('<img src=\'images/tag_blue_delete.png\' class=\'menuicon\'><fmt:message key="fmSelNone" />', 'javascript:fm_selectAll(false)'));
+      editMenu.add(new WebFXMenuItem('<img src=\'images/tag_blue_edit.png\' class=\'menuicon\'><fmt:message key="fmSelInv" />', 'javascript:fm_toggleAll()'));
 
       var viewMenu = new WebFXMenu;
       viewMenu.width = 200;
-      viewMenu.add(new WebFXMenuItem('<img src=\'images/button_details.gif\' class=\'menuicon\'><fmt:message key="fmDetails" />', 'javascript:fm_viewThumbnails(false)'));
-      viewMenu.add(new WebFXMenuItem('<img src=\'images/button_thumbs.gif\' class=\'menuicon\'><fmt:message key="fmThumbs" />', 'javascript:fm_viewThumbnails(true)'));
+      viewMenu.add(new WebFXMenuItem('<img src=\'images/application_view_detail.png\' class=\'menuicon\'><fmt:message key="fmDetails" />', 'javascript:fm_viewThumbnails(false)'));
+      viewMenu.add(new WebFXMenuItem('<img src=\'images/application_view_tile.png\' class=\'menuicon\'><fmt:message key="fmThumbs" />', 'javascript:fm_viewThumbnails(true)'));
       viewMenu.add(new WebFXMenuSeparator());
-      viewMenu.add(new WebFXMenuItem('<img src=\'images/button_refresh.gif\' class=\'menuicon\'><fmt:message key="fmRefresh" />', 'javascript:fm_dummy()'));
+      viewMenu.add(new WebFXMenuItem('<img src=\'images/arrow_refresh.png\' class=\'menuicon\'><fmt:message key="fmRefresh" />', 'javascript:fm_dummy()'));
 
       var toolsMenu = new WebFXMenu;
       toolsMenu.width = 200;
-      toolsMenu.add(new WebFXMenuItem('<img src=\'images/button_upload.gif\' class=\'menuicon\'><fmt:message key="fmUpload" />', 'javascript:fm_uploadFile()'));
-      toolsMenu.add(new WebFXMenuItem('<img src=\'images/button_download.gif\' class=\'menuicon\'><fmt:message key="fmDownload" />', 'javascript:fm_downloadFile(\'<%= cp %>\')'));
-      toolsMenu.add(new WebFXMenuItem('<img src=\'images/button_downloadzip.gif\' class=\'menuicon\'><fmt:message key="fmDownloadZip" />', 'javascript:fm_downloadZip(\'<%= cp %>\')'));
+      toolsMenu.add(new WebFXMenuItem('<img src=\'images/application_get.png\' class=\'menuicon\'><fmt:message key="fmUpload" />', 'javascript:fm_uploadFile()'));
+      toolsMenu.add(new WebFXMenuItem('<img src=\'images/application_put.png\' class=\'menuicon\'><fmt:message key="fmDownload" />', 'javascript:fm_downloadFile(\'<%= cp %>\')'));
+      toolsMenu.add(new WebFXMenuItem('<img src=\'images/application_put.png\' class=\'menuicon\'><fmt:message key="fmDownloadZip" />', 'javascript:fm_downloadZip(\'<%= cp %>\')'));
       toolsMenu.add(new WebFXMenuSeparator());
-      toolsMenu.add(new WebFXMenuItem('<img src=\'images/button_unzip.gif\' class=\'menuicon\'><fmt:message key="fmUnzip" />', 'javascript:fm_unzipFile()'));
+      toolsMenu.add(new WebFXMenuItem('<img src=\'images/compress.png\' class=\'menuicon\'><fmt:message key="fmUnzip" />', 'javascript:fm_unzipFile()'));
 
       var themesMenu = new WebFXMenu;
       themesMenu.width = 200;
@@ -208,11 +208,11 @@
       // <![CDATA[
         webFXTreeConfig['usePersistence'] = false;
 
-        webFXTreeConfig['rootIcon'] = '../scripts/xtree/images/foldericon.png';
-        webFXTreeConfig['openRootIcon'] = '../scripts/xtree/images/openfoldericon.png';
-        webFXTreeConfig['folderIcon'] = '../scripts/xtree/images/foldericon.png';
-        webFXTreeConfig['openFolderIcon'] = '../scripts/xtree/images/openfoldericon.png';
-        webFXTreeConfig['fileIcon'] = '../scripts/xtree/images/file.png';
+        webFXTreeConfig['rootIcon'] = 'images/world.png';
+        webFXTreeConfig['openRootIcon'] = 'images/world_go.png';
+        webFXTreeConfig['folderIcon'] = 'images/folder.png';
+        webFXTreeConfig['openFolderIcon'] = 'images/folder_go.png';
+        webFXTreeConfig['fileIcon'] = 'images/page_white.png';
         webFXTreeConfig['iIcon'] = '../scripts/xtree/images/I.png';
         webFXTreeConfig['lIcon'] = '../scripts/xtree/images/L.png';
         webFXTreeConfig['lMinusIcon'] = '../scripts/xtree/images/Lminus.png';

@@ -71,7 +71,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteName');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('siteName');" alt=""
        style="vertical-align:middle;" /><input type="text" id="siteName" name="siteName"
        style="width: 90%;" value="<%= Utils.noNull(configuration.getSiteName()) %>" />
     </div>
@@ -81,7 +81,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteHost');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('siteHost');" alt=""
        style="vertical-align:middle;" /><input type="text" id="siteHost" name="siteHost"
        style="width: 90%;" value="<%= Utils.noNull(configuration.getSiteHost()) %>" />
     </div>
@@ -91,7 +91,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteDescription');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('siteDescription');" alt=""
        style="vertical-align:middle;" /><input type="text" id="siteDescription" name="siteDescription"
        style="width: 90%;" value="<%= Utils.noNull(configuration.getSiteDescription()) %>" />
     </div>
@@ -101,7 +101,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteKeywords');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('siteKeywords');" alt=""
        style="vertical-align:middle;" /><input type="text" id="siteKeywords" name="siteKeywords"
        style="width: 90%;" value="<%= Utils.noNull(configuration.getSiteKeywords()) %>" />
     </div>
@@ -111,7 +111,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteAuthor');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('siteAuthor');" alt=""
        style="vertical-align:middle;" /><input type="text" id="siteAuthor" name="siteAuthor"
        style="width: 90%;" value="<%= Utils.noNull(configuration.getSiteAuthor()) %>" />
     </div>
@@ -121,7 +121,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('siteAuthorURL');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('siteAuthorURL');" alt=""
        style="vertical-align:middle;" /><input type="text" id="siteAuthorURL" name="siteAuthorURL"
        style="width: 90%;" value="<%= Utils.noNull(configuration.getSiteAuthorURL()) %>" />
     </div>
@@ -135,7 +135,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('visualTypes');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('visualTypes');" alt=""
        style="vertical-align:middle;" /><input type="text" id="visualTypes" name="visualTypes"
        style="width: 90%;" value="<%= Utils.noNull(Utils.generateList(configuration.getVisualExtensions(), ", ")) %>" />
     </div>
@@ -179,7 +179,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('mailServer');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('mailServer');" alt=""
        style="vertical-align:middle;" /><input type="text" id="mailServer" name="mailServer"
        style="width: 90%;" value="<%= configuration.getMailServer() %>" />
     </div>
@@ -189,7 +189,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('smtpUsername');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('smtpUsername');" alt=""
        style="vertical-align:middle;" /><input type="text" id="smtpUsername" name="smtpUsername"
        style="width: 90%;" value="<%= configuration.getSmtpUsername() %>" />
     </div>
@@ -199,7 +199,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('smtpPassword');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('smtpPassword');" alt=""
        style="vertical-align:middle;" /><input type="text" id="smtpPassword" name="smtpPassword"
        style="width: 90%;" value="<%= configuration.getSmtpPassword() %>" />
     </div>
@@ -230,7 +230,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('updateInterval');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('updateInterval');" alt=""
        style="vertical-align:middle;" /><input type="text" id="updateInterval" name="updateInterval"
        style="width: 90%;" value="<%= configuration.getUpdateInterval() %>" />
     </div>
@@ -240,7 +240,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('backupLife');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('backupLife');" alt=""
        style="vertical-align:middle;" /><input type="text" id="backupLife" name="backupLife"
        style="width: 90%;" value="<%= configuration.getBackupLife() %>" />
     </div>
@@ -250,7 +250,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('statsLength');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('statsLength');" alt=""
        style="vertical-align:middle;" /><input type="text" id="statsLength" name="statsLength"
        style="width: 90%;" value="<%= configuration.getStatsLength() %>" />
     </div>

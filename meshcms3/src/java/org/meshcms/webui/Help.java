@@ -75,8 +75,9 @@ public class Help {
       String argument, UserInfo userInfo, String anchor, boolean grayIcon) {
     String lang = getHelpLang(webSite, userInfo);
 
+    // grayIcon currently ignored
     return "<img src='" + contextPath + '/' + webSite.getAdminPath() +
-        "/images/" + (grayIcon ? "small_help_gray.gif" : "small_help.gif") +
+        "/filemanager/images/" + (grayIcon ? "help.png" : "help.png") +
         "' title='Help: " + argument +
         "' alt='Help Icon' onclick=\"javascript:window.open('" +
         contextPath + '/' + webSite.getAdminPath() + "/help/" + lang +

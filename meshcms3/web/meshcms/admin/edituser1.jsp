@@ -88,7 +88,7 @@
 
     <div class="meshcmsfield">
       <% if (newUser) { %>
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('username');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('username');" alt=""
        style="vertical-align:middle;" /><input type="text" id="username" name="username"
        style="width: 90%;" />
       <% } else { %>
@@ -137,7 +137,7 @@
       <% String hPath = "/" + edit.getHomePath();
 
          if (newUser) { %>
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('homepath');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('homepath');" alt=""
        style="vertical-align:middle;" /><input type="text" name="homepath" id="homepath"
        value="<%= hPath %>" style="width: 90%;" />
       <% } else { %>
@@ -151,7 +151,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('email');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('email');" alt=""
        style="vertical-align:middle;" /><input type="text" name="email" id="email"
        value="<%= edit.getEmail() %>" style="width: 90%;" />
     </div>
@@ -179,7 +179,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('password1');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('password1');" alt=""
        style="vertical-align:middle;" /><input type="password" name="password1" id="password1"
        style="width: 90%;" />
     </div>
@@ -189,7 +189,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('password2');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('password2');" alt=""
        style="vertical-align:middle;" /><input type="password" name="password2" id="password2"
        style="width: 90%;" />
     </div>
@@ -210,7 +210,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('<%= UserInfo.DETAILS[i] %>');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('<%= UserInfo.DETAILS[i] %>');" alt=""
        style="vertical-align:middle;" /><input type="text"
        name="<%= UserInfo.DETAILS[i] %>" id="<%= UserInfo.DETAILS[i] %>"
        value="<%= edit.getValue(UserInfo.DETAILS[i]) %>" style="width: 90%;" />

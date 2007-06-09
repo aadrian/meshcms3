@@ -195,7 +195,7 @@
             Object[] args = { theme };
             theme = MessageFormat.format(bundle.getString("fmUsedTheme"), args);
      %>
-       <img src="images/theme_smallicon1.gif" alt="<%= theme %>" title="<%= theme %>" />
+       <img src="images/bullet_star.png" alt="<%= theme %>" title="<%= theme %>" />
      <%
           }
      %>

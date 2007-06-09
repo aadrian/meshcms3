@@ -105,12 +105,12 @@
     if (elem.style.display == 'none') {
       elem.style.display = '';
       if (icon != null) {
-	      icon.src = adminFullPath + '/images/tree_minus.gif';
+	      icon.src = adminFullPath + '/filemanager/images/bullet_toggle_minus.png';
       }
     } else {
       elem.style.display = 'none';
       if (icon != null) {
-	      icon.src = adminFullPath + '/images/tree_plus.gif';
+	      icon.src = adminFullPath + '/filemanager/images/bullet_toggle_plus.png';
 	    }
     }
   }

@@ -69,7 +69,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('exportBaseURL');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('exportBaseURL');" alt=""
        style="vertical-align: middle;" /><input type="text" id="exportBaseURL" name="exportBaseURL"
        style="width: 90%;" value="<%= Utils.noNull(configuration.getExportBaseURL()) %>" />
     </div>
@@ -79,7 +79,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('exportDir');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('exportDir');" alt=""
        style="vertical-align: middle;" /><input type="text" id="exportDir" name="exportDir"
        style="width: 90%;" value="<%= Utils.noNull(configuration.getExportDir()) %>" />
     </div>
@@ -95,7 +95,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('exportCommand');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('exportCommand');" alt=""
        style="vertical-align: middle;" /><input type="text" id="exportCommand" name="exportCommand"
        style="width: 90%;" value="<%= Utils.noNull(configuration.getExportCommand()) %>" />
     </div>

@@ -62,8 +62,8 @@ public class FolderXTree extends DirectoryParser {
       writer.write("folder0.setBehavior('explorer');\n");
       writer.write("folder0.action='showlist.jsp?folder=" + thumbsParam + "';\n");
       writer.write("folder0.target='listframe';\n");
-      writer.write("folder0.icon='images/world.gif';\n");
-      writer.write("folder0.openIcon='images/world.gif';\n");
+      //writer.write("folder0.icon='images/world.gif';\n");
+      //writer.write("folder0.openIcon='images/world.gif';\n");
     } catch (IOException ex) {
       return false;
     }
@@ -96,9 +96,9 @@ public class FolderXTree extends DirectoryParser {
           writer.write("folder" + code + ".target='listframe';\n");
         if (di.iconName != null) {
           writer.write("folder" + code + ".icon='images/" + di.iconName +
-              ".gif';\n");
-          writer.write("folder" + code + ".openIcon='images/" + di.iconName +
-              "open.gif';\n");
+              ".png';\n");
+          /* writer.write("folder" + code + ".openIcon='images/" + di.iconName +
+              "open.gif';\n"); */
         }
       }
     } catch (IOException ex) {
@@ -121,7 +121,7 @@ public class FolderXTree extends DirectoryParser {
 
         if (dirPath.getElementCount() <
             webSite.getVirtualSitesPath().getElementCount() + 2) {
-          di.iconName = "sitefolder";
+          di.iconName = "folder_star";
         } else if (webSite instanceof MainWebSite) {
           Path siteRoot =
               dirPath.getPartial(webSite.getVirtualSitesPath().getElementCount() + 1);
@@ -134,12 +134,12 @@ public class FolderXTree extends DirectoryParser {
       }
     } else if (webSite.isSystem(dirPath)) {
       di.include = false;
-      /* di.iconName = "systemfolder";
+      /* di.iconName = "folder_error";
       di.include = userInfo.canDo(UserInfo.CAN_DO_ADMINTASKS); */
     } else if (dirPath.isContainedIn(webSite.getGeneratedFilesPath())) {
       di.include = false;
     } else if (dirPath.isContainedIn(webSite.getCMSPath())) {
-      di.iconName = "cmsfolder";
+      di.iconName = "folder_brick";
     }
 
     return di;

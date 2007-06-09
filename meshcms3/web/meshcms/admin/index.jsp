@@ -54,45 +54,45 @@
 
 <fieldset>
   <legend><fmt:message key="homeSite" /></legend>
-  
-  <a href="<%= cp + webSite.getLink(Path.ROOT) %>" class="meshcmspanelicon"><img src="images/button_sitehome.gif" alt="" />
+
+  <a href="<%= cp + webSite.getLink(Path.ROOT) %>" class="meshcmspanelicon"><img src="filemanager/images/house.png" alt="" />
   <fmt:message key="homePage" /></a>
 
    <% if (userInfo.canDo(UserInfo.CAN_BROWSE_FILES)) { %>
-  <a href="refresh.jsp" class="meshcmspanelicon"><img src="images/button_refresh.gif" alt="" />
+  <a href="refresh.jsp" class="meshcmspanelicon"><img src="filemanager/images/arrow_refresh.png" alt="" />
   <fmt:message key="homeRefresh" /></a>
    <% } %>
 
    <% if (userInfo.canDo(UserInfo.CAN_EDIT_PAGES)) { %>
-  <a href="editmap1.jsp" class="meshcmspanelicon"><img src="images/button_editmenu.gif" alt="" />
+  <a href="editmap1.jsp" class="meshcmspanelicon"><img src="filemanager/images/table_multiple.png" alt="" />
   <fmt:message key="homePages" /></a>
    <% } %>
 
    <% if (userInfo.canDo(UserInfo.CAN_DO_ADMINTASKS)) { %>
-  <a href="editconfig1.jsp" class="meshcmspanelicon"><img src="images/button_configure.gif" alt="" />
+  <a href="editconfig1.jsp" class="meshcmspanelicon"><img src="filemanager/images/wrench_orange.png" alt="" />
   <fmt:message key="homeConfigure" /></a>
    <% } %>
 </fieldset>
 
 <fieldset>
   <legend><fmt:message key="homeUsers" /></legend>
-  
+
    <% if (userInfo.isGuest()) { %>
-  <a href="login.jsp" class="meshcmspanelicon"><img src="images/button_login.gif" alt="" />
+  <a href="login.jsp" class="meshcmspanelicon"><img src="filemanager/images/door_in.png" alt="" />
   <fmt:message key="homeLogin" /></a>
    <% } else { %>
-  <a href="logout.jsp" class="meshcmspanelicon"><img src="images/button_logout.gif" alt="" />
+  <a href="logout.jsp" class="meshcmspanelicon"><img src="filemanager/images/door_out.png" alt="" />
   <fmt:message key="homeLogout" /></a>
    <% } %>
   </td>
 
    <% if (!userInfo.isGuest()) { %>
-  <a href="edituser1.jsp?username=<%= userInfo.getUsername() %>" class="meshcmspanelicon"><img src="images/button_profile.gif" alt="" />
+  <a href="edituser1.jsp?username=<%= userInfo.getUsername() %>" class="meshcmspanelicon"><img src="filemanager/images/user_edit.png" alt="" />
   <fmt:message key="homeProfile" /></a>
    <% } %>
 
    <% if (userInfo.canDo(UserInfo.CAN_ADD_USERS)) { %>
-  <a href="edituser1.jsp" class="meshcmspanelicon"><img src="images/button_adduser.gif" alt="" />
+  <a href="edituser1.jsp" class="meshcmspanelicon"><img src="filemanager/images/user_add.png" alt="" />
   <fmt:message key="homeUser" /></a>
    <% } %>
 </fieldset>
@@ -100,20 +100,20 @@
  <% if (!userInfo.isGuest()) { %>
 <fieldset>
   <legend><fmt:message key="homeSystem" /></legend>
-  
+
    <% if (userInfo.canDo(UserInfo.CAN_BROWSE_FILES)) { %>
-  <a href="filemanager/index.jsp" class="meshcmspanelicon"><img src="images/button_filemanager.gif" alt="" />
+  <a href="filemanager/index.jsp" class="meshcmspanelicon"><img src="filemanager/images/folder_magnify.png" alt="" />
   <fmt:message key="homeFile" /></a>
    <% } %>
   </td>
 
    <% if (userInfo.canDo(UserInfo.CAN_BROWSE_FILES)) { %>
-  <a href="staticexport1.jsp" class="meshcmspanelicon"><img src="images/button_export.gif" alt="" />
+  <a href="staticexport1.jsp" class="meshcmspanelicon"><img src="filemanager/images/world_go.png" alt="" />
   <fmt:message key="homeExport" /></a>
    <% } %>
 
    <% if (!webSite.isVirtual() && userInfo.canDo(UserInfo.CAN_DO_ADMINTASKS)) { %>
-  <a href="editsites1.jsp" class="meshcmspanelicon"><img src="images/button_sites.gif" alt="" />
+  <a href="editsites1.jsp" class="meshcmspanelicon"><img src="filemanager/images/world_edit.png" alt="" />
   <fmt:message key="homeSites" /></a>
    <% } %>
 </fieldset>

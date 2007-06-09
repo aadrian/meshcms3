@@ -92,7 +92,7 @@ public final class MailForm extends AbstractTag {
     w.write("<legend>" + bundle.getString("editorMailTitle") + "</legend>\n");
     w.write("<div class='meshcmsfieldlabel'>" + bundle.getString("editorMail") + "</div>\n");
     w.write("<div class='meshcmsfield'><img alt=\"\" src='" + afp +
-      "/images/clear_field.gif' onclick=\"javascript:editor_clr('" +
+      "/filemanager/images/bullet_toggle_minus.png' onclick=\"javascript:editor_clr('" +
       PageAssembler.EMAIL_PARAM + "');\" style='vertical-align:middle;' /><input type='text' id='" +
       PageAssembler.EMAIL_PARAM + "' name='" +
       PageAssembler.EMAIL_PARAM + "' value=\"" +

@@ -117,7 +117,7 @@ a.meshcmspanelicon {
  display: block;
  float: left;
  margin: 0.5em;
- padding: 6px;
+ padding: 5px;
  border: 0;
 }
 
@@ -129,5 +129,5 @@ a.meshcmspanelicon img {
 a.meshcmspanelicon:hover {
  text-decoration: none;
  padding: 4px;
- border: 2px solid silver;
+ border: 1px solid silver;
 }

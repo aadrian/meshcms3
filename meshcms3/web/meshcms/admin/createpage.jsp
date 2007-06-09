@@ -78,7 +78,7 @@ if (title.equals("") && fullPath.isRoot()) { %>
       </div>
 
       <div class="meshcmsfield">
-        <img src="images/clear_field.gif" onclick="javascript:editor_clr('titlefld');"
+        <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('titlefld');"
          alt="" style="vertical-align:middle;" /><input type='text' name='title'
          id='titlefld' style="width: 90%;" />
       </div>

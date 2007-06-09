@@ -86,7 +86,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="images/clear_field.gif" onclick="javascript:editor_clr('mainWebSiteDomains');" alt=""
+      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('mainWebSiteDomains');" alt=""
        style="vertical-align:middle;" /><input type="text" id="mainWebSiteDomains" name="mainWebSiteDomains"
        style="width: 90%;" value="<%= Utils.noNull(msm.getMainWebSiteDomains()) %>" />
     </div>
@@ -116,7 +116,7 @@
       <tr>
         <td><label for="aliases_<%= dirs[i] %>"><%= dirs[i] %></label></td>
         <td>
-          <img src="images/clear_field.gif" onclick="javascript:editor_clr('aliases_<%= dirs[i] %>');" alt=""
+          <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('aliases_<%= dirs[i] %>');" alt=""
            style="vertical-align:middle;" /><input type="text" id="aliases_<%= dirs[i] %>"
            name="aliases_<%= dirs[i] %>" style="width: 90%;"
            value="<%= Utils.noNull(msm.getDomains(dirs[i])) %>" />
@@ -140,12 +140,12 @@
 %>
       <tr>
         <td style="width: 25%;">
-          <img src="images/clear_field.gif" onclick="javascript:editor_clr('newsite_dirname');" alt=""
+          <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('newsite_dirname');" alt=""
            style="vertical-align:middle;" /><input type="text" id="newsite_dirname"
            style="width: 90%;" name="newsite_dirname" />
         </td>
         <td style="width: 45%;">
-          <img src="images/clear_field.gif" onclick="javascript:editor_clr('newsite_aliases');" alt=""
+          <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('newsite_aliases');" alt=""
            style="vertical-align:middle;" /><input type="text" id="newsite_aliases"
            style="width: 90%;" name="newsite_aliases" />
         </td>

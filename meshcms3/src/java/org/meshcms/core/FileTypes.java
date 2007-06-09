@@ -34,12 +34,12 @@ public final class FileTypes {
   /**
    * Default icon for unknown file types.
    */
-  public static final String DEFAULT_ICON = "icon_file.gif";
+  public static final String DEFAULT_ICON = "page_white.png";
 
   /**
    * Default icon for folders.
    */
-  public static final String DIR_ICON = "icon_folder.gif";
+  public static final String DIR_ICON = "folder.png";
 
   /**
    * Denotes an unknown file type.
@@ -81,7 +81,7 @@ public final class FileTypes {
     info.description = "Static Page";
     info.compressible = true;
     info.preventHotlinking = false;
-    info.iconFile = "icon_html.gif";
+    info.iconFile = "page_white_world.png";
     EXT_MAP.put("htm", info);
     EXT_MAP.put("html", info);
     EXT_MAP.put("xhtml", info);
@@ -91,7 +91,7 @@ public final class FileTypes {
     info.description = "Server-Side Page";
     info.compressible = true;
     info.preventHotlinking = false;
-    info.iconFile = "icon_html.gif";
+    info.iconFile = "page_white_world.png";
     EXT_MAP.put("asp", info);
     EXT_MAP.put("cgi", info);
     EXT_MAP.put("jsp", info);
@@ -104,7 +104,7 @@ public final class FileTypes {
     info.description = "Web Image";
     info.compressible = false;
     info.preventHotlinking = true;
-    info.iconFile = "icon_image.gif";
+    info.iconFile = "page_white_camera.png";
     EXT_MAP.put("gif", info);
     EXT_MAP.put("jpeg", info);
     EXT_MAP.put("jpg", info);
@@ -116,7 +116,7 @@ public final class FileTypes {
     info.description = "Java File";
     info.compressible = true;
     info.preventHotlinking = false;
-    info.iconFile = "icon_java.gif";
+    info.iconFile = "page_white_cup.png";
     EXT_MAP.put("class", info);
     EXT_MAP.put("java", info);
 
@@ -125,7 +125,7 @@ public final class FileTypes {
     info.description = "Java Archive";
     info.compressible = false;
     info.preventHotlinking = false;
-    info.iconFile = "icon_java.gif";
+    info.iconFile = "page_white_cup.png";
     EXT_MAP.put("ear", info);
     EXT_MAP.put("jar", info);
     EXT_MAP.put("war", info);
@@ -135,7 +135,7 @@ public final class FileTypes {
     info.description = "XML File";
     info.compressible = true;
     info.preventHotlinking = false;
-    info.iconFile = "icon_xml.gif";
+    info.iconFile = "page_white_code.png";
     EXT_MAP.put("dtd", info);
     EXT_MAP.put("tld", info);
     EXT_MAP.put("xml", info);
@@ -146,7 +146,7 @@ public final class FileTypes {
     info.description = "Audio File";
     info.compressible = false;
     info.preventHotlinking = true;
-    info.iconFile = "icon_audio.gif";
+    info.iconFile = "page_white_cd.png";
     EXT_MAP.put("au", info);
     EXT_MAP.put("mp3", info);
     EXT_MAP.put("ogg", info);
@@ -158,7 +158,7 @@ public final class FileTypes {
     info.description = "Video File";
     info.compressible = false;
     info.preventHotlinking = true;
-    info.iconFile = "icon_video.gif";
+    info.iconFile = "page_white_dvd.png";
     EXT_MAP.put("avi", info);
     EXT_MAP.put("flv", info);
     EXT_MAP.put("mov", info);
@@ -171,7 +171,7 @@ public final class FileTypes {
     info.description = "Archive";
     info.compressible = false;
     info.preventHotlinking = true;
-    info.iconFile = "icon_archive.gif";
+    info.iconFile = "page_white_compressed.png";
     EXT_MAP.put("7z", info);
     EXT_MAP.put("bz2", info);
     EXT_MAP.put("gz", info);
@@ -187,7 +187,7 @@ public final class FileTypes {
     info.description = "Plain Text File";
     info.compressible = true;
     info.preventHotlinking = false;
-    info.iconFile = "icon_text.gif";
+    info.iconFile = "page_white_text.png";
     EXT_MAP.put("log", info);
     EXT_MAP.put("txt", info);
 
@@ -196,7 +196,7 @@ public final class FileTypes {
     info.description = "Style Sheet File";
     info.compressible = true;
     info.preventHotlinking = false;
-    info.iconFile = "icon_style.gif";
+    info.iconFile = "page_white_swoosh.png";
     EXT_MAP.put("css", info);
 
     info = new TypeInfo();
@@ -204,7 +204,7 @@ public final class FileTypes {
     info.description = "Script File";
     info.compressible = true;
     info.preventHotlinking = false;
-    info.iconFile = "icon_script.gif";
+    info.iconFile = "page_white_lightning.png";
     EXT_MAP.put("js", info);
 
     info = new TypeInfo();
@@ -212,7 +212,7 @@ public final class FileTypes {
     info.description = "Executable File";
     info.compressible = false;
     info.preventHotlinking = true;
-    info.iconFile = "icon_program.gif";
+    info.iconFile = "page_white_gear.png";
     EXT_MAP.put("bin", info);
     EXT_MAP.put("exe", info);
 
@@ -221,7 +221,7 @@ public final class FileTypes {
     info.description = "Word Document";
     info.compressible = true;
     info.preventHotlinking = true;
-    info.iconFile = "icon_word.gif";
+    info.iconFile = "page_white_word.png";
     EXT_MAP.put("doc", info);
     EXT_MAP.put("rtf", info);
 
@@ -230,7 +230,7 @@ public final class FileTypes {
     info.description = "Excel Document";
     info.compressible = true;
     info.preventHotlinking = true;
-    info.iconFile = "icon_excel.gif";
+    info.iconFile = "page_white_excel.png";
     EXT_MAP.put("xls", info);
 
     info = new TypeInfo();
@@ -238,7 +238,7 @@ public final class FileTypes {
     info.description = "PowerPoint Document";
     info.compressible = true;
     info.preventHotlinking = true;
-    info.iconFile = "icon_powerpoint.gif";
+    info.iconFile = "page_white_powerpoint.png";
     EXT_MAP.put("pps", info);
     EXT_MAP.put("ppt", info);
 
@@ -247,7 +247,7 @@ public final class FileTypes {
     info.description = "PDF Document";
     info.compressible = false;
     info.preventHotlinking = true;
-    info.iconFile = "icon_pdf.gif";
+    info.iconFile = "page_white_acrobat.png";
     EXT_MAP.put("pdf", info);
 
     info = new TypeInfo();
@@ -255,7 +255,7 @@ public final class FileTypes {
     info.description = "Image";
     info.compressible = false;
     info.preventHotlinking = true;
-    info.iconFile = "icon_image.gif";
+    info.iconFile = "page_white_paint.png";
     EXT_MAP.put("bmp", info);
     EXT_MAP.put("psd", info);
     EXT_MAP.put("tga", info);
@@ -267,7 +267,7 @@ public final class FileTypes {
     info.description = "Icon";
     info.compressible = true;
     info.preventHotlinking = false;
-    info.iconFile = "icon_image.gif";
+    info.iconFile = "page_white_picture.png";
     EXT_MAP.put("ico", info);
 
     info = new TypeInfo();
@@ -275,16 +275,16 @@ public final class FileTypes {
     info.description = "Flash File";
     info.compressible = false;
     info.preventHotlinking = true;
-    info.iconFile = "icon_flash.gif";
+    info.iconFile = "page_white_flash.png";
     EXT_MAP.put("swf", info);
 
     info = new TypeInfo();
     info.id = 21;
-    info.description = "Isaac File";
-    info.compressible = false;
+    info.description = "Vector Image File";
+    info.compressible = true;
     info.preventHotlinking = true;
-    info.iconFile = "icon_isaac.gif";
-    EXT_MAP.put("isc", info);
+    info.iconFile = "page_white_vector.png";
+    EXT_MAP.put("svg", info);
   }
 
   static TypeInfo getInfo(String extension) {
