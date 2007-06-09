@@ -25,6 +25,7 @@ package org.meshcms.core;
 import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
+import org.meshcms.util.*;
 
 /**
  * Modifies the response to write the page to both the browser and the cache.
@@ -102,7 +103,7 @@ public class CacheResponseWrapper extends HttpServletResponseWrapper {
     }
 
     stream = createOutputStream();
-    writer = new PrintWriter(stream);
+    writer = new PrintWriter(new OutputStreamWriter(stream, Utils.SYSTEM_CHARSET));
     return writer;
   }
 }
