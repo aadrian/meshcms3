@@ -47,7 +47,8 @@ public class PageHead extends AbstractTag {
 
     if (!(userInfo == null || userInfo.isGuest()) &&
         webSite.getConfiguration().isRedirectRoot() &&
-        webSite.getSiteMap().getPathInMenu(pagePath).isRoot()) {
+        webSite.getSiteMap().getPathInMenu(pagePath).isRoot() &&
+        HitFilter.getPreferredLanguage(request) != null) {
       Locale pl = WebUtils.getPageLocale(pageContext);
       ResourceBundle bundle =
           ResourceBundle.getBundle("org/meshcms/webui/Locales", pl);
