@@ -49,12 +49,12 @@
   /**
    * Closed folder
    */
-  var imgClosedFolder = "filemanager/images/page.png";
+  var imgClosedFolder = "filemanager/images/page_go.png";
 
   /**
    * Open folder
    */
-  var imgOpenFolder = "filemanager/images/page_go.png";
+  var imgOpenFolder = "filemanager/images/page.png";
 
   /**
    * Clears a field
@@ -273,7 +273,7 @@
                             // IMPORTANT: no spaces between <tr> and <td> below!
     %><tr id="tr<%= code %>"><td style="padding-left: <%= (pagePath.getElementCount() + 1) * padding %>px;">
         <% if (hasChildren) { %>
-          <img src="filemanager/images/page_go.png" id="img<%= code %>" alt=""
+          <img src="filemanager/images/page.png" id="img<%= code %>" alt=""
            title="<fmt:message key="mapClickExpand" />"
            onclick="javascript:editMap_toggle(<%= code %>, <%= padding %>);" />
         <% } else { %>
