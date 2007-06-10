@@ -54,6 +54,11 @@
     out.write(webSite.getAdminMetaThemeTag());
   }
 %>
+<script type="text/javascript">
+  var contextPath = "<%= request.getContextPath() %>";
+  var adminPath = "<%= webSite.getAdminPath() %>";
+</script>
+<script type="text/javascript" src="scripts/jquery/jquery-latest.pack.js"></script>
 <script type="text/javascript" src="scripts/editor.js"></script>
 </head>
 
@@ -78,9 +83,7 @@ if (title.equals("") && fullPath.isRoot()) { %>
       </div>
 
       <div class="meshcmsfield">
-        <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('titlefld');"
-         alt="" style="vertical-align:middle;" /><input type='text' name='title'
-         id='titlefld' style="width: 90%;" />
+        <input type='text' name='title' id='titlefld' style="width: 90%;" />
       </div>
 
       <%--

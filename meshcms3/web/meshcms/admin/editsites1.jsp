@@ -48,6 +48,11 @@
  var adminPath = "<%= webSite.getAdminPath() %>";
 // ]]>
 </script>
+<script type="text/javascript">
+  var contextPath = "<%= request.getContextPath() %>";
+  var adminPath = "<%= webSite.getAdminPath() %>";
+</script>
+<script type="text/javascript" src="scripts/jquery/jquery-latest.pack.js"></script>
 <script type="text/javascript" src="scripts/editor.js"></script>
 </head>
 
@@ -86,8 +91,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('mainWebSiteDomains');" alt=""
-       style="vertical-align:middle;" /><input type="text" id="mainWebSiteDomains" name="mainWebSiteDomains"
+      <input type="text" id="mainWebSiteDomains" name="mainWebSiteDomains"
        style="width: 90%;" value="<%= Utils.noNull(msm.getMainWebSiteDomains()) %>" />
     </div>
   </fieldset>
@@ -116,8 +120,7 @@
       <tr>
         <td><label for="aliases_<%= dirs[i] %>"><%= dirs[i] %></label></td>
         <td>
-          <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('aliases_<%= dirs[i] %>');" alt=""
-           style="vertical-align:middle;" /><input type="text" id="aliases_<%= dirs[i] %>"
+          <input type="text" id="aliases_<%= dirs[i] %>"
            name="aliases_<%= dirs[i] %>" style="width: 90%;"
            value="<%= Utils.noNull(msm.getDomains(dirs[i])) %>" />
         </td>
@@ -140,13 +143,11 @@
 %>
       <tr>
         <td style="width: 25%;">
-          <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('newsite_dirname');" alt=""
-           style="vertical-align:middle;" /><input type="text" id="newsite_dirname"
+          <input type="text" id="newsite_dirname"
            style="width: 90%;" name="newsite_dirname" />
         </td>
         <td style="width: 45%;">
-          <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('newsite_aliases');" alt=""
-           style="vertical-align:middle;" /><input type="text" id="newsite_aliases"
+          <input type="text" id="newsite_aliases"
            style="width: 90%;" name="newsite_aliases" />
         </td>
         <td style="width: 15%; text-align: center;">

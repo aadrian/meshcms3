@@ -194,9 +194,7 @@ public final class Module extends AbstractTag {
       w.write(" <div class='meshcmsfieldlabel'><label for='" +
           ModuleDescriptor.TITLE_ID + location + "'>" +
           bundle.getString("editorModuleTitle") + "</label></div>\n");
-      w.write(" <div class='meshcmsfield'><img alt=\"\" src='" + afp +
-          "/filemanager/images/bullet_toggle_minus.png' onclick=\"javascript:editor_clr('" +
-          ModuleDescriptor.TITLE_ID + location + "');\" style='vertical-align:middle;' /><input type='text' id='" +
+      w.write(" <div class='meshcmsfield'><input type='text' id='" +
           ModuleDescriptor.TITLE_ID + location + "' name='" +
           ModuleDescriptor.TITLE_ID + location + "' value=\"" +
           (md == null ? "" : Utils.noNull(md.getTitle())) +
@@ -230,9 +228,7 @@ public final class Module extends AbstractTag {
       w.write(" <div class='meshcmsfieldlabel'><label for='" +
           ModuleDescriptor.ARGUMENT_ID + location + "'>" +
           bundle.getString("editorModuleArgument") + "</label></div>\n");
-      w.write(" <div class='meshcmsfield'><img alt=\"\" src='" + afp +
-          "/filemanager/images/bullet_toggle_minus.png' onclick=\"javascript:editor_clr('" +
-          ModuleDescriptor.ARGUMENT_ID + location + "');\" style='vertical-align:middle;' /><input type='text' id='" +
+      w.write(" <div class='meshcmsfield'><input type='text' id='" +
           ModuleDescriptor.ARGUMENT_ID + location + "' name='" +
           ModuleDescriptor.ARGUMENT_ID + location + "' value=\"" +
           (md == null || argPath == null ? "" : argPath) +
@@ -244,9 +240,7 @@ public final class Module extends AbstractTag {
       w.write(" <div class='meshcmsfieldlabel'><label for='" +
           ModuleDescriptor.PARAMETERS_ID + location + "'>" +
           bundle.getString("editorModuleParameters") + "</label></div>\n");
-      w.write(" <div class='meshcmsfield'><img alt=\"\" src='" + afp +
-          "/filemanager/images/bullet_toggle_minus.png' onclick=\"javascript:editor_clr('" +
-          ModuleDescriptor.PARAMETERS_ID + location + "');\" style='vertical-align:middle;' /><input type='text' id='" +
+      w.write(" <div class='meshcmsfield'><input type='text' id='" +
           ModuleDescriptor.PARAMETERS_ID + location + "' name='" +
           ModuleDescriptor.PARAMETERS_ID + location + "' value=\"" +
           (md == null || md.getAdvancedParams() == null ? "" :

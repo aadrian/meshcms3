@@ -84,6 +84,8 @@ public class PageHead extends AbstractTag {
     w.write("// ]]>\n");
     w.write("</script>\n");
     w.write("<script type='text/javascript' src='" +
+      cp + '/' + webSite.getAdminScriptsPath() + "/jquery/jquery-latest.pack.js'></script>\n");
+    w.write("<script type='text/javascript' src='" +
       cp + '/' + webSite.getAdminScriptsPath() + "/editor.js'></script>\n");
 
     w.write("<script type='text/javascript' src='" + cp + '/' +

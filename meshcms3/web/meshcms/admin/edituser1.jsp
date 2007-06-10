@@ -69,6 +69,12 @@
 <head>
   <%= webSite.getAdminMetaThemeTag() %>
   <title><fmt:message key="<%= newUser ? "userNew" : "userEdit" %>" /></title>
+
+  <script type="text/javascript">
+    var contextPath = "<%= request.getContextPath() %>";
+    var adminPath = "<%= webSite.getAdminPath() %>";
+  </script>
+  <script type="text/javascript" src="scripts/jquery/jquery-latest.pack.js"></script>
   <script type="text/javascript" src="scripts/editor.js"></script>
 </head>
 
@@ -88,8 +94,7 @@
 
     <div class="meshcmsfield">
       <% if (newUser) { %>
-      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('username');" alt=""
-       style="vertical-align:middle;" /><input type="text" id="username" name="username"
+      <input type="text" id="username" name="username"
        style="width: 90%;" />
       <% } else { %>
        <strong><%= edit.getUsername() %></strong>
@@ -137,8 +142,7 @@
       <% String hPath = "/" + edit.getHomePath();
 
          if (newUser) { %>
-      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('homepath');" alt=""
-       style="vertical-align:middle;" /><input type="text" name="homepath" id="homepath"
+      <input type="text" name="homepath" id="homepath"
        value="<%= hPath %>" style="width: 90%;" />
       <% } else { %>
        <strong><%= hPath %></strong>
@@ -151,8 +155,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('email');" alt=""
-       style="vertical-align:middle;" /><input type="text" name="email" id="email"
+      <input type="text" name="email" id="email"
        value="<%= edit.getEmail() %>" style="width: 90%;" />
     </div>
 
@@ -179,8 +182,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('password1');" alt=""
-       style="vertical-align:middle;" /><input type="password" name="password1" id="password1"
+      <input type="password" name="password1" id="password1"
        style="width: 90%;" />
     </div>
 
@@ -189,8 +191,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('password2');" alt=""
-       style="vertical-align:middle;" /><input type="password" name="password2" id="password2"
+      <input type="password" name="password2" id="password2"
        style="width: 90%;" />
     </div>
   </fieldset>
@@ -210,9 +211,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('<%= UserInfo.DETAILS[i] %>');" alt=""
-       style="vertical-align:middle;" /><input type="text"
-       name="<%= UserInfo.DETAILS[i] %>" id="<%= UserInfo.DETAILS[i] %>"
+      <input type="text" name="<%= UserInfo.DETAILS[i] %>" id="<%= UserInfo.DETAILS[i] %>"
        value="<%= edit.getValue(UserInfo.DETAILS[i]) %>" style="width: 90%;" />
     </div>
 <%

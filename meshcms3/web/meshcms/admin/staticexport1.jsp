@@ -44,6 +44,11 @@
 <head>
 <%= webSite.getAdminMetaThemeTag() %>
 <title><fmt:message key="homeExport" /></title>
+<script type="text/javascript">
+  var contextPath = "<%= request.getContextPath() %>";
+  var adminPath = "<%= webSite.getAdminPath() %>";
+</script>
+<script type="text/javascript" src="scripts/jquery/jquery-latest.pack.js"></script>
 <script type="text/javascript" src="scripts/editor.js"></script>
 <script type="text/javascript">
 // <![CDATA[
@@ -69,8 +74,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('exportBaseURL');" alt=""
-       style="vertical-align: middle;" /><input type="text" id="exportBaseURL" name="exportBaseURL"
+      <input type="text" id="exportBaseURL" name="exportBaseURL"
        style="width: 90%;" value="<%= Utils.noNull(configuration.getExportBaseURL()) %>" />
     </div>
 
@@ -79,8 +83,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('exportDir');" alt=""
-       style="vertical-align: middle;" /><input type="text" id="exportDir" name="exportDir"
+      <input type="text" id="exportDir" name="exportDir"
        style="width: 90%;" value="<%= Utils.noNull(configuration.getExportDir()) %>" />
     </div>
 
@@ -95,8 +98,7 @@
     </div>
 
     <div class="meshcmsfield">
-      <img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editor_clr('exportCommand');" alt=""
-       style="vertical-align: middle;" /><input type="text" id="exportCommand" name="exportCommand"
+      <input type="text" id="exportCommand" name="exportCommand"
        style="width: 90%;" value="<%= Utils.noNull(configuration.getExportCommand()) %>" />
     </div>
   </fieldset>

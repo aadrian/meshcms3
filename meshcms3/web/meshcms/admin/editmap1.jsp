@@ -45,6 +45,12 @@
 <%= webSite.getAdminMetaThemeTag() %>
 <title><fmt:message key="mapTitle" /></title>
 <script type="text/javascript">
+  var contextPath = "<%= request.getContextPath() %>";
+  var adminPath = "<%= webSite.getAdminPath() %>";
+</script>
+<script type="text/javascript" src="scripts/jquery/jquery-latest.pack.js"></script>
+<script type="text/javascript" src="scripts/editor.js"></script>
+<script type="text/javascript">
 // <![CDATA[
   /**
    * Closed folder
@@ -286,7 +292,7 @@
            </fmt:message>"><%= Utils.limitedLength(pageInfo.getTitle(), 25) %></a>
         </td>
 
-        <td align="right"><%= pageInfo.getTotalHits() %></td>
+        <td align="center"><%= pageInfo.getTotalHits() %></td>
 
         <% if (WebUtils.isCached(webSite, siteMap, pagePath)) { %>
           <td align="center"><img src="filemanager/images/bullet_star.png" alt=""
@@ -305,8 +311,7 @@
         Path servedPath = siteMap.getServedPath(pagePath);
 
         if (userOk) { %>
-          <td><img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editMap_clr('<%= tCode %>');" alt=""
-           style='vertical-align:middle;' /><input type="text" name="<%= tCode %>"
+          <td><input type="text" name="<%= tCode %>"
            id="<%= tCode %>" style="width: 10em;"
            value="<%= siteInfo.getPageTitle(pagePath) %>" /></td>
         <% } else { %>
@@ -329,8 +334,7 @@
         <% } %>
 
         <% if (userOk) { %>
-          <td><img src="filemanager/images/bullet_toggle_minus.png" onclick="javascript:editMap_clr('<%= sCode %>');" alt=""
-           style='vertical-align:middle;' /><input type="text" name="<%= sCode %>"
+          <td><input type="text" name="<%= sCode %>"
            id="<%= sCode %>" style="width: 2.5em;" value="<%= siteInfo.getPageScoreAsString(pagePath) %>" /></td>
         <% } else { %>
           <td>&nbsp;<%= siteInfo.getPageScoreAsString(pagePath) %></td>

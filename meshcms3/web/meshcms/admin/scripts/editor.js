@@ -16,7 +16,7 @@
    * Some default values, just to avoid JavaScript errors
    */
   contextPath = window.contextPath || "";
-  adminPath = window.adminPath || "/meshcms/admin";
+  adminPath = window.adminPath || "meshcms/admin";
   languageCode = window.languageCode || "en";
   linkListPath = window.linkListPath || "/meshcms/admin/tinymce_linklist.jsp";
   cssPath = window.cssPath || "/meshcms/admin/theme/main.css";
@@ -122,3 +122,20 @@
     document.getElementById(fid).value = "";
     document.getElementById(fid).focus();
   }
+
+  /**
+   * jQuery scripts
+   */
+  $(function() {
+    $("input[@type=text]").each(function(i) {
+      $(this).before("<img src='" + adminFullPath +
+        "/filemanager/images/bullet_toggle_minus.png' alt='x' class='fldclr' id='fldclr-" +
+        this.id + "'/>");
+    });
+
+    $(".fldclr").click(function(i) {
+      var el = document.getElementById(this.id.substring(7));
+      el.value = "";
+      el.focus();
+    });
+  });

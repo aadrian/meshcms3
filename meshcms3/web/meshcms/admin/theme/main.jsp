@@ -22,6 +22,8 @@
 
 <%
   String themePath = request.getContextPath() + "/" + webSite.getAdminThemePath();
+  String scriptsPath = request.getContextPath() + "/" + webSite.getAdminScriptsPath();
+  String adminPath = request.getContextPath() + "/" + webSite.getAdminPath();
 %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -30,6 +32,13 @@
     <link rel="stylesheet" type="text/css" href="<%= themePath %>/main.css" />
     <link rel="stylesheet" type="text/css" href="<%= themePath %>/meshcms.css" />
     <decorator:head />
+    <script type="text/javascript">
+      function maximizeArea(img) {
+        document.getElementById("pagecontent").style.margin = "0";
+        document.getElementById("additionalcolumn").style.display = "none";
+        img.style.display = "none";
+      }
+    </script>
   </head>
 
   <body <decorator:getProperty property="body.onload" writeEntireProperty="true" /> id="cmsbody">
@@ -39,9 +48,11 @@
     <div id="pagecontentcolumn">
       <div id="pagecontent">
         <div id="mainarea">
+          <img align="right" onclick="javascript:maximizeArea(this);"
+           src="<%= request.getContextPath() + '/' + webSite.getAdminPath() %>/filemanager/images/arrow_right.png" />
           <div class="pagebody">
             <h3>
-              <a href="<%= request.getContextPath() + '/' + webSite.getAdminPath() + "/index.jsp" %>">MeshCMS</a>:
+              <a href="<%= request.getContextPath() + '/' + webSite.getAdminPath() %>/index.jsp">MeshCMS</a>:
               <decorator:title default="" />
             </h3>
             <decorator:body />
