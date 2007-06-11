@@ -94,7 +94,7 @@ public final class MailForm extends AbstractTag {
     w.write("<div class='meshcmsfield'><input type='text' id='" +
       PageAssembler.EMAIL_PARAM + "' name='" +
       PageAssembler.EMAIL_PARAM + "' value=\"" +
-      Utils.noNull(email) + "\" style='width: 12em;' /></div>\n");
+      Utils.noNull(email) + "\" style='width: 80%;' /></div>\n");
     w.write("</fieldset>");
   }
 }

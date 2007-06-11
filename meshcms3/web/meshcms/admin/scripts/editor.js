@@ -129,8 +129,8 @@
   $(function() {
     $("input[@type=text]").each(function(i) {
       $(this).before("<img src='" + adminFullPath +
-        "/filemanager/images/bullet_toggle_minus.png' alt='x' class='fldclr' id='fldclr-" +
-        this.id + "'/>");
+        "/filemanager/images/textfield_delete.png' class='fldclr' id='fldclr-" +
+        this.id + "'/>&nbsp;");
     });
 
     $(".fldclr").click(function(i) {

@@ -67,10 +67,10 @@ public class PageBody extends AbstractTag {
         bundle.getString("editorPageTitle") + "</label></div>\n");
     w.write("<div class='meshcmsfield'><input type='text' id='pagetitle' name='pagetitle' value=\"" +
         Utils.noNull(getPage().getTitle()) +
-        "\" style='width: 100%;' /></div>\n");
+        "\" style='width: 80%;' /></div>\n");
     
     w.write("<div class='meshcmsfieldlabel'><img alt=\"\" src=\"" + afp +
-        "/images/tree_plus.gif\" id='togglehead' onclick=\"javascript:editor_toggleHideShow('meshcmshead','togglehead');\" />\n");
+        "/filemanager/images/bullet_toggle_plus.png\" id='togglehead' onclick=\"javascript:editor_toggleHideShow('meshcmshead','togglehead');\" />\n");
     w.write("<label for='meshcmshead'>" + bundle.getString("editorPageHead") + "</label></div>\n");
     w.write("<div class='meshcmsfield'><textarea id='meshcmshead' name='meshcmshead' rows='5' cols='80' style='height: 5em; width: 100%; display: none;'>" +
         Utils.noNull(((HTMLPage) getPage()).getHead()) + "</textarea></div>\n");
