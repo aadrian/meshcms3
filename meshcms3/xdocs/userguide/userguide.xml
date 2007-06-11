@@ -1048,7 +1048,16 @@
         <listitem>
           <para><emphasis role="bold">Use high quality thumbnails by
           default</emphasis>: if selected, the file manager and the gallery
-          module will create thumbnails with a better quality.</para>
+          module will create thumbnails with a better quality;</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Resize images on the server when
+          needed</emphasis>: if selected, when an image with a defined size is
+          found in the page HTML code, MeshCMS will replace it with a resized
+          image, so you can safely include a big image in a page and resize it
+          from within TinyMCE. Note that it is recommended to enable high
+          quality thumbnails (see above) if this option is on;</para>
         </listitem>
 
         <listitem>
@@ -1397,8 +1406,8 @@
 
           <itemizedlist>
             <listitem>
-              <para>use the MeshCMS taglib with the <code>cms</code>
-              prefix;</para>
+              <para>use the MeshCMS taglib with the
+              <code><code>cms</code></code> prefix;</para>
             </listitem>
 
             <listitem>
@@ -3017,7 +3026,13 @@ submit</programlisting>
           <listitem>
             <para><parameter>post</parameter>: a text to be added after the
             last element. It won't be added if there are no elements at
-            all.</para>
+            all;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>flags</parameter>: set to <option>true</option>
+            to have small flags near language names (default is
+            <option>false</option>).</para>
           </listitem>
         </itemizedlist>
       </section>

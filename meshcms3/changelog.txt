@@ -1,5 +1,21 @@
 ________________________________
 --------------------------------
+2007-06-xx: 3.1 released
+--------------------------------
+
+- Added icons of flags for use with the cms:langmenu
+- Added an option to replace resized images with server-generated ones
+- Download module now uses the Download servlet
+- Automatic home page redirection moved from SetLocale tag to site configuration
+- Look&feel refreshed using icons by Mark James (www.famfamfam.com)
+- Added "Internet Sharing" theme by Solucija (ported by Rostislav Palivoda)
+- Added Russian translation (by Rostislav Palivoda and Konstantin Burov)
+- Added recommended settings for the Riva FLV Encoder
+- Added a parameter to the Comments module to hide comments older than x days.
+- Added a security-related option to forbid JSP files in virtual sites
+
+________________________________
+--------------------------------
 2007-03-01: 3.0.5 released
 --------------------------------
 
