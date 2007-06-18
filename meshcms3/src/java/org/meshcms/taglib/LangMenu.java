@@ -35,6 +35,7 @@ public class LangMenu extends AbstractTag {
   private String pre;
   private String post;
   private String flags;
+  private String names = "true";
   
   public void setSeparator(String separator) {
     if (separator != null) {
@@ -124,13 +125,20 @@ public class LangMenu extends AbstractTag {
           
           try {
             Path iconPath = baseIconPath.add(flagsBundle.getString(langCode) + ".png");
-            w.write("<img src='" + cp + webSite.getLink(iconPath) + "' /> ");
+            w.write("<img src='" + cp + webSite.getLink(iconPath) +
+                "' alt='" + localeName + "' title='" + localeName + "'/>");
           } catch (Exception ex) {
             ex.printStackTrace();
           }
+          
+          if (Utils.isTrue(names)) {
+            w.write(" ");
+          }
         }
         
-        w.write(localeName);
+        if (Utils.isTrue(names)) {
+          w.write(localeName);
+        }
         
         if (link != null) {
           w.write("</a>");
@@ -165,5 +173,13 @@ public class LangMenu extends AbstractTag {
   
   public void setFlags(String flags) {
     this.flags = flags;
+  }
+
+  public String getNames() {
+    return names;
+  }
+
+  public void setNames(String names) {
+    this.names = names;
   }
 }

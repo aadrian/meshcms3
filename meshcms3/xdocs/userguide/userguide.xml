@@ -3026,13 +3026,7 @@ submit</programlisting>
           <listitem>
             <para><parameter>post</parameter>: a text to be added after the
             last element. It won't be added if there are no elements at
-            all;</para>
-          </listitem>
-
-          <listitem>
-            <para><parameter>flags</parameter>: set to <option>true</option>
-            to have small flags near language names (default is
-            <option>false</option>).</para>
+            all.</para>
           </listitem>
         </itemizedlist>
       </section>
@@ -3065,7 +3059,17 @@ submit</programlisting>
           <listitem>
             <para><parameter>post</parameter>: a text to be added after the
             last element. It won't be added if there are no elements at
-            all.</para>
+            all;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>names</parameter>: if <option>true</option>,
+            language names are shown (default <option>true</option>);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>flags</parameter>: if <option>true</option>,
+            small flags are shown (default <option>false</option>).</para>
           </listitem>
         </itemizedlist>
       </section>
