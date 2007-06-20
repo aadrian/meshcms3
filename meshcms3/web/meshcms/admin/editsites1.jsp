@@ -126,7 +126,7 @@
         </td>
         <td style="text-align: center;">
         <% if (((MainWebSite) webSite).getVirtualSite(dirs[i]).getCMSPath() != null) { %>
-          <img src="filemanager/images/button_yes.gif" alt=""
+          <img src="filemanager/images/tick.png" alt=""
            style='vertical-align:middle;' title="<fmt:message key="genericYes" />" />
         <% } else { %>
           &nbsp;
