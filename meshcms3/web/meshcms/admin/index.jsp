@@ -84,7 +84,6 @@
   <a href="logout.jsp" class="meshcmspanelicon"><img src="filemanager/images/door_out.png" alt="" />
   <fmt:message key="homeLogout" /></a>
    <% } %>
-  </td>
 
    <% if (!userInfo.isGuest()) { %>
   <a href="edituser1.jsp?username=<%= userInfo.getUsername() %>" class="meshcmspanelicon"><img src="filemanager/images/user_edit.png" alt="" />
@@ -105,7 +104,6 @@
   <a href="filemanager/index.jsp" class="meshcmspanelicon"><img src="filemanager/images/folder_magnify.png" alt="" />
   <fmt:message key="homeFile" /></a>
    <% } %>
-  </td>
 
    <% if (userInfo.canDo(UserInfo.CAN_BROWSE_FILES)) { %>
   <a href="staticexport1.jsp" class="meshcmspanelicon"><img src="filemanager/images/world_go.png" alt="" />
