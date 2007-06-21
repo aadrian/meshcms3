@@ -37,80 +37,116 @@ public final class Links extends AbstractTag {
   private String current;
   private String pre;
   private String post;
-
+  private String path;
+  private String welcome = "true";
+  
   public void setSeparator(String separator) {
     if (separator != null) {
       this.separator = separator;
     }
   }
-
+  
   public void setStyle(String style) {
     this.style = style;
   }
-
+  
   public void setTarget(String target) {
     this.target = target;
   }
-
+  
   public void setPre(String pre) {
     this.pre = pre;
   }
-
+  
   public void setPost(String post) {
     this.post = post;
   }
-
+  
   public void writeTag() throws IOException {
-    List list = webSite.getSiteMap().getPagesInDirectory(pagePath,
-        Utils.isTrue(current));
-
+    Path rootPath = (path == null) ? pagePath : new Path(path);
+    List list = webSite.getSiteMap().getPagesInDirectory(rootPath,
+        Utils.isTrue(welcome));
+    
+    /*if (Utils.isTrue(current)) {
+      if (list == null) {
+        list = new ArrayList();
+      }
+     
+      list.add(0, webSite.getSiteMap().getPageInfo(pagePath));
+    }*/
+    
     if (list != null) {
-      Writer w = getOut();
+      if (!Utils.isTrue(current)) {
+        PageInfo pageInfo = webSite.getSiteMap().getPageInfo(pagePath);
+        
+        for (int i = 0; i < list.size(); i++) {
+          PageInfo pi = (PageInfo) list.get(i);
+          
+          if (pi.equals(pageInfo)) {
+            list.remove(i--);
+          }
+        }
+      }
+      
       PageInfo[] pages = (PageInfo[]) list.toArray(new PageInfo[list.size()]);
-      String[] outs = webSite.getLinkList(pages, request.getContextPath(),
-          target, style);
-
+      String[] outs = webSite.getLinkList(pages, cp, target, style);
+      Writer w = getOut();
+      
       if (outs != null && outs.length > 0) {
         if (pre != null) {
           w.write(pre);
         }
-
+        
         w.write(Utils.generateList(outs, separator));
-
+        
         if (post != null) {
           w.write(post);
         }
-      } else {
-        w.write("&nbsp;");
       }
     }
   }
-
+  
   public String getSeparator() {
     return separator;
   }
-
+  
   public String getStyle() {
     return style;
   }
-
+  
   public String getTarget() {
     return target;
   }
-
+  
   public String getCurrent() {
     return current;
   }
-
+  
   public void setCurrent(String current) {
     this.current = current;
   }
-
+  
   public String getPre() {
     return pre;
   }
-
+  
   public String getPost() {
     return post;
+  }
+  
+  public String getPath() {
+    return path;
+  }
+  
+  public void setPath(String path) {
+    this.path = path;
+  }
+
+  public String getWelcome() {
+    return welcome;
+  }
+
+  public void setWelcome(String welcome) {
+    this.welcome = welcome;
   }
 }

@@ -2997,6 +2997,17 @@ submit</programlisting>
 
         <itemizedlist>
           <listitem>
+            <para><parameter>path</parameter>: the path where to find pages to
+            list (defaults to the path of the current page);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>welcome</parameter>: if <option>true</option>,
+            the welcome page in the directory is included too (default
+            <option>true</option>);</para>
+          </listitem>
+
+          <listitem>
             <para><parameter>separator</parameter>: the text between elements
             (default is a space);</para>
           </listitem>
