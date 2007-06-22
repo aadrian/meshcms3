@@ -1817,8 +1817,10 @@
         the image files to which it refers. The format of this file is simple:
         it must contain a block for each required thumbnail caption. Blocks
         are seperated by a blank line, and each block consists of single image
-        filename on a line, followed by one or more lines of caption text. An
-        example is given below.</para>
+        filename on a line, followed by one or more lines of caption text. If
+        one of those lines starts with <literal>link:</literal>, it will be
+        used as URL instead of the full image. An example is given
+        below.</para>
 
         <example>
           <title>An example gallery.captions file, containing thumbnail
@@ -1832,6 +1834,7 @@ This is the
 second image
 
 image_03.jpg
+link: http://www.yoursite.com
 This is the third image</programlisting>
         </example>
       </section>
