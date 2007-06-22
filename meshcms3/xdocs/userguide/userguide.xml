@@ -956,13 +956,6 @@
             </listitem>
 
             <listitem>
-              <para><emphasis>Toggle submenu visibility</emphasis>: if grayed
-              out, some menus will take this option into account and will not
-              display children of that page (useful when a page has too many
-              children for example);</para>
-            </listitem>
-
-            <listitem>
               <para><emphasis>Create a new child page</emphasis>: available if
               that page can have children (see <xref linkend="site_map" /> for
               details);</para>
@@ -970,7 +963,14 @@
 
             <listitem>
               <para><emphasis>Delete this page</emphasis>: available if the
-              page has not children pages.</para>
+              page has not children pages;</para>
+            </listitem>
+
+            <listitem>
+              <para><emphasis>Toggle submenu visibility</emphasis>: if grayed
+              out, some menus will take this option into account and will not
+              display children of that page (useful when a page has too many
+              children for example).</para>
             </listitem>
           </itemizedlist>
         </listitem>
