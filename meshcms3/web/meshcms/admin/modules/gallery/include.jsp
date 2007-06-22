@@ -37,11 +37,10 @@
 --%>
 
 <%!
-  private Map readCaptionFile(File captionFile) {
+  private void readCaptionFile(File captionFile, Map captionMap, Map linkMap) {
     try {
       BufferedReader reader = new BufferedReader(new InputStreamReader
           (new FileInputStream(captionFile), Utils.SYSTEM_CHARSET));
-      Map captionMap = new HashMap();
       StringBuffer caption = new StringBuffer();
       String file = null;
       String line;
@@ -62,6 +61,8 @@
           // Is it the first line of a caption block?
           if (file == null) {
             file = line;
+          } else if (line.startsWith("link:")) {
+            linkMap.put(file, line.substring(5).trim());
           } else {
             if (caption.length() > 0) {
               caption.append(' ');
@@ -74,9 +75,7 @@
         captionMap.put(file, caption.toString());
       }
       reader.close();
-      return captionMap;
     } catch (IOException e) {
-      return null;
     }
   }
 %>
@@ -115,12 +114,15 @@
     int cols = Utils.parseInt(md.getAdvancedParam("columns", null), Math.min(3, files.length));
     boolean captions = Utils.isTrue(md.getAdvancedParam("captions", "true"));
     Map captionMap = null;
+    Map linkMap = null;
     if (captions) {
       File captionFile = webSite.getFile(
        md.getModuleArgumentDirectoryPath(webSite, true).add("gallery.captions"));
       if (captionFile.exists()) {
+        captionMap = new HashMap();
+        linkMap = new HashMap();
         WebUtils.updateLastModifiedTime(request, captionFile);
-        captionMap = readCaptionFile(captionFile);
+        readCaptionFile(captionFile, captionMap, linkMap);
       }
     }
     %>
@@ -146,6 +148,8 @@
             %><tr><%
           }
           String caption = null;
+          String link = null;
+          boolean onclick = true;
 
           if (captionMap != null) {
             caption = (String) captionMap.get(path.getLastElement());
@@ -154,10 +158,22 @@
           if (caption == null) {
             caption = Utils.beautify(Utils.removeExtension(path), true);
           }
+          
+          if (linkMap != null) {
+            link = (String) linkMap.get(path.getLastElement());
+            onclick = false;
+          }
+          
+          if (link == null) {
+            link = cp + '/' + path;
+          }
           %><td align="center" valign="top">
-           <a href="<%= cp + '/' + path %>"
-            onclick="return popImageExtra(this.href, '<%= Utils.replace(caption, '\'', "\\'") %>', true);"><img
-            src="<%= cp + '/' + thumbPath %>" alt="<%= Utils.encodeHTML(caption) %>"/><% if (captions) {
+           <a href="<%= link %>"
+          <% if (onclick) { %>
+            onclick="return popImageExtra(this.href, '<%= Utils.replace(caption, '\'', "\\'") %>', true);"
+          <% } %>
+           ><img
+            src="<%= cp + '/' + thumbPath %>" alt="<%= Utils.encodeHTML(caption) %>" /><% if (captions) {
               %><br /><%= caption %><% } %></a>
           </td><%
 
