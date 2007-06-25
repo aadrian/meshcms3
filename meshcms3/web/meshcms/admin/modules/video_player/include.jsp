@@ -20,7 +20,9 @@
  and at info@cromoteca.com
 --%>
 
+<%@ page import="java.io.*" %>
 <%@ page import="java.net.*" %>
+<%@ page import="java.util.*" %>
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
@@ -65,7 +67,32 @@
 <script type="text/javascript" src="<%= cp %>/<%= webSite.getAdminPath() %>/scripts/swfobject/swfobject.js"></script>
 
 <div id="flashcontent" align="center">
-  This module requires a Flash Player.
+<%
+    File[] files = md.getModuleFiles(webSite, true);
+
+    if (files != null) {
+      Locale locale = WebUtils.getPageLocale(pageContext);
+      ResourceBundle bundle =
+          ResourceBundle.getBundle("org/meshcms/webui/Locales", locale);
+      Arrays.sort(files, new FileNameComparator());
+%>
+<table align="center" border="0" cellspacing="10" cellpadding="0">
+<%
+      for (int i = 0; i < files.length; i++) {
+        if (Utils.getExtension(files[i], false).equalsIgnoreCase("flv")) {
+          WebUtils.updateLastModifiedTime(request, files[i]);
+%>
+ <tr valign="top">
+  <td><img src="<%= cp + '/' + webSite.getAdminPath() %>/filemanager/images/<%= FileTypes.getIconFile(files[i].getName()) %>" border="0" alt="<%= FileTypes.getDescription(files[i].getName()) %>" /></td>
+  <td><a href="<%= cp + "/servlet/org.meshcms.core.DownloadServlet/" + webSite.getPath(files[i]) %>"><%= files[i].getName() %></a></td>
+  <td align="right"><%= WebUtils.formatFileLength(files[i].length(), locale, bundle) %></td>
+ </tr>
+<%
+        }
+      }
+    }
+%>
+</table>
 </div>
 
 <script type="text/javascript">
