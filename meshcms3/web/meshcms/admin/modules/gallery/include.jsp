@@ -32,7 +32,7 @@
   - columns = n (default 3)
   - css = (name of a css class)
   - quality = "low" | "high" (the default depends on the site configuration)
-  - order = "name" (default) | "date" (same as date_fwd) | "date_fwd" | "date_rev"
+  - order = "name" (default) | "date" (same as date_fwd) | "date_fwd" | "date_rev" | "random"
 
 --%>
 
@@ -101,15 +101,19 @@
 
   if (files != null) {
     String sort = md.getAdvancedParam("order", "name");
-    Comparator cmp;
-    if ("date".equalsIgnoreCase(sort) || "date_fwd".equalsIgnoreCase(sort)) {
-      cmp = new FileDateComparator(true);
-    } else if ("date_rev".equals(sort)) {
-      cmp = new FileDateComparator(false);
+    if("random".equalsIgnoreCase(sort)) {
+      Collections.shuffle(Arrays.asList(files));
     } else {
-      cmp = new FileNameComparator();
+      Comparator cmp;
+      if ("date".equalsIgnoreCase(sort) || "date_fwd".equalsIgnoreCase(sort)) {
+        cmp = new FileDateComparator(true);
+      } else if ("date_rev".equals(sort)) {
+        cmp = new FileDateComparator(false);
+      } else {
+        cmp = new FileNameComparator();
+      }
+      Arrays.sort(files, cmp);
     }
-    Arrays.sort(files, cmp);
     int col = 0;
     int cols = Utils.parseInt(md.getAdvancedParam("columns", null), Math.min(3, files.length));
     boolean captions = Utils.isTrue(md.getAdvancedParam("captions", "true"));

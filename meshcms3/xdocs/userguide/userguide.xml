@@ -1783,8 +1783,8 @@
             <para><parameter>order</parameter>: defines the sort order of the
             thumbnails. Values are <option>name</option> (default),
             <option>date</option> or <option>date_fwd</option> (sort forwards
-            by date), <option>date_rev</option> (sort reversed by
-            date).</para>
+            by date), <option>date_rev</option> (sort reversed by date),
+            <option>random</option>.</para>
           </listitem>
         </itemizedlist>
 
