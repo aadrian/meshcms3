@@ -105,7 +105,7 @@ public class Configuration implements Serializable {
     setSearchMovedPages(false);
     setRedirectRoot(false);
 
-    setBackupLife(90);
+    setBackupLife(15);
     setStatsLength(3);
     setUpdateInterval(4);
     setCacheType(MIXED_CACHE);
