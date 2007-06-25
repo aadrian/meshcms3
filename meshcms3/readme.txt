@@ -54,8 +54,8 @@ MeshCMS uses free software from other companies/developers:
 - jcrypt (slightly modified)
     http://locutus.kingwoodcable.com/jfd/crypt.html
 
-- Nuvola KDE theme (control panel icons)
-    http://www.icon-king.com/
+- FamFamFam (icons)
+    http://www.famfamfam.com/
 
 - ALIB (modified by Hue Holleran)
     http://sourceforge.net/projects/alib/
