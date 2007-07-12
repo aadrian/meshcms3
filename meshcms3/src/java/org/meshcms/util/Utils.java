@@ -945,17 +945,17 @@ public final class Utils {
    * the strings in the <code>files</code> array.
    */
   public static String generateUniqueName(String fileName, String[] files) {
-    fileName = fileName.toLowerCase();
+    if (searchString(files, fileName, true) == -1) {
+      return fileName;
+    }
+
+    // fileName = fileName.toLowerCase();
     String ext = "";
     int idx = fileName.lastIndexOf('.');
 
     if (idx != -1) {
       ext = fileName.substring(idx);
       fileName = fileName.substring(0, idx);
-    }
-
-    if (searchString(files, fileName + ext, true) == -1) {
-      return fileName + ext;
     }
 
     int d = 0;
