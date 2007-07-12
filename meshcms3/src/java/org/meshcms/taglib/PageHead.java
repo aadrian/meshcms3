@@ -24,6 +24,7 @@ package org.meshcms.taglib;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.*;
 import javax.servlet.jsp.*;
 import org.meshcms.core.*;
 import org.meshcms.util.*;
@@ -35,9 +36,12 @@ import com.opensymphony.module.sitemesh.*;
  * the page head are displayed by {@link PageBody}
  */
 public class PageHead extends AbstractTag {
+  private String dropStyles;
+  private String dropScripts;
+
   public void writeTag() throws IOException {
     Writer w = getOut();
-    ((HTMLPage) getPage()).writeHead(w);
+    w.write(getHeadContent());
     Locale locale = (Locale) pageContext.getAttribute(HitFilter.LOCALE_ATTRIBUTE,
         PageContext.REQUEST_SCOPE);
 
@@ -69,7 +73,7 @@ public class PageHead extends AbstractTag {
     }
 
     Writer w = getOut();
-    ((HTMLPage) getPage()).writeHead(w);
+    w.write(getHeadContent());
     w.write("\n<script type='text/javascript' src='" +
       cp + '/' + (webSite.getFile(webSite.getCMSPath().add("tiny_mce")).exists() ?
       webSite.getCMSPath() : webSite.getAdminScriptsPath()) +
@@ -92,5 +96,35 @@ public class PageHead extends AbstractTag {
       (webSite.getFile(webSite.getCMSPath().add("tinymce_init.js")).exists() ?
       webSite.getCMSPath() : webSite.getAdminScriptsPath()) +
       "/tinymce_init.js'></script>");
+  }
+
+  private String getHeadContent() {
+    String head = ((HTMLPage) getPage()).getHead();
+
+    if (Utils.isTrue(dropStyles)) {
+      head = head.replaceAll("(?i)(?s)<style[^>]*>.*?</style[^>]*>", "");
+    }
+
+    if (Utils.isTrue(dropScripts)) {
+      head = head.replaceAll("(?i)(?s)<script[^>]*>.*?</script[^>]*>", "");
+    }
+
+    return head;
+  }
+
+  public String getDropStyles() {
+    return dropStyles;
+  }
+
+  public void setDropStyles(String dropStyles) {
+    this.dropStyles = dropStyles;
+  }
+
+  public String getDropScripts() {
+    return dropScripts;
+  }
+
+  public void setDropScripts(String dropScripts) {
+    this.dropScripts = dropScripts;
   }
 }

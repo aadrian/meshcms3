@@ -310,6 +310,16 @@
     <name>pagehead</name>
     <tag-class>org.meshcms.taglib.PageHead</tag-class>
     <body-content>JSP</body-content>
+    <attribute>
+      <name>dropStyles</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>dropScripts</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
   </tag>
   <tag>
     <name>pagetitle</name>
