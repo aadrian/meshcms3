@@ -78,7 +78,8 @@ public final class AdminMenu extends AbstractTag {
     List l = new ArrayList();
 
     if (userInfo == null || userInfo.isGuest()) {
-      if (mode == null || mode.equals(MODE_NORMAL)) {
+      if ((mode == null || mode.equals(MODE_NORMAL)) &&
+          !org.meshcms.extra.StaticExporter.isExportRequest(request)) {
         l.add(a1 + afp + "/login.jsp" + a2 + bundle.getString("adminLogin") + a3);
       }
     } else {
