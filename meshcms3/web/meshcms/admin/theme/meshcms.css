@@ -131,3 +131,17 @@ a.meshcmspanelicon:hover {
  padding: 4px;
  border: 1px solid silver;
 }
+
+/* style for the thumbnail box in the lightbox image gallery */
+.imagebox {
+ float: left;
+ margin: 0 30px 30px 0;
+}
+
+.clearLeft {
+ clear: left;
+}
+
+/* IE6 holly hack \*/
+* html .lightbox {height: 1%;}
+/* End IE6 holly hack */

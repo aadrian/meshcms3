@@ -33,7 +33,7 @@
   - css = (name of a css class)
   - quality = "low" | "high" (the default depends on the site configuration)
   - order = "name" (default) | "date" (same as date_fwd) | "date_fwd" | "date_rev" | "random"
-
+  - lightbox = "true" | "false" (default) to use the lightbox script to show big images
 --%>
 
 <%!
@@ -129,9 +129,20 @@
         readCaptionFile(captionFile, captionMap, linkMap);
       }
     }
-    %>
-
-<script type="text/javascript" src="<%= cp + '/' + md.getModulePath() %>/closePopImage.js"></script>
+    
+    boolean lightbox = Utils.isTrue(md.getAdvancedParam("lightbox", "false"));
+    
+    if (lightbox) { %>
+      <script type="text/javascript" src="<%= cp + '/' + md.getModulePath() %>/js/mootools.v1.00.js"></script>
+      <script type="text/javascript" src="<%= cp + '/' + md.getModulePath() %>/js/slimbox.v1.3.js"></script>
+      <script type="text/javascript">
+      window.addEvent('domready', function() {
+          new Asset.css('<%= cp + '/' + md.getModulePath() %>/slimbox.css');
+      });
+      </script>
+    <% } else { %>
+      <script type="text/javascript" src="<%= cp + '/' + md.getModulePath() %>/closePopImage.js"></script>
+    <% } %>
 
 <table<%= md.getFullCSSAttribute("css") %> width="100" align="center" border="0" cellspacing="20" cellpadding="0">
 <%
@@ -153,7 +164,7 @@
           }
           String caption = null;
           String link = null;
-          boolean onclick = true;
+          boolean onClick = !lightbox;
 
           if (captionMap != null) {
             caption = (String) captionMap.get(path.getLastElement());
@@ -165,15 +176,15 @@
           
           if (linkMap != null) {
             link = (String) linkMap.get(path.getLastElement());
-            onclick = false;
+            onClick = false;
           }
           
           if (link == null) {
             link = cp + '/' + path;
           }
           %><td align="center" valign="top">
-           <a href="<%= link %>"
-          <% if (onclick) { %>
+           <a href="<%= link %>" rel="lightbox[<%= moduleCode %>]"
+          <% if (onClick) { %>
             onclick="return popImageExtra(this.href, '<%= Utils.replace(caption, '\'', "\\'") %>', true);"
           <% } %>
            ><img
