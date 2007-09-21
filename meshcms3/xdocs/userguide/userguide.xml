@@ -159,12 +159,17 @@
     &lt;Connector port="8080" /&gt;
 
     &lt;Engine name="Catalina" defaultHost="localhost"&gt;
-      &lt;Host name="localhost" appBase="/home/tomcat/webapps"&gt;
-        &lt;Context path="" docBase="meshcms" /&gt;
+      &lt;Host name="localhost" appBase="/usr/local/tomcat/webapps"&gt;
+        &lt;Context path="" docBase="ROOT" /&gt;
       &lt;/Host&gt;
     &lt;/Engine&gt;
   &lt;/Service&gt;
 &lt;/Server&gt;</programlisting>
+
+      <note>
+        <para><option>ROOT</option> is the recommended name for the root
+        context in a Tomcat host.</para>
+      </note>
     </section>
 
     <section id="charsets">
@@ -1784,7 +1789,14 @@
             thumbnails. Values are <option>name</option> (default),
             <option>date</option> or <option>date_fwd</option> (sort forwards
             by date), <option>date_rev</option> (sort reversed by date),
-            <option>random</option>.</para>
+            <option>random</option>;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>lightbox</parameter>: if <option>true</option>,
+            the famous Lightbox script is used to show images (default
+            <option>false</option>). Please check that it is compatible with
+            your theme.</para>
           </listitem>
         </itemizedlist>
 
@@ -2376,8 +2388,24 @@ submit</programlisting>
         <title>pagehead</title>
 
         <para>Inserts some headers found in the page. This tag is
-        <emphasis>mandatory</emphasis> since it is needed when editing pages.
-        This tag has no attributes.</para>
+        <emphasis>mandatory</emphasis> since it is needed when editing
+        pages.</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>dropScripts</parameter>: if
+            <option>true</option>, <code>&lt;script&gt;</code> tags are
+            discarded (default <option>false</option>);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>dropStyles</parameter>: if <option>true</option>,
+            <code>&lt;style&gt;</code> tags are discarded (default
+            <option>false</option>).</para>
+          </listitem>
+        </itemizedlist>
       </section>
 
       <section id="tag_pagebody">
@@ -3335,8 +3363,17 @@ submit</programlisting>
       <para>Since MeshCMS pages are simple HTML files, a page cannot contain
       multiple versions of itself, so different languages must be managed
       separately. Nevertheless, MeshCMS offers some expedients to deal with
-      multiple languages. Suppose that you have to create a site in two
-      languages: English and Italian. Here are the steps to follow:</para>
+      multiple languages.</para>
+
+      <para>Multilanguage support is based on building identical (or at least
+      similar) trees of pages under pages at the first level that will have
+      the path equal to language codes. If you follow that structure, pages
+      that differ only at the first level will be matched as different
+      versions of the same page.</para>
+
+      <para>To make it easier to understand, let's see an example. Suppose
+      that you have to create a site in two languages: English and Italian.
+      Here are the steps to follow:</para>
 
       <orderedlist>
         <listitem>
@@ -3347,8 +3384,8 @@ submit</programlisting>
 
         <listitem>
           <para>create a directory for each language, making sure that the
-          each directory is named after the language code (i.e.
-          <code>en</code> and <code>it</code> in our example);</para>
+          each directory is named after a language code (i.e. <code>en</code>
+          and <code>it</code> in our example);</para>
         </listitem>
 
         <listitem>
