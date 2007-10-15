@@ -1,5 +1,14 @@
 ________________________________
 --------------------------------
+Unreleased changes
+--------------------------------
+
+- Added an option to use Lightbox in the gallery module (contributed by Gilles Hooghe)
+- Added two new parameters to the pagehead tag to remove script and styles from HTML pages
+- Login menu is not shown if we're performing a static export
+
+________________________________
+--------------------------------
 2007-06-25: 3.1 released
 --------------------------------
 
