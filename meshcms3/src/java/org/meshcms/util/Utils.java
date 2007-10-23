@@ -122,7 +122,7 @@ public final class Utils {
    * @return <code>true</code> if the String is null or empty, <code>false</code> otherwise.
    */
   public static boolean isNullOrEmpty(String s) {
-    return s == null || s.equals("");
+    return s == null || s.length() == 0;
   }
 
   /**
