@@ -36,7 +36,7 @@ public class IfNotMailForm extends AbstractTag {
   }
 
   public int getStartTagReturnValue() {
-    return (Utils.checkAddress(getPage().getProperty(PageAssembler.EMAIL_PARAM)) && !isEdit) ?
+    return (Utils.checkAddress(getMailFormAddress()) && !isEdit) ?
         SKIP_BODY : EVAL_BODY_INCLUDE;
   }
 }

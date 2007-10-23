@@ -28,7 +28,6 @@ import java.util.regex.*;
 import javax.servlet.jsp.*;
 import org.meshcms.core.*;
 import org.meshcms.util.*;
-import com.opensymphony.module.sitemesh.*;
 
 /**
  * Writes the page head. Also adds some init variables when editing. Please note
@@ -36,6 +35,11 @@ import com.opensymphony.module.sitemesh.*;
  * the page head are displayed by {@link PageBody}
  */
 public class PageHead extends AbstractTag {
+  public static final Pattern META_REGEX = Pattern.compile("(?s)(?i)<meta\\s+" +
+      "(?:name\\s*=\\s*([\"'])meshcms:module\\1\\s+content\\s*=\\s*([\"'])" +
+      "(.+?)\\2|content\\s*=\\s*([\"'])(.+?)\\4\\s+name\\s*=\\s*([\"'])" +
+      "meshcms:module\\6)[^>]*>\\n*");
+  
   private String dropStyles;
   private String dropScripts;
 
@@ -99,7 +103,8 @@ public class PageHead extends AbstractTag {
   }
 
   private String getHeadContent() {
-    String head = ((HTMLPage) getPage()).getHead();
+    String head = getHead();
+    head = META_REGEX.matcher(head).replaceAll("");
 
     if (Utils.isTrue(dropStyles)) {
       head = head.replaceAll("(?i)(?s)<style[^>]*>.*?</style[^>]*>", "");

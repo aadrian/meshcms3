@@ -29,7 +29,6 @@ import javax.servlet.jsp.*;
 import org.meshcms.core.*;
 import org.meshcms.util.*;
 import org.meshcms.webui.*;
-import com.opensymphony.module.sitemesh.*;
 
 /**
  * Writes the page body or the main part of the page editor.
@@ -72,8 +71,13 @@ public class PageBody extends AbstractTag {
     w.write("<div class='meshcmsfieldlabel'><img alt=\"\" src=\"" + afp +
         "/filemanager/images/bullet_toggle_plus.png\" id='togglehead' onclick=\"javascript:editor_toggleHideShow('meshcmshead','togglehead');\" />\n");
     w.write("<label for='meshcmshead'>" + bundle.getString("editorPageHead") + "</label></div>\n");
+    
+    String head = getHead();
+    head = PageHead.META_REGEX.matcher(head).replaceAll("");
+    head = MailForm.META_REGEX.matcher(head).replaceAll("");
+    
     w.write("<div class='meshcmsfield'><textarea id='meshcmshead' name='meshcmshead' rows='5' cols='80' style='height: 5em; width: 100%; display: none;'>" +
-        Utils.noNull(((HTMLPage) getPage()).getHead()) + "</textarea></div>\n");
+         head + "</textarea></div>\n");
     
     w.write("<div class='meshcmsfieldlabel'><label for='meshcmsbody'>" +
         bundle.getString("editorPageBody") + "</label></div>\n");

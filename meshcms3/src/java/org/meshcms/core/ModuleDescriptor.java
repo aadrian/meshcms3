@@ -53,7 +53,7 @@ public class ModuleDescriptor {
   public static final String PARAMETERS_ID = "m_apm";
   
   public static final String TITLE_ID = "m_ttl";
-
+  
   private String location;
   private String template;
   private String argument;
@@ -212,6 +212,14 @@ public class ModuleDescriptor {
   public String getAdvancedParam(String paramName, String defaultValue) {
     return advancedParams == null ? defaultValue :
      advancedParams.getProperty(paramName, defaultValue);
+  }
+  
+  public void setAdvancedParam(String paramName, String value) {
+    if (advancedParams == null) {
+      advancedParams = new Properties();
+    }
+    
+    advancedParams.setProperty(paramName, value);
   }
 
   /**
