@@ -300,27 +300,7 @@ public class Path implements Comparable, Serializable, Cloneable {
    * </pre>
    */
   public boolean isContainedIn(Path root) {
-    if (root == null) {
-      return false;
-    }
-
-    if (root.isRelative()) {
-      throw new IllegalArgumentException("Root path can't be relative");
-    }
-
-    int level = root.getElementCount();
-
-    if (level > elements.length) {
-      return false;
-    }
-
-    for (int i = 0; i < level; i++) {
-      if (!elements[i].equals(root.getElementAt(i))) {
-        return false;
-      }
-    }
-
-    return true;
+    return !getRelativeTo(root).isRelative();
   }
 
   /**
@@ -337,14 +317,6 @@ public class Path implements Comparable, Serializable, Cloneable {
   public Path getRelativeTo(Object root) {
     Path rootPath = (root instanceof Path) ? (Path) root : new Path(root);
 
-    if (rootPath.isRelative()) {
-      throw new IllegalArgumentException("Root path can't be negative");
-    }
-    
-    if (isRelative()) {
-      return this;
-    }
-
     int i0 = 0;
     int i1 = 0;
 
@@ -360,12 +332,8 @@ public class Path implements Comparable, Serializable, Cloneable {
       list.add("..");
     }
 
-    while (i1 < elements.length - 1) {
+    while (i1 <= elements.length - 1) {
       list.add(elements[i1++]);
-    }
-
-    if (i1 == elements.length - 1) {
-      list.add(elements[i1]);
     }
 
     return new Path(list);
