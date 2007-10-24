@@ -99,8 +99,20 @@
       return "<fmt:message key="msgNewFolder" />";
     }
 
+    function msgNotVisuallyEditable() {
+      return "<fmt:message key="fmErrorNoHTML" />";
+    }
+
     function msgSuggestedFolderName() {
       return "<fmt:message key="msgSuggestedFolderName" />";
+    }
+    
+    cp = "<%= cp %>";
+    
+    function isVisuallyEditable(file) {
+      return file.match(/^.*?\.(?:<%=
+        Utils.generateList(webSite.getConfiguration().getVisualExtensions(), "|")
+      %>)$/);
     }
   // ]]>
   </script>
@@ -136,9 +148,25 @@
 
       var fileMenu = new WebFXMenu;
       fileMenu.width = 200;
-      fileMenu.add(new WebFXMenuItem('<img src=\'images/folder_page_white.png\' class=\'menuicon\'><fmt:message key="fmViewFile" />', 'javascript:fm_viewFile()'));
-      fileMenu.add(new WebFXMenuItem('<img src=\'images/page_edit.png\' class=\'menuicon\'><fmt:message key="fmEditVisually" />', 'javascript:fm_editPage()'));
-      fileMenu.add(new WebFXMenuItem('<img src=\'images/page_white_edit.png\' class=\'menuicon\'><fmt:message key="fmEditSrc" />', 'javascript:fm_editFile()'));
+      
+      var viewSubMenu = new WebFXMenu;
+      viewSubMenu.width = 200;
+      viewSubMenu.add(new WebFXMenuItem('<img src=\'images/application.png\' class=\'menuicon\'><fmt:message key="fmThisWindow" />', 'javascript:fm_viewFile()'));
+      viewSubMenu.add(new WebFXMenuItem('<img src=\'images/application_double.png\' class=\'menuicon\'><fmt:message key="fmNewWindow" />', 'javascript:fm_viewFileNewWindow()'));
+      fileMenu.add(new WebFXMenuItem('<img src=\'images/folder_page_white.png\' class=\'menuicon\'><fmt:message key="fmViewFile" />', null, null, viewSubMenu));
+      
+      var wysiwygSubMenu = new WebFXMenu;
+      wysiwygSubMenu.width = 200;
+      wysiwygSubMenu.add(new WebFXMenuItem('<img src=\'images/application.png\' class=\'menuicon\'><fmt:message key="fmThisWindow" />', 'javascript:fm_editPage()'));
+      wysiwygSubMenu.add(new WebFXMenuItem('<img src=\'images/application_double.png\' class=\'menuicon\'><fmt:message key="fmNewWindow" />', 'javascript:fm_editPageNewWindow()'));
+      fileMenu.add(new WebFXMenuItem('<img src=\'images/page_edit.png\' class=\'menuicon\'><fmt:message key="fmEditVisually" />', null, null, wysiwygSubMenu));
+      
+      var editSubMenu = new WebFXMenu;
+      editSubMenu.width = 200;
+      editSubMenu.add(new WebFXMenuItem('<img src=\'images/application.png\' class=\'menuicon\'><fmt:message key="fmThisWindow" />', 'javascript:fm_editFile()'));
+      editSubMenu.add(new WebFXMenuItem('<img src=\'images/application_double.png\' class=\'menuicon\'><fmt:message key="fmNewWindow" />', 'javascript:fm_editFileNewWindow()'));
+      fileMenu.add(new WebFXMenuItem('<img src=\'images/page_white_edit.png\' class=\'menuicon\'><fmt:message key="fmEditSrc" />', null, null, editSubMenu));
+      
       fileMenu.add(new WebFXMenuSeparator());
       fileMenu.add(new WebFXMenuItem('<img src=\'images/folder_add.png\' class=\'menuicon\'><fmt:message key="fmNewFolder" />', 'javascript:fm_createDir()'));
       fileMenu.add(new WebFXMenuItem('<img src=\'images/page_add.png\' class=\'menuicon\'><fmt:message key="fmNewFile" />', 'javascript:fm_createFile()'));

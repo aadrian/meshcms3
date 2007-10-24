@@ -195,6 +195,14 @@ function fm_viewFile() {
   }
 }
 
+function fm_viewFileNewWindow() {
+  var file = fm_getCompletePath();
+
+  if (file) {
+    window.open(cp + file);
+  }
+}
+
 /**
  * Asks process.jsp to show the selected page in the editor
  */
@@ -206,14 +214,40 @@ function fm_editFile() {
   }
 }
 
+function fm_editFileNewWindow() {
+  var file = fm_getCompletePath();
+
+  if (file) {
+    window.open("../editsrc.jsp?path=" + file);
+  }
+}
+
 /**
  * Asks process.jsp to load a simple text editor to modify the selected file
  */
 function fm_editPage() {
-  if (fm_getSelectedFile()) {
-    var fmfm = document.forms['fmfm'];
-    fmfm.f_action.value = "wysiwyg";
-    fmfm.submit();
+  var file = fm_getSelectedFile();
+
+  if (file) {
+    if (isVisuallyEditable(file)) {
+      var fmfm = document.forms['fmfm'];
+      fmfm.f_action.value = "wysiwyg";
+      fmfm.submit();
+    } else {
+      alert(msgNotVisuallyEditable().replace("{0}", fm_getSelectedFile()));
+    }
+  }
+}
+
+function fm_editPageNewWindow() {
+  var file = fm_getCompletePath();
+
+  if (file) {
+    if (isVisuallyEditable(file)) {
+      window.open(cp + file + "?meshcmsaction=edit");
+    } else {
+      alert(msgNotVisuallyEditable().replace("{0}", fm_getSelectedFile()));
+    }
   }
 }
 
