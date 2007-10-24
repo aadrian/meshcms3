@@ -64,12 +64,11 @@
   }
 
   File commentsDir = webSite.getFile(commentsPath);
-  commentsDir.mkdirs();
 
-  if (!commentsDir.isDirectory()) {
+  /* if (!commentsDir.isDirectory()) {
     throw new IllegalStateException(Utils.getFilePath(commentsDir) +
         " is not a directory");
-  }
+  } */
 
   Locale locale = WebUtils.getPageLocale(pageContext);
   ResourceBundle pageBundle = ResourceBundle.getBundle
@@ -103,6 +102,7 @@
       PageAssembler pa = new PageAssembler();
       pa.addProperty("pagetitle", Utils.encodeHTML(name));
       pa.addProperty("meshcmsbody", text);
+      commentsDir.mkdirs();
       File commentFile = new File(commentsDir, "mcc_" +
           WebUtils.numericDateFormatter.format(new Date()) + ".html");
       Utils.writeFully(commentFile, pa.getPage());
@@ -197,7 +197,11 @@
   long start = (maxAge > 0) ? System.currentTimeMillis() - maxAge *
       Configuration.LENGTH_OF_DAY : 0L;
   
-  File[] files = commentsDir.listFiles();
+  File[] files = null;
+  
+  if (commentsDir.exists() && commentsDir.isDirectory()) {
+    files = commentsDir.listFiles();
+  }
 
   if (files != null && files.length > 0) {
     Arrays.sort(files, new ReverseComparator(new FileDateComparator()));
