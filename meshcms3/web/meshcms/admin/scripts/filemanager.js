@@ -243,7 +243,7 @@ function fm_editPageNewWindow() {
   var file = fm_getCompletePath();
 
   if (file) {
-    if (isVisuallyEditable(file)) {
+    if (isVisuallyEditable(file)) {
       window.open(cp + file + "?meshcmsaction=edit");
     } else {
       alert(msgNotVisuallyEditable().replace("{0}", fm_getSelectedFile()));
