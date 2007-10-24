@@ -229,7 +229,7 @@ function fm_editPage() {
   var file = fm_getSelectedFile();
 
   if (file) {
-    if (isVisuallyEditable(file)) {
+    if (isVisuallyEditable(file)) {
       var fmfm = document.forms['fmfm'];
       fmfm.f_action.value = "wysiwyg";
       fmfm.submit();
