@@ -170,6 +170,7 @@ public class WebSite {
           configuration.getBackupLifeMillis()).start();
       new DirectoryCleaner(getFile(generatedFilesPath),
           configuration.getBackupLifeMillis()).start();
+      new DirectoryCleaner(getFile(moduleDataPath)).start();
     }
   }
 
