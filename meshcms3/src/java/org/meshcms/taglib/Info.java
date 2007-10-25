@@ -27,9 +27,7 @@ import org.meshcms.core.*;
 import org.meshcms.util.*;
 
 /**
- * Writes some user data (username, e-mail or user details).
- *
- * @see org.meshcms.core.UserInfo
+ * Writes some site and system data.
  */
 public final class Info extends AbstractTag {
   public void writeTag() throws IOException {
@@ -49,6 +47,10 @@ public final class Info extends AbstractTag {
         result = c.getSiteAuthor();
       } else if (id.equals("authorurl")) {
         result = c.getSiteAuthorURL();
+      } else if (id.equals("meshcms")) {
+        result = WebSite.APP_NAME + " " + WebSite.VERSION_ID;
+      } else if (id.equals("charset")) {
+        result = Utils.SYSTEM_CHARSET;
       }
     }
 
