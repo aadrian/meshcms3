@@ -99,29 +99,26 @@ public class Configuration implements Serializable {
     setAlwaysDenyDirectoryListings(true);
     setHideExceptions(true);
     setEditorModulesCollapsed(false);
-    setHighQualityThumbnails(false);
-    setReplaceThumbnails(false);
+    setHighQualityThumbnails(true);
+    setReplaceThumbnails(true);
     setExportCheckDates(true);
     setSearchMovedPages(false);
     setRedirectRoot(false);
 
     setBackupLife(15);
     setStatsLength(3);
-    setUpdateInterval(4);
+    setUpdateInterval(2);
     setCacheType(MIXED_CACHE);
 
     setMailServer("localhost");
     setSmtpUsername("");
     setSmtpPassword("");
-    setSiteAuthor("Luciano Vernaschi");
-    setSiteAuthorURL("http://www.cromoteca.com/");
-    setSiteDescription("MeshCMS is a Content Management System designed to be" +
-        " easy to use. It doesn't require a database and offers easy" +
-        " deployment, management of multiple sites, wysiwyg editing, file" +
-        " manager, themes, modules and a custom tag library.");
-    setSiteHost("www.meshcms.org");
-    setSiteKeywords("meshcms, cms, java, jsp, servlet, content management system");
-    setSiteName("MeshCMS - Open Source Content Management System");
+    setSiteAuthor("your name");
+    setSiteAuthorURL("http://www.yoursite.com/yourpage");
+    setSiteDescription("A short description of your site");
+    setSiteHost("www.thissite.com");
+    setSiteKeywords("your, keywords, here");
+    setSiteName("Site Name");
     setExportBaseURL("");
     setExportDir("");
     setExportCommand("");
