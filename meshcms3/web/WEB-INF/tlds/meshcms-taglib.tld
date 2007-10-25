@@ -122,6 +122,11 @@
     <body-content>JSP</body-content>
   </tag>
   <tag>
+    <name>adminpath</name>
+    <tag-class>org.meshcms.taglib.AdminPath</tag-class>
+    <body-content>JSP</body-content>
+  </tag>
+  <tag>
     <name>searchfile</name>
     <tag-class>org.meshcms.taglib.SearchFile</tag-class>
     <body-content>JSP</body-content>
