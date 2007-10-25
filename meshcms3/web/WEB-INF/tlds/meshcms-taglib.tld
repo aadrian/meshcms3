@@ -285,6 +285,16 @@
       <required>true</required>
       <rtexprvalue>true</rtexprvalue>
     </attribute>
+    <attribute>
+      <name>pre</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    <attribute>
+      <name>post</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
   </tag>
   <tag>
     <name>ifmodule</name>

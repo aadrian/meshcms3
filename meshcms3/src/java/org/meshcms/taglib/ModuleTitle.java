@@ -31,15 +31,17 @@ import org.meshcms.core.*;
  */
 public class ModuleTitle extends AbstractTag {
   private String location = "";
-
+  private String pre;
+  private String post;
+  
   public void setLocation(String location) {
     this.location = location;
   }
-
+  
   public String getLocation() {
     return location;
   }
-
+  
   public void writeTag() throws IOException {
     String title = null;
     ModuleDescriptor md = getModuleDescriptor(location, null);
@@ -49,7 +51,33 @@ public class ModuleTitle extends AbstractTag {
     }
     
     if (title != null) {
-      getOut().write(title);
+      Writer w = getOut();
+      
+      if (pre != null) {
+        w.write(pre);
+      }
+      
+      w.write(title);
+      
+      if (post != null) {
+        w.write(post);
+      }
     }
+  }
+  
+  public String getPre() {
+    return pre;
+  }
+  
+  public void setPre(String pre) {
+    this.pre = pre;
+  }
+  
+  public String getPost() {
+    return post;
+  }
+  
+  public void setPost(String post) {
+    this.post = post;
   }
 }
