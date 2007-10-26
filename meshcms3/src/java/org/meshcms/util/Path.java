@@ -300,7 +300,7 @@ public class Path implements Comparable, Serializable, Cloneable {
    * </pre>
    */
   public boolean isContainedIn(Path root) {
-    return !getRelativeTo(root).isRelative();
+    return root == null ? false : !getRelativeTo(root).isRelative();
   }
 
   /**
