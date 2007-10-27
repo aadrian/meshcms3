@@ -38,6 +38,24 @@
 <head>
 <%= webSite.getAdminMetaThemeTag() %>
 <title><fmt:message key="homeTitle" /></title>
+<%-- <script type="text/javascript" src="scripts/jquery/jquery.pack.js">
+</script>
+<script type="text/javascript">
+  $(function() {
+    var maxW = 0;
+    var btns = $("a.meshcmspanelicon");
+
+    btns.each(function() {
+      maxW = Math.max($(this).width(), maxW);
+    });
+
+    maxW += 4;
+
+    btns.each(function() {
+      $(this).width(maxW);
+    });
+  });
+</script> --%>
 </head>
 
 <body>
