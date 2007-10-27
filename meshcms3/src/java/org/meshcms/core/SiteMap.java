@@ -507,7 +507,7 @@ public class SiteMap extends DirectoryParser {
     int idx = pagesList.indexOf(rootPage);
     
     if (idx < 0) {
-      return null;
+      return new ArrayList();
     }
     
     int rootLevel = rootPage.getLevel();
