@@ -88,15 +88,17 @@ public final class ListMenu extends AbstractTag {
     
     SiteMap siteMap = webSite.getSiteMap();
     SiteInfo siteInfo = webSite.getSiteInfo();
-    Path rootPath;
+    Path rootPath = siteInfo.getThemeRoot(pagePath);
     
-    if (path == null) {
-      rootPath = siteInfo.getThemeRoot(pagePath);
-    } else {
+    if (path != null) {
       if (path.equals("current")) {
         rootPath = pageDirPath;
       } else if (path.equals("parent")) {
-        rootPath = pageDirPath.isRoot() ? pageDirPath : pageDirPath.getParent();
+        Path parent = pageDirPath.getParent();
+        
+        if (parent.isContainedIn(rootPath)) {
+          rootPath = parent;
+        }
       } else if (path.equals("root")) {
         rootPath = Path.ROOT;
       } else {
