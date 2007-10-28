@@ -173,8 +173,9 @@ public final class ListMenu extends AbstractTag {
         }
         
         if (current.getLevel() > 0 && pathInMenu.isContainedIn(currentPath)
-            && ! current.getPath().equals(pathInMenu)
-            && ! Utils.isNullOrEmpty(currentPathStyle)) {
+            && !current.getPath().equals(pathInMenu)
+            && !current.getPath().equals(rootPath)
+            && !Utils.isNullOrEmpty(currentPathStyle)) {
           outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
               "\" class='" + currentPathStyle + "'>" +
               siteInfo.getPageTitle(current) + "</a>");
@@ -182,7 +183,7 @@ public final class ListMenu extends AbstractTag {
           if (isEdit || linkCurrent) {
             if (! Utils.isNullOrEmpty(currentStyle) || ! Utils.isNullOrEmpty(currentPathStyle)) {
               outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
-                  "\" class='" + (currentPathStyle+" "+currentStyle).trim() + "'>" +
+                  "\" class='" + (currentPathStyle +" " + currentStyle).trim() + "'>" +
                   siteInfo.getPageTitle(current) + "</a>");
             } else {
               outWriter.write("<a href=\"" + cp + webSite.getLink(current) + "\">" +
