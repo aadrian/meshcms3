@@ -84,13 +84,20 @@ public class PageBody extends AbstractTag {
     w.write("<div class='meshcmsfield'><textarea id='meshcmsbody' name='meshcmsbody' rows='25' cols='80' style='height: 30em; width: 100%;'>");
     w.write(Utils.encodeHTML(getPage().getBody(), true));
     w.write("</textarea></div>\n");
-    w.write("<div class='meshcmsfield'><input type='checkbox' checked='checked' id='relch' name='relch' value='true' \n");
-    w.write(" onclick=\"javascript:tinyMCE.settings['relative_urls']=this.checked;\" />\n");
+    
+    boolean relativeURLs = webSite.getSiteMap().getPageInfo(pagePath) != null;
+    
+    w.write("<div class='meshcmsfield'><input type='checkbox'" + (relativeURLs ? " checked='checked'" : "") + " id='relch' name='relch' value='true' \n");
+    w.write(" onclick=\"tinyMCE.settings['relative_urls']=this.checked;\" />\n");
     w.write(" <label for='relch'>" + bundle.getString("editorRelative") + "</label></div>\n");
     
     w.write("<div class='meshcmsbuttons'><input type='submit' value='" +
         bundle.getString("genericSave") + "' /></div>\n");
-    w.write("</fieldset>");
+    w.write("</fieldset>\n");
+    
+    w.write("<script type='text/javascript'>\n;// <![CDATA[\n");
+    w.write("  tinyMCE.settings['relative_urls']=" + relativeURLs + ";\n");
+    w.write("// ]]>\n</script>\n");
   }
   
   private String replaceThumbnails(String body) {
