@@ -3,6 +3,14 @@ ________________________________
 Unreleased changes
 --------------------------------
 
+- TinyMCE upgraded to 2.1.2
+- <cms:listmenu> "path" attribute supports special values "current", "parent" and "root"
+- Default configuration values have been revised and changed
+- <cms:moduletitle> gets "pre" and "post" attributes
+- Added the <cms:adminpath> tag to get the CMS admin path
+- The <cms:info> tag can now provide some basic system info
+- File Manager now allows to view/edit files in another window
+- MeshCMS-specific information is now stored in META tags instead of HTML tag
 - Added an option to use Lightbox in the gallery module (contributed by Gilles Hooghe)
 - Added two new parameters to the pagehead tag to remove script and styles from HTML pages
 - Login menu is not shown if we're performing a static export
