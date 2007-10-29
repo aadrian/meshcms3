@@ -153,6 +153,11 @@ public final class WebUtils {
   }
   
   public static String convertToHTMLEntities(String s, boolean encodeTags) {
+    return convertToHTMLEntities(s, null, encodeTags);
+  }
+  
+  public static String convertToHTMLEntities(String s, String charset, boolean encodeTags) {
+    CharsetEncoder ce = charset == null ? null : Charset.forName(charset).newEncoder();
     StringBuffer sb = new StringBuffer(s.length());
     
     for (int i = 0; i < s.length(); i++) {
@@ -160,12 +165,16 @@ public final class WebUtils {
       int n = ((int) c) & 0xFFFF;
       
       if (n > 127) {
-        String ent = NUMBER_TO_ENTITY.getProperty(Integer.toString(c));
-        
-        if (ent == null) {
-          sb.append("&#").append(n).append(';');
+        if (ce != null && ce.canEncode(c)) {
+          sb.append(c);
         } else {
-          sb.append('&').append(ent).append(';');
+          String ent = NUMBER_TO_ENTITY.getProperty(Integer.toString(c));
+
+          if (ent == null) {
+            sb.append("&#").append(n).append(';');
+          } else {
+            sb.append('&').append(ent).append(';');
+          }
         }
       } else if (encodeTags && (n == 34 || /* n == 38 || */ n == 39 || n == 60 || n == 62)) {
         sb.append('&').append(NUMBER_TO_ENTITY.getProperty(Integer.toString(c))).append(';');

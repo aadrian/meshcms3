@@ -96,6 +96,10 @@ public final class AdminMenu extends AbstractTag {
           if (FileTypes.isPage(pagePath.getLastElement())) {
             l.add(a1 + afp + "/editsrc.jsp?path=" + pagePath + a2 +
                 bundle.getString("adminEditText") + a3);
+
+            l.add(a1 + afp + "/editsrc.jsp?path=" + pagePath + "&tidy=true" +
+                a2 + bundle.getString("adminTidy") + a3);
+
             Path pathInMenu = webSite.getSiteMap().getPathInMenu(pagePath);
 
             if (!pathInMenu.isRoot()) {

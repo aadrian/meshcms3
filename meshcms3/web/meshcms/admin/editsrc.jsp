@@ -21,6 +21,7 @@
 --%>
 
 <%@ page import="java.io.*" %>
+<%@ page import="org.w3c.tidy.*" %>
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
@@ -58,12 +59,21 @@
   } else if (FileTypes.isLike(fileName, "xml")) {
     codeSyntax = "xml";
   }
+  
+  if (Utils.isTrue(request.getParameter("tidy"))) {
+    Tidy tidy = new Tidy();
+    tidy.setConfigurationFromFile(webSite.getFile(webSite.getAdminPath().add("tidy.config")).getAbsolutePath());
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    tidy.parse(new ByteArrayInputStream(full.getBytes("utf-8")), baos);
+    full = WebUtils.convertToHTMLEntities(baos.toString("utf-8"), Utils.SYSTEM_CHARSET, false);
+  }
 %>
 
 <html>
 <head>
 <%= webSite.getAdminMetaThemeTag() %>
 <title><fmt:message key="srcTitle" /></title>
+<script type="text/javascript" src="scripts/jquery/jquery.pack.js"></script>
 <script type="text/javascript" src="scripts/edit_area/edit_area_full.js"></script>
 <script type="text/javascript">
 // <![CDATA[
@@ -72,7 +82,17 @@
     display : "later",
     syntax: "<%= codeSyntax %>",
     language: "<fmt:message key="editAreaLang" />",
-    start_highlight: true
+    start_highlight: true,
+    font_size: 9
+  });
+  
+  $(function() {
+    $("#previewButton").click(function() {
+      var action = $("#srceditor").attr("action");
+      $("#fullsrc").val(editAreaLoader.getValue("fullsrc"));
+      $("#srceditor").attr("action", "echo.jsp").attr("target", "_blank")[0].submit();
+      $("#srceditor").attr("target", "").attr("action", action);
+    });
   });
 // ]]>
 </script>
@@ -84,6 +104,10 @@
   <input type="hidden" name="pagepath" value="<%= pagePath %>" />
 
   <fieldset class="meshcmseditor">
+    <% if (Utils.isTrue(request.getParameter("tidy"))) {%>
+      <p><fmt:message key="editTidyApplied" /></p>
+    <% } %>
+    
     <legend>
       <fmt:message key="srcEditing" />
       <a href="<%= cp + '/' + pagePath %>"><%= pagePath.getLastElement() %></a>
@@ -96,6 +120,9 @@
 
     <div class="meshcmsbuttons">
       <input type="submit" value="<fmt:message key="genericSave" />" />
+      <% if (FileTypes.isPage(pagePath.getLastElement())) { %>
+        <input type="button" id="previewButton" value="<fmt:message key="genericPreview" />" />
+      <% } %>
     </div>
   </fieldset>
 </form>
