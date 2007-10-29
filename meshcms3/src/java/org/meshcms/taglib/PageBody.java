@@ -77,7 +77,7 @@ public class PageBody extends AbstractTag {
     head = MailForm.META_REGEX.matcher(head).replaceAll("");
     
     w.write("<div class='meshcmsfield'><textarea id='meshcmshead' name='meshcmshead' rows='5' cols='80' style='height: 5em; width: 100%; display: none;'>" +
-         head + "</textarea></div>\n");
+        head + "</textarea></div>\n");
     
     w.write("<div class='meshcmsfieldlabel'><label for='meshcmsbody'>" +
         bundle.getString("editorPageBody") + "</label></div>\n");
@@ -145,8 +145,9 @@ public class PageBody extends AbstractTag {
             if (imgURL.startsWith("/")) {
               if (cp.length() > 0 && imgURL.startsWith(cp)) {
                 imgURL = imgURL.substring(cp.length());
-                imgPath = new Path(imgURL);
               }
+              
+              imgPath = new Path(imgURL);
             } else {
               imgPath = new Path(webSite.getDirectory(pagePath), imgURL);
             }
