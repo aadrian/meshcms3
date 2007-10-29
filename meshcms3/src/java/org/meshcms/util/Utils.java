@@ -535,7 +535,7 @@ public final class Utils {
   }
 
   /**
-   * Writes the whole String to the File using a buffered FileWriter.
+   * Writes a String to a File.
    *
    * @param file the destination file where to write
    * @param s the String to be written.
@@ -543,7 +543,8 @@ public final class Utils {
    * @throws IOException If an I/O error occurs
    */
   public static void writeFully(File file, String s) throws IOException {
-    Writer writer = new BufferedWriter(new FileWriter(file));
+    Writer writer = new BufferedWriter(new OutputStreamWriter
+        (new FileOutputStream(file), SYSTEM_CHARSET));
     writer.write(s);
     writer.close();
   }

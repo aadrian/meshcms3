@@ -553,7 +553,8 @@ public class WebSite {
       Writer writer = null;
 
       try {
-        writer = new BufferedWriter(new FileWriter(writeTo));
+        writer = new BufferedWriter(new OutputStreamWriter
+            (new FileOutputStream(writeTo), Utils.SYSTEM_CHARSET));
         writer.write(saveThis.toString());
       } catch (IOException ex) {
         sc.log("Can't write generic object to file " + writeTo, ex);
