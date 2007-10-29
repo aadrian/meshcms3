@@ -60,12 +60,21 @@
     codeSyntax = "xml";
   }
   
+  boolean clean = false;
+  
   if (Utils.isTrue(request.getParameter("tidy"))) {
-    Tidy tidy = new Tidy();
-    tidy.setConfigurationFromFile(webSite.getFile(webSite.getAdminPath().add("tidy.config")).getAbsolutePath());
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    tidy.parse(new ByteArrayInputStream(full.getBytes("utf-8")), baos);
-    full = WebUtils.convertToHTMLEntities(baos.toString("utf-8"), Utils.SYSTEM_CHARSET, false);
+    try {
+      Tidy tidy = new Tidy();
+      tidy.setConfigurationFromFile(webSite.getFile
+          (webSite.getAdminPath().add("tidy.config")).getAbsolutePath());
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      tidy.parse(new ByteArrayInputStream(full.getBytes("utf-8")), baos);
+      full = WebUtils.convertToHTMLEntities(baos.toString("utf-8"),
+          Utils.SYSTEM_CHARSET, false);
+      clean = true;
+    } catch (Exception ex) {
+      webSite.log("Error while tidying " + pagePath, ex);
+    }
   }
 %>
 
@@ -104,7 +113,7 @@
   <input type="hidden" name="pagepath" value="<%= pagePath %>" />
 
   <fieldset class="meshcmseditor">
-    <% if (Utils.isTrue(request.getParameter("tidy"))) {%>
+    <% if (clean) {%>
       <p><fmt:message key="editTidyApplied" /></p>
     <% } %>
     
