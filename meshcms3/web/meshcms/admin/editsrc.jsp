@@ -21,7 +21,6 @@
 --%>
 
 <%@ page import="java.io.*" %>
-<%@ page import="org.w3c.tidy.*" %>
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
@@ -60,21 +59,10 @@
     codeSyntax = "xml";
   }
   
-  boolean clean = false;
+  String clean = null;
   
   if (Utils.isTrue(request.getParameter("tidy"))) {
-    try {
-      Tidy tidy = new Tidy();
-      tidy.setConfigurationFromFile(webSite.getFile
-          (webSite.getAdminPath().add("tidy.config")).getAbsolutePath());
-      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      tidy.parse(new ByteArrayInputStream(full.getBytes("utf-8")), baos);
-      full = WebUtils.convertToHTMLEntities(baos.toString("utf-8"),
-          Utils.SYSTEM_CHARSET, false);
-      clean = true;
-    } catch (Exception ex) {
-      webSite.log("Error while tidying " + pagePath, ex);
-    }
+    clean = WebUtils.tidyHTML(webSite, full);
   }
 %>
 
@@ -113,9 +101,14 @@
   <input type="hidden" name="pagepath" value="<%= pagePath %>" />
 
   <fieldset class="meshcmseditor">
-    <% if (clean) {%>
+    <%
+      if (clean != null) {
+        full = clean;
+    %>
       <p><fmt:message key="editTidyApplied" /></p>
-    <% } %>
+    <%
+      }
+    %>
     
     <legend>
       <fmt:message key="srcEditing" />

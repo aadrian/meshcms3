@@ -34,6 +34,7 @@ import javax.servlet.http.*;
 import javax.servlet.jsp.*;
 import javax.xml.parsers.*;
 import org.w3c.dom.*;
+import org.w3c.tidy.*;
 import org.meshcms.util.*;
 
 /**
@@ -169,7 +170,7 @@ public final class WebUtils {
           sb.append(c);
         } else {
           String ent = NUMBER_TO_ENTITY.getProperty(Integer.toString(c));
-
+          
           if (ent == null) {
             sb.append("&#").append(n).append(';');
           } else {
@@ -772,5 +773,22 @@ public final class WebUtils {
     }
     
     return true;
+  }
+  
+  public static String tidyHTML(WebSite webSite, String html) {
+    Tidy tidy = new Tidy();
+    tidy.setConfigurationFromFile(webSite.getFile
+        (webSite.getAdminPath().add("tidy.config")).getAbsolutePath());
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    
+    try {
+      tidy.parse(new ByteArrayInputStream(html.getBytes("utf-8")), baos);
+      return WebUtils.convertToHTMLEntities(baos.toString("utf-8"),
+          Utils.SYSTEM_CHARSET, false);
+    } catch (Exception ex) {
+      webSite.log("Error while tidying HTML code", ex);
+    }
+    
+    return null;
   }
 }
