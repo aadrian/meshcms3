@@ -37,6 +37,7 @@ public final class PageInfo {
   private WebSite webSite;
   private long lastModified;
   private String charset;
+  private String[] keywords;
 
   /**
    * Creates a page info in the specified {@link WebSite} to describe the page
@@ -169,5 +170,13 @@ public final class PageInfo {
 
   public void setCharset(String charset) {
     this.charset = charset;
+  }
+
+  public String[] getKeywords() {
+    return keywords;
+  }
+
+  public void setKeywords(String[] keywords) {
+    this.keywords = keywords;
   }
 }

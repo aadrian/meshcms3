@@ -24,6 +24,7 @@ package org.meshcms.core;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.*;
 import org.meshcms.util.*;
 import com.opensymphony.module.sitemesh.*;
 import com.opensymphony.module.sitemesh.parser.*;
@@ -49,6 +50,9 @@ public class SiteMap extends DirectoryParser {
   public static final String MESHCMS_CSS = "meshcms.css";
   
   public static final String MODULE_INCLUDE_FILE = "include.jsp";
+  
+  public static final Pattern KEYWORDS_REGEX =
+      Pattern.compile("[^\\s,](?:[^,]+[^\\s,])?");
   
   private WebSite webSite;
   private SortedMap pagesMap;
@@ -173,6 +177,21 @@ public class SiteMap extends DirectoryParser {
         
         pageInfo.setTitle(title);
         pageInfo.setLastModified(file.lastModified());
+        
+        String keywords = page.getProperty("meta.keywords");
+        
+        if (!Utils.isNullOrEmpty(keywords)) {
+          Matcher matcher = KEYWORDS_REGEX.matcher(keywords);
+          List list = new ArrayList();
+          
+          while (matcher.find()) {
+            list.add(matcher.group());
+          }
+          
+          if (list.size() > 0) {
+            pageInfo.setKeywords((String[]) list.toArray(new String[list.size()]));
+          }
+        }
         
         /*
         String[] pKeys = page.getPropertyKeys();
