@@ -41,6 +41,7 @@
   Locale locale = WebUtils.getPageLocale(pageContext);
   Configuration configuration = webSite.getConfiguration();
   int cacheType = configuration.getCacheType();
+  int tidy = configuration.getTidy();
   String cp = request.getContextPath();
 %>
 
@@ -217,6 +218,21 @@
         <%= cacheType == Configuration.ON_DISK_CACHE ? " selected='selected'" : "" %>><fmt:message key="configCacheDisk" /></option>
        <option value="<%= Configuration.MIXED_CACHE %>"
         <%= cacheType == Configuration.MIXED_CACHE ? " selected='selected'" : "" %>><fmt:message key="configCacheMixed" /></option>
+      </select>
+    </div>
+
+    <div class="meshcmsfieldlabel">
+      <label for="tidy"><fmt:message key="configTidy" /></label>
+    </div>
+
+    <div class="meshcmsfield">
+      <select name="tidy" id="tidy">
+       <option value="<%= Configuration.TIDY_NO %>"
+        <%= tidy == Configuration.TIDY_NO ? " selected='selected'" : "" %>><fmt:message key="configTidyNo" /></option>
+       <option value="<%= Configuration.TIDY_YES %>"
+        <%= tidy == Configuration.TIDY_YES ? " selected='selected'" : "" %>><fmt:message key="configTidyYes" /></option>
+       <option value="<%= Configuration.TIDY_ASK %>"
+        <%= tidy == Configuration.TIDY_ASK ? " selected='selected'" : "" %>><fmt:message key="configTidyAsk" /></option>
       </select>
     </div>
 

@@ -62,6 +62,10 @@ public class Configuration implements Serializable {
    * Value used to cache pages on disk and, if possible, in memory.
    */
   public static final int MIXED_CACHE = IN_MEMORY_CACHE | ON_DISK_CACHE;
+  
+  public static final int TIDY_NO = 0;
+  public static final int TIDY_YES = 1;
+  public static final int TIDY_ASK = 2;
 
   private boolean useAdminTheme;
   private boolean preventHotlinking;
@@ -78,6 +82,7 @@ public class Configuration implements Serializable {
   private int statsLength;
   private int updateInterval;
   private int cacheType;
+  private int tidy;
   private String mailServer;
   private String smtpUsername;
   private String smtpPassword;
@@ -109,6 +114,7 @@ public class Configuration implements Serializable {
     setStatsLength(3);
     setUpdateInterval(2);
     setCacheType(NO_CACHE);
+    setTidy(TIDY_NO);
 
     setMailServer("localhost");
     setSmtpUsername("");
@@ -525,5 +531,13 @@ public class Configuration implements Serializable {
 
   public void setReplaceThumbnails(boolean replaceThumbnails) {
     this.replaceThumbnails = replaceThumbnails;
+  }
+
+  public int getTidy() {
+    return tidy;
+  }
+
+  public void setTidy(int tidy) {
+    this.tidy = tidy;
   }
 }

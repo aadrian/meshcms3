@@ -56,6 +56,7 @@
   c.setReplaceThumbnails(Utils.isTrue(request.getParameter("replaceThumbnails")));
 
   c.setCacheType(Utils.parseInt(request.getParameter("cacheType"), Configuration.NO_CACHE));
+  c.setTidy(Utils.parseInt(request.getParameter("tidy"), Configuration.TIDY_NO));
   c.setMailServer(request.getParameter("mailServer"));
   c.setSmtpUsername(request.getParameter("smtpUsername"));
   c.setSmtpPassword(request.getParameter("smtpPassword"));

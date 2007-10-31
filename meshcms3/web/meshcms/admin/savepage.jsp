@@ -56,6 +56,14 @@
     }
 
     fullSrc = pa.getPage();
+    
+    if (Utils.isTrue(request.getParameter("tidy"))) {
+      String tidySrc = WebUtils.tidyHTML(webSite, fullSrc);
+      
+      if (tidySrc != null) {
+        fullSrc = tidySrc;
+      }
+    }
   } else {
     filePath = new Path(request.getParameter("pagepath"));
   }

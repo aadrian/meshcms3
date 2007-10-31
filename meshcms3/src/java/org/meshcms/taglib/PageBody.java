@@ -87,9 +87,22 @@ public class PageBody extends AbstractTag {
     
     boolean relativeURLs = webSite.getSiteMap().getPageInfo(pagePath) != null;
     
-    w.write("<div class='meshcmsfield'><input type='checkbox'" + (relativeURLs ? " checked='checked'" : "") + " id='relch' name='relch' value='true' \n");
+    w.write("<div class='meshcmsfield'>\n");
+    w.write("<input type='checkbox'" + (relativeURLs ? " checked='checked'" : "") + " id='relch' name='relch' value='true' \n");
     w.write(" onclick=\"tinyMCE.settings['relative_urls']=this.checked;\" />\n");
-    w.write(" <label for='relch'>" + bundle.getString("editorRelative") + "</label></div>\n");
+    w.write("<label for='relch'>" + bundle.getString("editorRelative") + "</label>\n");
+    
+    switch (webSite.getConfiguration().getTidy()) {
+      case Configuration.TIDY_ASK:
+        w.write("<input type='checkbox' id='tidy' name='tidy' value='true' />\n");
+        w.write("<label for='tidy'>" + bundle.getString("editorTidy") + "</label>\n");
+        break;
+      case Configuration.TIDY_YES:
+        w.write("<input type='hidden' id='tidy' name='tidy' value='true' />\n");
+        break;
+    }
+    
+    w.write("</div>\n");
     
     w.write("<div class='meshcmsbuttons'><input type='submit' value='" +
         bundle.getString("genericSave") + "' /></div>\n");
