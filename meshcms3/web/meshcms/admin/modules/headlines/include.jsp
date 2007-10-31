@@ -72,16 +72,15 @@
         WebUtils.updateLastModifiedTime(request, files[i]);
         HTMLPageParser fpp = new HTMLPageParser();
 
+        // Skip itself.
+        if (dirPath.add(files[i].getName()).equals(webSite.getSiteMap().getServedPath(md.getPagePath()))) {
+          continue;
+        }
+
         try {
           Reader reader = new InputStreamReader(new FileInputStream(files[i]),
               Utils.SYSTEM_CHARSET);
           HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
-
-          // Skip any pages that use the Headlines module.
-          String modules = pg.getProperty(PageAssembler.MODULES_PARAM);
-          if (modules != null && modules.indexOf("m_tpl=headlines") >= 0) {
-            continue;
-          }
 
           String title = pg.getTitle();
 %>

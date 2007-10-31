@@ -252,6 +252,11 @@
     if (! FileTypes.isPage(f.getName())) {
       continue;
     }
+    
+    // Skip itself.
+    if (dirPath.add(f.getName()).equals(webSite.getSiteMap().getServedPath(md.getPagePath()))) {
+      continue;
+    }
 
     // Read in the file, skip if can't be read.
     HTMLPage pg;
@@ -263,11 +268,6 @@
       continue;
     }
 
-    // Skip any pages that use the Diary module.
-    String modules = pg.getProperty(PageAssembler.MODULES_PARAM);
-    if (modules != null && modules.indexOf("m_tpl=diary") >= 0) {
-      continue;
-    }
     String body = pg.getBody();
 
     // Parse the date. If a date can't be found, use the 'last modified' date.
