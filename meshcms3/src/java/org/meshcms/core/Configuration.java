@@ -97,7 +97,7 @@ public class Configuration implements Serializable {
     setPreventHotlinking(false);
     setAlwaysRedirectWelcomes(true);
     setAlwaysDenyDirectoryListings(true);
-    setHideExceptions(true);
+    setHideExceptions(false);
     setEditorModulesCollapsed(false);
     setHighQualityThumbnails(true);
     setReplaceThumbnails(true);
@@ -108,7 +108,7 @@ public class Configuration implements Serializable {
     setBackupLife(15);
     setStatsLength(3);
     setUpdateInterval(2);
-    setCacheType(MIXED_CACHE);
+    setCacheType(NO_CACHE);
 
     setMailServer("localhost");
     setSmtpUsername("");
