@@ -35,7 +35,7 @@
   - css = (name of a css class)
   - date = none (default) | normal | full
   - entries = number of entries per page (default 5)
-  - maxchars = maximum length of the excerpt for each article (default 1000)
+  - maxchars = maximum length of the excerpt for each article (default 2000)
 --%>
 
 <%
@@ -61,7 +61,6 @@
   Path argPath = md.getModuleArgumentDirectoryPath(webSite, true);
 
   if (argPath != null) {
-    int words = Utils.parseInt(md.getAdvancedParam("words", null), 50);
     SiteMap siteMap = webSite.getSiteMap();
     ArrayList pagesList = new ArrayList(siteMap.getPagesList(argPath));
     Iterator iter = pagesList.iterator();
@@ -89,7 +88,7 @@
 
     Path dirPath = webSite.getDirectory(pagePathInMenu);
     DateFormat df = md.getDateFormat(locale, "date");
-    int maxChars = Utils.parseInt(md.getAdvancedParam("maxchars", ""), 1000);
+    int maxChars = Utils.parseInt(md.getAdvancedParam("maxchars", ""), 2000);
     int entries = Utils.parseInt(md.getAdvancedParam("entries", ""), 5);
     int firstEntry = Utils.parseInt(request.getParameter("firstentry"), 0);
     
