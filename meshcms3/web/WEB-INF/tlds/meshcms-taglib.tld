@@ -531,4 +531,24 @@
       <rtexprvalue>true</rtexprvalue>
     </attribute>
   </tag>
+  <tag>
+    <name>ifadminpage</name>
+    <tag-class>org.meshcms.taglib.IfAdminPage</tag-class>
+    <body-content>JSP</body-content>
+  </tag>
+  <tag>
+    <name>ifnotadminpage</name>
+    <tag-class>org.meshcms.taglib.IfNotAdminPage</tag-class>
+    <body-content>JSP</body-content>
+  </tag>
+  <tag>
+    <name>ifindexed</name>
+    <tag-class>org.meshcms.taglib.IfIndexed</tag-class>
+    <body-content>JSP</body-content>
+  </tag>
+  <tag>
+    <name>ifnotindexed</name>
+    <tag-class>org.meshcms.taglib.IfNotIndexed</tag-class>
+    <body-content>JSP</body-content>
+  </tag>
 </taglib>
