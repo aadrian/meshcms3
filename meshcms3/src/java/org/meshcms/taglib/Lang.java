@@ -23,43 +23,17 @@
 package org.meshcms.taglib;
 
 import java.io.*;
+import java.util.*;
 import org.meshcms.core.*;
 import org.meshcms.util.*;
 
-/**
- * Writes some site and system data.
- */
-public final class Info extends AbstractTag {
+public class Lang extends AbstractTag {
   public void writeTag() throws IOException {
-    Configuration c = webSite.getConfiguration();
-    String result = null;
+    // nothing to do here
+  }
 
-    if (id != null) {
-      id = id.toLowerCase();
-
-      if (id.equals("host") || id.equals("domain")) {
-        result = c.getSiteHost();
-      } else if (id.equals("description")) {
-        result = c.getSiteDescription();
-      } else if (id.equals("keywords")) {
-        result = c.getSiteKeywords();
-      } else if (id.equals("author")) {
-        result = c.getSiteAuthor();
-      } else if (id.equals("authorurl")) {
-        result = c.getSiteAuthorURL();
-      } else if (id.equals("meshcms")) {
-        result = WebSite.APP_NAME + " " + WebSite.VERSION_ID;
-      } else if (id.equals("charset")) {
-        result = Utils.SYSTEM_CHARSET;
-      } else if (id.equals("lang")) {
-        result = WebUtils.getPageLocale(pageContext).toString();
-      }
-    }
-
-    if (result == null) {
-      result = Utils.encodeHTML(Utils.noNull(c.getSiteName()));
-    }
-
-    getOut().write(result);
+  public int getStartTagReturnValue() {
+    Locale locale = WebUtils.getPageLocale(pageContext);
+    return (locale.toString().equals(id)) ? EVAL_BODY_INCLUDE : SKIP_BODY;
   }
 }

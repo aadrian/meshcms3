@@ -551,4 +551,14 @@
     <tag-class>org.meshcms.taglib.IfNotIndexed</tag-class>
     <body-content>JSP</body-content>
   </tag>
+  <tag>
+    <name>lang</name>
+    <tag-class>org.meshcms.taglib.Lang</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+      <name>id</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
 </taglib>
