@@ -78,6 +78,12 @@ public final class WebUtils {
   public static Properties NUMBER_TO_ENTITY;
   public static Properties ENTITY_TO_NUMBER;
   
+  public static final Pattern EXCERPT_REGEX =
+      Pattern.compile("[^\\s]*<[^>]*>[^\\s]*|[^\\s]+");
+  public static final Pattern BODY_REGEX =
+      Pattern.compile("(?s)<body[^>]*>(.*?)</body[^>]*>");
+  // Pattern fixTagsPattern = Pattern.compile("(?s)([^>]*>|[^<>]+)+");
+
   static {
     String[] entities = {
       "39", "#39", "160", "nbsp", "161", "iexcl", "162", "cent", "163", "pound",
@@ -790,5 +796,32 @@ public final class WebUtils {
     }
     
     return null;
+  }
+  
+  public static String createExcerpt(WebSite webSite, String body, int length) {
+    Matcher m = EXCERPT_REGEX.matcher(body);
+    StringBuffer sb = new StringBuffer(length + 20);
+    
+    while (m.find()) {
+      if (m.group().length() + sb.length() < length) {
+        sb.append(m.group()).append(' ');
+      } else {
+        sb.append("...");
+        break;
+      }
+    }
+    
+    String excerpt = sb.toString();
+    String tidy = tidyHTML(webSite, excerpt);
+    
+    if (tidy != null) {
+      m = BODY_REGEX.matcher(tidy);
+      
+      if (m.find()) {
+        excerpt = m.group(1);
+      }
+    }
+    
+    return excerpt;
   }
 }

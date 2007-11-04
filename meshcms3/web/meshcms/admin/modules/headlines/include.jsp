@@ -33,7 +33,7 @@
   Advanced parameters for this module:
   - css = (name of a css class)
   - date = none (default) | normal | full
-  - words = (number of words to display for each item)
+  - maxchars = maximum length of the excerpt for each article (default 500)
 --%>
 
 <%
@@ -55,10 +55,11 @@
 
     return;
   }
+
   Path argPath = md.getModuleArgumentDirectoryPath(webSite, true);
   Path dirPath = webSite.getDirectory(md.getPagePath());
   File[] files = md.getModuleFiles(webSite, true);
-  int words = Utils.parseInt(md.getAdvancedParam("words", null), 50);
+  int maxChars = Utils.parseInt(md.getAdvancedParam("maxchars", ""), 500);
 
   if (files != null && files.length > 0) {
     Arrays.sort(files, new FileDateComparator());
@@ -69,13 +70,13 @@
 <%
     for (int i = 0; i < files.length; i++) {
       if (FileTypes.isPage(files[i].getName())) {
-        WebUtils.updateLastModifiedTime(request, files[i]);
-        HTMLPageParser fpp = new HTMLPageParser();
-
         // Skip itself.
         if (dirPath.add(files[i].getName()).equals(webSite.getSiteMap().getServedPath(md.getPagePath()))) {
           continue;
         }
+
+        WebUtils.updateLastModifiedTime(request, files[i]);
+        HTMLPageParser fpp = new HTMLPageParser();
 
         try {
           Reader reader = new InputStreamReader(new FileInputStream(files[i]),
@@ -83,35 +84,31 @@
           HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
 
           String title = pg.getTitle();
+          String link = argPath.add(files[i].getName()).getRelativeTo(dirPath).toString();
 %>
  <div class="includeitem">
-  <div class="includetitle">
-    <%= Utils.isNullOrEmpty(title) ? "&nbsp;" : title %>
-  </div>
+  <h3 class="includetitle">
+    <a href="<%= link %>"><%= Utils.isNullOrEmpty(title) ? "&nbsp;" : title %></a>
+  </h3>
 <%
           if (df != null) {
 %>
-  <div class="includedate">
+  <h4 class="includedate">
     (<%= df.format(new Date(files[i].lastModified())) %>)
-  </div>
+  </h4>
 <%
           }
 %>
   <div class="includetext">
-<%
-          StringTokenizer st = new StringTokenizer(Utils.stripHTMLTags(pg.getBody()), "\n\r\t ");
-
-          for (int j = 0; j < words && st.hasMoreTokens(); j++) {
-            out.write(st.nextToken());
-            out.write(' ');
-          }
-%>
-    ... <a href="<%= argPath.add(files[i].getName()).getRelativeTo(dirPath) %>"><%= pageBundle.getString("readMore") %></a>
+    <%= WebUtils.createExcerpt(webSite, pg.getBody(), maxChars) %>
   </div>
+  <p class="includereadmore">
+    <a href="<%= link %>"><%= pageBundle.getString("readMore") %></a>
+  </p>
  </div>
 <%
           reader.close();
-        } catch (Exception ex) {}
+        } catch (Exception ex) {ex.printStackTrace();}
       }
     }
 %>

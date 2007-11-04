@@ -91,10 +91,6 @@
     int maxChars = Utils.parseInt(md.getAdvancedParam("maxchars", ""), 2000);
     int entries = Utils.parseInt(md.getAdvancedParam("entries", ""), 5);
     int firstEntry = Utils.parseInt(request.getParameter("firstentry"), 0);
-    
-    Pattern excerptPattern = Pattern.compile("[^\\s]*<[^>]*>[^\\s]*|[^\\s]+");
-    // Pattern fixTagsPattern = Pattern.compile("(?s)([^>]*>|[^<>]+)+");
-    Pattern bodyPattern = Pattern.compile("(?s)<body[^>]*>(.*?)</body[^>]*>");
 %>
 
 <div<%= md.getFullCSSAttribute("css") %>>
@@ -110,58 +106,34 @@
       HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
       reader.close();
       String title = pg.getTitle();
+      String link = pi.getPath().getRelativeTo(dirPath).toString();
 %>
- <div class="blogitem">
-  <h3 class="blogtitle">
-    <%= Utils.isNullOrEmpty(title) ? "&nbsp;" : title %>
+ <div class="includeitem">
+  <h3 class="includetitle">
+    <a href="<%= link %>"><%= Utils.isNullOrEmpty(title) ? "&nbsp;" : title %></a>
   </h3>
 <%
           if (df != null) {
 %>
-  <h4 class="blogdate">
+  <h4 class="includedate">
     (<%= df.format(new Date(pi.getLastModified())) %>)
   </h4>
 <%
           }
 %>
-  <div class="blogtext">
-<%
-      int len = 2000;
-      String body = pg.getBody();
-      Matcher m = excerptPattern.matcher(body);
-      StringBuffer sb = new StringBuffer(len + 20);
-
-      while (m.find()) {
-        if (m.group().length() + sb.length() < len) {
-          sb.append(m.group()).append(' ');
-        } else {
-          sb.append("...");
-          break;
-        }
-      }
-
-      String excerpt = sb.toString();
-      String tidy = WebUtils.tidyHTML(webSite, excerpt);
-
-      if (tidy != null) {
-        m = bodyPattern.matcher(tidy);
-
-        if (m.find()) {
-          excerpt = m.group(1);
-        }
-      }
-
-      out.write(excerpt);
-%>
+  <div class="includetext">
+    <%= WebUtils.createExcerpt(webSite, pg.getBody(), maxChars) %>
   </div>
-  <p class="blogreadmore"><a href="<%= pi.getPath().getRelativeTo(dirPath) %>"><%= pageBundle.getString("blogReadMore") %></a></p>
+  <p class="includereadmore">
+    <a href="<%= link %>"><%= pageBundle.getString("includeReadFull") %></a>
+  </p>
 <%
       String[] tags = pi.getKeywords();
 
       if (tags != null && tags.length > 0) {
 %>
-  <p class="blogtags">
-    <%= pageBundle.getString("blogTags") %>
+  <p class="includetags">
+    <%= pageBundle.getString("includeTags") %>
     <strong><%= Utils.generateList(tags, "</strong>, <strong>") %></strong>
   </p>
 <%
@@ -177,11 +149,11 @@
     if (newer || older) {
       String baseURL = request.getContextPath() + md.getPagePath().getAsLink();
       
-      %><p class="blognavigation"><%
+      %><p class="includenavigation"><%
 
       if (newer) {
         String qs = firstEntry - entries > 0 ? "?firstentry=" + (firstEntry - entries) : "";
-        %> <a href="<%= baseURL + qs %>"><%= pageBundle.getString("blogNewer") %></a> <%
+        %> <a href="<%= baseURL + qs %>"><%= pageBundle.getString("includeNewer") %></a> <%
       }
       
       if (newer && older) {
@@ -189,7 +161,7 @@
       }
 
       if (older) {
-        %> <a href="<%= baseURL + "?firstentry=" + (firstEntry + entries) %>"><%= pageBundle.getString("blogOlder") %></a> <%
+        %> <a href="<%= baseURL + "?firstentry=" + (firstEntry + entries) %>"><%= pageBundle.getString("includeOlder") %></a> <%
       }
       
       %></p><%

@@ -30,25 +30,25 @@
  text-align: center;
 }
 
-/* A file included by the "Include" module ... */
+/* A file included by the some modules... */
 .includeitem {
- border-left: 1px dotted silver;
- margin: 0.5em;
- padding-left: 0.5em;
+ border-top: 1px solid;
 }
 
 /* ... its title, ... */
 .includetitle {
- font-weight: bold;
+ margin-top: 0;
+ padding: 0.25em 1em;
 }
 
-/* ... its date ... */
-.includedate {
+/* ... its date and link ... */
+.includedate, .includereadmore {
  text-align: right;
- font-style: italic;
+ font-size: 85%;
+ font-style: oblique;
 }
 
-/* ... and its text */
+/* ... its text */
 .includetext {
  padding: 0.5em;
 }
