@@ -326,7 +326,7 @@
     {
       inputField : "f_action",
       ifFormat : "cdate%Y%m%d%H%M%S",
-      button : "webfx-menu-object-14",
+      button : "webfx-menu-object-23",
       onClose : fm_closeCalendar,
       showsTime : true,
       singleClick : false,
