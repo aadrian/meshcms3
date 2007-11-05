@@ -79,10 +79,14 @@ public final class WebUtils {
   public static Properties ENTITY_TO_NUMBER;
   
   public static final Pattern EXCERPT_REGEX =
-      Pattern.compile("[^\\s]*<[^>]*>[^\\s]*|[^\\s]+");
+      Pattern.compile("[^\\s]*<[^>]*>[^\\s]*\\n?+|[^\\s]+\\n?+");
   public static final Pattern BODY_REGEX =
       Pattern.compile("(?s)<body[^>]*>(.*?)</body[^>]*>");
   // Pattern fixTagsPattern = Pattern.compile("(?s)([^>]*>|[^<>]+)+");
+  public static final Pattern PRE_REGEX =
+      Pattern.compile("(?s)<pre[^>]*>.*?</pre>");
+  public static final Pattern PRE_BR_REGEX =
+      Pattern.compile("<br[^>]*>(?:\\s*\\n)?");
 
   static {
     String[] entities = {
@@ -782,13 +786,28 @@ public final class WebUtils {
   }
   
   public static String tidyHTML(WebSite webSite, String html) {
+    // First, we need to fix a bug when <br> tags are enclosed in <pre> tags.
+    // Simply replace <br> with \n using regular expressions
+    StringBuffer sb = new StringBuffer();
+    Matcher preM = PRE_REGEX.matcher(html);
+    
+    while (preM.find()) {
+      String preTag = preM.group();
+      Matcher brM = PRE_BR_REGEX.matcher(preTag);
+      preTag = brM.replaceAll("\n").replaceAll("\\$", "\\\\\\$");
+      preM.appendReplacement(sb, preTag);
+    }
+    
+    preM.appendTail(sb);
+    
+    // Now we can safely use jTidy
     Tidy tidy = new Tidy();
     tidy.setConfigurationFromFile(webSite.getFile
         (webSite.getAdminPath().add("tidy.config")).getAbsolutePath());
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     
     try {
-      tidy.parse(new ByteArrayInputStream(html.getBytes("utf-8")), baos);
+      tidy.parse(new ByteArrayInputStream(sb.toString().getBytes("utf-8")), baos);
       return WebUtils.convertToHTMLEntities(baos.toString("utf-8"),
           Utils.SYSTEM_CHARSET, false);
     } catch (Exception ex) {
