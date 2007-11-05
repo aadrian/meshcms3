@@ -50,8 +50,8 @@ public class LangMenu extends AbstractTag {
   public void writeTag() throws IOException, JspException {
     SiteMap siteMap = webSite.getSiteMap();
     
-    boolean translatable =
-        !(pagePath.isRoot() || siteMap.getPageInfo(pagePath) == null);
+    boolean notTranslatable =
+        pagePath.isRoot() || siteMap.getPageInfo(pagePath) == null;
     
     List langList = siteMap.getLangList();
     
@@ -78,38 +78,42 @@ public class LangMenu extends AbstractTag {
         String link = null;
         String msg = null;
         
-        if (translatable && !langCode.equalsIgnoreCase(pagePath.getElementAt(0))) {
-          Path path = siteMap.getServedPath(pagePath.replace(0, langCode));
-          
-          if (!webSite.getFile(path).isFile()) {
-            if (userInfo != null && userInfo.canWrite(webSite, path)) {
-              PageInfo ppi = siteMap.getParentPageInfo(pagePath);
-              
-              if (ppi != null && ppi.getLevel() > 0) {
-                Path pPath = ppi.getPath().replace(0, langCode);
-                
-                if (siteMap.getPageInfo(pPath) != null) {
-                  if (msg == null) {
-                    ResourceBundle bundle =
-                        ResourceBundle.getBundle("org/meshcms/webui/Locales",
-                        WebUtils.getPageLocale(pageContext));
-                    msg = Utils.replace(bundle.getString("confirmTranslation"),
-                        '\'', "\\'");
+        if (notTranslatable) {
+          link = cp + webSite.getLink(new Path(langCode));
+        } else {
+          if (!langCode.equalsIgnoreCase(pagePath.getElementAt(0))) {
+            Path path = siteMap.getServedPath(pagePath.replace(0, langCode));
+
+            if (!webSite.getFile(path).isFile()) {
+              if (userInfo != null && userInfo.canWrite(webSite, path)) {
+                PageInfo ppi = siteMap.getParentPageInfo(pagePath);
+
+                if (ppi != null && ppi.getLevel() > 0) {
+                  Path pPath = ppi.getPath().replace(0, langCode);
+
+                  if (siteMap.getPageInfo(pPath) != null) {
+                    if (msg == null) {
+                      ResourceBundle bundle =
+                          ResourceBundle.getBundle("org/meshcms/webui/Locales",
+                          WebUtils.getPageLocale(pageContext));
+                      msg = Utils.replace(bundle.getString("confirmTranslation"),
+                          '\'', "\\'");
+                    }
+                    link = "javascript:if (confirm('" + msg +"')) location.href='" +
+                        afp + "/createpage.jsp?popup=false&newdir=false&fullpath=" +
+                        path + "';";
                   }
-                  link = "javascript:if (confirm('" + msg +"')) location.href='" +
-                      afp + "/createpage.jsp?popup=false&newdir=false&fullpath=" +
-                      path + "';";
                 }
               }
+
+              if (link == null) {
+                path = new Path(langCode);
+              }
             }
-            
+
             if (link == null) {
-              path = new Path(langCode);
+              link = cp + webSite.getLink(path);
             }
-          }
-          
-          if (link == null) {
-            link = cp + webSite.getLink(path);
           }
         }
         
