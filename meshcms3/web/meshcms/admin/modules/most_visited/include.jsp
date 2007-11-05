@@ -89,6 +89,7 @@
     Arrays.sort(pages, new PageHitsComparator());
     DateFormat df = md.getDateFormat(locale, "date");
     int count = 0;
+    Path pagePath = webSite.getSiteMap().getPathInMenu(md.getPagePath());
 %>
 
 <div<%= md.getFullCSSAttribute("css") %>>
@@ -97,7 +98,8 @@
       WebUtils.updateLastModifiedTime(request, pages[i].getLastModified());
       HTMLPageParser fpp = new HTMLPageParser();
 
-      if (pages[i].getTotalHits() >= minVisits) {
+      if (pages[i].getTotalHits() >= minVisits &&
+          !pages[i].getPath().equals(pagePath)) {
         try {
           Reader reader = new InputStreamReader(new FileInputStream(webSite.getFile
               (siteMap.getServedPath(pages[i].getPath()))), Utils.SYSTEM_CHARSET);
