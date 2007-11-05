@@ -24,6 +24,7 @@ package org.meshcms.taglib;
 
 import java.io.*;
 import java.util.*;
+import javax.servlet.jsp.*;
 import org.meshcms.core.*;
 import org.meshcms.util.*;
 
@@ -33,7 +34,13 @@ public class Lang extends AbstractTag {
   }
 
   public int getStartTagReturnValue() {
-    Locale locale = WebUtils.getPageLocale(pageContext);
-    return (locale.toString().equals(id)) ? EVAL_BODY_INCLUDE : SKIP_BODY;
+    Locale locale = (Locale) pageContext.getAttribute
+        (HitFilter.LOCALE_ATTRIBUTE, PageContext.REQUEST_SCOPE);
+    
+    if (locale == null) {
+      locale = WebUtils.getPageLocale(pageContext);
+    }
+    
+    return (locale.getLanguage().equals(id)) ? EVAL_BODY_INCLUDE : SKIP_BODY;
   }
 }
