@@ -99,9 +99,7 @@
 <%
           }
 %>
-  <div class="includetext">
-    <%= WebUtils.createExcerpt(webSite, pg.getBody(), maxChars) %>
-  </div>
+  <%= WebUtils.createExcerpt(webSite, pg.getBody(), maxChars) %>
   <p class="includereadmore">
     <a href="<%= link %>"><%= pageBundle.getString("readMore") %></a>
   </p>

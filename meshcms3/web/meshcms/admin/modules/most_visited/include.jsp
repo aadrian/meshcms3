@@ -35,6 +35,7 @@
   - date = none (default) | normal | full
   - maxchars = maximum length of the excerpt for each article (default 500)
   - items = (number of pages to show, default 5)
+  - minvisits = minimum number of page views to be included in the list (default 0)
 --%>
 
 <%!
@@ -84,6 +85,7 @@
   if (pages != null && pages.length > 0) {
     int maxChars = Utils.parseInt(md.getAdvancedParam("maxchars", ""), 500);
     int items = Utils.parseInt(md.getAdvancedParam("items", null), 5);
+    int minVisits = Utils.parseInt(md.getAdvancedParam("minvisits", ""), 0);
     Arrays.sort(pages, new PageHitsComparator());
     DateFormat df = md.getDateFormat(locale, "date");
     int count = 0;
@@ -95,38 +97,38 @@
       WebUtils.updateLastModifiedTime(request, pages[i].getLastModified());
       HTMLPageParser fpp = new HTMLPageParser();
 
-      try {
-        Reader reader = new InputStreamReader(new FileInputStream(webSite.getFile
-            (siteMap.getServedPath(pages[i].getPath()))), Utils.SYSTEM_CHARSET);
-        HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
-        String title = pg.getTitle();
-        String link = pages[i].getPath().getRelativeTo(dirPath).toString();
+      if (pages[i].getTotalHits() >= minVisits) {
+        try {
+          Reader reader = new InputStreamReader(new FileInputStream(webSite.getFile
+              (siteMap.getServedPath(pages[i].getPath()))), Utils.SYSTEM_CHARSET);
+          HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
+          String title = pg.getTitle();
+          String link = pages[i].getPath().getRelativeTo(dirPath).toString();
 %>
  <div class="includeitem">
   <h3 class="includetitle">
     <a href="<%= link %>"><%= Utils.isNullOrEmpty(title) ? "&nbsp;" : title %></a>
   </h3>
 <%
-        if (df != null) {
+          if (df != null) {
 %>
   <h4 class="includedate">
     (<%= df.format(new Date(pages[i].getLastModified())) %>)
   </h4>
 <%
-        }
+          }
 %>
-  <div class="includetext">
-    <%= WebUtils.createExcerpt(webSite, pg.getBody(), maxChars) %>
-  </div>
+  <%= WebUtils.createExcerpt(webSite, pg.getBody(), maxChars) %>
   <p class="includereadmore">
     <a href="<%= link %>"><%= pageBundle.getString("readMore") %></a>
   </p>
  </div>
 <%
-        reader.close();
-      } catch (Exception ex) {}
+          reader.close();
+        } catch (Exception ex) {}
 
-      count++;
+        count++;
+      }
     }
 %>
 </div>

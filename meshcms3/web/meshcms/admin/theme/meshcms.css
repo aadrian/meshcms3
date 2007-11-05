@@ -41,16 +41,11 @@
  padding: 0.25em 1em;
 }
 
-/* ... its date and link ... */
+/* ... its date and link */
 .includedate, .includereadmore {
  text-align: right;
  font-size: 85%;
  font-style: oblique;
-}
-
-/* ... its text */
-.includetext {
- padding: 0.5em;
 }
 
 /* Editing table */
