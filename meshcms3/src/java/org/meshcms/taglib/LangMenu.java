@@ -24,7 +24,7 @@ package org.meshcms.taglib;
 
 import java.io.*;
 import java.util.*;
-import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.*;
 import org.meshcms.core.*;
 import org.meshcms.util.*;
 
@@ -50,9 +50,8 @@ public class LangMenu extends AbstractTag {
   public void writeTag() throws IOException, JspException {
     SiteMap siteMap = webSite.getSiteMap();
     
-    if (pagePath.isRoot() || siteMap.getPageInfo(pagePath) == null) {
-      return;
-    }
+    boolean translatable =
+        !(pagePath.isRoot() || siteMap.getPageInfo(pagePath) == null);
     
     List langList = siteMap.getLangList();
     
@@ -79,7 +78,7 @@ public class LangMenu extends AbstractTag {
         String link = null;
         String msg = null;
         
-        if (!langCode.equalsIgnoreCase(pagePath.getElementAt(0))) {
+        if (translatable && !langCode.equalsIgnoreCase(pagePath.getElementAt(0))) {
           Path path = siteMap.getServedPath(pagePath.replace(0, langCode));
           
           if (!webSite.getFile(path).isFile()) {
