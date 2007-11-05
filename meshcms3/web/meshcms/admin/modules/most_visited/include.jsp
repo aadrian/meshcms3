@@ -120,7 +120,8 @@
 <%
           }
 %>
-  <%= WebUtils.createExcerpt(webSite, pg.getBody(), maxChars) %>
+  <%= WebUtils.createExcerpt(webSite, pg.getBody(), maxChars,
+    request.getContextPath(), md.getPagePath()) %>
   <p class="includereadmore">
     <a href="<%= link %>"><%= pageBundle.getString("readMore") %></a>
   </p>

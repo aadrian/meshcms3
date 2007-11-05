@@ -817,7 +817,8 @@ public final class WebUtils {
     return null;
   }
   
-  public static String createExcerpt(WebSite webSite, String body, int length) {
+  public static String createExcerpt(WebSite webSite, String body, int length,
+      String contextPath, Path pagePath) {
     Matcher m = EXCERPT_REGEX.matcher(body);
     StringBuffer sb = new StringBuffer(length + 20);
     
@@ -841,6 +842,90 @@ public final class WebUtils {
       }
     }
     
+    if (excerpt != null) {
+      if (webSite.getConfiguration().isReplaceThumbnails()) {
+        excerpt = replaceThumbnails(webSite, excerpt, contextPath, pagePath);
+      }
+    }
+
     return excerpt;
+  }
+  
+  public static String replaceThumbnails(WebSite webSite, String body,
+      String contextPath, Path pagePath) {
+    ResizedThumbnail thumbMaker = new ResizedThumbnail();
+    thumbMaker.setHighQuality(webSite.getConfiguration().isHighQualityThumbnails());
+    thumbMaker.setMode(ResizedThumbnail.MODE_STRETCH);
+    Pattern whPattern = Pattern.compile
+        ("width\\s*:\\s*(\\d+)\\s*px|width\\s*=[\"'](\\d+)[\"']|height\\s*:\\s*(\\d+)\\s*px|height\\s*=[\"'](\\d+)[\"']");
+    Pattern srcPattern = Pattern.compile("src\\s*=\\s*([\"'])(.*?)\\1");
+    Pattern imgPattern = Pattern.compile("<img[^>]*>");
+    Matcher imgMatcher = imgPattern.matcher(body);
+    StringBuffer sb = null;
+    
+    while (imgMatcher.find()) {
+      if (sb == null) {
+        sb = new StringBuffer(body.length());
+      }
+      
+      String imgTag = imgMatcher.group();
+      Matcher whMatcher = whPattern.matcher(imgTag);
+      int styleWidth = 0;
+      int attrWidth = 0;
+      int styleHeight = 0;
+      int attrHeight = 0;
+      
+      while (whMatcher.find()) {
+        styleWidth = Utils.parseInt(whMatcher.group(1), styleWidth);
+        attrWidth = Utils.parseInt(whMatcher.group(2), attrWidth);
+        styleHeight = Utils.parseInt(whMatcher.group(3), styleHeight);
+        attrHeight = Utils.parseInt(whMatcher.group(4), attrHeight);
+      }
+      
+      int w = (styleWidth < 1) ? attrWidth : styleWidth;
+      int h = (styleHeight < 1) ? attrHeight : styleHeight;
+      
+      if (w > 0 || h > 0) {
+        Matcher srcMatcher = srcPattern.matcher(imgTag);
+        
+        if (srcMatcher.find()) {
+          String imgURL = srcMatcher.group(2).trim();
+          
+          if (imgURL.indexOf("://") < 0) {
+            Path imgPath = null;
+            
+            if (imgURL.startsWith("/")) {
+              if (contextPath.length() > 0 && imgURL.startsWith(contextPath)) {
+                imgURL = imgURL.substring(contextPath.length());
+              }
+              
+              imgPath = new Path(imgURL);
+            } else {
+              imgPath = new Path(webSite.getDirectory(pagePath), imgURL);
+            }
+            
+            if (imgPath != null) {
+              thumbMaker.setWidth(w);
+              thumbMaker.setHeight(h);
+              String thumbName = thumbMaker.getSuggestedFileName();
+              Path thumbPath = thumbMaker.checkAndCreate(webSite, imgPath, thumbName);
+              
+              if (thumbPath != null) {
+                String newImgTag = srcMatcher.replaceAll("src=\"" + contextPath +
+                    '/' + thumbPath + "\"");
+                imgMatcher.appendReplacement(sb, newImgTag);
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    if (sb != null) {
+      imgMatcher.appendTail(sb);
+      body = sb.toString();
+    }
+    
+    return body;
   }
 }

@@ -44,7 +44,7 @@ public class PageBody extends AbstractTag {
     }
     
     if (webSite.getConfiguration().isReplaceThumbnails()) {
-      body = replaceThumbnails(body);
+      body = WebUtils.replaceThumbnails(webSite, body, cp, pagePath);
     }
     
     getOut().write(body);
@@ -111,81 +111,5 @@ public class PageBody extends AbstractTag {
     w.write("<script type='text/javascript'>\n;// <![CDATA[\n");
     w.write("  tinyMCE.settings['relative_urls']=" + relativeURLs + ";\n");
     w.write("// ]]>\n</script>\n");
-  }
-  
-  private String replaceThumbnails(String body) {
-    ResizedThumbnail thumbMaker = new ResizedThumbnail();
-    thumbMaker.setHighQuality(webSite.getConfiguration().isHighQualityThumbnails());
-    thumbMaker.setMode(ResizedThumbnail.MODE_STRETCH);
-    Pattern whPattern = Pattern.compile
-        ("width\\s*:\\s*(\\d+)\\s*px|width\\s*=[\"'](\\d+)[\"']|height\\s*:\\s*(\\d+)\\s*px|height\\s*=[\"'](\\d+)[\"']");
-    Pattern srcPattern = Pattern.compile("src\\s*=\\s*([\"'])(.*?)\\1");
-    Pattern imgPattern = Pattern.compile("<img[^>]*>");
-    Matcher imgMatcher = imgPattern.matcher(body);
-    StringBuffer sb = null;
-    
-    while (imgMatcher.find()) {
-      if (sb == null) {
-        sb = new StringBuffer(body.length());
-      }
-      
-      String imgTag = imgMatcher.group();
-      Matcher whMatcher = whPattern.matcher(imgTag);
-      int styleWidth = 0;
-      int attrWidth = 0;
-      int styleHeight = 0;
-      int attrHeight = 0;
-      
-      while (whMatcher.find()) {
-        styleWidth = Utils.parseInt(whMatcher.group(1), styleWidth);
-        attrWidth = Utils.parseInt(whMatcher.group(2), attrWidth);
-        styleHeight = Utils.parseInt(whMatcher.group(3), styleHeight);
-        attrHeight = Utils.parseInt(whMatcher.group(4), attrHeight);
-      }
-      
-      int w = (styleWidth < 1) ? attrWidth : styleWidth;
-      int h = (styleHeight < 1) ? attrHeight : styleHeight;
-      
-      if (w > 0 || h > 0) {
-        Matcher srcMatcher = srcPattern.matcher(imgTag);
-        
-        if (srcMatcher.find()) {
-          String imgURL = srcMatcher.group(2).trim();
-          
-          if (imgURL.indexOf("://") < 0) {
-            Path imgPath = null;
-            
-            if (imgURL.startsWith("/")) {
-              if (cp.length() > 0 && imgURL.startsWith(cp)) {
-                imgURL = imgURL.substring(cp.length());
-              }
-              
-              imgPath = new Path(imgURL);
-            } else {
-              imgPath = new Path(webSite.getDirectory(pagePath), imgURL);
-            }
-            
-            if (imgPath != null) {
-              thumbMaker.setWidth(w);
-              thumbMaker.setHeight(h);
-              String thumbName = thumbMaker.getSuggestedFileName();
-              Path thumbPath = thumbMaker.checkAndCreate(webSite, imgPath, thumbName);
-              
-              if (thumbPath != null) {
-                String newImgTag = srcMatcher.replaceAll("src=\"" + cp + '/' + thumbPath + "\"");
-                imgMatcher.appendReplacement(sb, newImgTag);
-              }
-            }
-          }
-        }
-      }
-    }
-    
-    if (sb != null) {
-      imgMatcher.appendTail(sb);
-      body = sb.toString();
-    }
-    
-    return body;
   }
 }
