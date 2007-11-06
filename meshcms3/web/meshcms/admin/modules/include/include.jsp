@@ -56,6 +56,7 @@
   if (files != null && files.length > 0) {
     Arrays.sort(files, new FileDateComparator());
     DateFormat df = md.getDateFormat(WebUtils.getPageLocale(pageContext), "date");
+    Path pageDir = webSite.getDirectory(md.getPagePath());
 %>
 
 <div<%= md.getFullCSSAttribute("css") %>>
@@ -70,6 +71,9 @@
               Utils.SYSTEM_CHARSET);
           HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
           String title = pg.getTitle();
+          String body = pg.getBody();
+          body = WebUtils.changeLinks(webSite, body, request.getContextPath(),
+              webSite.getPath(files[i]), md.getPagePath());
 %>
  <div class="includeitem">
   <div class="includetitle">
@@ -85,7 +89,7 @@
           }
 %>
   <div class="includetext">
-    <%= pg.getBody() %>
+    <%= body %>
   </div>
  </div>
 <%

@@ -106,6 +106,8 @@
           HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
           String title = pg.getTitle();
           String link = pages[i].getPath().getRelativeTo(dirPath).toString();
+          String body = WebUtils.createExcerpt(webSite, pg.getBody(), maxChars,
+              request.getContextPath(), pages[i].getPath(), md.getPagePath());
 %>
  <div class="includeitem">
   <h3 class="includetitle">
@@ -120,8 +122,9 @@
 <%
           }
 %>
-  <%= WebUtils.createExcerpt(webSite, pg.getBody(), maxChars,
-    request.getContextPath(), md.getPagePath()) %>
+  <div class="includetext">
+    <%= body %>
+  </div>
   <p class="includereadmore">
     <a href="<%= link %>"><%= pageBundle.getString("readMore") %></a>
   </p>

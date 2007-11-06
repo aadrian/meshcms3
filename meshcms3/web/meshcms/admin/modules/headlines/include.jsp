@@ -85,6 +85,8 @@
 
           String title = pg.getTitle();
           String link = argPath.add(files[i].getName()).getRelativeTo(dirPath).toString();
+          String body = WebUtils.createExcerpt(webSite, pg.getBody(), maxChars,
+              request.getContextPath(), dirPath, md.getPagePath());
 %>
  <div class="includeitem">
   <h3 class="includetitle">
@@ -99,8 +101,9 @@
 <%
           }
 %>
-  <%= WebUtils.createExcerpt(webSite, pg.getBody(), maxChars,
-    request.getContextPath(), md.getPagePath()) %>
+  <div class="includetext">
+    <%= body %>
+  </div>
   <p class="includereadmore">
     <a href="<%= link %>"><%= pageBundle.getString("readMore") %></a>
   </p>

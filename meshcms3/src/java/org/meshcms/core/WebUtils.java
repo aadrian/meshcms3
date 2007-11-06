@@ -818,7 +818,7 @@ public final class WebUtils {
   }
   
   public static String createExcerpt(WebSite webSite, String body, int length,
-      String contextPath, Path pagePath) {
+      String contextPath, Path oldPage, Path newPage) {
     Matcher m = EXCERPT_REGEX.matcher(body);
     StringBuffer sb = new StringBuffer(length + 20);
     
@@ -842,13 +842,69 @@ public final class WebUtils {
       }
     }
     
-    if (excerpt != null) {
-      if (webSite.getConfiguration().isReplaceThumbnails()) {
-        excerpt = replaceThumbnails(webSite, excerpt, contextPath, pagePath);
-      }
+    excerpt = changeLinks(webSite, excerpt, contextPath, oldPage, newPage);
+    
+    if (webSite.getConfiguration().isReplaceThumbnails()) {
+      excerpt = replaceThumbnails(webSite, excerpt, contextPath, newPage);
     }
 
     return excerpt;
+  }
+  
+  public static String changeLinks(WebSite webSite, String body,
+      String contextPath, Path oldPage, Path newPage) {
+    oldPage = webSite.getDirectory(oldPage);
+    newPage = webSite.getDirectory(newPage);
+    
+    if (oldPage.equals(newPage)) {
+      return body;
+    }
+    
+    Pattern tagPattern = Pattern.compile("<(?:img|a)\\b[^>]*>");
+    Pattern attrPattern = Pattern.compile("(src|href)\\s*=\\s*([\"'])(.*?)\\2");
+    Matcher tagMatcher = tagPattern.matcher(body);
+    StringBuffer sb = null;
+    
+    while (tagMatcher.find()) {
+      if (sb == null) {
+        sb = new StringBuffer(body.length());
+      }
+      
+      String tag = tagMatcher.group();
+      Matcher attrMatcher = attrPattern.matcher(tag);
+      
+      if (attrMatcher.find()) {
+        String url = attrMatcher.group(3).trim();
+
+        if (url.indexOf("://") < 0) {
+          Path path = null;
+
+          if (url.startsWith("/")) {
+            if (contextPath.length() > 0 && url.startsWith(contextPath)) {
+              url = url.substring(contextPath.length());
+            }
+
+            path = new Path(url);
+          } else {
+            path = new Path(oldPage, url);
+          }
+
+          if (path != null) {
+            Path thumbPath = path.getRelativeTo(newPage);
+            String newImgTag = attrMatcher.replaceFirst(attrMatcher.group(1) +
+                "=\"" + thumbPath + "\"");
+            tagMatcher.appendReplacement(sb, newImgTag);
+          }
+        }
+      }
+    }
+    
+    if (sb != null) {
+      tagMatcher.appendTail(sb);
+      body = sb.toString();
+    }
+    
+    return body;
   }
   
   public static String replaceThumbnails(WebSite webSite, String body,
@@ -859,7 +915,7 @@ public final class WebUtils {
     Pattern whPattern = Pattern.compile
         ("width\\s*:\\s*(\\d+)\\s*px|width\\s*=[\"'](\\d+)[\"']|height\\s*:\\s*(\\d+)\\s*px|height\\s*=[\"'](\\d+)[\"']");
     Pattern srcPattern = Pattern.compile("src\\s*=\\s*([\"'])(.*?)\\1");
-    Pattern imgPattern = Pattern.compile("<img[^>]*>");
+    Pattern imgPattern = Pattern.compile("<img\\b[^>]*>");
     Matcher imgMatcher = imgPattern.matcher(body);
     StringBuffer sb = null;
     
