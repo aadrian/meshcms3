@@ -842,7 +842,7 @@ public final class WebUtils {
       }
     }
     
-    excerpt = changeLinks(webSite, excerpt, contextPath, oldPage, newPage);
+    excerpt = fixLinks(webSite, excerpt, contextPath, oldPage, newPage);
     
     if (webSite.getConfiguration().isReplaceThumbnails()) {
       excerpt = replaceThumbnails(webSite, excerpt, contextPath, newPage);
@@ -851,7 +851,7 @@ public final class WebUtils {
     return excerpt;
   }
   
-  public static String changeLinks(WebSite webSite, String body,
+  public static String fixLinks(WebSite webSite, String body,
       String contextPath, Path oldPage, Path newPage) {
     oldPage = webSite.getDirectory(oldPage);
     newPage = webSite.getDirectory(newPage);
@@ -890,10 +890,15 @@ public final class WebUtils {
           }
 
           if (path != null) {
-            Path thumbPath = path.getRelativeTo(newPage);
-            String newImgTag = attrMatcher.replaceFirst(attrMatcher.group(1) +
-                "=\"" + thumbPath + "\"");
-            tagMatcher.appendReplacement(sb, newImgTag);
+            path = path.getRelativeTo(newPage);
+            
+            if (path.isRoot()) {
+              path = new Path(webSite.getSiteMap().getCurrentWelcome(newPage));
+            }
+            
+            String newTag = attrMatcher.replaceFirst(attrMatcher.group(1) +
+                "=\"" + path + "\"");
+            tagMatcher.appendReplacement(sb, newTag);
           }
         }
       }

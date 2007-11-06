@@ -72,7 +72,7 @@
           HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
           String title = pg.getTitle();
           String body = pg.getBody();
-          body = WebUtils.changeLinks(webSite, body, request.getContextPath(),
+          body = WebUtils.fixLinks(webSite, body, request.getContextPath(),
               webSite.getPath(files[i]), md.getPagePath());
 %>
  <div class="includeitem">
