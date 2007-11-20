@@ -59,6 +59,7 @@
   }
 
   Path argPath = md.getModuleArgumentDirectoryPath(webSite, true);
+  String tag = request.getParameter("tag");
 
   if (argPath != null) {
     SiteMap siteMap = webSite.getSiteMap();
@@ -67,7 +68,11 @@
     Path pagePathInMenu = siteMap.getPathInMenu(md.getPagePath());
     
     while (iter.hasNext()) {
-      if (((PageInfo) iter.next()).getPath().equals(pagePathInMenu)) {
+      PageInfo item = (PageInfo) iter.next();
+      
+      if (item.getPath().equals(pagePathInMenu)) {
+        iter.remove();
+      } else if (tag != null && Utils.searchString(item.getKeywords(), tag, false) < 0) {
         iter.remove();
       }
     }
@@ -136,7 +141,10 @@
 %>
   <p class="includetags">
     <%= pageBundle.getString("includeTags") %>
-    <strong><%= Utils.generateList(tags, "</strong>, <strong>") %></strong>
+    
+    <% for (int t = 0; t < tags.length; t++) { %>
+      <a href="?tag=<%= tags[t] %>"><%= tags[t] %></a><%= t == tags.length - 1 ? "" : "," %>
+    <% } %>
   </p>
 <%
       }
