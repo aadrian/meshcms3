@@ -989,4 +989,10 @@ public final class WebUtils {
     
     return body;
   }
+  
+  public static String addToQueryString(String url, String name, String value,
+      boolean encodeValue) {
+    char sep = url.indexOf('?') < 0 ? '?' : '&';
+    return url + sep + name + '=' + (encodeValue ? Utils.encodeURL(value) : value);
+  }
 }

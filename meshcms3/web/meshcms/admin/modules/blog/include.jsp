@@ -60,19 +60,25 @@
 
   Path argPath = md.getModuleArgumentDirectoryPath(webSite, true);
   String tag = request.getParameter("tag");
-
+  String date = request.getParameter("date");
+  
   if (argPath != null) {
     SiteMap siteMap = webSite.getSiteMap();
     ArrayList pagesList = new ArrayList(siteMap.getPagesList(argPath));
     Iterator iter = pagesList.iterator();
     Path pagePathInMenu = siteMap.getPathInMenu(md.getPagePath());
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
     
     while (iter.hasNext()) {
       PageInfo item = (PageInfo) iter.next();
       
       if (item.getPath().equals(pagePathInMenu)) {
         iter.remove();
-      } else if (tag != null && Utils.searchString(item.getKeywords(), tag, false) < 0) {
+      } else if (!Utils.isNullOrEmpty(tag) &&
+          Utils.searchString(item.getKeywords(), tag, false) < 0) {
+        iter.remove();
+      } else if (!Utils.isNullOrEmpty(date) &&
+          !sdf.format(new Date(item.getLastModified())).equals(date)) {
         iter.remove();
       }
     }
@@ -143,7 +149,7 @@
     <%= pageBundle.getString("includeTags") %>
     
     <% for (int t = 0; t < tags.length; t++) { %>
-      <a href="?tag=<%= tags[t] %>"><%= tags[t] %></a><%= t == tags.length - 1 ? "" : "," %>
+      <a href="?tag=<%= Utils.encodeURL(tags[t]) %>"><%= tags[t] %></a><%= t == tags.length - 1 ? "" : "," %>
     <% } %>
   </p>
 <%
@@ -159,11 +165,21 @@
     if (newer || older) {
       String baseURL = request.getContextPath() + md.getPagePath().getAsLink();
       
+      if (!Utils.isNullOrEmpty(tag)) {
+        baseURL = WebUtils.addToQueryString(baseURL, "tag", tag, true);
+      }
+      
+      if (!Utils.isNullOrEmpty(date)) {
+        baseURL = WebUtils.addToQueryString(baseURL, "date", date, false);
+      }
+      
       %><p class="includenavigation"><%
 
       if (newer) {
-        String qs = firstEntry - entries > 0 ? "?firstentry=" + (firstEntry - entries) : "";
-        %> <a href="<%= baseURL + qs %>"><%= pageBundle.getString("includeNewer") %></a> <%
+        String link = firstEntry - entries > 0 ?
+            WebUtils.addToQueryString(baseURL, "firstentry",
+            Integer.toString(firstEntry - entries), false) : baseURL;
+        %> <a href="<%= link %>"><%= pageBundle.getString("includeNewer") %></a> <%
       }
       
       if (newer && older) {
@@ -171,7 +187,9 @@
       }
 
       if (older) {
-        %> <a href="<%= baseURL + "?firstentry=" + (firstEntry + entries) %>"><%= pageBundle.getString("includeOlder") %></a> <%
+        String link = WebUtils.addToQueryString(baseURL, "firstentry",
+            Integer.toString(firstEntry + entries), false);
+        %> <a href="<%= link %>"><%= pageBundle.getString("includeOlder") %></a> <%
       }
       
       %></p><%
