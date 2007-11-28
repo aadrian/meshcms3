@@ -31,8 +31,8 @@
             <%-- To make this search form work, ensure that the Host (domain)
                  field in the configuration has been set correctly --%>
             <form id="searchform" action="http://www.google.com/search" method="get">
-              <cms:lang id="en"><h1>Search</h1></cms:lang>
-              <cms:lang id="it"><h1>Cerca</h1></cms:lang>
+              <cms:iflang id="en"><h1>Search</h1></cms:iflang>
+              <cms:iflang id="it"><h1>Cerca</h1></cms:iflang>
               <p class="searchform">
                 <input type="hidden" name="as_sitesearch" value="<cms:info id="host" />"/>
                 <input type="text" id="google_search" name="as_q" class="searchbox" />
@@ -40,8 +40,8 @@
               </p>
             </form>
 
-            <cms:lang id="en"><h1>Navigation</h1></cms:lang>
-            <cms:lang id="it"><h1>Navigazione</h1></cms:lang>
+            <cms:iflang id="en"><h1>Navigation</h1></cms:iflang>
+            <cms:iflang id="it"><h1>Navigazione</h1></cms:iflang>
             <cms:listmenu items="onpath,lastlevel,children" style="linklist" />
 
             <%-- Display a languages menu --%>
@@ -50,8 +50,8 @@
 
             <cms:module location="right" alt="" />
 	  
-            <cms:lang id="en"><h1>User Menu</h1></cms:lang>
-            <cms:lang id="it"><h1>Menu utente</h1></cms:lang>
+            <cms:iflang id="en"><h1>User Menu</h1></cms:iflang>
+            <cms:iflang id="it"><h1>Menu utente</h1></cms:iflang>
             <p><cms:adminmenu separator="<br />" /></p>
           </div>
 
@@ -61,12 +61,12 @@
             <cms:module location="bottom" alt="" />
             <cms:mailform /> 
             <p style="text-align: right;">
-              <cms:lang id="en">
+              <cms:iflang id="en">
                 <cms:lastmodified pre="Last modified: " />
-              </cms:lang>
-              <cms:lang id="it">
+              </cms:iflang>
+              <cms:iflang id="it">
                 <cms:lastmodified pre="Ultima modifica: " />
-              </cms:lang>
+              </cms:iflang>
             </p>
           </div>
 	

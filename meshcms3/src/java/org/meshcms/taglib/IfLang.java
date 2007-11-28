@@ -28,7 +28,7 @@ import javax.servlet.jsp.*;
 import org.meshcms.core.*;
 import org.meshcms.util.*;
 
-public class Lang extends AbstractTag {
+public class IfLang extends AbstractTag {
   public void writeTag() throws IOException {
     // nothing to do here
   }

@@ -552,8 +552,8 @@
     <body-content>JSP</body-content>
   </tag>
   <tag>
-    <name>lang</name>
-    <tag-class>org.meshcms.taglib.Lang</tag-class>
+    <name>iflang</name>
+    <tag-class>org.meshcms.taglib.IfLang</tag-class>
     <body-content>JSP</body-content>
     <attribute>
       <name>id</name>
