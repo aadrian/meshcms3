@@ -78,8 +78,6 @@ public final class WebUtils {
   public static Properties NUMBER_TO_ENTITY;
   public static Properties ENTITY_TO_NUMBER;
   
-  public static final Pattern EXCERPT_REGEX =
-      Pattern.compile("[^\\s]*<[^>]*>[^\\s]*\\n?+|[^\\s]+\\n?+");
   public static final Pattern BODY_REGEX =
       Pattern.compile("(?s)<body[^>]*>(.*?)</body[^>]*>");
   // Pattern fixTagsPattern = Pattern.compile("(?s)([^>]*>|[^<>]+)+");
@@ -819,23 +817,43 @@ public final class WebUtils {
   
   public static String createExcerpt(WebSite webSite, String body, int length,
       String contextPath, Path oldPage, Path newPage) {
-    Matcher m = EXCERPT_REGEX.matcher(body);
     StringBuffer sb = new StringBuffer(length + 20);
-    
-    while (m.find()) {
-      if (m.group().length() + sb.length() < length) {
-        sb.append(m.group()).append(' ');
-      } else {
-        sb.append("...");
-        break;
+    StringReader sr = new StringReader(body);
+    int n;
+    char c;
+    int count = 0;
+    boolean text = true;
+
+    try {
+      while ((n = sr.read()) != -1) {
+        c = (char) n;
+        
+        if (c == '<') {
+          text = false;
+        } else if (text) {
+          if (Character.isWhitespace(c)) {
+            if (count >= length) {
+              sb.append("&hellip;");
+              break;
+            }
+          } else {
+            count++;
+          }
+        } else if (c == '>') {
+          text = true;
+        }
+        
+        sb.append(c);
       }
+    } catch (IOException ex) {
+      webSite.log("Error while creating page excerpt", ex);
     }
     
     String excerpt = sb.toString();
     String tidy = tidyHTML(webSite, excerpt);
     
     if (tidy != null) {
-      m = BODY_REGEX.matcher(tidy);
+      Matcher m = BODY_REGEX.matcher(tidy);
       
       if (m.find()) {
         excerpt = m.group(1);
