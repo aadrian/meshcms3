@@ -39,6 +39,7 @@
   - form_css = (name of a css class for full form)
   - field_css = (name of a css class for input fields)
   - max_age = (max number of days after which comments are not shown)
+  - moderated = true | false (default)
 --%>
 
 <%
@@ -70,25 +71,51 @@
         " is not a directory");
   } */
 
+  boolean moderated = Utils.isTrue(md.getAdvancedParam("moderated", "false"));
   Locale locale = WebUtils.getPageLocale(pageContext);
   ResourceBundle pageBundle = ResourceBundle.getBundle
       ("org/meshcms/webui/Locales", locale);
+
+  String delId = request.getParameter("delId");
+
+  if (!Utils.isNullOrEmpty(delId)) {
+    File delFile = new File(commentsDir, delId);
+
+    if (delFile.exists()) {
+      if (userInfo.canWrite(webSite, md.getPagePath())) {
+        webSite.delete(userInfo, webSite.getPath(delFile), false);
+      } else {
+        delFile.delete();
+      }
+    }
+  }
+
+  String showId = request.getParameter("showId");
+
+  if (!Utils.isNullOrEmpty(showId)) {
+    File hiddenFile = new File(commentsDir, showId);
+
+    if (hiddenFile.exists()) {
+      File visibleFile = new File(commentsDir, showId.replace("mch", "mcc"));
+      hiddenFile.renameTo(visibleFile);
+    }
+  }
+
+  String hideId = request.getParameter("hideId");
+
+  if (!Utils.isNullOrEmpty(hideId)) {
+    File visibleFile = new File(commentsDir, hideId);
+
+    if (visibleFile.exists()) {
+      File hiddenFile = new File(commentsDir, hideId.replace("mcc", "mch"));
+      visibleFile.renameTo(hiddenFile);
+    }
+  }
 
   if (request.getMethod().equalsIgnoreCase("post") &&
       moduleCode.equals(request.getParameter("post_modulecode"))) {
     WebUtils.setBlockCache(request);
     WebUtils.removeFromCache(webSite, null, md.getPagePath());
-    String delId = request.getParameter("delId");
-
-    if (!Utils.isNullOrEmpty(delId) &&
-        userInfo.canWrite(webSite, md.getPagePath())) {
-      File delFile = new File(commentsDir, delId);
-
-      if (delFile.exists()) {
-        webSite.delete(userInfo, webSite.getPath(delFile), false);
-      }
-    }
-
     String name = request.getParameter("name");
     String text = request.getParameter("text");
     int sum = Utils.parseInt(request.getParameter("sum"), -1);
@@ -103,7 +130,7 @@
       pa.addProperty("pagetitle", Utils.encodeHTML(name));
       pa.addProperty("meshcmsbody", text);
       commentsDir.mkdirs();
-      File commentFile = new File(commentsDir, "mcc_" +
+      File commentFile = new File(commentsDir, (moderated ? "mch_" : "mcc_") +
           WebUtils.numericDateFormatter.format(new Date()) + ".html");
       Utils.writeFully(commentFile, pa.getPage());
 
@@ -119,9 +146,36 @@
         outMsg.setHeader("Content-Transfer-Encoding", "8bit");
         outMsg.setHeader("X-MeshCMS-Log", "Sent from " + request.getRemoteAddr() +
             " at " + new Date() + " using page /" + md.getPagePath());
-        outMsg.setText("A comment has been added to " +
-            WebUtils.getContextHomeURL(request) + md.getPagePath().getAsLink() +
-            " by " + name + " (" + request.getRemoteAddr() + "):\n\n" + text);
+        
+        String url = WebUtils.getContextHomeURL(request).append
+            (md.getPagePath().getAsLink()).toString();
+        StringBuffer sb = new StringBuffer();
+        sb.append("A comment has been added to ");
+        sb.append(url);
+        sb.append(" by ");
+        sb.append(name);
+        sb.append(" (");
+        sb.append(request.getRemoteAddr());
+        sb.append("):\n\n");
+        sb.append(text);
+        sb.append("\n\nDelete: ");
+        sb.append(url);
+        sb.append("?delId=");
+        sb.append(commentFile.getName());
+        
+        if (moderated) {
+          sb.append("\nShow: ");
+          sb.append(url);
+          sb.append("?showId=");
+          sb.append(commentFile.getName());
+        } else {
+          sb.append("\nHide: ");
+          sb.append(url);
+          sb.append("?hideId=");
+          sb.append(commentFile.getName());
+        }
+        
+        outMsg.setText(sb.toString());
         Transport.send(outMsg);
       }
     }
@@ -148,6 +202,18 @@
       f.delId.value = id;
       f.submit();
     }
+  }
+
+  function hideComment(id) {
+    var f = document.forms["mcc_<%= md.getLocation() %>"];
+    f.hideId.value = id;
+    f.submit();
+  }
+
+  function showComment(id) {
+    var f = document.forms["mcc_<%= md.getLocation() %>"];
+    f.showId.value = id;
+    f.submit();
   }
 
   function submitComment() {
@@ -188,6 +254,8 @@
 <form name="mcc_<%= md.getLocation() %>" method="post" action="">
 <input type="hidden" name="post_modulecode" value="<%= moduleCode %>" />
 <input type="hidden" name="delId" value="" />
+<input type="hidden" name="showId" value="" />
+<input type="hidden" name="hideId" value="" />
 <div class="<%= md.getAdvancedParam("form_css", "mailform") %>">
 
 <%
@@ -217,12 +285,32 @@
               Utils.SYSTEM_CHARSET);
           HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
           String title = pg.getTitle();
-%>
+          String body = "";
+          boolean hidden = false;
+          
+          if (files[i].getName().startsWith("mch")) {
+            hidden = true;
+            
+            if (userInfo.canWrite(webSite, md.getPagePath())) {
+              body = "<h4>" + pageBundle.getString("commentsAuthorize") +
+                  "</h4>\n" + pg.getBody();
+            } else {
+              body = "<p><em>" + pageBundle.getString("commentsNotAuthorized") +
+                  "</em></p>";
+            }
+          } else {
+            body = pg.getBody();
+          }
+  %>
  <div class="includeitem">
   <div class="includetitle">
     <%= Utils.isNullOrEmpty(title) ? "&nbsp;" : title %>
     <% if (userInfo.canWrite(webSite, md.getPagePath())) { %>
-      (<a href="javascript:deleteComment('<%= files[i].getName() %>');"><%= pageBundle.getString("commentsDelete") %></a>)
+      (
+      <a href="javascript:deleteComment('<%= files[i].getName() %>');"><%= pageBundle.getString("commentsDelete") %></a>
+      |
+      <a href="javascript:<%= hidden ? "show" : "hide" %>Comment('<%= files[i].getName() %>');"><%= pageBundle.getString(hidden ? "commentsShow" : "commentsHide") %></a>
+      )
     <% } %>
   </div>
 <%
@@ -235,7 +323,7 @@
           }
 %>
   <div class="includetext">
-    <%= pg.getBody() %>
+    <%= body %>
   </div>
  </div>
 <%
