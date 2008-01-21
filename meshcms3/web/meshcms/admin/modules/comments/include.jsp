@@ -125,7 +125,11 @@
         (WebSite.VERSION_ID.hashCode() >>> 8);
 
     if (!(Utils.isNullOrEmpty(name) || Utils.isNullOrEmpty(text)) &&
-        sum == n1 + n2) {
+        (moderated || sum == n1 + n2)) {
+      if (name.length() > 20) {
+        name = name.substring(0, 20);
+      }
+      
       PageAssembler pa = new PageAssembler();
       pa.addProperty("pagetitle", Utils.encodeHTML(name));
       pa.addProperty("meshcmsbody", text);
@@ -233,11 +237,13 @@
       return;
     }
 
+    <% if (!moderated) { %>
     if (isNaN(f.sum.value) || f.sum.value != <%= n1 + n2 %>) {
       alert("<%= pageBundle.getString("commentsWrongSum") %>");
       f.sum.focus();
       return;
     }
+    <% } %>
 
     f.submit();
   }
@@ -340,7 +346,7 @@
  <div class="includeitem">
   <div class="includetext">
     <div><label for="mcc_name"><%= pageBundle.getString("commentsName") %></label></div>
-    <div><input type="text" name="name" id="mcc_name" class="<%= fieldStyle %>" /></div>
+    <div><input type="text" name="name" id="mcc_name" class="<%= fieldStyle %>" maxlength="20" /></div>
   </div>
   <div class="includetext">
     <div><label for="mcc_text"><%= pageBundle.getString("commentsText") %></label></div>
@@ -348,12 +354,14 @@
       rows="12" cols="80" style="height: 12em;"></textarea></div>
   </div>
   <div class="includetext">
+    <% if (!moderated) { %>
     <div>
       <label for="mcc_sum"><%= n1 %> + <%= n2 %> =</label>
       <input type="text" name="sum" id="mcc_sum" class="<%= fieldStyle %>" style="width: 3em;" />
       <input type="hidden" name="n1" value="<%= n1 * (Utils.SYSTEM_CHARSET.hashCode() >>> 8) %>" />
       <input type="hidden" name="n2" value="<%= n2 * (WebSite.VERSION_ID.hashCode() >>> 8) %>" />
     </div>
+    <% } %>
     <div style="margin-top: 1em;">
       <input type="button" value="<%= pageBundle.getString("commentsSubmit") %>" onclick="javascript:submitComment();" />
     </div>
