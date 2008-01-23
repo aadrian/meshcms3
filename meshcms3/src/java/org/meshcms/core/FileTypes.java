@@ -338,7 +338,7 @@ public final class FileTypes {
     return id == HTML_ID || id == SERVERSIDE_ID;
   }
 
-  static class TypeInfo {
+  public static class TypeInfo {
     int id;
     String description;
     String iconFile;
