@@ -728,9 +728,11 @@ public class SiteMap extends DirectoryParser {
     if (redirCache.containsKey(requestedPath)) {
       result = (Path) redirCache.get(requestedPath);
     } else {
+      Path match = removePageExtension(requestedPath);
+      
       for (int i = 0; i < redirPaths.length; i++) {
-        String[] commonPart = Utils.commonPart(requestedPath.getElements(),
-            redirPaths[i].getElements(), true);
+        String[] commonPart = Utils.commonPart(match.getElements(),
+            removePageExtension(redirPaths[i]).getElements(), true);
         
         if (commonPart != null && commonPart.length > best) {
           result = redirPaths[i];
@@ -742,6 +744,16 @@ public class SiteMap extends DirectoryParser {
     }
     
     return result;
+  }
+  
+  private Path removePageExtension(Path path) {
+    String name = path.getLastElement();
+    
+    if (FileTypes.isPage(name)) {
+      path = path.getParent().add(Utils.removeExtension(name));
+    }
+    
+    return path;
   }
   
   public static class CodeLocalePair {
