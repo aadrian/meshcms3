@@ -116,8 +116,8 @@
       moduleCode.equals(request.getParameter("post_modulecode"))) {
     WebUtils.setBlockCache(request);
     WebUtils.removeFromCache(webSite, null, md.getPagePath());
-    String name = request.getParameter("name");
-    String text = request.getParameter("text");
+    String name = request.getParameter("mcc_name");
+    String text = request.getParameter("mcc_text");
     int sum = Utils.parseInt(request.getParameter("sum"), -1);
     int n1 = Utils.parseInt(request.getParameter("n1"), 0) /
         (Utils.SYSTEM_CHARSET.hashCode() >>> 8);
@@ -223,17 +223,17 @@
   function submitComment() {
     var f = document.forms["mcc_<%= md.getLocation() %>"];
 
-    if (f.name.value == "") {
+    if (f.mcc_name.value == "") {
       alert("<%= pageBundle.getString("commentsNoName") %>");
-      f.name.focus();
+      f.mcc_name.focus();
       return;
     }
 
     tinyMCE.triggerSave();
 
-    if (f.text.value == "") {
+    if (f.mcc_text.value == "") {
       alert("<%= pageBundle.getString("commentsNoText") %>");
-      f.text.focus();
+      f.mcc_text.focus();
       return;
     }
 
@@ -346,11 +346,11 @@
  <div class="includeitem">
   <div class="includetext">
     <div><label for="mcc_name"><%= pageBundle.getString("commentsName") %></label></div>
-    <div><input type="text" name="name" id="mcc_name" class="<%= fieldStyle %>" maxlength="20" /></div>
+    <div><input type="text" name="mcc_name" id="mcc_name" class="<%= fieldStyle %>" maxlength="20" /></div>
   </div>
   <div class="includetext">
     <div><label for="mcc_text"><%= pageBundle.getString("commentsText") %></label></div>
-    <div><textarea name="text" id="mcc_text" class="<%= fieldStyle %>"
+    <div><textarea name="mcc_text" id="mcc_text" class="<%= fieldStyle %>"
       rows="12" cols="80" style="height: 12em;"></textarea></div>
   </div>
   <div class="includetext">
