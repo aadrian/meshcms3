@@ -40,6 +40,8 @@
   - field_css = (name of a css class for input fields)
   - max_age = (max number of days after which comments are not shown)
   - moderated = true | false (default)
+  - math = true (default) | false
+  - captcha = true | false (default)
 --%>
 
 <%
@@ -72,9 +74,14 @@
   } */
 
   boolean moderated = Utils.isTrue(md.getAdvancedParam("moderated", "false"));
+  boolean math = Utils.isTrue(md.getAdvancedParam("math", "true"));
+  boolean captcha = Utils.isTrue(md.getAdvancedParam("captcha", "false"));
   Locale locale = WebUtils.getPageLocale(pageContext);
   ResourceBundle pageBundle = ResourceBundle.getBundle
       ("org/meshcms/webui/Locales", locale);
+  
+  String name = request.getParameter("mcc_name");
+  String text = request.getParameter("mcc_text");
 
   String delId = request.getParameter("delId");
 
@@ -116,16 +123,21 @@
       moduleCode.equals(request.getParameter("post_modulecode"))) {
     WebUtils.setBlockCache(request);
     WebUtils.removeFromCache(webSite, null, md.getPagePath());
-    String name = request.getParameter("mcc_name");
-    String text = request.getParameter("mcc_text");
-    int sum = Utils.parseInt(request.getParameter("sum"), -1);
+    int sum = Utils.parseInt(request.getParameter("mcc_sum"), -1);
     int n1 = Utils.parseInt(request.getParameter("n1"), 0) /
         (Utils.SYSTEM_CHARSET.hashCode() >>> 8);
     int n2 = Utils.parseInt(request.getParameter("n2"), 0) /
         (WebSite.VERSION_ID.hashCode() >>> 8);
+    boolean sumOK = !math || sum == n1 + n2;
+
+    String cKey = (String) session.getAttribute
+        (nl.captcha.servlet.Constants.SIMPLE_CAPCHA_SESSION_KEY) ;
+    String cVal = request.getParameter("mcc_captcha");
+    boolean captchaOK = !captcha ||
+        (cKey != null && cKey.substring(0, 5).equalsIgnoreCase(cVal));
 
     if (!(Utils.isNullOrEmpty(name) || Utils.isNullOrEmpty(text)) &&
-        (moderated || sum == n1 + n2)) {
+        sumOK && captchaOK) {
       if (name.length() > 20) {
         name = name.substring(0, 20);
       }
@@ -182,6 +194,8 @@
         outMsg.setText(sb.toString());
         Transport.send(outMsg);
       }
+      
+      name = text = "";
     }
   }
 
@@ -237,10 +251,10 @@
       return;
     }
 
-    <% if (!moderated) { %>
-    if (isNaN(f.sum.value) || f.sum.value != <%= n1 + n2 %>) {
+    <% if (math) { %>
+    if (isNaN(f.mcc_sum.value) || f.mcc_sum.value != <%= n1 + n2 %>) {
       alert("<%= pageBundle.getString("commentsWrongSum") %>");
-      f.sum.focus();
+      f.mcc_sum.focus();
       return;
     }
     <% } %>
@@ -346,23 +360,31 @@
  <div class="includeitem">
   <div class="includetext">
     <div><label for="mcc_name"><%= pageBundle.getString("commentsName") %></label></div>
-    <div><input type="text" name="mcc_name" id="mcc_name" class="<%= fieldStyle %>" maxlength="20" /></div>
+    <div><input type="text" name="mcc_name" id="mcc_name" class="<%= fieldStyle %>"
+     maxlength="20" value="<%= Utils.encodeHTML(name) %>" /></div>
   </div>
   <div class="includetext">
     <div><label for="mcc_text"><%= pageBundle.getString("commentsText") %></label></div>
     <div><textarea name="mcc_text" id="mcc_text" class="<%= fieldStyle %>"
-      rows="12" cols="80" style="height: 12em;"></textarea></div>
+      rows="12" cols="80" style="height: 12em;"><%= Utils.encodeHTML(text) %></textarea></div>
   </div>
   <div class="includetext">
-    <% if (!moderated) { %>
+    <% if (math) { %>
     <div>
       <label for="mcc_sum"><%= n1 %> + <%= n2 %> =</label>
-      <input type="text" name="sum" id="mcc_sum" class="<%= fieldStyle %>" style="width: 3em;" />
+      <input type="text" name="mcc_sum" id="mcc_sum" class="<%= fieldStyle %>" style="width: 3em;" />
       <input type="hidden" name="n1" value="<%= n1 * (Utils.SYSTEM_CHARSET.hashCode() >>> 8) %>" />
       <input type="hidden" name="n2" value="<%= n2 * (WebSite.VERSION_ID.hashCode() >>> 8) %>" />
     </div>
     <% } %>
-    <div style="margin-top: 1em;">
+    <% if (captcha) { %>
+    <div>
+      <img src="<%= request.getContextPath() %>/captcha.jpg" alt="captcha" align="right" />
+      <label for="mcc_captcha"><%= pageBundle.getString("commentsCaptcha") %></label>
+      <input type="text" name="mcc_captcha" id="mcc_captcha" class="<%= fieldStyle %>" style="width: 8em;" />
+    </div>
+    <% } %>
+    <div style="margin-top: 1em; clear: both;">
       <input type="button" value="<%= pageBundle.getString("commentsSubmit") %>" onclick="javascript:submitComment();" />
     </div>
   </div>
