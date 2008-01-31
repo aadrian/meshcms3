@@ -87,14 +87,17 @@ public final class PageAssembler {
       if (!Utils.isNullOrEmpty(value)) {
         // name is something like arg_location: we need to set location->value
         // value is the name of the module argument (i.e. the selected file/folder)
-        mod_args.setProperty(name.substring(ModuleDescriptor.ARGUMENT_ID.length()), value);
+        mod_args.setProperty(name.substring(ModuleDescriptor.ARGUMENT_ID.length()),
+            Utils.encodeHTML(value));
       }
     } else if (name.startsWith(ModuleDescriptor.PARAMETERS_ID)) {
-      mod_params.setProperty(name.substring(ModuleDescriptor.PARAMETERS_ID.length()), value);
+      mod_params.setProperty(name.substring(ModuleDescriptor.PARAMETERS_ID.length()),
+          Utils.encodeHTML(value));
     } else if (name.startsWith(ModuleDescriptor.TITLE_ID)) {
-      mod_titles.setProperty(name.substring(ModuleDescriptor.TITLE_ID.length()), value);
+      mod_titles.setProperty(name.substring(ModuleDescriptor.TITLE_ID.length()),
+          Utils.encodeHTML(value));
     } else if (name.startsWith("body.")) {
-      bodyTag.append(' ').append(name.substring(5)).append("=\"").append(value).append('\"');
+      bodyTag.append(' ').append(name.substring(5)).append("=\"").append(Utils.encodeHTML(value)).append('\"');
     /*
       } else if (name.startsWith("meta.")) {
         //
