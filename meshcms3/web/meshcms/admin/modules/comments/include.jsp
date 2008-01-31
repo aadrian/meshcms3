@@ -40,8 +40,8 @@
   - field_css = (name of a css class for input fields)
   - max_age = (max number of days after which comments are not shown)
   - moderated = true | false (default)
-  - math = true (default) | false
-  - captcha = true | false (default)
+  - math = true | false (default)
+  - captcha = true (default) | false
 --%>
 
 <%
@@ -74,8 +74,8 @@
   } */
 
   boolean moderated = Utils.isTrue(md.getAdvancedParam("moderated", "false"));
-  boolean math = Utils.isTrue(md.getAdvancedParam("math", "true"));
-  boolean captcha = Utils.isTrue(md.getAdvancedParam("captcha", "false"));
+  boolean math = Utils.isTrue(md.getAdvancedParam("math", "false"));
+  boolean captcha = Utils.isTrue(md.getAdvancedParam("captcha", "true"));
   Locale locale = WebUtils.getPageLocale(pageContext);
   ResourceBundle pageBundle = ResourceBundle.getBundle
       ("org/meshcms/webui/Locales", locale);
