@@ -169,7 +169,9 @@ public final class HitFilter implements Filter {
           Path redirPath = siteMap.getRedirMatch(pagePath);
           
           if (redirPath != null) {
-            redirect(httpReq, httpRes, redirPath);
+            blockRemoteCaching(httpRes);
+            httpRes.setStatus(HttpServletResponse.SC_MOVED_PERMANENTLY);
+            httpRes.setHeader("Location", httpReq.getContextPath() + "/" + redirPath);
             return;
           }
         }
