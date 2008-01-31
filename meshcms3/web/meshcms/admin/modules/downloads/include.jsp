@@ -31,6 +31,7 @@
   Advanced parameters for this module:
   - css = (name of a css class)
   - date = none (default) | normal | full
+  - force = true (default) | false
 --%>
 
 <%
@@ -53,6 +54,7 @@
   File[] files = md.getModuleFiles(webSite, false);
 
   if (files != null && files.length > 0) {
+    boolean force = Utils.isTrue(md.getAdvancedParam("force", "true"));
     Locale locale = WebUtils.getPageLocale(pageContext);
     ResourceBundle bundle =
         ResourceBundle.getBundle("org/meshcms/webui/Locales", locale);
@@ -65,10 +67,13 @@
     for (int i = 0; i < files.length; i++) {
       if (!files[i].isDirectory()) {
         WebUtils.updateLastModifiedTime(request, files[i]);
+        String link = force ?
+            cp + "/servlet/org.meshcms.core.DownloadServlet/" + webSite.getPath(files[i]) :
+            cp + '/' + webSite.getPath(files[i]);
 %>
  <tr valign="top">
   <td><img src="<%= cp + '/' + webSite.getAdminPath() %>/filemanager/images/<%= FileTypes.getIconFile(files[i].getName()) %>" border="0" alt="<%= FileTypes.getDescription(files[i].getName()) %>" /></td>
-  <td><a href="<%= cp + "/servlet/org.meshcms.core.DownloadServlet/" + webSite.getPath(files[i]) %>"><%= files[i].getName() %></a></td>
+  <td><a href="<%= link %>"><%= files[i].getName() %></a></td>
   <td align="right"><%= WebUtils.formatFileLength(files[i].length(), locale, bundle) %></td>
   <% if (df != null) { %><td><%= df.format(new Date(files[i].lastModified())) %></td><% } %>
  </tr>
