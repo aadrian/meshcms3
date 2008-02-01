@@ -7,7 +7,7 @@
 ******/
 
 	function EditAreaLoader(){
-		this.version= "0.7.0.1";
+		this.version= "0.7.0.2";
 		date= new Date();
 		this.start_time=date.getTime();
 		this.win= "loading";	// window loading state
@@ -715,10 +715,11 @@
 			var script= document.createElement("script");
 			script.type= "text/javascript";
 			script.src= url;
+			script.charset= "UTF-8";
 			var head= document.getElementsByTagName("head");
 			head[0].appendChild(script);
 		}catch(e){
-			document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + url + '"></sc'+'ript>');
+			document.write('<sc'+'ript language="javascript" type="text/javascript" src="' + url + '" charset="UTF-8"></sc'+'ript>');
 		}
 		//var filename= url.replace(/^.*?\/?([a-z\.\_\-]+)$/i, "$1");
 		this.loadedFiles[url] = true;
