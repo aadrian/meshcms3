@@ -3,6 +3,18 @@ ________________________________
 Unreleased changes
 --------------------------------
 
+- Added a module to embed code snippets in page (e.g. YouTube videos)
+- Improved searching of moved pages
+- Return HTTP 301 (moved permanently) for moved pages
+- Added captchas to the comment module
+- Added the ability to fix links in modules for pages from other directories
+- New tag and property to detect current language
+- New tag to check if the page is in the site map
+- New tag to check if the page is an admin page
+- Added an option to clean (tidy) HTML code on the server
+- Added blog module
+- Added clean and preview capabilities to the source code editor
+- EditArea upgraded to 0.7.0.2
 - TinyMCE upgraded to 2.1.2
 - <cms:listmenu> "path" attribute supports special values "current", "parent" and "root"
 - Default configuration values have been revised and changed
@@ -91,7 +103,7 @@ ________________________________
 - Make Gallery capable of sorting files by date as well as by name
 - Allow site admins to specify a default for thumbnail quality
 - Added a simple module to display a URL in an IFrame.
-- Basic multilanguage support by allowing users to 
+- Basic multilanguage support by allowing users to
 - TinyMCE now includes all plugins and translations
 - Upgrade to SiteMesh 2.3
 - File Manager now highlights items that have a theme associated to
