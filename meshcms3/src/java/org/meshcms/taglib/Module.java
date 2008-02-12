@@ -107,12 +107,10 @@ public final class Module extends AbstractTag {
               w.write("<pre class='meshcmserror'>\n");
               ex.printStackTrace(pw);
 
-              if (ex instanceof ServletException) {
-                Throwable t = ((ServletException) ex).getRootCause();
+              Throwable t = ex.getRootCause();
 
-                if (t != null) {
-                  t.printStackTrace(pw);
-                }
+              if (t != null) {
+                t.printStackTrace(pw);
               }
 
               w.write("</pre>");
@@ -160,8 +158,8 @@ public final class Module extends AbstractTag {
     Object[] args = {
       location,
       template != null ? Utils.beautify(template,true) : bundle.getString("editorNoTemplate"),
-      Utils.noNull(argPath),
-      Utils.noNull(advParms)
+      Utils.limitedLength(argPath, 80),
+      Utils.limitedLength(advParms, 80)
     };
 
     if (isEditorModulesCollapsed) {
