@@ -28,17 +28,19 @@
 
         <div id="wrap"> 
           <div id="rightside">
-            <%-- To make this search form work, ensure that the Host (domain)
-                 field in the configuration has been set correctly --%>
-            <form id="searchform" action="http://www.google.com/search" method="get">
-              <cms:iflang id="en"><h1>Search</h1></cms:iflang>
-              <cms:iflang id="it"><h1>Cerca</h1></cms:iflang>
-              <p class="searchform">
-                <input type="hidden" name="as_sitesearch" value="<cms:info id="host" />"/>
-                <input type="text" id="google_search" name="as_q" class="searchbox" />
-                <input type="submit" value="Go!" class="searchbutton" />
-              </p>
-            </form>
+            <cms:ifnotediting>
+              <%-- To make this search form work, ensure that the Host (domain)
+                   field in the configuration has been set correctly --%>
+              <form id="searchform" action="http://www.google.com/search" method="get">
+                <cms:iflang id="en"><h1>Search</h1></cms:iflang>
+                <cms:iflang id="it"><h1>Cerca</h1></cms:iflang>
+                <p class="searchform">
+                  <input type="hidden" name="as_sitesearch" value="<cms:info id="host" />"/>
+                  <input type="text" id="google_search" name="as_q" class="searchbox" />
+                  <input type="submit" value="Go!" class="searchbutton" />
+                </p>
+              </form>
+            </cms:ifnotediting>
 
             <cms:iflang id="en"><h1>Navigation</h1></cms:iflang>
             <cms:iflang id="it"><h1>Navigazione</h1></cms:iflang>

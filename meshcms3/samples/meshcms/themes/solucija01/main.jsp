@@ -43,6 +43,7 @@
 	</div>
 </div>
 
+    <cms:ifnotediting>
 <div id="search" style="">
 	<form id="searchform" action="http://www.google.com/search" method="get">
 		<p style="">
@@ -62,6 +63,7 @@
 	--%>
 
 </div>
+    </cms:ifnotediting>
 
 <div class="gboxtop">&nbsp;</div>
 <div class="gbox">
