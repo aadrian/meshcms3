@@ -103,7 +103,7 @@
     File hiddenFile = new File(commentsDir, showId);
 
     if (hiddenFile.exists()) {
-      File visibleFile = new File(commentsDir, showId.replace("mch", "mcc"));
+      File visibleFile = new File(commentsDir, showId.replaceAll("mch", "mcc"));
       hiddenFile.renameTo(visibleFile);
     }
   }
@@ -114,7 +114,7 @@
     File visibleFile = new File(commentsDir, hideId);
 
     if (visibleFile.exists()) {
-      File hiddenFile = new File(commentsDir, hideId.replace("mcc", "mch"));
+      File hiddenFile = new File(commentsDir, hideId.replaceAll("mcc", "mch"));
       visibleFile.renameTo(hiddenFile);
     }
   }

@@ -67,7 +67,7 @@
 <script type="text/javascript">
   $(function() {
     var tm = window.setTimeout(function() {
-      $("#embed_<%= moduleCode %>").empty().append("<%= arg.replace("\"", "\\\"") %>");
+      $("#embed_<%= moduleCode %>").empty().append("<%= arg.replaceAll("\"", "\\\"") %>");
     }, 1000);
   });
 </script>
