@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
 <book>
@@ -79,8 +79,10 @@
       </listitem>
 
       <listitem>
-        <para><emphasis role="bold">cross-browser</emphasis> - tested with
-        Internet Explorer and Firefox;</para>
+        <para><emphasis role="bold">search engine friendly</emphasis> - due to
+        its file-based nature, sites made with MeshCMS get pretty URLs by
+        default, have a clear site map and are easily indexed by search
+        engines;</para>
       </listitem>
 
       <listitem>
@@ -111,14 +113,7 @@
       <listitem>
         <para><emphasis role="bold">tag library</emphasis> to create new
         themes easily - menus and other common components are created
-        automatically;</para>
-      </listitem>
-
-      <listitem>
-        <para>optional <emphasis role="bold">hotlinking prevention</emphasis>
-        - inspired by <ulink
-        url="http://www.alistapart.com/articles/hotlinking/">this
-        article</ulink>.</para>
+        automatically.</para>
       </listitem>
     </itemizedlist>
   </chapter>
@@ -590,7 +585,7 @@
 &lt;body style="margin: 0px;"&gt;
 &lt;table width="770" border="0" cellspacing="0" cellpadding="0"&gt;
   &lt;tr&gt;
-    &lt;td colspan="2" valign="bottom" style="background: url(flowers.jpg) no-repeat; Â¶
+    &lt;td colspan="2" valign="bottom" style="background: url(flowers.jpg) no-repeat; ¶
      height: 120px; padding: 10px; font-size: 22px;"&gt;[TITLE]&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
@@ -690,8 +685,8 @@
 &lt;body style="margin: 0px;"&gt;
 &lt;table width="770" border="0" cellspacing="0" cellpadding="0"&gt;
   &lt;tr&gt;
-    &lt;td colspan="2" valign="bottom" style="background: Â¶
-     url(<emphasis role="bold">&lt;mesh:themepath /&gt;</emphasis>/flowers.jpg) no-repeat; height: 120px; Â¶
+    &lt;td colspan="2" valign="bottom" style="background: ¶
+     url(<emphasis role="bold">&lt;mesh:themepath /&gt;</emphasis>/flowers.jpg) no-repeat; height: 120px; ¶
      padding: 10px; font-size: 22px;"&gt;<emphasis role="bold">&lt;mesh:pagetitle /&gt;</emphasis>&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
@@ -770,8 +765,8 @@
 &lt;body style="margin: 0px;"&gt;<emphasis role="bold">&lt;mesh:editor&gt;</emphasis>
 &lt;table width="770" border="0" cellspacing="0" cellpadding="0"&gt;
   &lt;tr&gt;
-    &lt;td colspan="2" valign="bottom" style="background: Â¶
-     url(&lt;mesh:themepath /&gt;/flowers.jpg) no-repeat; height: 120px; Â¶
+    &lt;td colspan="2" valign="bottom" style="background: ¶
+     url(&lt;mesh:themepath /&gt;/flowers.jpg) no-repeat; height: 120px; ¶
      padding: 10px; font-size: 22px;"&gt;&lt;mesh:pagetitle /&gt;&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
@@ -1062,7 +1057,7 @@
           found in the page HTML code, MeshCMS will replace it with a resized
           image, so you can safely include a big image in a page and resize it
           from within TinyMCE. Note that it is recommended to enable high
-          quality thumbnails (see above) if this option is on;</para>
+          quality thumbnails (see above) when this option is on;</para>
         </listitem>
 
         <listitem>
@@ -1107,6 +1102,13 @@
           fallback to disk. Pages are saved in GZIP format and are sent
           compressed when the browser supports that (always true with modern
           browsers);</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Clean HTML code when saving</emphasis>:
+          used to improve quality of generated HTML: if this option is
+          enabled, pages edited visually are post-processed on the server to
+          generate valid XHTML;</para>
         </listitem>
 
         <listitem>
@@ -1499,10 +1501,88 @@
         to the directory that contains the current page.</para>
       </section>
 
+      <section id="module_blog">
+        <title>Blog</title>
+
+        <para>The blog module shows a preview of pages in a directory using a
+        blog-like interface: content is truncated to a maximum length and
+        links to full pages are provided. Pages are ordered by date and meta
+        keywords are displayed as "article tags".</para>
+
+        <para>Argument: path to a file or directory. If not provided, defaults
+        to the directory that contains the current page.</para>
+
+        <para>Advanced parameters:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>css</parameter>: the name of a css class;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>date</parameter>: the type of file date to be
+            shown. Possible values are <option>none</option> (default),
+            <option>normal</option> (date only) and <option>full</option>
+            (date and time);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>entries</parameter>: number of entries per page
+            (default <option>5</option>);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>maxchars</parameter>: maximum length of the
+            excerpt for each article (default <option>1200</option>).</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section id="module_blog_calendar">
+        <title>Blog Calendar</title>
+
+        <para>The blog calendar module shows a list of months/years to select
+        articles in a specific month. It has been thought to be used in the
+        same page as the blog module.</para>
+
+        <para>Argument: path to a file or directory. If not provided, defaults
+        to the directory that contains the current page.</para>
+      </section>
+
+      <section id="module_blog_tag_list">
+        <title>Blog Tag List</title>
+
+        <para>The blog tag list module shows a list of tags to select articles
+        marked with a specific tag. It has been thought to be used in the same
+        page as the blog module.</para>
+
+        <para>Argument: path to a file or directory. If not provided, defaults
+        to the directory that contains the current page.</para>
+
+        <para>Advanced parameters:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>css</parameter>: the name of a css class;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>step</parameter>: step for item css classes
+            (default <option>1</option> - use <option>0</option> to remove
+            classes);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>max</parameter>: maximum for item css classes
+            (default no maximum).</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
       <section id="module_chat">
         <title>Chat</title>
 
-        <para>The chat module has been created by Pierre MÃ©tras and provides a
+        <para>The chat module has been created by Pierre Métras and provides a
         simple, AJAX-based chat. To use it, simply select the module: no
         argument is needed.</para>
 
@@ -1510,7 +1590,22 @@
 
         <itemizedlist>
           <listitem>
-            <para><parameter>css</parameter>: the name of a css class.</para>
+            <para><parameter>css</parameter>: the name of a css class;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>room</parameter>: chat room identifier, else use
+            public room shared by all pages and all sites;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>cols</parameter>: number of columns of the chat
+            list;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>rows</parameter>: number of rows of the chat
+            list.</para>
           </listitem>
         </itemizedlist>
       </section>
@@ -1550,7 +1645,28 @@
 
           <listitem>
             <para><parameter>notify</parameter>: an optional e-mail address to
-            receive comment notifications.</para>
+            receive comment notifications;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>max_age</parameter>: maximum number of days after
+            which comments are not shown (default no maximum);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>moderated</parameter>: hides comments until
+            approved by an authenticated user (default
+            <option>false</option>);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>math</parameter>: asks users to calculate the sum
+            of two numbers (default <option>false</option>);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>captcha</parameter>: shows a CAPTCHA image
+            (default <option>true</option>).</para>
           </listitem>
         </itemizedlist>
       </section>
@@ -1726,7 +1842,32 @@
             <para><parameter>date</parameter>: the type of file date to be
             shown. Possible values are <option>none</option> (default),
             <option>normal</option> (date only) and <option>full</option>
-            (date and time).</para>
+            (date and time);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>force</parameter>: forces download even for files
+            that could be viewed in the browser (default
+            <option>true</option>).</para>
+          </listitem>
+        </itemizedlist>
+      </section>
+
+      <section id="module_embed">
+        <title>Embed</title>
+
+        <para>The embed module is useful to embed code snippets in the page
+        (e.g. YouTube videos).</para>
+
+        <para>Argument: code snippet or path to a file that contains the code
+        to be inserted. If not provided, the module does nothing.</para>
+
+        <para>Advanced parameters:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>delay</parameter>: uses JavaScript to embed the
+            code after page load (default <option>false</option>).</para>
           </listitem>
         </itemizedlist>
       </section>
@@ -1875,8 +2016,8 @@ This is the third image</programlisting>
           </listitem>
 
           <listitem>
-            <para><parameter>words</parameter>: defines the number of words to
-            show for each page (default <option>50</option>).</para>
+            <para><parameter>maxchars</parameter>: maximum length of the
+            excerpt for each page (default <option>500</option>).</para>
           </listitem>
         </itemizedlist>
       </section>
@@ -2290,7 +2431,13 @@ submit</programlisting>
 
           <listitem>
             <para><parameter>items</parameter>: defines the number of pages to
-            show (default <option>5</option>).</para>
+            show (default <option>5</option>);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>minvisits</parameter>: minimum number of page
+            views that a page must have to be included in the list (default
+            <option>0</option>).</para>
           </listitem>
         </itemizedlist>
       </section>
@@ -2447,7 +2594,14 @@ submit</programlisting>
           <listitem>
             <para><parameter>defaultValue</parameter>: same as
             <parameter>value</parameter>, but will be set only if not found in
-            the URL.</para>
+            the URL;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>redirectRoot</parameter>: if
+            <option>true</option>, and if a language is available, the root
+            page is automatically redirected to one of the language
+            roots.</para>
           </listitem>
         </itemizedlist>
       </section>
@@ -2489,6 +2643,13 @@ submit</programlisting>
         </example>
       </section>
 
+      <section id="tag_adminpath">
+        <title>adminpath</title>
+
+        <para>Inserts the complete path of the admin directory. This tag has
+        no attributes.</para>
+      </section>
+
       <section id="tag_searchfile">
         <title>searchfile</title>
 
@@ -2506,7 +2667,13 @@ submit</programlisting>
           <listitem>
             <para><parameter>defaultName</parameter>: a default file to be
             used if the searched file is not found. This default file is
-            supposed to exist in the theme directory.</para>
+            supposed to exist in the theme directory;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>include</parameter>: if <option>true</option>,
+            the contents of the file are included, otherwise the file path is
+            inserted.</para>
           </listitem>
         </itemizedlist>
       </section>
@@ -2667,7 +2834,17 @@ submit</programlisting>
         <itemizedlist>
           <listitem>
             <para><parameter>location</parameter> (required): the name of the
-            module location.</para>
+            module location;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>pre</parameter>: a text to be added before the
+            date. It won't be added if the title is not shown;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>post</parameter>: a text to be added after the
+            date. It won't be added if the title is not shown.</para>
           </listitem>
         </itemizedlist>
       </section>
@@ -2692,6 +2869,12 @@ submit</programlisting>
           <listitem>
             <para><emphasis role="bold">Edit source</emphasis>: a link to edit
             the source of the current page;</para>
+          </listitem>
+
+          <listitem>
+            <para><emphasis role="bold">Clean HTML</emphasis>: a link to edit
+            the source of the current page after having it cleaned with jTidy,
+            that tries to convert any page into well-formed XHTML;</para>
           </listitem>
 
           <listitem>
@@ -2756,8 +2939,6 @@ submit</programlisting>
     <section id="tags_navigation">
       <title>Navigation Tags</title>
 
-      <para></para>
-
       <section id="tag_listmenu">
         <title>listmenu</title>
 
@@ -2769,7 +2950,13 @@ submit</programlisting>
           <listitem>
             <para><parameter>path</parameter>: the path used as root for the
             menu. Defaults to the path of the page to which the theme is
-            applied;</para>
+            applied. There are some special values that can be used with this
+            parameters: <option>root</option> (site root),
+            <option>current</option> (directory of the page) and
+            <option>parent</option> (parent directory). Should you really need
+            to specify a path that is equal to one of these special values,
+            simply put a slash at the beginning (e.g.
+            <option>/current</option>);</para>
           </listitem>
 
           <listitem>
@@ -3120,23 +3307,28 @@ submit</programlisting>
     <section id="tags_information">
       <title>Information Tags</title>
 
-      <para></para>
-
       <section id="tag_info">
         <title>info</title>
 
-        <para>This tag shows some info about the website. Values are defined
-        in the Configuration page.</para>
+        <para>This tag shows some info about the website or the CMS. Values
+        are defined in the Configuration page.</para>
 
         <para>Attributes:</para>
 
         <itemizedlist>
           <listitem>
             <para><parameter>id</parameter>: indicates which site information
-            must be shown. Value can be <option>name</option> (default),
+            must be shown.</para>
+
+            <para>Possible values are <option>name</option> (default),
             <option>host</option> (or <option>domain</option>),
             <option>description</option>, <option>keywords</option>,
             <option>author</option> or <option>authorurl</option>.</para>
+
+            <para>Alternatively, you can retrieve some system info using
+            <option>meshcms</option> to retrieve application name and version
+            info, <option>charset</option> to get the system charset or
+            <option>lang</option> to get the page language.</para>
           </listitem>
         </itemizedlist>
       </section>
@@ -3159,8 +3351,9 @@ submit</programlisting>
             <option>city</option>, <option>state</option>,
             <option>country</option>, <option>phone_number</option>,
             <option>fax_number</option>,
-            <option>mobile_phone_number</option>). If id is not specified, the
-            value displayed depends on what information is available.</para>
+            <option>mobile_phone_number</option>). If
+            <parameter>id</parameter> is not specified, the value displayed
+            depends on what information is available.</para>
           </listitem>
         </itemizedlist>
 
@@ -3221,7 +3414,21 @@ submit</programlisting>
     <section id="tags_conditional">
       <title>Conditional Tags</title>
 
-      <para></para>
+      <section id="tag_iflang">
+        <title>iflang</title>
+
+        <para>This tag can be used to show some html in a particular language
+        only.</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>id</parameter>: the code of the desired language
+            (e.g. <option>en</option> for English).</para>
+          </listitem>
+        </itemizedlist>
+      </section>
 
       <section id="tag_ifuser">
         <title>ifuser, ifnotuser</title>
@@ -3307,7 +3514,7 @@ submit</programlisting>
         recipient has been specified to receive messages from that
         page.</para>
 
-        <para>These tags have no attributes:</para>
+        <para>These tags have no attributes.</para>
 
         <example>
           <title>Adding some HTML around a mail form</title>
@@ -3317,6 +3524,24 @@ submit</programlisting>
  &lt;mesh:mailform /&gt;
 &lt;/mesh:ifmailform&gt;</programlisting>
         </example>
+      </section>
+
+      <section id="tag_ifindexed">
+        <title>ifindexed, ifnotindexed</title>
+
+        <para>These tags detect whether the current page is in the site map or
+        not.</para>
+
+        <para>These tags have no attributes.</para>
+      </section>
+
+      <section id="tag_ifadminpage">
+        <title>ifadminpage, ifnotadminpage</title>
+
+        <para>These tags detect whether the current page is an admin page or
+        not. They are useful when the theme is applied to admin pages.</para>
+
+        <para>These tags have no attributes.</para>
       </section>
     </section>
   </chapter>
