@@ -1,31 +1,34 @@
 ________________________________
 --------------------------------
-Unreleased changes
+2007-02-23: 3.2 released
 --------------------------------
 
+- MeshCMS-specific information is now stored in META tags instead of HTML tag
+- Added blog module
 - Added a module to embed code snippets in page (e.g. YouTube videos)
-- Improved searching of moved pages
-- Return HTTP 301 (moved permanently) for moved pages
-- Added captchas to the comment module
-- Added the ability to fix links in modules for pages from other directories
+- Added clean and preview capabilities to the source code editor
+- Added Indonesian Language (translation by Budi Ongkowijaya)
+- Added an option to use Lightbox in the gallery module (contributed by Gilles Hooghe)
 - New tag and property to detect current language
+- Added the ability to fix links in modules for pages from other directories
+- Added captchas to the comment module
+- Added two new parameters to the pagehead tag to remove script and styles from HTML pages
 - New tag to check if the page is in the site map
 - New tag to check if the page is an admin page
+- Return HTTP 301 (moved permanently) for moved pages
 - Added an option to clean (tidy) HTML code on the server
-- Added blog module
-- Added clean and preview capabilities to the source code editor
-- EditArea upgraded to 0.7.0.2
-- TinyMCE upgraded to 2.1.2
-- <cms:listmenu> "path" attribute supports special values "current", "parent" and "root"
-- Default configuration values have been revised and changed
-- <cms:moduletitle> gets "pre" and "post" attributes
-- Added the <cms:adminpath> tag to get the CMS admin path
-- The <cms:info> tag can now provide some basic system info
+- Improved searching of moved pages
+- Added two new themes to samples
 - File Manager now allows to view/edit files in another window
-- MeshCMS-specific information is now stored in META tags instead of HTML tag
-- Added an option to use Lightbox in the gallery module (contributed by Gilles Hooghe)
-- Added two new parameters to the pagehead tag to remove script and styles from HTML pages
+- TinyMCE upgraded to 2.1.3
+- EditArea upgraded to 0.7.0.2
+- Added the <cms:adminpath> tag to get the CMS admin path
+- <cms:listmenu> "path" attribute supports special values "current", "parent" and "root"
+- <cms:info> can now provide some basic system info
+- <cms:moduletitle> gets "pre" and "post" attributes
 - Login menu is not shown if we're performing a static export
+- Default configuration values have been revised and changed
+
 
 ________________________________
 --------------------------------
