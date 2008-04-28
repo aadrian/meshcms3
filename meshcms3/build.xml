@@ -38,7 +38,7 @@
   </target>
 
   <target name="checkout" depends="init" description="Checks out the project files from the sf.net subversion repository">
-    <svn username="${meshcms.svn.username}" password="${meshcms.svn.password}">
+    <svn>
       <checkout destPath="${basedir}" revision="HEAD" url="${meshcms.svnroot.url}/${svndir}" />
     </svn>
   </target>
