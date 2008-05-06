@@ -418,7 +418,7 @@ public final class HitFilter implements Filter {
         
         Path wPath = webSite.findCurrentWelcome(pagePath);
         
-        if (wPath != null) {
+        if (wPath != null && !wPath.equals(pagePath)) {
           redirect(httpReq, httpRes, wPath);
           return;
         }
