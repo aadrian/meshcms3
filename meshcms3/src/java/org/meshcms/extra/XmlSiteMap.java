@@ -56,7 +56,7 @@ public class XmlSiteMap extends HttpServlet {
   public static float PRIORITY_WEIGHT = 9.0F;
   public static NumberFormat DECIMAL_FORMAT =
       NumberFormat.getNumberInstance(Locale.ENGLISH);
-  
+
   static {
     DECIMAL_FORMAT.setMinimumFractionDigits(1);
     DECIMAL_FORMAT.setMaximumFractionDigits(2);
@@ -65,8 +65,7 @@ public class XmlSiteMap extends HttpServlet {
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
     try {
-      response.setContentType("text/xml");
-      response.setCharacterEncoding(Utils.SYSTEM_CHARSET);
+      response.setContentType("text/xml; charset=" + Utils.SYSTEM_CHARSET);
       String baseURL =
           WebUtils.getContextHomeURL(request).append('/').toString();
 
@@ -96,17 +95,17 @@ public class XmlSiteMap extends HttpServlet {
 
           Element loc = doc.createElement("loc");
           url.appendChild(loc);
-          loc.setTextContent(baseURL + pageInfo.getPath());
+          loc.appendChild(doc.createTextNode(baseURL + pageInfo.getPath()));
 
           Element lastmod = doc.createElement("lastmod");
           url.appendChild(lastmod);
-          lastmod.setTextContent(ISO_8601_FORMAT.format(new Date(pageInfo.getLastModified())));
+          lastmod.appendChild(doc.createTextNode(ISO_8601_FORMAT.format(new Date(pageInfo.getLastModified()))));
 
           Element priority = doc.createElement("priority");
           url.appendChild(priority);
           float value = PRIORITY_WEIGHT / (PRIORITY_WEIGHT +
               pageInfo.getPath().getElementCount());
-          priority.setTextContent(DECIMAL_FORMAT.format(value));
+          priority.appendChild(doc.createTextNode(DECIMAL_FORMAT.format(value)));
         }
       }
 
