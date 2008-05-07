@@ -515,7 +515,10 @@
 
           <mediaobject>
             <imageobject>
-              <imagedata align="center" fileref="bare_viewing.png" />
+              <imagedata scale="80" align="center" fileref="resources/bare_viewing.tif" />
+            </imageobject>
+            <imageobject>
+              <imagedata align="center" fileref="resources/bare_viewing.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -528,7 +531,10 @@
 
           <mediaobject>
             <imageobject>
-              <imagedata align="center" fileref="bare_editing.png" />
+              <imagedata scale="80" align="center" fileref="resources/bare_editing.tif" />
+            </imageobject>
+            <imageobject>
+              <imagedata align="center" fileref="resources/bare_editing.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -569,7 +575,10 @@
 
           <mediaobject>
             <imageobject>
-              <imagedata align="center" fileref="theme_step1.jpg" />
+              <imagedata align="center" fileref="resources/theme_step1.tif" />
+            </imageobject>
+            <imageobject>
+              <imagedata align="center" fileref="resources/theme_step1.jpg" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -669,7 +678,10 @@
 
           <mediaobject>
             <imageobject>
-              <imagedata align="center" fileref="theme_step2.jpg" />
+              <imagedata align="center" fileref="resources/theme_step2.tif" />
+            </imageobject>
+            <imageobject>
+              <imagedata align="center" fileref="resources/theme_step2.jpg" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -808,7 +820,10 @@
       help.</para>
 
       <para>MeshCMS adds the ability to browse for links and images. Just
-      click on the <inlinegraphic fileref="browse_button.gif" /> Browse icon
+      click on the <inlinemediaobject>
+      <imageobject><imagedata fileref="resources/browse_button.tif" /></imageobject>
+      <imageobject><imagedata fileref="resources/browse_button.gif" /></imageobject>
+      </inlinemediaobject> Browse icon
       in the image and link popups to access the file manager with all its
       functions (upload included). The link popup also contains a drop down
       list with all pages available in the site map to insert links in a
@@ -849,8 +864,10 @@
         <listitem>
           <para>(much easier) go to the <link linkend="control_panel">Control
           Panel</link>, then choose <link linkend="page_manager">Page
-          Manager</link>. Choose the <inlinegraphic
-          fileref="newpage_button.gif" /> icon associated to the right page:
+          Manager</link>. Choose the <inlinemediaobject>
+          <imageobject><imagedata fileref="resources/newpage_button.tif" /></imageobject>
+          <imageobject><imagedata fileref="resources/newpage_button.gif" /></imageobject>
+          </inlinemediaobject> icon associated to the right page:
           you will add a child page to that one. A small popup will open.
           Insert a title for the page (use a short one since it wiil be used
           to create a name for the file: you will be able to change it while
@@ -2376,7 +2393,10 @@ reset</programlisting>
 
           <mediaobject>
             <imageobject>
-              <imagedata align="center" fileref="sample_mail_form.png" />
+              <imagedata scale="80" align="center" fileref="resources/sample_mail_form.tif" />
+            </imageobject>
+            <imageobject>
+              <imagedata align="center" fileref="resources/sample_mail_form.png" />
             </imageobject>
           </mediaobject>
         </screenshot>
@@ -3628,7 +3648,10 @@ submit</programlisting>
 
             <mediaobject>
               <imageobject>
-                <imagedata fileref="ml_file_manager.png" />
+                <imagedata scale="140" align="center" fileref="resources/ml_file_manager.tif" />
+              </imageobject>
+              <imageobject>
+                <imagedata align="center" fileref="resources/ml_file_manager.png" />
               </imageobject>
             </mediaobject>
           </screenshot>
@@ -3645,7 +3668,10 @@ submit</programlisting>
 
             <mediaobject>
               <imageobject>
-                <imagedata fileref="ml_page_manager.png" />
+                <imagedata scale="80" align="center" fileref="resources/ml_page_manager.tif" />
+              </imageobject>
+              <imageobject>
+                <imagedata align="center" fileref="resources/ml_page_manager.png" />
               </imageobject>
             </mediaobject>
           </screenshot>
@@ -3669,7 +3695,10 @@ submit</programlisting>
 
         <mediaobject>
           <imageobject>
-            <imagedata align="center" fileref="ml_eng_home.png" />
+            <imagedata scale="80" align="center" fileref="resources/ml_eng_home.tif" />
+          </imageobject>
+          <imageobject>
+            <imagedata align="center" fileref="resources/ml_eng_home.png" />
           </imageobject>
         </mediaobject>
       </screenshot>
