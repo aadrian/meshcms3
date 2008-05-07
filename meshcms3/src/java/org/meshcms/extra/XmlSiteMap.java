@@ -43,6 +43,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import org.meshcms.core.HitFilter;
 import org.meshcms.core.PageInfo;
+import org.meshcms.core.SiteMap;
 import org.meshcms.core.WebSite;
 import org.meshcms.core.WebUtils;
 import org.meshcms.util.Utils;
@@ -85,7 +86,8 @@ public class XmlSiteMap extends HttpServlet {
           (WebSite) request.getAttribute(HitFilter.WEBSITE_ATTRIBUTE);
 
       if (webSite != null) {
-        List pagesList = webSite.getSiteMap().getPagesList();
+        SiteMap siteMap = webSite.getSiteMap();
+        List pagesList = siteMap.getPagesList();
 
         for (Iterator iter = pagesList.iterator(); iter.hasNext();) {
           PageInfo pageInfo = (PageInfo) iter.next();
@@ -95,7 +97,8 @@ public class XmlSiteMap extends HttpServlet {
 
           Element loc = doc.createElement("loc");
           url.appendChild(loc);
-          loc.appendChild(doc.createTextNode(baseURL + pageInfo.getPath()));
+          loc.appendChild(doc.createTextNode(baseURL +
+              siteMap.getServedPath(pageInfo.getPath())));
 
           Element lastmod = doc.createElement("lastmod");
           url.appendChild(lastmod);
