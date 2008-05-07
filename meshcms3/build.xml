@@ -212,40 +212,43 @@
     </target>
 
     <target name="userguide-chunk" depends="init" description="Generate the chunk userguide: multiple files">
+    	<!-- copy non-tif (pdf) images -->
 		<copy todir="${srchelp}/resources">
-		    <fileset dir="${srcuserguide}/resources">
-		        <exclude name="**/*.tif"/>
-			</fileset>
+		    <fileset dir="${srcuserguide}/resources" excludes="**/*.tif"/>
 		</copy>
-        <copy file="${srcuserguide}/${docbook.html.css}" todir="${srchelp}" /> <!-- copy css stylesheet -->
+    	<!-- copy css stylesheet -->
+        <copy file="${srcuserguide}/${docbook.html.css}" todir="${srchelp}" />
+       	<!-- transform to chunked (multi-page) html -->
         <xslt style="${docbook.html.chunk.xslt}"
               extension=".html"
               basedir="${srcuserguide}"
               destdir="${srchelp}">
 			<classpath refid="xalan.classpath" />
-			<include name="**/*.xml" />
+			<include name="userguide.xml" />
 			<param name="html.stylesheet" expression="${docbook.html.css}" />
-			<param name="chunk.first.sections" expression="1" />
+			<param name="chunk.first.sections" expression="1" /> <!-- first section in separate chunk (file) -->
+        	<param name="section.autolabel" expression="1" />    <!-- autonumber everything -->
 		</xslt>
-		<delete file="${srchelp}/userguide.html" /> <!-- cleanup additional file -->
+    	<!-- cleanup additional file -->
+        <delete file="${srchelp}/userguide.html" />
     </target>
 	
     <target name="userguide-1page" depends="init" description="Generate the 1page userguide: single page">
+    	<!-- copy non-tif (pdf) images -->
 		<copy todir="${userguide}/resources">
-		    <fileset dir="${srcuserguide}/resources">
-		        <exclude name="**/*.tif"/>
-			</fileset>
+		    <fileset dir="${srcuserguide}/resources" excludes="**/*.tif"/>
 		</copy>
-        <copy file="${srcuserguide}/${docbook.html.css}" todir="${userguide}" /> <!-- copy css stylesheet -->
+    	<!-- copy css stylesheet -->
+        <copy file="${srcuserguide}/${docbook.html.css}" todir="${userguide}" />
+       	<!-- transform to single-page html -->
         <xslt style="${docbook.html.1page.xslt}"
-              extension=".html"
-              basedir="${srcuserguide}"
-              destdir="${userguide}">
+              in="${srcuserguide}/userguide.xml"
+              out="${userguide}/index.html">
 			<classpath refid="xalan.classpath" />
-			<include name="**/*.xml" />
 			<param name="html.stylesheet" expression="${docbook.html.css}" />
+			<param name="generate.toc" expression="book toc" /> <!-- only toc at book level -->
+        	<param name="section.autolabel" expression="1" />   <!-- autonumber everything -->
 		</xslt>
-		<delete file="${userguide}/userguide.html" /> <!-- cleanup additional file -->
     </target>
     
 	<target name="userguide-pdf" depends="init" description="Generate the userguide: pdf">
