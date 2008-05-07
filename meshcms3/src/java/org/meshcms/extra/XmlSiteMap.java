@@ -103,8 +103,17 @@ public class XmlSiteMap extends HttpServlet {
 
           Element priority = doc.createElement("priority");
           url.appendChild(priority);
-          float value = PRIORITY_WEIGHT / (PRIORITY_WEIGHT +
-              pageInfo.getPath().getElementCount());
+          float value;
+
+          if (pageInfo.getPath().isRoot() &&
+              webSite.getConfiguration().isRedirectRoot() &&
+              HitFilter.getPreferredLanguage(request) != null) {
+            value = 0;
+          } else {
+            value = PRIORITY_WEIGHT / (PRIORITY_WEIGHT +
+                pageInfo.getPath().getElementCount());
+          }
+
           priority.appendChild(doc.createTextNode(DECIMAL_FORMAT.format(value)));
         }
       }
