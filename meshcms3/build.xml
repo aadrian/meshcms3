@@ -257,6 +257,7 @@
               in="${srcuserguide}/userguide.xml"
               out="${srcuserguide}/userguide.fo">
 	        <classpath refid="xalan.classpath" />
+        	<param name="section.autolabel" expression="1" />   <!-- autonumber everything -->
 	    </xslt>
 		<!-- define pdf transform task -->
 	    <taskdef name="fop" classname="org.apache.fop.tools.anttasks.Fop">
