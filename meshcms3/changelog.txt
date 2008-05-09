@@ -1,3 +1,6 @@
+
+- Updated build-essential to current version of svnant and docbook pre-requisites
+- Updated ant build file to allow building help, html userguide and pdf userguide
 ________________________________
 --------------------------------
 2007-02-23: 3.2 released
