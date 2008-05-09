@@ -92,6 +92,12 @@ public class XmlSiteMap extends HttpServlet {
         for (Iterator iter = pagesList.iterator(); iter.hasNext();) {
           PageInfo pageInfo = (PageInfo) iter.next();
 
+          if (pageInfo.getPath().isRoot() &&
+              webSite.getConfiguration().isRedirectRoot() &&
+              HitFilter.getPreferredLanguage(request) != null) {
+            continue;
+          }
+
           Element url = doc.createElement("url");
           urlset.appendChild(url);
 
@@ -106,17 +112,9 @@ public class XmlSiteMap extends HttpServlet {
 
           Element priority = doc.createElement("priority");
           url.appendChild(priority);
-          float value;
 
-          if (pageInfo.getPath().isRoot() &&
-              webSite.getConfiguration().isRedirectRoot() &&
-              HitFilter.getPreferredLanguage(request) != null) {
-            value = 0;
-          } else {
-            value = PRIORITY_WEIGHT / (PRIORITY_WEIGHT +
-                pageInfo.getPath().getElementCount());
-          }
-
+          float value = PRIORITY_WEIGHT / (PRIORITY_WEIGHT +
+              pageInfo.getPath().getElementCount());
           priority.appendChild(doc.createTextNode(DECIMAL_FORMAT.format(value)));
         }
       }
