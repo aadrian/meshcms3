@@ -11,6 +11,13 @@
     <taskdef resource="checkstyletask.properties"
             classpath="${checkstyle.dir}/${checkstyle.jar}"/>
 
+	<path id="xalan.classpath"> <!-- needed for docbook building -->
+		<fileset dir="${xalan.lib.dir}" id="xalan.fileset">
+			<include name="xalan.jar" />
+			<include name="xercesImpl.jar" />
+		</fileset>
+	</path>
+	
     <target name="all" description="Build everything - all the distributions">
         <antcall target="clean"/>
         <antcall target="dist-src"/>
@@ -21,6 +28,7 @@
     <target name="clean" description="Clean all output directories">
         <delete dir="${build}"/>
         <delete dir="${dist}"/>
+        <delete dir="${userguide}" />
     </target>
 
     <target name="init" description="Setup properties depended-on by other tasks and all directories">
@@ -35,6 +43,7 @@
     <mkdir dir="${classes}" />
     <mkdir dir="${jars}" />
     <mkdir dir="${dist}" />
+    <mkdir dir="${userguide}" />
   </target>
 
   <target name="checkout" depends="init" description="Checks out the project files from the sf.net subversion repository">
@@ -202,6 +211,76 @@
         <echo level="info">Test report generated at ${test}-report</echo>
     </target>
 
+    <target name="userguide-chunk" depends="init" description="Generate the chunk userguide: multiple files">
+    	<!-- copy non-tif (pdf) images -->
+		<copy todir="${srchelp}/resources">
+		    <fileset dir="${srcuserguide}/resources" excludes="**/*.tif"/>
+		</copy>
+    	<!-- copy css stylesheet -->
+        <copy file="${srcuserguide}/${docbook.html.css}" todir="${srchelp}" />
+       	<!-- transform to chunked (multi-page) html -->
+        <xslt style="${docbook.html.chunk.xslt}"
+              extension=".html"
+              basedir="${srcuserguide}"
+              destdir="${srchelp}">
+			<classpath refid="xalan.classpath" />
+			<include name="userguide.xml" />
+			<param name="html.stylesheet" expression="${docbook.html.css}" />
+			<param name="chunk.first.sections" expression="1" /> <!-- first section in separate chunk (file) -->
+        	<param name="section.autolabel" expression="1" />    <!-- autonumber everything -->
+		</xslt>
+    	<!-- cleanup additional file -->
+        <delete file="${srchelp}/userguide.html" />
+    </target>
+	
+    <target name="userguide-1page" depends="init" description="Generate the 1page userguide: single page">
+    	<!-- copy non-tif (pdf) images -->
+		<copy todir="${userguide}/resources">
+		    <fileset dir="${srcuserguide}/resources" excludes="**/*.tif"/>
+		</copy>
+    	<!-- copy css stylesheet -->
+        <copy file="${srcuserguide}/${docbook.html.css}" todir="${userguide}" />
+       	<!-- transform to single-page html -->
+        <xslt style="${docbook.html.1page.xslt}"
+              in="${srcuserguide}/userguide.xml"
+              out="${userguide}/index.html">
+			<classpath refid="xalan.classpath" />
+			<param name="html.stylesheet" expression="${docbook.html.css}" />
+			<param name="generate.toc" expression="book toc" /> <!-- only toc at book level -->
+        	<param name="section.autolabel" expression="1" />   <!-- autonumber everything -->
+		</xslt>
+    </target>
+    
+	<target name="userguide-pdf" depends="init" description="Generate the userguide: pdf">
+		<!-- transform to intermediate file -->
+	    <xslt style="${docbook.fop.xslt}"
+              in="${srcuserguide}/userguide.xml"
+              out="${srcuserguide}/userguide.fo">
+	        <classpath refid="xalan.classpath" />
+        	<param name="section.autolabel" expression="1" />   <!-- autonumber everything -->
+	    </xslt>
+		<!-- define pdf transform task -->
+	    <taskdef name="fop" classname="org.apache.fop.tools.anttasks.Fop">
+            <classpath>
+                <fileset dir="${fop.dir}/lib"   includes="*.jar" />
+                <fileset dir="${fop.dir}/build" includes="fop.jar" />
+            </classpath>
+	    </taskdef>
+		<!-- transform to pdf -->
+	    <fop format="application/pdf"
+             fofile="${srcuserguide}/userguide.fo" 
+             outfile="${userguide}/userguide.pdf"
+             basedir="${srcuserguide}" /> <!-- basedir needed for relative resources/ -->
+		<!-- cleanup intermediate file -->
+		<delete file="${srcuserguide}/userguide.fo" />
+	</target>
+	
+    <target name="userguide" depends="init" description="Generate the userguide: chunk, 1page and pdf">
+    	<antcall target="userguide-chunk" />
+    	<antcall target="userguide-1page" />
+    	<antcall target="userguide-pdf" />
+    </target>
+    
     <target name="help" description="Display this Help message">
         <echo message="MeshCMS ${version} Web Based Content Management System"/>
         <echo message="===================================="/>
@@ -219,6 +298,10 @@
         <echo message="checkstyle            Run checkstyle report on all the soruces"/>
         <echo message="test                  Run the JUnit tests"/>
         <echo message="test-report           Generate the JUnit test report"/>
+        <echo message="userguide             Generate the userguide: chunk, 1page and pdf"/>
+        <echo message="userguide-chunk       Generate the userguide: chunk = multiple files"/>
+        <echo message="userguide-1page       Generate the userguide: 1page = single page"/>
+        <echo message="userguide-pdf         Generate the userguide: pdf"/>
         <echo message="help                  Display this Help message"/>
         <echo/>
         <echo/>
