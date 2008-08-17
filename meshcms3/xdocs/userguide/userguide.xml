@@ -3674,5 +3674,15 @@ submit</programlisting>
         </mediaobject>
       </screenshot>
     </section>
+
+    <section>
+      <title>Publish a Sitemap</title>
+
+      <para>MeshCMS generates an XML sitemap that is compatible with the
+      Sitemap protocol used by Google. The sitemap is published at the URL
+      <uri>http://www.yoursite.com/meshcms_sitemap.xml</uri>. You can try it
+      on your local installation at
+      <uri>http://localhost:8080/meshcms/meshcms_sitemap.xml</uri>.</para>
+    </section>
   </chapter>
 </book>
