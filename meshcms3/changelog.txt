@@ -1,6 +1,6 @@
 ________________________________
 --------------------------------
-2007-07-xx: 3.3 released
+2007-08-17: 3.3 released
 --------------------------------
 
 - Added Hungarian, Chinese and Finnish translations
