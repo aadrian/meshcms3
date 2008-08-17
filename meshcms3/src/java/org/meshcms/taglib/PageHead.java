@@ -107,11 +107,12 @@ public class PageHead extends AbstractTag {
     head = META_REGEX.matcher(head).replaceAll("");
 
     if (Utils.isTrue(dropStyles)) {
-      head = head.replaceAll("(?i)(?s)<style[^>]*>.*?</style[^>]*>", "");
+      head = head.replaceAll("(?i)(?s)<style[^>]*>.*?</style[^>]*>\\n*", "");
+      head = head.replaceAll("(?s)(?i)<link[^>]+rel\\s*=\\s*([\"'])stylesheet\\1[^>]*>\\n*", "");
     }
 
     if (Utils.isTrue(dropScripts)) {
-      head = head.replaceAll("(?i)(?s)<script[^>]*>.*?</script[^>]*>", "");
+      head = head.replaceAll("(?i)(?s)<script[^>]*>.*?</script[^>]*>\\n*", "");
     }
 
     return head;
