@@ -76,7 +76,7 @@ public class LangMenu extends AbstractTag {
         String langCode = lang.getCode();
         String localeName = Utils.encodeHTML(lang.getName());
         String link = null;
-        String msg = null;
+        String onClick = null;
         
         if (notTranslatable) {
           link = cp + webSite.getLink(new Path(langCode));
@@ -92,33 +92,34 @@ public class LangMenu extends AbstractTag {
                   Path pPath = ppi.getPath().replace(0, langCode);
 
                   if (siteMap.getPageInfo(pPath) != null) {
-                    if (msg == null) {
-                      ResourceBundle bundle =
-                          ResourceBundle.getBundle("org/meshcms/webui/Locales",
-                          WebUtils.getPageLocale(pageContext));
-                      msg = Utils.replace(bundle.getString("confirmTranslation"),
-                          '\'', "\\'");
-                    }
-                    link = "javascript:if (confirm('" + msg +"')) location.href='" +
+                    ResourceBundle bundle =
+                        ResourceBundle.getBundle("org/meshcms/webui/Locales",
+                        WebUtils.getPageLocale(pageContext));
+                    String msg = Utils.replace(bundle.getString("confirmTranslation"),
+                        '\'', "\\'");
+                    
+                    onClick = "if (confirm('" + msg +"')) {location.href='" +
                         afp + "/createpage.jsp?popup=false&newdir=false&fullpath=" +
-                        path + "';";
+                        path + "';return false}";
                   }
                 }
               }
 
-              if (link == null) {
-                path = new Path(langCode);
-              }
+              path = new Path(langCode);
             }
 
-            if (link == null) {
-              link = cp + webSite.getLink(path);
-            }
+            link = cp + webSite.getLink(path);
           }
         }
         
         if (link != null) {
-          w.write("<a href=\"" + link + "\">");
+          w.write("<a href=\"" + link + "\"");
+          
+          if (onClick != null) {
+            w.write(" onclick=\"" + onClick + "\"");
+          }
+          
+          w.write(">");
         }
         
         if (Utils.isTrue(flags)) {

@@ -108,7 +108,7 @@ public class Configuration implements Serializable {
     setReplaceThumbnails(true);
     setExportCheckDates(true);
     setSearchMovedPages(false);
-    setRedirectRoot(false);
+    setRedirectRoot(true);
 
     setBackupLife(15);
     setStatsLength(3);

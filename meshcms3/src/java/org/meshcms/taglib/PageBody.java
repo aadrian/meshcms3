@@ -24,7 +24,6 @@ package org.meshcms.taglib;
 
 import java.io.*;
 import java.util.*;
-import java.util.regex.*;
 import javax.servlet.jsp.*;
 import org.meshcms.core.*;
 import org.meshcms.util.*;
@@ -47,12 +46,22 @@ public class PageBody extends AbstractTag {
       body = WebUtils.replaceThumbnails(webSite, body, cp, pagePath);
     }
     
-    getOut().write(body);
+    Writer w = getOut();
+
+    if (!(userInfo == null || userInfo.isGuest()) &&
+        webSite.getConfiguration().isRedirectRoot() &&
+        webSite.getSiteMap().getPathInMenu(pagePath).isRoot() &&
+        HitFilter.getPreferredLanguage(request) != null) {
+      Locale pl = WebUtils.getPageLocale(pageContext);
+      ResourceBundle bundle =
+          ResourceBundle.getBundle("org/meshcms/webui/Locales", pl);
+      w.write("<p class='meshcmsinfo'>" + bundle.getString("pageRedirectionAlert") + "</p>");
+    }
+    
+    w.write(body);
   }
   
   public void writeEditTag() throws IOException {
-    UserInfo userInfo = (UserInfo) pageContext.getAttribute("userInfo",
-        PageContext.SESSION_SCOPE);
     Locale locale = WebUtils.getPageLocale(pageContext);
     ResourceBundle bundle = ResourceBundle.getBundle("org/meshcms/webui/Locales", locale);
     

@@ -145,3 +145,9 @@ a.meshcmspanelicon:hover {
 /* IE6 holly hack \*/
 * html .lightbox {height: 1%;}
 /* End IE6 holly hack */
+
+.meshcmsinfo {
+ border: 1px dotted silver;
+ padding: 0.5em;
+ font-style: italic;
+}

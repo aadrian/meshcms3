@@ -65,7 +65,7 @@ public abstract class AbstractTag extends TagSupport implements RequestConstants
     pagePath = webSite.getRequestedPath(request);
     pageDirPath = webSite.getDirectory(pagePath);
     userInfo = (UserInfo)
-    pageContext.getAttribute("userInfo", PageContext.SESSION_SCOPE);
+        pageContext.getAttribute("userInfo", PageContext.SESSION_SCOPE);
     cp = request.getContextPath();
     ap = "/" + webSite.getAdminPath();
     afp = cp + ap;
