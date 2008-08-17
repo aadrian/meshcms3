@@ -141,7 +141,7 @@
       });
       </script>
     <% } else { %>
-      <script type="text/javascript" src="<%= cp + '/' + md.getModulePath() %>/closePopImage.js"></script>
+      <script type="text/javascript" src="<%= cp + '/' + md.getModulePath() %>/closePopImageResize.js"></script>
     <% } %>
 
 <table<%= md.getFullCSSAttribute("css") %> width="100" align="center" border="0" cellspacing="20" cellpadding="0">
@@ -185,7 +185,7 @@
           %><td align="center" valign="top">
            <a href="<%= link %>" rel="lightbox[<%= moduleCode %>]"
           <% if (onClick) { %>
-            onclick="return popImageExtra(this.href, '<%= Utils.replace(caption, '\'', "\\'") %>', true);"
+            onclick="return popImageExtra(this.href, '<%= Utils.replace(caption, '\'', "\\'") %>');"
           <% } %>
            ><img
             src="<%= cp + '/' + thumbPath %>" alt="<%= Utils.encodeHTML(caption) %>" /><% if (captions) {
