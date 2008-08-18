@@ -1,6 +1,14 @@
 ________________________________
 --------------------------------
-2007-08-17: 3.3 released
+Unreleased changes
+--------------------------------
+
+- Multilanguage dialogs improved
+- Updated Javascript popup
+
+________________________________
+--------------------------------
+2008-08-17: 3.3 released
 --------------------------------
 
 - Added Hungarian, Chinese and Finnish translations
@@ -8,7 +16,7 @@ ________________________________
 
 ________________________________
 --------------------------------
-2007-02-23: 3.2 released
+2008-02-23: 3.2 released
 --------------------------------
 
 - MeshCMS-specific information is now stored in META tags instead of HTML tag
