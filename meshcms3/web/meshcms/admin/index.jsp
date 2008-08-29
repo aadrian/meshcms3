@@ -128,6 +128,11 @@
   <fmt:message key="homeExport" /></a>
    <% } %>
 
+   <% if (userInfo.canDo(UserInfo.CAN_BROWSE_FILES)) { %>
+  <a href="syncsite1.jsp" class="meshcmspanelicon"><img src="filemanager/images/arrow_merge.png" alt="" />
+  <fmt:message key="homeSync" /></a>
+   <% } %>
+
    <% if (!webSite.isVirtual() && userInfo.canDo(UserInfo.CAN_DO_ADMINTASKS)) { %>
   <a href="editsites1.jsp" class="meshcmspanelicon"><img src="filemanager/images/world_edit.png" alt="" />
   <fmt:message key="homeSites" /></a>

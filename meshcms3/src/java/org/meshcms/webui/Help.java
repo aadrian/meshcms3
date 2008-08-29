@@ -43,6 +43,7 @@ public class Help {
   public static final String UNZIP = "unzip";
   public static final String UPLOAD = "upload";
   public static final String MODULES = "modules";
+  public static final String SITE_SYNC = "site_sync";
 
   private static Properties args;
 
@@ -61,6 +62,7 @@ public class Help {
     args.setProperty(STATIC_EXPORT, "ch05s06.html");
     args.setProperty(SITE_MANAGER, "ch05s07.html");
     args.setProperty(MODULES, "ch06s01.html");
+    args.setProperty(SITE_SYNC, "TODO.html");
   }
 
   /**
