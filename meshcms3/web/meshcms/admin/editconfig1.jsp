@@ -292,6 +292,12 @@
        value="true"<%= configuration.isRedirectRoot() ? " checked='checked'" : "" %> />
       <label for="redirectRoot"><fmt:message key="configRedirectRoot" /></label>
     </div>
+
+    <div class="meshcmscheckbox">
+      <input type="checkbox" id="passwordProtected" name="passwordProtected"
+       value="true"<%= configuration.isPasswordProtected() ? " checked='checked'" : "" %> />
+      <label for="passwordProtected"><fmt:message key="configPasswordProtected" /></label>
+    </div>
   </fieldset>
 
   <div class="meshcmsbuttons">

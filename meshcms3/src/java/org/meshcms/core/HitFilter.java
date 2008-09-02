@@ -25,7 +25,6 @@ package org.meshcms.core;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.util.regex.*;
 import java.util.zip.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -179,6 +178,13 @@ public final class HitFilter implements Filter {
         UserInfo userInfo = (session == null) ? null :
           (UserInfo) session.getAttribute("userInfo");
         isGuest = userInfo == null || userInfo.isGuest();
+
+        // disallow access to guests if required by configuration
+        if (isGuest && webSite.getConfiguration().isPasswordProtected() &&
+            !pagePath.equals(webSite.getAdminPath().add("login.jsp"))) {
+          httpRes.sendError(HttpServletResponse.SC_FORBIDDEN,
+              "You don't have enough privileges");
+        }
         
         // See if should redirect to one of the available languages
         if (isGuest && webSite.getConfiguration().isRedirectRoot() &&

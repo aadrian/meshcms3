@@ -70,6 +70,7 @@
   c.setHideExceptions(Utils.isTrue(request.getParameter("hideExceptions")));
   c.setEditorModulesCollapsed(Utils.isTrue(request.getParameter("editorModulesCollapsed")));
   c.setRedirectRoot(Utils.isTrue(request.getParameter("redirectRoot")));
+  c.setPasswordProtected(Utils.isTrue(request.getParameter("passwordProtected")));
 
   c.setSiteName(request.getParameter("siteName"));
   c.setSiteHost(request.getParameter("siteHost"));

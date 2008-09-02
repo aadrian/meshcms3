@@ -79,6 +79,7 @@ public class Configuration implements Serializable {
   private boolean exportCheckDates;
   private boolean searchMovedPages;
   private boolean redirectRoot;
+  private boolean passwordProtected;
   private int backupLife;
   private int statsLength;
   private int updateInterval;
@@ -110,6 +111,7 @@ public class Configuration implements Serializable {
     setExportCheckDates(true);
     setSearchMovedPages(false);
     setRedirectRoot(true);
+    setPasswordProtected(false);
 
     setBackupLife(15);
     setStatsLength(3);
@@ -546,5 +548,13 @@ public class Configuration implements Serializable {
 
   public void setTidy(int tidy) {
     this.tidy = tidy;
+  }
+
+  public boolean isPasswordProtected() {
+    return passwordProtected;
+  }
+
+  public void setPasswordProtected(boolean passwordProtected) {
+    this.passwordProtected = passwordProtected;
   }
 }
