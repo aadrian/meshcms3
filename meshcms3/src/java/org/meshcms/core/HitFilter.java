@@ -179,13 +179,6 @@ public final class HitFilter implements Filter {
           (UserInfo) session.getAttribute("userInfo");
         isGuest = userInfo == null || userInfo.isGuest();
 
-        // disallow access to guests if required by configuration
-        if (isGuest && webSite.getConfiguration().isPasswordProtected() &&
-            !pagePath.equals(webSite.getAdminPath().add("login.jsp"))) {
-          httpRes.sendError(HttpServletResponse.SC_FORBIDDEN,
-              "You don't have enough privileges");
-        }
-        
         // See if should redirect to one of the available languages
         if (isGuest && webSite.getConfiguration().isRedirectRoot() &&
             siteMap.getPathInMenu(pagePath).isRoot()) {
@@ -206,6 +199,14 @@ public final class HitFilter implements Filter {
             httpRes.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
           } */
+          
+          // disallow access to guests if required by configuration
+          if (isGuest && webSite.getConfiguration().isPasswordProtected() &&
+              !pagePath.isChildOf(webSite.getAdminPath())) {
+            httpRes.sendError(HttpServletResponse.SC_FORBIDDEN,
+                "You don't have enough privileges");
+            return;
+          }
           
           WebUtils.updateLastModifiedTime(httpReq, webSite.getFile(pagePath));
           blockRemoteCaching(httpRes);
