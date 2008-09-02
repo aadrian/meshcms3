@@ -23,6 +23,7 @@
 package org.meshcms.core;
 
 import java.io.*;
+import org.meshcms.util.*;
 
 /**
  * Manages the configuration parameters of a website.
@@ -276,13 +277,19 @@ public class Configuration implements Serializable {
    */
   public static Configuration load(WebSite webSite) {
     Configuration c = null;
-
+    
+    Path configFilePath = webSite.getConfigFilePath();
+      
     try {
-      c = (Configuration) webSite.loadFromXML(webSite.getConfigFilePath());
+      c = (Configuration) webSite.loadFromXML(configFilePath);
     } catch (Exception ex) {}
 
     if (c == null) {
       c = new Configuration();
+
+      if (!webSite.getFile(configFilePath).exists()) {
+        c.store(webSite);
+      }
     }
 
     return c;

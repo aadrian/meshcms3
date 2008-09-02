@@ -26,10 +26,12 @@ import org.meshcms.core.*;
 import org.meshcms.util.*;
 
 public class SiteSynchronizer extends DirectoryParser {
-  WebSite sourceSite;
-  WebSite targetSite;
-  UserInfo targetUser;
-  Writer writer;
+  private WebSite sourceSite;
+  private WebSite targetSite;
+  private UserInfo targetUser;
+  private Writer writer;
+  private boolean copySiteInfo;
+  private boolean copyConfig;
 
   public SiteSynchronizer(WebSite sourceSite, WebSite targetSite,
       UserInfo targetUser) {
@@ -67,39 +69,38 @@ public class SiteSynchronizer extends DirectoryParser {
   }
 
   protected boolean preProcessDirectory(File file, Path path) {
-    if (path.isContainedIn(sourceSite.getCMSPath()) || sourceSite.isSystem(path)) {
-      return false;
-    }
-    
-    if (path.isContainedIn(targetSite.getCMSPath())) {
-      write(path + " folder NOT copied");
+    Path targetPath = getTargetPath(path);
+
+    if (targetPath == null) {
       return false;
     }
 
-    File targetDir = targetSite.getFile(path);
+    File targetDir = targetSite.getFile(targetPath);
 
     if (targetDir.isFile()) {
-      if (targetSite.delete(targetUser, path, false)) {
-        write(path + " file deleted");
+      if (targetSite.delete(targetUser, targetPath, false)) {
+        write(targetPath + " file deleted");
       } else {
-        write(path + " file NOT deleted");
+        write(targetPath + " file NOT deleted");
       }
     }
 
-    targetSite.createDir(path);
+    targetSite.createDir(targetPath);
     File[] targetFiles = targetDir.listFiles();
 
-    for (int i = 0; i < targetFiles.length; i++) {
-      File srcFile = new File(file, targetFiles[i].getName());
+    if (!path.equals(targetSite.getCMSPath())) {
+      for (int i = 0; i < targetFiles.length; i++) {
+        File srcFile = new File(file, targetFiles[i].getName());
 
-      if (!((srcFile.isFile() && targetFiles[i].isFile()) ||
-          (srcFile.isDirectory() && targetFiles[i].isDirectory()))) {
-        Path filePath = path.add(targetFiles[i].getName());
+        if (!((srcFile.isFile() && targetFiles[i].isFile()) ||
+            (srcFile.isDirectory() && targetFiles[i].isDirectory()))) {
+          Path filePath = targetPath.add(targetFiles[i].getName());
 
-        if (targetSite.delete(targetUser, filePath, true)) {
-          write(filePath + " folder deleted");
-        } else {
-          write(filePath + " folder NOT deleted");
+          if (targetSite.delete(targetUser, filePath, true)) {
+            write(filePath + " file/folder deleted");
+          } else {
+            write(filePath + " file/folder NOT deleted");
+          }
         }
       }
     }
@@ -108,13 +109,19 @@ public class SiteSynchronizer extends DirectoryParser {
   }
 
   protected void processFile(File file, Path path) {
-    File targetFile = targetSite.getFile(path);
+    Path targetPath = getTargetPath(path);
+
+    if (targetPath == null) {
+      return;
+    }
+
+    File targetFile = targetSite.getFile(targetPath);
 
     if (targetFile.isDirectory()) {
-      if (targetSite.delete(targetUser, path, true)) {
-        write(path + " folder deleted");
+      if (targetSite.delete(targetUser, targetPath, true)) {
+        write(targetPath + " folder deleted");
       } else {
-        write(path + " folder NOT deleted");
+        write(targetPath + " folder NOT deleted");
       }
     }
 
@@ -122,17 +129,77 @@ public class SiteSynchronizer extends DirectoryParser {
         file.length() != targetFile.length()) {
       try {
         FileInputStream fis = new FileInputStream(file);
-        targetSite.saveToFile(targetUser, fis, path);
-        write(path + " file copied");
+        targetSite.saveToFile(targetUser, fis, targetPath);
+        write(targetPath + " file copied");
         fis.close();
       } catch (IOException ex) {
-        write(path + " file NOT copied");
+        write(targetPath + " file NOT copied");
         targetSite.log(ex.getMessage(), ex);
       }
     }
   }
 
+  private Path getTargetPath(Path sourcePath) {
+    if (sourceSite.isSystem(sourcePath)) {
+      return null;
+    }
+
+    Path targetPath = sourcePath;
+    Path sourceCMSPath = sourceSite.getCMSPath();
+
+    if (sourcePath.isContainedIn(sourceCMSPath)) {
+      if (!sourcePath.equals(sourceCMSPath)) {
+        String elm1 = sourcePath.getElementAt(1);
+
+        if (!(elm1.equals("modules") || elm1.equals("themes"))) {
+          targetPath = null;
+        }
+      }
+    }
+
+    return targetPath;
+  }
+
   protected void postProcess() {
+    if (isCopySiteInfo()) {
+      try {
+        Utils.copyFile(sourceSite.getFile(sourceSite.getPropertiesFilePath()),
+            targetSite.getFile(targetSite.getPropertiesFilePath()), true, false);
+        write("Site map information copied");
+      } catch (IOException ex) {
+        targetSite.log(ex.getMessage(), ex);
+        write("Site map information NOT copied");
+      }
+    }
+
+    if (isCopyConfig()) {
+      try {
+        Utils.copyFile(sourceSite.getFile(sourceSite.getConfigFilePath()),
+            targetSite.getFile(targetSite.getConfigFilePath()), true, false);
+        write("Site configuration copied");
+      } catch (IOException ex) {
+        targetSite.log(ex.getMessage(), ex);
+        write("Site configuration NOT copied");
+      }
+    }
+
+    targetSite.readConfig();
     targetSite.updateSiteMap(true);
+  }
+
+  public boolean isCopySiteInfo() {
+    return copySiteInfo;
+  }
+
+  public void setCopySiteInfo(boolean copySiteInfo) {
+    this.copySiteInfo = copySiteInfo;
+  }
+
+  public boolean isCopyConfig() {
+    return copyConfig;
+  }
+
+  public void setCopyConfig(boolean copyConfig) {
+    this.copyConfig = copyConfig;
   }
 }

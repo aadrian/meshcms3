@@ -97,6 +97,17 @@
 %>
       </select>
     </div>
+    
+    <div class="meshcmscheckbox">
+      <input type="checkbox" id="copySiteInfo" name="copySiteInfo"
+       value="true" checked="checked" />
+      <label for="copySiteInfo"><fmt:message key="syncCopySiteInfo" /></label>
+    </div>
+    
+    <div class="meshcmscheckbox">
+      <input type="checkbox" id="copyConfig" name="copyConfig" value="true" />
+      <label for="copyConfig"><fmt:message key="syncCopyConfig" /></label>
+    </div>
   </fieldset>
 
   <fieldset class="meshcmseditor">

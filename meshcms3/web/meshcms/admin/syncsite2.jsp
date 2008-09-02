@@ -28,6 +28,18 @@
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 <jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
+<%@ taglib prefix="fmt" uri="standard-fmt-rt" %>
+<fmt:setLocale value="<%= userInfo.getPreferredLocaleCode() %>" scope="request" />
+<fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
+
+<html>
+<head>
+<%= webSite.getAdminMetaThemeTag() %>
+<title><fmt:message key="homeSync" /></title>
+</head>
+
+<body>
+
 <%
   if (!userInfo.canDo(UserInfo.CAN_BROWSE_FILES)) {
     response.sendError(HttpServletResponse.SC_FORBIDDEN, "You don't have enough privileges");
@@ -53,8 +65,16 @@
     
     if (targetUser.load(targetSite, request.getParameter("targetUsername"),
         request.getParameter("targetPassword"))) {
-      ss = new SiteSynchronizer(webSite, targetSite, targetUser);
-      ss.setWriter(out);
+      if (webSite.getCMSPath().equals(targetSite.getCMSPath())) {
+        ss = new SiteSynchronizer(webSite, targetSite, targetUser);
+        ss.setCopySiteInfo(Utils.isTrue(request.getParameter("copySiteInfo")));
+        ss.setCopyConfig(Utils.isTrue(request.getParameter("copyConfig")));
+        ss.setWriter(out);
+      } else {
+%>
+<p><fmt:message key="syncCMSPathError" /></p>
+<%
+      }
     } else {
       response.sendError(HttpServletResponse.SC_FORBIDDEN, "You don't have enough privileges to access target site");
       return;
@@ -62,17 +82,6 @@
   }
 %>
 
-<%@ taglib prefix="fmt" uri="standard-fmt-rt" %>
-<fmt:setLocale value="<%= userInfo.getPreferredLocaleCode() %>" scope="request" />
-<fmt:setBundle basename="org.meshcms.webui.Locales" scope="page" />
-
-<html>
-<head>
-<%= webSite.getAdminMetaThemeTag() %>
-<title><fmt:message key="homeSync" /></title>
-</head>
-
-<body>
 
 <pre>
 <%
@@ -82,7 +91,7 @@
 %>
 </pre>
 
-<p><fmt:message key="homeSyncDone" /></p>
+<p><fmt:message key="syncDone" /></p>
 
 </body>
 </html>

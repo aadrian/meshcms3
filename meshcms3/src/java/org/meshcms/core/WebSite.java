@@ -138,12 +138,16 @@ public class WebSite {
       configFilePath = privatePath.add("configuration.xml");
       propertiesFilePath = privatePath.add("siteinfo.xml");
       sitesFilePath = privatePath.add("sites.xml");
-
-      configuration = Configuration.load(this);
+      
+      readConfig();
       statsLength = configuration.getStatsLength();
-      siteInfo = SiteInfo.load(this);
       updateSiteMap(true);
     }
+  }
+
+  public void readConfig() {
+    configuration = Configuration.load(this);
+    siteInfo = SiteInfo.load(this);
   }
 
   protected ServletContext getServletContext() {
