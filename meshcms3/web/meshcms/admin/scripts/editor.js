@@ -125,7 +125,6 @@
 
   /**
    * jQuery scripts
-   */
   $(function() {
     $("input[@type=text]").each(function(i) {
       $(this).before("<img src='" + adminFullPath +
@@ -139,3 +138,4 @@
       el.focus();
     });
   });
+   */
