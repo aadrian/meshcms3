@@ -108,6 +108,12 @@
       <input type="checkbox" id="copyConfig" name="copyConfig" value="true" />
       <label for="copyConfig"><fmt:message key="syncCopyConfig" /></label>
     </div>
+    
+    <div class="meshcmscheckbox">
+      <input type="checkbox" id="updateFileTime" name="updateFileTime"
+       value="true" checked="checked" />
+      <label for="updateFileTime"><fmt:message key="syncUpdateFileTime" /></label>
+    </div>
   </fieldset>
 
   <fieldset class="meshcmseditor">

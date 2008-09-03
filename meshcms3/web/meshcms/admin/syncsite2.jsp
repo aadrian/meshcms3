@@ -69,6 +69,7 @@
         ss = new SiteSynchronizer(webSite, targetSite, targetUser);
         ss.setCopySiteInfo(Utils.isTrue(request.getParameter("copySiteInfo")));
         ss.setCopyConfig(Utils.isTrue(request.getParameter("copyConfig")));
+        ss.setUpdateFileTime(Utils.isTrue(request.getParameter("updateFileTime")));
         ss.setWriter(out);
       } else {
 %>
