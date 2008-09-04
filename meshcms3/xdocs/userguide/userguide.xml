@@ -1178,7 +1178,13 @@
           is at least a page whose path is equal to a language code (e.g. /en,
           /it), requests for the home page will be redirected to the language
           that matches browser preferences (see <xref
-          linkend="multilingual" />).</para>
+          linkend="multilingual" />);</para>
+        </listitem>
+
+        <listitem>
+          <para><emphasis role="bold">Disable public access to this
+          website</emphasis>: if this option is checked, you will need to
+          login to see any page of this website.</para>
         </listitem>
       </itemizedlist>
     </section>
@@ -1301,6 +1307,41 @@
           Then you can move them safely.</para>
         </important>
       </section>
+    </section>
+
+    <section id="site_synchronization">
+      <title>Site Synchronization</title>
+
+      <para>This command allows to copy a site over another one. At the end of
+      the operation, the two websites will be identical, with the exception of
+      generated content (e.g. user comments).</para>
+
+      <para>To take advantage of this feature, you are supposed to create two
+      sites, say <uri>cms.yoursite.com</uri> and <uri>www.yoursite.com</uri>.
+      You use the former to make all changes you need (create/edit/delete
+      pages, upload files, move stuff and so on), then you will copy it over
+      the latter when you want to publish all changes on the live site. If you
+      want to keep your changes secret, you can password protect the first
+      site (see <xref linkend="configure" />).</para>
+
+      <note>
+        <para>this approach is completely optional: you can keep using a
+        single site and change it directly.</para>
+      </note>
+
+      <para>In the interface you can choose the destination site and include
+      or exclude site map information and site configuration from the copy
+      operation. Site map information contains all data that is edited using
+      the <link linkend="page_manager">Page Manager</link>, so it is
+      recommended to include it, while site configuration is generally kept
+      out. Additionally, you need to provide valid user credentials for the
+      target site.</para>
+
+      <important>
+        <para>if you make some changes on the target site, they will be lost
+        when you copy over it, so please remember to use one site for editing
+        and the other for live use.</para>
+      </important>
     </section>
 
     <section id="static_export">
@@ -3683,6 +3724,12 @@ submit</programlisting>
       <uri>http://www.yoursite.com/meshcms_sitemap.xml</uri>. You can try it
       on your local installation at
       <uri>http://localhost:8080/meshcms/meshcms_sitemap.xml</uri>.</para>
+    </section>
+
+    <section>
+      <title></title>
+
+      <para></para>
     </section>
   </chapter>
 </book>
