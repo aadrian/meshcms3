@@ -34,13 +34,13 @@ import com.thoughtworks.xstream.io.xml.*;
 
 public class WebSite {
   public static final String APP_NAME = "MeshCMS";
-  public static final String VERSION_ID = "3.3";
-  
+  public static final String VERSION_ID = "3.4";
+
   /**
    * @deprecated use {@link Utils#SYSTEM_CHARSET}
    */
   public static final String SYSTEM_CHARSET = Utils.SYSTEM_CHARSET;
-  
+
   /**
    * @deprecated use {@link Utils#IS_MULTIBYTE_SYSTEM_CHARSET}
    */
@@ -138,7 +138,7 @@ public class WebSite {
       configFilePath = privatePath.add("configuration.xml");
       propertiesFilePath = privatePath.add("siteinfo.xml");
       sitesFilePath = privatePath.add("sites.xml");
-      
+
       readConfig();
       statsLength = configuration.getStatsLength();
       updateSiteMap(true);
@@ -1022,7 +1022,7 @@ public class WebSite {
         XStreamPathConverter pConv = new XStreamPathConverter();
         pConv.setPrependSlash(true);
         xStream.registerConverter(pConv);
-        
+
         try {
           return xStream.fromXML(new InputStreamReader(is, "UTF-8"));
         } catch (StreamException ex) {

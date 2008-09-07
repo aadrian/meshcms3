@@ -1,8 +1,11 @@
 ________________________________
 --------------------------------
-Unreleased changes
+2008-09-07: 3.4 released
 --------------------------------
 
+- Added site synchronization to copy a site over anoter
+- Sites can be protected with password
+- Added a new Spanish translation (contributed by José Juan Escudero)
 - Multilanguage dialogs improved
 - Updated Javascript popup
 
