@@ -59,10 +59,10 @@ public class Help {
     args.setProperty(FILE_MANAGER, "ch05s05.html");
     args.setProperty(UPLOAD, "ch05s05.html#upload");
     args.setProperty(UNZIP, "ch05s05.html#unzip");
-    args.setProperty(STATIC_EXPORT, "ch05s06.html");
-    args.setProperty(SITE_MANAGER, "ch05s07.html");
+    args.setProperty(SITE_SYNC, "ch05s06.html");
+    args.setProperty(STATIC_EXPORT, "ch05s07.html");
+    args.setProperty(SITE_MANAGER, "ch05s08.html");
     args.setProperty(MODULES, "ch06s01.html");
-    args.setProperty(SITE_SYNC, "TODO.html");
   }
 
   /**
