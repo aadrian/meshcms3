@@ -161,6 +161,9 @@ public final class WebUtils {
     }
   }
   
+  private WebUtils() {
+  }
+
   public static String convertToHTMLEntities(String s, boolean encodeTags) {
     return convertToHTMLEntities(s, null, encodeTags);
   }
@@ -248,22 +251,6 @@ public final class WebUtils {
   }
   
   /**
-   * Reconstructs the full URL of the request.
-   *
-   * @deprecated with no replacement since it uses request.getRequestURL()
-   */
-  public static String getFullRequestURL(HttpServletRequest request) {
-    StringBuffer sb = request.getRequestURL();
-    String qs = request.getQueryString();
-    
-    if (!Utils.isNullOrEmpty(qs)) {
-      sb.append('?').append(qs);
-    }
-    
-    return sb.toString();
-  }
-  
-  /**
    * Reconstructs the full URL of the context home. The URL is returned as a
    * StringBuffer so other elements can be added easily.
    */
@@ -333,6 +320,58 @@ public final class WebUtils {
     return request.getContextPath() + "/" + cssPath;
   }
   
+  /**
+   * Returns the path of the folder of current theme, relative to page path.
+   *
+   * @param request used to get the theme name
+   * @param pageDir path of the requested page folder
+   */
+  public static Path getThemeFolderPath(HttpServletRequest request, Path pageDir) {
+    Path themePath = (Path) request.getAttribute(HitFilter.THEME_PATH_ATTRIBUTE);
+    return (themePath == null) ? pageDir : themePath.getRelativeTo(pageDir);
+  }
+  
+  /**
+   * Returns the path of the <code>main.jsp</code> file, relative to page path.
+   *
+   * @param request used to get the theme name
+   * @param pageDir path of the requested page folder
+   */
+  public static Path getThemeFilePath(HttpServletRequest request, Path pageDir) {
+    return getThemeFolderPath(request, pageDir).add(SiteMap.THEME_DECORATOR);
+  }
+  
+  /**
+   * Returns the complete path of the <code>main.css</code> file, relative to
+   * page path.
+   *
+   * @param request used to get the theme name
+   * @param pageDir path of the requested page folder
+   */
+  public static Path getThemeCSSPath(HttpServletRequest request, Path pageDir) {
+    return getThemeFolderPath(request, pageDir).add(SiteMap.THEME_CSS);
+  }
+  
+  /**
+   * Returns the path of the <code>meshcms.css</code> file, relative to page
+   * path. If <code>meshcms.css</code> is not found in the theme
+   * folder, the default from the admin theme is returned.
+   *
+   * @param request used to get the theme name
+   * @param pageDir path of the requested page folder
+   */
+  public static Path getMeshCSSPath(WebSite webSite, HttpServletRequest request,
+      Path pageDir) {
+    Path themePath = (Path) request.getAttribute(HitFilter.THEME_PATH_ATTRIBUTE);
+    Path cssPath = themePath.add(SiteMap.MESHCMS_CSS);
+    
+    if (!webSite.getFile(cssPath).exists()) {
+      cssPath = webSite.getAdminThemePath().add(SiteMap.MESHCMS_CSS);
+    }
+    
+    return cssPath.getRelativeTo(pageDir);
+  }
+
   /**
    * Returns a numeric code for an object. This code is used in the menu, but
    * can be used elsewhere if needed. It is equal to the hash code of the
@@ -675,13 +714,6 @@ public final class WebUtils {
     }
   }
   
-  /**
-   * @deprecated use {@link Utils#encodeHTML(java.lang.String)} instead.
-   */
-  public static String encodeHTML(String html) {
-    return Utils.encodeHTML(html);
-  }
-  
   public static Path getCorrespondingPath(WebSite webSite, Path path,
       String otherRoot) {
     Path cPath = path.replace(0, otherRoot);
@@ -990,8 +1022,8 @@ public final class WebUtils {
               Path thumbPath = thumbMaker.checkAndCreate(webSite, imgPath, thumbName);
               
               if (thumbPath != null) {
-                String newImgTag = srcMatcher.replaceAll("src=\"" + contextPath +
-                    '/' + thumbPath + "\"");
+                String newImgTag = srcMatcher.replaceAll("src=\"" +
+                    webSite.getLink(thumbPath, pagePath) + "\"");
                 imgMatcher.appendReplacement(sb, newImgTag);
               }
             }

@@ -68,8 +68,8 @@ public class Editor extends AbstractTag {
 
   public void writeEditTag() throws IOException {
     Writer w = getOut();
-    w.write("<form id='editor' name='editor' action=\"" + afp +
-      "/savepage.jsp\" method='post'>\n");
+    w.write("<form id='editor' name='editor' action=\"" +
+        adminRelPath.add("savepage.jsp") + "\" method='post'>\n");
 
     HTMLPage htmlPage = (HTMLPage) getPage();
     String[] keys = htmlPage.getPropertyKeys();

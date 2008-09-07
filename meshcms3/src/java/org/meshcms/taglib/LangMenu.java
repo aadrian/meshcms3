@@ -75,11 +75,11 @@ public class LangMenu extends AbstractTag {
         SiteMap.CodeLocalePair lang = (SiteMap.CodeLocalePair) iter.next();
         String langCode = lang.getCode();
         String localeName = Utils.encodeHTML(lang.getName());
-        String link = null;
+        Path link = null;
         String onClick = null;
         
         if (notTranslatable) {
-          link = cp + webSite.getLink(new Path(langCode));
+          link = webSite.getLink(new Path(langCode), pageDirPath);
         } else {
           if (!langCode.equalsIgnoreCase(pagePath.getElementAt(0))) {
             Path path = siteMap.getServedPath(pagePath.replace(0, langCode));
@@ -99,7 +99,7 @@ public class LangMenu extends AbstractTag {
                         '\'', "\\'");
                     
                     onClick = "if (confirm('" + msg +"')) {location.href='" +
-                        afp + "/createpage.jsp?popup=false&newdir=false&fullpath=" +
+                        adminRelPath + "/createpage.jsp?popup=false&newdir=false&fullpath=" +
                         path + "';return false}";
                   }
                 }
@@ -108,7 +108,7 @@ public class LangMenu extends AbstractTag {
               path = new Path(langCode);
             }
 
-            link = cp + webSite.getLink(path);
+            link = webSite.getLink(path, pageDirPath);
           }
         }
         
@@ -129,7 +129,7 @@ public class LangMenu extends AbstractTag {
           
           try {
             Path iconPath = baseIconPath.add(flagsBundle.getString(langCode) + ".png");
-            w.write("<img src='" + cp + webSite.getLink(iconPath) +
+            w.write("<img src='" + webSite.getLink(iconPath, pageDirPath) +
                 "' alt='" + localeName + "' title='" + localeName + "'/>");
           } catch (Exception ex) {
             ex.printStackTrace();

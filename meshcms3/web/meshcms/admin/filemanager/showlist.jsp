@@ -127,7 +127,7 @@
      <% if (!userInfo.canWrite(webSite, folderPath)) { %>
        <img src="images/lock.gif" title="<fmt:message key="fmListLocked" />" alt=""/>
      <% } %>
-     <%= Help.icon(webSite, cp, Help.FILE_MANAGER, userInfo) %>
+     <%= Help.icon(webSite, webSite.getRequestedPath(request), Help.FILE_MANAGER, userInfo) %>
    </th>
   </tr>
  </thead>
@@ -136,7 +136,7 @@
 <%
     } else {
 %>
-<div align="right" style="background-color: #D4D0C8;"><%= Help.icon(webSite, cp, Help.FILE_MANAGER, userInfo) %></div>
+<div align="right" style="background-color: #D4D0C8;"><%= Help.icon(webSite, webSite.getRequestedPath(request), Help.FILE_MANAGER, userInfo) %></div>
 <%
     }
 

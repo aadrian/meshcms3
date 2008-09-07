@@ -64,26 +64,28 @@ public class Help {
     args.setProperty(SITE_MANAGER, "ch05s08.html");
     args.setProperty(MODULES, "ch06s01.html");
   }
+  
+  private Help() {
+  }
 
   /**
    * Creates the HTML used to display the help icon in the admin pages.
    */
-  public static String icon(WebSite webSite, String contextPath,
+  public static String icon(WebSite webSite, Path pagePath,
       String argument, UserInfo userInfo) {
-    return icon(webSite, contextPath, argument, userInfo, null, false);
+    return icon(webSite, pagePath, argument, userInfo, null, false);
   }
 
-  public static String icon(WebSite webSite, String contextPath,
+  public static String icon(WebSite webSite, Path pagePath,
       String argument, UserInfo userInfo, String anchor, boolean grayIcon) {
     String lang = getHelpLang(webSite, userInfo);
+    Path adminPath = webSite.getLink(webSite.getAdminPath(), pagePath);
 
     // grayIcon currently ignored
-    return "<img src='" + contextPath + '/' + webSite.getAdminPath() +
-        "/filemanager/images/" + (grayIcon ? "help.png" : "help.png") +
-        "' title='Help: " + argument +
+    return "<img src='" + adminPath.add("filemanager/images/",
+        grayIcon ? "help.png" : "help.png") + "' title='Help: " + argument +
         "' alt='Help Icon' onclick=\"javascript:window.open('" +
-        contextPath + '/' + webSite.getAdminPath() + "/help/" + lang +
-        '/' + args.getProperty(argument, "index.html") +
+        adminPath.add("help", lang).add(args.getProperty(argument, "index.html")) +
         (Utils.isNullOrEmpty(anchor) ? "" : "#" + anchor) +
         "', 'meshcmshelp', 'width=740,height=560,menubar=no,status=yes,toolbar=no,resizable=yes,scrollbars=yes').focus();\" />";
   }

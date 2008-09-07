@@ -60,7 +60,7 @@
 
 <body>
 
-<div align="right"><%= Help.icon(webSite, cp, Help.CONTROL_PANEL, userInfo) %></div>
+<div align="right"><%= Help.icon(webSite, webSite.getRequestedPath(request), Help.CONTROL_PANEL, userInfo) %></div>
 
 <%
   if (userInfo.isGlobal()) {
@@ -73,7 +73,7 @@
 <fieldset>
   <legend><fmt:message key="homeSite" /></legend>
 
-  <a href="<%= cp + webSite.getLink(Path.ROOT) %>" class="meshcmspanelicon"><img src="filemanager/images/house.png" alt="" />
+  <a href="<%= cp %>/" class="meshcmspanelicon"><img src="filemanager/images/house.png" alt="" />
   <fmt:message key="homePage" /></a>
 
    <% if (userInfo.canDo(UserInfo.CAN_BROWSE_FILES)) { %>

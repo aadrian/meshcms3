@@ -227,7 +227,7 @@
 %>
 
 <div style="text-align: right; padding-left: 5px; padding-right: 5px;">
- <%= Help.icon(webSite, cp, Help.PAGE_MANAGER, userInfo) %>
+ <%= Help.icon(webSite, webSite.getRequestedPath(request), Help.PAGE_MANAGER, userInfo) %>
 </div>
 
 <p style="padding-left: 5px; padding-right: 5px;">
@@ -286,9 +286,9 @@
           <img src="filemanager/images/page_red.png" alt=""
            title="<fmt:message key="mapNoClick" />" />
         <% } %>
-          <a href="<%= cp + webSite.getLink(pageInfo) %>"
+          <a href="<%= cp + webSite.getAbsoluteLink(pageInfo) %>"
            title="<fmt:message key="mapOpen">
-             <fmt:param value="<%= webSite.getLink(pageInfo) %>" />
+             <fmt:param value="<%= webSite.getAbsoluteLink(pageInfo) %>" />
            </fmt:message>"><%= Utils.limitedLength(pageInfo.getTitle(), 25) %></a>
         </td>
 
@@ -341,13 +341,13 @@
         <% } %>
 
           <td align="center"><img src="filemanager/images/page_world.png" alt=""
-           onclick="javascript:location.href='<%= cp + webSite.getLink(pageInfo) %>';" style='vertical-align:middle;'
+           onclick="javascript:location.href='<%= cp + webSite.getAbsoluteLink(pageInfo) %>';" style='vertical-align:middle;'
            title="<fmt:message key="mapViewPage" />" /></td>
 
         <% if (userOk) { %>
           <td align="center"><img src="filemanager/images/page_edit.png" alt=""
            onclick="javascript:location.href='<%= webSite.isVisuallyEditable(servedPath) ?
-               cp + webSite.getLink(pageInfo) + "?meshcmsaction=edit" :
+               cp + webSite.getAbsoluteLink(pageInfo) + "?meshcmsaction=edit" :
                cp + '/' + webSite.getAdminPath() + "/editsrc.jsp?path=" + servedPath
               %>';" style='vertical-align:middle;'
            title="<fmt:message key="mapEditPage" />" /></td>

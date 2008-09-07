@@ -30,15 +30,6 @@ import org.meshcms.util.*;
 public class VirtualWebSite extends WebSite {
   private MainWebSite mainWebSite;
 
-  /**
-   * @deprecated use {@link #create(MainWebSite, Path, Path)} instead.
-   */
-  protected static WebSite create(ServletContext sc,
-      String[] welcomeFiles, File rootFile, Path rootPath, Path cmsPath) {
-    throw new UnsupportedOperationException
-        ("You should use create(MainWebSite, Path, Path) instead");
-  }
-
   protected static VirtualWebSite create(MainWebSite mainWebSite, Path rootPath,
       Path cmsPath) {
     VirtualWebSite virtualWebSite = new VirtualWebSite();

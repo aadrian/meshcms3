@@ -48,9 +48,8 @@ public abstract class AbstractTag extends TagSupport implements RequestConstants
   
   WebSite webSite;
   HttpServletRequest request;
-  Path pagePath, pageDirPath;
+  Path pagePath, pageDirPath, adminRelPath;
   UserInfo userInfo;
-  String cp, ap, afp;
   boolean isEdit;
   
   /**
@@ -64,11 +63,9 @@ public abstract class AbstractTag extends TagSupport implements RequestConstants
     webSite = (WebSite) request.getAttribute("webSite");
     pagePath = webSite.getRequestedPath(request);
     pageDirPath = webSite.getDirectory(pagePath);
+    adminRelPath = webSite.getLink(webSite.getAdminPath(), pagePath);
     userInfo = (UserInfo)
         pageContext.getAttribute("userInfo", PageContext.SESSION_SCOPE);
-    cp = request.getContextPath();
-    ap = "/" + webSite.getAdminPath();
-    afp = cp + ap;
     isEdit = HitFilter.ACTION_EDIT.equals(request.getParameter(HitFilter.ACTION_NAME)) &&
         userInfo != null && userInfo.canWrite(webSite, pagePath);
     

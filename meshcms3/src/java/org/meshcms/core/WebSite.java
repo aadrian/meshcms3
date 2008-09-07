@@ -34,18 +34,7 @@ import com.thoughtworks.xstream.io.xml.*;
 
 public class WebSite {
   public static final String APP_NAME = "MeshCMS";
-  public static final String VERSION_ID = "3.4";
-
-  /**
-   * @deprecated use {@link Utils#SYSTEM_CHARSET}
-   */
-  public static final String SYSTEM_CHARSET = Utils.SYSTEM_CHARSET;
-
-  /**
-   * @deprecated use {@link Utils#IS_MULTIBYTE_SYSTEM_CHARSET}
-   */
-  public static final boolean IS_MULTIBYTE_SYSTEM_CHARSET =
-      Utils.IS_MULTIBYTE_SYSTEM_CHARSET;
+  public static final String VERSION_ID = "3.5 Alpha";
 
   /**
    * A prefix to be used for every backup file.
@@ -402,16 +391,6 @@ public class WebSite {
   /**
    * Deletes a file or directory.
    *
-   * @deprecated use {@link #delete(UserInfo, Path, boolean)} so you are
-   * explicitly requested to allow deletion of non-empty directories
-   */
-  public boolean delete(UserInfo user, Path filePath) {
-    return delete(user, filePath, true);
-  }
-
-  /**
-   * Deletes a file or directory.
-   *
    * @param user the user that requests the operation
    * @param filePath the path of the file
    * @param deleteNonEmptyDirectories if true, non-empty directories will be
@@ -750,22 +729,8 @@ public class WebSite {
     return null;
   }
 
-  /**
-   * Returns an array of links to the given pages. The strings are in the form
-   * <pre>&lt;a href="(page link)" [target] [style]&gt;(page title)&lt;/a&gt;</pre>
-   *
-   * @param pages the array of pages
-   * @param contextPath the context path of the web application (used to build
-   * the links)
-   * @param target the target frame for the links. If a value is given, the
-   * <code>target</code> attribute is added to the <code>a</code> tag
-   * @param style the CSS style for the links. If a value is given, the
-   * <code>class</code> attribute is added to the <code>a</code> tag
-   *
-   * @return an array of strings that contain the <code>a</code> tags
-   */
-  public String[] getLinkList(PageInfo[] pages, String contextPath,
-                              String target, String style) {
+  public String[] getLinkList(PageInfo[] pages, Path pagePath, String target,
+      String style) {
     if (pages == null) {
       return null;
     }
@@ -778,7 +743,7 @@ public class WebSite {
       if (pages[i] == null) {
         links[i] = "...";
       } else {
-        links[i] = "<a href=\"" + contextPath + getLink(pages[i]) +
+        links[i] = "<a href=\"" + getLink(pages[i], pagePath) +
           "\"" + target + style + ">" + siteInfo.getPageTitle(pages[i]) + "</a>";
       }
     }
@@ -786,12 +751,20 @@ public class WebSite {
     return links;
   }
 
-  public String getLink(Path path) {
+  public String getAbsoluteLink(Path path) {
     return getFile(path).isDirectory() ? path.getAsLink() + '/' : path.getAsLink();
   }
 
-  public String getLink(PageInfo pageInfo) {
-    return getLink(pageInfo.getPath());
+  public String getAbsoluteLink(PageInfo pageInfo) {
+    return getAbsoluteLink(pageInfo.getPath());
+  }
+
+  public Path getLink(Path path, Path pagePath) {
+    return path.getRelativeTo(getDirectory(pagePath));
+  }
+
+  public Path getLink(PageInfo pageInfo, Path pagePath) {
+    return getLink(pageInfo.getPath(), pagePath);
   }
 
   /**

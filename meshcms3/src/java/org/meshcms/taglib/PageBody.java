@@ -24,7 +24,6 @@ package org.meshcms.taglib;
 
 import java.io.*;
 import java.util.*;
-import javax.servlet.jsp.*;
 import org.meshcms.core.*;
 import org.meshcms.util.*;
 import org.meshcms.webui.*;
@@ -43,7 +42,7 @@ public class PageBody extends AbstractTag {
     }
     
     if (webSite.getConfiguration().isReplaceThumbnails()) {
-      body = WebUtils.replaceThumbnails(webSite, body, cp, pagePath);
+      body = WebUtils.replaceThumbnails(webSite, body, request.getContextPath(), pagePath);
     }
     
     Writer w = getOut();
@@ -67,7 +66,8 @@ public class PageBody extends AbstractTag {
     
     Writer w = getOut();
     
-    w.write("<div align='right'>" + Help.icon(webSite, cp, Help.EDIT_PAGE, userInfo) + "</div>\n");
+    w.write("<div align='right'>" +
+        Help.icon(webSite, pagePath, Help.EDIT_PAGE, userInfo) + "</div>\n");
     
     w.write("<fieldset class='meshcmseditor'>\n");
     w.write("<legend>" + bundle.getString("editorMainSection") + "</legend>\n");
@@ -77,8 +77,9 @@ public class PageBody extends AbstractTag {
         Utils.noNull(getPage().getTitle()) +
         "\" style='width: 80%;' /></div>\n");
     
-    w.write("<div class='meshcmsfieldlabel'><img alt=\"\" src=\"" + afp +
-        "/filemanager/images/bullet_toggle_plus.png\" id='togglehead' onclick=\"javascript:editor_toggleHideShow('meshcmshead','togglehead');\" />\n");
+    w.write("<div class='meshcmsfieldlabel'><img alt=\"\" src=\"" +
+        adminRelPath.add("/filemanager/images/bullet_toggle_plus.png") +
+        "\" id='togglehead' onclick=\"javascript:editor_toggleHideShow('meshcmshead','togglehead');\" />\n");
     w.write("<label for='meshcmshead'>" + bundle.getString("editorPageHead") + "</label></div>\n");
     
     String head = getHead();
@@ -94,9 +95,6 @@ public class PageBody extends AbstractTag {
     w.write(Utils.encodeHTML(getPage().getBody(), true));
     w.write("</textarea></div>\n");
     w.write("<div class='meshcmsfield'>\n");
-    w.write("<input type='checkbox' checked='checked' id='relch' name='relch' value='true' \n");
-    w.write(" onclick=\"tinyMCE.settings['relative_urls']=this.checked;\" />\n");
-    w.write("<label for='relch'>" + bundle.getString("editorRelative") + "</label>\n");
     
     switch (webSite.getConfiguration().getTidy()) {
       case Configuration.TIDY_ASK:
@@ -108,6 +106,8 @@ public class PageBody extends AbstractTag {
         break;
     }
     
+    w.write("<input type='checkbox' id='keepFileDate' name='keepFileDate' value='true' />\n");
+    w.write("<label for='keepFileDate'>" + bundle.getString("editorKeepFileDate") + "</label>\n");
     w.write("</div>\n");
     
     w.write("<div class='meshcmsbuttons'><input type='submit' value='" +

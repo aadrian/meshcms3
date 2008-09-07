@@ -86,7 +86,6 @@ public final class ListMenu extends AbstractTag {
     
     boolean linkCurrent = current != null && current.equalsIgnoreCase(LINK);
     
-    SiteMap siteMap = webSite.getSiteMap();
     SiteInfo siteInfo = webSite.getSiteInfo();
     Path rootPath = siteInfo.getThemeRoot(pagePath);
     
@@ -116,15 +115,17 @@ public final class ListMenu extends AbstractTag {
     int showLastLevel = -1;
     
     while (iter.hasNext()) {
-      PageInfo current = (PageInfo) iter.next();
-      Path currentPath = current.getPath();
-      int level = Math.max(baseLevel, current.getLevel());
+      PageInfo currentPageInfo = (PageInfo) iter.next();
+      Path currentPath = currentPageInfo.getPath();
+      int level = Math.max(baseLevel, currentPageInfo.getLevel());
       
-      if ( current.getLevel() <= showLastLevel )
+      if (currentPageInfo.getLevel() <= showLastLevel) {
         showLastLevel = -1;
+      }
       
-      if ( siteInfo.getHideSubmenu(currentPath) && showLastLevel == -1 )
-        showLastLevel = current.getLevel();
+      if (siteInfo.getHideSubmenu(currentPath) && showLastLevel == -1) {
+        showLastLevel = currentPageInfo.getLevel();
+      }
       
       boolean add = false;
       
@@ -172,34 +173,34 @@ public final class ListMenu extends AbstractTag {
           writeIndented(outWriter, "<li>", level);
         }
         
-        if (current.getLevel() > 0 && pathInMenu.isContainedIn(currentPath)
-            && !current.getPath().equals(pathInMenu)
-            && !current.getPath().equals(rootPath)
+        if (currentPageInfo.getLevel() > 0 && pathInMenu.isContainedIn(currentPath)
+            && !currentPageInfo.getPath().equals(pathInMenu)
+            && !currentPageInfo.getPath().equals(rootPath)
             && !Utils.isNullOrEmpty(currentPathStyle)) {
-          outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
+          outWriter.write("<a href=\"" + webSite.getLink(currentPageInfo, pageDirPath) +
               "\" class='" + currentPathStyle + "'>" +
-              siteInfo.getPageTitle(current) + "</a>");
-        } else if (current.getPath().equals(pathInMenu)) {
+              siteInfo.getPageTitle(currentPageInfo) + "</a>");
+        } else if (currentPageInfo.getPath().equals(pathInMenu)) {
           if (isEdit || linkCurrent) {
             if (! Utils.isNullOrEmpty(currentStyle) || ! Utils.isNullOrEmpty(currentPathStyle)) {
-              outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
+              outWriter.write("<a href=\"" + webSite.getLink(currentPageInfo, pageDirPath) +
                   "\" class='" + (currentPathStyle +" " + currentStyle).trim() + "'>" +
-                  siteInfo.getPageTitle(current) + "</a>");
+                  siteInfo.getPageTitle(currentPageInfo) + "</a>");
             } else {
-              outWriter.write("<a href=\"" + cp + webSite.getLink(current) + "\">" +
-                  siteInfo.getPageTitle(current) + "</a>");
+              outWriter.write("<a href=\"" + webSite.getLink(currentPageInfo, pageDirPath) + "\">" +
+                  siteInfo.getPageTitle(currentPageInfo) + "</a>");
             }
           } else {
             if (Utils.isNullOrEmpty(currentStyle)) {
-              outWriter.write(siteInfo.getPageTitle(current));
+              outWriter.write(siteInfo.getPageTitle(currentPageInfo));
             } else {
               outWriter.write("<span class='" + currentStyle + "'>" +
-                  siteInfo.getPageTitle(current) + "</span>");
+                  siteInfo.getPageTitle(currentPageInfo) + "</span>");
             }
           }
         } else {
-          outWriter.write("<a href=\"" + cp + webSite.getLink(current) + "\">" +
-              siteInfo.getPageTitle(current) + "</a>");
+          outWriter.write("<a href=\"" + webSite.getLink(currentPageInfo, pageDirPath) + "\">" +
+              siteInfo.getPageTitle(currentPageInfo) + "</a>");
         }
         
         lastLevel = level;

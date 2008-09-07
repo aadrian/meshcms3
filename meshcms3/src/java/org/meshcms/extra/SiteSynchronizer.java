@@ -32,7 +32,6 @@ public class SiteSynchronizer extends DirectoryParser {
   private Writer writer;
   private boolean copySiteInfo;
   private boolean copyConfig;
-  private boolean updateFileTime;
 
   public SiteSynchronizer(WebSite sourceSite, WebSite targetSite,
       UserInfo targetUser) {
@@ -126,15 +125,13 @@ public class SiteSynchronizer extends DirectoryParser {
       }
     }
 
-    if (!targetFile.exists() || file.lastModified() > targetFile.lastModified() ||
-        file.length() != targetFile.length()) {
+    if (!(targetFile.exists() &&
+        file.lastModified() == targetFile.lastModified() &&
+        file.length() == targetFile.length())) {
       try {
         FileInputStream fis = new FileInputStream(file);
         targetSite.saveToFile(targetUser, fis, targetPath);
-        
-        if (isUpdateFileTime()) {
-          targetSite.getFile(targetPath).setLastModified(file.lastModified());
-        }
+        targetSite.getFile(targetPath).setLastModified(file.lastModified());
         
         write(targetPath + " file copied");
         fis.close();
@@ -207,13 +204,5 @@ public class SiteSynchronizer extends DirectoryParser {
 
   public void setCopyConfig(boolean copyConfig) {
     this.copyConfig = copyConfig;
-  }
-
-  public boolean isUpdateFileTime() {
-    return updateFileTime;
-  }
-
-  public void setUpdateFileTime(boolean updateFileTime) {
-    this.updateFileTime = updateFileTime;
   }
 }

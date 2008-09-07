@@ -97,6 +97,7 @@
   }
 
   String cp = request.getContextPath();
+  Path pagePath = webSite.getRequestedPath(request);
   File[] files = md.getModuleFiles(webSite, true);
 
   if (files != null) {
@@ -141,7 +142,7 @@
       });
       </script>
     <% } else { %>
-      <script type="text/javascript" src="<%= cp + '/' + md.getModulePath() %>/closePopImageResize.js"></script>
+    <script type="text/javascript" src="<%= webSite.getLink(md.getModulePath(), pagePath).add("closePopImageResize.js") %>"></script>
     <% } %>
 
 <table<%= md.getFullCSSAttribute("css") %> width="100" align="center" border="0" cellspacing="20" cellpadding="0">
@@ -180,7 +181,7 @@
           }
           
           if (link == null) {
-            link = cp + '/' + path;
+            link = webSite.getLink(path, pagePath).toString();
           }
           %><td align="center" valign="top">
            <a href="<%= link %>" rel="lightbox[<%= moduleCode %>]"
@@ -188,7 +189,7 @@
             onclick="return popImageExtra(this.href, '<%= Utils.replace(caption, '\'', "\\'") %>');"
           <% } %>
            ><img
-            src="<%= cp + '/' + thumbPath %>" alt="<%= Utils.encodeHTML(caption) %>" /><% if (captions) {
+           src="<%= webSite.getLink(thumbPath, pagePath) %>" alt="<%= Utils.encodeHTML(caption) %>" /><% if (captions) {
               %><br /><%= caption %><% } %></a>
           </td><%
 

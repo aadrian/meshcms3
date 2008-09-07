@@ -349,38 +349,4 @@ public class SiteInfo {
   public void setWebSite(WebSite webSite) {
     this.webSite = webSite;
   }
-
-  /**
-   * Cleans SiteInfo by removing info for pagePaths that no longer exist.
-   *
-   * @deprecated with no replacement, since it's better <em>not</em> to
-   * clean up SiteInfo this way, to retain info about pages that are not in the
-   * site map. A different solution would be to check for non-existing files
-   * instead of pages not in the site map.
-   */
-  protected boolean cleanupSiteInfo() {
-    boolean success = true;
-    SiteInfo newSiteInfo = new SiteInfo();
-    newSiteInfo.setWebSite(webSite);
-    List pagesList = webSite.getSiteMap().getPagesList();
-
-    if (pagesList != null) {
-      Iterator iter = pagesList.iterator();
-
-      while (iter.hasNext()) {
-        Path pagePath = ((PageInfo) iter.next()).getPath();
-        newSiteInfo.setPageTitle(pagePath, getPageTitle(pagePath));
-        newSiteInfo.setPageTheme(pagePath, getPageTheme(pagePath));
-        newSiteInfo.setPageScore(pagePath, getPageScore(pagePath));
-        newSiteInfo.setHideSubmenu(pagePath, getHideSubmenu(pagePath));
-      }
-
-      if (this.data.size() != newSiteInfo.data.size()) {
-        success = newSiteInfo.store();
-        webSite.setSiteInfo(newSiteInfo);
-      }
-    }
-
-    return success;
-  }
 }

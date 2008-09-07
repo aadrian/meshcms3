@@ -166,7 +166,7 @@ public final class Module extends AbstractTag {
       w.write("<div id=\"" + idCont + "\" class='meshcmsfieldlabel' " +
           " style=\"cursor:pointer;position:relative;\" onclick=\"javascript:editor_moduleShow('" +
           idCont + "','" + idElem + "','" + idIcon + "');\">" +
-          "<img alt=\"\" src=\"" + afp + "/filemanager/images/bullet_toggle_plus.png\" id=\"" + idIcon + "\" />\n");
+          "<img alt=\"\" src=\"" + adminRelPath.add("filemanager/images/bullet_toggle_plus.png") + "\" id=\"" + idIcon + "\" />\n");
       formatter.applyPattern(bundle.getString("editorModuleLocExt"));
       w.write("<label for=\"" + idElem + "\">" + formatter.format(args) + "</label>");
       w.write("</div>");
@@ -181,10 +181,10 @@ public final class Module extends AbstractTag {
       w.write(bundle.getString("editorFixedModule"));
 
       if (argPath != null) {
-        w.write("<img alt=\"\" src='" + afp + "/filemanager/images/application_view_detail.png' title='" +
+        w.write("<img alt=\"\" src='" + adminRelPath.add("filemanager/images/application_view_detail.png") + "' title='" +
             bundle.getString("editorBrowseModule") +
             "' onclick=\"javascript:window.open('" +
-            afp + "/filemanager/index.jsp?folder=" +
+            adminRelPath.add("filemanager/index.jsp") + "?folder=" +
             Utils.escapeSingleQuotes(argPath) +
             "', '_blank').focus();\" style='vertical-align:middle;' />\n");
       }
@@ -220,8 +220,9 @@ public final class Module extends AbstractTag {
       }
 
       w.write("  </select>&nbsp;");
-      w.write(Help.icon(webSite, cp, Help.MODULES, userInfo, "module_'+document.getElementById('" +
-          ModuleDescriptor.TEMPLATE_ID + location + "').value+'", true));
+      w.write(Help.icon(webSite, pagePath, Help.MODULES, userInfo,
+          "module_'+document.getElementById('" + ModuleDescriptor.TEMPLATE_ID +
+          location + "').value+'", true));
       w.write("\n </div>\n");
       w.write(" <div class='meshcmsfieldlabel'><label for='" +
           ModuleDescriptor.ARGUMENT_ID + location + "'>" +
@@ -230,8 +231,8 @@ public final class Module extends AbstractTag {
           ModuleDescriptor.ARGUMENT_ID + location + "' name='" +
           ModuleDescriptor.ARGUMENT_ID + location + "' value=\"" +
           (md == null || argPath == null ? "" : argPath) +
-          "\" style='width: 80%;' /><img alt=\"\" src='" + afp +
-          "/filemanager/images/application_view_detail.png' title='" + bundle.getString("genericBrowse") +
+          "\" style='width: 80%;' /><img alt=\"\" src='" +
+          adminRelPath.add("/filemanager/images/application_view_detail.png") + "' title='" + bundle.getString("genericBrowse") +
           "' onclick=\"javascript:editor_openFileManager('" +
           ModuleDescriptor.ARGUMENT_ID + location + "');\" style='vertical-align:middle;' /></div>\n");
 

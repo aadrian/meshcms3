@@ -59,7 +59,7 @@
 
 <body>
 
-<div align="right"><%= Help.icon(webSite, request.getContextPath(),
+<div align="right"><%= Help.icon(webSite, webSite.getRequestedPath(request),
     Help.SITE_SYNC, userInfo) %></div>
 
 <form action="syncsite2.jsp" method="post">
@@ -107,12 +107,6 @@
     <div class="meshcmscheckbox">
       <input type="checkbox" id="copyConfig" name="copyConfig" value="true" />
       <label for="copyConfig"><fmt:message key="syncCopyConfig" /></label>
-    </div>
-    
-    <div class="meshcmscheckbox">
-      <input type="checkbox" id="updateFileTime" name="updateFileTime"
-       value="true" checked="checked" />
-      <label for="updateFileTime"><fmt:message key="syncUpdateFileTime" /></label>
     </div>
   </fieldset>
 

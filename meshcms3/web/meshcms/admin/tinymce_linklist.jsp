@@ -43,7 +43,7 @@ var tinyMCELinkList = new Array(
 
     out.write("[\"" + separator.substring(0, spaces) +
               siteInfo.getPageTitle(pageInfo) + "\", \"" + cp +
-              webSite.getLink(pageInfo) + "\"]" + (iter.hasNext() ? "," : "") +
+              webSite.getAbsoluteLink(pageInfo) + "\"]" + (iter.hasNext() ? "," : "") +
               "\n");
   }
 %>

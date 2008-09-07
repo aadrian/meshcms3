@@ -55,8 +55,7 @@ public class PageHead extends AbstractTag {
   }
 
   public void writeEditTag() throws IOException {
-    Path linkListPath = new Path(ap, "tinymce_linklist.jsp");
-    linkListPath = linkListPath.getRelativeTo(webSite.getDirectory(pagePath));
+    Path linkListPath = new Path(adminRelPath, "tinymce_linklist.jsp");
     Locale locale = WebUtils.getPageLocale(pageContext);
     ResourceBundle bundle = ResourceBundle.getBundle("org/meshcms/webui/Locales", locale);
     String langCode = bundle.getString("TinyMCELangCode");
@@ -67,28 +66,31 @@ public class PageHead extends AbstractTag {
 
     Writer w = getOut();
     w.write(getHeadContent());
+    Path tinyMCEPath =
+        webSite.getFile(webSite.getCMSPath().add("tiny_mce")).exists()
+        ? webSite.getCMSPath() : webSite.getAdminScriptsPath();
     w.write("\n<script type='text/javascript' src='" +
-      cp + '/' + (webSite.getFile(webSite.getCMSPath().add("tiny_mce")).exists() ?
-      webSite.getCMSPath() : webSite.getAdminScriptsPath()) +
+      webSite.getLink(tinyMCEPath, pageDirPath) +
       "/tiny_mce/tiny_mce.js'></script>\n");
     w.write("<script type='text/javascript'>\n");
     w.write("// <![CDATA[\n");
-    w.write(" var contextPath = \"" + cp + "\";\n");
+    w.write(" var contextPath = \"" + request.getContextPath() + "\";\n");
     w.write(" var adminPath = \"" + webSite.getAdminPath() + "\";\n");
     w.write(" var languageCode = \"" + langCode + "\";\n");
     w.write(" var linkListPath = \"" + linkListPath + "\";\n");
-    w.write(" var cssPath = \"" + WebUtils.getFullThemeCSS(request) + "\";\n");
+    w.write(" var cssPath = \"" + WebUtils.getThemeCSSPath(request, pageDirPath) + "\";\n");
     w.write("// ]]>\n");
     w.write("</script>\n");
+    Path p = webSite.getLink(webSite.getAdminScriptsPath(), pageDirPath);
     w.write("<script type='text/javascript' src='" +
-      cp + '/' + webSite.getAdminScriptsPath() + "/jquery/jquery.pack.js'></script>\n");
+        p.add("/jquery/jquery.pack.js") + "'></script>\n");
     w.write("<script type='text/javascript' src='" +
-      cp + '/' + webSite.getAdminScriptsPath() + "/editor.js'></script>\n");
-
-    w.write("<script type='text/javascript' src='" + cp + '/' +
-      (webSite.getFile(webSite.getCMSPath().add("tinymce_init.js")).exists() ?
-      webSite.getCMSPath() : webSite.getAdminScriptsPath()) +
-      "/tinymce_init.js'></script>");
+        p.add("/editor.js") + "'></script>\n");
+    Path tinyMCEInitPath =
+        webSite.getFile(webSite.getCMSPath().add("tinymce_init.js")).exists()
+        ? webSite.getCMSPath() : webSite.getAdminScriptsPath();
+    w.write("<script type='text/javascript' src='" +
+      webSite.getLink(tinyMCEInitPath, pageDirPath).add("tinymce_init.js") + "'></script>");
   }
 
   private String getHeadContent() {

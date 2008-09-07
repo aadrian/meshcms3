@@ -19,7 +19,7 @@
 <div id="wrap">
   <div id="header">
     <p id="toplinks">Skip to: <a href="#contentalt">Content</a> | <a href="#sidebar">Navigation</a> | <a href="#footer">Footer</a></p>
-    <h1><a href="index.html"><cms:pagetitle /></a></h1>
+    <h1><a href=""><cms:pagetitle /></a></h1>
     <p id="slogan"><cms:info id="name" /></p>
   </div>
 

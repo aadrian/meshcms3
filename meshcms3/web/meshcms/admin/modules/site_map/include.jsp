@@ -53,6 +53,7 @@
     SiteMap siteMap = webSite.getSiteMap();
     SiteInfo siteInfo = webSite.getSiteInfo();
     int lastLevel = argPath.getElementCount() - 1;
+    Path pagePath = webSite.getRequestedPath(request);
 
     if (siteMap.getPageInfo(argPath) != null) {
       boolean allowHiding = Utils.isTrue(md.getAdvancedParam("allowHiding", "false"));
@@ -72,7 +73,7 @@
         }
         
         %>
-            <li><a href="<%= cp + webSite.getLink(pageInfo) %>"><%=
+            <li><a href="<%= webSite.getLink(pageInfo, pagePath) %>"><%=
               siteInfo.getPageTitle(pageInfo) %></a></li>
         <%
         lastLevel = level;

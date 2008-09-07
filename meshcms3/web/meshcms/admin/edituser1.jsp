@@ -79,7 +79,7 @@
 </head>
 
 <body>
-<div align="right"><%= Help.icon(webSite, request.getContextPath(),
+<div align="right"><%= Help.icon(webSite, webSite.getRequestedPath(request),
     newUser ? Help.NEW_USER : Help.EDIT_PROFILE, userInfo) %></div>
 
 <form action="edituser2.jsp" method="post">

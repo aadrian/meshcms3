@@ -64,7 +64,7 @@
   <th align="left"><fmt:message key="fmUnzipList">
     <fmt:param value="<%= zipPath.getLastElement() %>" />
   </fmt:message></th>
-  <th align="right"><%= Help.icon(webSite, request.getContextPath(),
+  <th align="right"><%= Help.icon(webSite, webSite.getRequestedPath(request),
       Help.UNZIP, userInfo) %></th>
  </tr>
 

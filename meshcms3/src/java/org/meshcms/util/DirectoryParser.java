@@ -51,7 +51,6 @@ public class DirectoryParser extends Thread {
 
   protected boolean recursive = false;
   protected boolean processStartDir = false;
-  protected boolean processDirBeforeContent = true;
 
   private Comparator comparator;
 
@@ -77,17 +76,6 @@ public class DirectoryParser extends Thread {
   }
 
   /**
-   * If true, <code>processDirectory</code> will be called
-   * for a directory before processing its contents (default true).
-   *
-   * @see #processDirectory
-   * @deprecated implement {@link #preProcessDirectory} or {@link #postProcessDirectory} accordingly
-   */
-  public void setProcessDirBeforeContent(boolean processDirBeforeContent) {
-    this.processDirBeforeContent = processDirBeforeContent;
-  }
-
-  /**
    * Returns whether directories will be processed recursively or not.
    *
    * @see #setRecursive
@@ -105,19 +93,6 @@ public class DirectoryParser extends Thread {
    */
   public boolean isProcessStartDir() {
     return processStartDir;
-  }
-
-  /**
-   * Returns whether <code>processDirectory</code> will be called
-   * for a directory before processing its contents.
-   *
-   * @see #processDirectory
-   * @see #setProcessDirBeforeContent
-   *
-   * @deprecated implement {@link #preProcessDirectory} or {@link #postProcessDirectory} accordingly
-   */
-  public boolean isProcessDirBeforeContent() {
-    return processDirBeforeContent;
   }
 
   /**
@@ -200,11 +175,6 @@ public class DirectoryParser extends Thread {
 
         if (mustProcessDir(path)) {
           ok = preProcessDirectory(file, path);
-
-          // support deprecated processDirBeforeContent
-          if (processDirBeforeContent) {
-            ok &= processDirectory(file, path);
-          }
         }
 
         if (ok) {
@@ -222,11 +192,6 @@ public class DirectoryParser extends Thread {
 
       if (mustProcessDir(path)) {
         postProcessDirectory(file, path);
-
-        // support deprecated processDirBeforeContent
-        if (!processDirBeforeContent) {
-          processDirectory(file, path);
-        }
       }
     } else if (file.isFile()) {
       processFile(file, path);
@@ -256,23 +221,6 @@ public class DirectoryParser extends Thread {
    * <p>The base implementation does nothing.</p>
    */
   protected void postProcess() {
-  }
-
-  /**
-   * This method will be called for any directory found while parsing the base
-   * directory. You can return false to block processing the contents of the
-   * directory (provided that {@link #isProcessDirBeforeContent} returns true,
-   * otherwise contents have been processed already).
-   *
-   * @param file the directory to be processed
-   * @param path the path of the directory (relative to the base directory)
-   *
-   * @return always true
-   *
-   * @deprecated use {@link #preProcessDirectory} and {@link #postProcessDirectory} instead
-   */
-  protected boolean processDirectory(File file, Path path) {
-    return true;
   }
 
   protected boolean preProcessDirectory(File file, Path path) {

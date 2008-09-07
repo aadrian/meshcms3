@@ -89,7 +89,7 @@ public final class Links extends AbstractTag {
       }
       
       PageInfo[] pages = (PageInfo[]) list.toArray(new PageInfo[list.size()]);
-      String[] outs = webSite.getLinkList(pages, cp, target, style);
+      String[] outs = webSite.getLinkList(pages, pageDirPath, target, style);
       Writer w = getOut();
       
       if (outs != null && outs.length > 0) {

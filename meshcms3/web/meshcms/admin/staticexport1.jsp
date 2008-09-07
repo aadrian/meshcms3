@@ -63,7 +63,7 @@
 
 <body>
 
-<div align="right"><%= Help.icon(webSite, cp, Help.STATIC_EXPORT, userInfo) %></div>
+<div align="right"><%= Help.icon(webSite, webSite.getRequestedPath(request), Help.STATIC_EXPORT, userInfo) %></div>
 
 <form action="staticexport2.jsp" method="post" onsubmit="javascript:showWaiting();">
   <fieldset class="meshcmseditor">

@@ -54,7 +54,7 @@
 
 <body>
 
-<div align="right"><%= Help.icon(webSite, request.getContextPath(),
+<div align="right"><%= Help.icon(webSite, webSite.getRequestedPath(request),
     Help.SITE_MANAGER, userInfo) %></div>
 
 <%

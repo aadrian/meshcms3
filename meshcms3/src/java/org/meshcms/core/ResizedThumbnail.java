@@ -74,21 +74,6 @@ public class ResizedThumbnail extends AbstractThumbnail {
   private String mode = MODE_SCALE;
   private String color = WHITE;
 
-  /**
-   * Creates a new instance with a default configuration. By default, the image
-   * is scaled to fit into a square of 100x100 pixels.
-   */
-  public ResizedThumbnail() {
-  }
-
-  /**
-   * @deprecated use default constructor and setters instead
-   */
-  public ResizedThumbnail(String width, String height) {
-    this.width = Utils.parseInt(width, -1);
-    this.height = Utils.parseInt(height, -1);
-  }
-
   public String getSuggestedFileName() {
     return "resized" + ("" + width + height + highQuality + mode +
         color).hashCode() + ".jpg";

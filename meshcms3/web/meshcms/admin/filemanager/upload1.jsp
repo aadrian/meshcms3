@@ -56,7 +56,7 @@
 </head>
 
 <body>
-  <p align="right"><%= Help.icon(webSite, request.getContextPath(),
+  <p align="right"><%= Help.icon(webSite, webSite.getRequestedPath(request),
       Help.UPLOAD, userInfo) %></p>
 
   <form name="upform" action="upload2.jsp" method="post"

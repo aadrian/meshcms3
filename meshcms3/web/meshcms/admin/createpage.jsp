@@ -70,7 +70,7 @@ Path fullPath = new Path(request.getParameter("fullpath"));
 Path path = new Path(request.getParameter("path"));
 
 if (title.equals("") && fullPath.isRoot()) { %>
-  <p align="right"><%= Help.icon(webSite, cp, Help.NEW_PAGE, userInfo) %></p>
+  <p align="right"><%= Help.icon(webSite, webSite.getRequestedPath(request), Help.NEW_PAGE, userInfo) %></p>
 
   <form action='createpage.jsp' method='post' id='createpage' name='createpage'>
     <input type="hidden" name="popup" value="<%= popup %>" />

@@ -46,9 +46,9 @@
     return;
   }
 
-  String cp = request.getContextPath();
   Path argPath = md.getModuleArgumentDirectoryPath(webSite, false);
   String style = md.getAdvancedParam("css", md.getStyle());
+  Path pagePath = webSite.getRequestedPath(request);
 
   if (argPath == null) {
     argPath = md.getPagePath();
@@ -59,7 +59,7 @@
   if (list != null && list.size() > 0) {
     PageInfo[] pages = (PageInfo[]) list.toArray(new PageInfo[list.size()]);
     %><ul>
-     <li><%= Utils.generateList(webSite.getLinkList(pages, cp, null, style), "</li><li>") %></li>
+     <li><%= Utils.generateList(webSite.getLinkList(pages, pagePath, null, style), "</li><li>") %></li>
     </ul><%
   }
 %>

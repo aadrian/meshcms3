@@ -20,6 +20,7 @@
  and at info@cromoteca.com
 --%>
 
+<%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
@@ -84,7 +85,18 @@
 <body>
 
 <%
+  long time = 0L;
+  File file = webSite.getFile(filePath);
+
+  if (file.exists() && Utils.isTrue(request.getParameter("keepFileDate"))) {
+    time = file.lastModified();
+  }
+  
   if (webSite.saveToFile(userInfo, fullSrc, filePath)) {
+    if (time != 0L) {
+      file.setLastModified(time + 3000L);
+    }
+    
     webSite.updateSiteMap(true);
 %>
   <p><% if (Utils.isNullOrEmpty(title)) { %>

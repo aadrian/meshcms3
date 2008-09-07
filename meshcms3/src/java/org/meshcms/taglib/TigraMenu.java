@@ -42,7 +42,7 @@ public final class TigraMenu extends AbstractTag {
   public void writeTag() throws IOException {
     Path rootPath = (path == null) ?
         webSite.getSiteInfo().getThemeRoot(pagePath) : new Path(path);
-    String script = WebUtils.getFullThemeFolder(request);
+    Path script = WebUtils.getThemeFolderPath(request, pageDirPath);
     Writer outWriter = getOut();
 
     if (part.equals(PART_BODY)) {
@@ -50,10 +50,10 @@ public final class TigraMenu extends AbstractTag {
       outWriter.write("<script language=\"JavaScript\">\n");
 
       if (Utils.isTrue(placeholder)) {
-        outWriter.write("document.write('<img src=\"" + afp + '/' +
-                        WebSite.ADMIN_THEME + "/tx1x1.gif\" width=\"'+MENU_POS[0]" +
-                        "['width']+'\" height=\"'+(MENU_ITEMS.length*" +
-                        "MENU_POS[0]['top'])+'\">');\n");
+        outWriter.write("document.write('<img src=\"" + adminRelPath + '/' +
+            WebSite.ADMIN_THEME + "/tx1x1.gif\" width=\"'+MENU_POS[0]" +
+            "['width']+'\" height=\"'+(MENU_ITEMS.length*" +
+            "MENU_POS[0]['top'])+'\">');\n");
       }
 
       outWriter.write("new menu(MENU_ITEMS, MENU_POS);\n");
@@ -66,7 +66,8 @@ public final class TigraMenu extends AbstractTag {
       outWriter.write("<script language=\"JavaScript\" src=\"" + script +
                       "/menu.js\"></script>\n");
       outWriter.write("<script language=\"JavaScript\">\n");
-      outWriter.write(webSite.getSiteMap().getTigraItems(cp, rootPath, false, allowHiding));
+      outWriter.write(webSite.getSiteMap().getTigraItems(request.getContextPath(),
+          rootPath, false, allowHiding));
       outWriter.write("\n</script>\n");
       outWriter.write("<script language=\"JavaScript\" src=\"" + script +
                       "/menu_tpl.js\"></script>\n");

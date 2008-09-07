@@ -65,7 +65,7 @@ public final class AdminMenu extends AbstractTag {
   }
 
   public void writeTag() throws IOException {
-    UserInfo userInfo = (UserInfo) pageContext.getAttribute("userInfo",
+    UserInfo user = (UserInfo) pageContext.getAttribute("userInfo",
       PageContext.SESSION_SCOPE);
     Locale locale = WebUtils.getPageLocale(pageContext);
     ResourceBundle bundle = ResourceBundle.getBundle("org/meshcms/webui/Locales", locale);
@@ -77,16 +77,16 @@ public final class AdminMenu extends AbstractTag {
     String a3 = "</a>";
     List l = new ArrayList();
 
-    if (userInfo == null || userInfo.isGuest()) {
+    if (user == null || user.isGuest()) {
       if ((mode == null || mode.equals(MODE_NORMAL)) &&
           !org.meshcms.extra.StaticExporter.isExportRequest(request)) {
-        l.add(a1 + afp + "/login.jsp" + a2 + bundle.getString("adminLogin") + a3);
+        l.add(a1 + adminRelPath.add("login.jsp") + a2 + bundle.getString("adminLogin") + a3);
       }
     } else {
-      l.add(a1 + afp + "/index.jsp" + a2 + bundle.getString("homeTitle") + a3);
+      l.add(a1 + adminRelPath.add("index.jsp") + a2 + bundle.getString("homeTitle") + a3);
 
       if (!isEdit) {
-        if (userInfo.canWrite(webSite, pagePath)) {
+        if (user.canWrite(webSite, pagePath)) {
           if (webSite.isVisuallyEditable(pagePath)) {
             l.add(a1 + request.getRequestURI() + '?' + HitFilter.ACTION_NAME +
                 '=' + HitFilter.ACTION_EDIT + a2 +
@@ -94,10 +94,10 @@ public final class AdminMenu extends AbstractTag {
           }
 
           if (FileTypes.isPage(pagePath.getLastElement())) {
-            l.add(a1 + afp + "/editsrc.jsp?path=" + pagePath + a2 +
+            l.add(a1 + adminRelPath.add("editsrc.jsp") + "?path=" + pagePath + a2 +
                 bundle.getString("adminEditText") + a3);
 
-            l.add(a1 + afp + "/editsrc.jsp?path=" + pagePath + "&amp;tidy=true" +
+            l.add(a1 + adminRelPath.add("editsrc.jsp") + "?path=" + pagePath + "&amp;tidy=true" +
                 a2 + bundle.getString("adminTidy") + a3);
 
             Path pathInMenu = webSite.getSiteMap().getPathInMenu(pagePath);
@@ -105,14 +105,14 @@ public final class AdminMenu extends AbstractTag {
             if (!pathInMenu.isRoot()) {
               Path parentPath = pathInMenu.getParent();
 
-              if (userInfo.canWrite(webSite, parentPath)) {
-                l.add(a1 + afp + "/createpage.jsp?popup=false&amp;path=" +
+              if (user.canWrite(webSite, parentPath)) {
+                l.add(a1 + adminRelPath.add("createpage.jsp") + "?popup=false&amp;path=" +
                     parentPath + a2 + bundle.getString("adminNewPage") + a3);
               }
             }
 
             if (webSite.isDirectory(pathInMenu)) {
-              l.add(a1 + afp + "/createpage.jsp?popup=false&amp;path=" +
+              l.add(a1 + adminRelPath.add("createpage.jsp") + "?popup=false&amp;path=" +
                   pathInMenu + a2 + bundle.getString("adminNewChildPage") + a3);
             }
           }

@@ -23,7 +23,6 @@
 package org.meshcms.taglib;
 
 import java.io.*;
-import java.util.*;
 import org.meshcms.core.*;
 import org.meshcms.util.*;
 
@@ -51,17 +50,17 @@ public final class AlibMenu extends AbstractTag {
     boolean horizontal = orientation != null && orientation.equals(HORIZONTAL);
 
     if (part != null && part.equals(PART_HEAD)) {
-      String sp = request.getContextPath() +
-          webSite.getAdminScriptsPath().getAsLink() + "/alib";
+      Path sp = webSite.getAdminScriptsPath().add("alib");
       String menuType = horizontal ? HORIZONTAL : VERTICAL;
-      outWriter.write("<script src='" + sp +
-          "/alib.common/script.js' type='text/javascript'></script>\n");
-      outWriter.write("<script src='" + sp +
-          "/menu." + menuType + "/script.js' type='text/javascript'></script>\n");
+      outWriter.write("<script src='" +
+          webSite.getLink(sp.add("alib.common/script.js"), pageDirPath) +
+          "' type='text/javascript'></script>\n");
+      outWriter.write("<script src='" +
+          webSite.getLink(sp.add("menu." + menuType + "/script.js"), pageDirPath) +
+          "' type='text/javascript'></script>\n");
       outWriter.write("<link type='text/css' href='" +
-          WebUtils.getFullThemeFolder(request) + "/alib.css' rel='stylesheet' />\n");
+          WebUtils.getThemeFolderPath(request, pageDirPath) + "/alib.css' rel='stylesheet' />\n");
     } else {
-      SiteMap siteMap = webSite.getSiteMap();
       SiteInfo siteInfo = webSite.getSiteInfo();
       Path rootPath = (path == null) ? siteInfo.getThemeRoot(pagePath) : new Path(path);
       Path pathInMenu = webSite.getSiteMap().getPathInMenu(pagePath);
@@ -73,9 +72,9 @@ public final class AlibMenu extends AbstractTag {
       boolean firstUl = true;
 
       while (iter.hasNext()) {
-        PageInfo current = (PageInfo) iter.next();
-        Path currentPath = current.getPath();
-        int level = Math.max(baseLevel, current.getLevel());
+        PageInfo currentPageInfo = (PageInfo) iter.next();
+        Path currentPath = currentPageInfo.getPath();
+        int level = Math.max(baseLevel, currentPageInfo.getLevel());
 
         for (int i = lastLevel; i < level; i++) {
           if (firstUl) {
@@ -112,16 +111,16 @@ public final class AlibMenu extends AbstractTag {
         }
 
         if ( ! Utils.isNullOrEmpty(currentPathStyle)
-                        && ( current.getLevel() >= baseLevel
+                        && ( currentPageInfo.getLevel() >= baseLevel
                                && pathInMenu.isContainedIn(currentPath)
-                     || current.getPath().equals(pathInMenu)
+                     || currentPageInfo.getPath().equals(pathInMenu)
                    ) ) {
-          outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
+          outWriter.write("<a href=\"" + webSite.getLink(currentPageInfo, pageDirPath) +
             "\" class='" + currentPathStyle + "'>" +
-            siteInfo.getPageTitle(current) + "</a>");
+            siteInfo.getPageTitle(currentPageInfo) + "</a>");
         } else {
-          outWriter.write("<a href=\"" + cp + webSite.getLink(current) +"\">" +
-            siteInfo.getPageTitle(current) + "</a>");
+          outWriter.write("<a href=\"" + webSite.getLink(currentPageInfo, pageDirPath) +"\">" +
+            siteInfo.getPageTitle(currentPageInfo) + "</a>");
         }
 
         liUsed = true;

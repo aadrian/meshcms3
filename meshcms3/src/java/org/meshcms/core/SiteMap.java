@@ -246,7 +246,6 @@ public class SiteMap extends DirectoryParser {
     langList = Collections.unmodifiableList(langList);
     setLastModified();
     webSite.setSiteMap(this);
-    // webSite.getSiteInfo().cleanupSiteInfo(); // deprecated
   }
   
   /**
@@ -405,7 +404,7 @@ public class SiteMap extends DirectoryParser {
         sb.append("['");
         sb.append(Utils.escapeSingleQuotes(siteInfo.getPageTitle(current)));
         sb.append("', ");
-        String link = webSite.getLink(current);
+        String link = webSite.getAbsoluteLink(current);
         sb.append(link == null ? "null" : "'" + contextPath + link + "'");
         
         if (!tree) {
@@ -539,39 +538,7 @@ public class SiteMap extends DirectoryParser {
     
     return pagesList.subList(idx, pagesList.size());
   }
-  
-  /**
-   * Returns the pages contained in the menu as a unmodifiable List, using the given path as
-   * root path. All members of the list are of type <code>PageInfo</code>.
-   * Pages are sorted using a {@link PageInfoComparator}.
-   * NB: This method excludes hidden submenus.
-   *
-   * @deprecated use a {@link org.meshcms.core.SiteMapIterator} and set
-   * {@link org.meshcms.core.SiteMapIterator#setSkipHiddenSubPages} to
-   * <code>true</code> instead.
-   */
-  public List getPagesListNoHiddenSubmenus(Path root) {
-    SiteInfo siteInfo = webSite.getSiteInfo();
-    List pagesListHiddenSubmenus = new ArrayList(this.getPagesList(root));
-    Path currentHiddenSubmenuPath = null;
-    int i = 0;
-    while (i < pagesListHiddenSubmenus.size()) {
-      Path currentPath = ((PageInfo)pagesListHiddenSubmenus.get(i)).getPath();
-      if (currentHiddenSubmenuPath != null) {
-        if (currentPath.isContainedIn(currentHiddenSubmenuPath)) {
-          pagesListHiddenSubmenus.remove(i);
-        } else {
-          currentHiddenSubmenuPath = null;
-        }
-      }
-      if (currentHiddenSubmenuPath == null && siteInfo.getHideSubmenu(currentPath)) {
-        currentHiddenSubmenuPath = currentPath;
-      }
-      i++;
-    }
-    return Collections.unmodifiableList(pagesListHiddenSubmenus);
-  }
-  
+
   /**
    * Returns the breadcrumbs from the root path (included) to the given path
    * (<em>not</em> included).

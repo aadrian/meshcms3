@@ -86,7 +86,7 @@ public final class SimpleMenu extends AbstractTag {
           if (!isEdit && current.getPath().equals(pathInMenu)) {
             outWriter.write(siteInfo.getPageTitle(current));
           } else {
-            outWriter.write("<a href=\"" + cp + webSite.getLink(current) +
+            outWriter.write("<a href=\"" + webSite.getLink(current, pageDirPath) +
               "\">" + siteInfo.getPageTitle(current) + "</a>");
           }
 

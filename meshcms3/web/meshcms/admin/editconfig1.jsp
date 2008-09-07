@@ -56,17 +56,13 @@
  var adminPath = "<%= webSite.getAdminPath() %>";
 // ]]>
 </script>
-<script type="text/javascript">
-  var contextPath = "<%= request.getContextPath() %>";
-  var adminPath = "<%= webSite.getAdminPath() %>";
-</script>
 <script type="text/javascript" src="scripts/jquery/jquery.pack.js"></script>
 <script type="text/javascript" src="scripts/editor.js"></script>
 </head>
 
 <body>
 
-<div align="right"><%= Help.icon(webSite, cp, Help.CONFIGURE, userInfo) %></div>
+<div align="right"><%= Help.icon(webSite, webSite.getRequestedPath(request), Help.CONFIGURE, userInfo) %></div>
 
 <form action="editconfig2.jsp" method="post">
   <fieldset class="meshcmseditor">

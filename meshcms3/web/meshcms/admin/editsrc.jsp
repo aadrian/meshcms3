@@ -119,6 +119,11 @@
       <textarea style="width: 100%; height: 25em;" id="fullsrc" name="fullsrc"
        rows="25" cols="80"><%= Utils.encodeHTML(full, true) %></textarea>
     </div>
+    
+    <div class="meshcmsfield">
+      <input type="checkbox" id="keepFileDate" name="keepFileDate" value="true" />
+      <label for="keepFileDate"><fmt:message key="editorKeepFileDate" /></label>
+    </div>
 
     <div class="meshcmsbuttons">
       <input type="submit" value="<fmt:message key="genericSave" />" />

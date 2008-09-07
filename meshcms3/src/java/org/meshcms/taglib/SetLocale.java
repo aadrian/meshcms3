@@ -34,11 +34,6 @@ import org.meshcms.util.*;
  * <code>HttpServletRequest.getContextPath()</code>.
  */
 public final class SetLocale extends AbstractTag {
-  /**
-   * @deprecated no longer used
-   */
-  public static final String REDIRECT_ATTRIBUTE = "meshcms-redirect";
-
   private String value;
   private String defaultValue;
   private String redirectRoot;
@@ -86,59 +81,5 @@ public final class SetLocale extends AbstractTag {
 
   public void setDefaultValue(String defaultValue) {
     this.defaultValue = defaultValue;
-  }
-
-  /**
-   * @deprecated parameter no longer used
-   */
-  public String getRedirectRoot() {
-    return redirectRoot;
-  }
-
-  /**
-   * @deprecated parameter no longer used
-   */
-  public void setRedirectRoot(String redirectRoot) {
-    this.redirectRoot = redirectRoot;
-  }
-
-  /**
-   * @deprecated moved to HitFilter
-   */
-  public static boolean setRedirectToLanguage(HttpServletRequest request,
-      HttpServletResponse response) throws IOException {
-    if (response.isCommitted()) {
-      return false;
-    }
-
-    WebSite webSite = (WebSite) request.getAttribute(HitFilter.WEBSITE_ATTRIBUTE);
-    List available = webSite.getSiteMap().getLangList();
-    String[] accepted = WebUtils.getAcceptedLanguages(request);
-    SiteMap.CodeLocalePair chosen = null;
-
-    if (available != null && available.size() > 0) {
-      for (int i = 0; chosen == null && i < accepted.length; i++) {
-        Iterator iter = available.iterator();
-
-        while (chosen == null && iter.hasNext()) {
-          SiteMap.CodeLocalePair clp = (SiteMap.CodeLocalePair) iter.next();
-
-          if (clp.getCode().equalsIgnoreCase(accepted[i])) {
-            chosen = clp;
-          }
-        }
-      }
-
-      if (chosen == null) {
-        chosen = (SiteMap.CodeLocalePair) available.get(0);
-      }
-
-      WebUtils.setBlockCache(request);
-      request.setAttribute(REDIRECT_ATTRIBUTE, request.getContextPath() + '/' +
-          chosen.getCode() + '/');
-      return true;
-    }
-
-    return false;
   }
 }

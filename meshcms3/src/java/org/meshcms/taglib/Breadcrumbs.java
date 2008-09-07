@@ -71,8 +71,7 @@ public final class Breadcrumbs extends AbstractTag {
     String[] outs;
 
     if (mode != null && mode.equals(MODE_LINKS)) {
-      outs = webSite.getLinkList(breadcrumbs, request.getContextPath(), target,
-                                style);
+      outs = webSite.getLinkList(breadcrumbs, pageDirPath, target, style);
     } else {
       outs = webSite.getTitles(breadcrumbs);
     }

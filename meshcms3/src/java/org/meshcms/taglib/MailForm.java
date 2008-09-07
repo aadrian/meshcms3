@@ -83,7 +83,7 @@ public final class MailForm extends AbstractTag {
       MessageFormat formatter = new MessageFormat("", locale);
       w.write("<div id=\""+ idCont +"\" class='meshcmsfieldlabel' " +
           " style=\"cursor:pointer;\" onclick=\"javascript:editor_moduleShow('"+ idCont +"','"+ idElem +"','"+ idIcon +"');\">" +
-          "<img alt=\"\" src=\"" + afp + "/filemanager/images/bullet_toggle_plus.png\" id=\""+ idIcon +"\" />\n");
+          "<img alt=\"\" src=\"" + adminRelPath.add("/filemanager/images/bullet_toggle_plus.png") + "\" id=\""+ idIcon +"\" />\n");
       Object[] args = { bundle.getString("editorMailTitle"), email != null ? bundle.getString("editorMailTitle") : bundle.getString("editorNoTemplate"),
       Utils.noNull(email), "" };
       formatter.applyPattern(bundle.getString("editorModuleLocExt"));

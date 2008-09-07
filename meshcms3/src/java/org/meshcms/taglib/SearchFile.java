@@ -74,7 +74,7 @@ public final class SearchFile extends AbstractTag {
             throw new JspException(ex);
           }
         } else {
-          getOut().write(cp + '/' + found);
+          getOut().write(webSite.getLink(found, pageDirPath).toString());
         }
       }
     }

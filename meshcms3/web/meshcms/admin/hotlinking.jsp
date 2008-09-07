@@ -49,7 +49,7 @@
 
 <p align="center">
  <%= isImage ? "Image" : "File" %> from
- <a href="<%= cp + webSite.getLink(Path.ROOT) %>"><%= request.getServerName() %></a>
+ <a href="<%= cp  %>/"><%= request.getServerName() %></a>
 </p>
 
 </body>
