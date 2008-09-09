@@ -53,14 +53,14 @@
   }
   
   arg = Utils.decodeHTML(arg);
-  String cp = request.getContextPath();
+  Path pagePath = webSite.getRequestedPath(request);
   boolean delay = Utils.isTrue(md.getAdvancedParam("delay", "false"));
   
   if (delay) {
 %>
 <script type="text/javascript">
   if (!window.jQuery) {
-    document.write("<scr" + "ipt type='text/javascript' src='<%= cp + '/' + webSite.getAdminScriptsPath() %>/jquery/jquery.pack.js'></scr" + "ipt>");
+    document.write("<scr" + "ipt type='text/javascript' src='<%= webSite.getLink(webSite.getAdminScriptsPath().add("jquery/jquery-1.2.6.pack.js"), pagePath) %>'></scr" + "ipt>");
   }
 </script>
   
@@ -73,7 +73,7 @@
 </script>
 
 <div id="embed_<%= moduleCode %>">
-  <img src="<%= cp + '/' + md.getModulePath() %>/ajax-loader.gif"
+  <img src="<%= webSite.getLink(md.getModulePath(), pagePath) %>/ajax-loader.gif"
    alt="Loading..." />
 </div>
 <%

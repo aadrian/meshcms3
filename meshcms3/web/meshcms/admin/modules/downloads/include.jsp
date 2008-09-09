@@ -50,7 +50,6 @@
     return;
   }
 
-  String cp = request.getContextPath();
   File[] files = md.getModuleFiles(webSite, false);
 
   if (files != null && files.length > 0) {
@@ -60,6 +59,8 @@
         ResourceBundle.getBundle("org/meshcms/webui/Locales", locale);
     Arrays.sort(files, new FileNameComparator());
     DateFormat df = md.getDateFormat(locale, "date");
+    Path pagePath = webSite.getRequestedPath(request);
+    Path iconPath = webSite.getLink(webSite.getAdminPath().add("filemanager/images"), pagePath);
 %>
 
 <table<%= md.getFullCSSAttribute("css") %> align="center" border="0" cellspacing="10" cellpadding="0">
@@ -67,13 +68,13 @@
     for (int i = 0; i < files.length; i++) {
       if (!files[i].isDirectory()) {
         WebUtils.updateLastModifiedTime(request, files[i]);
-        String link = force ?
-            cp + "/servlet/org.meshcms.core.DownloadServlet/" + webSite.getPath(files[i]) :
-            cp + '/' + webSite.getPath(files[i]);
+        Path link = force ?
+            new Path("servlet/org.meshcms.core.DownloadServlet", webSite.getPath(files[i])) :
+            webSite.getPath(files[i]);
 %>
  <tr valign="top">
-  <td><img src="<%= cp + '/' + webSite.getAdminPath() %>/filemanager/images/<%= FileTypes.getIconFile(files[i].getName()) %>" border="0" alt="<%= FileTypes.getDescription(files[i].getName()) %>" /></td>
-  <td><a href="<%= link %>"><%= files[i].getName() %></a></td>
+  <td><img src="<%= iconPath.add(FileTypes.getIconFile(files[i].getName())) %>" border="0" alt="<%= FileTypes.getDescription(files[i].getName()) %>" /></td>
+  <td><a href="<%= webSite.getLink(link, pagePath) %>"><%= files[i].getName() %></a></td>
   <td align="right"><%= WebUtils.formatFileLength(files[i].length(), locale, bundle) %></td>
   <% if (df != null) { %><td><%= df.format(new Date(files[i].lastModified())) %></td><% } %>
  </tr>
