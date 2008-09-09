@@ -56,7 +56,7 @@
  var adminPath = "<%= webSite.getAdminPath() %>";
 // ]]>
 </script>
-<script type="text/javascript" src="scripts/jquery/jquery.pack.js"></script>
+<script type="text/javascript" src="scripts/jquery/jquery-1.2.6.pack.js"></script>
 <script type="text/javascript" src="scripts/editor.js"></script>
 </head>
 

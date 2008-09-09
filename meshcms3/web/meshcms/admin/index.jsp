@@ -38,7 +38,7 @@
 <head>
 <%= webSite.getAdminMetaThemeTag() %>
 <title><fmt:message key="homeTitle" /></title>
-<%-- <script type="text/javascript" src="scripts/jquery/jquery.pack.js">
+<%-- <script type="text/javascript" src="scripts/jquery/jquery-1.2.6.pack.js">
 </script>
 <script type="text/javascript">
   $(function() {
