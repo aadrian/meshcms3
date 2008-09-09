@@ -1,36 +1,50 @@
 /*
- * MeshCMS - A simple CMS based on SiteMesh
- * Copyright (C) 2004-2008 Luciano Vernaschi
+ * Copyright 2004-2008 Luciano Vernaschi
  *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * This file is part of MeshCMS.
  *
- * This program is distributed in the hope that it will be useful,
+ * MeshCMS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * MeshCMS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *
- * You can contact the author at http://www.cromoteca.com
- * and at info@cromoteca.com
+ * along with MeshCMS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package org.meshcms.core;
 
-import java.io.*;
-import java.util.*;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import org.apache.commons.fileupload.*;
-import org.meshcms.util.*;
-import com.thoughtworks.xstream.*;
-import com.thoughtworks.xstream.io.*;
-import com.thoughtworks.xstream.io.xml.*;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.StreamException;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.Date;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.fileupload.FileItem;
+import org.meshcms.util.DirectoryRemover;
+import org.meshcms.util.Path;
+import org.meshcms.util.Utils;
+import org.meshcms.util.XStreamPathConverter;
+import org.meshcms.util.ZipArchiver;
 
 public class WebSite {
   public static final String APP_NAME = "MeshCMS";
