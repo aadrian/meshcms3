@@ -99,19 +99,23 @@
 
   if (files != null) {
     String sort = md.getAdvancedParam("order", "name");
+    
     if("random".equalsIgnoreCase(sort)) {
       Collections.shuffle(Arrays.asList(files));
     } else {
       Comparator cmp;
+      
       if ("date".equalsIgnoreCase(sort) || "date_fwd".equalsIgnoreCase(sort)) {
         cmp = new FileDateComparator(true);
-      } else if ("date_rev".equals(sort)) {
+      } else if ("date_rev".equalsIgnoreCase(sort)) {
         cmp = new FileDateComparator(false);
       } else {
         cmp = new FileNameComparator();
       }
+      
       Arrays.sort(files, cmp);
     }
+    
     int col = 0;
     int cols = Utils.parseInt(md.getAdvancedParam("columns", null), Math.min(3, files.length));
     boolean captions = Utils.isTrue(md.getAdvancedParam("captions", "true"));
