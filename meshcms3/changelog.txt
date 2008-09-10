@@ -1,5 +1,14 @@
 ________________________________
 --------------------------------
+2008-xx-xx: 3.5 released
+--------------------------------
+
+- IMPORTANT: license changed to GPLv3
+- Added Media Player module (plays videos, music and images)
+- Fixed to generate relative links almost everywhere
+
+________________________________
+--------------------------------
 2008-09-07: 3.4 released
 --------------------------------
 
