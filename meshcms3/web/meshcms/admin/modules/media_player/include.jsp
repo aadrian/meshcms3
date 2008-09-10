@@ -19,13 +19,14 @@
 
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
-<%@ page import="java.text.*" %>
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 
 <%--
-  Advanced parameters for this module: none
+  Advanced parameters for this module:
+  - layout = vertical (default) | horizontal
+  - order = "name" (default) | "date" (same as date_fwd) | "date_fwd" | "date_rev" | "random"
 --%>
 
 <%
@@ -47,9 +48,29 @@
   File[] files = md.getModuleFiles(webSite, true);
 
   if (files != null && files.length > 0) {
-    Arrays.sort(files, new FileNameComparator());
+    String sort = md.getAdvancedParam("order", "name");
+
+    if("random".equalsIgnoreCase(sort)) {
+      Collections.shuffle(Arrays.asList(files));
+    } else {
+      Comparator cmp;
+
+     if ("date".equalsIgnoreCase(sort) || "date_fwd".equalsIgnoreCase(sort)) {
+        cmp = new FileDateComparator(true);
+      } else if ("date_rev".equalsIgnoreCase(sort)) {
+        cmp = new FileDateComparator(false);
+      } else {
+        cmp = new FileNameComparator();
+      }
+      
+      Arrays.sort(files, cmp);
+    }
+
     Path pagePath = webSite.getRequestedPath(request);
     Path modulePath = webSite.getLink(md.getModulePath(), pagePath);
+    String layout = md.getAdvancedParam("layout", "vertical").toLowerCase();
+    // boolean horizontal = "horizontal".equalsIgnoreCase(layout);
+    String id = "player_" + moduleCode;
 %>
 
 <script type="text/javascript" src="<%= webSite.getLink(webSite.getAdminScriptsPath().add("jquery/jquery-1.2.6.pack.js"), pagePath) %>"></script>
@@ -60,17 +81,18 @@
     $("#playlist").playlist("<%= modulePath.add("FlowPlayerLight.swf") %>", {
       initialScale: 'orig'
     }, {
-      player: '#player',
+      player: '#<%= id %>',
       loop: false
     });
   });
 </script>
 
-<div class="meshcmsMediaPlayer" id="player">
-  <img src="<%= modulePath.add("blank_player.png") %>" alt="MeshCMS Media Player"/>
-</div>
+<div class="meshcmsMediaPlayer_<%= layout %>">
+  <div class="meshcmsMediaPlayerScreen" id="<%= id %>">
+    <img src="<%= modulePath.add("blank_player.png") %>" alt="MeshCMS Media Player"/>
+  </div>
 
-<div id="playlist" class="meshcmsPlayList">
+  <div id="playlist" class="meshcmsPlayList">
 <%
     ResizedThumbnail thumbMaker = new ResizedThumbnail();
     thumbMaker.setMode(ResizedThumbnail.MODE_CROP);
@@ -101,15 +123,16 @@
         WebUtils.updateLastModifiedTime(request, files[i]);
         String name = Utils.beautify(files[i].getName(), true);
 %>
-  <a href="<%= link %>" title="<%= name %>">
-    <img src="<%= webSite.getLink(icon, pagePath) %>" alt="<%= name %>" width="48" height="48"/>
-    <%= name %>
-  </a>
+    <a href="<%= link %>" title="<%= name %>">
+      <img src="<%= webSite.getLink(icon, pagePath) %>" alt="<%= name %>" width="48" height="48"/>
+      <%= name %>
+    </a>
 <%
       }
     }
 %>
-</div>
+  </div>
 <%
   }
 %>
+</div>

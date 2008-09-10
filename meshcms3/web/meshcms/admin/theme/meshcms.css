@@ -154,17 +154,32 @@ a.meshcmspanelicon:hover {
 
 /* media player */
 
-.meshcmsMediaPlayer {
+.meshcmsMediaPlayerScreen {
  width: 400px;
  height: 300px;
 }
 
+.meshcmsMediaPlayer_vertical .meshcmsMediaPlayerScreen {
+}
+
+.meshcmsMediaPlayer_horizontal .meshcmsMediaPlayerScreen {
+    float: left;
+}
+
 .meshcmsPlayList {
  background-color: #7b7b7b;
- width: 400px;
- height: 180px;
  overflow: auto;
  font-family: sans-serif;
+}
+
+.meshcmsMediaPlayer_vertical .meshcmsPlayList {
+ width: 400px;
+ height: 180px;
+}
+
+.meshcmsMediaPlayer_horizontal .meshcmsPlayList {
+ width: 202px;
+ height: 300px;
 }
 
 .meshcmsPlayList a {
