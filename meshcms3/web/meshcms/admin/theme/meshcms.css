@@ -151,3 +151,45 @@ a.meshcmspanelicon:hover {
  padding: 0.5em;
  font-style: italic;
 }
+
+/* media player */
+
+.meshcmsMediaPlayer {
+ width: 400px;
+ height: 300px;
+}
+
+.meshcmsPlayList {
+ background-color: #7b7b7b;
+ width: 400px;
+ height: 180px;
+ overflow: auto;
+ font-family: sans-serif;
+}
+
+.meshcmsPlayList a {
+ float: left;
+ width: 176px;
+ height: 56px;
+ overflow: hidden;
+ border: 1px solid #888888;
+ padding: 2px;
+ margin: 1px;
+ text-decoration: none;
+ color: white;
+}
+
+.meshcmsPlayList a.playing {
+ background-color: #afafaf;
+}
+
+.meshcmsPlayList a:hover {
+ background-color: #afafaf;
+ text-decoration: none;
+}
+
+.meshcmsPlayList img {
+ float: left;
+ border: 1px solid #5a5a5a;
+ margin-right: 2px;
+}
