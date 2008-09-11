@@ -100,6 +100,12 @@
     thumbMaker.setHeight(48);
     thumbMaker.setHighQuality(webSite.getConfiguration().isHighQualityThumbnails());
     String thumbName = thumbMaker.getSuggestedFileName();
+    
+    ResizedThumbnail imgMaker = new ResizedThumbnail();
+    imgMaker.setWidth(400);
+    imgMaker.setHeight(272);
+    imgMaker.setHighQuality(webSite.getConfiguration().isHighQualityThumbnails());
+    String imgName = imgMaker.getSuggestedFileName();
 
     for (int i = 0; i < files.length; i++) {
       Path icon = null;
@@ -109,7 +115,7 @@
       
       if (ext.equals("jpg")) {
         icon = thumbMaker.checkAndCreate(webSite, filePath, thumbName);
-        link = webSite.getLink(link, pagePath);
+        link = webSite.getLink(imgMaker.checkAndCreate(webSite, filePath, imgName), pagePath);
       } else if (ext.equals("mp3")) {
         icon = md.getModulePath().add("tango-audio.png");
         link = webSite.getLink(link, pagePath);
@@ -121,7 +127,7 @@
       
       if (icon != null) {
         WebUtils.updateLastModifiedTime(request, files[i]);
-        String name = Utils.beautify(files[i].getName(), true);
+        String name = Utils.beautify(Utils.removeExtension(files[i].getName()), true);
 %>
     <a href="<%= link %>" title="<%= name %>">
       <img src="<%= webSite.getLink(icon, pagePath) %>" alt="<%= name %>" width="48" height="48"/>
