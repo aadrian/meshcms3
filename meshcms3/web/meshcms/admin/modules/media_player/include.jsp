@@ -48,6 +48,24 @@
   File[] files = md.getModuleFiles(webSite, true);
 
   if (files != null && files.length > 0) {
+    List fileList = new ArrayList();
+    
+    for (int i = 0; i < files.length; i++) {
+      String ext = Utils.getExtension(files[i], false).toLowerCase();
+      
+      if ("jpg".equals(ext)) {
+        File testFLV = Utils.replaceExtension(files[i], "flv");
+        File testMP3 = Utils.replaceExtension(files[i], "mp3");
+        
+        if (!(testFLV.exists() || testMP3.exists())) {
+          fileList.add(files[i]);
+        }
+      } else if ("mp3".equals(ext) || "flv".equals(ext)) {
+        fileList.add(files[i]);
+      }
+    }
+    
+    files = (File[]) fileList.toArray(new File[fileList.size()]);
     String sort = md.getAdvancedParam("order", "name");
 
     if("random".equalsIgnoreCase(sort)) {
@@ -65,35 +83,16 @@
       
       Arrays.sort(files, cmp);
     }
+  }
 
+  if (files.length > 0) {
     Path pagePath = webSite.getRequestedPath(request);
     Path modulePath = webSite.getLink(md.getModulePath(), pagePath);
     String layout = md.getAdvancedParam("layout", "vertical").toLowerCase();
     // boolean horizontal = "horizontal".equalsIgnoreCase(layout);
     String id = "player_" + moduleCode;
-%>
+    String plId = "playlist_" + moduleCode;
 
-<script type="text/javascript" src="<%= webSite.getLink(webSite.getAdminScriptsPath().add("jquery/jquery-1.2.6.pack.js"), pagePath) %>"></script>
-<script type="text/javascript" src="<%= modulePath.add("flashembed-0.31.pack.js") %>"></script>
-<script type="text/javascript" src="<%= modulePath.add("flow.playlist.js") %>"></script>
-<script type="text/javascript">
-  $(function() {
-    $("#playlist").playlist("<%= modulePath.add("FlowPlayerLight.swf") %>", {
-      initialScale: 'orig'
-    }, {
-      player: '#<%= id %>',
-      loop: false
-    });
-  });
-</script>
-
-<div class="meshcmsMediaPlayer_<%= layout %>">
-  <div class="meshcmsMediaPlayerScreen" id="<%= id %>">
-    <img src="<%= modulePath.add("blank_player.png") %>" alt="MeshCMS Media Player"/>
-  </div>
-
-  <div id="playlist" class="meshcmsPlayList">
-<%
     ResizedThumbnail thumbMaker = new ResizedThumbnail();
     thumbMaker.setMode(ResizedThumbnail.MODE_CROP);
     thumbMaker.setWidth(48);
@@ -106,7 +105,45 @@
     imgMaker.setHeight(272);
     imgMaker.setHighQuality(webSite.getConfiguration().isHighQualityThumbnails());
     String imgName = imgMaker.getSuggestedFileName();
+%>
 
+  <script type="text/javascript" src="<%= webSite.getLink(webSite.getAdminScriptsPath().add("jquery/jquery-1.2.6.pack.js"), pagePath) %>"></script>
+  <script type="text/javascript" src="<%= modulePath.add("flashembed-0.31.pack.js") %>"></script>
+
+<% if (files.length == 1) { %>
+  <script type="text/javascript">
+    $(function() {
+      $("#<%= id %>").flashembed({src:"<%= modulePath.add("FlowPlayerLight.swf") %>"}, {config: {
+        videoFile: "<%= webSite.getLink(webSite.getPath(files[0]), md.getModulePath()) %>",
+        autoPlay: false,
+        initialScale: "orig",
+        menuItems: [true, true, true, true, true, false, false]
+      }});
+    });
+  </script>
+<% } else { %>
+  <script type="text/javascript" src="<%= modulePath.add("flow.playlist.js") %>"></script>
+  <script type="text/javascript">
+    $(function() {
+      $("#<%= plId %>").playlist("<%= modulePath.add("FlowPlayerLight.swf") %>", {
+        initialScale: "orig",
+        menuItems: [true, true, true, true, true, false, false]
+      }, {
+        player: "#<%= id %>",
+        loop: false
+      });
+    });
+  </script>
+<% } %>
+
+<div class="meshcmsMediaPlayer_<%= layout %>">
+  <div class="meshcmsMediaPlayerScreen" id="<%= id %>">
+    <img src="<%= modulePath.add("blank_player.png") %>" alt="MeshCMS Media Player"/>
+  </div>
+
+<% if (files.length > 1) { %>
+  <div id="<%= plId %>" class="meshcmsPlayList">
+<%
     for (int i = 0; i < files.length; i++) {
       Path icon = null;
       Path filePath = webSite.getPath(files[i]);
@@ -117,10 +154,24 @@
         icon = thumbMaker.checkAndCreate(webSite, filePath, thumbName);
         link = webSite.getLink(imgMaker.checkAndCreate(webSite, filePath, imgName), pagePath);
       } else if (ext.equals("mp3")) {
-        icon = md.getModulePath().add("tango-audio.png");
+        Path iconPath = Utils.replaceExtension(filePath, "jpg");
+        
+        if (webSite.getFile(iconPath).exists()) {
+          icon = thumbMaker.checkAndCreate(webSite, iconPath, thumbName);
+        } else {
+          icon = md.getModulePath().add("tango-audio.png");
+        }
+
         link = webSite.getLink(link, pagePath);
       } else if (ext.equals("flv")) {
-        icon = md.getModulePath().add("tango-video.png");
+        Path iconPath = Utils.replaceExtension(filePath, "jpg");
+        
+        if (webSite.getFile(iconPath).exists()) {
+          icon = thumbMaker.checkAndCreate(webSite, iconPath, thumbName);
+        } else {
+          icon = md.getModulePath().add("tango-video.png");
+        }
+
         // unfortunately, videos must be relative to the SWF
         link = webSite.getLink(link, md.getModulePath());
       }
@@ -140,5 +191,6 @@
   </div>
 <%
   }
+}
 %>
 </div>

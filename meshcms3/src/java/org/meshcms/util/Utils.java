@@ -1445,7 +1445,29 @@ public final class Utils {
     return (dot == -1) ? "" :
       fileName.substring(includeDot ? dot : dot + 1).toLowerCase();
   }
-
+  
+  public static File replaceExtension(File file, String ext) {
+    return new File(replaceExtension(getFilePath(file), ext));
+  }
+  
+  public static Path replaceExtension(Path path, String ext) {
+    return new Path(replaceExtension(path.toString(), ext));
+  }
+  
+  public static String replaceExtension(String filePath, String ext) {
+    int dot = filePath.lastIndexOf('.');
+    int slash = filePath.lastIndexOf('/');
+    ext = addAtBeginning(ext, ".");
+    
+    if (dot < 0) {
+      filePath += ext;
+    } else if (dot > slash) {
+      filePath = filePath.substring(0, dot) + ext;
+    }
+    
+    return filePath;
+  }
+  
   /**
    * Removes the extension from a file name. The dot is removed too.
    *
