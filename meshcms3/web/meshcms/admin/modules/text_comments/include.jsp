@@ -37,6 +37,7 @@
   - field_css = (name of a css class for input fields)
   - max_age = (max number of days after which comments are not shown)
   - moderated = true (default) | false (logged users can always publish directly)
+  - parse = true | false (default) if true, find hyperlinks in text
 --%>
 
 <%
@@ -69,6 +70,7 @@
   } */
 
   boolean moderated = Utils.isTrue(md.getAdvancedParam("moderated", "true"));
+  boolean parse = Utils.isTrue(md.getAdvancedParam("parse", "false"));
   
   if (!userInfo.isGuest()) {
     moderated = false;
@@ -264,6 +266,11 @@
           if (nn >= 0) {
               title = body.substring(0, nn);
               body = body.substring(nn + 2);
+          }
+          
+          if (parse) {
+            body = WebUtils.findLinks(body);
+            body = WebUtils.findEmails(body);
           }
           
           body = body.replaceAll("\n", "<br />");

@@ -101,6 +101,10 @@ public final class WebUtils {
       Pattern.compile("(?s)<pre[^>]*>.*?</pre>");
   public static final Pattern PRE_BR_REGEX =
       Pattern.compile("<br[^>]*>(?:\\s*\\n)?");
+  public static final Pattern HYPERLINK_REGEX =
+      Pattern.compile("(?:https?://|ftp://|www\\.)[\\w-/=:#%&\\?\\.]+[\\w-/=:#%&\\?]");
+  public static final Pattern EMAIL_REGEX =
+      Pattern.compile("[\\w-\\.]+@[\\w-\\.]+\\.[a-zA-Z]{2,6}");
 
   static {
     String[] entities = {
@@ -1060,5 +1064,39 @@ public final class WebUtils {
       boolean encodeValue) {
     char sep = url.indexOf('?') < 0 ? '?' : '&';
     return url + sep + name + '=' + (encodeValue ? Utils.encodeURL(value) : value);
+  }
+  
+  public static String findLinks(String text) {
+    Matcher m = HYPERLINK_REGEX.matcher(text);
+    StringBuffer sb = new StringBuffer(text.length());
+    
+    while (m.find()) {
+      String link = m.group();
+      String url = link;
+      
+      if (url.indexOf("://") < 0) {
+        url = "http://" + url;
+      }
+      
+      String tag = "<a href=\"" + url + "\">" + link + "</a>";
+      m.appendReplacement(sb, tag);
+    }
+    
+    m.appendTail(sb);
+    return sb.toString();
+  }
+  
+  public static String findEmails(String text) {
+    Matcher m = EMAIL_REGEX.matcher(text);
+    StringBuffer sb = new StringBuffer(text.length());
+    
+    while (m.find()) {
+      String email = m.group();
+      String tag = "<a href=\"mailto:" + email + "\">" + email + "</a>";
+      m.appendReplacement(sb, tag);
+    }
+    
+    m.appendTail(sb);
+    return sb.toString();
   }
 }
