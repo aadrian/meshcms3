@@ -127,7 +127,7 @@
 <html>
 <head>
 <%= webSite.getAdminMetaThemeTag() %>
-  <title><fmt:message key="<%= newUser ? "userNew" : "userEdit" %>" /></title>
+  <title><fmt:message key="<%= newUser ? \"userNew\" : \"userEdit\" %>" /></title>
 </head>
 
 <body>

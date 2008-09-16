@@ -65,7 +65,7 @@
 <html>
 <head>
   <%= webSite.getAdminMetaThemeTag() %>
-  <title><fmt:message key="<%= newUser ? "userNew" : "userEdit" %>" /></title>
+  <title><fmt:message key="<%= newUser ? \"userNew\" : \"userEdit\" %>" /></title>
 
   <script type="text/javascript">
     var contextPath = "<%= request.getContextPath() %>";
@@ -83,7 +83,7 @@
   <input type="hidden" name="new" value="<%= newUser %>" />
 
   <fieldset class="meshcmseditor">
-    <legend><fmt:message key="<%= newUser ? "userNew" : "userEdit" %>" /></legend>
+    <legend><fmt:message key="<%= newUser ? \"userNew\" : \"userEdit\" %>" /></legend>
 
     <div class="meshcmsfieldlabel">
       <label for="username"><fmt:message key="loginUsername" /></label>
@@ -172,7 +172,7 @@
   </fieldset>
 
   <fieldset class="meshcmseditor">
-    <legend><fmt:message key="<%= newUser ? "userInitPwd" : "userChangePwd" %>" /></legend>
+    <legend><fmt:message key="<%= newUser ? \"userInitPwd\" : \"userChangePwd\" %>" /></legend>
 
     <div class="meshcmsfieldlabel">
       <label for="password1"><fmt:message key="loginPassword" /></label>
@@ -204,7 +204,7 @@
   for (int i = 0; i < UserInfo.DETAILS.length; i++) {
 %>
     <div class="meshcmsfieldlabel">
-      <label for="<%= UserInfo.DETAILS[i] %>"><fmt:message key="<%= "user_" + UserInfo.DETAILS[i] %>" /></label>
+      <label for="<%= UserInfo.DETAILS[i] %>"><fmt:message key="<%= \"user_\" + UserInfo.DETAILS[i] %>" /></label>
     </div>
 
     <div class="meshcmsfield">
