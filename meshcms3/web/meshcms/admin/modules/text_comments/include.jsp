@@ -226,6 +226,10 @@
 // ]]>
 </script>
 
+<% if (userInfo.canDo(UserInfo.CAN_DO_ADMINTASKS)) { %>
+<p><a href="<%= webSite.getLink(md.getModulePath().add("admin1.jsp"), md.getPagePath()) %>"><%= pageBundle.getString("commentsManage") %></a></p>
+<% } %>
+
 <form name="mcc_<%= md.getLocation() %>" method="post" action="">
 <input type="hidden" name="post_modulecode" value="<%= moduleCode %>" />
 <input type="hidden" name="delId" value="" />
