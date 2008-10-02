@@ -54,9 +54,9 @@
 %>
     <fieldset>
       <legend><%= comments[i].getParent().getParent().getAsLink() %></legend>
-      <pre>
-<%= Utils.readFully(webSite.getFile(commentsPath.add(comments[i]))) %>
-      </pre>
+      <blockquote>
+        <%= Utils.stripHTMLTags(Utils.readFully(webSite.getFile(commentsPath.add(comments[i])))) %>
+      </blockquote>
       <div>
         <input type="radio" id="leave_<%= i %>" name="<%= name %>" value="leave" checked="checked" />
         <label for="leave_<%= i%>"><fmt:message key="commentsLeave" /></label>
