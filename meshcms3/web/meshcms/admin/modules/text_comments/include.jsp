@@ -38,6 +38,7 @@
   - max_age = (max number of days after which comments are not shown)
   - moderated = true (default) | false (logged users can always publish directly)
   - parse = true | false (default) if true, find hyperlinks in text
+  - captcha = true (default) | false
 --%>
 
 <%
@@ -71,6 +72,7 @@
 
   boolean moderated = Utils.isTrue(md.getAdvancedParam("moderated", "true"));
   boolean parse = Utils.isTrue(md.getAdvancedParam("parse", "false"));
+  boolean captcha = Utils.isTrue(md.getAdvancedParam("captcha", "true"));
   
   if (!userInfo.isGuest()) {
     moderated = false;
@@ -123,8 +125,13 @@
       moduleCode.equals(request.getParameter("post_modulecode"))) {
     WebUtils.setBlockCache(request);
     WebUtils.removeFromCache(webSite, null, md.getPagePath());
+    String cKey = (String) session.getAttribute
+        (nl.captcha.servlet.Constants.SIMPLE_CAPCHA_SESSION_KEY) ;
+    String cVal = request.getParameter("mcc_captcha");
+    boolean captchaOK = !captcha ||
+        (cKey != null && cKey.substring(0, 5).equalsIgnoreCase(cVal));
 
-    if (!(Utils.isNullOrEmpty(name) || Utils.isNullOrEmpty(text))) {
+    if (!(Utils.isNullOrEmpty(name) || Utils.isNullOrEmpty(text)) && captchaOK) {
       if (name.length() > 20) {
         name = name.substring(0, 20);
       }
@@ -338,6 +345,13 @@
       rows="12" cols="80" style="height: 12em;"><%= Utils.encodeHTML(text) %></textarea></div>
   </div>
   <div class="includetext">
+    <% if (captcha) { %>
+    <div>
+      <img src="<%= request.getContextPath() %>/captcha.jpg" alt="captcha" align="right" />
+      <label for="mcc_captcha"><%= pageBundle.getString("commentsCaptcha") %></label>
+      <input type="text" name="mcc_captcha" id="mcc_captcha" class="<%= fieldStyle %>" style="width: 8em;" />
+    </div>
+    <% } %>
     <div style="margin-top: 1em; clear: both;">
       <input type="submit" value="<%= pageBundle.getString("commentsSubmit") %>" onclick="return submitComment();" />
     </div>
