@@ -1,6 +1,6 @@
 ________________________________
 --------------------------------
-2008-xx-xx: 3.5 released
+Unreleased changes
 --------------------------------
 
 - IMPORTANT: license changed to GPLv3
