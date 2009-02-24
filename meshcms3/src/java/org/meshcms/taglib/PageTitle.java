@@ -55,6 +55,11 @@ public class PageTitle extends AbstractTag {
       title = defaultTitle;
     }
 
+    // avoid multiple spaces in titles (they can come from jtidy for example)
+    if (!Utils.isNullOrEmpty(title)) {
+      title = title.replaceAll("\\s+", " ");
+    }
+
     return title;
   }
 
