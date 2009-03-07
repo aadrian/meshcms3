@@ -30,7 +30,7 @@
   Advanced parameters for this module:
   - css = (name of a css class)
   - date = none (default) | normal | full
-  - words = (number of words to display for each item, default 50)
+  - maxchars = maximum length of the excerpt for each article (default 500)
   - items = (number of pages to show, default 5)
 --%>
 
@@ -79,11 +79,12 @@
   PageInfo[] pages = (PageInfo[]) siteMap.getPagesList(argDirPath).toArray(new PageInfo[0]);
 
   if (pages != null && pages.length > 0) {
-    int words = Utils.parseInt(md.getAdvancedParam("words", null), 50);
+    int maxChars = Utils.parseInt(md.getAdvancedParam("maxchars", ""), 500);
     int items = Utils.parseInt(md.getAdvancedParam("items", null), 5);
     Arrays.sort(pages, new PageDateComparator());
     DateFormat df = md.getDateFormat(locale, "date");
     int count = 0;
+    Path pagePath = webSite.getSiteMap().getPathInMenu(md.getPagePath());
 %>
 
 <div<%= md.getFullCSSAttribute("css") %>>
@@ -93,40 +94,40 @@
         WebUtils.updateLastModifiedTime(request, pages[i].getLastModified());
         HTMLPageParser fpp = new HTMLPageParser();
 
-        try {
-          Reader reader = new InputStreamReader(new FileInputStream(webSite.getFile
-              (siteMap.getServedPath(pages[i].getPath()))), Utils.SYSTEM_CHARSET);
-          HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
-          String title = pg.getTitle();
+        if (!pages[i].getPath().equals(pagePath)) {
+          try {
+            Reader reader = new InputStreamReader(new FileInputStream(webSite.getFile
+                (siteMap.getServedPath(pages[i].getPath()))), Utils.SYSTEM_CHARSET);
+            HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
+            String title = pg.getTitle();
+            String link = pages[i].getPath().getRelativeTo(dirPath).toString();
+            String body = WebUtils.createExcerpt(webSite, pg.getBody(), maxChars,
+                request.getContextPath(), pages[i].getPath(), md.getPagePath());
 %>
  <div class="includeitem">
-  <div class="includetitle">
-    <%= Utils.isNullOrEmpty(title) ? "&nbsp;" : title %>
-  </div>
+  <h3 class="includetitle">
+    <a href="<%= link %>"><%= Utils.isNullOrEmpty(title) ? "&nbsp;" : title %></a>
+  </h3>
 <%
-          if (df != null) {
+            if (df != null) {
 %>
-  <div class="includedate">
+  <h4 class="includedate">
     (<%= df.format(new Date(pages[i].getLastModified())) %>)
-  </div>
+  </h4>
 <%
-          }
+            }
 %>
   <div class="includetext">
-<%
-          StringTokenizer st = new StringTokenizer(Utils.stripHTMLTags(pg.getBody()), "\n\r\t ");
-
-          for (int j = 0; j < words && st.hasMoreTokens(); j++) {
-            out.write(st.nextToken());
-            out.write(' ');
-          }
-%>
-    ... <a href="<%= pages[i].getPath().getRelativeTo(dirPath) %>"><%= pageBundle.getString("readMore") %></a>
+    <%= body %>
   </div>
+  <p class="includereadmore">
+    <a href="<%= link %>"><%= pageBundle.getString("readMore") %></a>
+  </p>
  </div>
 <%
-          reader.close();
-        } catch (Exception ex) {}
+            reader.close();
+          } catch (Exception ex) {}
+        }
 
         count++;
       }
