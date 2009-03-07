@@ -44,7 +44,7 @@
   }
 
   Path argPath = md.getModuleArgumentDirectoryPath(webSite, true);
-  SortedSet dates = new TreeSet();
+  SortedSet dates = new TreeSet(new ReverseComparator());
 
   if (argPath != null) {
     SiteMap siteMap = webSite.getSiteMap();
