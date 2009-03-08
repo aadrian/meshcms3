@@ -4,8 +4,10 @@ Unreleased changes
 --------------------------------
 
 - IMPORTANT: license changed to GPLv3
-- Added Media Player module (plays videos, music and images)
 - Fixed to generate relative links almost everywhere
+- Latest Changes module now looks like Blog and Most Visited
+- Reversed date order in Blog Calendar
+- Added an option to the Comments module to remove the HTML editor
 
 ________________________________
 --------------------------------

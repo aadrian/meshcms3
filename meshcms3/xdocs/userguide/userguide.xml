@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
 <book>
@@ -585,7 +585,7 @@
 &lt;body style="margin: 0px;"&gt;
 &lt;table width="770" border="0" cellspacing="0" cellpadding="0"&gt;
   &lt;tr&gt;
-    &lt;td colspan="2" valign="bottom" style="background: url(flowers.jpg) no-repeat; ¶
+    &lt;td colspan="2" valign="bottom" style="background: url(flowers.jpg) no-repeat; Â¶
      height: 120px; padding: 10px; font-size: 22px;"&gt;[TITLE]&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
@@ -685,8 +685,8 @@
 &lt;body style="margin: 0px;"&gt;
 &lt;table width="770" border="0" cellspacing="0" cellpadding="0"&gt;
   &lt;tr&gt;
-    &lt;td colspan="2" valign="bottom" style="background: ¶
-     url(<emphasis role="bold">&lt;mesh:themepath /&gt;</emphasis>/flowers.jpg) no-repeat; height: 120px; ¶
+    &lt;td colspan="2" valign="bottom" style="background: Â¶
+     url(<emphasis role="bold">&lt;mesh:themepath /&gt;</emphasis>/flowers.jpg) no-repeat; height: 120px; Â¶
      padding: 10px; font-size: 22px;"&gt;<emphasis role="bold">&lt;mesh:pagetitle /&gt;</emphasis>&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
@@ -765,8 +765,8 @@
 &lt;body style="margin: 0px;"&gt;<emphasis role="bold">&lt;mesh:editor&gt;</emphasis>
 &lt;table width="770" border="0" cellspacing="0" cellpadding="0"&gt;
   &lt;tr&gt;
-    &lt;td colspan="2" valign="bottom" style="background: ¶
-     url(&lt;mesh:themepath /&gt;/flowers.jpg) no-repeat; height: 120px; ¶
+    &lt;td colspan="2" valign="bottom" style="background: Â¶
+     url(&lt;mesh:themepath /&gt;/flowers.jpg) no-repeat; height: 120px; Â¶
      padding: 10px; font-size: 22px;"&gt;&lt;mesh:pagetitle /&gt;&lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
@@ -1623,7 +1623,7 @@
       <section id="module_chat">
         <title>Chat</title>
 
-        <para>The chat module has been created by Pierre Métras and provides a
+        <para>The chat module has been created by Pierre MÃ©tras and provides a
         simple, AJAX-based chat. To use it, simply select the module: no
         argument is needed.</para>
 
@@ -1687,6 +1687,18 @@
           <listitem>
             <para><parameter>notify</parameter>: an optional e-mail address to
             receive comment notifications;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>html</parameter>: if <option>true</option>, shows
+            a basic HTML editor (default <option>false</option>);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>parse</parameter>: if <option>true</option> (and
+            if <parameter>html</parameter> is <option>false</option>),
+            activates hyperlinks in comments (default
+            <option>false</option>);</para>
           </listitem>
 
           <listitem>
@@ -2130,8 +2142,8 @@ This is the third image</programlisting>
           </listitem>
 
           <listitem>
-            <para><parameter>words</parameter>: defines the number of words to
-            show for each page (default <option>50</option>).</para>
+            <para><parameter>maxchars</parameter>: maximum length of the
+            excerpt for each article (default <option>500</option>).</para>
           </listitem>
 
           <listitem>
@@ -2466,8 +2478,8 @@ submit</programlisting>
           </listitem>
 
           <listitem>
-            <para><parameter>words</parameter>: defines the number of words to
-            show for each page (default <option>50</option>).</para>
+            <para><parameter>maxchars</parameter>: maximum length of the
+            excerpt for each article (default <option>500</option>).</para>
           </listitem>
 
           <listitem>
