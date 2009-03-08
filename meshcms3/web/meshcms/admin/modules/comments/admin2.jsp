@@ -35,7 +35,7 @@
     return;
   }
 
-  Path commentsPath = webSite.getModuleDataPath().add("text_comments");
+  Path commentsPath = webSite.getModuleDataPath().add("comments");
   Enumeration en = request.getParameterNames();
   
   while (en.hasMoreElements()) {

@@ -36,7 +36,9 @@
   - form_css = (name of a css class for full form)
   - field_css = (name of a css class for input fields)
   - max_age = (max number of days after which comments are not shown)
-  - moderated = true | false (default)
+  - moderated = true | false (default) (logged users can always publish directly)
+  - html = true | false (default) (show a basic HTML editor)
+  - parse = true | false (default) if true, find hyperlinks in comments - only if not html
   - math = true | false (default)
   - captcha = true (default) | false
 --%>
@@ -71,8 +73,15 @@
   } */
 
   boolean moderated = Utils.isTrue(md.getAdvancedParam("moderated", "false"));
+  boolean html = Utils.isTrue(md.getAdvancedParam("html", "false"));
+  boolean parse = Utils.isTrue(md.getAdvancedParam("parse", "false"));
   boolean math = Utils.isTrue(md.getAdvancedParam("math", "false"));
   boolean captcha = Utils.isTrue(md.getAdvancedParam("captcha", "true"));
+
+  if (!userInfo.isGuest()) {
+    moderated = false;
+  }
+
   Locale locale = WebUtils.getPageLocale(pageContext);
   ResourceBundle pageBundle = ResourceBundle.getBundle
       ("org/meshcms/webui/Locales", locale);
@@ -139,13 +148,18 @@
         name = name.substring(0, 20);
       }
       
-      PageAssembler pa = new PageAssembler();
-      pa.addProperty("pagetitle", Utils.encodeHTML(name));
-      pa.addProperty("meshcmsbody", text);
+      PageAssembler pa = null;
+
+      if (html) {
+        pa = new PageAssembler();
+        pa.addProperty("pagetitle", Utils.encodeHTML(name));
+        pa.addProperty("meshcmsbody", text);
+      }
+
       commentsDir.mkdirs();
       File commentFile = new File(commentsDir, (moderated ? "mch_" : "mcc_") +
-          WebUtils.numericDateFormatter.format(new Date()) + ".html");
-      Utils.writeFully(commentFile, pa.getPage());
+          WebUtils.numericDateFormatter.format(new Date()) + (html ? ".html" : ".txt"));
+      Utils.writeFully(commentFile, html ? pa.getPage() : name + "\n\n" + text);
 
       String email = md.getAdvancedParam("notify", null);
 
@@ -205,10 +219,14 @@
   if (Utils.isNullOrEmpty(langCode)) {
     langCode = locale.getLanguage();
   }
-%>
 
+  if (html) {
+%>
 <script type='text/javascript'
  src='<%= request.getContextPath() + '/' + webSite.getAdminScriptsPath() %>/tiny_mce/tiny_mce.js'></script>
+<%
+  }
+%>
 <script type="text/javascript">
 // <![CDATA[
   function deleteComment(id) {
@@ -237,36 +255,44 @@
     if (f.mcc_name.value == "") {
       alert("<%= pageBundle.getString("commentsNoName") %>");
       f.mcc_name.focus();
-      return;
+      return false;
     }
 
-    tinyMCE.triggerSave();
+    if (window.tinyMCE) {
+      tinyMCE.triggerSave();
+    }
 
     if (f.mcc_text.value == "") {
       alert("<%= pageBundle.getString("commentsNoText") %>");
       f.mcc_text.focus();
-      return;
+      return false;
     }
 
     <% if (math) { %>
     if (isNaN(f.mcc_sum.value) || f.mcc_sum.value != <%= n1 + n2 %>) {
       alert("<%= pageBundle.getString("commentsWrongSum") %>");
       f.mcc_sum.focus();
-      return;
+      return false;
     }
     <% } %>
 
-    f.submit();
+    return true;
   }
 
-  tinyMCE.init({
-    mode : "exact",
-    theme : "simple",
-    elements : "mcc_text",
-    language : "<%= langCode %>"
-  });
+  if (window.tinyMCE) {
+    tinyMCE.init({
+      mode : "exact",
+      theme : "simple",
+      elements : "mcc_text",
+      language : "<%= langCode %>"
+    });
+  }
 // ]]>
 </script>
+
+<% if (userInfo.canDo(UserInfo.CAN_DO_ADMINTASKS)) { %>
+<p><a href="<%= webSite.getLink(md.getModulePath().add("admin1.jsp"), md.getPagePath()) %>"><%= pageBundle.getString("commentsManage") %></a></p>
+<% } %>
 
 <form name="mcc_<%= md.getLocation() %>" method="post" action="">
 <input type="hidden" name="post_modulecode" value="<%= moduleCode %>" />
@@ -293,30 +319,52 @@
     DateFormat df = md.getDateFormat(locale, "date");
 
     for (int i = 0; i < files.length; i++) {
-      if (FileTypes.isPage(files[i].getName()) && files[i].lastModified() > start) {
+      boolean isHTML = FileTypes.isPage(files[i].getName());
+      boolean isText = FileTypes.isLike(files[i].getName(), "txt");
+
+      if ((isHTML || isText) && files[i].lastModified() > start) {
         WebUtils.updateLastModifiedTime(request, files[i]);
-        HTMLPageParser fpp = new HTMLPageParser();
+        boolean hidden = false;
+        Reader reader = null;
+        String title;
+        String body;
 
         try {
-          Reader reader = new InputStreamReader(new FileInputStream(files[i]),
-              Utils.SYSTEM_CHARSET);
-          HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
-          String title = pg.getTitle();
-          String body = "";
-          boolean hidden = false;
-          
+          if (isHTML) {
+            HTMLPageParser fpp = new HTMLPageParser();
+            reader = new InputStreamReader(new FileInputStream(files[i]),
+                Utils.SYSTEM_CHARSET);
+            HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
+            title = pg.getTitle();
+            body = pg.getBody();
+          } else {
+            body = Utils.encodeHTML(Utils.readFully(files[i]));
+            title = "<em>Anonymous</em>";
+            int nn = body.indexOf("(?:\r?\n){2}");
+
+            if (nn >= 0) {
+                title = body.substring(0, nn);
+                body = body.substring(nn + 2);
+            }
+
+            if (parse) {
+              body = WebUtils.findLinks(body);
+              body = WebUtils.findEmails(body);
+            }
+
+            body = body.replaceAll("\n", "<br />");
+          }
+
           if (files[i].getName().startsWith("mch")) {
             hidden = true;
-            
+
             if (userInfo.canWrite(webSite, md.getPagePath())) {
               body = "<h4>" + pageBundle.getString("commentsAuthorize") +
-                  "</h4>\n" + pg.getBody();
+                  "</h4>\n" + body;
             } else {
               body = "<p><em>" + pageBundle.getString("commentsNotAuthorized") +
                   "</em></p>";
             }
-          } else {
-            body = pg.getBody();
           }
   %>
  <div class="includeitem">
@@ -344,7 +392,9 @@
   </div>
  </div>
 <%
-          reader.close();
+          if (reader != null) {
+            reader.close();
+          }
         } catch (Exception ex) {}
       }
     }
@@ -382,7 +432,7 @@
     </div>
     <% } %>
     <div style="margin-top: 1em; clear: both;">
-      <input type="button" value="<%= pageBundle.getString("commentsSubmit") %>" onclick="javascript:submitComment();" />
+      <input type="submit" value="<%= pageBundle.getString("commentsSubmit") %>" onclick="return submitComment();" />
     </div>
   </div>
  </div>

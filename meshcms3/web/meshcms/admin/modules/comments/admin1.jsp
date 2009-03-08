@@ -17,10 +17,13 @@
  along with MeshCMS.  If not, see <http://www.gnu.org/licenses/>.
 --%>
 
+<%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
 <%@ page import="org.meshcms.webui.*" %>
+<%@ page import="com.opensymphony.module.sitemesh.*" %>
+<%@ page import="com.opensymphony.module.sitemesh.parser.*" %>
 <jsp:useBean id="webSite" scope="request" type="org.meshcms.core.WebSite" />
 <jsp:useBean id="userInfo" scope="session" class="org.meshcms.core.UserInfo" />
 
@@ -35,8 +38,8 @@
     return;
   }
 
-  Path commentsPath = webSite.getModuleDataPath().add("text_comments");
-  FileSearch search = new FileSearch(webSite.getFile(commentsPath), "mch_\\d+\\.txt");
+  Path commentsPath = webSite.getModuleDataPath().add("comments");
+  FileSearch search = new FileSearch(webSite.getFile(commentsPath), "mch_\\d+\\.(?:txt|html)");
   search.process();
   Path[] comments = search.getResults();
 %>
@@ -51,11 +54,24 @@
   if (comments.length > 0) {
     for (int i = 0; i < comments.length; i++) {
       String name = comments[i].toString();
+      String text;
+      File f = webSite.getFile(commentsPath.add(comments[i]));
+
+      if (name.endsWith(".txt")) {
+        text = Utils.stripHTMLTags(Utils.readFully(f));
+        text = text.replaceAll("\\n", "<br />");
+      } else {
+        HTMLPageParser fpp = new HTMLPageParser();
+        Reader reader = new InputStreamReader(new FileInputStream(f),
+                Utils.SYSTEM_CHARSET);
+        HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
+        text = pg.getTitle() + "<br /><br />" + pg.getBody();
+      }
 %>
     <fieldset>
       <legend><%= comments[i].getParent().getParent().getAsLink() %></legend>
       <blockquote>
-        <%= Utils.stripHTMLTags(Utils.readFully(webSite.getFile(commentsPath.add(comments[i])))) %>
+        <%= text %>
       </blockquote>
       <div>
         <input type="radio" id="leave_<%= i %>" name="<%= name %>" value="leave" checked="checked" />
