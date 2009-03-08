@@ -48,7 +48,7 @@ import org.meshcms.util.ZipArchiver;
 
 public class WebSite {
   public static final String APP_NAME = "MeshCMS";
-  public static final String VERSION_ID = "3.5 Alpha";
+  public static final String VERSION_ID = "3.5 Beta";
 
   /**
    * A prefix to be used for every backup file.
