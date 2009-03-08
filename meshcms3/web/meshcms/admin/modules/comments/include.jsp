@@ -340,11 +340,17 @@
           } else {
             body = Utils.encodeHTML(Utils.readFully(files[i]));
             title = "<em>Anonymous</em>";
-            int nn = body.indexOf("(?:\r?\n){2}");
+            int nn = body.indexOf("\n\n");
+            int nnLen = 2;
+
+            if (nn < 0) {
+              nn = body.indexOf("\r\n\r\n");
+              nnLen = 4;
+            }
 
             if (nn >= 0) {
                 title = body.substring(0, nn);
-                body = body.substring(nn + 2);
+                body = body.substring(nn + nnLen);
             }
 
             if (parse) {
