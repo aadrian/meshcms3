@@ -62,19 +62,12 @@
 <%
   for (int i = 0; i < max && iter.hasNext(); i++) {
       PageInfo pi = (PageInfo) iter.next();
-      HTMLPageParser fpp = new HTMLPageParser();
-
-      Reader reader = new InputStreamReader
-          (new FileInputStream(webSite.getFile(siteMap.getServedPath(pi.getPath()))),
-          Utils.SYSTEM_CHARSET);
-      HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
-      reader.close();
 %>
 <item>
     <title><%= pi.getTitle() %></title>
     <link><%= homeURL + webSite.getAbsoluteLink(pi) %></link>
     <pubDate><%= dateFormat.format(new Date(pi.getLastModified())) %></pubDate>
-    <description><%= Utils.encodeHTML(Utils.limitedLength(Utils.stripHTMLTags(pg.getBody()).replaceAll("[\\n\\r\\t ]+", " "), 800), true) %></description>
+    <description><%= pi.getExcerpt() %></description>
 </item>
 <%
   }
