@@ -289,7 +289,7 @@
         <p class="includetags">
           <f:message key="includeTags"/>
           <c:forEach var="keyword" items="${page.keywords}" varStatus="idx">
-            <a href="?tag=<c:out value="${keyword}"/>"><c:out value="${keyword}"/></a><c:if test="${!idx.isLast}">,</c:if>
+            <a href="?tag=<c:out value="${keyword}"/>"><c:out value="${keyword}"/></a><c:if test="${!idx.last}">,</c:if>
           </c:forEach>
         </p>
       </c:if>
