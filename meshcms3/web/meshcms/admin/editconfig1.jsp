@@ -256,6 +256,15 @@
        style="width: 90%;" value="<%= configuration.getStatsLength() %>" />
     </div>
 
+    <div class="meshcmsfieldlabel">
+      <label for="excerptLength"><fmt:message key="excerptLength" /></label>
+    </div>
+
+    <div class="meshcmsfield">
+      <input type="text" id="excerptLength" name="excerptLength"
+       style="width: 90%;" value="<%= configuration.getExcerptLength() %>" />
+    </div>
+
     <div class="meshcmscheckbox">
       <input type="checkbox" id="alwaysRedirectWelcomes" name="alwaysRedirectWelcomes"
        value="true"<%= configuration.isAlwaysRedirectWelcomes() ? " checked='checked'" : "" %> />

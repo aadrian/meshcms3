@@ -69,6 +69,12 @@
   c.setRedirectRoot(Utils.isTrue(request.getParameter("redirectRoot")));
   c.setPasswordProtected(Utils.isTrue(request.getParameter("passwordProtected")));
 
+  int el = Utils.parseInt(request.getParameter("excerptLength"), -1);
+  if (el >= 0 && el != c.getExcerptLength()) {
+    c.setExcerptLength(el);
+    webSite.getSiteMap().setObsolete(true);
+  }
+
   c.setSiteName(request.getParameter("siteName"));
   c.setSiteHost(request.getParameter("siteHost"));
   c.setSiteDescription(request.getParameter("siteDescription"));

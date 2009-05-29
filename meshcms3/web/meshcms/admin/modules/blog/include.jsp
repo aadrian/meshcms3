@@ -33,7 +33,7 @@
   - date = none (default) | normal | full
   - sort = newest (default) | mostviewed
   - mode = html (default) | text
-  - maxchars = maximum length of the excerpt for each article (default 600)
+  - maxchars = maximum length of the excerpt for each article (default as in site configuration)
   - entries = number of entries per page (default 5)
   - keywords = true | false (default)
   - readlink = true (default) | false (link after each article)
@@ -191,7 +191,8 @@
       boolean readLink = Utils.isTrue(md.getAdvancedParam("readlink", "true"));
       pageContext.setAttribute("readLink", new Boolean(readLink));
       boolean asText = "text".equalsIgnoreCase(md.getAdvancedParam("mode", null));
-      int maxChars = Utils.parseInt(md.getAdvancedParam("maxchars", ""), 600);
+      int maxChars = Utils.parseInt(md.getAdvancedParam("maxchars", ""),
+          webSite.getConfiguration().getExcerptLength());
       int entries = Utils.parseInt(md.getAdvancedParam("entries", ""), 5);
       int firstEntry = Utils.parseInt(request.getParameter("firstentry"), 0);
       pageContext.setAttribute("cssAttr", md.getCSSAttribute("css"));
@@ -205,10 +206,9 @@
         }
 
         Entry e = new Entry();
+        e.body = pi.getExcerpt();
 
-        if (asText) {
-          e.body = pi.getExcerpt();
-        } else {
+        if (!asText && maxChars > 0) {
           HTMLPageParser fpp = new HTMLPageParser();
           Reader reader = new InputStreamReader(new FileInputStream
               (webSite.getFile(siteMap.getServedPath(pi.getPath()))), Utils.SYSTEM_CHARSET);
