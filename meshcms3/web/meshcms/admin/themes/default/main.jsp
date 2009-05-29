@@ -12,6 +12,7 @@
         <meta name="description" content="<cms:info id="description" />" />
         <meta name="keywords" content="<cms:info id="keywords" />" />
         <meta name="author" content="<cms:info id="author" /> (<cms:info id="authorurl" />)" />
+        <cms:feed />
     </head>
     
     <body id="realbody">
