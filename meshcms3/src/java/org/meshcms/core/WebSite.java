@@ -774,7 +774,17 @@ public class WebSite {
   }
 
   public Path getLink(Path path, Path pagePath) {
-    return path.getRelativeTo(getDirectory(pagePath));
+    Path link = path.getRelativeTo(getDirectory(pagePath));
+
+    if (link.getElementCount() == 0 && isDirectory(path)) {
+      Path welcome = getSiteMap().getCurrentWelcome(path);
+
+      if (welcome != null) {
+        link = welcome.getRelativeTo(getDirectory(pagePath));
+      }
+    }
+
+    return link;
   }
 
   public Path getLink(PageInfo pageInfo, Path pagePath) {

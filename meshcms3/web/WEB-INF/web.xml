@@ -75,4 +75,12 @@
     <taglib-uri>standard-fmt-rt</taglib-uri>
     <taglib-location>/WEB-INF/tlds/fmt-rt.tld</taglib-location>
   </taglib>
+  <taglib>
+    <taglib-uri>standard-core</taglib-uri>
+    <taglib-location>/WEB-INF/tlds/c.tld</taglib-location>
+  </taglib>
+  <taglib>
+    <taglib-uri>standard-fmt</taglib-uri>
+    <taglib-location>/WEB-INF/tlds/fmt.tld</taglib-location>
+  </taglib>
 </web-app>

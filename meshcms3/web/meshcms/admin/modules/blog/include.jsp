@@ -1,18 +1,18 @@
 <%--
  Copyright 2004-2008 Luciano Vernaschi
- 
+
  This file is part of MeshCMS.
- 
+
  MeshCMS is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  MeshCMS is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with MeshCMS.  If not, see <http://www.gnu.org/licenses/>.
 --%>
@@ -31,169 +31,278 @@
   Advanced parameters for this module:
   - css = (name of a css class)
   - date = none (default) | normal | full
+  - sort = newest (default) | mostviewed
+  - mode = html (default) | text
+  - maxchars = maximum length of the excerpt for each article (default 600)
   - entries = number of entries per page (default 5)
-  - maxchars = maximum length of the excerpt for each article (default 1200)
+  - keywords = true | false (default)
+  - readlink = true (default) | false (link after each article)
+  - updatedate = true (default) | false (updates page last modified time)
 --%>
 
-<%
-  Locale locale = WebUtils.getPageLocale(pageContext);
-  ResourceBundle pageBundle = ResourceBundle.getBundle
-      ("org/meshcms/webui/Locales", locale);
+<%@ taglib prefix="c" uri="standard-core" %>
+<%@ taglib prefix="f" uri="standard-fmt" %>
 
-  String moduleCode = request.getParameter("modulecode");
-  ModuleDescriptor md = null;
+<%!
+  public class PageDateComparator implements Comparator {
+    public int compare(Object o1, Object o2) {
+      try {
+        long f1 = ((PageInfo) o1).getLastModified();
+        long f2 = ((PageInfo) o2).getLastModified();
 
-  if (moduleCode != null) {
-    md = (ModuleDescriptor) request.getAttribute(moduleCode);
-  }
-
-  if (md == null) {
-    if (!response.isCommitted()) {
-      response.sendError(HttpServletResponse.SC_NOT_FOUND);
-    }
-
-    return;
-  }
-
-  Path argPath = md.getModuleArgumentDirectoryPath(webSite, true);
-  String tag = request.getParameter("tag");
-  String date = request.getParameter("date");
-  
-  if (argPath != null) {
-    SiteMap siteMap = webSite.getSiteMap();
-    ArrayList pagesList = new ArrayList(siteMap.getPagesList(argPath));
-    Iterator iter = pagesList.iterator();
-    Path pagePathInMenu = siteMap.getPathInMenu(md.getPagePath());
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
-    
-    while (iter.hasNext()) {
-      PageInfo item = (PageInfo) iter.next();
-      
-      if (item.getPath().equals(pagePathInMenu)) {
-        iter.remove();
-      } else if (!Utils.isNullOrEmpty(tag) &&
-          Utils.searchString(item.getKeywords(), tag, false) < 0) {
-        iter.remove();
-      } else if (!Utils.isNullOrEmpty(date) &&
-          !sdf.format(new Date(item.getLastModified())).equals(date)) {
-        iter.remove();
+        if (f1 > f2) {
+          return -1;
+        } else if (f1 < f2) {
+          return 1;
+        }
+      } catch (ClassCastException ex) {
       }
+
+      return 0;
     }
-    
-    Collections.sort(pagesList, new Comparator() {
-      public int compare(Object o1, Object o2) {
-        try {
-          PageInfo p1 = (PageInfo) o1;
-          PageInfo p2 = (PageInfo) o2;
-          
-          return p1.getLastModified() < p2.getLastModified() ? 1 :
-            (p1.getLastModified() > p2.getLastModified() ? -1 : 0);
-        } catch (ClassCastException ex) {
-          return 0;
+  }
+
+  public class PageHitsComparator implements Comparator {
+    public int compare(Object o1, Object o2) {
+      try {
+        int f1 = ((PageInfo) o1).getTotalHits();
+        int f2 = ((PageInfo) o2).getTotalHits();
+
+        if (f1 > f2) {
+          return -1;
+        } else if (f1 < f2) {
+          return 1;
+        }
+      } catch (ClassCastException ex) {}
+
+      return 0;
+    }
+  }
+
+  public class Entry {
+    private String title;
+    private String body;
+    private String link;
+    private String date;
+    private String[] keywords;
+
+    public boolean isHasKeywords() {
+      return getKeywords() != null && getKeywords().length > 0;
+    }
+
+    public boolean isHasDate() {
+      return !Utils.isNullOrEmpty(getDate());
+    }
+
+    public String getTitle() {
+      return title;
+    }
+
+    public void setTitle(String title) {
+      this.title = title;
+    }
+
+    public String getBody() {
+      return body;
+    }
+
+    public void setBody(String body) {
+      this.body = body;
+    }
+
+    public String getLink() {
+      return link;
+    }
+
+    public void setLink(String link) {
+      this.link = link;
+    }
+
+    public String getDate() {
+      return date;
+    }
+
+    public void setDate(String date) {
+      this.date = date;
+    }
+
+    public String[] getKeywords() {
+      return keywords;
+    }
+
+    public void setKeywords(String[] keywords) {
+      this.keywords = keywords;
+    }
+  }
+%>
+
+<%
+    Locale locale = WebUtils.getPageLocale(pageContext);
+    pageContext.setAttribute("pageLocale", locale.toString());
+
+    String moduleCode = request.getParameter("modulecode");
+    ModuleDescriptor md = null;
+
+    if (moduleCode != null) {
+      md = (ModuleDescriptor) request.getAttribute(moduleCode);
+    }
+
+    if (md == null) {
+      if (!response.isCommitted()) {
+        response.sendError(HttpServletResponse.SC_NOT_FOUND);
+      }
+
+      return;
+    }
+
+    Path argPath = md.getModuleArgumentDirectoryPath(webSite, true);
+    String tag = request.getParameter("tag");
+    String date = request.getParameter("date");
+
+    if (argPath != null) {
+      SiteMap siteMap = webSite.getSiteMap();
+      ArrayList pagesList = new ArrayList(siteMap.getPagesList(argPath));
+      Iterator iter = pagesList.iterator();
+      Path pagePathInMenu = siteMap.getPathInMenu(md.getPagePath());
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
+
+      while (iter.hasNext()) {
+        PageInfo item = (PageInfo) iter.next();
+
+        if (item.getPath().equals(pagePathInMenu)) {
+          iter.remove();
+        } else if (!Utils.isNullOrEmpty(tag) &&
+                Utils.searchString(item.getKeywords(), tag, false) < 0) {
+          iter.remove();
+        } else if (!Utils.isNullOrEmpty(date) &&
+                !sdf.format(new Date(item.getLastModified())).equals(date)) {
+          iter.remove();
         }
       }
-    });
 
-    Path dirPath = webSite.getDirectory(pagePathInMenu);
-    DateFormat df = md.getDateFormat(locale, "date");
-    int maxChars = Utils.parseInt(md.getAdvancedParam("maxchars", ""), 1200);
-    int entries = Utils.parseInt(md.getAdvancedParam("entries", ""), 5);
-    int firstEntry = Utils.parseInt(request.getParameter("firstentry"), 0);
-%>
+      boolean sortByHits = "mostviewed".equalsIgnoreCase(md.getAdvancedParam("sort", null));
+      Comparator comp = sortByHits ?
+          (Comparator) new PageHitsComparator() : (Comparator) new PageDateComparator();
+      Collections.sort(pagesList, comp);
 
-<div<%= md.getFullCSSAttribute("css") %>>
-<%
-    for (int i = firstEntry; i < firstEntry + entries && i < pagesList.size(); i++) {
-      PageInfo pi = (PageInfo) pagesList.get(i);
-      WebUtils.updateLastModifiedTime(request, pi.getLastModified());
-      HTMLPageParser fpp = new HTMLPageParser();
+      Path dirPath = webSite.getDirectory(pagePathInMenu);
+      DateFormat df = md.getDateFormat(locale, "date");
+      boolean updateDate = Utils.isTrue(md.getAdvancedParam("updatedate", "true"));
+      boolean readLink = Utils.isTrue(md.getAdvancedParam("readlink", "true"));
+      pageContext.setAttribute("readLink", new Boolean(readLink));
+      boolean asText = "text".equalsIgnoreCase(md.getAdvancedParam("mode", null));
+      int maxChars = Utils.parseInt(md.getAdvancedParam("maxchars", ""), 600);
+      int entries = Utils.parseInt(md.getAdvancedParam("entries", ""), 5);
+      int firstEntry = Utils.parseInt(request.getParameter("firstentry"), 0);
+      pageContext.setAttribute("cssAttr", md.getCSSAttribute("css"));
+      List pages = new ArrayList();
 
-      Reader reader = new InputStreamReader
-          (new FileInputStream(webSite.getFile(siteMap.getServedPath(pi.getPath()))),
-          Utils.SYSTEM_CHARSET);
-      HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
-      reader.close();
-      String title = pg.getTitle();
-      String link = pi.getPath().getRelativeTo(dirPath).toString();
-      String body = WebUtils.createExcerpt(webSite, pg.getBody(), maxChars,
-          request.getContextPath(), pi.getPath(), md.getPagePath());
-%>
- <div class="includeitem">
-  <h3 class="includetitle">
-    <a href="<%= link %>"><%= Utils.isNullOrEmpty(title) ? "&nbsp;" : title %></a>
-  </h3>
-<%
-          if (df != null) {
-%>
-  <h4 class="includedate">
-    (<%= df.format(new Date(pi.getLastModified())) %>)
-  </h4>
-<%
+      for (int i = firstEntry; i < firstEntry + entries && i < pagesList.size(); i++) {
+        PageInfo pi = (PageInfo) pagesList.get(i);
+
+        if (updateDate) {
+          WebUtils.updateLastModifiedTime(request, pi.getLastModified());
+        }
+
+        HTMLPageParser fpp = new HTMLPageParser();
+
+        Reader reader = new InputStreamReader(new FileInputStream(webSite.getFile(siteMap.getServedPath(pi.getPath()))),
+                Utils.SYSTEM_CHARSET);
+        HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
+        reader.close();
+        Entry e = new Entry();
+        e.title = pg.getTitle();
+        e.link = webSite.getLink(pi, dirPath).toString();
+
+        if (asText) {
+          e.body = Utils.limitedLength(Utils.stripHTMLTags(pg.getBody()), maxChars);
+        } else {
+          e.body = WebUtils.createExcerpt(webSite, pg.getBody(), maxChars,
+                  request.getContextPath(), pi.getPath(), md.getPagePath());
+        }
+        if (df != null) {
+          e.date = df.format(new Date(pi.getLastModified()));
+        }
+        e.keywords = pi.getKeywords();
+        pages.add(e);
+      }
+
+      pageContext.setAttribute("pages", pages);
+
+      if (!sortByHits) {
+        boolean newer = firstEntry > 0;
+        boolean older = firstEntry + entries < pagesList.size();
+        String baseURL = request.getContextPath() + md.getPagePath().getAsLink();
+        String newerLink = null;
+        String olderLink = null;
+
+        if (newer || older) {
+          if (!Utils.isNullOrEmpty(tag)) {
+            baseURL = WebUtils.addToQueryString(baseURL, "tag", tag, true);
           }
-%>
-  <div class="includetext">
-    <%= body %>
-  </div>
-  <p class="includereadmore">
-    <a href="<%= link %>"><%= pageBundle.getString("includeReadFull") %></a>
-  </p>
-<%
-      String[] tags = pi.getKeywords();
 
-      if (tags != null && tags.length > 0) {
-%>
-  <p class="includetags">
-    <%= pageBundle.getString("includeTags") %>
-    
-    <% for (int t = 0; t < tags.length; t++) { %>
-      <a href="?tag=<%= Utils.encodeURL(tags[t]) %>"><%= tags[t] %></a><%= t == tags.length - 1 ? "" : "," %>
-    <% } %>
-  </p>
-<%
-      }
-%>
- </div>
-<%
-    }
-    
-    boolean newer = firstEntry > 0;
-    boolean older = firstEntry + entries < pagesList.size();
-    
-    if (newer || older) {
-      String baseURL = request.getContextPath() + md.getPagePath().getAsLink();
-      
-      if (!Utils.isNullOrEmpty(tag)) {
-        baseURL = WebUtils.addToQueryString(baseURL, "tag", tag, true);
-      }
-      
-      if (!Utils.isNullOrEmpty(date)) {
-        baseURL = WebUtils.addToQueryString(baseURL, "date", date, false);
-      }
-      
-      %><p class="includenavigation"><%
+          if (!Utils.isNullOrEmpty(date)) {
+            baseURL = WebUtils.addToQueryString(baseURL, "date", date, false);
+          }
 
-      if (newer) {
-        String link = firstEntry - entries > 0 ?
-            WebUtils.addToQueryString(baseURL, "firstentry",
-            Integer.toString(firstEntry - entries), false) : baseURL;
-        %> <a href="<%= link %>"><%= pageBundle.getString("includeNewer") %></a> <%
-      }
-      
-      if (newer && older) {
-        %> | <%
-      }
+          if (newer) {
+            newerLink = firstEntry - entries > 0 ? WebUtils.addToQueryString(baseURL, "firstentry",
+                    Integer.toString(firstEntry - entries), false) : baseURL;
+          }
 
-      if (older) {
-        String link = WebUtils.addToQueryString(baseURL, "firstentry",
-            Integer.toString(firstEntry + entries), false);
-        %> <a href="<%= link %>"><%= pageBundle.getString("includeOlder") %></a> <%
+          if (older) {
+            olderLink = WebUtils.addToQueryString(baseURL, "firstentry",
+                    Integer.toString(firstEntry + entries), false);
+          }
+        }
+
+        pageContext.setAttribute("newer", newerLink);
+        pageContext.setAttribute("older", olderLink);
       }
-      
-      %></p><%
     }
 %>
+
+<f:setLocale value="${pageLocale}"/>
+<f:setBundle basename="org.meshcms.webui.Locales"/>
+
+<div class="<c:out value="${cssAttr}"/>">
+  <c:forEach var="page" items="${pages}">
+    <div class="includeitem">
+      <h3 class="includetitle">
+        <a href="<c:out value="${page.link}"/>"><c:out value="${page.title}"/></a>
+      </h3>
+      <c:if test="${page.hasDate}">
+        <h4 class="includedate">
+          (<c:out value="${page.date}"/>)
+        </h4>
+      </c:if>
+      <div class="includetext">
+        <c:out value="${page.body}" escapeXml="false"/>
+      </div>
+      <c:if test="${readLink}">
+        <p class="includereadmore">
+          <a href="<c:out value="${page.link}"/>"><f:message key="includeReadFull"/></a>
+        </p>
+      </c:if>
+      <c:if test="${page.hasKeywords}">
+        <p class="includetags">
+          <f:message key="includeTags"/>
+          <c:forEach var="keyword" items="${page.keywords}" varStatus="idx">
+            <a href="?tag=<c:out value="${keyword}"/>"><c:out value="${keyword}"/></a><c:if test="${!idx.isLast}">,</c:if>
+          </c:forEach>
+        </p>
+      </c:if>
+    </div>
+  </c:forEach>
+  <c:if test="${newer != null || older != null}">
+    <p class="includenavigation">
+      <c:if test="${newer != null}">
+        <a href="<c:out value="${newer}"/>"><f:message key="includeNewer"/></a>
+      </c:if>
+      <c:if test="${newer != null && older != null}">|</c:if>
+      <c:if test="${older != null}">
+        <a href="<c:out value="${older}"/>"><f:message key="includeOlder"/></a>
+      </c:if>
+    </p>
+  </c:if>
 </div>
-
-<%
-  }
-%>

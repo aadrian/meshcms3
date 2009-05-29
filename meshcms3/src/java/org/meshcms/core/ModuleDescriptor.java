@@ -362,6 +362,10 @@ public class ModuleDescriptor {
     return Utils.isNullOrEmpty(css) ? "" : " class=\"" + css + "\"";
   }
 
+  public String getCSSAttribute(String paramName) {
+    return Utils.noNull(getAdvancedParam(paramName, style));
+  }
+
   /**
    * Returns format to be used to display the date. The value is searched in the
    * given advanced parameter or, alternatively, in the
