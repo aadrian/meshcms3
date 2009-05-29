@@ -204,25 +204,26 @@
           WebUtils.updateLastModifiedTime(request, pi.getLastModified());
         }
 
-        HTMLPageParser fpp = new HTMLPageParser();
-
-        Reader reader = new InputStreamReader(new FileInputStream(webSite.getFile(siteMap.getServedPath(pi.getPath()))),
-                Utils.SYSTEM_CHARSET);
-        HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
-        reader.close();
         Entry e = new Entry();
-        e.title = pg.getTitle();
-        e.link = webSite.getLink(pi, dirPath).toString();
 
         if (asText) {
-          e.body = Utils.limitedLength(Utils.stripHTMLTags(pg.getBody()), maxChars);
+          e.body = pi.getExcerpt();
         } else {
+          HTMLPageParser fpp = new HTMLPageParser();
+          Reader reader = new InputStreamReader(new FileInputStream
+              (webSite.getFile(siteMap.getServedPath(pi.getPath()))), Utils.SYSTEM_CHARSET);
+          HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
+          reader.close();
           e.body = WebUtils.createExcerpt(webSite, pg.getBody(), maxChars,
                   request.getContextPath(), pi.getPath(), md.getPagePath());
         }
+
         if (df != null) {
           e.date = df.format(new Date(pi.getLastModified()));
         }
+
+        e.title = pi.getTitle();
+        e.link = webSite.getLink(pi, dirPath).toString();
         e.keywords = pi.getKeywords();
         pages.add(e);
       }

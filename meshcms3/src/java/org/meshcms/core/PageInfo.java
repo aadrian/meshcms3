@@ -35,6 +35,7 @@ public final class PageInfo {
   private long lastModified;
   private String charset;
   private String[] keywords;
+  private String excerpt;
 
   /**
    * Creates a page info in the specified {@link WebSite} to describe the page
@@ -175,5 +176,21 @@ public final class PageInfo {
 
   public void setKeywords(String[] keywords) {
     this.keywords = keywords;
+  }
+
+  /**
+   * Return an excerpt of the page content
+   * @return the excerpt
+   */
+  public String getExcerpt() {
+    return excerpt;
+  }
+
+  /**
+   * Set an excerpt of the page content
+   * @param excerpt the excerpt to set
+   */
+  public void setExcerpt(String excerpt) {
+    this.excerpt = excerpt;
   }
 }

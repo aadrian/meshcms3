@@ -67,8 +67,9 @@ public class SiteMap extends DirectoryParser {
   
   public static final Pattern KEYWORDS_REGEX =
       Pattern.compile("[^\\s,](?:[^,]+[^\\s,])?");
-  
+
   private WebSite webSite;
+  private int excerptLength;
   private SortedMap pagesMap;
   private SiteMap oldSiteMap;
   private long lastModified;
@@ -96,7 +97,8 @@ public class SiteMap extends DirectoryParser {
     setInitialDir(webSite.getRootFile());
     setDaemon(true);
     setName("Site map parser for \"" + webSite.getTypeDescription() + '"');
-    
+
+    excerptLength = webSite.getConfiguration().getExcerptLength();
     int cacheType = webSite.getConfiguration().getCacheType();
     
     if (cacheType == Configuration.IN_MEMORY_CACHE) {
@@ -205,6 +207,13 @@ public class SiteMap extends DirectoryParser {
           if (list.size() > 0) {
             pageInfo.setKeywords((String[]) list.toArray(new String[list.size()]));
           }
+        }
+
+        if (excerptLength > 0) {
+          pageInfo.setExcerpt(Utils.limitedLength(Utils.stripHTMLTags
+              (page.getBody()), excerptLength));
+        } else {
+          pageInfo.setExcerpt("");
         }
         
         /*

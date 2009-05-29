@@ -82,6 +82,7 @@ public class Configuration implements Serializable {
   private int updateInterval;
   private int cacheType;
   private int tidy;
+  private int excerptLength;
   private String mailServer;
   private String smtpUsername;
   private String smtpPassword;
@@ -115,6 +116,7 @@ public class Configuration implements Serializable {
     setUpdateInterval(2);
     setCacheType(NO_CACHE);
     setTidy(TIDY_NO);
+    setExcerptLength(400);
 
     setMailServer("localhost");
     setSmtpUsername("");
@@ -553,5 +555,19 @@ public class Configuration implements Serializable {
 
   public void setPasswordProtected(boolean passwordProtected) {
     this.passwordProtected = passwordProtected;
+  }
+
+  /**
+   * @return the excerptLength
+   */
+  public int getExcerptLength() {
+    return excerptLength;
+  }
+
+  /**
+   * @param excerptLength the excerptLength to set
+   */
+  public void setExcerptLength(int excerptLength) {
+    this.excerptLength = excerptLength;
   }
 }
