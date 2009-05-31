@@ -35,7 +35,8 @@
   - mode = html (default) | text
   - maxchars = maximum length of the excerpt for each article (default as in site configuration)
   - entries = number of entries per page (default 5)
-  - keywords = true | false (default)
+  - history = true (default) | false (link to previous articles)
+  - keywords = true (default) | false (keywords aka tags after each article)
   - readlink = true (default) | false (link after each article)
   - updatedate = true (default) | false (updates page last modified time)
 --%>
@@ -189,12 +190,14 @@
       DateFormat df = md.getDateFormat(locale, "date");
       boolean updateDate = Utils.isTrue(md.getAdvancedParam("updatedate", "true"));
       boolean readLink = Utils.isTrue(md.getAdvancedParam("readlink", "true"));
+      boolean keywords = Utils.isTrue(md.getAdvancedParam("keywords", "true"));
+      boolean history = Utils.isTrue(md.getAdvancedParam("history", "true"));
       pageContext.setAttribute("readLink", new Boolean(readLink));
       boolean asText = "text".equalsIgnoreCase(md.getAdvancedParam("mode", null));
       int maxChars = Utils.parseInt(md.getAdvancedParam("maxchars", ""),
           webSite.getConfiguration().getExcerptLength());
       int entries = Utils.parseInt(md.getAdvancedParam("entries", ""), 5);
-      int firstEntry = Utils.parseInt(request.getParameter("firstentry"), 0);
+      int firstEntry = history ? Utils.parseInt(request.getParameter("firstentry"), 0) : 0;
       pageContext.setAttribute("cssAttr", md.getCSSAttribute("css"));
       List pages = new ArrayList();
 
@@ -208,7 +211,11 @@
         Entry e = new Entry();
         e.body = pi.getExcerpt();
 
-        if (!asText && maxChars > 0) {
+        if (asText) {
+          if (maxChars < webSite.getConfiguration().getExcerptLength()) {
+            e.body = Utils.limitedLength(e.body, maxChars);
+          }
+        } else if (maxChars > 0) {
           HTMLPageParser fpp = new HTMLPageParser();
           Reader reader = new InputStreamReader(new FileInputStream
               (webSite.getFile(siteMap.getServedPath(pi.getPath()))), Utils.SYSTEM_CHARSET);
@@ -224,13 +231,17 @@
 
         e.title = pi.getTitle();
         e.link = webSite.getLink(pi, dirPath).toString();
-        e.keywords = pi.getKeywords();
+
+        if (keywords) {
+          e.keywords = pi.getKeywords();
+        }
+
         pages.add(e);
       }
 
       pageContext.setAttribute("pages", pages);
 
-      if (!sortByHits) {
+      if (history && !sortByHits) {
         boolean newer = firstEntry > 0;
         boolean older = firstEntry + entries < pagesList.size();
         String baseURL = request.getContextPath() + md.getPagePath().getAsLink();
@@ -282,7 +293,7 @@
       </div>
       <c:if test="${readLink}">
         <p class="includereadmore">
-          <a href="<c:out value="${page.link}"/>"><f:message key="includeReadFull"/></a>
+          <a href="<c:out value="${page.link}"/>"><f:message key="readMore"/></a>
         </p>
       </c:if>
       <c:if test="${page.hasKeywords}">
