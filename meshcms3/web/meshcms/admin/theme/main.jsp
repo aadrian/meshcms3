@@ -1,5 +1,5 @@
 <%--
- Copyright 2004-2008 Luciano Vernaschi
+ Copyright 2004-2009 Luciano Vernaschi
  
  This file is part of MeshCMS.
  
@@ -117,7 +117,7 @@
     </div>
 
     <div id="footer">
-      Copyright &copy; 2004-2008
+      Copyright &copy; 2004-2009
       <a href="http://www.cromoteca.com/" target="blank">Luciano Vernaschi</a> |
       Powered by <a href="http://www.cromoteca.com/meshcms/" target="blank">MeshCMS</a>
     </div>

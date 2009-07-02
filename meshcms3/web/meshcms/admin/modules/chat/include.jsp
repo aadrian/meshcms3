@@ -1,5 +1,5 @@
 <%--
- Copyright 2004-2008 Pierre Metras
+ Copyright 2004-2009 Pierre Metras
  
  This file is part of MeshCMS.
  
