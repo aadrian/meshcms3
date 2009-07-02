@@ -1,13 +1,16 @@
 ________________________________
 --------------------------------
-Unreleased changes
+2009-07-02: 3.5 released
 --------------------------------
 
 - IMPORTANT: license changed to GPLv3
 - Fixed to generate relative links almost everywhere
+- Blog module refactored to be able to replace Latest Changes and Most Visited
 - Latest Changes module now looks like Blog and Most Visited
 - Reversed date order in Blog Calendar
 - Added an option to the Comments module to remove the HTML editor
+- Added an RSS feed feature
+- Added a progress bar to the upload page
 
 ________________________________
 --------------------------------
@@ -24,7 +27,7 @@ ________________________________
 
 - Added site synchronization to copy a site over anoter
 - Sites can be protected with password
-- Added a new Spanish translation (contributed by José Juan Escudero)
+- Added a new Spanish translation (contributed by Josï¿½ Juan Escudero)
 - Multilanguage dialogs improved
 - Updated Javascript popup
 
