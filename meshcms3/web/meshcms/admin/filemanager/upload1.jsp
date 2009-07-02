@@ -39,17 +39,8 @@
   <%= webSite.getDummyMetaThemeTag() %>
   <title><fmt:message key="fmUploadTitle" /></title>
   <link href="filemanager.css" type="text/css" rel="stylesheet" />
-
-  <script type="text/javascript">
-  // <![CDATA[
-    function showWaiting() {
-      document.getElementById("subBtn").disabled = true;
-      document.getElementById("warningMsg").style.visibility = "hidden";
-      document.getElementById("waitMsg").style.visibility = "visible";
-      document.getElementById("waitImg").style.visibility = "visible";
-    }
-  // ]]>
-  </script>
+  <script type="text/javascript" src="../scripts/jquery/jquery-1.2.6.pack.js"></script>
+  <script type="text/javascript" src="../scripts/progressbar.js"></script>
 </head>
 
 <body>
@@ -75,9 +66,9 @@
         </td>
       </tr>
 
-      <tr>
+      <tr class="upBtns">
         <th>
-          <input type="submit" value="<fmt:message key="fmUploadButton" />" id="subBtn">
+          <input type="submit" value="<fmt:message key="fmUploadButton" />">
           <input type="button" value="<fmt:message key="genericCancel" />" onclick="javascript:history.back();" />
         </th>
       </tr>
@@ -86,9 +77,7 @@
         <td align="center">
           <div id="warningMsg"><fmt:message key="fmUploadWarn" /></div>
           <div id="waitMsg" style="visibility:hidden;"><fmt:message key="fmUploadWait" /></div>
-          <div id="waitImg" style="visibility:hidden;">
-            <img src="images/waiting.gif" vspace="24" alt="<fmt:message key="fmUploadImgAlt" />" />
-          </div>
+          <div id="pb"></div>
         </td>
       </tr>
     </table>
@@ -96,6 +85,17 @@
   <script type="text/javascript">
   // <![CDATA[
     document.forms['upform'].dir.value = window.parent.document.forms['fmfm'].f_dir.value;
+
+    function showWaiting() {
+      $(".upBtns").hide();
+      $('#warningMsg').hide();
+      $('#waitMsg').show();
+      $('#pb').progressBar({
+        url: 'upload_progress.jsp',
+        backgroundColor: '#061f32',
+        hideAtEnd: true
+      });
+    }
   // ]]>
   </script>
 </body>

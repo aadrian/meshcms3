@@ -20,6 +20,7 @@
 <%@ page import="java.util.*" %>
 <%@ page import="org.meshcms.core.*" %>
 <%@ page import="org.meshcms.util.*" %>
+<%@ page import="org.meshcms.webui.*" %>
 <%@ page import="org.apache.commons.fileupload.*" %>
 <%@ page import="org.apache.commons.fileupload.disk.*" %>
 <%@ page import="org.apache.commons.fileupload.servlet.*" %>
@@ -59,6 +60,7 @@
   try {
     FileItem upItem = null;
     ServletFileUpload upload = new ServletFileUpload(new DiskFileItemFactory());
+    upload.setProgressListener(new UploadProgressListener(request.getSession(true)));
     List items = upload.parseRequest(request);
     Iterator iter = items.iterator();
 
