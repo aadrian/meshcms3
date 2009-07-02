@@ -2,10 +2,10 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
 <book>
-  <title>MeshCMS User Guide</title>
+  <title>MeshCMS 3.5 User Guide</title>
 
   <bookinfo>
-    <title>MeshCMS User Guide</title>
+    <title>MeshCMS 3.5 User Guide</title>
 
     <author>
       <firstname>Luciano</firstname>
@@ -1135,6 +1135,13 @@
         </listitem>
 
         <listitem>
+          <para><emphasis role="bold">Length of page excerpt
+          (characters)</emphasis>: length of the part of page that is stored
+          in the site map for fast retrieving (used in the RSS feed and in
+          some modules);</para>
+        </listitem>
+
+        <listitem>
           <para><emphasis role="bold">Always redirect to welcome
           pages</emphasis>: check this option to ask MeshCMS to check if a
           welcome file is available when the required URL points to a
@@ -1550,6 +1557,9 @@
         links to full pages are provided. Pages are ordered by date and meta
         keywords are displayed as "article tags".</para>
 
+        <para>Starting from version 3.5, this module is highly configurable
+        and can replace other modules like Most Visited and</para>
+
         <para>Argument: path to a file or directory. If not provided, defaults
         to the directory that contains the current page.</para>
 
@@ -1568,13 +1578,52 @@
           </listitem>
 
           <listitem>
+            <para><parameter>sort</parameter>: the preferred sorting order.
+            Accepted values are <option>newest</option> (default, newest
+            articles first) and <option>mostviewed</option> (most viewed
+            articles first);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>mode</parameter>: the text rendering, can be
+            <option>html</option> (default) or <option>text</option>;</para>
+          </listitem>
+
+          <listitem>
             <para><parameter>entries</parameter>: number of entries per page
             (default <option>5</option>);</para>
           </listitem>
 
           <listitem>
             <para><parameter>maxchars</parameter>: maximum length of the
-            excerpt for each article (default <option>1200</option>).</para>
+            excerpt for each article (default as per site
+            configuration);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>history</parameter>: shows a link to previous
+            articles, <option>true</option> (default) or
+            <option>false</option>;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>keywords</parameter>: shows keywords (tags) after
+            each article, <option>true</option> (default) or
+            <option>false</option>;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>readlink</parameter>: shows a link to the full
+            article after the excerpt, <option>true</option> (default) or
+            <option>false</option>;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>updatedate</parameter>: updates page last
+            modified time, <option>true</option> (default) or
+            <option>false</option>. Note that this does not change the last
+            modified time on disk, unless explicitly required by the <link
+            linkend="tag_lastmodified">lastmodified tag</link>.</para>
           </listitem>
         </itemizedlist>
       </section>
@@ -2986,6 +3035,35 @@ submit</programlisting>
         achieved by using the <link linkend="module_mail">mail module</link>
         and specifying the e-mail address as argument, so it's up to the theme
         designer to decide if it is worth to use this tag.</para>
+      </section>
+
+      <section id="tag_feed">
+        <title>feed</title>
+
+        <para>Creates a standard RSS feed tag. It must be used in the page
+        head.</para>
+
+        <para>Attributes:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para><parameter>root</parameter>: the root path from which pages
+            are included in the feed (defaults to the path of the current
+            page);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>maxItems</parameter>: maximum number of items to
+            include in the feed;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>pathRegex</parameter>: a regular expression to
+            exclude the feed from some pages: if this expression is set, the
+            feed tag will be included only in pages whose path matches the
+            expression.</para>
+          </listitem>
+        </itemizedlist>
       </section>
     </section>
 
