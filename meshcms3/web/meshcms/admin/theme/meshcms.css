@@ -53,6 +53,15 @@
  padding: 0.5em 0;
 }
 
+.includeimage {
+  margin: 0.5em 1em;
+  float: left;
+}
+
+.includeitem hr {
+  clear: both;
+}
+
 /* Editing table */
 table.meshcmseditor {
  border-top: 1px dotted silver;

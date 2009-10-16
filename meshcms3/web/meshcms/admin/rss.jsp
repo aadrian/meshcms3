@@ -49,6 +49,12 @@
   SiteMap siteMap = webSite.getSiteMap();
   String homeURL = WebUtils.getContextHomeURL(request).toString();
   response.setContentType("text/xml; charset=" + Utils.SYSTEM_CHARSET);
+
+  ResizedThumbnail thumbMaker = new ResizedThumbnail();
+  thumbMaker.setHighQuality(webSite.getConfiguration().isHighQualityThumbnails());
+  thumbMaker.setMode(ResizedThumbnail.MODE_SCALE);
+  thumbMaker.setWidth(512);
+  thumbMaker.setHeight(300);
 %>
 <rss version="2.0">
     <channel>
@@ -59,12 +65,26 @@
 <%
   for (int i = 0; i < max && iter.hasNext(); i++) {
       PageInfo pi = (PageInfo) iter.next();
+      Path servedPath = siteMap.getServedPath(pi.getPath());
+      String imageName = Utils.removeExtension(servedPath.getLastElement()) +
+          PageInfo.ARTICLE_IMAGE_SUFFIX;
+      Path imagePath = servedPath.getParent().add(imageName);
+      String imageTag = "";
+
+      if (webSite.getFile(imagePath).exists()) {
+        Path thumbPath = thumbMaker.checkAndCreate(webSite, imagePath,
+            thumbMaker.getSuggestedFileName());
+
+        if (thumbPath != null) {
+          imageTag = "<p><img alt=\"\" src=\"" + homeURL + imagePath.getAsLink() + "\" /></p>\n";
+        }
+      }
 %>
 <item>
     <title><%= pi.getTitle() %></title>
     <link><%= homeURL + webSite.getAbsoluteLink(pi) %></link>
     <pubDate><%= dateFormat.format(new Date(pi.getLastModified())) %></pubDate>
-    <description><%= pi.getExcerpt() %></description>
+    <description><![CDATA[<%= imageTag + pi.getExcerpt() %>]]></description>
 </item>
 <%
   }

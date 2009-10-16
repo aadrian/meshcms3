@@ -39,6 +39,7 @@
   - keywords = true (default) | false (keywords aka tags after each article)
   - readlink = true (default) | false (link after each article)
   - updatedate = true (default) | false (updates page last modified time)
+  - imagesize = size in pixels of article images (index.html -> index_image.jpg) not shown if not specified
 --%>
 
 <%@ taglib prefix="c" uri="standard-core" %>
@@ -86,6 +87,7 @@
     private String link;
     private String date;
     private String[] keywords;
+    private String image;
 
     public boolean isHasKeywords() {
       return getKeywords() != null && getKeywords().length > 0;
@@ -99,40 +101,24 @@
       return title;
     }
 
-    public void setTitle(String title) {
-      this.title = title;
-    }
-
     public String getBody() {
       return body;
-    }
-
-    public void setBody(String body) {
-      this.body = body;
     }
 
     public String getLink() {
       return link;
     }
 
-    public void setLink(String link) {
-      this.link = link;
-    }
-
     public String getDate() {
       return date;
-    }
-
-    public void setDate(String date) {
-      this.date = date;
     }
 
     public String[] getKeywords() {
       return keywords;
     }
 
-    public void setKeywords(String[] keywords) {
-      this.keywords = keywords;
+    public String getImage() {
+      return image;
     }
   }
 %>
@@ -186,6 +172,17 @@
           (Comparator) new PageHitsComparator() : (Comparator) new PageDateComparator();
       Collections.sort(pagesList, comp);
 
+      int imageSize = Utils.parseInt(md.getAdvancedParam("imagesize", null), 0);
+      ResizedThumbnail thumbMaker = null;
+
+      if(imageSize > 0) {
+        thumbMaker = new ResizedThumbnail();
+        thumbMaker.setHighQuality(webSite.getConfiguration().isHighQualityThumbnails());
+        thumbMaker.setMode(ResizedThumbnail.MODE_SCALE);
+        thumbMaker.setWidth(imageSize);
+        thumbMaker.setHeight(imageSize);
+      }
+
       Path dirPath = webSite.getDirectory(pagePathInMenu);
       DateFormat df = md.getDateFormat(locale, "date");
       boolean updateDate = Utils.isTrue(md.getAdvancedParam("updatedate", "true"));
@@ -216,13 +213,29 @@
             e.body = Utils.limitedLength(e.body, maxChars);
           }
         } else if (maxChars > 0) {
+          Path servedPath = siteMap.getServedPath(pi.getPath());
           HTMLPageParser fpp = new HTMLPageParser();
           Reader reader = new InputStreamReader(new FileInputStream
-              (webSite.getFile(siteMap.getServedPath(pi.getPath()))), Utils.SYSTEM_CHARSET);
+              (webSite.getFile(servedPath)), Utils.SYSTEM_CHARSET);
           HTMLPage pg = (HTMLPage) fpp.parse(Utils.readAllChars(reader));
           reader.close();
           e.body = WebUtils.createExcerpt(webSite, pg.getBody(), maxChars,
                   request.getContextPath(), pi.getPath(), md.getPagePath());
+
+          if (thumbMaker != null) {
+            String imageName = Utils.removeExtension(servedPath.getLastElement()) +
+                PageInfo.ARTICLE_IMAGE_SUFFIX;
+            Path imagePath = servedPath.getParent().add(imageName);
+
+            if (webSite.getFile(imagePath).exists()) {
+              Path thumbPath = thumbMaker.checkAndCreate(webSite, imagePath,
+                  thumbMaker.getSuggestedFileName());
+
+              if (thumbPath != null) {
+                e.image = webSite.getLink(thumbPath, dirPath).toString();
+              }
+            }
+          }
         }
 
         if (df != null) {
@@ -287,6 +300,11 @@
         <h4 class="includedate">
           (<c:out value="${page.date}"/>)
         </h4>
+      </c:if>
+      <c:if test="${page.image != null}">
+        <p class="includeimage">
+          <img src="<c:out value="${page.image}"/>" alt="" />
+        </p>
       </c:if>
       <div class="includetext">
         <c:out value="${page.body}" escapeXml="false"/>

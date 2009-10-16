@@ -26,6 +26,7 @@ import org.meshcms.util.Path;
  * and so on).
  */
 public final class PageInfo {
+  public static final String ARTICLE_IMAGE_SUFFIX = "_image.jpg";
   private Path path;
   private String title;
   private int[] stats;
