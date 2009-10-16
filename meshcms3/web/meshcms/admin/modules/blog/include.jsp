@@ -40,6 +40,7 @@
   - readlink = true (default) | false (link after each article)
   - updatedate = true (default) | false (updates page last modified time)
   - imagesize = size in pixels of article images (index.html -> index_image.jpg) not shown if not specified
+  - tag = a fixed tag to be matched by articles (taken from the url if not specified)
 --%>
 
 <%@ taglib prefix="c" uri="standard-core" %>
@@ -143,7 +144,7 @@
     }
 
     Path argPath = md.getModuleArgumentDirectoryPath(webSite, true);
-    String tag = request.getParameter("tag");
+    String tag = md.getAdvancedParam("tag", request.getParameter("tag"));
     String date = request.getParameter("date");
 
     if (argPath != null) {
