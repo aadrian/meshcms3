@@ -84,7 +84,7 @@ public class PageHead extends AbstractTag {
     w.write("</script>\n");
     Path p = webSite.getLink(webSite.getAdminScriptsPath(), pageDirPath);
     w.write("<script type='text/javascript' src='" +
-        p.add("/jquery/jquery-1.2.6.pack.js") + "'></script>\n");
+        p.add("/jquery/jquery-1.3.2.min.js") + "'></script>\n");
     w.write("<script type='text/javascript' src='" +
         p.add("/editor.js") + "'></script>\n");
     Path tinyMCEInitPath =

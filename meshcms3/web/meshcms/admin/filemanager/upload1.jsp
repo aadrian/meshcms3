@@ -39,7 +39,7 @@
   <%= webSite.getDummyMetaThemeTag() %>
   <title><fmt:message key="fmUploadTitle" /></title>
   <link href="filemanager.css" type="text/css" rel="stylesheet" />
-  <script type="text/javascript" src="../scripts/jquery/jquery-1.2.6.pack.js"></script>
+  <script type="text/javascript" src="../scripts/jquery/jquery-1.3.2.min.js"></script>
   <script type="text/javascript" src="../scripts/progressbar.js"></script>
 </head>
 

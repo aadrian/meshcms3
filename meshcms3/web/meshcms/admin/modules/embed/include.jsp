@@ -57,7 +57,7 @@
 %>
 <script type="text/javascript">
   if (!window.jQuery) {
-    document.write("<scr" + "ipt type='text/javascript' src='<%= webSite.getLink(webSite.getAdminScriptsPath().add("jquery/jquery-1.2.6.pack.js"), pagePath) %>'></scr" + "ipt>");
+    document.write("<scr" + "ipt type='text/javascript' src='<%= webSite.getLink(webSite.getAdminScriptsPath().add("jquery/jquery-1.3.2.min.js"), pagePath) %>'></scr" + "ipt>");
   }
 </script>
   
