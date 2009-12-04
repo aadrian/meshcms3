@@ -31,6 +31,7 @@
   - quality = "low" | "high" (the default depends on the site configuration)
   - order = "name" (default) | "date" (same as date_fwd) | "date_fwd" | "date_rev" | "random"
   - lightbox = "true" | "false" (default) to use the lightbox script to show big images
+  - colorbox = "true" | "false" (default) to use the colorbox script to show images
 --%>
 
 <%!
@@ -133,8 +134,18 @@
     }
     
     boolean lightbox = Utils.isTrue(md.getAdvancedParam("lightbox", "false"));
+    boolean colorbox = Utils.isTrue(md.getAdvancedParam("colorbox", "false"));
     
-    if (lightbox) { %>
+    if (colorbox) { %>
+      <link rel='stylesheet' type='text/css' href='<%= cp + '/' + md.getModulePath() %>/colorbox/colorbox.css' />
+      <script type="text/javascript" src="<%= cp %>/meshcms/admin/scripts/jquery/jquery-1.3.2.min.js"></script>
+      <script type="text/javascript" src="<%= cp + '/' + md.getModulePath() %>/colorbox/jquery.colorbox-min.js"></script>
+      <script type="text/javascript">
+        $(function() {
+          $("a[rel='lightbox[<%= moduleCode %>]']").colorbox({maxWidth:"85%", maxHeight:"85%", current:"{current}/{total}"});
+        });
+      </script>
+      <% } else if (lightbox) { %>
       <script type="text/javascript" src="<%= cp + '/' + md.getModulePath() %>/js/mootools.v1.00.js"></script>
       <script type="text/javascript" src="<%= cp + '/' + md.getModulePath() %>/js/slimbox.v1.3.js"></script>
       <script type="text/javascript">
@@ -166,7 +177,7 @@
           }
           String caption = null;
           String link = null;
-          boolean onClick = !lightbox;
+          boolean onClick = !(lightbox || colorbox);
 
           if (captionMap != null) {
             caption = (String) captionMap.get(path.getLastElement());
@@ -186,6 +197,7 @@
           }
           %><td align="center" valign="top">
            <a href="<%= link %>" rel="lightbox[<%= moduleCode %>]"
+          <% if (captions) { %>title="<%= Utils.encodeHTML(caption) %>"<% } %>
           <% if (onClick) { %>
             onclick="return popImageExtra(this.href, '<%= Utils.replace(caption, '\'', "\\'") %>');"
           <% } %>
