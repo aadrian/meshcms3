@@ -354,7 +354,7 @@
             }
 
             if (parse) {
-              body = WebUtils.findLinks(body);
+              body = WebUtils.findLinks(body, true);
               body = WebUtils.findEmails(body);
             }
 

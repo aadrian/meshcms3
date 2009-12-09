@@ -1066,22 +1066,23 @@ public final class WebUtils {
     return url + sep + name + '=' + (encodeValue ? Utils.encodeURL(value) : value);
   }
   
-  public static String findLinks(String text) {
+  public static String findLinks(String text, boolean noFollow) {
+    String rel = noFollow ? " rel=\"nofollow\"" : "";
     Matcher m = HYPERLINK_REGEX.matcher(text);
     StringBuffer sb = new StringBuffer(text.length());
-    
+
     while (m.find()) {
       String link = m.group();
       String url = link;
-      
+
       if (url.indexOf("://") < 0) {
         url = "http://" + url;
       }
-      
-      String tag = "<a href=\"" + url + "\">" + link + "</a>";
+
+      String tag = "<a href=\"" + url + "\"" + rel + '>' + link + "</a>";
       m.appendReplacement(sb, tag);
     }
-    
+
     m.appendTail(sb);
     return sb.toString();
   }
