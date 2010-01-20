@@ -30,6 +30,7 @@
   Advanced parameters for this module:
   - css = (name of a css class)
   - date = none (default) | normal | full
+  - sort = newest (default) | alphabetical
 --%>
 
 <%
@@ -51,9 +52,12 @@
   File[] files = md.getModuleFiles(webSite, false);
 
   if (files != null && files.length > 0) {
-    Arrays.sort(files, new FileDateComparator());
+    boolean sortAZ = "alphabetical".equalsIgnoreCase(md.getAdvancedParam(
+            "sort", null));
+        Comparator c = sortAZ ? (Comparator) new FileNameComparator()
+            : (Comparator) new FileDateComparator();
+    Arrays.sort(files, c);
     DateFormat df = md.getDateFormat(WebUtils.getPageLocale(pageContext), "date");
-    Path pageDir = webSite.getDirectory(md.getPagePath());
 %>
 
 <div<%= md.getFullCSSAttribute("css") %>>
@@ -71,6 +75,8 @@
           String body = pg.getBody();
           body = WebUtils.fixLinks(webSite, body, request.getContextPath(),
               webSite.getPath(files[i]), md.getPagePath());
+          body = WebUtils.replaceThumbnails(webSite, body, request.getContextPath(),
+              md.getPagePath());
 %>
  <div class="includeitem">
   <div class="includetitle">
