@@ -1,5 +1,0 @@
-{
-  "body": false,
-  "template": "editor.jsp",
-  "beanClass": "com.cromoteca.meshcms.server.modules.Editor"
-}
