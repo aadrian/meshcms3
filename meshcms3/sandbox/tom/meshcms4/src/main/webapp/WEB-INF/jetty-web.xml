@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE Configure PUBLIC "-//Mort Bay Consulting//DTD Configure//EN" "http://jetty.mortbay.org/configure.dtd">
+<Configure class="org.mortbay.jetty.webapp.WebAppContext">
+  <Call class="org.mortbay.log.Log" name="info">
+    <Arg>executing jetty-web.xml</Arg>
+  </Call>
+  
+  <Set name="sessionHandler">
+    <New class="org.mortbay.jetty.servlet.SessionHandler">
+      <Arg>
+        <New class="org.mortbay.jetty.servlet.HashSessionManager">
+        </New>
+      </Arg>
+    </New>
+  </Set>
+</Configure>

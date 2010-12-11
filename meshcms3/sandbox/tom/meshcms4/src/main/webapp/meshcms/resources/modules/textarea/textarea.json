@@ -1,0 +1,27 @@
+{
+  "template": "text_area.jsp",
+  "beanClass": "com.cromoteca.meshcms.server.modules.TextArea",
+  "parameters": [
+    {
+      "name": "label",
+      "type": "TEXT",
+      "required": true
+    },
+    {
+      "name": "name",
+      "type": "TEXT"
+    },
+    {
+      "name": "rows",
+      "type": "INTEGER"
+    },
+    {
+      "name": "columns",
+      "type": "INTEGER"
+    },
+    {
+      "name": "required",
+      "type": "BOOLEAN"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "template": "form_submit.jsp",
+  "beanClass": "com.cromoteca.meshcms.server.modules.FormSubmit",
+  "parameters": [
+    {
+      "name": "buttonLabel",
+      "type": "TEXT",
+      "required": true,
+      "defaultValue": "Submit"
+    },
+    {
+      "name": "successMessage",
+      "type": "RICH_TEXT"
+    }
+  ]
+}

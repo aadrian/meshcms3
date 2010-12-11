@@ -1,0 +1,9 @@
+{
+  "beanClass": "com.cromoteca.meshcms.server.modules.Login",
+  "parameters": [
+    {
+      "name": "redirect",
+      "type": "PATH"
+    }
+  ]
+}

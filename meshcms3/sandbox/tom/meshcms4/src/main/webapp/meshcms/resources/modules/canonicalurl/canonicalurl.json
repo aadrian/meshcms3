@@ -1,0 +1,12 @@
+{
+  "head": true,
+  "body": false,
+  "template": "canonicalurl.jsp",
+  "beanClass": "com.cromoteca.meshcms.server.modules.CanonicalURL",
+  "parameters": [
+    {
+      "name": "root",
+      "type": "TEXT"
+    }
+  ]
+}

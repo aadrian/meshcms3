@@ -1,0 +1,21 @@
+{
+  "beanClass": "com.cromoteca.meshcms.server.modules.Content",
+  "parameters": [
+    {
+      "name": "newBlock",
+      "type": "BOOLEAN"
+    },
+    {
+      "name": "title",
+      "type": "TEXT"
+    },
+    {
+      "name": "text",
+      "type": "RICH_TEXT"
+    },
+    {
+      "name": "notes",
+      "type": "RICH_TEXT"
+    }
+  ]
+}

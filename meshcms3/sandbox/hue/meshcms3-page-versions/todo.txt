@@ -1,0 +1,54 @@
+MeshCMS 3.0 Release (~ 10-Jul-2006)
+-----------------------------------
+
+x #1 - tool to edit file dates in the file manager
+x #2 - tag to load the ALIB script (for menus)
+x #3 - new default admin theme
+#4 - documentation (at least for the new multi-site support)
+#5 - www.meshcms.org (site + theme + hosting + required applications to install)
+#6 - update translations
+#7 - new module: headlines
+#8 - new module: search
+#9 - new module: comments
+#10 - new module support with multi-parameters (+ XUL)
+#11 - community themes to choose from
+x #12 - build process improvements (support for versions: alpha, beta, RC; new distribution packaging)
+x #13 - add UnitTest support for the core functions (No WebUnit Tests)
+#14 - automatic web tests with Selenium (http://www.openqa.org/selenium/)  or Sahi (http://sahi.sourceforge.net/)
+#15 - add better logging with Log4J
+#16 - some loading and performance tests of the multi-site feature with JMeter(http://jakarta.apache.org/jmeter/index.html)
+
+#17 - IMPORTANT: a better and clear decision and planninig for the so wanted "static export" feature.
+
+x #18 - add Checkstyle (http://checkstyle.sourceforge.net/), to automaticaly help cleanup the code.
+x #19 - Sandbox area for all developers in the Subversion repository (to have a better place for experimenting).
+#20 - MOST IMPORTANT: find out how normal webapplications (that worked in their virtual host/doamin) will work now with this multi-site support.
+#21 - update the JavaDocs for the entire code base.
+#22 - architecture diagram and documentation of the CMS
+#23 - code refactorings, to make it easier to understand for newbies
+#24 - new and better and table-less theme for the default site (something that is more reusable than the "flowers" theme).
+x #25 - add support for "Tag Library Documentation Generator"
+x #26 - tune checkstyles config files, to obtain better results.
+#27 - try to cover with unit tests as much as possible from the actual code base
+
+MeshCMS 3.1 Release (~ Sept-2006)
+---------------------------------
+# - performance comparison between Tomcat and Jetty for the multi-site feature (for "massive multi site")
+# - finally a solution to "static export"
+# - an article about "How to easily integrate other webapplications as MeshCMS modules" (e.g. for JForum, Pebble, RSS, etc.)
+# - improve the XDocs generation (PDFs too)
+# - support for plug-ins into the admin interface (e.g. WebLog Analyzers, better UserManagement,
+# - Exp - refactor the taglibs into normal libs + generic taglib wrapper (to be usable from everywhere, or to nest them). [Hue Holleran]
+# - WYSIWYG like theme builder
+
+MeshCMS 3.5 Release (~ Dec-2006)
+--------------------------------
+# - experiment with a VFS(Virtual File System) to allow Subversion or other(than just files) persistence.
+# - rewrite the FileManager as a general component on top of the VFS (to be usable in any project, not just MeshCMS)
+# - include a zero-config web based weblog analyzer, so that statistisc to work out-of-the-box (e.g. based on Polliwog)
+# - upgrade to JDK 1.5 and servlet 2.4 as minimal requirement. 
+
+NOTE:
+-----
+The above list is just a simple replacement till we get a decent Issue Tracking System, and most
+of them are subject to further discussions. Their order is also not relevant.

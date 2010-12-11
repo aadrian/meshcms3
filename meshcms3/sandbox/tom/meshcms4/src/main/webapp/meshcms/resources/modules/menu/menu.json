@@ -1,0 +1,63 @@
+{
+  "template": "menu.jsp",
+  "beanClass": "com.cromoteca.meshcms.server.modules.Menu",
+  "parameters": [
+    {
+      "name": "rootType",
+      "type": "SELECTION",
+      "values": [
+        "themeRoot",
+        "siteRoot",
+        "langRoot",
+        "custom"
+      ],
+      "defaultValue": "themeRoot"
+    },
+    {
+      "name": "customRoot",
+      "type": "PATH"
+    },
+    {
+      "name": "allItems",
+      "type": "BOOLEAN"
+    },
+    {
+      "name": "firstLevelItems",
+      "type": "BOOLEAN"
+    },
+    {
+      "name": "onPathItems",
+      "type": "BOOLEAN"
+    },
+    {
+      "name": "sameLevelItems",
+      "type": "BOOLEAN"
+    },
+    {
+      "name": "childItems",
+      "type": "BOOLEAN"
+    },
+    {
+      "name": "intermediateLevelItems",
+      "type": "BOOLEAN"
+    },
+    {
+      "name": "linkCurrent",
+      "type": "BOOLEAN"
+    },
+    {
+      "name": "style",
+      "type": "SELECTION",
+      "values": [
+        "mesh-menu",
+        "art-menu",
+        "art-vmenu"
+      ],
+      "defaultValue": "mesh-menu"
+    },
+    {
+      "name": "rootLabel",
+      "type": "TEXT"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "template": "form.jsp",
+  "beanClass": "com.cromoteca.meshcms.server.modules.Form",
+  "parameters": [
+    {
+      "name": "destination",
+      "type": "TEXT",
+      "required": true
+    },
+    {
+      "name": "clientScript",
+      "type": "BOOLEAN",
+      "defaultValue": "true"
+    }
+  ]
+}

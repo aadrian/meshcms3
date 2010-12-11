@@ -1,0 +1,26 @@
+{
+  "template": "lang_menu.jsp",
+  "beanClass": "com.cromoteca.meshcms.server.modules.LangMenu",
+  "parameters": [
+    {
+      "name": "flags",
+      "type": "BOOLEAN",
+      "defaultValue": true
+    },
+    {
+      "name": "names",
+      "type": "BOOLEAN",
+      "defaultValue": true
+    },
+    {
+      "name": "style",
+      "type": "SELECTION",
+      "values": [
+        "mesh-menu",
+        "art-menu",
+        "art-vmenu"
+      ],
+      "defaultValue": "mesh-menu"
+    }
+  ]
+}

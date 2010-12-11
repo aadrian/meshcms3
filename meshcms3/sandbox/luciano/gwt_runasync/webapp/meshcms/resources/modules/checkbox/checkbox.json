@@ -1,0 +1,27 @@
+{
+  "template": "check_box.jsp",
+  "beanClass": "com.cromoteca.meshcms.server.modules.CheckBox",
+  "parameters": [
+    {
+      "name": "label",
+      "type": "TEXT",
+      "required": true
+    },
+    {
+      "name": "name",
+      "type": "TEXT"
+    },
+    {
+      "name": "value",
+      "type": "TEXT"
+    },
+    {
+      "name": "checked",
+      "type": "BOOLEAN"
+    },
+    {
+      "name": "required",
+      "type": "BOOLEAN"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "template": "gallery.jsp",
+  "beanClass": "com.cromoteca.meshcms.server.modules.Gallery",
+  "parameters": [
+    {
+      "name": "path",
+      "type": "PATH"
+    },
+    {
+      "name": "captions",
+      "type": "BOOLEAN"
+    },
+    {
+      "name": "order",
+      "type": "SELECTION",
+      "values": [
+        "alphabetical",
+        "newestfirst",
+        "oldestfirst",
+        "random"
+      ],
+      "defaultValue": "alphabetical"
+    },
+    {
+      "name": "quality",
+      "type": "SELECTION",
+      "values": [
+        "default",
+        "high",
+        "low"
+      ],
+      "defaultValue": "default"
+    },
+    {
+      "name": "useColorBox",
+      "type": "BOOLEAN",
+      "defaultValue": true
+    }
+  ]
+}

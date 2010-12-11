@@ -1,0 +1,27 @@
+{
+  "template": "feed.jsp",
+  "beanClass": "com.cromoteca.meshcms.server.modules.Feed",
+  "head": true,
+  "parameters": [
+    {
+      "name": "path",
+      "type": "PATH"
+    },
+    {
+      "name": "title",
+      "type": "TEXT",
+      "required": true
+    },
+    {
+      "name": "numberOfEntries",
+      "type": "INTEGER",
+      "required": true,
+      "defaultValue": "10"
+    },
+    {
+      "name": "showPageImages",
+      "type": "BOOLEAN",
+      "defaultValue": "true"
+    }
+  ]
+}

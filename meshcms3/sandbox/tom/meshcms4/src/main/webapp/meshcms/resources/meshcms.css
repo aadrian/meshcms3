@@ -1,0 +1,217 @@
+.mesh-marked {
+  color: red;
+  font-weight: bold;
+}
+
+div.mesh-success {
+  background-color: yellow;
+  font-style: italic;
+  padding: 0.5em;
+  margin: 1em;
+}
+
+div.mesh-error {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  padding: 0.5em;
+  margin: 1em;
+}
+
+dl.mesh-downloads span.mesh-download-date {
+  float: left;
+  width: 9em;
+  padding-left: 15px;
+  background: url(modules/downloads/calendar_day.gif) no-repeat left center;
+}
+
+dl.mesh-downloads span.mesh-download-size {
+  float: left;
+  padding-left: 15px;
+  background: url(modules/downloads/save.gif) no-repeat left center;
+}
+
+dl.mesh-downloads dt {
+  clear: left;
+  margin: 0.5em;
+}
+
+div.mesh-media-player-normal {
+  width: 368px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.mesh-media-player-wide {
+  width: 490px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+a.mesh-media-player-swf {
+  display: block;
+  height: 300px;
+  cursor: pointer;
+  background: url('modules/mediaplayer/player_background.jpg') center center;
+  color: #4a4a4a;
+}
+
+div.mesh-media-player-playlist {
+  height: 8em;
+  overflow: auto;
+  background-color: black;
+}
+
+div.mesh-media-player-playlist a {
+  display: block;
+  width: 95%;
+  color: white;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+div.mesh-media-player-playlist a.playing {
+  background: url('lib/icons/control.png') no-repeat left center;
+}
+
+div.mesh-media-player-playlist a.paused {
+  background: url('lib/icons/control-pause.png') no-repeat left center;
+}
+
+div.mesh-media-player-playlist a.playing img,
+div.mesh-media-player-playlist a.paused img {
+  visibility: hidden;
+}
+
+img.mesh-pagelist-item-image,
+img.mesh-comment-gravatar {
+  float: right;
+  padding: 0.5em;
+}
+
+p.mesh-comment-name {
+  font-style: italic;
+}
+
+p.mesh-comment-date {
+  text-align: right;
+  font-style: italic;
+}
+
+div.mesh-field {
+  margin-bottom: 0.5em;
+  padding: 0.5em;
+}
+
+div.mesh-field label {
+  display: block;
+}
+
+div.mesh-invalid {
+  background-color: #faf372;
+}
+
+div.mesh-required label {
+  font-weight: bold;
+}
+
+.mesh-clear {
+  clear: both;
+}
+
+div.mesh-edit {
+  padding: 3px;
+  background-color: #ccdc56;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+}
+
+.mesh-edit-button {
+  float: left;
+  height: 20px;
+  line-height: 20px;
+  background-color: #061f32;
+  margin-right: 6px;
+  padding: 2px 4px 2px 24px;
+  background-position: 4px 50%;
+  background-repeat: no-repeat;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  color: #d0d3d4 !important;
+  font-weight: normal !important;
+}
+
+a.mesh-edit-edit {
+  background-image: url(lib/icons/document--pencil.png)
+}
+
+a.mesh-edit-toggle-draft {
+  background-image: url(lib/icons/document-search-result.png)
+}
+
+a.mesh-edit-create {
+  background-image: url(lib/icons/document--plus.png)
+}
+
+a.mesh-edit-filemanager {
+  background-image: url(lib/icons/folder-open-image.png)
+}
+
+label.mesh-edit-colorbox {
+  background-image: url(lib/icons/application-resize-full.png)
+}
+
+ul.mesh-gallery {
+  list-style-type: none;
+}
+
+ul.mesh-gallery li {
+  list-style-type: none;
+  float: left;
+  margin: 10px;
+  position: relative;
+  background: none !important; /* Override Artisteer default */
+  overflow: inherit !important; /* Override Artisteer default */
+}
+
+ul.mesh-gallery li a {
+  display: table-cell;
+  width: 140px;
+  height: 140px;
+  background-color: white;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  box-shadow: 0 0 5px #666666;
+  -moz-box-shadow: 0 0 5px #666666;
+  -webkit-box-shadow: 0 0 5px #666666;
+  font-weight: bold;
+}
+
+ul.mesh-gallery li img {
+  border: 0;
+}
+
+ul.mesh-gallery li span {
+  position: absolute;
+  bottom: 5px;
+  left: 21px;
+  width: 120px;
+  height: 1.2em;
+  font-size: .8em;
+  overflow: hidden;
+}
+
+/* Override some unhappy ideas from Artisteer */
+.art-article img {
+  border: none;
+  margin: 0;
+}
+
+.art-post ul li, .art-post ol ul li {
+  overflow: visible;
+}

@@ -1,0 +1,183 @@
+.mesh-marked {
+  color: red;
+  font-weight: bold;
+}
+
+div.mesh-success {
+  background-color: yellow;
+  font-style: italic;
+  padding: 0.5em;
+  margin: 1em;
+}
+
+div.mesh-error {
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  padding: 0.5em;
+  margin: 1em;
+}
+
+dl.mesh-downloads span.mesh-download-date {
+  float: left;
+  width: 9em;
+  padding-left: 15px;
+  background: url(modules/downloads/calendar_day.gif) no-repeat left center;
+}
+
+dl.mesh-downloads span.mesh-download-size {
+  float: left;
+  padding-left: 15px;
+  background: url(modules/downloads/save.gif) no-repeat left center;
+}
+
+dl.mesh-downloads dt {
+  clear: left;
+  margin: 0.5em;
+}
+
+div.mesh-media-player-normal {
+  width: 368px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+div.mesh-media-player-wide {
+  width: 490px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+a.mesh-media-player-swf {
+  display: block;
+  height: 300px;
+  cursor: pointer;
+  background: url('modules/mediaplayer/player_background.jpg') center center;
+  color: #4a4a4a;
+}
+
+div.mesh-media-player-playlist {
+  height: 8em;
+  overflow: auto;
+  background-color: black;
+}
+
+div.mesh-media-player-playlist a {
+  display: block;
+  width: 95%;
+  color: white;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+div.mesh-media-player-playlist a.playing {
+  background: url('lib/icons/control.png') no-repeat left center;
+}
+
+div.mesh-media-player-playlist a.paused {
+  background: url('lib/icons/control-pause.png') no-repeat left center;
+}
+
+div.mesh-media-player-playlist a.playing img,
+div.mesh-media-player-playlist a.paused img {
+  visibility: hidden;
+}
+
+img.mesh-pagelist-item-image,
+img.mesh-comment-gravatar {
+  float: right;
+  padding: 0.5em;
+}
+
+p.mesh-comment-name {
+  font-style: italic;
+}
+
+p.mesh-comment-date {
+  text-align: right;
+  font-style: italic;
+}
+
+div.mesh-field {
+  margin-bottom: 0.5em;
+  padding: 0.5em;
+}
+
+div.mesh-field label {
+  display: block;
+}
+
+div.mesh-invalid {
+  background-color: #faf372;
+}
+
+div.mesh-required label {
+  font-weight: bold;
+}
+
+.mesh-clear {
+  clear: both;
+}
+
+div.mesh-edit {
+  padding: 3px;
+  background-color: #ccdc56;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+}
+
+.mesh-edit-button {
+  float: left;
+  height: 20px;
+  line-height: 20px;
+  background-color: #061f32;
+  margin-right: 6px;
+  padding: 2px 4px 2px 24px;
+  background-position: 4px 50%;
+  background-repeat: no-repeat;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  color: #d0d3d4 !important;
+  font-weight: normal !important;
+}
+
+a.mesh-edit-edit {
+  background-image: url(lib/icons/document--pencil.png)
+}
+
+a.mesh-edit-toggle-draft {
+  background-image: url(lib/icons/document-search-result.png)
+}
+
+a.mesh-edit-create {
+  background-image: url(lib/icons/document--plus.png)
+}
+
+a.mesh-edit-filemanager {
+  background-image: url(lib/icons/folder-open-image.png)
+}
+
+label.mesh-edit-colorbox {
+  background-image: url(lib/icons/application-resize-full.png)
+}
+
+ul.mesh-gallery {
+  list-style-type: none;
+}
+
+ul.mesh-gallery li {
+  list-style-type: none;
+  float: left;
+  text-align: center;
+  width: 128px;
+  height: 128px;
+  background-image: none;
+  padding: 0.5em 0.5em 0.5em 1.5em;
+  overflow: hidden;
+}
+
+ul.mesh-gallery span.mesh-gallery-caption {
+  display: block;
+}

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="MeshCMS" basedir=".">
+  <import file="mesh-build.xml"/>
+
+  <target name="clean" depends="mesh-clean, mesh-generate"
+          description="Clean this project"/>
+
+  <target name="build-java" depends="mesh-javac, mesh-copyapp"
+          description="Build this project (Java only)"/>
+
+  <target name="build-gwt" depends="mesh-javac, mesh-gwtc, mesh-copyapp"
+          description="Build this project (Java and GWT)"/>
+
+  <target name="dist" depends="build-gwt, mesh-jar, mesh-war"
+          description="Create distributable files"/>
+
+  <target name="beautify" depends="mesh-jalopy"
+          description="Format Java source code"/>
+
+  <target name="devmode" depends="build-java, mesh-devmode"
+          description="Run GWT development mode"/>
+
+  <target name="clean-dist" depends="clean, beautify, dist"
+          description="Clean and create distributable files"/>
+</project>

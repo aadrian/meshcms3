@@ -1,0 +1,25 @@
+{
+  "template": "blog.jsp",
+  "beanClass": "com.cromoteca.meshcms.server.modules.Blog",
+  "parameters": [
+    {
+      "name": "path",
+      "type": "PATH"
+    },
+    {
+      "name": "numberOfEntries",
+      "type": "INTEGER",
+      "required": true,
+      "defaultValue": "5"
+    },
+    {
+      "name": "showPageImages",
+      "type": "BOOLEAN"
+    },
+    {
+      "name": "bodyExcerptLength",
+      "type": "INTEGER",
+      "defaultValue": "800"
+    }
+  ]
+}
