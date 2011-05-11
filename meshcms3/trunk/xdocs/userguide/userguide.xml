@@ -2,10 +2,10 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
 "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd">
 <book>
-  <title>MeshCMS 3.5 User Guide</title>
+  <title>MeshCMS 3.6 User Guide</title>
 
   <bookinfo>
-    <title>MeshCMS 3.5 User Guide</title>
+    <title>MeshCMS 3.6 User Guide</title>
 
     <author>
       <firstname>Luciano</firstname>
@@ -355,7 +355,7 @@
       method leads to many installations of MeshCMS that must be maintained
       separately, which is quite annoying, for example when upgrading.</para>
 
-      <para>MeshCMS 3.0 gives the choice between this approach and a different
+      <para>MeshCMS 3 gives the choice between this approach and a different
       one: you can install it once and serve all sites from that single
       context. You will probably configure the host to serve all domains and
       let MeshCMS map them to different sites. The advantages of this approach
