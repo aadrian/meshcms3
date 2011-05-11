@@ -60,6 +60,7 @@
   }
 
   String imagesPath = request.getContextPath() + '/' + webSite.getAdminPath() + "/images";
+  String authCode = WebUtils.setAuthCode(session, "edituser");
 %>
 
 <html>
@@ -80,6 +81,7 @@
     newUser ? Help.NEW_USER : Help.EDIT_PROFILE, userInfo) %></div>
 
 <form action="edituser2.jsp" method="post">
+  <input type="hidden" name="authcode" value="<%= authCode %>" />
   <input type="hidden" name="new" value="<%= newUser %>" />
 
   <fieldset class="meshcmseditor">

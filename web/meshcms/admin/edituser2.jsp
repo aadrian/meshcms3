@@ -55,12 +55,20 @@
     error = true;
   }
 
+  if (!error) {
+    String authCode = WebUtils.getAuthCode(session, "edituser");
+
+    if (!authCode.equals(request.getParameter("authcode"))) {
+      error = true;
+    }
+  }
+
   if (error) {
     response.sendError(HttpServletResponse.SC_FORBIDDEN,
                        "You don't have enough privileges");
     return;
   }
-
+  
   if (edit != null) {
     try {
       edit.setPermissions(Integer.parseInt(request.getParameter("permissions")));
