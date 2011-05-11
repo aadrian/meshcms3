@@ -1,0 +1,23 @@
+<html>
+<head>
+<title>Virtual Sites</title>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+</head>
+<body>
+<p>MeshCMS can host a virtually unlimited number of sites in a single installation. 
+  If you look at the <a href="../meshcms/admin/editsites1.jsp">Site Manager</a>, 
+  you see that two sample sites are provided here. To see them you must tell your 
+  PC to map the domains (www.)virtual.com and (www.)static.com to the IP of the 
+  machine that is running MeshCMS. For example, on Windows you should run this 
+  command:</p>
+<pre>%SystemRoot%\system32\notepad.exe %SystemRoot%\system32\drivers\etc\hosts</pre>
+<p>and add these lines to that file:</p>
+<pre>127.0.0.1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; www.virtual.com
+127.0.0.1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; www.static.com</pre>
+<p>Then you can visit the virtual sites. Please note that in a testing environment 
+  you must keep your port number and context path in the URLs. For example, if 
+  you are viewing this page at <a href="http://localhost:8080/samples/virtualsites">http://localhost:8080/samples/virtualsites</a>, 
+  the URLs for the virtual sites will be <a href="http://www.virtual.com:8080/samples">http://www.virtual.com:8080/samples</a> 
+  and <a href="http://www.static.com:8080/samples">http://www.static.com:8080/samples</a>.</p>
+</body>
+</html>

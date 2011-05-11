@@ -1,0 +1,3 @@
+#container{background:#f0f0f0 url(alt-img/bodybg-orange.jpg) repeat-x;}
+#mainmenu a:hover{background:#f0f0f0 url(alt-img/menuhover-orange.jpg) top left repeat-x;}
+#mainmenu a.current{background:#f0f0f0 url(alt-img/menuhover-orange.jpg) top left repeat-x;}
