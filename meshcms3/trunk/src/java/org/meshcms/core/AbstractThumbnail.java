@@ -21,6 +21,9 @@ package org.meshcms.core;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import org.meshcms.util.Path;
@@ -72,8 +75,43 @@ public abstract class AbstractThumbnail {
     return thumbnailPath;
   }
 
-  public static void drawResizedImage(Graphics g, BufferedImage image, int x, int y,
-      int width, int height, boolean highQuality) {
+	public static void drawResizedImage(Graphics g, BufferedImage image, int x,
+		int y, int width, int height, boolean highQuality) {
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+        highQuality ? RenderingHints.VALUE_INTERPOLATION_BICUBIC
+                    : RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+
+		int imageWidth = image.getWidth();
+		int imageHeight = image.getHeight();
+		double scaleX = width / (double) imageWidth;
+		double scaleY = height / (double) imageHeight;
+
+		if (imageWidth * imageHeight / (width * height) > 4) {
+			BufferedImage tmp = new BufferedImage(width * 2, height * 2,
+					BufferedImage.TYPE_INT_RGB);
+			AffineTransform tx = new AffineTransform();
+			tx.scale(scaleX * 2, scaleY * 2);
+
+			Graphics2D tmpG = (Graphics2D) tmp.getGraphics();
+      tmpG.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+          highQuality ? RenderingHints.VALUE_INTERPOLATION_BICUBIC
+                      : RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+			tmpG.drawImage(image, tx, null);
+			tx = new AffineTransform();
+			tx.translate(x, y);
+			tx.scale(.5, .5);
+			g2d.drawImage(tmp, tx, null);
+		} else {
+			AffineTransform tx = new AffineTransform();
+			tx.translate(x, y);
+			tx.scale(scaleX, scaleY);
+			g2d.drawImage(image, tx, null);
+		}
+	}
+
+	public static void resizeAndDrawImage(Graphics g, BufferedImage image, int x,
+      int y, int width, int height, boolean highQuality) {
     if (highQuality) {
       BufferedImage resized = resize(image, width, height);
       g.drawImage(resized, x, y, null);
