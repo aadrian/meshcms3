@@ -1,18 +1,18 @@
 <%--
  Copyright 2004-2009 Luciano Vernaschi
- 
+
  This file is part of MeshCMS.
- 
+
  MeshCMS is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  MeshCMS is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with MeshCMS.  If not, see <http://www.gnu.org/licenses/>.
 --%>
@@ -55,9 +55,9 @@
   } else if (FileTypes.isLike(fileName, "xml")) {
     codeSyntax = "xml";
   }
-  
+
   String clean = null;
-  
+
   if (Utils.isTrue(request.getParameter("tidy"))) {
     clean = WebUtils.tidyHTML(webSite, full);
   }
@@ -67,7 +67,7 @@
 <head>
 <%= webSite.getAdminMetaThemeTag() %>
 <title><fmt:message key="srcTitle" /></title>
-<script type="text/javascript" src="scripts/jquery/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="scripts/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="scripts/edit_area/edit_area_full.js"></script>
 <script type="text/javascript">
 // <![CDATA[
@@ -79,7 +79,7 @@
     start_highlight: true,
     font_size: 9
   });
-  
+
   $(function() {
     $("#previewButton").click(function() {
       var action = $("#srceditor").attr("action");
@@ -106,7 +106,7 @@
     <%
       }
     %>
-    
+
     <legend>
       <fmt:message key="srcEditing" />
       <a href="<%= cp + '/' + pagePath %>"><%= pagePath.getLastElement() %></a>
@@ -116,7 +116,7 @@
       <textarea style="width: 100%; height: 25em;" id="fullsrc" name="fullsrc"
        rows="25" cols="80"><%= Utils.encodeHTML(full, true) %></textarea>
     </div>
-    
+
     <div class="meshcmsfield">
       <input type="checkbox" id="keepFileDate" name="keepFileDate" value="true" />
       <label for="keepFileDate"><fmt:message key="editorKeepFileDate" /></label>

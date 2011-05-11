@@ -1,18 +1,18 @@
 <%--
  Copyright 2004-2009 Luciano Vernaschi
- 
+
  This file is part of MeshCMS.
- 
+
  MeshCMS is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  MeshCMS is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with MeshCMS.  If not, see <http://www.gnu.org/licenses/>.
 --%>
@@ -100,12 +100,12 @@
 
   if (files != null) {
     String sort = md.getAdvancedParam("order", "name");
-    
+
     if("random".equalsIgnoreCase(sort)) {
       Collections.shuffle(Arrays.asList(files));
     } else {
       Comparator cmp;
-      
+
       if ("date".equalsIgnoreCase(sort) || "date_fwd".equalsIgnoreCase(sort)) {
         cmp = new FileDateComparator(true);
       } else if ("date_rev".equalsIgnoreCase(sort)) {
@@ -113,10 +113,10 @@
       } else {
         cmp = new FileNameComparator();
       }
-      
+
       Arrays.sort(files, cmp);
     }
-    
+
     int col = 0;
     int cols = Utils.parseInt(md.getAdvancedParam("columns", null), Math.min(3, files.length));
     boolean captions = Utils.isTrue(md.getAdvancedParam("captions", "true"));
@@ -132,13 +132,13 @@
         readCaptionFile(captionFile, captionMap, linkMap);
       }
     }
-    
+
     boolean lightbox = Utils.isTrue(md.getAdvancedParam("lightbox", "false"));
     boolean colorbox = Utils.isTrue(md.getAdvancedParam("colorbox", "false"));
-    
+
     if (colorbox) { %>
       <link rel='stylesheet' type='text/css' href='<%= cp + '/' + md.getModulePath() %>/colorbox/colorbox.css' />
-      <script type="text/javascript" src="<%= cp %>/meshcms/admin/scripts/jquery/jquery-1.3.2.min.js"></script>
+      <script type="text/javascript" src="<%= cp %>/meshcms/admin/scripts/jquery/jquery.min.js"></script>
       <script type="text/javascript" src="<%= cp + '/' + md.getModulePath() %>/colorbox/jquery.colorbox-min.js"></script>
       <script type="text/javascript">
         $(function() {
@@ -186,12 +186,12 @@
           if (caption == null) {
             caption = Utils.beautify(Utils.removeExtension(path), true);
           }
-          
+
           if (linkMap != null) {
             link = (String) linkMap.get(path.getLastElement());
             onClick = false;
           }
-          
+
           if (link == null) {
             link = webSite.getLink(path, pagePath).toString();
           }
