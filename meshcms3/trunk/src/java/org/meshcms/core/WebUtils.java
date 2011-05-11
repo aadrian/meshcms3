@@ -35,6 +35,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.Random;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
@@ -43,6 +44,7 @@ import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.PageContext;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -90,6 +92,9 @@ public final class WebUtils {
    */
   public static final String[] DEFAULT_WELCOME_FILES =
   {"index.html", "index.htm", "index.jsp"};
+  
+  private static final String AUTH_CODE_PREFIX = "AUTH: ";
+  private static Random authRandom;
   
   public static Properties NUMBER_TO_ENTITY;
   public static Properties ENTITY_TO_NUMBER;
@@ -1099,5 +1104,22 @@ public final class WebUtils {
     
     m.appendTail(sb);
     return sb.toString();
+  }
+  
+  public static String setAuthCode(HttpSession session, String page) {
+    if (authRandom == null) {
+      authRandom = new Random();
+    }
+    
+    String code = Integer.toString(authRandom.nextInt());
+    session.setAttribute(AUTH_CODE_PREFIX + page, code);
+    return code;
+  }
+  
+  public static String getAuthCode(HttpSession session, String page) {
+    String key = AUTH_CODE_PREFIX + page;
+    String code = (String) session.getAttribute(key);
+    session.removeAttribute(key);
+    return Utils.noNull(code);
   }
 }
