@@ -1,0 +1,19 @@
+--------------------------------------
+Release notes for MeshCMS 3.0 beta 1.
+--------------------------------------
+
+The purpose of this beta is to make available some new features that will be considered stable in a short time. People that want to use MeshCMS in production are encouraged to use this beta instead of the latest stable release (2.4) since now a new directory structure is used, and there is no automated upgrade process at the moment. The reason for this change is the need to guarantee easier maintenance and upgrade of MeshCMS installations.
+
+MeshCMS 3.0 beta 1 introduces many new features, the most important being the ability to manage a virtually unlimited number of sites from a single installation. This feature is based on some technical suggestions kindly provided by Filip Hanik. Other new features are:
+
+- more powerful modules
+- better interface
+- more functions in the file manager
+- new menus based on unordered lists and ALIB
+- out-of-the-box support for Tomcat and Jetty
+
+Limitations:
+
+- new features need further testing
+- documentation is not up to date
+- the website is being transferred from www.cromoteca.com/meshcms to www.meshcms.org.

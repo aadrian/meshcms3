@@ -1,0 +1,158 @@
+/*** LAYOUT ***/
+#pagecontentcolumn {
+  float: left;
+  width: 100%;
+}
+
+#pagecontent {
+  margin: 0 16em;
+}
+
+#additionalcolumn {
+  float: left;
+  width: 16em;
+  margin-left: -16em;
+}
+
+#navigationcolumn {
+  float: left;
+  width: 16em;
+  margin-left: -100%;
+}
+
+#footer{
+  clear: left;
+  width: 100%;
+}
+/*** END LAYOUT ***/
+
+
+
+
+
+#cmspagetitle {
+  color: #001f52;
+}
+
+#cmsdescription {
+  position: relative;
+  top: -1.5em;
+  left: 2em;
+  color: #254277;
+}
+
+#header {
+  padding: 0.5em;
+}
+
+#footer {
+  border-top: 1px solid #7ecada;
+  padding: 0.2em 0.2em 0.6em 0.2em;
+  text-align: center;
+}
+
+.columnpadding {
+  padding: 1em 0.5em;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body, th, td {
+  font-family: "DejaVu LGC Sans", "Bitstream Vera Sans", "Lucida Sans Unicode", sans-serif;
+}
+
+body {
+  font-size: 0.8em;
+}
+
+#cmsbody {
+  /* background: url(topbg.jpg) repeat-x top center; */
+}
+
+a, a:visited {
+  color: #00608c;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+h1, h2 {
+  font-family: "Trebuchet MS", "DejaVu LGC Sans", "Bitstream Vera Sans", "Lucida Sans Unicode", sans-serif;
+  font-style: italic;
+}
+
+img {
+  border: 0;
+}
+
+#mainarea {
+  margin: 0 1em 2em 1em;
+  border: 1px solid #b5dce3;
+  padding: 1em;
+  background-color: white;
+}
+
+.secondarycolumn {
+  overflow: hidden;
+}
+
+input, select, textarea, pre {
+  font-family: "DejaVu LGC Sans Mono", "Bitstream Vera Sans Mono", "Lucida Sans Typewriter", "Lucida Console", monospace;
+  font-size: 0.9em;
+}
+
+input, select, textarea {
+  border: 1px inset #b5dce3;
+}
+
+input[type="checkbox"] {
+  border: 0;
+}
+
+.cmsmenu {
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+
+.cmsmenu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  margin-left: 1em;
+}
+
+.cmsmenu li {
+  display: inline;
+}
+
+.cmsmenu a, .currentpage {
+  display: block;
+  white-space: nowrap;
+  padding: 2px;
+}
+
+.cmsmenu a:hover {
+  background-color: #b5dce3;
+  text-decoration: none;
+  border-bottom: 1px solid #7ecada;
+  padding-bottom: 1px;
+}
+
+.currentpage {
+  background-color: #7ecada;
+}
+
+.cmsmodule, .pagebody {
+  margin-bottom: 1em;
+}
+
+.cmssidemodule {
+  border-top: 1px solid #7ecada;
+  padding: 1em;
+  margin-bottom: 1em;
+}
