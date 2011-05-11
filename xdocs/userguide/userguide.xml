@@ -1623,7 +1623,21 @@
             modified time, <option>true</option> (default) or
             <option>false</option>. Note that this does not change the last
             modified time on disk, unless explicitly required by the <link
-            linkend="tag_lastmodified">lastmodified tag</link>.</para>
+            linkend="tag_lastmodified">lastmodified tag</link>;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>imagesize</parameter>: size in pixels of article
+            images (images that are in the same folder have a name in the
+            required format, i.e. <code>index_image.jpg</code> for
+            <code>index.html</code> or <code>page_image.jpg</code> for
+            <code>page.html</code>); if this parameter is not specified,
+            images are not shown even if available;</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>tag</parameter>: if specified, only pages with
+            that tag will be shown in the blog.</para>
           </listitem>
         </itemizedlist>
       </section>
@@ -2037,7 +2051,14 @@
 
           <listitem>
             <para><parameter>lightbox</parameter>: if <option>true</option>,
-            the famous Lightbox script is used to show images (default
+            the Lightbox script is used to show images (default
+            <option>false</option>). Please check that it is compatible with
+            your theme.</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>colorbox</parameter>: if <option>true</option>,
+            the Colorbox script is used to show images (default
             <option>false</option>). Please check that it is compatible with
             your theme.</para>
           </listitem>
@@ -2143,7 +2164,12 @@ This is the third image</programlisting>
             <para><parameter>date</parameter>: the type of file date to be
             shown. Possible values are <option>none</option> (default),
             <option>normal</option> (date only) and <option>full</option>
-            (date and time).</para>
+            (date and time);</para>
+          </listitem>
+
+          <listitem>
+            <para>sort: file sorting. Can be <option>newest</option> (default)
+            or <option>alphabetical</option>.</para>
           </listitem>
         </itemizedlist>
       </section>
@@ -3042,6 +3068,12 @@ submit</programlisting>
 
         <para>Creates a standard RSS feed tag. It must be used in the page
         head.</para>
+
+        <para>The RSS feed can display an image for each page in the feed:
+        those images must be in the same folder of their pages and their name
+        must be in the required format, i.e. <code>index_image.jpg</code> for
+        <code>index.html</code> or <code>page_image.jpg</code> for
+        <code>page.html</code>.</para>
 
         <para>Attributes:</para>
 
