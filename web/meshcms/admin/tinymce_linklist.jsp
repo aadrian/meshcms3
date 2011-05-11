@@ -27,7 +27,7 @@ var tinyMCELinkList = new Array(
   String cp = request.getContextPath();
   Iterator iter = webSite.getSiteMap().getPagesList().iterator();
   SiteInfo siteInfo = webSite.getSiteInfo();
-  String spacer = "&middot;&nbsp;&nbsp;";
+  String spacer = " . ";
   String separator = spacer;
 
   while (iter.hasNext()) {
