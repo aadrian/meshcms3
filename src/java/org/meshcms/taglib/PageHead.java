@@ -40,7 +40,7 @@ public class PageHead extends AbstractTag {
       "(?:name\\s*=\\s*([\"'])meshcms:module\\1\\s+content\\s*=\\s*([\"'])" +
       "(.+?)\\2|content\\s*=\\s*([\"'])(.+?)\\4\\s+name\\s*=\\s*([\"'])" +
       "meshcms:module\\6)[^>]*>\\n*");
-  
+
   private String dropStyles;
   private String dropScripts;
 
@@ -84,7 +84,7 @@ public class PageHead extends AbstractTag {
     w.write("</script>\n");
     Path p = webSite.getLink(webSite.getAdminScriptsPath(), pageDirPath);
     w.write("<script type='text/javascript' src='" +
-        p.add("/jquery/jquery-1.3.2.min.js") + "'></script>\n");
+        p.add("/jquery/jquery.min.js") + "'></script>\n");
     w.write("<script type='text/javascript' src='" +
         p.add("/editor.js") + "'></script>\n");
     Path tinyMCEInitPath =

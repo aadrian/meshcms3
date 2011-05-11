@@ -1,18 +1,18 @@
 <%--
  Copyright 2004-2009 Luciano Vernaschi
- 
+
  This file is part of MeshCMS.
- 
+
  MeshCMS is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  MeshCMS is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with MeshCMS.  If not, see <http://www.gnu.org/licenses/>.
 --%>
@@ -41,26 +41,26 @@
 
     return;
   }
-  
+
   String arg = md.getArgument();
   Path argPath = new Path(arg);
-  
+
   if (webSite.getFile(argPath).isFile()) {
     arg = Utils.readFully(webSite.getFile(argPath));
   }
-  
+
   arg = Utils.decodeHTML(arg);
   Path pagePath = webSite.getRequestedPath(request);
   boolean delay = Utils.isTrue(md.getAdvancedParam("delay", "false"));
-  
+
   if (delay) {
 %>
 <script type="text/javascript">
   if (!window.jQuery) {
-    document.write("<scr" + "ipt type='text/javascript' src='<%= webSite.getLink(webSite.getAdminScriptsPath().add("jquery/jquery-1.3.2.min.js"), pagePath) %>'></scr" + "ipt>");
+    document.write("<scr" + "ipt type='text/javascript' src='<%= webSite.getLink(webSite.getAdminScriptsPath().add("jquery/jquery.min.js"), pagePath) %>'></scr" + "ipt>");
   }
 </script>
-  
+
 <script type="text/javascript">
   $(function() {
     var tm = window.setTimeout(function() {
