@@ -3161,7 +3161,13 @@ submit</programlisting>
             <option>true</option>, tells the menu to obey to the hiding
             settings specified in the <link linkend="page_manager">Page
             Manager</link>, i.e. hide submenus that are set to be hidden
-            (default <option>false</option>).</para>
+            (default <option>false</option>);</para>
+          </listitem>
+
+          <listitem>
+            <para><parameter>artisteerMarkup</parameter>: if
+            <option>true</option>, adds some markup needed to support
+            artisteer 3.0 menus (default <option>false</option>).</para>
           </listitem>
         </itemizedlist>
       </section>
