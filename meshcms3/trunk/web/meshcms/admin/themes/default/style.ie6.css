@@ -152,6 +152,84 @@ div.art-header-png
 {
   zoom: 1;
 }
+
+.art-vmenublock-tr, .art-vmenublock-tl, .art-vmenublock-br, .art-vmenublock-bl, .art-vmenublock-tc, .art-vmenublock-bc,.art-vmenublock-cr, .art-vmenublock-cl
+{
+  font-size: 1px;
+  background: none;
+}
+
+.art-vmenublock-tr, .art-vmenublock-tl, .art-vmenublock-br, .art-vmenublock-bl
+{
+  behavior: expression(this.runtimeStyle.filter?'':this.runtimeStyle.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+artGetStyleUrl()+"images/vmenublock_s.png',sizingMethod='scale')");
+}
+
+.art-vmenublock-tl
+{
+  clip: rect(auto 4px 4px auto);
+}
+
+.art-vmenublock-tr
+{
+  left:expression(this.parentNode.offsetWidth-8+'px');
+  clip: rect(auto auto 4px 4px);
+}
+
+.art-vmenublock-bl
+{
+  top: expression(this.parentNode.offsetHeight-8+'px');
+  clip: rect(4px 4px auto auto);
+}
+
+.art-vmenublock-br
+{
+  top: expression(this.parentNode.offsetHeight-8+'px');
+  left:expression(this.parentNode.offsetWidth-8+'px');
+  clip: rect(4px auto auto 4px);
+}
+
+.art-vmenublock-tc, .art-vmenublock-bc
+{
+  width: expression(this.parentNode.offsetWidth-8+'px');
+  behavior: expression(this.runtimeStyle.filter?'':this.runtimeStyle.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+artGetStyleUrl()+"images/vmenublock_h.png',sizingMethod='scale')");
+}
+
+.art-vmenublock-tc
+{
+  clip: rect(auto auto 4px auto);
+}
+
+.art-vmenublock-bc
+{
+  top: expression(this.parentNode.offsetHeight-8+'px');
+  clip: rect(4px auto auto auto);
+}
+
+.art-vmenublock-cr, .art-vmenublock-cl
+{
+  height: expression(this.parentNode.offsetHeight-8+'px');
+  behavior: expression(this.runtimeStyle.filter?'':this.runtimeStyle.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+artGetStyleUrl()+"images/vmenublock_v.png',sizingMethod='scale')");
+}
+
+.art-vmenublock-cr
+{
+  left:expression(this.parentNode.offsetWidth-8+'px');
+  clip: rect(auto auto auto 4px);
+}
+
+.art-vmenublock-cl
+{
+  clip: rect(auto 4px auto auto);
+}
+
+.art-vmenublock-cc
+{
+  font-size: 1px;
+  width: expression(this.parentNode.offsetWidth-8+'px');
+  height: expression(this.parentNode.offsetHeight-8+'px');
+  background: none;
+  behavior: expression(this.runtimeStyle.filter?'':this.runtimeStyle.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+artGetStyleUrl()+"images/vmenublock_c.png',sizingMethod='scale')");
+}
 /* end Box, Block, VMenuBlock */
 
 /* begin Box, Box, VMenuBlockContent */
@@ -222,12 +300,12 @@ ul.art-vmenu ul a.active
 }
 
 ul.art-vmenu ul a:hover {
-  color: #826515 !important;
+  color: #E9F2F9 !important;
 }	
 
 ul.art-vmenu ul a:hover span, ul.art-vmenu ul a:hover span span
 {
-  color: #826515 !important;
+  color: #E9F2F9 !important;
 }	
 /* end VMenuSubItem */
 

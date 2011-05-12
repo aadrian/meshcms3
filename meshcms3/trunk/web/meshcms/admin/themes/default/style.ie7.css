@@ -65,6 +65,45 @@ img
 /* end Button */
 
 /* begin Box, Block, VMenuBlock */
+.art-vmenublock-tl
+{
+  clip: rect(auto 4px 4px auto);
+}
+
+.art-vmenublock-tr
+{
+  clip: rect(auto auto 4px 4px);
+}
+
+.art-vmenublock-bl
+{
+  clip: rect(4px 4px auto auto);
+}
+
+.art-vmenublock-br
+{
+  clip: rect(4px auto auto 4px);
+}
+
+.art-vmenublock-tc
+{
+  clip: rect(auto auto 4px auto);
+}
+
+.art-vmenublock-bc
+{
+  clip: rect(4px auto auto auto);
+}
+
+.art-vmenublock-cr
+{
+  clip: rect(auto auto auto 4px);
+}
+
+.art-vmenublock-cl
+{
+  clip: rect(auto 4px auto auto);
+}
 
 .art-vmenublock-body
 {
