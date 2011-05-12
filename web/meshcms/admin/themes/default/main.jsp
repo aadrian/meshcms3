@@ -7,6 +7,7 @@
   <head>
     <title><cms:pagetitle /> [MeshCMS]</title>
     
+    <link rel="stylesheet" href="<cms:themepath/>/style.css" type="text/css" media="screen" />
     <cms:defaultcss />
     <!--[if IE 6]><link rel="stylesheet" href="<cms:themepath/>/style.ie6.css" type="text/css" media="screen" /><![endif]-->
     <!--[if IE 7]><link rel="stylesheet" href="<cms:themepath/>/style.ie7.css" type="text/css" media="screen" /><![endif]-->
