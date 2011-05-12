@@ -51,6 +51,7 @@ public final class ListMenu extends AbstractTag {
   private String currentStyle;
   private String currentPathStyle;
   private String allowHiding;
+  private String artisteerMarkup;
   
   boolean itemsAll;
   boolean itemsOnPath;
@@ -86,6 +87,12 @@ public final class ListMenu extends AbstractTag {
     }
     
     boolean linkCurrent = current != null && current.equalsIgnoreCase(LINK);
+    
+    boolean artisteer = Utils.isTrue(artisteerMarkup);
+    
+    if (artisteer) {
+      currentPathStyle = currentStyle = "active";
+    }
     
     SiteInfo siteInfo = webSite.getSiteInfo();
     Path rootPath = siteInfo.getThemeRoot(pagePath);
@@ -163,7 +170,11 @@ public final class ListMenu extends AbstractTag {
             writeIndented(outWriter, "<ul class=\"" + style + "\">", i);
             styleNotApplied = false;
           } else {
-            writeIndented(outWriter, "<ul>", i);
+            if (artisteer) {
+              writeIndented(outWriter, "<ul class='active'>", i);
+            } else {
+              writeIndented(outWriter, "<ul>", i);
+            }
           }
           writeIndented(outWriter, "<li>", i + 1);
         }
@@ -174,22 +185,31 @@ public final class ListMenu extends AbstractTag {
           writeIndented(outWriter, "<li>", level);
         }
         
+        String link = webSite.getLink(currentPageInfo, pageDirPath).toString();
+        String artStart, artEnd;
+        
+        if (currentPageInfo.getLevel() - baseLevel < 1 && artisteer) {
+          artStart = "<span class='l'></span><span class='r'></span><span class='t'>";
+          artEnd = "</span>";
+        } else {
+          artStart = artEnd = "";
+        }
+        
         if (currentPageInfo.getLevel() > 0 && pathInMenu.isContainedIn(currentPath)
-            && !currentPageInfo.getPath().equals(pathInMenu)
-            && !currentPageInfo.getPath().equals(rootPath)
-            && !Utils.isNullOrEmpty(currentPathStyle)) {
-          outWriter.write("<a href=\"" + webSite.getLink(currentPageInfo, pageDirPath) +
-              "\" class='" + currentPathStyle + "'>" +
-              siteInfo.getPageTitle(currentPageInfo) + "</a>");
+            && !(currentPageInfo.getPath().equals(pathInMenu)
+                || currentPageInfo.getPath().equals(rootPath)
+                || Utils.isNullOrEmpty(currentPathStyle))) {
+          outWriter.write("<a href=\"" + link + "\" class='" + currentPathStyle +
+              "'>" + artStart + siteInfo.getPageTitle(currentPageInfo) + artEnd + "</a>");
         } else if (currentPageInfo.getPath().equals(pathInMenu)) {
           if (isEdit || linkCurrent) {
-            if (! Utils.isNullOrEmpty(currentStyle) || ! Utils.isNullOrEmpty(currentPathStyle)) {
-              outWriter.write("<a href=\"" + webSite.getLink(currentPageInfo, pageDirPath) +
-                  "\" class='" + (currentPathStyle +" " + currentStyle).trim() + "'>" +
-                  siteInfo.getPageTitle(currentPageInfo) + "</a>");
+            if (!(Utils.isNullOrEmpty(currentStyle) && Utils.isNullOrEmpty(currentPathStyle))) {
+              outWriter.write("<a href=\"" + link + "\" class='" + currentPathStyle +
+                  " " + currentStyle + "'>" + artStart +
+                  siteInfo.getPageTitle(currentPageInfo) + artEnd + "</a>");
             } else {
-              outWriter.write("<a href=\"" + webSite.getLink(currentPageInfo, pageDirPath) + "\">" +
-                  siteInfo.getPageTitle(currentPageInfo) + "</a>");
+              outWriter.write("<a href=\"" + link + "\">" + artStart +
+                  siteInfo.getPageTitle(currentPageInfo) + artEnd + "</a>");
             }
           } else {
             if (Utils.isNullOrEmpty(currentStyle)) {
@@ -200,8 +220,8 @@ public final class ListMenu extends AbstractTag {
             }
           }
         } else {
-          outWriter.write("<a href=\"" + webSite.getLink(currentPageInfo, pageDirPath) + "\">" +
-              siteInfo.getPageTitle(currentPageInfo) + "</a>");
+          outWriter.write("<a href=\"" + link + "\">" + artStart +
+              siteInfo.getPageTitle(currentPageInfo) + artEnd + "</a>");
         }
         
         lastLevel = level;
@@ -278,5 +298,9 @@ public final class ListMenu extends AbstractTag {
   
   public void setAllowHiding(String allowHiding) {
     this.allowHiding = allowHiding;
+  }
+  
+  public void setArtisteerMarkup(String artisteerMarkup) {
+    this.artisteerMarkup = artisteerMarkup;
   }
 }
