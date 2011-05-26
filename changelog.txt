@@ -1,6 +1,6 @@
 ________________________________
 --------------------------------
-2011-05-12: unreleased changes
+2011-05-26: 3.6 released
 --------------------------------
 
 - Fixed vulnerability reported at http://secunia.com/advisories/42946
